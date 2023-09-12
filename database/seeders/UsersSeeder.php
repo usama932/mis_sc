@@ -17,17 +17,11 @@ class UsersSeeder extends Seeder
     public function run(Generator $faker)
     {
         $demoUser = User::create([
-            'name'              => $faker->name,
-            'email'             => 'demo@demo.com',
-            'password'          => Hash::make('demo'),
+            'name'              => "Usama Qayyum",
+            'email'             => 'usama.qayyum@savethechildren.org',
+            'password'          => Hash::make('12341234'),
             'email_verified_at' => now(),
         ]);
 
-        $demoUser2 = User::create([
-            'name'              => $faker->name,
-            'email'             => 'admin@demo.com',
-            'password'          => Hash::make('demo'),
-            'email_verified_at' => now(),
-        ]);
     }
 }

@@ -3,7 +3,7 @@
 <!--begin::Head-->
 <head>
     <base href=""/>
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'MIS-SCP') }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8"/>
     <meta name="description" content=""/>
