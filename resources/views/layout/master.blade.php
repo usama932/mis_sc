@@ -57,7 +57,7 @@
 @endforeach
 <!--end::Global Javascript Bundle-->
 
-<!--begin::Vendors Javascript(used by this page)-->
+
 @foreach(getVendors('js') as $path)
     {!! sprintf('<script src="%s"></script>', asset($path)) !!}
 @endforeach
