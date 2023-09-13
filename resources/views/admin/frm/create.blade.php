@@ -331,8 +331,8 @@
 
     @push('scripts')
 
-    <script src="{{asset("assets/js/widgets.bundle.js")}}"></script>
-    <script src="{{asset("assets/js/scripts.bundle.js")}}"></script>
+    {{-- <script src="{{asset("assets/js/widgets.bundle.js")}}"></script> --}}
+    {{-- <script src="{{asset("assets/js/scripts.bundle.js")}}"></script> --}}
     <script>
         $(document).ready(function(){
             $(".genderit").change(function(){
@@ -447,19 +447,11 @@
         });
 
 
-        $('#date_recieved_id,#date_relatedto_feedback_id,#date_feedback_referred_id').datepicker({
-
-                endDate: new Date() ,
-            todayHighlight: true,
-            autoclose: true,
-            format: 'mm/dd/yyyy',
-            orientation: "bottom",
-            templates: {
-                leftArrow: '<i class="la la-angle-left"></i>',
-                rightArrow: '<i class="la la-angle-right"></i>',
-            },
-        });
-
+        $('#date_recieved_id,#date_relatedto_feedback_id,#date_feedback_referred_id').flatpickr({
+            altInput: true,
+            dateFormat: "y-m-d",
+            maxDate: "today"
+		});
     </script>
 
     @endpush
