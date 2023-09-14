@@ -111,7 +111,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">District</span>
                         </label>
-                        <select   name="district" aria-label="Select a Gender" data-control="select2" data-placeholder="Select a age..." class="form-select form-select-solid" required>
+                        <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select form-select-solid" required>
 
                         </select>
                     </div>
@@ -119,12 +119,18 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Tehsil</span>
                         </label>
+                        <select id="kt_select2_tehsil" name="tehsil" aria-label="Select a Tehsil" data-control="select2" data-placeholder="Select a Tehsil..." class="form-select form-select-solid" required>
+
+                        </select>
                         <input class="form-control " placeholder="Enter Tehsil" name="tehsil" value="" / required>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Union Counsil</span>
                         </label>
+                        <select id="kt_select2_union_counsil" name="union_counsil" aria-label="Select a UC" data-control="select2" data-placeholder="Select a Uc..." class="form-select form-select-solid" required>
+
+                        </select>
                         <input class="form-control " placeholder="Enter Union Counsil" name="union_counsil" value="" / required>
                     </div>
                     <div class="col-md-6 mt-3">
