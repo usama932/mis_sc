@@ -46,6 +46,7 @@
 <body {!! printHtmlClasses('body') !!} {!! printHtmlAttributes('body') !!}>
 
 @include('partials/theme-mode/_init')
+
 @stack('stylesheets')
 
 @yield('content')

@@ -21,7 +21,7 @@ var KTCustomersList = function () {
 
         // Init datatable --- more info on datatables: https://datatables.net/manual/
         datatable = $(table).DataTable({
-            "info": false,
+            "info": true,
             'order': [],
             'columnDefs': [
                 { orderable: false, targets: 0 }, // Disable ordering on column 0 (checkbox)
@@ -34,7 +34,7 @@ var KTCustomersList = function () {
             initToggleToolbar();
             handleDeleteRows();
             toggleToolbars();
-            KTMenu.init(); // reinit KTMenu instances 
+            KTMenu.init(); // reinit KTMenu instances
         });
     }
 
@@ -232,7 +232,7 @@ var KTCustomersList = function () {
         const toolbarSelected = document.querySelector('[data-kt-customer-table-toolbar="selected"]');
         const selectedCount = document.querySelector('[data-kt-customer-table-select="selected_count"]');
 
-        // Select refreshed checkbox DOM elements 
+        // Select refreshed checkbox DOM elements
         const allCheckboxes = table.querySelectorAll('tbody [type="checkbox"]');
 
         // Detect checkboxes state & count
@@ -262,7 +262,7 @@ var KTCustomersList = function () {
     return {
         init: function () {
             table = document.querySelector('#kt_customers_table');
-            
+
             if (!table) {
                 return;
             }

@@ -18,7 +18,7 @@ var KTDatatablesClassic = function () {
 
         // Init datatable --- more info on datatables: https://datatables.net/manual/
         const datatable = $(table).DataTable({
-            "info": false,
+            "info": true,
             'order': []
         });
 
@@ -69,7 +69,7 @@ var KTDatatablesClassic = function () {
                 }
             }
         });
-        
+
         // Date range filter --- offical docs reference: https://datatables.net/examples/plug-ins/range_filtering.html
         $.fn.dataTable.ext.search.push(
             function (settings, data, dataIndex) {

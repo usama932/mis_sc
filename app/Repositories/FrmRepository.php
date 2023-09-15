@@ -56,10 +56,25 @@ class FrmRepository implements FrmRepositoryInterface
 
     public function updateFrm($data, $id)
     {
-        $Frm = Frm::where('id', $id)->first();
-        $Frm->name = $data['name'];
-        $Frm->slug = $data['slug'];
-        $Frm->save();
+        if($data['feedback_referredorshared'] == 'Yes'){
+            $status ="Open";
+        }
+        else{
+            $status = $data['status'];
+        }
+        return Frm::where('id',$id)->update([
+            'feedback_channel'      => $data['feedback_channel'],
+            'feedback_description'  => $data['feedback_description'] ,
+            'feedback_category'     => $data['feedback_category'],
+            'datix_number'          => $data['datix_number'],
+            'date_ofreferral'       => $data['date_feedback_referred'],
+            'referral_name'         => $data['refferal_name'],
+            'referral_position'     => $data['refferal_position'],
+            'feedback_summary'      => $data['feedback_summary'],
+            'status'                => $status,
+            'type_ofaction_taken'   => $data['actiontaken'],
+            'feedback_referredorshared' => $data['feedback_referredorshared'],
+        ]);
     }
 
     public function destroyFrm($id)

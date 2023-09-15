@@ -1,5 +1,6 @@
 <x-default-layout>
     @push('stylesheets')
+    <link rel="stylesheet" href="{{asset('assets/plugins/custom/datatables/datatables.bundle.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/style.bundle.css')}}">
     @endpush
     <style>
@@ -38,8 +39,9 @@
             </ul>
         </div>
         @endif
-        <form class="form" action="{{route('frm-managements.store')}}" method="post">
+        <form class="form" action="{{route('frm-managements.update',$frm->id)}}" method="post">
             @csrf
+            @method('put')
             <div class="card-body py-4">
                 <div class="card-title  border-0 my-4"">
                     <div class="card-title">
@@ -53,39 +55,30 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Staff Name</span>
                         </label>
-                        <input class="form-control"  @error('name_of_registrar') is-invalid @enderror placeholder="Enter Staff Name" name="name_of_registrar" value="" required />
-                        @error('name_of_registrar')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <br>
+                        <strong>{{$frm->name_of_registrar ?? NA}}</strong>
                     </div>
                     <div class="col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Date Received</span>
                         </label>
-                        <input type="text"  @error('date_received') is-invalid @enderror name="date_received" id="date_recieved_id" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="" required>
-                        @error('date_received')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <br>
+                        <strong>{{$frm->date_received ?? NA}}</strong>
                     </div>
                     <div class="col-md-4 mt-3 mb-2">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Feedback Channel</span>
                         </label>
                         <select name="feedback_channel" aria-label="Select a Feedback Channel" data-control="select2" data-placeholder="Select a Country..." class="form-select form-select-solid" required  @error('feedback_channel') is-invalid @enderror>
-                            <option  value="">Select Option</option>
-                            <option  >Hotline</option>
-                            <option  >SMS</option>
-                            <option  >Feedback Form</option>
-                            <option  >Email</option>
-                            <option >Field Monitoring</option>
-                            <option  >Post Distribution Monitoring</option>
-                            <option  >Medical Exit Interview</option>
-                            <option >Community meeting</option>
-
+                            <option @if($frm->feedback_channel == '') selected @endif value="">Select Option</option>
+                            <option @if($frm->feedback_channel == 'Hotline') selected @endif >Hotline</option>
+                            <option  @if($frm->feedback_channel == 'SMS') selected @endif >SMS</option>
+                            <option  @if($frm->feedback_channel == 'Feedback Form') selected @endif >Feedback Form</option>
+                            <option  @if($frm->feedback_channel == 'Email') selected @endif >Email</option>
+                            <option  @if($frm->feedback_channel == 'Field Monitoring') selected @endif>Field Monitoring</option>
+                            <option  @if($frm->feedback_channel == 'Post Distribution Monitoring') selected @endif >Post Distribution Monitoring</option>
+                            <option  @if($frm->feedback_channel == 'Medical Exit Interview') selected @endif >Medical Exit Interview</option>
+                            <option  @if($frm->feedback_channel == 'Community meeting') selected @endif>Community meeting</option>
                         </select>
                         @error('feedback_channel')
                             <span class="invalid-feedback" role="alert">
@@ -104,196 +97,91 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Name</span>
                         </label>
-                        <input class="form-control"  @error('name_of_client') is-invalid @enderror placeholder="Enter Client Name" name="name_of_client" value="" required/>
-                        @error('name_of_client')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <br>
+                        <strong>{{$frm->name_of_client ?? NA}}</strong>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Type</span>
                         </label>
-                        <select   name="type_of_client" aria-label="Select a Type of Client" data-control="select2" data-placeholder="Select a Type of Client..." class="form-select form-select-solid"  @error('type_of_client') is-invalid @enderror required>
-                            <option value="">Select Client</option>
-                            <option>Direct Beneficiary</option>
-                            <option>Indirect Beneficiary</option>
-                            <option>Non-Beneficiary</option>
-                            <option>Partner Staff</option>
-                            <option>Save the Children Staff</option>
-                        </select>
-                        @error('type_of_client')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <br>
+                        <strong>{{$frm->type_of_client ?? NA}}</strong>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Gender</span>
                         </label>
-                        <select   name="gender"  @error('gender') is-invalid @enderror aria-label="Select a Gender" data-control="select2" data-placeholder="Select a Gender..." class="form-select form-select-solid genderit" required>
-                            <option value="">Select Gender</option>
-                            <option  value="Boy">Boy</option>
-                            <option  value="Girl">Girl</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                        </select>
-                        @error('gender')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <br>
+                        <strong>{{$frm->gender ?? NA}}</strong>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Age</span>
                         </label>
-                        <select   name="age"  @error('age') is-invalid @enderror aria-label="Select a Gender" data-control="select2" data-placeholder="Select a age..." class="form-select form-select-solid" id="age_id" required>
-
-                        </select>
-                        @error('age')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <br>
+                        <strong>{{$frm->age ?? NA}}</strong>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Province</span>
                         </label>
-                        <select   name="province" id="kt_select2_province" aria-label="Select a Gender" data-control="select2" data-placeholder="Select a age..." class="form-select form-select-solid"   @error('province') is-invalid @enderror required>
-                            <option value="">Select Province</option>
-                            {{-- <option value='1'>Punjab</option> --}}
-                            <option value='4'>Sindh</option>
-                            <option value='2'>KPK</option>
-                            {{-- <option value='4'>Balochistan</option> --}}
-                        </select>
-                        @error('province')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <br>
+                        <strong>{{$frm->province ?? NA}}</strong>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">District</span>
                         </label>
-                        <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select form-select-solid"  @error('district') is-invalid @enderror required>
-
-                        </select>
-                        @error('district')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <br>
+                        <strong>{{$frm->district ?? NA}}</strong>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Tehsil</span>
                         </label>
-                        <select id="kt_select2_tehsil"  @error('tehsil') is-invalid @enderror name="tehsil" aria-label="Select a Tehsil" data-control="select2" data-placeholder="Select a Tehsil..." class="form-select form-select-solid" required>
-
-                        </select>
-                        @error('tehsil')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <br>
+                        <strong>{{$frm->tehsil ?? NA}}</strong>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Union Counsil</span>
                         </label>
-                        <select id="kt_select2_union_counsil"  @error('union_counsil') is-invalid @enderror name="union_counsil" aria-label="Select a UC" data-control="select2" data-placeholder="Select a Uc..." class="form-select form-select-solid" required>
-
-                        </select>
-                        @error('union_counsil')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <br>
+                        <strong>{{$frm->union_counsil ?? NA}}</strong>
                     </div>
                     <div class="col-md-6 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Village</span>
                         </label>
-                        <input class="form-control "  @error('village') is-invalid @enderror placeholder="Enter Village" name="village" value="" / required>
-                        @error('village')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <br>
+                        <strong>{{$frm->village ?? NA}}</strong>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">PWD/CLWD</span>
                         </label>
-                        <div class="form-check form-check-custom form-check-solid   mt-4">
-                            <!--begin::Input-->
-                            <input class="form-check-input"  @error('pwd_clwd') is-invalid @enderror name="pwd_clwd" type="radio" value="Yes"/ required>
-                            <!--end::Input-->
-                            <!--begin::Label-->
-                            <label class="form-check-label me-5">
-                                <div class="fw-bold text-gray-800 ">Yes</div>
-                            </label>
-                            <input class="form-check-input"   @error('pwd_clwd') is-invalid @enderror name="pwd_clwd" type="radio" value="No"/ required >
-                            <!--end::Input-->
-                            <!--begin::Label-->
-                            <label class="form-check-label me-5">
-                                <div class="fw-bold text-gray-800">No</div>
-                            </label>
-                            <!--end::Label-->
-                            @error('pwd_clwd')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
+                        <br>
+                        <strong>{{$frm->pwd_clwd ?? 'NA'}}</strong>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Allow Contact</span>
                         </label>
-                        <div class="form-check form-check-custom form-check-solid mt-4">
-                            <!--begin::Input-->
-                            <input class="form-check-input contact_id"  @error('allow_contact') is-invalid @enderror name="allow_contact" type="radio" value="Yes"/ required>
-                            <!--end::Input-->
-                            <!--begin::Label-->
-                            <label class="form-check-label me-5">
-                                <div class="fw-bold text-gray-800 ">Yes</div>
-                            </label>
-                            <input  @error('allow_contact') is-invalid @enderror class="form-check-input contact_id" name="allow_contact" type="radio" value="No"/ required>
-                            <!--end::Input-->
-                            <!--begin::Label-->
-                            <label class="form-check-label me-5">
-                                <div class="fw-bold text-gray-800">No</div>
-                            </label>
-                            <!--end::Label-->
-                            @error('allow_contact')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
+                        <br>
+                        <strong>{{$frm->allow_contact ?? NA}}</strong>
                     </div>
-                    <div class="col-md-3 mt-3 contact_div">
+                    <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Contact Number</span>
                         </label>
-                        <input type="number"  @error('contact_number') is-invalid @enderror class="form-control " placeholder="Enter Contact Number" name="contact_number" value="" />
-                        @error('contact_number')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <br>
+                        <strong>{{$frm->contact_number ?? 'NA'}}</strong>
                     </div>
                     <div class="col-md-9 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Description (Write Brief Narration)</span>
                         </label>
-                        <textarea type="number"  @error('feedback_description') is-invalid @enderror class="form-control "  name="feedback_description" / required></textarea>
+                        <textarea type="number"  @error('feedback_description') is-invalid @enderror class="form-control "  name="feedback_description" / required>{{$frm->feedback_description ?? ''}}</textarea>
                         @error('feedback_description')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -305,14 +193,14 @@
                             <span class="required">FeedBack Category </span>
                         </label>
                         <select   name="feedback_category"  @error('feedback_category') is-invalid @enderror aria-label="Select a Feedback Category" data-control="select2" data-placeholder="Select a Feedback Category" class="form-select form-select-solid categoryit" required>
-                            <option>Select Option</option>
-                            <option>Category 0-Thank you message/ Positive Feedback</option>
-                            <option>Category 1-Request for Information</option>
-                            <option>Category 2-Request for Assistance</option>
-                            <option>Category 3-Minor Dissatisfaction with activities or suggestion for improvement</option>
-                            <option>Category 4-Major Dissatisfaction; non-payment of salary to SCI representative staff with activities or suggestion for improvement </option>
-                            <option>Category 5-Breach of CSP & PESA including Fraud concerns; unsafe programming; security threats by SCI or its representative staff</option>
-                            <option>Category 6-Negative feedback related to other organizations</option>
+                            <option @if($frm->feedback_category == '') selected @endif>Select Option</option>
+                            <option @if($frm->feedback_category == 'Category 0-Thank you message/ Positive Feedback') selected @endif>Category 0-Thank you message/ Positive Feedback</option>
+                            <option @if($frm->feedback_category == 'Category 1-Request for Information') selected @endif>Category 1-Request for Information</option>
+                            <option @if($frm->feedback_category == 'Category 2-Request for Assistance') selected @endif>Category 2-Request for Assistance</option>
+                            <option @if($frm->feedback_category == 'Category 3-Minor Dissatisfaction with activities or suggestion for improvement') selected @endif>Category 3-Minor Dissatisfaction with activities or suggestion for improvement</option>
+                            <option @if($frm->feedback_category == 'Category 4-Major Dissatisfaction; non-payment of salary to SCI representative staff with activities or suggestion for improvement') selected @endif>Category 4-Major Dissatisfaction; non-payment of salary to SCI representative staff with activities or suggestion for improvement</option>
+                            <option @if($frm->feedback_category == 'Category 5-Breach of CSP & PESA including Fraud concerns; unsafe programming; security threats by SCI or its representative staff') selected @endif>Category 5-Breach of CSP & PESA including Fraud concerns; unsafe programming; security threats by SCI or its representative staff</option>
+                            <option @if($frm->feedback_category == 'Category 6-Negative feedback related to other organizations') selected @endif>Category 6-Negative feedback related to other organizations</option>
                         </select>
                         @error('feedback_category')
                             <span class="invalid-feedback" role="alert">
@@ -324,7 +212,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Datix Number</span>
                         </label>
-                        <input type="number" class="form-control"  @error('datix_number') is-invalid @enderror placeholder="Enter Datix Number" name="datix_number" value="" />
+                        <input type="number" class="form-control"  @error('datix_number') is-invalid @enderror placeholder="Enter Datix Number" name="datix_number" value="{{$frm->datix_number ?? ''}}" />
                         @error('datix_number')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -335,64 +223,22 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Theme</span>
                         </label>
-                        <select   name="theme"  @error('theme') is-invalid @enderror aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme" class="form-select form-select-solid" required>
-                            <option>Select Theme</option>
-                            <option>Education</option>
-                            <option>Child Protection</option>
-                            <option>Food Security & Livelihood</option>
-                            <option>Health & Nutrition</option>
-                            <option>Shelter/NFIs</option>
-                            <option>Water Sanitation & Hygiene</option>
-                        </select>
-                        @error('theme')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <br>
+                        <strong>{{$frm->theme ?? NA}}</strong>
                     </div>
                     <div class="col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Feedback Activity</span>
                         </label>
-                        <input class="form-control"  @error('feedback_activity') is-invalid @enderror placeholder="Enter Feedback Activity" name="feedback_activity" value="" / required>
-                        @error('feedback_activity')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <br>
+                        <strong>{{$frm->feedback_activity ?? NA}}</strong>
                     </div>
                     <div class="col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Project</span>
                         </label>
-                        <select   name="project_name"  @error('project_name') is-invalid @enderror aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Project Name" class="form-select form-select-solid">
-                            <option>Select Theme</option>
-                            <option value="DRA">DRA</option>
-                            <option value="CDP">CDP</option>
-                            <option  value="Connect">Connect</option>
-                            <option  value="Pak Dec">Pak Dec</option>
-                            <option value="Hum Fund">Hum Fund</option>
-                            <option  value="DEC-2">DEC-2</option>
-                            <option value="Pak SB2S CONNECT">Pak SB2S CONNECT</option>
-                            <option  value="ECHO HIP">ECHO HIP</option>
-                            <option   value="EU/FPI">EU/FPI</option>
-                            <option   value="HBCC-II">HBCC-II</option>
-                            <option  value="HC Canada">HC Canada</option>
-                            <option value="Hunger Fund">Hunger Fund</option>
-                            <option value="Pak SwS">Pak SwS</option>
-                            <option value="SWS-II">SWS-II</option>
-                            <option  value="VaC-RIEP">VaC-RIEP</option>
-                            <option  value="Pak SCC Appeal Fund">Pak SCC Appeal Fund</option>
-                            <option  value="Pak HF Afghan Refugee">Pak HF Afghan Refugee</option>
-                            <option  value="MCIC">MCIC</option>
-                            <option   value="UNIFOR">UNIFOR</option>
-                            <option  value="HKDRF">HKDRF</option>
-                        </select>
-                        @error('project_name')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <br>
+                        <strong>{{$frm->project_name ?? NA}}</strong>
                     </div>
                     <div class="card-title  border-0 my-4"">
                         <div class="card-title">
@@ -407,9 +253,9 @@
                             <span class="required">Feedback Referred or Shared</span>
                         </label>
                         <select name="feedback_referredorshared"  @error('feedback_referredorshared') is-invalid @enderror aria-label="Select a Option" data-placeholder="Select a Statut..." class="form-select form-select-solid shareid"  required>
-                            <option value="">Select Option</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
+                            <option @if($frm->feedback_referredorshared == "") selected  @endif>Select Option</option>
+                            <option  @if($frm->feedback_referredorshared == "Yes") selected  @endif value="Yes">Yes</option>
+                            <option  @if($frm->feedback_referredorshared == "No") selected  @endif value="No">No</option>
                         </select>
                         @error('feedback_referredorshared')
                             <span class="invalid-feedback" role="alert">
@@ -421,7 +267,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required"> Date of feedback Referred </span>
                         </label>
-                        <input type="text"  @error('date_feedback_referred') is-invalid @enderror name="date_feedback_referred" id="date_feedback_referred" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()"  data-provide="datepicker" value="">
+                        <input type="text"  @error('date_feedback_referred') is-invalid @enderror name="date_feedback_referred" id="date_recieved_id" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()"  data-provide="datepicker" value="{{$frm->date_ofreferral ?? ''}}">
                         @error('date_feedback_referred')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -432,7 +278,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Reffered To(Name)</span>
                         </label>
-                        <input type="text"  @error('refferal_name') is-invalid @enderror name="refferal_name" placeholder="Enter Reffered To (Name)"  class="form-control " value="">
+                        <input type="text"  @error('refferal_name') is-invalid @enderror name="refferal_name" placeholder="Enter Reffered To (Name)"  class="form-control " value="{{$frm->referral_name ?? ''}}">
                         @error('refferal_name')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -443,7 +289,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Reffered To(Position)</span>
                         </label>
-                        <input type="text" name="refferal_position"   @error('refferal_position') is-invalid @enderror placeholder="Enter Reffered To (Position)"  class="form-control " value="">
+                        <input type="text" name="refferal_position"   @error('refferal_position') is-invalid @enderror placeholder="Enter Reffered To (Position)"  class="form-control " value="{{$frm->referral_position ?? ''}}" >
                         @error('refferal_position')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -454,7 +300,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Description of actions undertaken to resolve the feedback</span>
                         </label>
-                        <textarea  name="feedback_summary"   @error('feedback_summary') is-invalid @enderror  class="form-control"></textarea>
+                        <textarea  name="feedback_summary"   @error('feedback_summary') is-invalid @enderror  class="form-control">{{$frm->feedback_summary ?? ''}}</textarea>
                         @error('feedback_summary')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -466,9 +312,9 @@
                             <span class="required">Status</span>
                         </label>
                         <select   name="status" aria-label="Select a Status"  @error('status') is-invalid @enderror data-control="select2" data-placeholder="Select a Statut..." class="form-select form-select-solid statusid">
-                            <option value="">Select Option</option>
-                            <option value="Open">Open</option>
-                            <option value="Close">Close</option>
+                            <option @if($frm->status == '') selected @endif>Select Option</option>
+                            <option @if($frm->status == 'Open') selected @endif value="Open">Open</option>
+                            <option @if($frm->status == 'Close') selected @endif value="Close">Close</option>
                         </select>
                         @error('status')
                             <span class="invalid-feedback" role="alert">
@@ -481,7 +327,9 @@
                             <span class="required">Action Taken </span>
                         </label>
                         <select name="actiontaken" id="action_id" aria-label="Select a Action"  @error('actiontaken') is-invalid @enderror data-control="select2" data-placeholder="Select a Action..." class="form-select form-select-solid " >
-
+                            @if(!empty($frm->type_ofaction_taken))
+                                <option value="{{$frm->type_ofaction_taken}}">{{$frm->type_ofaction_taken}}</option>
+                            @endif
                         </select>
                         @error('actiontaken')
                             <span class="invalid-feedback" role="alert">
@@ -619,7 +467,7 @@
         });
 
         //flatpicker for date
-        $('#date_recieved_id,#date_feedback_referred,#date_feedback_referred_id').flatpickr({
+        $('#date_recieved_id,#date_relatedto_feedback_id,#date_feedback_referred_id').flatpickr({
             altInput: true,
             dateFormat: "y-m-d",
             maxDate: "today"
@@ -710,36 +558,6 @@
             });
 
         }).trigger('change');
-
-        $(function () {
-            $('[name="date_feedback_referred"]').change(function(){
-                var date_recieved_id = $("#date_recieved_id").val();
-                var date_feedback_referred =$("#date_feedback_referred").val();
-                if(date_feedback_referred >= date_recieved_id) {
-                    //Do something..
-
-            }
-            else{
-                swal.fire({
-                        text: "Sorry, Date Reffered Must be Greater Than Date Recieved.",
-                        icon: "error",
-                        buttonsStyling: false,
-                        confirmButtonText: "Ok, got it!",
-                        customClass: {
-                            confirmButton: "btn font-weight-bold btn-light-primary"
-                        }
-                    }).then(function () {
-                        KTUtil.scrollTop();
-
-                    // $('#exampleModal').modal('hide');
-                    // console.log("invalid");
-                    });
-            }
-
-        });
-        });
-
-
     </script>
 
     @endpush

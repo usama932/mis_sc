@@ -1,16 +1,13 @@
 <x-default-layout>
+
     @section("stylesheets")
-    <!--begin::Vendor Stylesheets(used for this page only)-->
-    <link href="{{asset("backend/assets/plugins/custom/datatables/datatables.bundle.css")}}" rel="stylesheet" type="text/css" />
+        <link href="{{asset("assets/plugins/custom/datatables/datatables.bundle.css")}}" rel="stylesheet" type="text/css" />
     @endsection
     @section('title')
         Feedback Registry Management
     @endsection
 
-    @section("stylesheets")
-    <!--begin::Vendor Stylesheets(used for this page only)-->
-        <link href="{{asset("assets/plugins/custom/datatables/datatables.bundle.css")}}" rel="stylesheet" type="text/css" />
-    @endsection
+
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <!--begin::Content container-->
         <div id="kt_app_content_container" class="app-container container-xxl">
@@ -28,25 +25,7 @@
                  <div class="card-toolbar">
                     <!--begin::Toolbar-->
                     <div class="d-flex justify-content-end" data-kt-customer-table-toolbar="base">
-                       <!--begin::Filter-->
-                       <!--end::Menu 1-->
-                       <!--end::Filter-->
-                       <!--begin::Export-->
-                       <a onclick="del_selected()" href="javascript:void(0)" class="btn btn-light-danger me-3">
-                          <!--begin::Svg Icon | path: icons/duotune/arrows/arr078.svg-->
-                          <span class="svg-icon svg-icon-2">
-                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z" fill="currentColor"/>
-                                <path opacity="0.5" d="M5 5C5 4.44772 5.44772 4 6 4H18C18.5523 4 19 4.44772 19 5V5C19 5.55228 18.5523 6 18 6H6C5.44772 6 5 5.55228 5 5V5Z" fill="currentColor"/>
-                                <path opacity="0.5" d="M9 4C9 3.44772 9.44772 3 10 3H14C14.5523 3 15 3.44772 15 4V4H9V4Z" fill="currentColor"/>
-                             </svg>
-                          </span>
-                          <!--end::Svg Icon-->Delete All
-                       </a>
-                       <!--end::Export-->
-                       <!--begin::Add customer-->
                        <a href="{{route("frm-managements.create")}}" class="btn btn-primary" >Add FRM</a>
-                       <!--end::Add customer-->
                     </div>
                     <!--end::Toolbar-->
                     <!--begin::Group actions-->
@@ -62,25 +41,43 @@
               </div>
               <!--end::Card header-->
               <!--begin::Card body-->
-              <div class="card-body pt-0">
+              <div class="card-body pt-0 overflow-*">
                  <form action="" method="post" id="client_form">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <!--begin: Datatable-->
-                    <table class="table align-middle table-row-dashed fs-6 gy-5" id="clients" style="margin-top: 13px !important">
-                       <thead>
-                          <tr>
-                             <th>
-                                {{--                                    <label class="checkbox checkbox-outline checkbox-success"><input type="checkbox"><span></span></label>--}}
-                                <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                                   <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_customers_table .form-check-input" value="1" />
-                                </div>
-                             </th>
-                             <th>Name</th>
-                             <th>Created At</th>
-                             <th>Actions</th>
-                          </tr>
-                       </thead>
-                    </table>
+                    <div class="table-responsive overflow-*">
+                        <table class="table table-striped table-bordered nowrap" id="frm" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>#S.No</th>
+                                <th>Name of Registrar</th>
+                                <th>Date Recieved</th>
+                                <th>Feedback Channel</th>
+                                <th>Name</th>
+                                <th>Type of Client</th>
+                                <th>Gender</th>
+                                <th>Age</th>
+                                <th>Province</th>
+                                <th>District</th>
+                                <th>Tehsil</th>
+                                <th>Union Council</th>
+                                <th>Village</th>
+                                <th>PWD/CLWD</th>
+                                <th>Client Contact.# </th>
+                                <th>Feedback Category</th>
+                                <th>Theme</th>
+                                <th>Project</th>
+                                <th>Date of Reffered</th>
+                                <th>Refferal Name</th>
+                                <th>Refferal Position</th>
+                                <th>Action Taken</th>
+                                <th>Status</th>
+                                <th>Feedback Summary</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        </table>
+                    </div>
                  </form>
                  <!--begin::Table-->
                  <!--end::Table-->
@@ -90,7 +87,7 @@
            <!--end::Card-->
            <!--begin::Modals-->
            <!--begin::Modal - Customers - Add-->
-           <div class="modal fade" id="clientModel" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+           {{-- <div class="modal fade" id="clientModel" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered" role="document">
                  <div class="modal-content">
                     <div class="modal-header">
@@ -103,7 +100,7 @@
                     </div>
                  </div>
               </div>
-           </div>
+           </div> --}}
            <!--end::Modal - New Card-->
            <!--end::Modals-->
         </div>
@@ -123,30 +120,25 @@
                    $(this).closest('tr').toggleClass('selected');
                });
        });
-       var clients = $('#clients').DataTable( {
-           "language": {
-               "lengthMenu": "Show _MENU_",
-           },
-           "dom":
-               "<'row'" +
-               "<'col-sm-6 d-flex align-items-center justify-conten-start'l>" +
-               "<'col-sm-6 d-flex align-items-center justify-content-end'f>" +
-               ">" +
+        var frm = $('#frm').DataTable( {
+            "order": [
+                [1, 'asc']
+            ],
 
-               "<'table-responsive'tr>" +
+            buttons: [
+                'csv', 'excel'
+            ],
+            responsive: true, // Enable responsive mode
 
-               "<'row'" +
-               "<'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>" +
-               "<'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>" +
-               ">",
-           "order": [
-               [1, 'asc']
-           ],
-           "processing": true,
-           "serverSide": true,
-           "searchDelay": 500,
-           "responsive": true,
+            dom: 'Bfrtip',
+            "info": false,
 
+            "processing": true,
+            "serverSide": true,
+            "searchDelay": 500,
+            "scrollY": true,
+            "responsive": false,
+            fixedHeader: true,
            "ajax": {
                "url":"{{route('admin.getFrms')}}",
                "dataType":"json",
@@ -155,11 +147,33 @@
            },
            "columns":[
                {"data":"id","searchable":false,"orderable":false},
-               {"data":"name_of_registrar"},
-               {"data":"created_at"},
-               {"data":"action","searchable":false,"orderable":false}
+               {"data":"name_of_registrar" },
+               {"data":"date_received","searchable":false,"orderable":false},
+               {"data":"feedback_channel" },
+               {"data":"name_of_client" },
+               {"data":"type_of_client" },
+               {"data":"gender" },
+               {"data":"age" ,"searchable":false,"orderable":false},
+               {"data":"province" },
+               {"data":"district" },
+               {"data":"tehsil" },
+               {"data":"uc" },
+               {"data":"village" },
+               {"data":"pwd_clwd" },
+               {"data":"contact_number" },
+               {"data":"feedback_category" },
+               {"data":"theme" },
+               {"data":"project_name" },
+               {"data":"date_ofreferral" ,"searchable":false,"orderable":false},
+               {"data":"referral_name" },
+               {"data":"referral_position" },
+               {"data":"type_ofaction_taken" },
+               {"data":"status" },
+               {"data":"feedback_summary" },
+               {"data":"action","searchable":false,"orderable":false},
            ]
        } );
+
        function viewInfo(id) {
 
            var CSRF_TOKEN = '{{ csrf_token() }}';
@@ -169,43 +183,7 @@
 
            });
        }
-       function del(id){
-           Swal.fire({
-               title: "Are you sure?",
-               text: "You won't be able to revert this!",
-               icon: "warning",
-               showCancelButton: true,
-               confirmButtonText: "Yes, delete it!"
-           }).then(function(result) {
-               if (result.value) {
-                   Swal.fire(
-                       "Deleted!",
-                       "Your client has been deleted.",
-                       "success"
-                   );
-                   var APP_URL = {!! json_encode(url('/')) !!}
-                       window.location.href = APP_URL+"/    frm/delete/"+id;
-               }
-           });
-       }
-       function del_selected(){
-           Swal.fire({
-               title: "Are you sure?",
-               text: "You won't be able to revert this!",
-               icon: "warning",
-               showCancelButton: true,
-               confirmButtonText: "Yes, delete it!"
-           }).then(function(result) {
-               if (result.value) {
-                   Swal.fire(
-                       "Deleted!",
-                       "Your clients has been deleted.",
-                       "success"
-                   );
-                   $("#client_form").submit();
-               }
-           });
-       }
+
 
     </script>
     <!--end::Vendors Javascript-->
