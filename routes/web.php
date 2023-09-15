@@ -4,6 +4,7 @@ use App\Http\Controllers\Apps\PermissionManagementController;
 use App\Http\Controllers\Apps\RoleManagementController;
 use App\Http\Controllers\Apps\UserManagementController;
 use App\Http\Controllers\Admin\FRMController;
+use App\Http\Controllers\Admin\FBAjaxController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +37,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('get-frms', [FRMController::class,'getFrms'])->name('admin.getFrms');
     Route::post('get-frm', [FRMController::class,'FrmDetail'])->name('admin.getFrm');
     Route::get('frm/delete/{id}', [FRMController::class,'destroy'])->name('frm-delete');
+
+    //Ajax Destrict
+    Route::post('getDistrict', [FBAjaxController::class,'getDistrict'])->name('getDistrict');
+    Route::post('getTehsil', [FBAjaxController::class,'getTehsil'])->name('getTehsil');
+    Route::post('getUnionCouncil', [FBAjaxController::class,'getUnionCouncil'])->name('getUnionCouncil');
+
 
 });
 

@@ -1,0 +1,70 @@
+<?php
+namespace App\Repositories;
+
+use App\Repositories\Interfaces\FrmRepositoryInterface;
+use App\Models\Frm;
+
+class FrmRepository implements FrmRepositoryInterface
+{
+    public function storeFrm($data)
+    {
+        if($data['feedback_referredorshared'] == 'Yes'){
+            $status ="Open";
+        }
+        else{
+            $status = $data['status'];
+        }
+        return Frm::create([
+            'name_of_registrar'     => $data['name_of_registrar'],
+            'date_received'         => $data['date_received'],
+            'response_id'           =>'test',
+            'feedback_channel'      => $data['feedback_channel'],
+            'name_of_client'        => $data['name_of_client'],
+            'type_of_client'        => $data['type_of_client'],
+            'gender'                => $data['gender'],
+            'age'                   => $data['age'],
+            'province'              => $data['province'],
+            'district'              => $data['district'],
+            'tehsil'                => $data['tehsil'],
+            'union_counsil'         => $data['union_counsil'],
+            'village'               => $data['village'],
+            'pwd_clwd'              => $data['pwd_clwd'],
+            'allow_contact'         => $data['allow_contact'],
+            'client_contact'        => $data['contact_number'],
+            'feedback_description'  => $data['feedback_description'] ,
+            'feedback_category'     => $data['feedback_category'],
+            'datix_number'          => $data['datix_number'],
+            'theme'                 => $data['theme'],
+            'feedback_activity'     => $data['feedback_activity'],
+            'project_name'          => $data['project_name'],
+            'date_ofreferral'       => $data['date_feedback_referred'],
+            'referral_name'         => $data['refferal_name'],
+            'referral_position'     => $data['refferal_position'],
+            'feedback_summary'      => $data['feedback_summary'],
+            'status'                => $status,
+            'type_ofaction_taken'   => $data['actiontaken'],
+            'feedback_referredorshared' => $data['feedback_referredorshared'],
+
+
+        ]);
+    }
+
+    public function findFrm($id)
+    {
+        return Frm::find($id);
+    }
+
+    public function updateFrm($data, $id)
+    {
+        $Frm = Frm::where('id', $id)->first();
+        $Frm->name = $data['name'];
+        $Frm->slug = $data['slug'];
+        $Frm->save();
+    }
+
+    public function destroyFrm($id)
+    {
+        $Frm = Frm::find($id);
+        $Frm->delete();
+    }
+}

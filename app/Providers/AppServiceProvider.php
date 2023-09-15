@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Core\KTBootstrap;
 use Illuminate\Database\Schema\Builder;
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\Interfaces\FrmRepositoryInterface;
+use App\Repositories\FrmRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(FrmRepositoryInterface::class, FrmRepository::class);
     }
 
     /**

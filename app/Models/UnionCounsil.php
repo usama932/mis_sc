@@ -5,10 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Frm extends Model
+class UnionCounsil extends Model
 {
     use HasFactory;
-    protected $table = 'tbl_fbreg';
+    protected $table = 'union_council';
     protected $guarded = [];
 }
-

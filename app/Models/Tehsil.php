@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Frm extends Model
+class Tehsil extends Model
 {
     use HasFactory;
-    protected $table = 'tbl_fbreg';
+    protected $table = 'tehsil';
     protected $guarded = [];
-}
 
+}

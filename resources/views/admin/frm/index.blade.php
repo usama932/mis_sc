@@ -155,7 +155,7 @@
            },
            "columns":[
                {"data":"id","searchable":false,"orderable":false},
-               {"data":"name"},
+               {"data":"name_of_registrar"},
                {"data":"created_at"},
                {"data":"action","searchable":false,"orderable":false}
            ]
