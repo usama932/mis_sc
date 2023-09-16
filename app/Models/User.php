@@ -57,4 +57,8 @@ class User extends Authenticatable
 
         return $this->profile_photo_path;
     }
+    public function frm()
+    {
+        return $this->hasMany(Frm::class,'created_by','id');
+    }
 }

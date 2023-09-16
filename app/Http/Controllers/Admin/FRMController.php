@@ -9,6 +9,7 @@ use App\Http\Requests\UpdatefrmRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Frm;
 use App\Repositories\Interfaces\FrmRepositoryInterface;
+use Carbon\Carbon;
 
 class FRMController extends Controller
 {
@@ -23,6 +24,7 @@ class FRMController extends Controller
         return view('admin.frm.index');
     }
     public function getFrms(Request $request){
+
 		$columns = array(
 			0 => 'id',
 			1 => 'name_of_registrar',
@@ -39,25 +41,54 @@ class FRMController extends Controller
 		if(empty($request->input('search.value'))){
 			$frms = Frm::offset($start)
 				->limit($limit)
-				->orderBy($order,$dir)
-				->get();
+				->orderBy($order,$dir);
 			$totalFiltered = Frm::count();
 		}else{
 			$search = $request->input('search.value');
 			$frms = Frm::offset($start)
 				->limit($limit)
-				->orderBy($order, $dir)
-				->get();
+				->orderBy($order, $dir);
 			$totalFiltered = Frm::count();
 		}
+
+        if($request->name_of_registrar != null){
+            $frms->where('name_of_registrar',$request->name_of_registrar);
+        }
+        if($request->date_received != null){
+            $date = Carbon::parse($request->date_received)->format("Y-m-d");
+            $frms->where('date_received',$request->date_received);
+        }
+        if($request->kt_select2_district != null){
+            $frms->where('date_received',$request->kt_select2_district);
+        }
+        if($request->kt_select2_province != null){
+
+            $frms->where('date_received',$request->kt_select2_province);
+        }
+
+        if($request->feedback_channel != null){
+            $frms->where('feedback_channel',$request->feedback_channel);
+        }
+        if($request->age_id != null){
+            $frms->where('age',$request->age_id);
+        }
+        if($request->type_of_client != null){
+            $frms->where('type_of_client',$request->type_of_client);
+        }
+        if($request->project_name != null){
+            $frms->where('project_name',$request->project_name);
+        }
+
+        $frm =$frms->get();
 
 
 		$data = array();
 
-		if($frms){
-			foreach($frms as $r){
+		if($frm){
+			foreach($frm as $r){
 				$edit_url = route('frm-managements.edit',$r->id);
                 $show_url = route('frm-managements.show',$r->id);
+                $update_response_url = route('frm-update-response',$r->id);
                 $delete_url = route('frm-managements.destroy',$r->id);
 				$nestedData['id'] = $r->id + 1000;
 				$nestedData['name_of_registrar'] = $r->name_of_registrar;
@@ -67,10 +98,10 @@ class FRMController extends Controller
                 $nestedData['type_of_client'] = $r->type_of_client;
                 $nestedData['gender'] = $r->gender;
                 $nestedData['age'] = $r->age;
-                $nestedData['province'] = $r->name_of_registrar;
-                $nestedData['district'] = $r->district;
-                $nestedData['tehsil'] = $r->tehsil;
-                $nestedData['uc'] ='&nbsp'.$r->union_counsil;
+                $nestedData['province'] = $r->provinces->name;
+                $nestedData['district'] = $r->districts->district_name;
+                $nestedData['tehsil'] = $r->tehsils->tehsil_name;
+                $nestedData['uc'] ='&nbsp'.$r->uc->uc_name;
                 $nestedData['village'] = $r->village;
                 $nestedData['pwd_clwd'] = $r->pwd_clwd;
                 $nestedData['contact_number'] =$r->client_contact ?? "NA";
@@ -81,19 +112,27 @@ class FRMController extends Controller
                 $nestedData['referral_name'] = '&nbsp'.$r->referral_name ?? 'NA';
                 $nestedData['referral_position'] =$r->referral_position ?? "NA";
                 $nestedData['type_ofaction_taken'] =$r->type_ofaction_taken ?? "NA";
-                $nestedData['status'] = $r->status;
+                if($r->status == "Close")
+                    $nestedData['status'] = '<span class="badge badge-success">'.$r->status.'</span>';
+                elseif($r->status == "Open"){
+                    $nestedData['status'] = '<span class="badge badge-warning">'.$r->status.'</span>';
+                }
                 $nestedData['feedback_summary'] =$r->feedback_summary  ?? "NA";
+                $nestedData['update_response'] ='<div><td><a class=""" title="View" href="'.$update_response_url.'"><span class="badge badge-primary">'
+                                                .'Update Response'.
+                                                '</span></a></td></div>';
 				$nestedData['action'] = '
                                 <div>
                                 <td>
-                                    <a class="btn btn-sm btn-clean btn-icon"" title="View Client" href="'.$show_url.'">
+                                    <a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
                                     <i class="fa fa-eye"></i>
                                     </a>
-                                    <a title="Edit Client" class="btn btn-sm btn-clean btn-icon"
+                                    <a title="Edit" class="btn btn-sm btn-clean btn-icon"
                                        href="'.$edit_url.'">
                                        <i class="fa fa-pencil"></i>
                                     </a>
-                                    <a class="btn btn-sm btn-clean btn-icon" title="Delete Client" href="'.$delete_url.'">
+                                    </a>
+                                    <a class="btn btn-sm btn-clean btn-icon" title="Delete" href="'.$delete_url.'">
                                     <i class="fa fa-trash"></i>
                                     </a>
                                 </td>
@@ -118,6 +157,11 @@ class FRMController extends Controller
     public function create()
     {
         return view('admin.frm.create');
+    }
+    public function getUpdate_response($id)
+    {
+        $frm =Frm::find($id);
+        return view('admin.frm.update_response',compact('frm'));
     }
 
 

@@ -10,5 +10,31 @@ class Frm extends Model
     use HasFactory;
     protected $table = 'tbl_fbreg';
     protected $guarded = [];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,'created_by','id');
+    }
+    public function user1()
+    {
+        return $this->belongsTo(User::class,'updated_by','id');
+    }
+    public function provinces()
+    {
+        return $this->belongsTo(User::class,'province','id');
+    }
+    public function districts()
+    {
+        return $this->belongsTo(District::class,'district','district_id');
+    }
+    public function tehsils()
+    {
+        return $this->belongsTo(Tehsil::class,'tehsil','id');
+    }
+    public function uc()
+    {
+        return $this->belongsTo(UnionCounsil::class,'union_counsil','union_id');
+    }
+
 }
 

@@ -2,9 +2,7 @@
     @section('title')
         View Feedback Registry
     @endsection
-
     <div class="card">
-
         <div class="row">
             <div class="col-md-6">
                 <div class="card-title  border-0 my-4"">
@@ -32,7 +30,7 @@
                 <div class="card-title  border-0 my-4"">
                     <div class="card-title">
                         <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
-                            <h5 class="fw-bold m-3">Client Details:</h5>
+                            <h5 class="fw-bold m-3">Client Details::</h5>
                         </div>
                     </div>
                 </div>
@@ -56,19 +54,19 @@
                     </tr>
                     <tr>
                         <td><strong>Province</strong></td>
-                        <td>{{$frm->province}}</td>
+                        <td>{{$frm->provinces->name}}</td>
                     </tr>
                     <tr>
                         <td><strong>District</strong></td>
-                        <td>{{$frm->district}}</td>
+                        <td>{{$frm->districts->district_name}}</td>
                     </tr>
                     <tr>
                         <td><strong>Tehsil</strong></td>
-                        <td>{{$frm->tehsil}}</td>
+                        <td>{{$frm->tehsils->tehsil_name}}</td>
                     </tr>
                     <tr>
                         <td><strong>Union Council</strong></td>
-                        <td>{{$frm->union_counsil}}</td>
+                        <td>{{$frm->uc->uc_name}}</td>
                     </tr>
                     <tr>
                         <td><strong>Village</strong></td>
@@ -118,29 +116,56 @@
                         </div>
                     </div>
                 </div>
-                <table class="table table-striped">
+                <table class="table table-striped mr-3">
 
                     <tr>
-                        <td ><strong>Name of Registrar</strong></td>
-                        <td>{{$frm->name_of_registrar}}</td>
+                        <td ><strong>Refferal Name</strong></td>
+                        <td class="mx-auto">{{$frm->referral_name ?? 'NA'}}</td>
                     </tr>
                     <tr>
-                        <td><strong>Date Received</strong></td>
-                        <td>{{$frm->date_received}}</td>
+                        <td><strong>Refferal Postion</strong></td>
+                        <td>{{$frm->referral_position ?? 'NA'}}</td>
                     </tr>
                     <tr>
-                        <td><strong>Feedback Channel</strong></td>
-                        <td>{{$frm->feedback_channel}}</td>
+                        <td><strong>Feedback Summary</strong></td>
+                        <td>{{$frm->feedback_summary ?? 'NA'}}</td>
+                    </tr>
+                </table>
+                <div class="card-title  border-0 my-4"">
+                    <div class="card-title">
+                        <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
+                            <h5 class="fw-bold m-3">FeedbackDetails::</h5>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-striped mr-3">
+
+                    <tr>
+                        <td ><strong>Status</strong></td>
+                        <td class="mx-auto">{{$frm->status ?? 'NA'}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Satisfiction</strong></td>
+                        <td>{{$frm->type_ofaction_taken ?? 'NA'}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Created By</strong></td>
+                        <td>{{$frm->user->name ?? 'NA'}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Created At</strong></td>
+                        <td>{{$frm->created_at ?? 'NA'}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Updated By</strong></td>
+                        <td>{{$frm->user1->name ?? 'NA'}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Updated At</strong></td>
+                        <td>{{$frm->updated_at ?? 'NA'}}</td>
                     </tr>
                 </table>
             </div>
         </div>
-
-
-
     </div>
-
-
-
-
 </x-default-layout>

@@ -33,10 +33,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
     //FRM Routes
     Route::resource('/frm-managements', FRMController::class);
-    Route::post('delete-selected-frms', [FRMController::class,'deleteSelectedfrms'])->name('delete-selected-frms');
     Route::post('get-frms', [FRMController::class,'getFrms'])->name('admin.getFrms');
     Route::post('get-frm', [FRMController::class,'FrmDetail'])->name('admin.getFrm');
-    Route::get('frm/delete/{id}', [FRMController::class,'destroy'])->name('frm-delete');
+    Route::get('frm/update/{id}', [FRMController::class,'getUpdate_response'])->name('frm-update-response');
 
     //Ajax Destrict
     Route::post('getDistrict', [FBAjaxController::class,'getDistrict'])->name('getDistrict');
