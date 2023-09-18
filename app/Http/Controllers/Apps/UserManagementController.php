@@ -23,7 +23,9 @@ class UserManagementController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Role::all();
+        $designations = Designation::all();
+        return view('pages.apps.user-management.users.create','roles','designations')
     }
 
     /**
