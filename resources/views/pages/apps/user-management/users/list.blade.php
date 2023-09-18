@@ -30,10 +30,10 @@
                 <!--begin::Toolbar-->
                 <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
                     <!--begin::Add user-->
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_user">
-                        {!! getIcon('plus', 'fs-2', '', 'i') !!}
+
+                    <a href="{{route('user-management.users.create')}}" class="btn btn-primary">
                         Add User
-                    </button>
+                    </a>
                     <!--end::Add user-->
                 </div>
                 <!--end::Toolbar-->
