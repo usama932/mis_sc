@@ -8,6 +8,7 @@ use App\Http\Requests\CreatefrmRequest;
 use App\Http\Requests\UpdatefrmRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Frm;
+use App\Models\FrmResponse;
 use App\Repositories\Interfaces\FrmRepositoryInterface;
 use Carbon\Carbon;
 
@@ -118,26 +119,52 @@ class FRMController extends Controller
                     $nestedData['status'] = '<span class="badge badge-warning">'.$r->status.'</span>';
                 }
                 $nestedData['feedback_summary'] =$r->feedback_summary  ?? "NA";
-                $nestedData['update_response'] ='<div><td><a class=""" title="View" href="'.$update_response_url.'"><span class="badge badge-primary">'
-                                                .'Update Response'.
-                                                '</span></a></td></div>';
-				$nestedData['action'] = '
-                                <div>
-                                <td>
-                                    <a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
-                                    <i class="fa fa-eye"></i>
-                                    </a>
-                                    <a title="Edit" class="btn btn-sm btn-clean btn-icon"
-                                       href="'.$edit_url.'">
-                                       <i class="fa fa-pencil"></i>
-                                    </a>
-                                    </a>
-                                    <a class="btn btn-sm btn-clean btn-icon" title="Delete" href="'.$delete_url.'">
-                                    <i class="fa fa-trash"></i>
-                                    </a>
-                                </td>
-                                </div>
-                            ';
+
+                if($r->feedback_referredorshared == "No" && $r->status == "Open"){
+                    $view   ='<a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
+                                <i class="fa fa-eye"></i>
+                                </a>';
+                    $edit   ='<a title="Edit" class="btn btn-sm btn-clean btn-icon"
+                                href="'.$edit_url.'">
+                                <i class="fa fa-pencil"></i></a>';
+                    $delete ='<a class="btn btn-sm btn-clean btn-icon" title="Delete" href="'.$delete_url.'">
+                                <i class="fa fa-trash"></i>
+                                </a>';
+                    $nestedData['update_response'] ='NA';
+                }
+                elseif($r->feedback_referredorshared == "Yes" && $r->status == "Open"){
+                    $view   ='<a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
+                                <i class="fa fa-eye"></i>
+                                </a>';
+                    $edit   ='<a title="Edit" class="btn btn-sm btn-clean btn-icon"
+                                href="'.$edit_url.'">
+                                <i class="fa fa-pencil"></i></a>';
+                    $delete ='<a class="btn btn-sm btn-clean btn-icon" title="Delete" href="'.$delete_url.'">
+                                <i class="fa fa-trash"></i>
+                                </a>';
+                    $nestedData['update_response'] ='<div><td><a class=""" title="View" href="'.$update_response_url.'"><span class="badge badge-primary">'
+                                                    .'Update Response'.
+                                                    '</span></a></td></div>';
+                }
+                elseif($r->feedback_referredorshared == "Yes" && $r->status == "Close"){
+                    $view   = '<a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
+                                <i class="fa fa-eye"></i>
+                                </a>';
+                    $edit   = '';
+                    $delete = '';
+                    $nestedData['update_response'] ='<div><td><span class="badge badge-success">'
+                                                    .'Status Closed'.
+                                                    '</span></td></div>';
+                }
+
+
+
+				$nestedData['action'] ='<div>
+                                        <td>'. $view  .$edit.  $delete
+
+
+                                        .'</td>
+                                        </div>';
 				$data[] = $nestedData;
 			}
 		}
@@ -160,8 +187,9 @@ class FRMController extends Controller
     }
     public function getUpdate_response($id)
     {
-        $frm =Frm::find($id);
-        return view('admin.frm.update_response',compact('frm'));
+        $frm        = Frm::find($id);
+        $responses  = FrmResponse::where('fbreg_id',$id)->get();
+        return view('admin.frm.update_response',compact('frm','responses'));
     }
 
 
@@ -204,9 +232,10 @@ class FRMController extends Controller
     public function show(string $id)
     {
         $frm =Frm::find($id);
+        $responses  = FrmResponse::where('fbreg_id',$id)->get();
         if(!empty($frm))
         {
-            return view('admin.frm.show',compact('frm'));
+            return view('admin.frm.show',compact('frm','responses'));
         }
     }
 
@@ -245,7 +274,33 @@ class FRMController extends Controller
         return redirect()->route('frm-managements.index');
     }
 
+    public function postUpdate_response(Request $request){
 
+        $validatedData = $request->validate([
+            'status' => ['required'],
+            'date_feedback_referred' => ['required'],
+            'feedback_response' => ['required'],
+        ]);
+        $frm =Frm::where('id',$request->frm_id)->first();
+        if($request->status == "Close"){
+            $statis = $request->actiontaken;
+        }
+        else{
+            $statis = 'NA';
+        }
+        $frm = Frm::where('id',$request->frm_id)->update([
+            'status'                => $request->status,
+            'response_summary'      => $request->feedback_response,
+            'type_ofaction_taken'   => $statis
+        ]);
+        $frm = FrmResponse::create([
+            'follow_up_date'    => $request->date_feedback_referred,
+            'response_summary'  => $request->feedback_response,
+            'fbreg_id'          => $request->frm_id,
+        ]);
+        return redirect()->route('frm-managements.show', $request->frm_id);
+
+    }
     public function destroy(string $id)
     {
         $frm =Frm::find($id);

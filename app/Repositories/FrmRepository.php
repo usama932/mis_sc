@@ -62,12 +62,19 @@ class FrmRepository implements FrmRepositoryInterface
         else{
             $status = $data['status'];
         }
+        $frm =Frm::where('id',$id)->find($id);
+        if($data['date_feedback_referred'] != null){
+            $date = $data['date_feedback_referred'];
+        }
+        else{
+            $date = $frm->date_ofreferral;
+        }
         return Frm::where('id',$id)->update([
             'feedback_channel'      => $data['feedback_channel'],
             'feedback_description'  => $data['feedback_description'] ,
             'feedback_category'     => $data['feedback_category'],
             'datix_number'          => $data['datix_number'],
-            'date_ofreferral'       => $data['date_feedback_referred'],
+            'date_ofreferral'       => $date,
             'referral_name'         => $data['refferal_name'],
             'referral_position'     => $data['refferal_position'],
             'feedback_summary'      => $data['feedback_summary'],

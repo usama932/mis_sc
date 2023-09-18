@@ -97,6 +97,61 @@
                             @error('email')
                             <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
+                        <div class="fv-row mb-7">
+                            <label class=" fw-semibold fs-6 mb-2">
+                                <span class="required">Province</span>
+                            </label>
+                            <select   name="province" wire:model.defer="province"  id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..."  class="form-control form-control-solid mb-3 mb-lg-0"  @error('province') is-invalid @enderror required>
+                                <option value="">Select Province</option>
+                                {{-- <option value='1'>Punjab</option> --}}
+                                <option value='4'>Sindh</option>
+                                <option value='2'>KPK</option>
+                                {{-- <option value='4'>Balochistan</option> --}}
+                            </select>
+                            @error('province')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div class="fv-row mb-7">
+                            <label class=" fw-semibold fs-6 mb-2">
+                                <span class="required">District</span>
+                            </label>
+                            <select id="kt_select2_district" name="district" wire:model.defer="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..."  class="form-control form-control-solid mb-3 mb-lg-0"  @error('district') is-invalid @enderror required>
+
+                            </select>
+                            @error('district')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="fv-row mb-7">
+                            <label class=" fw-semibold fs-6 mb-2">
+                                <span class="required">Permission Level</span>
+                            </label>
+                            <select   name="permissions_level" wire:model.defer="permissions_level"   data-control="select2" data-placeholder="Select a Permissions level..."  class="form-control form-control-solid mb-3 mb-lg-0"  @error('permissions_level') is-invalid @enderror required>
+                                <option value="">Select Permissions Level</option>
+                                 <option value='nation-wide'>Nation Wide</option>
+                                 <option value='province-wide'>Province Wide</option>
+                                 <option value='district-wide'>District Wide</option>
+                            </select>
+                        </div>
+                        <div class="fv-row mb-7">
+                            <label class=" fw-semibold fs-6 mb-2">
+                                <span class="required">Designation</span>
+                            </label>
+                            <select   name="designation" wire:model.defer="designation"   data-control="select2" data-placeholder="Select a Permissions level..."  class="form-control form-control-solid mb-3 mb-lg-0"  @error('permissions_level') is-invalid @enderror required>
+                                <option value="">Select Permissions Level</option>
+                                @foreach ($designations as $designation)
+                                    <option value="{{$designation->id}}">{{$designation->designation_name}}</option>
+                                @endforeach
+
+
+                            </select>
+                        </div>
                         <!--end::Input group-->
                         <!--begin::Input group-->
                         <div class="mb-7">
@@ -119,10 +174,9 @@
                                             <div class="fw-bold text-gray-800">
                                                 {{ ucwords($role->name) }}
                                             </div>
-                                            <div class="text-gray-600">
-                                                {{ $role->description }}
-                                            </div>
+
                                         </label>
+
                                         <!--end::Label-->
                                     </div>
                                     <!--end::Radio-->

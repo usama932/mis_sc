@@ -516,13 +516,7 @@
     </div>
 
     @push('scripts')
-
-        @include('admin.frm.frm_script');
-        $('#date_recieved_id,#date_feedback_referred,#date_feedback_referred_id').flatpickr({
-            altInput: true,
-            dateFormat: "Y-m-d",
-            maxDate: "today"
-        });
+    <script>
         $(function () {
             $('[name="date_feedback_referred"]').change(function(){
                 var date_recieved_id = $("#date_recieved_id").val();
@@ -550,6 +544,10 @@
 
             });
         });
+    </script>
+    @include('admin.frm.frm_script');
+
+
 
     @endpush
 

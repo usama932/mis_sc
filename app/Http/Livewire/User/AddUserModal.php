@@ -10,6 +10,7 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use App\Models\Designation;
 
 class AddUserModal extends Component
 {
@@ -17,6 +18,10 @@ class AddUserModal extends Component
 
     public $name;
     public $email;
+    public $province;
+    public $district;
+    public $permissions_level;
+    public $designation;
     public $role;
     public $avatar;
     public $saved_avatar;
@@ -26,6 +31,10 @@ class AddUserModal extends Component
     protected $rules = [
         'name' => 'required|string',
         'email' => 'required|email',
+        'province' => 'required',
+        'district' => 'required',
+        'permissions_level' => 'required',
+        'designation' => 'required',
         'role' => 'required|string',
         'avatar' => 'nullable|sometimes|image|max:1024',
     ];
@@ -41,23 +50,21 @@ class AddUserModal extends Component
 
         $roles_description = [
             'administrator' => 'Best for business owners and company administrators',
-            'developer' => 'Best for developers or people primarily using the API',
-            'analyst' => 'Best for people who need full access to analytics data, but don\'t need to update business settings',
-            'support' => 'Best for employees who regularly refund payments and respond to disputes',
-            'trial' => 'Best for people who need to preview content data, but don\'t need to make any updates',
+
         ];
+        $designations = Designation::all();
 
         foreach ($roles as $i => $role) {
             $roles[$i]->description = $roles_description[$role->name] ?? '';
         }
 
-        return view('livewire.user.add-user-modal', compact('roles'));
+        return view('livewire.user.add-user-modal', compact('roles','designations'));
     }
 
     public function submit()
     {
         // Validate the form input data
-        $this->validate();
+
 
         DB::transaction(function () {
             // Prepare the data for creating a new user
@@ -77,7 +84,12 @@ class AddUserModal extends Component
 
             // Create a new user record in the database
             $user = User::updateOrCreate([
-                'email' => $this->email,
+                'email'               => $this->email,
+                'designation'         => $this->designation,
+                'province'            => $this->province,
+                'district'            => $this->district,
+                'permissions_level'   => $this->permissions_level,
+
             ], $data);
 
             if ($this->edit_mode) {

@@ -266,13 +266,15 @@
                     </div>
                     <div class="col-md-4 mt-3 yes_divs">
                         <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required"> Date of feedback Referred </span>
+                            <span class="required"> Date of feedback Referred </span><br>
+                            {{ date("Y-m-d", strtotime($frm->date_ofreferral)) ?? "" }}
                         </label>
+
                         @php
 
                         @endphp
 
-                        <input type="text" @error('date_feedback_referred') is-invalid @enderror name="date_feedback_referred" id="date_feedback_referred" placeholder="Select date" class="form-control" value="{{ date("Y-m-d", strtotime($frm->date_ofreferral)) ?? "" }}">
+                        <input type="text" @error('date_feedback_referred') is-invalid @enderror name="date_feedback_referred" id="date_feedback_referred" placeholder="Select date" class="form-control" value="">
                         @error('date_feedback_referred')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -330,7 +332,7 @@
                     </div>
                     <div class="col-md-4 mt-3 no_divs actionid " id="actionid">
                         <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required">Action Taken </span>
+                            <span class="required">Satisfiction </span>
                         </label>
                         <select name="actiontaken" id="action_id" aria-label="Select a Action"  @error('actiontaken') is-invalid @enderror data-control="select2" data-placeholder="Select a Action..." class="form-select form-select-solid " >
                             @if(!empty($frm->type_ofaction_taken))
@@ -358,38 +360,41 @@
     @push('scripts')
         <script>
 
-        $(function () {
-            flatpickr("#date_feedback_referred", {
-8
-            $('[name="date_feedback_referred"]').change(function(){
+            $(function () {
+                $('[name="date_feedback_referred"]').change(function(){
 
-                var date_recieved_id =  document.getElementById("date").innerHTML;
-                alert(date_recieved_id);
-                var date_feedback_referred =$("#date_feedback_referred").val();
-                alert(date_feedback_referred);
-                if(date_feedback_referred >= date_recieved_id) {
-                    //Do something..
+                    var date_recieved_id =  document.getElementById("date").innerHTML;
+                    var originalDateString = $("#date_feedback_referred").val();
 
-                }
-                else{
-                    swal.fire({
-                            text: "Sorry, Date Reffered Must be Greater Than Date Recieved.",
-                            icon: "error",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn font-weight-bold btn-light-primary"
-                            }
-                        }).then(function () {
-                            KTUtil.scrollTop();
+                    var parts = originalDateString.split('-');
 
-                        // $('#exampleModal').modal('hide');
-                        // console.log("invalid");
-                        });
-                }
+                    var originalDate = new Date('20' + parts[0], parts[1] - 1, parts[2]);
+
+                    var date_feedback_referred = originalDate.getFullYear() + '-' + ('0' + (originalDate.getMonth() + 1)).slice(-2) + '-' + ('0' + originalDate.getDate()).slice(-2);
+
+                    if(date_feedback_referred >= date_recieved_id) {
+                        //Do something..
+                    }
+                    else{
+                        swal.fire({
+                                text: "Sorry, Date Reffered Must be Greater Than Date Recieved.",
+                                icon: "error",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok, got it!",
+                                customClass: {
+                                    confirmButton: "btn font-weight-bold btn-light-primary"
+                                }
+                            }).then(function () {
+                                KTUtil.scrollTop();
+
+                            // $('#exampleModal').modal('hide');
+                            // console.log("invalid");
+                            });
+                    }
 
                 });
             });
+
         </script>
         @include('admin.frm.frm_script')
 

@@ -165,7 +165,40 @@
                         <td>{{$frm->updated_at ?? 'NA'}}</td>
                     </tr>
                 </table>
+                <div class="card-title  border-0 my-4"">
+                    <div class="card-title">
+                        <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
+                            <h5 class="fw-bold m-3">Feedback Responses::</h5>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-striped mr-3">
+                    <thead>
+                        <th>
+                            S.No#
+                        </th>
+                        <th>
+                            Follow-up date
+                        </th>
+                        <th>
+                            Feedback Response
+                        </th>
+                    </thead>
+                    <tbody>
+                        @foreach ($responses as $response)
+                            <tr>
+                                <td class="mx-auto">{{$loop->index + 1}}</td>
+                                <td class="mx-auto">{{$response->follow_up_date }}</td>
+                                <td class="mx-auto">{{$response->response_summary }}</td>
+                            </tr>
+                        @endforeach
+
+                    </tbody>
+
+                </table>
             </div>
+
+
         </div>
     </div>
 </x-default-layout>

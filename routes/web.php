@@ -35,7 +35,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/frm-managements', FRMController::class);
     Route::post('get-frms', [FRMController::class,'getFrms'])->name('admin.getFrms');
     Route::post('get-frm', [FRMController::class,'FrmDetail'])->name('admin.getFrm');
-    Route::get('frm/update/{id}', [FRMController::class,'getUpdate_response'])->name('frm-update-response');
+    Route::get('frm/create_update/{id}', [FRMController::class,'getUpdate_response'])->name('frm-update-response');
+    Route::post('frm/response_update/{id}', [FRMController::class,'postUpdate_response'])->name('frm-response.update');
 
     //Ajax Destrict
     Route::post('getDistrict', [FBAjaxController::class,'getDistrict'])->name('getDistrict');
