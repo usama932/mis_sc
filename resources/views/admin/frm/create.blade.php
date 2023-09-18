@@ -518,6 +518,38 @@
     @push('scripts')
 
         @include('admin.frm.frm_script');
+        $('#date_recieved_id,#date_feedback_referred,#date_feedback_referred_id').flatpickr({
+            altInput: true,
+            dateFormat: "Y-m-d",
+            maxDate: "today"
+        });
+        $(function () {
+            $('[name="date_feedback_referred"]').change(function(){
+                var date_recieved_id = $("#date_recieved_id").val();
+                var date_feedback_referred =$("#date_feedback_referred").val();
+                if(date_feedback_referred >= date_recieved_id) {
+                    //Do something..
+
+            }
+            else{
+                swal.fire({
+                        text: "Sorry, Date Reffered Must be Greater Than Date Recieved.",
+                        icon: "error",
+                        buttonsStyling: false,
+                        confirmButtonText: "Ok, got it!",
+                        customClass: {
+                            confirmButton: "btn font-weight-bold btn-light-primary"
+                        }
+                    }).then(function () {
+                        KTUtil.scrollTop();
+
+                    // $('#exampleModal').modal('hide');
+                    // console.log("invalid");
+                    });
+            }
+
+            });
+        });
 
     @endpush
 

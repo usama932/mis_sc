@@ -63,8 +63,8 @@
                             <span class="required">Date Received</span>
                         </label>
                         <br>
-                        <input type="hidden" name="date_received" id="date_received__id" value="date_received">
-                        <strong>{{$frm->date_received ?? NA}}</strong>
+
+                        <strong id="date">{{$frm->date_received ?? NA}}</strong>
                     </div>
                     <div class="col-md-4 mt-3 mb-2">
                         <label class="fs-6 fw-semibold form-label mb-2">
@@ -268,7 +268,11 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required"> Date of feedback Referred </span>
                         </label>
-                        <input type="text"  @error('date_feedback_referred') is-invalid @enderror name="date_feedback_referred" id="date_recieved_id" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()"  data-provide="datepicker" value="{{$frm->date_ofreferral ?? ''}}">
+                        @php
+
+                        @endphp
+
+                        <input type="text" @error('date_feedback_referred') is-invalid @enderror name="date_feedback_referred" id="date_feedback_referred" placeholder="Select date" class="form-control" value="{{ date("Y-m-d", strtotime($frm->date_ofreferral)) ?? "" }}">
                         @error('date_feedback_referred')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -279,6 +283,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Reffered To(Name)</span>
                         </label>
+
                         <input type="text"  @error('refferal_name') is-invalid @enderror name="refferal_name" placeholder="Enter Reffered To (Name)"  class="form-control " value="{{$frm->referral_name ?? ''}}">
                         @error('refferal_name')
                             <span class="invalid-feedback" role="alert">
@@ -351,7 +356,43 @@
     </div>
 
     @push('scripts')
-        @include('admin.frm.frm_script');
+        <script>
+
+        $(function () {
+            flatpickr("#date_feedback_referred", {
+8
+            $('[name="date_feedback_referred"]').change(function(){
+
+                var date_recieved_id =  document.getElementById("date").innerHTML;
+                alert(date_recieved_id);
+                var date_feedback_referred =$("#date_feedback_referred").val();
+                alert(date_feedback_referred);
+                if(date_feedback_referred >= date_recieved_id) {
+                    //Do something..
+
+                }
+                else{
+                    swal.fire({
+                            text: "Sorry, Date Reffered Must be Greater Than Date Recieved.",
+                            icon: "error",
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok, got it!",
+                            customClass: {
+                                confirmButton: "btn font-weight-bold btn-light-primary"
+                            }
+                        }).then(function () {
+                            KTUtil.scrollTop();
+
+                        // $('#exampleModal').modal('hide');
+                        // console.log("invalid");
+                        });
+                }
+
+                });
+            });
+        </script>
+        @include('admin.frm.frm_script')
+
     @endpush
 
 </x-default-layout>
