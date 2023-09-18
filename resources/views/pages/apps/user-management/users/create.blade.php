@@ -38,7 +38,9 @@
                 </ul>
             </div>
         @endif
-        <form  class="form" action="{{route('user-management.users.store')}}"  enctype="multipart/form-data">
+        <form  class="form" method="post" action="{{route('user-management.users.store')}}"  enctype="multipart/form-data">
+            @csrf
+            
             <div class="row">
                 <div class="col-md-6">
                     <!--begin::Label-->
@@ -58,6 +60,16 @@
                     <input type="email" name="email" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="example@domain.com"/>
                     <!--end::Input-->
                     @error('email')
+                    <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
+                <div class="col-md-6">
+                    <!--begin::Label-->
+                    <label class="required fw-semibold fs-6 mb-2">Passowrd</label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <input type="password" name="passowrd" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="example@domain.com"/>
+                    <!--end::Input-->
+                    @error('passowrd')
                     <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
                 <div class="col-md-6">
@@ -111,8 +123,6 @@
                         @foreach ($designations as $designation)
                             <option value="{{$designation->id}}">{{$designation->designation_name}}</option>
                         @endforeach
-
-
                     </select>
                 </div>
                 <div class="col-md-6">
@@ -132,7 +142,7 @@
             </div>
             <div class="text-center pt-15">
                 <a href=""  class="btn btn-light me-3">Discard</button>
-                <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
+                <button type="submit" class="btn btn-primary">
                     <span>Submit</span>
                    
                 </button>
@@ -140,5 +150,36 @@
         </form>
 
     </div>
+    @push('scripts')
+        <script>
+            $("#kt_select2_province").change(function () {
 
+
+                var value = $(this).val();
+                csrf_token = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    type: 'POST',
+                    url: '/getDistrict',
+                    data: {'province': value, _token: csrf_token },
+                    dataType: 'json',
+                    success: function (data) {
+
+                        $("#kt_select2_district").find('option').remove();
+                        $("#kt_select2_district").prepend("<option value='' >Select District</option>");
+                        var selected='';
+                        $.each(data, function (i, item) {
+
+                            $("#kt_select2_district").append("<option value='" + item.district_id + "' "+selected+" >" +
+                            item.district_name.replace(/_/g, ' ') + "</option>");
+                        });
+                        $('#kt_select2_tehsil').html('<option value="">Select Tehsil</option>');
+                        $('#kt_select2_union_counsil').html('<option value=""> Select UC</option>');
+
+                    }
+
+                });
+
+            }).trigger('change');
+        </script>
+    @endpush
 </x-default-layout>

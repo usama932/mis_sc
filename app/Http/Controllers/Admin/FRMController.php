@@ -66,6 +66,18 @@ class FRMController extends Controller
 
             $frms->where('date_received',$request->kt_select2_province);
         }
+        if(auth()->user()->permissions_level == 'nation-wide')
+        {
+
+        }
+        if(auth()->user()->permissions_level == 'province-wide')
+        {
+            $frms->where('province',$auth()->user()->province);
+        }
+        if(auth()->user()->permissions_level == 'district-wide')
+        {
+            $frms->where('district',$auth()->user()->district);
+        }
 
         if($request->feedback_channel != null){
             $frms->where('feedback_channel',$request->feedback_channel);

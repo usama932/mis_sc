@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Designation;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
 
 class UserManagementController extends Controller
 {
@@ -26,7 +27,17 @@ class UserManagementController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
+        User::create([
+            'name'              => $request->name,
+            'email'             => $request->email,
+            'province'          => $request->province,
+            'district'          => $request->district,
+            'permissions_level' => $request->permissions_level,
+            'designation'       => $request->designation,
+            'password'          => Hash::make($request->password),
+            'status'            => '1',
+        ]);
+     
     }
 
     public function show(User $user)

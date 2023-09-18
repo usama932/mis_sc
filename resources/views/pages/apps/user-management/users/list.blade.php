@@ -70,36 +70,7 @@
                 });
             });
         </script>
-        <script>
-            $("#kt_select2_province").change(function () {
-
-
-                var value = $(this).val();
-                csrf_token = $('meta[name="csrf-token"]').attr('content');
-                $.ajax({
-                    type: 'POST',
-                    url: '/getDistrict',
-                    data: {'province': value, _token: csrf_token },
-                    dataType: 'json',
-                    success: function (data) {
-
-                        $("#kt_select2_district").find('option').remove();
-                        $("#kt_select2_district").prepend("<option value='' >Select District</option>");
-                        var selected='';
-                        $.each(data, function (i, item) {
-
-                            $("#kt_select2_district").append("<option value='" + item.district_id + "' "+selected+" >" +
-                            item.district_name.replace(/_/g, ' ') + "</option>");
-                        });
-                        $('#kt_select2_tehsil').html('<option value="">Select Tehsil</option>');
-                        $('#kt_select2_union_counsil').html('<option value=""> Select UC</option>');
-
-                    }
-
-                });
-
-            }).trigger('change');
-        </script>
+      
 
     @endpush
 
