@@ -9,6 +9,7 @@ use App\Http\Requests\UpdatefrmRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Frm;
 use App\Models\FrmResponse;
+use Rap2hpoutre\FastExcel\FastExcel;
 use App\Repositories\Interfaces\FrmRepositoryInterface;
 use Carbon\Carbon;
 
@@ -111,10 +112,10 @@ class FRMController extends Controller
                 $nestedData['type_of_client'] = $r->type_of_client;
                 $nestedData['gender'] = $r->gender;
                 $nestedData['age'] = $r->age;
-                $nestedData['province'] = $r->provinces->name;
-                $nestedData['district'] = $r->districts->district_name;
-                $nestedData['tehsil'] = $r->tehsils->tehsil_name;
-                $nestedData['uc'] ='&nbsp'.$r->uc->uc_name;
+                $nestedData['province'] = $r->provinces->name ?? '';
+                $nestedData['district'] = $r->districts->district_name  ?? '';
+                $nestedData['tehsil'] = $r->tehsils->tehsil_name  ?? '';
+                $nestedData['uc'] ='&nbsp'.$r->uc->uc_name  ?? '';
                 $nestedData['village'] = $r->village;
                 $nestedData['pwd_clwd'] = $r->pwd_clwd;
                 $nestedData['contact_number'] =$r->client_contact ?? "NA";
@@ -320,5 +321,13 @@ class FRMController extends Controller
         {
             return redirect()->route('frm-managements.index');
         }
+    }
+    public function getexportform(Request $request){
+        return view('admin.frm.export');
+    }
+    public function getexportfrm(Request $request){
+        // Load users
+        $users = Frm::all();
+        (new FastExcel($users))->export('file.xlsx');
     }
 }
