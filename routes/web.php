@@ -43,8 +43,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('getDistrict', [FBAjaxController::class,'getDistrict'])->name('getDistrict');
     Route::post('getTehsil', [FBAjaxController::class,'getTehsil'])->name('getTehsil');
     Route::post('getUnionCouncil', [FBAjaxController::class,'getUnionCouncil'])->name('getUnionCouncil');
-
-
 });
 
 Route::get('/error', function () {
