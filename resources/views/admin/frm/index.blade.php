@@ -166,7 +166,7 @@
                                 <th>Refferal Position</th>
                                 <th>Satisfiction</th>
                                 <th>Status</th>
-                                <th>Feedback Summary</th>
+                                {{-- <th>Feedback Summary</th> --}}
                                 <th>Update Response</th>
                                 <th>Actions</th>
                             </tr>
@@ -246,7 +246,7 @@
                {"data":"referral_position" ,"searchable":false,"orderable":false},
                {"data":"type_ofaction_taken" ,"searchable":false,"orderable":false},
                {"data":"status" ,"searchable":false,"orderable":false},
-               {"data":"feedback_summary" ,"searchable":false,"orderable":false},
+            //    {"data":"feedback_summary" ,"searchable":false,"orderable":false},
                {"data":"update_response" ,"searchable":false,"orderable":false},
                {"data":"action","searchable":false,"orderable":false},
            ]
@@ -320,7 +320,7 @@
                     {"data":"referral_position" },
                     {"data":"type_ofaction_taken" },
                     {"data":"status" },
-                    {"data":"feedback_summary" },
+                    // {"data":"feedback_summary" },
                     {"data":"update_response" ,"searchable":false,"orderable":false},
                     {"data":"action","searchable":false,"orderable":false},
                     ]

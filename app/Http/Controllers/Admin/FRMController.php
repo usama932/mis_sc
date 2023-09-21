@@ -107,7 +107,7 @@ class FRMController extends Controller
 				$nestedData['id'] = $r->id + 1000;
 				$nestedData['name_of_registrar'] = $r->name_of_registrar;
                 $nestedData['date_received'] = $r->date_received;
-                $nestedData['feedback_channel'] = $r->feedback_channel;
+                $nestedData['feedback_channel'] = $r->channel->name ?? "NA";
                 $nestedData['name_of_client'] = $r->name_of_client;
                 $nestedData['type_of_client'] = $r->type_of_client;
                 $nestedData['gender'] = $r->gender;
@@ -115,15 +115,15 @@ class FRMController extends Controller
                 $nestedData['province'] = $r->provinces->name ?? '';
                 $nestedData['district'] = $r->districts->district_name  ?? '';
                 $nestedData['tehsil'] = $r->tehsils->tehsil_name  ?? '';
-                $nestedData['uc'] ='&nbsp'.$r->uc?->uc_name  ?? '';
+                $nestedData['uc'] =$r->uc?->uc_name  ?? '';
                 $nestedData['village'] = $r->village;
                 $nestedData['pwd_clwd'] = $r->pwd_clwd;
                 $nestedData['contact_number'] =$r->client_contact ?? "NA";
-                $nestedData['feedback_category'] = '&nbsp'.$r->	feedback_category;
-                $nestedData['theme'] = $r->theme;
+                $nestedData['feedback_category'] = $r->category->name ?? '';
+                $nestedData['theme'] = $r->theme_name->name ?? '';
                 $nestedData['project_name'] = $r->project_name;
                 $nestedData['date_ofreferral'] =$r->date_ofreferral ?? "NA";
-                $nestedData['referral_name'] = '&nbsp'.$r->referral_name ?? 'NA';
+                $nestedData['referral_name'] = $r->referral_name ?? 'NA';
                 $nestedData['referral_position'] =$r->referral_position ?? "NA";
                 $nestedData['type_ofaction_taken'] =$r->type_ofaction_taken ?? "NA";
                 if($r->status == "Close")
@@ -131,7 +131,7 @@ class FRMController extends Controller
                 elseif($r->status == "Open"){
                     $nestedData['status'] = '<span class="badge badge-warning">'.$r->status.'</span>';
                 }
-                $nestedData['feedback_summary'] =$r->feedback_summary  ?? "NA";
+                // $nestedData['feedback_summary'] =$r->feedback_summary  ?? "NA";
 
                 if($r->feedback_referredorshared == "No" && $r->status == "Open"){
                     $view   ='<a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">

@@ -35,6 +35,22 @@ class Frm extends Model
     {
         return $this->belongsTo(UnionCounsil::class,'union_counsil','union_id');
     }
+    public function category()
+    {
+        return $this->belongsTo(FeedbackCategory::class,'feedback_category','id');
+    }
+    public function channel()
+    {
+        return $this->belongsTo(FeedbackChannel::class,'feedback_channel','id');
+    }
+    public function theme_name()
+    {
+        return $this->belongsTo(Theme::class,'theme','id');
+    }
+    public function project()
+    {
+        return $this->belongsTo(Project::class,'project_name','id');
+    }
 
 }
 

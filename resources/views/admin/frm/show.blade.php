@@ -24,7 +24,7 @@
                     </tr>
                     <tr>
                         <td><strong>Feedback Channel</strong></td>
-                        <td>{{$frm->feedback_channel}}</td>
+                        <td>{{$frm->channel?->name ?? "NA"}}</td>
                     </tr>
                 </table>
                 <div class="card-title  border-0 my-4"">
@@ -54,19 +54,19 @@
                     </tr>
                     <tr>
                         <td><strong>Province</strong></td>
-                        <td>{{$frm->provinces->name}}</td>
+                        <td>{{$frm->provinces->name ?? 'NA'}}</td>
                     </tr>
                     <tr>
                         <td><strong>District</strong></td>
-                        <td>{{$frm->districts->district_name}}</td>
+                        <td>{{$frm->districts->district_name ?? 'NA'}}</td>
                     </tr>
                     <tr>
                         <td><strong>Tehsil</strong></td>
-                        <td>{{$frm->tehsils->tehsil_name}}</td>
+                        <td>{{$frm->tehsils->tehsil_name ?? 'NA'}}</td>
                     </tr>
                     <tr>
                         <td><strong>Union Council</strong></td>
-                        <td>{{$frm->uc->uc_name}}</td>
+                        <td>{{$frm->uc->uc_name ?? ''}}</td>
                     </tr>
                     <tr>
                         <td><strong>Village</strong></td>
@@ -85,8 +85,8 @@
                         <td>{{$frm->feedback_description}}</td>
                     </tr>
                     <tr>
-                        <td><strong>Feedback Cateogory</strong></td>
-                        <td>{{$frm->feedback_category}}</td>
+                        <td><strong>Feedback Category</strong></td>
+                        <td>{{$frm->category->name ?? ''}}-{{$frm->category->description ?? ''}}</td>
                     </tr>
                     @if($frm->datix_number)
                         <tr>
@@ -96,7 +96,7 @@
                     @endif
                     <tr>
                         <td><strong>Theme</strong></td>
-                        <td>{{$frm->theme}}</td>
+                        <td>{{$frm->theme_name->name ?? "NA"}}</td>
                     </tr>
                     <tr>
                         <td><strong>Feedback Activity</strong></td>
@@ -104,7 +104,7 @@
                     </tr>
                     <tr>
                         <td><strong>Project Name</strong></td>
-                        <td>{{$frm->project_name}}</td>
+                        <td>{{$frm->project->name ?? "NA"}}</td>
                     </tr>
                 </table>
             </div>
@@ -189,7 +189,7 @@
                             <tr>
                                 <td class="mx-auto">{{$loop->index + 1}}</td>
                                 <td class="mx-auto">{{$response->follow_up_date }}</td>
-                                <td class="mx-auto">{{$response->response_summary }}</td>
+                                <td class="mx-auto">{{$response->response_summary ?? "NA" }}</td>
                             </tr>
                         @endforeach
 
