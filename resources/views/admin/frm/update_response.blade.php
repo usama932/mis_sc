@@ -34,7 +34,7 @@
                     </div>
                     <div class="col-md-3 mt-3 yes_divs">
                         <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required"> Date of feedback Referred </span><br>
+                            <span class="required"> Date on which the feedback or concern was resolved </span><br>
 
                         </label>
                         <input type="text" @error('date_feedback_referred') is-invalid @enderror name="date_feedback_referred" id="date_feedback_referred" placeholder="Select date" class="form-control" value="">

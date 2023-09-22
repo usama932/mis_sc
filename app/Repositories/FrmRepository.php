@@ -17,7 +17,7 @@ class FrmRepository implements FrmRepositoryInterface
         return Frm::create([
             'name_of_registrar'     => $data['name_of_registrar'],
             'date_received'         => $data['date_received'],
-            'response_id'           =>'test',
+            'response_id'           => $data['response_id'],
             'feedback_channel'      => $data['feedback_channel'],
             'name_of_client'        => $data['name_of_client'],
             'type_of_client'        => $data['type_of_client'],

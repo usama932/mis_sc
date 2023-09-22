@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Frm;
 use App\Models\FrmResponse;
 use Rap2hpoutre\FastExcel\FastExcel;
+use App\Models\FeedbackChannel;
+use App\Models\FeedbackCategory;
+use App\Models\Project;
+use App\Models\Theme;
+use App\Models\User;
 use App\Repositories\Interfaces\FrmRepositoryInterface;
 use Carbon\Carbon;
 
@@ -56,6 +61,7 @@ class FRMController extends Controller
         if($request->name_of_registrar != null){
             $frms->where('name_of_registrar',$request->name_of_registrar);
         }
+        
         if($request->date_received != null){
             $date = Carbon::parse($request->date_received)->format("Y-m-d");
             $frms->where('date_received',$request->date_received);
@@ -95,7 +101,7 @@ class FRMController extends Controller
 
         $frm =$frms->get();
 
-
+     
 		$data = array();
 
 		if($frm){
@@ -169,6 +175,16 @@ class FRMController extends Controller
                                                     .'Status Closed'.
                                                     '</span></td></div>';
                 }
+                elseif($r->feedback_referredorshared == "No" && $r->status == "Close"){
+                    $view   = '<a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
+                                <i class="fa fa-eye"></i>
+                                </a>';
+                    $edit   = '';
+                    $delete = '';
+                    $nestedData['update_response'] ='<div><td><span class="badge badge-success">'
+                                                    .'Status Closed'.
+                                                    '</span></td></div>';
+                }
 
 
 
@@ -196,7 +212,14 @@ class FRMController extends Controller
 
     public function create()
     {
-        return view('admin.frm.create');
+        $last_record = Frm::latest()->first();
+        $response_id =  $last_record->id.'-'.time();
+       
+        $feedbackchannels = FeedbackChannel::latest()->get();
+        $feedbackcategories = FeedbackCategory::latest()->get();
+        $projects = Project::latest()->get();
+        $themes = Theme::latest()->get();
+        return view('admin.frm.create',compact('feedbackchannels','feedbackcategories','projects','themes','response_id'));
     }
     public function getUpdate_response($id)
     {
@@ -258,9 +281,13 @@ class FRMController extends Controller
     public function edit(string $id)
     {
         $frm =Frm::find($id);
+        $feedbackchannels = FeedbackChannel::latest()->get();
+        $feedbackcategories = FeedbackCategory::latest()->get();
+        $projects = Project::latest()->get();
+        $themes = Theme::latest()->get();
         if(!empty($frm))
         {
-            return view('admin.frm.edit',compact('frm'));
+            return view('admin.frm.edit',compact('frm','feedbackchannels','feedbackcategories','projects','themes'));
         }
     }
 
@@ -297,13 +324,17 @@ class FRMController extends Controller
         $frm =Frm::where('id',$request->frm_id)->first();
         if($request->status == "Close"){
             $statis = $request->actiontaken;
+            $date  = $request->date_feedback_referred;
         }
         else{
             $statis = 'NA';
+            $date  = 'NA';
         }
+
         $frm = Frm::where('id',$request->frm_id)->update([
             'status'                => $request->status,
             'response_summary'      => $request->feedback_response,
+            'date_of_respbackgiven' => $date,
             'type_ofaction_taken'   => $statis
         ]);
         $frm = FrmResponse::create([

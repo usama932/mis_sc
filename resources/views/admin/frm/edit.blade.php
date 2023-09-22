@@ -25,7 +25,7 @@
 
     </style>
     @section('title')
-        Add Feedback Registry Form
+        Edit Feedback Registry Form #.{{$frm->response_id}}
     @endsection
     <div id="loader" class="loader"></div>
 
@@ -72,14 +72,9 @@
                         </label>
                         <select name="feedback_channel" aria-label="Select a Feedback Channel" data-control="select2" data-placeholder="Select a Country..." class="form-select form-select-solid" required  @error('feedback_channel') is-invalid @enderror>
                             <option @if($frm->feedback_channel == '') selected @endif value="">Select Option</option>
-                            <option @if($frm->feedback_channel == 'Hotline') selected @endif >Hotline</option>
-                            <option  @if($frm->feedback_channel == 'SMS') selected @endif >SMS</option>
-                            <option  @if($frm->feedback_channel == 'Feedback Form') selected @endif >Feedback Form</option>
-                            <option  @if($frm->feedback_channel == 'Email') selected @endif >Email</option>
-                            <option  @if($frm->feedback_channel == 'Field Monitoring') selected @endif>Field Monitoring</option>
-                            <option  @if($frm->feedback_channel == 'Post Distribution Monitoring') selected @endif >Post Distribution Monitoring</option>
-                            <option  @if($frm->feedback_channel == 'Medical Exit Interview') selected @endif >Medical Exit Interview</option>
-                            <option  @if($frm->feedback_channel == 'Community meeting') selected @endif>Community meeting</option>
+                            @foreach($feedbackchannels as $feedbackchannel)
+                                <option @if($feedbackchannel->id == $frm->feedback_channel)     selected @endif value="{{$feedbackchannel->id}}">{{$feedbackchannel->name}}</option>
+                            @endforeach
                         </select>
                         @error('feedback_channel')
                             <span class="invalid-feedback" role="alert">
@@ -195,13 +190,9 @@
                         </label>
                         <select   name="feedback_category"  @error('feedback_category') is-invalid @enderror aria-label="Select a Feedback Category" data-control="select2" data-placeholder="Select a Feedback Category" class="form-select form-select-solid categoryit" required>
                             <option @if($frm->feedback_category == '') selected @endif>Select Option</option>
-                            <option @if($frm->feedback_category == 'Category 0-Thank you message/ Positive Feedback') selected @endif>Category 0-Thank you message/ Positive Feedback</option>
-                            <option @if($frm->feedback_category == 'Category 1-Request for Information') selected @endif>Category 1-Request for Information</option>
-                            <option @if($frm->feedback_category == 'Category 2-Request for Assistance') selected @endif>Category 2-Request for Assistance</option>
-                            <option @if($frm->feedback_category == 'Category 3-Minor Dissatisfaction with activities or suggestion for improvement') selected @endif>Category 3-Minor Dissatisfaction with activities or suggestion for improvement</option>
-                            <option @if($frm->feedback_category == 'Category 4-Major Dissatisfaction; non-payment of salary to SCI representative staff with activities or suggestion for improvement') selected @endif>Category 4-Major Dissatisfaction; non-payment of salary to SCI representative staff with activities or suggestion for improvement</option>
-                            <option @if($frm->feedback_category == 'Category 5-Breach of CSP & PESA including Fraud concerns; unsafe programming; security threats by SCI or its representative staff') selected @endif>Category 5-Breach of CSP & PESA including Fraud concerns; unsafe programming; security threats by SCI or its representative staff</option>
-                            <option @if($frm->feedback_category == 'Category 6-Negative feedback related to other organizations') selected @endif>Category 6-Negative feedback related to other organizations</option>
+                            @foreach($feedbackcategories as $feedbackcategory)
+                                <option @if($frm->feedback_category == $feedbackcategory->id) selected @endif value={{$feedbackcategory->id}}>{{$feedbackcategory->id}}-{{$feedbackcategory->description}}</option>
+                            @endforeach
                         </select>
                         @error('feedback_category')
                             <span class="invalid-feedback" role="alert">
@@ -225,7 +216,7 @@
                             <span class="required">Theme</span>
                         </label>
                         <br>
-                        <strong>{{$frm->theme ?? NA}}</strong>
+                        <strong>{{$frm->theme_name->name ?? NA}}</strong>
                     </div>
                     <div class="col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
@@ -239,7 +230,12 @@
                             <span class="required">Project</span>
                         </label>
                         <br>
-                        <strong>{{$frm->project_name ?? NA}}</strong>
+                        <select   name="project_name"  @error('project_name') is-invalid @enderror aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Theme" class="form-select form-select-solid">
+                            <option>Select Project</option>
+                            @foreach($projects as $project)
+                                <option @if($project->id == $frm->project_name) selected @endif value="{{$project->id}}">{{$project->name}}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="card-title  border-0 my-4"">
                         <div class="card-title">

@@ -14,7 +14,7 @@
     <meta property="og:title" content=""/>
     <link rel="canonical" href=""/>
 
-    {!! includeFavicon() !!}
+    <link rel="icon" type="image/x-icon" href="https://opmis.savethechildren.org.np/login/login">
 
     <!--begin::Fonts-->
     {!! includeFonts() !!}

@@ -117,7 +117,10 @@
                     </div>
                 </div>
                 <table class="table table-striped mr-3">
-
+                    <tr>
+                        <td ><strong>Feedback Reffered Share (Yes/No)</strong></td>
+                        <td class="mx-auto">{{$frm->feedback_referredorshared ?? 'NA'}}</td>
+                    </tr>
                     <tr>
                         <td ><strong>Refferal Name</strong></td>
                         <td class="mx-auto">{{$frm->referral_name ?? 'NA'}}</td>
@@ -165,6 +168,7 @@
                         <td>{{$frm->updated_at ?? 'NA'}}</td>
                     </tr>
                 </table>
+                @if($responses->count() > 0)
                 <div class="card-title  border-0 my-4"">
                     <div class="card-title">
                         <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
@@ -196,6 +200,7 @@
                     </tbody>
 
                 </table>
+                @endif
             </div>
 
 

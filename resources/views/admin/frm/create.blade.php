@@ -24,7 +24,7 @@
 
     </style>
     @section('title')
-        Add Feedback Registry Form
+        Add Feedback Registry Form #.{{$response_id}}
     @endsection
     <div id="loader" class="loader"></div>
 
@@ -40,6 +40,7 @@
         @endif
         <form class="form" action="{{route('frm-managements.store')}}" method="post">
             @csrf
+            <input type="hidden" name="response_id" value="{{$response_id}}">
             <div class="card-body py-4">
                 <div class="card-title  border-0 my-4"">
                     <div class="card-title">
@@ -48,6 +49,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="row">
                     <div class="col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
@@ -91,15 +93,9 @@
                         </label>
                         <select name="feedback_channel" aria-label="Select a Feedback Channel" data-control="select2" data-placeholder="Select a Country..." class="form-select form-select-solid" required  @error('feedback_channel') is-invalid @enderror>
                             <option  value="">Select Option</option>
-                            <option  >Hotline</option>
-                            <option  >SMS</option>
-                            <option  >Feedback Form</option>
-                            <option  >Email</option>
-                            <option >Field Monitoring</option>
-                            <option  >Post Distribution Monitoring</option>
-                            <option  >Medical Exit Interview</option>
-                            <option >Community meeting</option>
-
+                            @foreach($feedbackchannels as $feedbackchannel)
+                                <option value="{{$feedbackchannel->id}}">{{$feedbackchannel->name}}</option>
+                            @endforeach
                         </select>
                         @error('feedback_channel')
                             <span class="invalid-feedback" role="alert">
@@ -320,13 +316,9 @@
                         </label>
                         <select   name="feedback_category"  @error('feedback_category') is-invalid @enderror aria-label="Select a Feedback Category" data-control="select2" data-placeholder="Select a Feedback Category" class="form-select form-select-solid categoryit" required>
                             <option>Select Option</option>
-                            <option>Category 0-Thank you message/ Positive Feedback</option>
-                            <option>Category 1-Request for Information</option>
-                            <option>Category 2-Request for Assistance</option>
-                            <option>Category 3-Minor Dissatisfaction with activities or suggestion for improvement</option>
-                            <option>Category 4-Major Dissatisfaction; non-payment of salary to SCI representative staff with activities or suggestion for improvement </option>
-                            <option>Category 5-Breach of CSP & PESA including Fraud concerns; unsafe programming; security threats by SCI or its representative staff</option>
-                            <option>Category 6-Negative feedback related to other organizations</option>
+                            @foreach($feedbackcategories as $feedbackcategory)
+                                <option value={{$feedbackcategory->id}}>{{$feedbackcategory->id}}-{{$feedbackcategory->description}}</option>
+                            @endforeach
                         </select>
                         @error('feedback_category')
                             <span class="invalid-feedback" role="alert">
@@ -351,12 +343,9 @@
                         </label>
                         <select   name="theme"  @error('theme') is-invalid @enderror aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme" class="form-select form-select-solid" required>
                             <option>Select Theme</option>
-                            <option>Education</option>
-                            <option>Child Protection</option>
-                            <option>Food Security & Livelihood</option>
-                            <option>Health & Nutrition</option>
-                            <option>Shelter/NFIs</option>
-                            <option>Water Sanitation & Hygiene</option>
+                            @foreach($themes as $theme)
+                                <option value="{{$theme->id}}">{{$theme->name}}</option>
+                            @endforeach
                         </select>
                         @error('theme')
                             <span class="invalid-feedback" role="alert">
@@ -380,27 +369,10 @@
                             <span class="required">Project</span>
                         </label>
                         <select   name="project_name"  @error('project_name') is-invalid @enderror aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Theme" class="form-select form-select-solid">
-                            <option>Select Theme</option>
-                            <option value="DRA">DRA</option>
-                            <option value="CDP">CDP</option>
-                            <option  value="Connect">Connect</option>
-                            <option  value="Pak Dec">Pak Dec</option>
-                            <option value="Hum Fund">Hum Fund</option>
-                            <option  value="DEC-2">DEC-2</option>
-                            <option value="Pak SB2S CONNECT">Pak SB2S CONNECT</option>
-                            <option  value="ECHO HIP">ECHO HIP</option>
-                            <option   value="EU/FPI">EU/FPI</option>
-                            <option   value="HBCC-II">HBCC-II</option>
-                            <option  value="HC Canada">HC Canada</option>
-                            <option value="Hunger Fund">Hunger Fund</option>
-                            <option value="Pak SwS">Pak SwS</option>
-                            <option value="SWS-II">SWS-II</option>
-                            <option  value="VaC-RIEP">VaC-RIEP</option>
-                            <option  value="Pak SCC Appeal Fund">Pak SCC Appeal Fund</option>
-                            <option  value="Pak HF Afghan Refugee">Pak HF Afghan Refugee</option>
-                            <option  value="MCIC">MCIC</option>
-                            <option   value="UNIFOR">UNIFOR</option>
-                            <option  value="HKDRF">HKDRF</option>
+                            <option>Select Project</option>
+                            @foreach($projects as $project)
+                                <option value="{{$project->id}}">{{$project->name}}</option>
+                            @endforeach
                         </select>
                         @error('project_name')
                             <span class="invalid-feedback" role="alert">
