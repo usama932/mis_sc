@@ -24,11 +24,11 @@
             </div>
             <!--end::Body-->
 
-            <!--begin::Aside-->
-            <div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2" style="background-image: url({{ image('misc/auth-bg.jpg') }}); height:100% !important;">
+            {{-- <!--begin::Aside-->
+            <div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2" style="background-image: url({{ image('misc/auth-bg.png') }}); height:100% !important;">
                
             </div>
-            <!--end::Aside-->
+            <!--end::Aside--> --}}
         </div>
         <!--end::Wrapper-->
     </div>

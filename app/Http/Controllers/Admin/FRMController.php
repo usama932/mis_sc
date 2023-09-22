@@ -28,7 +28,11 @@ class FRMController extends Controller
     }
     public function index()
     {
-        return view('admin.frm.index');
+        $feedbackchannels = FeedbackChannel::latest()->get();
+        $feedbackcategories = FeedbackCategory::latest()->get();
+        $projects = Project::latest()->get();
+        // $themes = Theme::latest()->get();
+        return view('admin.frm.index' ,compact('feedbackchannels','feedbackcategories','projects'));
     }
     public function getFrms(Request $request){
 
@@ -127,7 +131,7 @@ class FRMController extends Controller
                 $nestedData['contact_number'] =$r->client_contact ?? "NA";
                 $nestedData['feedback_category'] = $r->category->name ?? '';
                 $nestedData['theme'] = $r->theme_name->name ?? '';
-                $nestedData['project_name'] = $r->project_name;
+                $nestedData['project_name'] = $r->project->name ?? 'NA';
                 $nestedData['date_ofreferral'] =$r->date_ofreferral ?? "NA";
                 $nestedData['referral_name'] = $r->referral_name ?? 'NA';
                 $nestedData['referral_position'] =$r->referral_position ?? "NA";

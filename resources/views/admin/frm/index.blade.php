@@ -51,14 +51,9 @@
                             </label>
                             <select name="feedback_channel" id="feedback_channel" aria-label="Select a Feedback Channel" data-control="select2" data-placeholder="Select a Feedback Channel..." class="form-select form-select-solid">
                                 <option  value="" selected>Select Option</option>
-                                <option  >Hotline</option>
-                                <option  >SMS</option>
-                                <option  >Feedback Form</option>
-                                <option  >Email</option>
-                                <option >Field Monitoring</option>
-                                <option  >Post Distribution Monitoring</option>
-                                <option  >Medical Exit Interview</option>
-                                <option >Community meeting</option>
+                                @foreach($feedbackchannels as $feedbackchannel)
+                                    <option  value="{{$feedbackchannel->id}}">{{$feedbackchannel->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-md-3 my-3">
@@ -110,27 +105,10 @@
                                 <span class="required">Project</span>
                             </label>
                             <select name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Project Name" class="form-select form-select-solid">
-                                <option value="" selected>Select Theme</option>
-                                <option value="DRA">DRA</option>
-                                <option value="CDP">CDP</option>
-                                <option  value="Connect">Connect</option>
-                                <option  value="Pak Dec">Pak Dec</option>
-                                <option value="Hum Fund">Hum Fund</option>
-                                <option  value="DEC-2">DEC-2</option>
-                                <option value="Pak SB2S CONNECT">Pak SB2S CONNECT</option>
-                                <option  value="ECHO HIP">ECHO HIP</option>
-                                <option   value="EU/FPI">EU/FPI</option>
-                                <option   value="HBCC-II">HBCC-II</option>
-                                <option  value="HC Canada">HC Canada</option>
-                                <option value="Hunger Fund">Hunger Fund</option>
-                                <option value="Pak SwS">Pak SwS</option>
-                                <option value="SWS-II">SWS-II</option>
-                                <option  value="VaC-RIEP">VaC-RIEP</option>
-                                <option  value="Pak SCC Appeal Fund">Pak SCC Appeal Fund</option>
-                                <option  value="Pak HF Afghan Refugee">Pak HF Afghan Refugee</option>
-                                <option  value="MCIC">MCIC</option>
-                                <option   value="UNIFOR">UNIFOR</option>
-                                <option  value="HKDRF">HKDRF</option>
+                                <option value="" selected>Select Project</option>
+                                @foreach($projects as $project)
+                                    <option  value="{{$project->id}}">{{$project->name}}</option>
+                                @endforeach
                             </select>
                         </div>
 
