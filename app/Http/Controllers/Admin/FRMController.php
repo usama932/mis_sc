@@ -103,7 +103,7 @@ class FRMController extends Controller
             $frms->where('project_name',$request->project_name);
         }
 
-        $frm =$frms->get();
+        $frm =$frms->latest()->get();
 
      
 		$data = array();
@@ -115,8 +115,9 @@ class FRMController extends Controller
                 $update_response_url = route('frm-update-response',$r->id);
                 $delete_url = route('frm-managements.destroy',$r->id);
 				$nestedData['id'] = $r->id + 1000;
+                $nestedData['response_id'] = $r->response_id;
 				$nestedData['name_of_registrar'] = $r->name_of_registrar;
-                $nestedData['date_received'] = $r->date_received;
+                $nestedData['date_received'] = date('d-M-Y', strtotime($r->date_received));
                 $nestedData['feedback_channel'] = $r->channel->name ?? "NA";
                 $nestedData['name_of_client'] = $r->name_of_client;
                 $nestedData['type_of_client'] = $r->type_of_client;
@@ -132,7 +133,7 @@ class FRMController extends Controller
                 $nestedData['feedback_category'] = $r->category->name ?? '';
                 $nestedData['theme'] = $r->theme_name->name ?? '';
                 $nestedData['project_name'] = $r->project->name ?? 'NA';
-                $nestedData['date_ofreferral'] =$r->date_ofreferral ?? "NA";
+                $nestedData['date_ofreferral'] = date('d-M-Y', strtotime($r->date_ofreferral)) ?? "NA";
                 $nestedData['referral_name'] = $r->referral_name ?? 'NA';
                 $nestedData['referral_position'] =$r->referral_position ?? "NA";
                 $nestedData['type_ofaction_taken'] =$r->type_ofaction_taken ?? "NA";
