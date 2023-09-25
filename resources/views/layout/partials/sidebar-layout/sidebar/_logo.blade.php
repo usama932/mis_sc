@@ -2,8 +2,8 @@
 <div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
 	<!--begin::Logo image-->
 	<a href="{{ route('dashboard') }}">
-		<img alt="Logo" src="{{ image('logos/logo.png') }}" class="h-200px app-sidebar-logo-default" />
-		<img alt="Logo" src="{{ image('logos/logo.png') }}" class="h-200px app-sidebar-logo-minimize" />
+		<img alt="Logo" style="height: 50px !important;" src="{{ image('logos/logo.png') }}" class="h-200px app-sidebar-logo-default" />
+		<img alt="Logo" style="height: 50px !important; src="{{ image('logos/logo.png') }}" class="h-200px app-sidebar-logo-minimize" />
 	</a>
 	<!--end::Logo image-->
 	<!--begin::Sidebar toggle-->

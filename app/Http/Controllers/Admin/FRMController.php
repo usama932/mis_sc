@@ -9,7 +9,8 @@ use App\Http\Requests\UpdatefrmRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Frm;
 use App\Models\FrmResponse;
-use Rap2hpoutre\FastExcel\FastExcel;
+use App\Exports\FrmExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\FeedbackChannel;
 use App\Models\FeedbackCategory;
 use App\Models\Project;
@@ -359,11 +360,30 @@ class FRMController extends Controller
         }
     }
     public function getexportform(Request $request){
-        return view('admin.frm.export');
+
+        $feedbackchannels = FeedbackChannel::latest()->get();
+        $projects = Project::latest()->get();
+        return view('admin.frm.export',compact('feedbackchannels','projects'));
     }
     public function getexportfrm(Request $request){
-        // Load users
-        $users = Frm::all();
-        (new FastExcel($users))->export('file.xlsx');
+        $name_of_registrar = $request->name_of_registrar;
+        $date_received = $request->date_received;
+        $feedback_channel = $request->feedback_channel;
+        $age = $request->age;
+        $province = $request->province;
+        $district = $request->district;
+        $type_of_client = $request->type_of_client;
+        $project_name = $request->project_name;
+        $data = ['name_of_registrar'=> $name_of_registrar,
+                'date_received'=>$date_received,
+                'feedback_channel'=>$feedback_channel,
+                'age'=> $age,
+                'province'=> $province,
+                'district'=> $district,
+                'type_of_client'=>$type_of_client,
+                'project_name'=>$project_name
+                 ];
+               
+        return Excel::download(new FrmExport($data), 'frm.xlsx');
     }
 }

@@ -14,7 +14,7 @@
            <!--begin::Card-->
             <div class="card">
                 <div class="card-title m-5">
-                    <h1>FRM List:</h1>
+                    <h1>FRM Exports  :</h1>
                 </div>
                 <form action="{{route('getfrm-export')}}" method="post">
                     @csrf
@@ -70,8 +70,8 @@
                                 <select name="age" aria-label="Select a Age" data-control="select2" data-placeholder="Select a age..." class="form-select form-select-solid" id="age_id" >
                                     <option  value="">Select Option</option>
                                     <option value="Under 18">Under 18</option>
-                                    <option value="19-50">19-50</option>
-                                    <option value="Above 50">Above 50</option>
+                                    <option value="19-50 years">19-50 years</option>
+                                    <option value="Above 50 years">Above 50 years</option>
                                 </select>
 
                             </div>
@@ -113,32 +113,16 @@
                                 </label>
                                 <select name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Project Name" class="form-select form-select-solid">
                                     <option value="" selected>Select Theme</option>
-                                    <option value="DRA">DRA</option>
-                                    <option value="CDP">CDP</option>
-                                    <option  value="Connect">Connect</option>
-                                    <option  value="Pak Dec">Pak Dec</option>
-                                    <option value="Hum Fund">Hum Fund</option>
-                                    <option  value="DEC-2">DEC-2</option>
-                                    <option value="Pak SB2S CONNECT">Pak SB2S CONNECT</option>
-                                    <option  value="ECHO HIP">ECHO HIP</option>
-                                    <option   value="EU/FPI">EU/FPI</option>
-                                    <option   value="HBCC-II">HBCC-II</option>
-                                    <option  value="HC Canada">HC Canada</option>
-                                    <option value="Hunger Fund">Hunger Fund</option>
-                                    <option value="Pak SwS">Pak SwS</option>
-                                    <option value="SWS-II">SWS-II</option>
-                                    <option  value="VaC-RIEP">VaC-RIEP</option>
-                                    <option  value="Pak SCC Appeal Fund">Pak SCC Appeal Fund</option>
-                                    <option  value="Pak HF Afghan Refugee">Pak HF Afghan Refugee</option>
-                                    <option  value="MCIC">MCIC</option>
-                                    <option   value="UNIFOR">UNIFOR</option>
-                                    <option  value="HKDRF">HKDRF</option>
+                                    @foreach($projects as $project)
+                                    <option value="{{$project->id}}" >{{$project->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
                         </div>
+                        <button type="submit" class="btn btn-primary btn-sm mx-auto mb-3" >Export</button>
                     </div>
-                    <button type="submit" class="btn btn-primary" >Submit</button>
+                    
                 </form>
           
             </div>
