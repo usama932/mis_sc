@@ -23,7 +23,7 @@
                 <div class="card-title  border-0 my-4"">
 
                 <div class="row">
-                    <div class="col-md-3 mt-3">
+                    <div class="col-md-2 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Date Received</span>
                         </label>
@@ -32,7 +32,7 @@
                         <strong id="date">{{$frm->date_received ?? NA}}</strong>
                         <input type="hidden" name="frm_id" value="{{$frm->id}}">
                     </div>
-                    <div class="col-md-3 mt-3 yes_divs">
+                    <div class="col-md-4 mt-3 yes_divs">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required"> Date on which the feedback or concern was resolved </span><br>
 
