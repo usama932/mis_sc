@@ -2,6 +2,7 @@
 
     @section("stylesheets")
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        
         <link href="{{asset("assets/plugins/custom/datatables/datatables.bundle.css")}}" rel="stylesheet" type="text/css" />
     @endsection
     @section('title')
