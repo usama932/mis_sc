@@ -57,9 +57,20 @@ class FRMController extends Controller
 			$totalFiltered = Frm::count();
 		}else{
 			$search = $request->input('search.value');
+           
 			$frms = Frm::offset($start)
-				->limit($limit)
-				->orderBy($order, $dir);
+                        ->orWhere('name_of_registrar', 'like', "%{$search}%")
+                        ->orWhere('gender', 'like', "%{$search}%")
+                        ->orWhere('age', 'like', "%{$search}%")
+                        ->orWhere('status', 'like', "%{$search}%")
+                        ->orWhere('name_of_client', 'like', "%{$search}%")
+                        ->orWhere('type_of_client', 'like', "%{$search}%")
+                        ->orWhere('referral_name', 'like', "%{$search}%")
+                        ->orWhere('referral_position', 'like', "%{$search}%")
+                        ->orWhere('client_contact', 'like', "%{$search}%")
+                        ->limit($limit)
+                        ->orderBy($order, $dir);
+                        
 			$totalFiltered = Frm::count();
 		}
 
@@ -130,7 +141,7 @@ class FRMController extends Controller
                 $nestedData['uc'] =$r->uc?->uc_name  ?? '';
                 $nestedData['village'] = $r->village;
                 $nestedData['pwd_clwd'] = $r->pwd_clwd;
-                $nestedData['contact_number'] =$r->client_contact ?? "NA";
+                $nestedData['client_contact'] =$r->client_contact ?? "NA";
                 $nestedData['feedback_category'] = $r->category->name ?? '';
                 $nestedData['theme'] = $r->theme_name->name ?? '';
                 $nestedData['project_name'] = $r->project->name ?? 'NA';

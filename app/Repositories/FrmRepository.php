@@ -65,9 +65,15 @@ class FrmRepository implements FrmRepositoryInterface
     {
         if($data['feedback_referredorshared'] == 'Yes'){
             $status ="Open";
+            $actiontaken ="";
         }
         else{
             $status = $data['status'];
+            if($data['status'] == 'Close'){
+                $actiontaken =$data['actiontaken'];
+            }else{
+                $actiontaken ="";
+            }
         }
         $frm =Frm::where('id',$id)->find($id);
         if($data['date_feedback_referred'] != null){
@@ -86,7 +92,7 @@ class FrmRepository implements FrmRepositoryInterface
             'referral_position'     => $data['refferal_position'],
             'feedback_summary'      => $data['feedback_summary'],
             'status'                => $status,
-            'type_ofaction_taken'   => $data['actiontaken'],
+            'type_ofaction_taken'   => $actiontaken,
             'feedback_referredorshared' => $data['feedback_referredorshared'],
             'updated_by'            => auth()->user()->id,
         ]);
