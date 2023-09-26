@@ -10,8 +10,14 @@ class FrmRepository implements FrmRepositoryInterface
     {
         if($data['feedback_referredorshared'] == 'Yes'){
             $status ="Open";
+            $actiontaken ="";
         }
         else{
+            if($data['status'] == 'Close'){
+                $actiontaken =$data['actiontaken'];
+            }else{
+                $actiontaken ="";
+            }
             $status = $data['status'];
         }
         return Frm::create([
@@ -42,7 +48,8 @@ class FrmRepository implements FrmRepositoryInterface
             'referral_position'     => $data['refferal_position'],
             'feedback_summary'      => $data['feedback_summary'],
             'status'                => $status,
-            'type_ofaction_taken'   => $data['actiontaken'],
+            'type_ofaction_taken'   => $actiontaken,
+            'created_by'            => auth()->user()->id,
             'feedback_referredorshared' => $data['feedback_referredorshared'],
 
 
@@ -81,6 +88,7 @@ class FrmRepository implements FrmRepositoryInterface
             'status'                => $status,
             'type_ofaction_taken'   => $data['actiontaken'],
             'feedback_referredorshared' => $data['feedback_referredorshared'],
+            'updated_by'            => auth()->user()->id,
         ]);
     }
 

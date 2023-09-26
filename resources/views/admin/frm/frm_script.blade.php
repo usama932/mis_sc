@@ -6,11 +6,11 @@
                 var optionValue = $(this).attr("value");
 
                 if(optionValue == "Girl" || optionValue == "Boy"){
-                    $('#age_id').html('<option value="">Select Age</option>\<option value="Under 18">Under 18</option>');
+                    $('#age_id').html('<option value="">Select Age</option>\<option value="Under 18 years">Under 18 years</option>');
 
                 }else if(optionValue == "Male" || optionValue == "Female")
                 {
-                    $('#age_id').html('<option value="">Select Age</option>\<option value="19-50">19-50</option>\<option value="Above 50">Above 50</option>');
+                    $('#age_id').html('<option value="">Select Age</option>\<option value="19-50 years">19-50 years</option>\<option value="Above 50 years">Above 50 years</option>');
                 }
                 else{
                     $(".box").hide();
@@ -38,8 +38,8 @@
             $(this).find("option:selected").each(function(){
                 var optionValue = $(this).val();
 
-                var test = "Category 6-Negative feedback related to other organizations";
-                var test1 ="Category 5-Breach of CSP & PESA including Fraud concerns; unsafe programming; security threats by SCI or its representative staff";
+                var test = "6";
+                var test1 ="7";
 
 
 

@@ -56,7 +56,7 @@
                             <span class="required">Staff Name</span>
                         </label>
                         <br>
-                        <strong>{{$frm->name_of_registrar ?? NA}}</strong>
+                        <strong>{{$frm->name_of_registrar ?? 'NA'}}</strong>
                     </div>
                     <div class="col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
@@ -64,7 +64,7 @@
                         </label>
                         <br>
 
-                        <strong id="date">{{$frm->date_received ?? NA}}</strong>
+                        <strong id="date">{{$frm->date_received ?? 'NA'}}</strong>
                     </div>
                     <div class="col-md-4 mt-3 mb-2">
                         <label class="fs-6 fw-semibold form-label mb-2">
@@ -94,63 +94,63 @@
                             <span class="required">Name</span>
                         </label>
                         <br>
-                        <strong>{{$frm->name_of_client ?? NA}}</strong>
+                        <strong>{{$frm->name_of_client ?? 'NA'}}</strong>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Type</span>
                         </label>
                         <br>
-                        <strong>{{$frm->type_of_client ?? NA}}</strong>
+                        <strong>{{$frm->type_of_client ?? 'NA'}}</strong>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Gender</span>
                         </label>
                         <br>
-                        <strong>{{$frm->gender ?? NA}}</strong>
+                        <strong>{{$frm->gender ?? 'NA'}}</strong>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Age</span>
                         </label>
                         <br>
-                        <strong>{{$frm->age ?? NA}}</strong>
+                        <strong>{{$frm->age ?? 'NA'}}</strong>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Province</span>
                         </label>
                         <br>
-                        <strong>{{$frm->province ?? NA}}</strong>
+                        <strong>{{$frm->provinces->name ?? 'NA'}}</strong>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">District</span>
                         </label>
                         <br>
-                        <strong>{{$frm->district ?? NA}}</strong>
+                        <strong>{{$frm->districts->district_name ?? 'NA'}}</strong>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Tehsil</span>
                         </label>
                         <br>
-                        <strong>{{$frm->tehsil ?? NA}}</strong>
+                        <strong>{{$frm->tehsils->tehsil_name ?? 'NA'}}</strong>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Union Counsil</span>
                         </label>
                         <br>
-                        <strong>{{$frm->union_counsil ?? NA}}</strong>
+                        <strong>{{$frm->uc->uc_name ?? 'NA'}}</strong>
                     </div>
                     <div class="col-md-6 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Village</span>
                         </label>
                         <br>
-                        <strong>{{$frm->village ?? NA}}</strong>
+                        <strong>{{$frm->village ?? 'NA'}}</strong>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
@@ -164,14 +164,14 @@
                             <span class="required">Allow Contact</span>
                         </label>
                         <br>
-                        <strong>{{$frm->allow_contact ?? NA}}</strong>
+                        <strong>{{$frm->allow_contact ?? 'NA'}}</strong>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Contact Number</span>
                         </label>
                         <br>
-                        <strong>{{$frm->contact_number ?? 'NA'}}</strong>
+                        <strong>{{$frm->client_contact ?? 'NA'}}</strong>
                     </div>
                     <div class="col-md-9 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
@@ -216,14 +216,14 @@
                             <span class="required">Theme</span>
                         </label>
                         <br>
-                        <strong>{{$frm->theme_name->name ?? NA}}</strong>
+                        <strong>{{$frm->theme_name->name ?? 'NA'}}</strong>
                     </div>
                     <div class="col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Feedback Activity</span>
                         </label>
                         <br>
-                        <strong>{{$frm->feedback_activity ?? NA}}</strong>
+                        <strong>{{$frm->feedback_activity ?? 'NA'}}</strong>
                     </div>
                     <div class="col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
@@ -263,7 +263,7 @@
                     <div class="col-md-4 mt-3 yes_divs">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required"> Date of feedback Referred </span><br>
-                            {{ date("Y-m-d", strtotime($frm->date_ofreferral)) ?? "" }}
+                            {{ $frm->date_ofreferral ?? ''}}
                         </label>
 
                         @php

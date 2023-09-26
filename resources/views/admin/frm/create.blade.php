@@ -317,7 +317,7 @@
                         <select   name="feedback_category"  @error('feedback_category') is-invalid @enderror aria-label="Select a Feedback Category" data-control="select2" data-placeholder="Select a Feedback Category" class="form-select form-select-solid categoryit" required>
                             <option>Select Option</option>
                             @foreach($feedbackcategories as $feedbackcategory)
-                                <option value={{$feedbackcategory->id}}>{{$feedbackcategory->id}}-{{$feedbackcategory->description}}</option>
+                                <option value={{$feedbackcategory->id}}>{{$feedbackcategory->name}}-{{$feedbackcategory->description}}</option>
                             @endforeach
                         </select>
                         @error('feedback_category')

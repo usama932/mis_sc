@@ -134,7 +134,12 @@ class FRMController extends Controller
                 $nestedData['feedback_category'] = $r->category->name ?? '';
                 $nestedData['theme'] = $r->theme_name->name ?? '';
                 $nestedData['project_name'] = $r->project->name ?? 'NA';
-                $nestedData['date_ofreferral'] = date('d-M-Y', strtotime($r->date_ofreferral)) ?? "NA";
+                if($r->date_ofreferral != ""){
+                    $nestedData['date_ofreferral'] = date('d-M-Y', strtotime($r->date_ofreferral)) ?? "NA";
+                }
+                else{
+                    $nestedData['date_ofreferral'] = "NA";
+                }
                 $nestedData['referral_name'] = $r->referral_name ?? 'NA';
                 $nestedData['referral_position'] =$r->referral_position ?? "NA";
                 $nestedData['type_ofaction_taken'] =$r->type_ofaction_taken ?? "NA";
@@ -221,8 +226,8 @@ class FRMController extends Controller
         $last_record = Frm::latest()->first();
         $response_id =  $last_record->id.'-'.time();
        
-        $feedbackchannels = FeedbackChannel::latest()->get();
-        $feedbackcategories = FeedbackCategory::latest()->get();
+        $feedbackchannels = FeedbackChannel::get();
+        $feedbackcategories = FeedbackCategory::get();
         $projects = Project::latest()->get();
         $themes = Theme::latest()->get();
         return view('admin.frm.create',compact('feedbackchannels','feedbackcategories','projects','themes','response_id'));
