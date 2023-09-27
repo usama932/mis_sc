@@ -62,11 +62,11 @@
                     </tr>
                     <tr>
                         <td><strong>Tehsil</strong></td>
-                        <td>{{$frm->tehsils->tehsil_name ?? 'NA'}}</td>
+                        <td>{{$frm->tehsils->tehsil_name ?? $frm->tehsil}}</td>
                     </tr>
                     <tr>
                         <td><strong>Union Council</strong></td>
-                        <td>{{$frm->uc->uc_name ?? ''}}</td>
+                        <td>{{$frm->uc->uc_name ?? $frm->union_counsil}}</td>
                     </tr>
                     <tr>
                         <td><strong>Village</strong></td>
