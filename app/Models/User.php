@@ -65,4 +65,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Frm::class,'created_by','id');
     }
+    public function desig()
+    {
+        return $this->belongsTo(Designation::class,'designation','id');
+    }
 }

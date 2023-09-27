@@ -32,8 +32,11 @@ class FRMController extends Controller
         $feedbackchannels = FeedbackChannel::latest()->get();
         $feedbackcategories = FeedbackCategory::latest()->get();
         $projects = Project::latest()->get();
+        $total_frm = Frm::count();
+        $open_frm = Frm::where('status','Open')->count();
+        $close_frm = Frm::where('status','Close')->count();
         // $themes = Theme::latest()->get();
-        return view('admin.frm.index' ,compact('feedbackchannels','feedbackcategories','projects'));
+        return view('admin.frm.index' ,compact('feedbackchannels','feedbackcategories','projects','total_frm','open_frm','close_frm'));
     }
     public function getFrms(Request $request){
 
@@ -73,7 +76,7 @@ class FRMController extends Controller
                         
 			$totalFiltered = Frm::count();
 		}
-
+       
         if($request->name_of_registrar != null){
             $frms->where('name_of_registrar',$request->name_of_registrar);
         }
@@ -83,11 +86,11 @@ class FRMController extends Controller
             $frms->where('date_received',$request->date_received);
         }
         if($request->kt_select2_district != null){
-            $frms->where('date_received',$request->kt_select2_district);
+            $frms->where('district',$request->kt_select2_district);
         }
         if($request->kt_select2_province != null){
 
-            $frms->where('date_received',$request->kt_select2_province);
+            $frms->where('province',$request->kt_select2_province);
         }
         if(auth()->user()->permissions_level == 'nation-wide')
         {
@@ -95,11 +98,11 @@ class FRMController extends Controller
         }
         if(auth()->user()->permissions_level == 'province-wide')
         {
-            $frms->where('province',$auth()->user()->province);
+            $frms->where('province',auth()->user()->province);
         }
         if(auth()->user()->permissions_level == 'district-wide')
         {
-            $frms->where('district',$auth()->user()->district);
+            $frms->where('district',auth()->user()->district);
         }
 
         if($request->feedback_channel != null){
@@ -109,7 +112,7 @@ class FRMController extends Controller
             $frms->where('age',$request->age_id);
         }
         if($request->type_of_client != null){
-            $frms->where('type_of_client',$request->type_of_client);
+            $frms->where('status',$request->type_of_client);
         }
         if($request->project_name != null){
             $frms->where('project_name',$request->project_name);

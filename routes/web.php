@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\FRMController;
 use App\Http\Controllers\Admin\FBAjaxController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,9 +41,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('frm/export', [FRMController::class,'getexportform'])->name('frm-export');
     Route::post('getfrm/export', [FRMController::class,'getexportfrm'])->name('getfrm-export');
     //Ajax Destrict
+    
     Route::post('getDistrict', [FBAjaxController::class,'getDistrict'])->name('getDistrict');
     Route::post('getTehsil', [FBAjaxController::class,'getTehsil'])->name('getTehsil');
     Route::post('getUnionCouncil', [FBAjaxController::class,'getUnionCouncil'])->name('getUnionCouncil');
+
+    //Reset Password
+    Route::get('reset/password', [UserController::class,'reset_password'])->name('reset_password');
+    Route::post('update/password', [UserController::class,'password_update'])->name('update_password');
+    Route::post('getuserDistrict', [FBAjaxController::class,'getuserDistrict'])->name('getuserDistrict');
 });
 
 Route::get('/error', function () {

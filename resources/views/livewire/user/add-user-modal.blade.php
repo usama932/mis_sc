@@ -103,10 +103,10 @@
                             </label>
                             <select   name="province" wire:model.defer="province"  id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..."  class="form-control form-control-solid mb-3 mb-lg-0"  @error('province') is-invalid @enderror required>
                                 <option value="">Select Province</option>
-                                {{-- <option value='1'>Punjab</option> --}}
+                                <option value='1'>Punjab</option>
                                 <option value='4'>Sindh</option>
                                 <option value='2'>KPK</option>
-                                {{-- <option value='4'>Balochistan</option> --}}
+                                <option value='4'>Balochistan</option>
                             </select>
                             @error('province')
                                 <span class="invalid-feedback" role="alert">

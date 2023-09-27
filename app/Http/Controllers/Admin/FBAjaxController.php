@@ -17,7 +17,11 @@ class FBAjaxController extends Controller
         $data = District::where('provinces_id',$province_id)->select('district_id', 'district_name')->where('status',1)->get();
         return ($data);
     }
-
+    public function getuserDistrict(Request $request) {
+        $province_id = $request->province;
+        $data = District::where('provinces_id',$province_id)->select('district_id', 'district_name')->get();
+        return ($data);
+    }
     // ajax tehsil data
     public function getTehsil(Request $request) {
 

@@ -1,12 +1,19 @@
-<x-auth-layout>
-
-    <!--begin::Form-->
-    <form class="form w-100" novalidate="novalidate" id="kt_new_password_form" data-kt-redirect-url="{{ route('login') }}" action="{{ route('password.update') }}">
+<x-default-layout>
+    @if (session('success'))
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
+        </div>
+    @elseif (session('error'))
+        <div class="alert alert-danger" role="alert">
+            {{ session('error') }}
+        </div>
+    @endif
+    <form class="w-50 mx-auto"   action="{{ route('update_password') }}" method="post">
         @csrf
 
         <!-- Password Reset Token -->
-        <input type="hidden" name="token" value="{{ $request->token }}">
-        <input type="hidden" name="email" value="{{ old('email', $request->email) }}">
+        {{-- <input type="hidden" name="token" value="{{ $request->token }}">
+        <input type="hidden" name="email" value="{{ old('email', $request->email) }}"> --}}
 
         <!--begin::Heading-->
         <div class="text-center mb-10">
@@ -30,23 +37,28 @@
             <div class="mb-1">
                 <!--begin::Input wrapper-->
                 <div class="position-relative mb-3">
-                    <input class="form-control bg-transparent" type="password" placeholder="Password" name="password" autocomplete="off"/>
-
-                    <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2" data-kt-password-meter-control="visibility">
-                        <i class="bi bi-eye-slash fs-2"></i>
-                        <i class="bi bi-eye fs-2 d-none"></i>
-                    </span>
+                    <input class="form-control bg-transparent" type="old_password" placeholder="Old Password" name="old_password" autocomplete="off"/>
+                    @error('old_password')
+                        <div class="error text-danger">{{ $message }}</div>
+                    @enderror
+                   
                 </div>
                 <!--end::Input wrapper-->
 
-                <!--begin::Meter-->
-                <div class="d-flex align-items-center mb-3" data-kt-password-meter-control="highlight">
-                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
-                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
-                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
-                    <div class="flex-grow-1 bg-secondary bg-active-success rounded h-5px"></div>
+              
+            </div>
+            <div class="mb-1">
+                <!--begin::Input wrapper-->
+                <div class="position-relative mb-3">
+                    <input class="form-control bg-transparent" type="password" placeholder="Password" name="password" autocomplete="off"/>
+                    @error('password')
+                        <div class="error text-danger">{{ $message }}</div>
+                    @enderror
+                   
                 </div>
-                <!--end::Meter-->
+                <!--end::Input wrapper-->
+
+              
             </div>
             <!--end::Wrapper-->
 
@@ -82,14 +94,14 @@
 
         <!--begin::Actions-->
         <div class="d-flex flex-wrap justify-content-center pb-lg-0">
-            <button type="button" id="kt_new_password_submit" class="btn btn-primary me-4">
-                @include('partials/general/_button-indicator', ['label' => 'Submit'])
+            <button type="submit" class="btn btn-primary btn-sm me-4">
+              Submit
             </button>
 
-            <a href="{{ route('login') }}" class="btn btn-light">Cancel</a>
+            <a href="{{ route('login') }}" class="btn btn-light btn-sm">Cancel</a>
         </div>
         <!--end::Actions-->
     </form>
     <!--end::Form-->
 
-</x-auth-layout>
+</x-default-layout>

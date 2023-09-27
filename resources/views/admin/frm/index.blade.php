@@ -15,7 +15,11 @@
            <!--begin::Card-->
             <div class="card">
                 <div class="card-title m-5">
-                    <h1>FRM List:</h1>
+                    <h4>
+                        <strong>Total FRM =><span class="fs-bold mx-3  badge badge-pill badge-success">{{$total_frm ?? ''}}</span></strong>
+                        <strong>Open FRM =><span class="fs-bold mx-3  badge badge-pill badge-secondary">{{$open_frm ?? ''}}</span></strong>
+                        <strong>Close FRM =><span class="fs-bold mx-3  badge badge-pill badge-primary">{{$close_frm ?? ''}}</span></strong>
+                    </h4>
                 </div>
                 <div class="card-header border-0 pt-6">
                     <div class="row mb-5">
@@ -90,15 +94,13 @@
                         </div>
                         <div class="col-md-3 my-3">
                             <label class="fs-6 fw-semibold form-label mb-2">
-                                <span class="required">Type</span>
+                                <span class="required">Status</span>
                             </label>
-                            <select   name="type_of_client" id="type_of_client" aria-label="Select a Type of Client" data-control="select2" data-placeholder="Select a Type of Client..." class="form-select form-select-solid">
-                                <option value="" selected>Select Client</option>
-                                <option value="Direct Beneficiary">Direct Beneficiary</option>
-                                <option value="Indirect Beneficiary">Indirect Beneficiary</option>
-                                <option value="Non-Beneficiary">Non-Beneficiary</option>
-                                <option value="Partner Staff">Partner Staff</option>
-                                <option value="Save the Children Staff">Save the Children Staff</option>
+                            <select   name="type_of_client" id="type_of_client" aria-label="Select a Status" data-control="select2" data-placeholder="Select a Status" class="form-select form-select-solid">
+                                <option value="" selected>Select Status</option>
+                                <option value="Open" >Open</option>
+                                <option value="Close" >Close</option>
+                                
                             </select>
                         </div>
                         <div class="col-md-3 mt-3">

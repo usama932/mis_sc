@@ -24,7 +24,7 @@
 
     </style>
     @section('title')
-        Add User Form
+        Edit User Form
     @endsection
     <div id="loader" class="loader"></div>
 
@@ -38,16 +38,16 @@
                 </ul>
             </div>
         @endif
-        <form  class="form" method="post" action="{{route('user-management.users.store')}}"  enctype="multipart/form-data">
+        <form  class="form" method="post" action="{{route('user-management.users.update',$user->id)}}"  enctype="multipart/form-data">
             @csrf
-            
+            @method('put')
             <div class="row">
                 <div class="col-md-6">
                     <!--begin::Label-->
                     <label class="required fw-semibold fs-6 mb-2">Full Name</label>
                     <!--end::Label-->
                     <!--begin::Input-->
-                    <input type="text" name="name" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Full name"/>
+                    <input type="text" name="name" class="form-control form-control-solid mb-3 mb-lg-0" value="{{$user->name ?? ''}}"/>
                     <!--end::Input-->
                     @error('name')
                     <span class="text-danger">{{ $message }}</span> @enderror
@@ -57,12 +57,12 @@
                     <label class="required fw-semibold fs-6 mb-2">Email</label>
                     <!--end::Label-->
                     <!--begin::Input-->
-                    <input type="email" name="email" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="example@domain.com"/>
+                    <input type="email" name="email" class="form-control form-control-solid mb-3 mb-lg-0" value="{{$user->email ?? ''}}"/>
                     <!--end::Input-->
                     @error('email')
                     <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
-                <div class="col-md-6">
+                {{-- <div class="col-md-6">
                     <!--begin::Label-->
                     <label class="required fw-semibold fs-6 mb-2">Passowrd</label>
                     <!--end::Label-->
@@ -71,19 +71,19 @@
                     <!--end::Input-->
                     @error('passowrd')
                     <span class="text-danger">{{ $message }}</span> @enderror
-                </div>
-                <div class="col-md-6">
+                </div> --}}
+                {{-- <div class="col-md-6">
                     <label class=" fw-semibold fs-6 mb-2">
                         <span class="required">Province</span>
                     </label>
                     <select   name="province"  id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..."  class="form-control form-control-solid mb-3 mb-lg-0"  @error('province') is-invalid @enderror required>
                         <option value="">Select Province</option>
-                        <option value='1'>Punjab</option>
+                        <option @if($user->province == '1') selected @endif value='1'>Punjab</option>
 
-                        <option value='2'>KPK</option>
-                        <option value='3'>Balochistan</option>
-                        <option value='4'>Sindh</option>
-                        <option value='7'>Federal Capital Teritory</option>
+                        <option @if($user->province == '2') selected @endif value='2'>KPK</option>
+                        <option @if($user->province == '3') selected @endif value='3'>Balochistan</option>
+                        <option @if($user->province == '4') selected @endif value='4'>Sindh</option>
+                        <option @if($user->province == '7') selected @endif value='7'>Federal Capital Teritory</option>
                       
                     </select>
                     @error('province')
@@ -98,23 +98,23 @@
                         <span class="required">District</span>
                     </label>
                     <select id="kt_select2_district" name="district"  aria-label="Select a District" data-control="select2" data-placeholder="Select a District..."  class="form-control form-control-solid mb-3 mb-lg-0"  @error('district') is-invalid @enderror required>
-
+                        
                     </select>
                     @error('district')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
-                </div>
+                </div> --}}
                 <div class="col-md-6">
                     <label class=" fw-semibold fs-6 mb-2">
                         <span class="required">Permission Level</span>
                     </label>
                     <select   name="permissions_level" data-control="select2" data-placeholder="Select a Permissions level..."  class="form-control form-control-solid mb-3 mb-lg-0"  @error('permissions_level') is-invalid @enderror required>
-                        <option value="">Select Permissions Level</option>
-                         <option value='nation-wide'>Nation Wide</option>
-                         <option value='province-wide'>Province Wide</option>
-                         <option value='district-wide'>District Wide</option>
+                        <option  @if($user->permissions_level == '') selected @endif value="">Select Permissions Level</option>
+                         <option @if($user->permissions_level == 'nation-wide') selected @endif value='nation-wide'>Nation Wide</option>
+                         <option @if($user->permissions_level == 'province-wide') selected @endif value='province-wide'>Province Wide</option>
+                         <option @if($user->permissions_level == 'district-wide') selected @endif value='district-wide'>District Wide</option>
                     </select>
                 </div>
                 <div class="col-md-6">
@@ -124,18 +124,19 @@
                     <select   name="designation" data-control="select2" data-placeholder="Select a Permissions level..."  class="form-control form-control-solid mb-3 mb-lg-0"  @error('permissions_level') is-invalid @enderror required>
                         <option value="">Select Permissions Level</option>
                         @foreach ($designations as $designation)
-                            <option value="{{$designation->id}}">{{$designation->designation_name}}</option>
+                            <option value="{{$designation->id}}" @if($user->designation == $designation->id) selected @endif>{{$designation->designation_name}}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="col-md-6">
                     <label class=" fw-semibold fs-6 mb-2">
-                        <span class="required">Role</span>
+                        <span class="required">Role  </span>
                     </label>
                     <select   name="role"  data-control="select2" data-placeholder="Select a Permissions level..."  class="form-control form-control-solid mb-3 mb-lg-0"  @error('permissions_level') is-invalid @enderror required>
                         <option value="">Select Role</option>
+                       
                         @foreach ($roles as $role)
-                            <option value="{{$role->id}}">{{$role->name}}</option>
+                            <option @if($user->roles->first()?->name == $role->name) selected @endif value="{{$role->name}}">{{$role->name}}</option>
                         @endforeach
 
 
