@@ -69,9 +69,21 @@
                                 </label>
                                 <select name="age" aria-label="Select a Age" data-control="select2" data-placeholder="Select a age..." class="form-select form-select-solid" id="age_id" >
                                     <option  value="">Select Option</option>
-                                    <option value="Under 18">Under 18</option>
+                                    <option value="Under 18">Less than 18 years</option>
                                     <option value="19-50 years">19-50 years</option>
                                     <option value="Above 50 years">Above 50 years</option>
+                                </select>
+
+                            </div>
+                            <div class="col-md-3 my-3">
+                                <label class="fs-6 fw-semibold form-label mb-2">
+                                    <span class="required">Age</span>
+                                </label>
+                                <select name="age" aria-label="Select a Age" data-control="select2" data-placeholder="Select a age..." class="form-select form-select-solid" id="age_id" >
+                                    <option  value="">Select Option</option>
+                                    <option value="Close">Close</option>
+                                    <option value="Open">Open</option>
+                                   
                                 </select>
 
                             </div>

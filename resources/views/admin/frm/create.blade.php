@@ -91,7 +91,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Feedback Channel</span>
                         </label>
-                        <select name="feedback_channel" aria-label="Select a Feedback Channel" data-control="select2" data-placeholder="Select a Country..." class="form-select form-select-solid" required  @error('feedback_channel') is-invalid @enderror>
+                        <select name="feedback_channel" aria-label="Select a Feedback Channel" data-control="select2" data-placeholder="Select a Feedback Channel..." class="form-select form-select-solid" required  @error('feedback_channel') is-invalid @enderror>
                             <option  value="">Select Option</option>
                             @foreach($feedbackchannels as $feedbackchannel)
                                 <option value="{{$feedbackchannel->id}}">{{$feedbackchannel->name}}</option>

@@ -6,7 +6,7 @@
                 var optionValue = $(this).attr("value");
 
                 if(optionValue == "Girl" || optionValue == "Boy"){
-                    $('#age_id').html('<option value="">Select Age</option>\<option value="Under 18 years">Under 18 years</option>');
+                    $('#age_id').html('<option value="">Select Age</option>\<option value="Less than 18 years">Less than 18 years</option>');
 
                 }else if(optionValue == "Male" || optionValue == "Female")
                 {
