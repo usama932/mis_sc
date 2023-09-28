@@ -133,6 +133,7 @@
                         <td><strong>Feedback Summary</strong></td>
                         <td>{{$frm->feedback_summary ?? 'NA'}}</td>
                     </tr>
+                 
                 </table>
                 <div class="card-title  border-0 my-4"">
                     <div class="card-title">
@@ -142,7 +143,14 @@
                     </div>
                 </div>
                 <table class="table table-striped mr-3">
-
+                    <tr>
+                        <td><strong>Date of Response Given Back</strong></td>
+                        <td>{{$frm->date_of_respbackgiven ?? 'NA'}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Number of Day back to response</strong></td>
+                        <td>{{$frm->nodays_toclose_loop ?? 'NA'}}</td>
+                    </tr>
                     <tr>
                         <td ><strong>Status</strong></td>
                         <td class="mx-auto">{{$frm->status ?? 'NA'}}</td>

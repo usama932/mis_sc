@@ -346,21 +346,28 @@ class FRMController extends Controller
             'date_feedback_referred' => ['required'],
             'feedback_response' => ['required'],
         ]);
+        
         $frm =Frm::where('id',$request->frm_id)->first();
         if($request->status == "Close"){
             $statis = $request->actiontaken;
             $date  = $request->date_feedback_referred;
+            $date1 =Carbon::parse($frm->date_received);
+            $date2 = Carbon::parse($date)->format('Y-m-d');
+            $num_of_days =  $date1->diffInDays($date);
+            
         }
         else{
             $statis = 'NA';
             $date  = 'NA';
+            $num_of_days = "NA";
         }
-
+     
         $frm = Frm::where('id',$request->frm_id)->update([
             'status'                => $request->status,
             'response_summary'      => $request->feedback_response,
             'date_of_respbackgiven' => $date,
-            'type_ofaction_taken'   => $statis
+            'type_ofaction_taken'   => $statis,
+            'nodays_toclose_loop'   => $num_of_days,
         ]);
         $frm = FrmResponse::create([
             'follow_up_date'    => $request->date_feedback_referred,
