@@ -21,7 +21,7 @@ class Frm extends Model
     }
     public function provinces()
     {
-        return $this->belongsTo(Province::class,'province','id');
+        return $this->belongsTo(Province::class,'province','province_id');
     }
     public function districts()
     {
