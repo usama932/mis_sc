@@ -38,7 +38,7 @@
 
                     <tr>
                         <td><strong>Name of Client</strong></td>
-                        <td>{{$frm->name_of_client}}}</td>
+                        <td>{{$frm->name_of_client}}</td>
                     </tr>
                     <tr>
                         <td><strong>Type of Client</strong></td>
@@ -54,7 +54,7 @@
                     </tr>
                     <tr>
                         <td><strong>Province</strong></td>
-                        <td>{{$frm->provinces->name ?? 'NA'}}</td>
+                        <td>{{$frm->provinces->province_name ?? 'NA'}}</td>
                     </tr>
                     <tr>
                         <td><strong>District</strong></td>

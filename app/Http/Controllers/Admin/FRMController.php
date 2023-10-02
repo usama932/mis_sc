@@ -69,22 +69,17 @@ class FRMController extends Controller
            
 		);
 
-		$totalData = Frm::count();
-		$limit = $request->input('length');
-		$start = $request->input('start');
-		$order = $columns[$request->input('order.0.column')];
 		$dir = $request->input('order.0.dir');
-
+        $limit = $request->input('length');
+		$start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
 		if(empty($request->input('search.value'))){
-			$frms = Frm::offset($start)
-				->limit($limit)
-				->orderBy($order,$dir);
-			$totalFiltered = Frm::count();
+			$frms = Frm::orderBy('id', 'DESC');
+			
 		}else{
 			$search = $request->input('search.value');
            
-			$frms = Frm::offset($start)
-                        ->orWhere('name_of_registrar', 'like', "%{$search}%")
+			$frms = Frm::orWhere('name_of_registrar', 'like', "%{$search}%")
                         ->orWhere('gender', 'like', "%{$search}%")
                         ->orWhere('age', 'like', "%{$search}%")
                         ->orWhere('status', 'like', "%{$search}%")
@@ -92,11 +87,7 @@ class FRMController extends Controller
                         ->orWhere('type_of_client', 'like', "%{$search}%")
                         ->orWhere('referral_name', 'like', "%{$search}%")
                         ->orWhere('referral_position', 'like', "%{$search}%")
-                        ->orWhere('client_contact', 'like', "%{$search}%")
-                        ->limit($limit)
-                        ->orderBy($order, $dir);
-                        
-			$totalFiltered = Frm::count();
+                        ->orWhere('client_contact', 'like', "%{$search}%");
 		}
        
         if($request->name_of_registrar != null){
@@ -139,8 +130,12 @@ class FRMController extends Controller
         if($request->project_name != null){
             $frms->where('project_name',$request->project_name);
         }
-
-        $frm =$frms->latest()->get();
+        $totalData =$frms->count();
+        $totalFiltered = $frms->count();
+		
+        $frm =$frms->offset($start)
+                ->limit($limit)
+                ->orderBy($order, $dir)->latest()->get();
 
      
 		$data = array();
@@ -160,7 +155,7 @@ class FRMController extends Controller
                 $nestedData['type_of_client'] = $r->type_of_client;
                 $nestedData['gender'] = $r->gender;
                 $nestedData['age'] = $r->age;
-                $nestedData['province'] = $r->provinces->name ?? '';
+                $nestedData['province'] = $r->provinces->province_name ?? '';
                 $nestedData['district'] = $r->districts->district_name  ?? '';
                 $nestedData['tehsil'] = $r->tehsils->tehsil_name  ?? '';
                 $nestedData['uc'] =$r->uc?->uc_name  ?? '';
