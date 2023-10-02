@@ -46,24 +46,8 @@ class FrmExport implements FromView
        
         $frm->with('user','user1','districts','districts',
                     'tehsils','uc','category','theme_name','channel','project')->latest();
+        $frms =  $frm->get(); 
        
-        if(auth()->user()->permissions_level == 'nation-wide')
-        {
-
-        }
-        if(auth()->user()->permissions_level == 'province-wide')
-        {
-            $frm->where('province',auth()->user()->province);
-        }
-        if(auth()->user()->permissions_level == 'district-wide')
-        {
-            $frm->where('district',auth()->user()->district);
-        }
-        $frims =  $frm->get(); 
-        dd($frms);
-        foreach($frims as $f){
-            
-        }
         return view('admin.frm.frm_report', [
             'frms' => $frms
         ]);

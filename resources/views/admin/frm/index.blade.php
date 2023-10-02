@@ -198,6 +198,7 @@
             "serverSide": true,
             "searchDelay": 500,
             "responsive": false,
+            'info': true,
            "ajax": {
                "url":"{{route('admin.getFrms')}}",
                "dataType":"json",
@@ -264,6 +265,7 @@
                 "serverSide": true,
                 "searchDelay": 500,
                 "responsive": false,
+                'info': true,
                 "ajax": {
                     "url":"{{ route('admin.getFrms') }}",
                     "dataType":"json",

@@ -55,10 +55,11 @@
             <td>{{ $frm->theme_name?->name ?? 'NA'}}</td>
             <td>{{ $frm->feedback_activity ?? 'NA'}}</td>
             <td>{{ $frm->project?->name ?? 'NA'}}</td>
-            <td>{{ $frm->provinces?->name ?? 'NA'}}</td>
-            <td>{{ $frm->districts?->name ?? 'NA'}}</td>
-            <td>{{ $frm->tehsils?->name ?? 'NA'}}</td>
-            <td>{{ $frm->uc?->name ?? 'NA'}}</td>
+            <td>{{ $frm->provinces?->province_name ?? 'NA'}}</td>
+            <td>{{ $frm->districts?->district_name ?? 'NA'}}</td>
+            <td>{{ $frm->tehsils?->tehsil_name ?? 'NA'}}</td>
+            <td>{{ $frm->uc?->uc_name ?? 'NA'}}</td>
+            <td>{{ $frm->village ?? 'NA'}}</td>
             <td>{{ $frm->date_ofreferral ?? 'NA'}}</td>
             <td>{{ $frm->referral_name ?? 'NA'}}</td>
             <td>{{ $frm->referral_position ?? 'NA'}}</td>
