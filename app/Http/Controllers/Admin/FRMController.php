@@ -42,9 +42,31 @@ class FRMController extends Controller
 
 		$columns = array(
 			0 => 'id',
-			1 => 'name_of_registrar',
-			4 => 'created_at',
-			5 => 'action'
+			1 => 'response_id',
+			2 => 'name_of_registrar',
+            3 => 'date_received',
+            4 => 'feedback_Channel',
+            5 => 'name_of_client',
+            6 => 'type_of_client',
+            7 => 'gender',
+            8 => 'age',
+            9 => 'province',
+            10 => 'district',
+            11 => 'tehsil',
+            12 => 'union_counsil',
+            12 => 'village',
+            13 => 'pwd_clwd',
+            14 => 'client_contact',
+            15 => 'feedback_category',
+            16 => 'theme',
+            17 => 'project_name',
+            18 => 'date_ofreferral',
+            19 => 'referral_name',
+            20 => 'referral_position',
+            21 => 'type_ofaction_taken',
+            22 => 'status',
+            23 => 'status'
+           
 		);
 
 		$totalData = Frm::count();
