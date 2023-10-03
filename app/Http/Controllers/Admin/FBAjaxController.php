@@ -14,7 +14,15 @@ class FBAjaxController extends Controller
     //ajax districtdata
     public function getDistrict(Request $request) {
         $province_id = $request->province;
-        $data = District::where('provinces_id',$province_id)->select('district_id', 'district_name')->where('status',1)->get();
+        if(auth()->user()->permissions_level == 'district-wide'){
+           
+            $data = District::where('provinces_id',$province_id)->where('district_id',auth()->user()->district)->select('district_id', 'district_name')->where('status',1)->get();
+        }
+        else{
+         
+            $data = District::where('provinces_id',$province_id)->select('district_id', 'district_name')->where('status',1)->get();
+        }
+        
         return ($data);
     }
     public function getuserDistrict(Request $request) {

@@ -174,11 +174,19 @@
                             <span class="required">Province</span>
                         </label>
                         <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select form-select-solid"   @error('province') is-invalid @enderror required>
-                            <option value="">Select Province</option>
-                            {{-- <option value='1'>Punjab</option> --}}
-                            <option value='4'>Sindh</option>
-                            <option value='2'>KPK</option>
-                            {{-- <option value='4'>Balochistan</option> --}}
+                            @if(auth()->user()->permissions_level == 'province-wide' || auth()->user()->permissions_level == 'district-wide')
+                                <option value="">Select Province</option>
+                                {{-- <option value='1'>Punjab</option> --}}
+                                <option @if(auth()->user()->province == '4') selected @endif value='4'>Sindh</option>
+                                <option  @if(auth()->user()->province == '2') selected @endif value='2'>KPK</option>
+                                {{-- <option value='4'>Balochistan</option> --}}
+                            @else
+                                <option value="">Select Province</option>
+                                {{-- <option value='1'>Punjab</option> --}}
+                                <option value='4'>Sindh</option>
+                                <option  value='2'>KPK</option>
+                                {{-- <option value='4'>Balochistan</option> --}}
+                            @endif
                         </select>
                         @error('province')
                             <span class="invalid-feedback" role="alert">

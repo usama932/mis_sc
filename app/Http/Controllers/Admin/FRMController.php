@@ -252,7 +252,7 @@ class FRMController extends Controller
                         $view   = '<a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
                                     <i class="fa fa-eye"></i>
                                     </a>';
-                        if($r->created_by == auth()->user()->id){
+                        if($r->name_of_registrar == auth()->user()->name){
                             $edit   = '<a title="Edit" class="btn btn-sm btn-clean btn-icon"
                                         href="'.$edit_url.'">
                                         <i class="fa fa-pencil"></i></a>';
@@ -276,7 +276,7 @@ class FRMController extends Controller
                         $view   = '<a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
                                     <i class="fa fa-eye"></i>
                                     </a>';
-                        if($r->created_by == auth()->user()->id){
+                        if($r->name_of_registrar == auth()->user()->name){
                             $edit   = '<a title="Edit" class="btn btn-sm btn-clean btn-icon"
                                         href="'.$edit_url.'">
                                         <i class="fa fa-pencil"></i></a>';
