@@ -68,7 +68,7 @@ class UserManagementController extends Controller
         // $user->assignRole($request->role);
          $user->syncRoles($request->role);
 
-        return redirect()->back()->with("success", "PUser Created successfully!");
+        return redirect()->route('user-management.users.index')->with("success", "PUser Created successfully!");
     }
 
     public function destroy(User $user)

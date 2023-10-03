@@ -123,9 +123,10 @@
                     </label>
                     <select   name="user_type" data-control="select2" data-placeholder="Select a User Typel..."  class="form-control form-control-solid mb-3 mb-lg-0"  @error('user_type') is-invalid @enderror required>
                         <option value="">Select User Type</option>
-                         <option value='R1'>R1</option>
-                         <option value='R2'>R2</option>
-                         <option value='R3'>R3</option>
+                        <option value='admin'>Admin</option>
+                        <option value='R1'>R1</option>
+                        <option value='R2'>R2</option>
+                        <option value='R3'>R3</option>
                     </select>
                 </div>
                 <div class="col-md-6">
