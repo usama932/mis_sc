@@ -43,6 +43,9 @@ class FrmExport implements FromView
         if($this->data['project_name'] != null){
             $frm->where('project_name',$this->data['project_name']);
         }
+        if($this->data['status'] != null){
+            $frm->where('status',$this->data['status']);
+        }
        
         $frm->with('user','user1','districts','districts',
                     'tehsils','uc','category','theme_name','channel','project')->latest();

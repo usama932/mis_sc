@@ -506,6 +506,7 @@ class FRMController extends Controller
         $district = $request->district;
         $type_of_client = $request->type_of_client;
         $project_name = $request->project_name;
+        $status = $request->status;
         $data = ['name_of_registrar'=> $name_of_registrar,
                 'date_received'=>$date_received,
                 'feedback_channel'=>$feedback_channel,
@@ -513,7 +514,8 @@ class FRMController extends Controller
                 'province'=> $province,
                 'district'=> $district,
                 'type_of_client'=>$type_of_client,
-                'project_name'=>$project_name
+                'project_name'=>$project_name,
+                'status'=>$status,
                  ];
                
         return Excel::download(new FrmExport($data), 'frm.xlsx');

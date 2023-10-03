@@ -77,9 +77,9 @@
                             </div>
                             <div class="col-md-3 my-3">
                                 <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">Age</span>
+                                    <span class="required">Status</span>
                                 </label>
-                                <select name="age" aria-label="Select a Age" data-control="select2" data-placeholder="Select a age..." class="form-select form-select-solid" id="age_id" >
+                                <select name="status" aria-label="Select a Age" data-control="select2" data-placeholder="Select a age..." class="form-select form-select-solid" id="status" >
                                     <option  value="">Select Option</option>
                                     <option value="Close">Close</option>
                                     <option value="Open">Open</option>
