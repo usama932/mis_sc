@@ -253,9 +253,14 @@ class FRMController extends Controller
                                     <i class="fa fa-eye"></i>
                                     </a>';
                         if($r->name_of_registrar == auth()->user()->name){
-                            $edit   = '<a title="Edit" class="btn btn-sm btn-clean btn-icon"
-                                        href="'.$edit_url.'">
-                                        <i class="fa fa-pencil"></i></a>';
+                            if($r->status == 'Open'){
+                                $edit   = '<a title="Edit" class="btn btn-sm btn-clean btn-icon"
+                                href="'.$edit_url.'">
+                                <i class="fa fa-pencil"></i></a>';
+                            }else{
+                                $edit   = '';
+                            }
+                           
                         }
                         else{
                             $edit   = '';
@@ -277,9 +282,13 @@ class FRMController extends Controller
                                     <i class="fa fa-eye"></i>
                                     </a>';
                         if($r->name_of_registrar == auth()->user()->name){
-                            $edit   = '<a title="Edit" class="btn btn-sm btn-clean btn-icon"
-                                        href="'.$edit_url.'">
-                                        <i class="fa fa-pencil"></i></a>';
+                            if($r->status == 'Open'){
+                                $edit   = '<a title="Edit" class="btn btn-sm btn-clean btn-icon"
+                                            href="'.$edit_url.'">
+                                            <i class="fa fa-pencil"></i></a>';
+                            }else{
+                                $edit   = '';
+                            }
                         }
                         else{
                             $edit   = '';

@@ -1,9 +1,16 @@
 @extends('layout.master')
 
 @section('content')
-
+<style>
+    .view_parent_image1{
+      
+        background: url({{ URL::asset('assets/media/logos/image.jpg') }});
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        }
+</style>
     <!--begin::App-->
-    <div class="d-flex flex-column flex-root app-root " id="kt_app_root">
+    <div class="d-flex flex-column flex-root app-root view_parent_image1" id="kt_app_root">
         <!--begin::Wrapper-->
         <div class="d-flex flex-column flex-lg-row flex-column-fluid">
             <!--begin::Body-->
