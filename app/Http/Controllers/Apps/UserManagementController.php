@@ -32,10 +32,11 @@ class UserManagementController extends Controller
             'email'             => $request->email,
             'permissions_level' => $request->permissions_level,
             'designation'       => $request->designation,
+            'user_type'         => $request->user_type,
             'password'          => Hash::make($request->password),
             'status'            => '1',
         ]);
-        $user->assignRole('administrator');
+        $user->assignRole($request->role);
         return redirect()->back()->with("success", "PUser Created successfully!");
     }
 
@@ -60,11 +61,12 @@ class UserManagementController extends Controller
             'email'             => $request->email,
             'permissions_level' => $request->permissions_level,
             'designation'       => $request->designation,
+            'user_type'         => $request->user_type,
           
         ]);
         $user = User::find($id);
-         $user->assignRole($request->role);
-        // $user->syncRoles($request->role);
+        // $user->assignRole($request->role);
+         $user->syncRoles($request->role);
 
         return redirect()->back()->with("success", "PUser Created successfully!");
     }

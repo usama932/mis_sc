@@ -119,6 +119,17 @@
                 </div>
                 <div class="col-md-6">
                     <label class=" fw-semibold fs-6 mb-2">
+                        <span class="required">User Type</span>
+                    </label>
+                    <select   name="user_type" data-control="select2" data-placeholder="Select a User Typel..."  class="form-control form-control-solid mb-3 mb-lg-0"  @error('user_type') is-invalid @enderror required>
+                        <option value="">Select User Type</option>
+                         <option  @if($user->user_type == 'R1') selected @endif  value='R1'>R1</option>
+                         <option  @if($user->user_type == 'R2') selected @endif  value='R2'>R2</option>
+                         <option  @if($user->user_type == 'R3') selected @endif  value='R3'>R3</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class=" fw-semibold fs-6 mb-2">
                         <span class="required">Designation</span>
                     </label>
                     <select   name="designation" data-control="select2" data-placeholder="Select a Permissions level..."  class="form-control form-control-solid mb-3 mb-lg-0"  @error('permissions_level') is-invalid @enderror required>

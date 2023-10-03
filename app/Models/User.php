@@ -25,6 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'designation',
+        'user_type',
         'district',
         'province',
         'permissions_level',
