@@ -29,12 +29,30 @@ class FRMController extends Controller
     }
     public function index()
     {
+        if(auth()->user()->permissions_level == 'nation-wide')
+        {
+            $total_frm = Frm::count();
+            $open_frm = Frm::where('status','Open')->count();
+            $close_frm = Frm::where('status','Close')->count();
+        }
+        if(auth()->user()->permissions_level == 'province-wide')
+        {
+            $total_frm = Frm::where('province',auth()->user()->province)->count();
+            $open_frm = Frm::where('province',auth()->user()->province)->where('status','Open')->count();
+            $close_frm = Frm::where('province',auth()->user()->province)->where('status','Close')->count();
+           
+        }
+        if(auth()->user()->permissions_level == 'district-wide')
+        {
+            $total_frm = Frm::where('district',auth()->user()->district)->count();
+            $open_frm = Frm::where('district',auth()->user()->district)->where('status','Open')->count();
+            $close_frm = Frm::where('district',auth()->user()->district)->where('status','Close')->count();
+           
+        }
         $feedbackchannels = FeedbackChannel::latest()->get();
         $feedbackcategories = FeedbackCategory::latest()->get();
         $projects = Project::latest()->get();
-        $total_frm = Frm::count();
-        $open_frm = Frm::where('status','Open')->count();
-        $close_frm = Frm::where('status','Close')->count();
+     
         // $themes = Theme::latest()->get();
         return view('admin.frm.index' ,compact('feedbackchannels','feedbackcategories','projects','total_frm','open_frm','close_frm'));
     }
@@ -180,7 +198,9 @@ class FRMController extends Controller
                     $nestedData['status'] = '<span class="badge badge-warning">'.$r->status.'</span>';
                 }
                 // $nestedData['feedback_summary'] =$r->feedback_summary  ?? "NA";
-
+                $view='';
+                $edit ='';
+                $delete ='';
                 if($r->feedback_referredorshared == "No" && $r->status == "Open"){
                     $view   ='<a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
                                 <i class="fa fa-eye"></i>
@@ -197,12 +217,15 @@ class FRMController extends Controller
                     $view   ='<a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
                                 <i class="fa fa-eye"></i>
                                 </a>';
-                    $edit   ='<a title="Edit" class="btn btn-sm btn-clean btn-icon"
-                                href="'.$edit_url.'">
-                                <i class="fa fa-pencil"></i></a>';
-                    $delete ='<a class="btn btn-sm btn-clean btn-icon" title="Delete" href="'.$delete_url.'">
-                                <i class="fa fa-trash"></i>
-                                </a>';
+                    if(auth()->user()->id == $r->created_by){
+                        $edit   ='<a title="Edit" class="btn btn-sm btn-clean btn-icon"
+                        href="'.$edit_url.'">
+                        <i class="fa fa-pencil"></i></a>';
+                        $delete ='<a class="btn btn-sm btn-clean btn-icon" title="Delete" href="'.$delete_url.'">
+                        <i class="fa fa-trash"></i>
+                        </a>';
+                    }
+                 
                     $nestedData['update_response'] ='<div><td><a class=""" title="View" href="'.$update_response_url.'"><span class="badge badge-primary">'
                                                     .'Update Response'.
                                                     '</span></a></td></div>';
@@ -228,7 +251,7 @@ class FRMController extends Controller
                                                     '</span></td></div>';
                 }
 
-
+                
 
 				$nestedData['action'] ='<div>
                                         <td>'. $view  .$edit.  $delete
