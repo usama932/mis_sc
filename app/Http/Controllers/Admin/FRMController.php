@@ -202,29 +202,11 @@ class FRMController extends Controller
                 $edit ='';
                 $delete ='';
                 if($r->feedback_referredorshared == "No" && $r->status == "Open"){
-                    $view   ='<a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
-                                <i class="fa fa-eye"></i>
-                                </a>';
-                    $edit   ='<a title="Edit" class="btn btn-sm btn-clean btn-icon"
-                                href="'.$edit_url.'">
-                                <i class="fa fa-pencil"></i></a>';
-                    $delete ='<a class="btn btn-sm btn-clean btn-icon" title="Delete" href="'.$delete_url.'">
-                                <i class="fa fa-trash"></i>
-                                </a>';
+                  
                     $nestedData['update_response'] ='NA';
                 }
                 elseif($r->feedback_referredorshared == "Yes" && $r->status == "Open"){
-                    $view   ='<a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
-                                <i class="fa fa-eye"></i>
-                                </a>';
-                    if(auth()->user()->id == $r->created_by){
-                        $edit   ='<a title="Edit" class="btn btn-sm btn-clean btn-icon"
-                        href="'.$edit_url.'">
-                        <i class="fa fa-pencil"></i></a>';
-                        $delete ='<a class="btn btn-sm btn-clean btn-icon" title="Delete" href="'.$delete_url.'">
-                        <i class="fa fa-trash"></i>
-                        </a>';
-                    }
+               
                  
                     $nestedData['update_response'] ='<div><td><a class=""" title="View" href="'.$update_response_url.'"><span class="badge badge-primary">'
                                                     .'Update Response'.
@@ -241,23 +223,107 @@ class FRMController extends Controller
                                                     '</span></td></div>';
                 }
                 elseif($r->feedback_referredorshared == "No" && $r->status == "Close"){
-                    $view   = '<a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
-                                <i class="fa fa-eye"></i>
-                                </a>';
-                    $edit   = '';
-                    $delete = '';
                     $nestedData['update_response'] ='<div><td><span class="badge badge-success">'
                                                     .'Status Closed'.
                                                     '</span></td></div>';
                 }
 
-                
+                if(auth()->user()->permissions_level == 'nation-wide')
+                {
+                    if(auth()->user()->user_type == 'admin'){
+                        $view   = '<a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
+                                    <i class="fa fa-eye"></i>
+                                    </a>';
+                        $edit   ='<a title="Edit" class="btn btn-sm btn-clean btn-icon"
+                                    href="'.$edit_url.'">
+                                    <i class="fa fa-pencil"></i></a>';
+                        $delete ='<a class="btn btn-sm btn-clean btn-icon" title="Delete" href="'.$delete_url.'">
+                                    <i class="fa fa-trash"></i>
+                                    </a>';
+                    }
+                    elseif(auth()->user()->user_type == 'R3'){
+                        $view   = '<a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
+                                    <i class="fa fa-eye"></i>
+                                    </a>';
+                        $edit   = '';
+                        $delete = '';
+                    }
+                    elseif(auth()->user()->user_type == 'R2' ){
+                        $view   = '<a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
+                                    <i class="fa fa-eye"></i>
+                                    </a>';
+                        if($r->created_by == auth()->user()->id){
+                            $edit   = '<a title="Edit" class="btn btn-sm btn-clean btn-icon"
+                                        href="'.$edit_url.'">
+                                        <i class="fa fa-pencil"></i></a>';
+                        }
+                        else{
+                            $edit   = '';
+                        }
+                        $delete = '';
+                    }
+                    else{
+                        $view   = '<a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
+                        <i class="fa fa-eye"></i>
+                        </a>';
+                        $edit   ='';
+                        $delete = '';
+                    }
+                }
+                if(auth()->user()->permissions_level == 'province-wide')
+                {
+                    if(auth()->user()->user_type == 'R1' && auth()->user()->province == $r->province){
+                        $view   = '<a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
+                                    <i class="fa fa-eye"></i>
+                                    </a>';
+                        if($r->created_by == auth()->user()->id){
+                            $edit   = '<a title="Edit" class="btn btn-sm btn-clean btn-icon"
+                                        href="'.$edit_url.'">
+                                        <i class="fa fa-pencil"></i></a>';
+                        }
+                        else{
+                            $edit   = '';
+                        }
+                       
+                        $delete = '';
+                    }
+                    elseif(auth()->user()->user_type == 'R2' && auth()->user()->province == $r->province){
+                        $view   = '<a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
+                                    <i class="fa fa-eye"></i>
+                                    </a>';
+                        $edit   ='<a title="Edit" class="btn btn-sm btn-clean btn-icon"
+                                    href="'.$edit_url.'">
+                                    <i class="fa fa-pencil"></i></a>';
+                        $delete = '';
+                    }
+                    else{
+                        $view   = '';
+                        $edit   ='';
+                        $delete = '';
+                    }
+                   
+                }
+                if(auth()->user()->permissions_level == 'district-wide')
+                {
+                    if(auth()->user()->user_type == 'R1' && auth()->user()->district == $r->district){
+                        $view   = '<a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
+                                    <i class="fa fa-eye"></i>
+                                    </a>';
+                        if($r->created_by == auth()->user()->id){
+                            $edit   = '<a title="Edit" class="btn btn-sm btn-clean btn-icon"
+                                        href="'.$edit_url.'">
+                                        <i class="fa fa-pencil"></i></a>';
+                        }
+                        else{
+                            $edit   = '';
+                        }
+                       
+                        $delete = '';
+                    }
+                }
 
 				$nestedData['action'] ='<div>
-                                        <td>'. $view  .$edit.  $delete
-
-
-                                        .'</td>
+                                        <td>'. $view  .$edit.  $delete .'</td>
                                         </div>';
 				$data[] = $nestedData;
 			}
