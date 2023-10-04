@@ -191,18 +191,10 @@
             "order": [
                 [1, 'asc']
             ],
-
-            buttons: [
-                'csv', 'excel'
-            ],
             responsive: true, // Enable responsive mode
-
-            dom: 'Bfrtip',
-            "info": false,
-
             "processing": true,
             "serverSide": true,
-            "searchDelay": 500,
+            "searching": false,
             "responsive": false,
             'info': true,
            "ajax": {
@@ -260,16 +252,12 @@
                     [1, 'asc']
                 ],
 
-                buttons: [
-                    'csv', 'excel'
-                ],
                 responsive: true, // Enable responsive mode
-                dom: 'Bfrtip',
                 "info": false,
 
                 "processing": true,
                 "serverSide": true,
-                "searchDelay": 500,
+                "searching": false,
                 "responsive": false,
                 'info': true,
                 "ajax": {
