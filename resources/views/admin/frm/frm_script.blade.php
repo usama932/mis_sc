@@ -112,10 +112,17 @@
     });
 
     //flatpicker for date
-    $('#date_recieved_id,#date_feedback_referred,#date_feedback_referred_id').flatpickr({
+    $('#date_feedback_referred,#date_feedback_referred_id').flatpickr({
         altInput: true,
         dateFormat: "y-m-d",
-        maxDate: "today"
+        maxDate: "today",
+        minDate: new Date().fp_incr(-60), 
+    });
+    $('#date_recieved_id').flatpickr({
+        altInput: true,
+        dateFormat: "y-m-d",
+        maxDate: "today",
+        minDate: new Date().fp_incr(-60), 
     });
     //script for province, district,tehisl and uc
     ///get district cascade province

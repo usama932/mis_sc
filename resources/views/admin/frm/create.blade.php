@@ -57,18 +57,9 @@
                         </label>
                         <select name="name_of_registrar" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select form-select-solid" required  @error('name_of_registrar') is-invalid @enderror>
                             <option  value="">Select Option</option>
-                            <option  value="Abdul Qadeer">Abdul Qadeer</option>
-                            <option  value="Asif Ali">Asif Ali</option>
-                            <option  value="Ejaz Shah">Ejaz Shah</option>
-                            <option  value="Fatima Shahani">Fatima Shahani</option>
-                            <option  value="Irfan Majeed Butt">Irfan Majeed Butt</option>
-                            <option  value="Naeem uddin">Naeem uddin</option>
-                            <option  value="Qaiser Mehmood">Qaiser Mehmood</option>
-                            <option  value="Shahida, Khaskheli">Shahida, Khaskheli</option>
-                            <option  value="Saba Saeed">Saba Saeed</option>
-                            <option  value="Sanam Altaf">Sanam Altaf</option>
-                            <option  value="Shakila Memon">Shakila Memon</option>
-                            <option  value="Tariq Rahim Baig">Tariq Rahim Baig</option>
+                            @foreach($users as $user)
+                                <option  value="{{$user->name}}" >{{$user->name}}</option>
+                            @endforeach
                         </select>
                         @error('name_of_registrar')
                             <span class="invalid-feedback" role="alert">
@@ -179,13 +170,13 @@
                                 {{-- <option value='1'>Punjab</option> --}}
                                 <option @if(auth()->user()->province == '4') selected @endif value='4'>Sindh</option>
                                 <option  @if(auth()->user()->province == '2') selected @endif value='2'>KPK</option>
-                                {{-- <option value='4'>Balochistan</option> --}}
+                                <option   @if(auth()->user()->province == '3') selected @endif value='3'>Balochistan</option>
                             @else
                                 <option value="">Select Province</option>
                                 {{-- <option value='1'>Punjab</option> --}}
                                 <option value='4'>Sindh</option>
                                 <option  value='2'>KPK</option>
-                                {{-- <option value='4'>Balochistan</option> --}}
+                                <option value='3'>Balochistan</option>
                             @endif
                         </select>
                         @error('province')

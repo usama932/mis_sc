@@ -44,17 +44,23 @@ class FRMController extends Controller
         }
         if(auth()->user()->permissions_level == 'district-wide')
         {
-            $total_frm = Frm::where('district',auth()->user()->district)->count();
-            $open_frm = Frm::where('district',auth()->user()->district)->where('status','Open')->count();
-            $close_frm = Frm::where('district',auth()->user()->district)->where('status','Close')->count();
+            $total_frm = Frm::where('district',auth()->user()->district)
+                                ->where('name_of_registrar',auth()->user()->name)->count();
+            $open_frm = Frm::where('district',auth()->user()->district)
+                             ->where('name_of_registrar',auth()->user()->name)
+                             ->where('status','Open')->count();
+            $close_frm = Frm::where('district',auth()->user()->district)
+                              ->where('name_of_registrar',auth()->user()->name)
+                              ->where('status','Close')->count();
            
         }
         $feedbackchannels = FeedbackChannel::latest()->get();
         $feedbackcategories = FeedbackCategory::latest()->get();
         $projects = Project::latest()->get();
+        $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
      
         // $themes = Theme::latest()->get();
-        return view('admin.frm.index' ,compact('feedbackchannels','feedbackcategories','projects','total_frm','open_frm','close_frm'));
+        return view('admin.frm.index' ,compact('feedbackchannels','feedbackcategories','projects','total_frm','open_frm','close_frm','users'));
     }
     public function getFrms(Request $request){
 
@@ -133,7 +139,7 @@ class FRMController extends Controller
         }
         if(auth()->user()->permissions_level == 'district-wide')
         {
-            $frms->where('district',auth()->user()->district);
+            $frms->where('name_of_registrar',auth()->user()->name)->where('district',auth()->user()->district);
         }
 
         if($request->feedback_channel != null){
@@ -318,7 +324,7 @@ class FRMController extends Controller
                         $view   = '<a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
                                     <i class="fa fa-eye"></i>
                                     </a>';
-                        if($r->created_by == auth()->user()->id){
+                        if($r->name_of_registrar == auth()->user()->name){
                             $edit   = '<a title="Edit" class="btn btn-sm btn-clean btn-icon"
                                         href="'.$edit_url.'">
                                         <i class="fa fa-pencil"></i></a>';
@@ -359,7 +365,8 @@ class FRMController extends Controller
         $feedbackcategories = FeedbackCategory::get();
         $projects = Project::latest()->get();
         $themes = Theme::latest()->get();
-        return view('admin.frm.create',compact('feedbackchannels','feedbackcategories','projects','themes','response_id'));
+        $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
+        return view('admin.frm.create',compact('feedbackchannels','feedbackcategories','projects','themes','response_id','users'));
     }
     public function getUpdate_response($id)
     {
@@ -425,9 +432,10 @@ class FRMController extends Controller
         $feedbackcategories = FeedbackCategory::latest()->get();
         $projects = Project::latest()->get();
         $themes = Theme::latest()->get();
+        $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
         if(!empty($frm))
         {
-            return view('admin.frm.edit',compact('frm','feedbackchannels','feedbackcategories','projects','themes'));
+            return view('admin.frm.edit',compact('frm','feedbackchannels','feedbackcategories','projects','themes','user'));
         }
     }
 
