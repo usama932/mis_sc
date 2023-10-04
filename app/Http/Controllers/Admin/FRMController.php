@@ -47,11 +47,10 @@ class FRMController extends Controller
             $total_frm = Frm::where('district',auth()->user()->district)
                                 ->where('name_of_registrar',auth()->user()->name)->count();
             $open_frm = Frm::where('district',auth()->user()->district)
-                             ->where('name_of_registrar',auth()->user()->name)
-                             ->where('status','Open')->count();
+                            ->where('name_of_registrar',auth()->user()->name)
+                            ->where('status','Open')->count();
             $close_frm = Frm::where('district',auth()->user()->district)
-                              ->where('name_of_registrar',auth()->user()->name)
-                              ->where('status','Close')->count();
+                                ->where('name_of_registrar',auth()->user()->name)->where('status','Close')->count();
            
         }
         $feedbackchannels = FeedbackChannel::latest()->get();
@@ -100,18 +99,6 @@ class FRMController extends Controller
 		if(empty($request->input('search.value'))){
 			$frms = Frm::orderBy('id', 'DESC');
 			
-		}else{
-			$search = $request->input('search.value');
-           
-			$frms = Frm::orWhere('name_of_registrar', 'like', "%{$search}%")
-                        ->orWhere('gender', 'like', "%{$search}%")
-                        ->orWhere('age', 'like', "%{$search}%")
-                        ->orWhere('status', 'like', "%{$search}%")
-                        ->orWhere('name_of_client', 'like', "%{$search}%")
-                        ->orWhere('type_of_client', 'like', "%{$search}%")
-                        ->orWhere('referral_name', 'like', "%{$search}%")
-                        ->orWhere('referral_position', 'like', "%{$search}%")
-                        ->orWhere('client_contact', 'like', "%{$search}%");
 		}
        
         if($request->name_of_registrar != null){
@@ -287,7 +274,7 @@ class FRMController extends Controller
                         $view   = '<a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
                                     <i class="fa fa-eye"></i>
                                     </a>';
-                        if($r->name_of_registrar == auth()->user()->name){
+                        if($r->name_of_registrar == auth()->user()->name && $r->status != 'Close'){
                             if($r->status == 'Open'){
                                 $edit   = '<a title="Edit" class="btn btn-sm btn-clean btn-icon"
                                             href="'.$edit_url.'">
@@ -306,9 +293,14 @@ class FRMController extends Controller
                         $view   = '<a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
                                     <i class="fa fa-eye"></i>
                                     </a>';
-                        $edit   ='<a title="Edit" class="btn btn-sm btn-clean btn-icon"
-                                    href="'.$edit_url.'">
-                                    <i class="fa fa-pencil"></i></a>';
+                        if($r->status != 'Close'){
+                            $edit   ='<a title="Edit" class="btn btn-sm btn-clean btn-icon"
+                            href="'.$edit_url.'">
+                            <i class="fa fa-pencil"></i></a>';
+                        }else{
+                            $edit = '';
+                        }
+                        
                         $delete = '';
                     }
                     else{
@@ -324,7 +316,7 @@ class FRMController extends Controller
                         $view   = '<a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
                                     <i class="fa fa-eye"></i>
                                     </a>';
-                        if($r->name_of_registrar == auth()->user()->name){
+                        if($r->name_of_registrar == auth()->user()->name && $r->status != 'Close'){
                             $edit   = '<a title="Edit" class="btn btn-sm btn-clean btn-icon"
                                         href="'.$edit_url.'">
                                         <i class="fa fa-pencil"></i></a>';
@@ -534,7 +526,7 @@ class FRMController extends Controller
                 'project_name'=>$project_name,
                 'status'=>$status,
                  ];
-               
-        return Excel::download(new FrmExport($data), 'frm.xlsx');
+        $fileName = 'frm_' .'('. now()->format('d-m-Y') .')'. '.xlsx';
+        return Excel::download(new FrmExport($data),  $fileName);
     }
 }
