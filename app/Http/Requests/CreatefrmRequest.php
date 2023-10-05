@@ -26,6 +26,7 @@ class CreatefrmRequest extends FormRequest
     public function rules()
     {
         return [
+            'response_id' => ['unique:tbl_fbreg', 'required'],
             'name_of_registrar' => ['required', 'string'],
             'date_received' => ['required'],
             'feedback_channel' => ['required','string'],

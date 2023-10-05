@@ -92,12 +92,10 @@ class FRMController extends Controller
            
 		);
 
-		$dir = $request->input('order.0.dir');
-        $limit = $request->input('length');
-		$start = $request->input('start');
-        $order = $columns[$request->input('order.0.column')];
+        $start = $request->input('start');
+      
 		if(empty($request->input('search.value'))){
-			$frms = Frm::orderBy('id', 'DESC');
+			$frms = Frm::where('id','!=',-1);
 			
 		}
        
@@ -142,13 +140,17 @@ class FRMController extends Controller
             $frms->where('project_name',$request->project_name);
         }
         $totalData =$frms->count();
+        $limit = $request->input('length');
+     
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
         $totalFiltered = $frms->count();
-		
+       
         $frm =$frms->offset($start)
                 ->limit($limit)
-                ->orderBy($order, $dir)->latest()->get();
+                ->orderBy($order, $dir)->get();
 
-     
+        
 		$data = array();
 
 		if($frm){
