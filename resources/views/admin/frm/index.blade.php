@@ -144,9 +144,9 @@
                             <th>Province</th>
                             <th>District</th>
                             <th>Tehsil</th>
-                            <th>Union Council</th>
+                            {{-- <th>Union Council</th>
                             <th>Village</th>
-                            <th>PWD/CLWD</th>
+                            <th>PWD/CLWD</th> --}}
                             <th>Client Contact.# </th>
                             <th>Feedback Category</th>
                             <th>Theme</th>
@@ -216,9 +216,9 @@
                {"data":"province","searchable":false,"orderable":false },
                {"data":"district" ,"searchable":false,"orderable":false},
                {"data":"tehsil" ,"searchable":false,"orderable":false},
-               {"data":"uc" ,"searchable":false,"orderable":false},
-               {"data":"village","searchable":false,"orderable":false },
-               {"data":"pwd_clwd","searchable":false,"orderable":false },
+            //    {"data":"uc" ,"searchable":false,"orderable":false},
+            //    {"data":"village","searchable":false,"orderable":false },
+            //    {"data":"pwd_clwd","searchable":false,"orderable":false },
                {"data":"client_contact"},
                {"data":"feedback_category","searchable":false,"orderable":false },
                {"data":"theme" ,"searchable":false,"orderable":false},
@@ -288,9 +288,9 @@
                             {"data":"province","searchable":false,"orderable":false },
                             {"data":"district" ,"searchable":false,"orderable":false},
                             {"data":"tehsil" ,"searchable":false,"orderable":false},
-                            {"data":"uc" ,"searchable":false,"orderable":false},
-                            {"data":"village","searchable":false,"orderable":false },
-                            {"data":"pwd_clwd","searchable":false,"orderable":false },
+                            // {"data":"uc" ,"searchable":false,"orderable":false},
+                            // {"data":"village","searchable":false,"orderable":false },
+                            // {"data":"pwd_clwd","searchable":false,"orderable":false },
                             {"data":"client_contact"},
                             {"data":"feedback_category","searchable":false,"orderable":false },
                             {"data":"theme" ,"searchable":false,"orderable":false},

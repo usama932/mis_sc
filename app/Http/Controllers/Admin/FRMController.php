@@ -171,9 +171,9 @@ class FRMController extends Controller
                 $nestedData['province'] = $r->provinces->province_name ?? '';
                 $nestedData['district'] = $r->districts->district_name  ?? '';
                 $nestedData['tehsil'] = $r->tehsils->tehsil_name  ?? '';
-                $nestedData['uc'] =$r->uc?->uc_name  ?? '';
-                $nestedData['village'] = $r->village;
-                $nestedData['pwd_clwd'] = $r->pwd_clwd;
+                // $nestedData['uc'] =$r->uc?->uc_name  ?? '';
+                // $nestedData['village'] = $r->village;
+                // $nestedData['pwd_clwd'] = $r->pwd_clwd;
                 $nestedData['client_contact'] =$r->client_contact ?? "NA";
                 $nestedData['feedback_category'] = $r->category->name ?? '';
                 $nestedData['theme'] = $r->theme_name->name ?? '';
