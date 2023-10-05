@@ -427,7 +427,7 @@ class FRMController extends Controller
         $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
         if(!empty($frm))
         {
-            return view('admin.frm.edit',compact('frm','feedbackchannels','feedbackcategories','projects','themes','user'));
+            return view('admin.frm.edit',compact('frm','feedbackchannels','feedbackcategories','projects','themes','users'));
         }
     }
 
