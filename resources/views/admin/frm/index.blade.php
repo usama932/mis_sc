@@ -189,7 +189,7 @@
         });
         var frm = $('#frm').DataTable( {
             "order": [
-                [1, 'asc']
+                [1, 'desc']
             ],
             responsive: true, // Enable responsive mode
             "processing": true,

@@ -148,7 +148,7 @@ class FRMController extends Controller
        
         $frm =$frms->offset($start)
                 ->limit($limit)
-                ->orderBy($order, $dir)->get();
+                ->orderBy($order, $dir)->get()->sortByDesc("id");
 
         
 		$data = array();
@@ -196,6 +196,7 @@ class FRMController extends Controller
                 $view='';
                 $edit ='';
                 $delete ='';
+               
                 if($r->feedback_referredorshared == "No" && $r->status == "Open"){
                   
                     $nestedData['update_response'] ='NA';
@@ -332,7 +333,7 @@ class FRMController extends Controller
                 }
 
 				$nestedData['action'] ='<div>
-                                        <td>'. $view  .$edit.  $delete .'</td>
+                                        <td>'. $view  .$edit.$delete .'</td>
                                         </div>';
 				$data[] = $nestedData;
 			}
@@ -496,6 +497,7 @@ class FRMController extends Controller
     }
     public function destroy(string $id)
     {
+        dd('s');
         $frm =Frm::find($id);
         if(!empty($frm))
         {
