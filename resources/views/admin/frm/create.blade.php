@@ -60,6 +60,13 @@
                             @foreach($users as $user)
                                 <option  value="{{$user->name}}" >{{$user->name}}</option>
                             @endforeach
+                            <option  value="Ruqaiya Bibi" >Ruqaiya Bibi</option>
+                            <option  value="Dr. Kashmala" >Dr. Kashmala</option>
+                            <option  value="Mehnaz" >Mehnaz</option>
+                            <option  value="Musarrat Bibi" >Musarrat Bibi</option>
+                            <option  value="Shaista Mir" >Shaista Mir</option>
+                            <option  value="Shama" >Shama</option>
+                            <option  value="Zahid Ali Khan" >Zahid Ali Khan</option>
                         </select>
                         @error('name_of_registrar')
                             <span class="invalid-feedback" role="alert">
