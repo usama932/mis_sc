@@ -39,7 +39,7 @@
             <td>{{ $loop->index + 1 }}</td>
             <td>{{ $frm->response_id ?? 'NA'}}</td>
             <td>{{ $frm->name_of_registrar ?? 'NA' }}</td>
-            <td>{{ $frm->date_received ?? 'NA'}}</td>
+            <td>{{$frm->date_received ?? 'NA'}}</td>
             <td>{{ $frm->channel?->name ?? 'NA'}}</td>
             <td>{{ $frm->name_of_client ?? 'NA'}}</td>
             <td>{{ $frm->type_of_client ?? 'NA'}}</td>
@@ -59,8 +59,8 @@
             <td>{{ $frm->districts?->district_name ?? 'NA'}}</td>
             <td>{{ $frm->tehsils?->tehsil_name ?? 'NA'}}</td>
             <td>{{ $frm->uc?->uc_name ?? 'NA'}}</td>
-            <td>{{ $frm->village ?? 'NA'}}</td>
-            <td>{{ $frm->date_ofreferral ?? 'NA'}}</td>
+            <td>{{ $frm->village ?? 'NA'}}</td> 
+            <td>{{ $frm->date_ofreferral}}</td>
             <td>{{ $frm->referral_name ?? 'NA'}}</td>
             <td>{{ $frm->referral_position ?? 'NA'}}</td>
             <td>{{ $frm->feedback_summary ?? 'NA'}}</td>

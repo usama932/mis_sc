@@ -48,6 +48,13 @@
                             @foreach($users as $user)
                                 <option  value="{{$user->name}}" >{{$user->name}}</option>
                             @endforeach
+                            <option  value="Ruqaiya Bibi" >Ruqaiya Bibi</option>
+                            <option  value="Dr. Kashmala" >Dr. Kashmala</option>
+                            <option  value="Mehnaz" >Mehnaz</option>
+                            <option  value="Musarrat Bibi" >Musarrat Bibi</option>
+                            <option  value="Shaista Mir" >Shaista Mir</option>
+                            <option  value="Shama" >Shama</option>
+                            <option  value="Zahid Ali Khan" >Zahid Ali Khan</option>
                         </select>
                     </div>
                     <div class="col-md-3 my-3">
@@ -74,9 +81,9 @@
                         </label>
                         <select name="age" aria-label="Select a Age" data-control="select2" data-placeholder="Select a age..." class="form-select form-select-solid" id="age_id" >
                             <option  value="">Select Option</option>
-                            <option value="Under 18">Less than 18years</option>
-                            <option value="19-50years">19-50year</option>
-                            <option value="Above 50years">Above 50 years</option>
+                            <option value="Less than 18 years">Less than 18 years</option>
+                            <option value="19-50 years">19-50 years</option>
+                            <option value="Above 50 years">Above 50 years</option>
                         </select>
 
                     </div>

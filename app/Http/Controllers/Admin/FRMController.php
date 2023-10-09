@@ -530,7 +530,7 @@ class FRMController extends Controller
                 'project_name'=>$project_name,
                 'status'=>$status,
                  ];
-        $fileName = 'frm_' .'('. now()->format('d-m-Y') .')'. '.xlsx';
+        $fileName = 'frm_' .'('. now()->format('d-m-Y') .')'. '.csv';
         return Excel::download(new FrmExport($data),  $fileName);
     }
 }
