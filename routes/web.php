@@ -38,7 +38,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('get-frm', [FRMController::class,'FrmDetail'])->name('admin.getFrm');
     Route::get('frm/create_update/{id}', [FRMController::class,'getUpdate_response'])->name('frm-update-response');
     Route::post('frm/response_update/{id}', [FRMController::class,'postUpdate_response'])->name('frm-response.update');
-    Route::get('frm/export', [FRMController::class,'getexportform'])->name('frm-export');
+    Route::get('frm-managements/frm/export', [FRMController::class,'getexportform'])->name('frm-export');
     Route::post('getfrm/export', [FRMController::class,'getexportfrm'])->name('getfrm-export');
     //Ajax Destrict
     

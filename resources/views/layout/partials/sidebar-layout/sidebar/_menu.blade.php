@@ -72,7 +72,7 @@
                     <!--end:Menu sub-->
                 </div>
             @endcan
-            <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('user-management.*') ? 'here show' : '' }}">
+            <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('frm-managements.*') ? 'here show' : '' }}">
 				<!--begin:Menu link-->
 				<span class="menu-link">
 					<span class="menu-icon">{!! getIcon('abstract-1', 'fs-2') !!}</span>
@@ -86,7 +86,7 @@
                     @can('create feedback registry')
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link {{ request()->routeIs('/frm-managements/create.*') ? 'active' : '' }}" href="{{ route('frm-managements.create') }}">
+                            <a class="menu-link {{ request()->routeIs('frm-managements.create') ? 'active' : '' }}" href="{{ route('frm-managements.create') }}"">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
@@ -98,7 +98,7 @@
                     @can('read feedback registry')
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link {{ request()->routeIs('/frm-managements.*') ? 'active' : '' }}" href="{{ route('frm-managements.index') }}">
+                            <a class="menu-link {{ request()->routeIs('frm-managements.index') ? 'active' : '' }}" href="{{ route('frm-managements.index') }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
