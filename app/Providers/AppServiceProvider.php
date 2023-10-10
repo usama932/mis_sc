@@ -7,6 +7,8 @@ use Illuminate\Database\Schema\Builder;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\Interfaces\FrmRepositoryInterface;
 use App\Repositories\FrmRepository;
+use App\Repositories\Interfaces\QbRepositoryInterface;
+use App\Repositories\QbRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(FrmRepositoryInterface::class, FrmRepository::class);
+        $this->app->bind(QbRepositoryInterface::class, QbRepository::class);
     }
 
     /**

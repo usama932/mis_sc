@@ -72,57 +72,110 @@
                     <!--end:Menu sub-->
                 </div>
             @endcan
-            <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('frm-managements.*') ? 'here show' : '' }}">
-				<!--begin:Menu link-->
-				<span class="menu-link">
-					<span class="menu-icon">{!! getIcon('abstract-1', 'fs-2') !!}</span>
-					<span class="menu-title">FRM Management</span>
-					<span class="menu-arrow"></span>
-				</span>
-				<!--end:Menu link-->
-				<!--begin:Menu sub-->
-				<div class="menu-sub menu-sub-accordion">
-					<!--begin:Menu item-->
-                    @can('create feedback registry')
-                        <div class="menu-item">
-                            <!--begin:Menu link-->
-                            <a class="menu-link {{ request()->routeIs('frm-managements.create') ? 'active' : '' }}" href="{{ route('frm-managements.create') }}"">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">Add FeedBack Registry</span>
-                            </a>
-                            <!--end:Menu link-->
-                        </div>
-                    @endcan
-                    @can('read feedback registry')
-                        <div class="menu-item">
-                            <!--begin:Menu link-->
-                            <a class="menu-link {{ request()->routeIs('frm-managements.index') ? 'active' : '' }}" href="{{ route('frm-managements.index') }}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">List FeedBack Registry</span>
-                            </a>
-                            <!--end:Menu link-->
-                        </div>
-                    @endcan
-                    @can('read feedback registry')
-                        <div class="menu-item">
-                            <!--begin:Menu link-->
-                            <a class="menu-link {{ request()->routeIs('frm-export') ? 'active' : '' }}" href="{{ route('frm-export') }}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">Export FeedBack Registry</span>
-                            </a>
-                            <!--end:Menu link-->
-                        </div>
-                    @endcan
-				</div>
-				<!--end:Menu sub-->
-			</div>
-
+            @can('frm')
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('frm-managements.*') ? 'here show' : '' }}">
+                    <!--begin:Menu link-->
+                    <span class="menu-link">
+                        <span class="menu-icon">{!! getIcon('abstract-1', 'fs-2') !!}</span>
+                        <span class="menu-title">FRM Management</span>
+                        <span class="menu-arrow"></span>
+                    </span>
+                    <!--end:Menu link-->
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        @can('create feedback registry')
+                            <div class="menu-item">
+                                <!--begin:Menu link-->
+                                <a class="menu-link {{ request()->routeIs('frm-managements.create') ? 'active' : '' }}" href="{{ route('frm-managements.create') }}"">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Add FeedBack Registry</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                        @endcan
+                        @can('read feedback registry')
+                            <div class="menu-item">
+                                <!--begin:Menu link-->
+                                <a class="menu-link {{ request()->routeIs('frm-managements.index') ? 'active' : '' }}" href="{{ route('frm-managements.index') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">List FeedBack Registry</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                        @endcan
+                        @can('read feedback registry')
+                            <div class="menu-item">
+                                <!--begin:Menu link-->
+                                <a class="menu-link {{ request()->routeIs('frm-export') ? 'active' : '' }}" href="{{ route('frm-export') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Export FeedBack Registry</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                        @endcan
+                    </div>
+                    <!--end:Menu sub-->
+                </div>
+            @endcan
+            @can('quality_bench')
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('quality-benchs.*') ? 'here show' : '' }}">
+                    <!--begin:Menu link-->
+                    <span class="menu-link">
+                        <span class="menu-icon">{!! getIcon('abstract-1', 'fs-2') !!}</span>
+                        <span class="menu-title">Quality Benchmarks</span>
+                        <span class="menu-arrow"></span>
+                    </span>
+                    <!--end:Menu link-->
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        @can('create quality benchmarks')
+                            <div class="menu-item">
+                                <!--begin:Menu link-->
+                                <a class="menu-link {{ request()->routeIs('quality-benchs.create') ? 'active' : '' }}" href="{{ route('quality-benchs.create') }}"">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Create Quality Benchmarks</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                        @endcan
+                        @can('read quality benchmarks')
+                            <div class="menu-item">
+                                <!--begin:Menu link-->
+                                <a class="menu-link {{ request()->routeIs('quality-benchs.index') ? 'active' : '' }}" href="{{ route('quality-benchs.index') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">List Quality Benchmarks</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                        @endcan
+                        @can('read quality benchmarks')
+                            <div class="menu-item">
+                                <!--begin:Menu link-->
+                                <a class="menu-link {{ request()->routeIs('frm-export') ? 'active' : '' }}" href="{{ route('frm-export') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Export Quality Benchmarks</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                        @endcan
+                    </div>
+                    <!--end:Menu sub-->
+                </div>
+            @endcan
 			<!--end:Menu item-->
 		</div>
 		<!--end::Menu-->

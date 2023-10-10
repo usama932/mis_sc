@@ -5,6 +5,7 @@ use App\Http\Controllers\Apps\RoleManagementController;
 use App\Http\Controllers\Apps\UserManagementController;
 use App\Http\Controllers\Admin\FRMController;
 use App\Http\Controllers\Admin\FBAjaxController;
+use App\Http\Controllers\Admin\QbController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\UserController;
@@ -40,11 +41,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('frm/response_update/{id}', [FRMController::class,'postUpdate_response'])->name('frm-response.update');
     Route::get('frm-managements/frm/export', [FRMController::class,'getexportform'])->name('frm-export');
     Route::post('getfrm/export', [FRMController::class,'getexportfrm'])->name('getfrm-export');
-    //Ajax Destrict
     
+    //Ajax Destrict
     Route::post('getDistrict', [FBAjaxController::class,'getDistrict'])->name('getDistrict');
     Route::post('getTehsil', [FBAjaxController::class,'getTehsil'])->name('getTehsil');
     Route::post('getUnionCouncil', [FBAjaxController::class,'getUnionCouncil'])->name('getUnionCouncil');
+
+    //Quality Bench Routes
+    Route::resource('/quality-benchs', QbController::class);
+
 
     //Reset Password
     Route::get('reset/password', [UserController::class,'reset_password'])->name('reset_password');

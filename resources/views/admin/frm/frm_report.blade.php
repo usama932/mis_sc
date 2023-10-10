@@ -57,10 +57,10 @@
             <td>{{ $frm->project?->name ?? 'NA'}}</td>
             <td>{{ $frm->provinces?->province_name ?? 'NA'}}</td>
             <td>{{ $frm->districts?->district_name ?? 'NA'}}</td>
-            <td>{{ $frm->tehsils?->tehsil_name ?? 'NA'}}</td>
-            <td>{{ $frm->uc?->uc_name ?? 'NA'}}</td>
+            <td>{{ $frm->tehsils?->tehsil_name ?? $frm->tehsil}}</td>
+            <td>{{ $frm->uc?->uc_name ?? $frm->union_counsil}}</td>
             <td>{{ $frm->village ?? 'NA'}}</td> 
-            <td>{{ $frm->date_ofreferral}}</td>
+            <td>{{ $frm->date_ofreferral ?? 'NA'}}</td>
             <td>{{ $frm->referral_name ?? 'NA'}}</td>
             <td>{{ $frm->referral_position ?? 'NA'}}</td>
             <td>{{ $frm->feedback_summary ?? 'NA'}}</td>
