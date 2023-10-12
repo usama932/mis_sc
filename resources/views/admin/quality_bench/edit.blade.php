@@ -38,7 +38,7 @@
                     <a class="nav-link rounded-pill" id="monitoring-visit-tab" data-toggle="pill" href="#monitoring-visit" style="color: white">Details of Monitoring Visit</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link rounded-pill" id="action-point-tab" data-toggle="pill" href="#action-point" style="color: white">Action Point Details</a>
+                    <a class="nav-link rounded-pill" id="action_point-tab" data-toggle="pill" href="#action_point" style="color: white">Action Point Details</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link rounded-pill" id="attachments-tab" data-toggle="pill" href="#attachments" style="color: white">Attachments</a>
@@ -55,11 +55,11 @@
                    @include('admin.quality_bench.monitor_visits')
                     
                 </div>
-                <div class="tab-pane fade" id="action-point">
-                    <h5>Action Point Details Content Goes Here</h5>
+                <div class="tab-pane fade" id="action_point">
+                    @include('admin.quality_bench.action_point')
                 </div>
                 <div class="tab-pane fade" id="attachments">
-                    <h5>Attachments Content Goes Here</h5>
+                    @include('admin.quality_bench.attachment')
                 </div>
             </div>
         </div>
@@ -79,8 +79,8 @@
     </script>
     <script type="text/javascript"> 
         jQuery(document).ready(function ($) { 
-            $('#tabs').tab(); 
-        }); 
+            $('.nav-pills a').tab(); 
+        });
     </script>
     
     <script>

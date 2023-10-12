@@ -1,4 +1,6 @@
-<form class="form" action="{{route('quality-benchs.update',$qb->id)}}" method="post">
+
+<div>
+    <form class="form" action="{{route('quality-benchs.update',$qb->id)}}" method="post">
     @csrf
     @method('put')
     <div class="card-body py-4">
@@ -290,4 +292,5 @@
             </button>
         </div>
     </div>
-</form>
+    </form>
+</div>

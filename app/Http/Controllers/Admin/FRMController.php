@@ -277,18 +277,15 @@ class FRMController extends Controller
                         $view   = '<a class="btn btn-sm btn-clean btn-icon"" title="View" href="'.$show_url.'">
                                     <i class="fa fa-eye"></i>
                                     </a>';
-                        if($r->name_of_registrar == auth()->user()->name && $r->status != 'Close'){
-                            if($r->status == 'Open'){
-                                $edit   = '<a title="Edit" class="btn btn-sm btn-clean btn-icon"
-                                            href="'.$edit_url.'">
-                                            <i class="fa fa-pencil"></i></a>';
-                            }else{
-                                $edit   = '';
-                            }
-                        }
-                        else{
+                        
+                        if($r->status != 'Close'){
+                            $edit   = '<a title="Edit" class="btn btn-sm btn-clean btn-icon"
+                                        href="'.$edit_url.'">
+                                        <i class="fa fa-pencil"></i></a>';
+                        }else{
                             $edit   = '';
                         }
+                    
                        
                         $delete = '';
                     }
