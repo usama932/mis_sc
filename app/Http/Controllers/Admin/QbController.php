@@ -9,6 +9,7 @@ use App\Models\Project;
 use App\Models\Theme;
 use App\Models\User;
 use App\Http\Requests\CreateQbRequest;
+use App\Http\Requests\UpdateQbRequest;
 use App\Repositories\Interfaces\QbRepositoryInterface;
 
 class QbController extends Controller
@@ -60,9 +61,11 @@ class QbController extends Controller
     }
 
   
-    public function update(Request $request, string $id)
+    public function update(UpdateQbRequest $request, string $id)
     {
-        //
+        $data = $request->except('_token');
+        $Qb = $this->QbRepository->updateQb($data,$id);
+        return redirect()->back()->with('success','Quality Bench Updated');
     }
 
  

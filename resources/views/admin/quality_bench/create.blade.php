@@ -54,7 +54,7 @@
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required">Date of this monitoring visit </span>
+                            <span class="required">Date of monitoring visit </span>
                         </label>
                         <input type="text"  @error('date_visit') is-invalid @enderror name="date_visit" id="date_visit" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="" required>
                         @error('date_visit')

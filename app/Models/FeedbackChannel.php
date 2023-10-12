@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class FeedbackChannel extends Model
 {
     use HasFactory;
-    protected $table = 'feedback channel';
+    protected $table = 'feedback_channel';
     protected $guarded = [];
     public function frm()
     {

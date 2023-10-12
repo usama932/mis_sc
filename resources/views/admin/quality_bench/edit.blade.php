@@ -2,69 +2,72 @@
     @push('stylesheets')
         <link rel="stylesheet" href="{{asset('assets/css/style.bundle.css')}}">
         <script src="//code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js" type="text/javascript"></script>
+       
     @endpush
     @section('title')
         Edit Monitoring Quality Benchmarks
     @endsection
     <style>
-        .nav.nav-pills .nav-link
-        {
-        color:black!important;
+        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+            background-color: #F1C40F;
+            color: Black !important;
         }
-        td{font-size:12px;}
-     </style>
+    </style>
 
     <div class="card">
         @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
         @endif
-        <ul class="nav nav-success nav-pills">
-            <li class="nav-item">
-                <a class="nav-link " data-toggle="tab" href="#kt_tab_basic_info">Basic Information</a>
-            </li>
-           
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#kt_tab_visited_sites" tabindex="-1" aria-disabled="true">Details of Monitoring visit</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " data-toggle="tab" href="#kt_tab_action_points" tabindex="-1" aria-disabled="true">Action Point Details</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " data-toggle="tab" href="#kt_tab_attachments" tabindex="-1" aria-disabled="true">Attachments</a>
-            </li>
-        </ul>
-        <div class="card card-custom">
-            <div class="tab-content mt-5" id="myTabContent">
-                <div class="tab-pane fade show " id="kt_tab_basic_info" role="tabpanel" aria-labelledby="kt_tab_basic_info">
-                        <h1>basic test</h1>
+        @if(session()->has('success'))
+            <div class="alert alert-success">
+                {{ session()->get('success') }}
+            </div>
+        @endif
+        <div class="container mt-5">
+            <ul class="nav nav-pills rounded-pill d-flex justify-content-center p-1" style="background-color: red">
+                <li class="nav-item ">
+                    <a class="nav-link active rounded-pill" id="basic-info-tab" data-toggle="pill" href="#basic-info" style="color: white">Basic Information</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link rounded-pill" id="monitoring-visit-tab" data-toggle="pill" href="#monitoring-visit" style="color: white">Details of Monitoring Visit</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link rounded-pill" id="action-point-tab" data-toggle="pill" href="#action-point" style="color: white">Action Point Details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link rounded-pill" id="attachments-tab" data-toggle="pill" href="#attachments" style="color: white">Attachments</a>
+                </li>
+            </ul>
+        
+            <div class="tab-content mt-2">
+                
+                <div class="tab-pane fade show active" id="basic-info">
+                    @include('admin.quality_bench.basic_information')
+                    
                 </div>
-                <div class="tab-pane fade" id="kt_tab_visited_sites" role="tabpanel" aria-labelledby="kt_tab_visited_sites">
-                    <div class="card-body">
-                        <h1>monitor test</h1>
-                    </div>
+                <div class="tab-pane fade" id="monitoring-visit">
+                   @include('admin.quality_bench.monitor_visits')
+                    
                 </div>
-                <div class="tab-pane fade" id="kt_tab_action_points" role="tabpanel" aria-labelledby="kt_tab_visited_sites">
-                    <div class="card-body">
-                        <h1>monitor test</h1>
-                    </div>
+                <div class="tab-pane fade" id="action-point">
+                    <h5>Action Point Details Content Goes Here</h5>
                 </div>
-                <div class="tab-pane fade" id="kt_tab_attachments" role="tabpanel" aria-labelledby="kt_tab_visited_sites">
-                    <div class="card-body">
-                        <h1>monitor test</h1>
-                    </div>
+                <div class="tab-pane fade" id="attachments">
+                    <h5>Attachments Content Goes Here</h5>
                 </div>
             </div>
         </div>
         
     </div>
     @push('scripts')
+ 
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         $('#date_visit').flatpickr({
             altInput: true,
@@ -79,8 +82,16 @@
             $('#tabs').tab(); 
         }); 
     </script>
+    
+    <script>
+        $('#date_visit').flatpickr({
+            altInput: true,
+            dateFormat: "y-m-d",
+            maxDate: "today",
+            minDate: new Date().fp_incr(-60), 
+        });
+    </script>
     @include('admin.frm.frm_script');
-
 
 
     @endpush

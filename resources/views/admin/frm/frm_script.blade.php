@@ -211,5 +211,24 @@
 
     }).trigger('change');
 
+    //select QB met
+    $(document).ready(function(){
+        $(".qb_id").change(function(){
 
+            $(this).find("option:selected").each(function(){
+                var optionValue = $(this).attr("value");
+
+                if(optionValue == "Not Fully Met"){
+                    $('#gap_id').show();
+
+                }else if(optionValue == "Fully Met")
+                {
+                    $('#gap_id').hide();
+                }
+                else{
+                    $('#gap_id').hide();
+                }
+            });
+        }).change();
+    });
 </script>
