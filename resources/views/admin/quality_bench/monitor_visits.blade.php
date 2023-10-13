@@ -1,7 +1,7 @@
 <div>
-    <form class="form" action="{{route('quality-benchs.update',$qb->id)}}" method="post">
+    <form class="form" action="{{route('monitor_visits')}}" method="post">
         @csrf
-        @method('put')
+        <input type="hidden" name="quality_bench_id" value="{{$qb->id}}">
         <div class="card-body py-4">
             <div class="card-title  border-0 my-4"">
                 <div class="card-title">
@@ -52,12 +52,12 @@
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">QB Met</span>
                     </label>
-                    <select   name="Qb_met"  @error('gender') is-invalid @enderror aria-label="Select a QB Met" data-control="select2" data-placeholder="Select a QB Met..." class="form-select form-select-solid qb_id" required>
+                    <select   name="qb_met"  @error('qb_met') is-invalid @enderror aria-label="Select a QB Met" data-control="select2" data-placeholder="Select a QB Met..." class="form-select form-select-solid qb_id" required>
                         <option value="">Select QB Met</option>
                         <option  value="Not Fully Met">Not Fully Met</option>
                         <option  value="Fully Met">Fully Met</option>
                     </select>
-                    @error('gender')
+                    @error('qb_met')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>

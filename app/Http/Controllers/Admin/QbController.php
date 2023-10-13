@@ -73,4 +73,13 @@ class QbController extends Controller
     {
         //
     }
+    public function monitor_visits(Request $request){
+        dd($request->all());
+    }
+    public function monitor_visits(Request $request){
+        dd($request->all());
+    }
+    public function monitor_visits(Request $request){
+        dd($request->all());
+    }
 }

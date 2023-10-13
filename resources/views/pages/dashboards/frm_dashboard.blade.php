@@ -1,11 +1,11 @@
+
 <x-default-layout>
 
     @section('title')
-     <a href="{{route('dashboard')}}">Dashboard</a>
+        <a href="{{route('dashboard')}}">Dashboard</a>
     @endsection
-
     @section('breadcrumbs')
-        
+        Dashboard - FRM Dashboard
     @endsection
 
     <!--begin::Row-->
@@ -14,7 +14,9 @@
     </div>
     <!--end::Row-->
 
- 
+    
 
-   
+    
 </x-default-layout>
+    
+   

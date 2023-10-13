@@ -231,4 +231,24 @@
             });
         }).change();
     });
+      //select agree_id
+    $(document).ready(function(){
+        $(".agree_id").change(function(){
+
+            $(this).find("option:selected").each(function(){
+                var optionValue = $(this).attr("value");
+
+                if(optionValue == "Yes"){
+                    $('.action_agree_id').show();
+
+                }else if(optionValue == "No")
+                {
+                    $('.action_agree_id').hide();
+                }
+                else{
+                    $('.action_agree_id').hide();
+                }
+            });
+        }).change();
+    });
 </script>

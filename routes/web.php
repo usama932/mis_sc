@@ -27,6 +27,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::name('dashboards.')->group(function () {
+        Route::get('frm_dashboard', [DashboardController::class,'frm_dashboard'])->name('frm_dashboard');
+        Route::get('qb_dashboard', [DashboardController::class,'qb_dashboard'])->name('qb_dashboard');
+        Route::get('medical_exit_interview', [DashboardController::class,'medical_exit_interview'])->name('medical_exit_interview');
+    });
+    
 
     Route::name('user-management.')->group(function () {
         Route::resource('/user-management/users', UserManagementController::class);
@@ -49,7 +55,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Quality Bench Routes
     Route::resource('/quality-benchs', QbController::class);
-
+    Route::post('/monitor_visits', [QbController::class,'monitor_visits'])->name('monitor_visits');
+    Route::post('/action_points', [QbController::class,'action_points'])->name('action_points');
+    Route::post('/attachments', [QbController::class,'attachments'])->name('attachments');
 
     //Reset Password
     Route::get('reset/password', [UserController::class,'reset_password'])->name('reset_password');

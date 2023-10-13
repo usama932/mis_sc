@@ -8,10 +8,47 @@
         Edit Monitoring Quality Benchmarks
     @endsection
     <style>
-        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-            background-color: #F1C40F;
-            color: Black !important;
+      
+
+        .tabs {
+            display: flex;
+            list-style: none;
+            padding: 0;
         }
+
+        .tab {
+            margin-right: 10px;
+            cursor: pointer;
+            padding: 10px;
+            color:white;
+            background-color: #3f51b5;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .tab:hover {
+            background-color: #7986cb;
+           
+        }
+
+        .tab.active {
+            background-color: #F1C40F;
+            color:black;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 0 0 5px 5px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+        .nav {
+            background-color:#e65100;
+        }
+        .tab-content {margin:20px;}
     </style>
 
     <div class="card">
@@ -29,38 +66,38 @@
                 {{ session()->get('success') }}
             </div>
         @endif
-        <div class="container mt-5">
-            <ul class="nav nav-pills rounded-pill d-flex justify-content-center p-1" style="background-color: red">
-                <li class="nav-item ">
-                    <a class="nav-link active rounded-pill" id="basic-info-tab" data-toggle="pill" href="#basic-info" style="color: white">Basic Information</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link rounded-pill" id="monitoring-visit-tab" data-toggle="pill" href="#monitoring-visit" style="color: white">Details of Monitoring Visit</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link rounded-pill" id="action_point-tab" data-toggle="pill" href="#action_point" style="color: white">Action Point Details</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link rounded-pill" id="attachments-tab" data-toggle="pill" href="#attachments" style="color: white">Attachments</a>
-                </li>
+        <div class="container-fluid">
+            <ul class="nav nav-pills d-flex justify-content-center rounded-pill mt-3 p-2">
+                <ul class="tabs">
+                    <li class="tab rounded-pill active" onclick="showTab('subscribed')">Basic Information</li>
+                   
+                    <li class="tab rounded-pill" onclick="showTab('eventPassed')">Detail Monitor Visits</li>
+                    <li class="tab rounded-pill" onclick="showTab('eventNow')">Action Point Details</li>
+                    <li class="tab rounded-pill" onclick="showTab('eventIncoming')">Attachments</li>
+                </ul>
             </ul>
-        
-            <div class="tab-content mt-2">
-                
-                <div class="tab-pane fade show active" id="basic-info">
-                    @include('admin.quality_bench.basic_information')
-                    
-                </div>
-                <div class="tab-pane fade" id="monitoring-visit">
-                   @include('admin.quality_bench.monitor_visits')
-                    
-                </div>
-                <div class="tab-pane fade" id="action_point">
-                    @include('admin.quality_bench.action_point')
-                </div>
-                <div class="tab-pane fade" id="attachments">
-                    @include('admin.quality_bench.attachment')
-                </div>
+        </div>
+
+        <div id="subscribed" class="tab-content active">
+            <div>
+                @include('admin.quality_bench.basic_information')
+            </div>
+        </div>
+    
+        <div id="eventPassed" class="tab-content">
+            <div>
+                @include('admin.quality_bench.monitor_visits')
+            </div>
+        </div>
+    
+        <div id="eventNow" class="tab-content">
+            <div>
+                @include('admin.quality_bench.action_point')
+            </div>
+        </div>
+        <div id="eventIncoming" class="tab-content">
+            <div>
+                @include('admin.quality_bench.attachment')
             </div>
         </div>
         
@@ -69,6 +106,16 @@
  
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+        function showTab(tabId) {
+            // Hide all tabs and tab contents
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            // Show the selected tab and corresponding tab content
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+   
         $('#date_visit').flatpickr({
             altInput: true,
             dateFormat: "y-m-d",
@@ -76,20 +123,13 @@
             minDate: new Date().fp_incr(-60), 
         });
         
-    </script>
-    <script type="text/javascript"> 
-        jQuery(document).ready(function ($) { 
-            $('.nav-pills a').tab(); 
-        });
-    </script>
-    
-    <script>
-        $('#date_visit').flatpickr({
+        $('#deadline').flatpickr({
             altInput: true,
             dateFormat: "y-m-d",
-            maxDate: "today",
-            minDate: new Date().fp_incr(-60), 
+            minDate: "today",
+            maxDate: new Date().fp_incr(+60), 
         });
+   
     </script>
     @include('admin.frm.frm_script');
 
