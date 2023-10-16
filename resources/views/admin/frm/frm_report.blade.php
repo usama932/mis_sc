@@ -29,6 +29,8 @@
         <th>Name of staff member to whom feedback or concern was referred to</th>
         <th>Referred Person's Designation</th>
         <th>Feedback Summary</th>
+        <th>Date of Responseback Given</th>
+        <th>Response Given</th>
         <th>Complainant satisfaction level on Action</th>
         <th>Status</th>
     </tr>
@@ -50,7 +52,7 @@
             <td>{{ $frm->client_contact ?? 'NA'}}</td>
             <td>{{ $frm->feedback_description ?? 'NA'}}</td>
             <td>{{ $frm->category?->name ?? 'NA'}}</td>
-            <td>{{ $frm->category?->name ?? 'NA'}}</td>
+            <td>{{ $frm->category?->description ?? 'NA'}}</td>
             <td>{{ $frm->datix_number ?? 'NA'}}</td>
             <td>{{ $frm->theme_name?->name ?? 'NA'}}</td>
             <td>{{ $frm->feedback_activity ?? 'NA'}}</td>
@@ -64,6 +66,8 @@
             <td>{{ $frm->referral_name ?? 'NA'}}</td>
             <td>{{ $frm->referral_position ?? 'NA'}}</td>
             <td>{{ $frm->feedback_summary ?? 'NA'}}</td>
+            <td>{{ $frm->date_of_respbackgiven ?? 'NA'}}</td>
+            <td>{{ $frm->type_of_response_required ?? 'NA'}}</td>
             <td>{{ $frm->type_ofaction_taken ?? 'NA'}}</td>
             <td>{{ $frm->status ?? 'NA'}}</td>
            

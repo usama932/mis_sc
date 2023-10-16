@@ -1,5 +1,5 @@
 <div>
-    <form class="form" action="{{route('monitor_visits')}}" method="post">
+    <form class="form" action="{{route('monitor_visits.store')}}" method="post">
         @csrf
         <input type="hidden" name="quality_bench_id" value="{{$qb->id}}">
         <div class="card-body py-4">
@@ -67,7 +67,7 @@
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Gap/issue (if not fully met)</span>
                     </label>
-                    <textarea   @error('gap_issue') is-invalid @enderror class="form-control "  name="gap_issue" / required></textarea>
+                    <textarea   @error('gap_issue') is-invalid @enderror class="form-control " name="gap_issue"></textarea>
                     
                     @error('gap_issue')
                         <span class="invalid-feedback" role="alert">
@@ -97,20 +97,37 @@
             </div>
         </div>
         <div class="table-responsive overflow-*">
-            <table class="table table-striped table-bordered nowrap" style="width:100%">
+            <table class="table table-bordered" id="monitor_visits"style="margin-top: 13px !important">
             <thead>
                 <tr>
                     <th>#S.No</th>
-                    <th>Key Finding.#</th>
-                    <th>Key Findings</th>
-                    <th>Category</th>
-                    <th>Recommendations</th>
+                    <th>Activity.#</th>
+                    <th>QB Met</th>
+                    <th>Created At</th>
                     <th>Actions</th>
                 
                 </tr>
+                
             </thead>
+         
             </table>
+           
         </div>
-
+        <div class="modal fade" id="view_monitor_visit" data-backdrop="static" tabindex="-1" role="dialog"
+        aria-labelledby="staticBackdrop" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="view_monitor_visit">Monitor Visit Details</h4>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light-primary font-weight-bold"
+                        data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 </div>

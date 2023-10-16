@@ -10,6 +10,7 @@ use App\Models\Theme;
 use App\Models\User;
 use App\Http\Requests\CreateQbRequest;
 use App\Http\Requests\UpdateQbRequest;
+use Illuminate\Support\Facades\Session;
 use App\Repositories\Interfaces\QbRepositoryInterface;
 
 class QbController extends Controller
@@ -57,6 +58,11 @@ class QbController extends Controller
         $themes = Theme::latest()->get();
         $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
         $qb = QualityBench::find($id);
+        $active = 'basic_info';
+        if(session('active') == ''){
+            session(['active' => $active]);
+        }
+        
         return view('admin.quality_bench.edit',compact('projects','themes','users','qb'));
     }
 
@@ -76,10 +82,10 @@ class QbController extends Controller
     public function monitor_visits(Request $request){
         dd($request->all());
     }
-    public function monitor_visits(Request $request){
+    public function action_points(Request $request){
         dd($request->all());
     }
-    public function monitor_visits(Request $request){
+    public function attachments(Request $request){
         dd($request->all());
     }
 }

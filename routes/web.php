@@ -9,6 +9,9 @@ use App\Http\Controllers\Admin\QbController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\MonitorVisitsController;
+use App\Http\Controllers\Admin\QBAttachmentsController;
+use App\Http\Controllers\Admin\QBActionPointController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -55,9 +58,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Quality Bench Routes
     Route::resource('/quality-benchs', QbController::class);
-    Route::post('/monitor_visits', [QbController::class,'monitor_visits'])->name('monitor_visits');
-    Route::post('/action_points', [QbController::class,'action_points'])->name('action_points');
-    Route::post('/attachments', [QbController::class,'attachments'])->name('attachments');
+    //montior visits
+
+    Route::resource('/monitor_visits', MonitorVisitsController::class);
+    Route::post('get_monitor_visits', [MonitorVisitsController::class,'get_monitor_visits'])->name('get_monitor_visits');
+    Route::post('view_monitor_visit', [MonitorVisitsController::class,'view_monitor_visit'])->name('view_monitor_visit');
+    Route::get('/monitor_visit/delete/{id}', [MonitorVisitsController::class,'destroy'])->name('monitor_visit.delete');
+
+    Route::resource('/action_points', QBActionPointController::class);
+    Route::resource('/attachments', QBAttachmentsController::class);
+
 
     //Reset Password
     Route::get('reset/password', [UserController::class,'reset_password'])->name('reset_password');
