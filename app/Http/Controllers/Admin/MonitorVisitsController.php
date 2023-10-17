@@ -19,7 +19,10 @@ class MonitorVisitsController extends Controller
     {
         //
     }
-    public function get_monitor_visits(Request $request){
+    public function get_monitor_visits(Request $request)
+    {
+        $id = $request->qb_id;
+     
         $columns = array(
 			0 => 'id',
 			1 => 'activity_number',
@@ -31,27 +34,27 @@ class MonitorVisitsController extends Controller
             5 => 'created_at'
 		);
 		
-		$totalData = MonitorVisit::count();
+		$totalData = MonitorVisit::where('quality_bench_id',$id)->count();
 		$limit = $request->input('length');
 		$start = $request->input('start');
 		$order = $columns[$request->input('order.0.column')];
 		$dir = $request->input('order.0.dir');
 		
 		if(empty($request->input('search.value'))){
-			$monitor_visits = MonitorVisit::offset($start)
+			$monitor_visits = MonitorVisit::where('quality_bench_id',$id)->offset($start)
                                 ->limit($limit)
                                 ->orderBy($order,$dir)
                                 ->get();
-			$totalFiltered = MonitorVisit::count();
+			$totalFiltered = MonitorVisit::where('quality_bench_id',$id)->count();
 		}else{
 			$search = $request->input('search.value');
-			$monitor_visits = MonitorVisit::where('activity_number','like',"%{$search}%")
+			$monitor_visits = MonitorVisit::where('quality_bench_id',$id)->where('activity_number','like',"%{$search}%")
                                     ->orWhere('qb_met','like',"%{$search}%")
                                     ->offset($start)
                                     ->limit($limit)
                                     ->orderBy($order, $dir)
                                     ->get();
-			$totalFiltered = MonitorVisit::where('activity_number', 'like', "%{$search}%")
+			$totalFiltered = MonitorVisit::where('quality_bench_id',$id)->orWhere('activity_number', 'like', "%{$search}%")
                                             ->orWhere('qb_met','like',"%{$search}%")
                                             ->orWhere('created_at','like',"%{$search}%")
                                             ->count();
@@ -74,10 +77,6 @@ class MonitorVisitsController extends Controller
                                 <td>
                                     <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();viewInfo('.$r->id.');" title="View Monitor Visit" href="javascript:void(0)">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
-                                    </a>
-                                    <a title="Edit Monitor Visit" class="btn btn-sm btn-clean btn-icon"
-                                       href="'.$edit_url.'">
-                                       <i class="fa fa-pencil" aria-hidden="true"></i>
                                     </a>
                                     <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
@@ -110,22 +109,17 @@ class MonitorVisitsController extends Controller
     public function store(Request $request)
     {
         $active = 'monitor_visit';
-        $id = $request->quality_bench_id;
-        $projects = Project::latest()->get();
-        $themes = Theme::latest()->get();
-        $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
-        $qb = QualityBench::find($id);
+
         if($request->qb_met == 'Not Fully Met'){
             $validator = Validator::make($request->all(), [
                 'gap_issue'  => 'required',
             ]);
             if ($validator->fails()) {
                 
-                return view('admin.quality_bench.edit',compact('active','projects','themes','users','qb','id'))->withErrors($validator);
+                return redirect()->back()->withErrors($validator);
             }
         }
-      
-         
+
         $monitor_visits = MonitorVisit::create([
             'quality_bench_id'      => $request->quality_bench_id,
             'activity_number'       => $request->activity_number,
@@ -133,9 +127,9 @@ class MonitorVisitsController extends Controller
             'qb_met'                => $request->qb_met,
             'gap_issue'             => $request->gap_issue ?? 'NA',
         ]);
-        $monitor_visits = MonitorVisit::latest()->take(5)->get();
-        session(['active' => $active]);
         
+        session(['active' => $active]);
+        Session::flash('success_message', 'Monitor Visit successfully Created!');
         return redirect()->back();
     }
 
@@ -170,10 +164,12 @@ class MonitorVisitsController extends Controller
     {
 
 	    $monitorVisit = MonitorVisit::find($id);
+        $active = 'monitor_visit';
 	    if(!empty($monitorVisit)){
 		    $monitorVisit->delete();
 		    Session::flash('success_message', 'Monitor Visit successfully deleted!');
 	    }
+        session(['active' => $active]);
 	    return redirect()->back();
 	   
     }

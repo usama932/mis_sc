@@ -1,7 +1,7 @@
 <div>
-    <form class="form" action="{{route('quality-benchs.update',$qb->id)}}" method="post">
+    <form class="form" action="{{route('attachments.store')}}" method="post" enctype="multipart/form-data">
         @csrf
-        @method('put')
+        <input type="hidden" name="quality_bench_id" value="{{$qb->id}}">
         <div class="card-body py-4">
             <div class="card-title  border-0 my-4"">
                 <div class="card-title">
@@ -62,4 +62,35 @@
             </div>
         </div>
     </form>
+    <div class="table-responsive overflow-*">
+        <table class="table table-bordered" id="qbattachments"style="margin-top: 13px !important">
+        <thead>
+            <tr>
+                <th>#S.No</th>
+                <th>Comments</th>
+                <th>Attachments</th>
+                <th>Created By</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+     
+        </table>
+       
+    </div>
+    <div class="modal fade" id="view_qbattachment" data-backdrop="static" tabindex="-1" role="dialog"
+        aria-labelledby="staticBackdrop" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="view_monitor_visit">Attachment Details</h4>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light-primary font-weight-bold close"
+                        data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

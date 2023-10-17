@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class QBAttachement extends Model
 {
     use HasFactory;
+    protected $table = 'qb_attachments';
+    protected $guarded = [];
 }

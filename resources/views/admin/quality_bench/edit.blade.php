@@ -68,143 +68,75 @@
                 {{ session()->get('success') }}
             </div>
         @endif
+        <input type="hidden" id="qb_id" value="{{$qb->id}}" />
         <div class="container-fluid">
             <ul class="nav nav-pills d-flex justify-content-center  mt-3 p-2">
                 <ul class="tabs">
-                    <li class="tab @if(session('active') == 'basic_info')  active @endif"  onclick="showTab('basic_info')">{{session('active')}}Basic Information</li>         
+                    <li class="tab @if(session('active') == 'basic_info')  active @endif"  onclick="showTab('basic_info')">Basic Information</li>         
                     <li class="tab @if(session('active') == 'monitor_visit') active @else  @endif " onclick="showTab('monitor_visit')">Detail Monitor Visits</li>
-                    <li class="tab" @if(session('active') == 'action_point') class="active" @else  @endif onclick="showTab('eventNow')">Action Point Details</li>
-                    <li class="tab" @if(session('active') == 'qbattachment') class="active" @else  @endif onclick="showTab('eventIncoming')">Attachments</li>
+                    <li class="tab @if(session('active') == 'action_point') active @else  @endif"  onclick="showTab('action_point')">Action Point Details</li>
+                    <li class="tab @if(session('active') == 'qbattachment') active @else  @endif"  onclick="showTab('qbattachment')">Attachments</li>
                 </ul>
             </ul>
         </div>
 
         <div id="basic_info" class="tab-content  @if(session('active') == 'basic_info') active @else  @endif">
             <div>
-                @include('admin.quality_bench.basic_information')
+                @include('admin.quality_bench.basic_information.basic_information')
             </div>
         </div>
     
         <div id="monitor_visit" class="tab-content  @if(session('active') == 'monitor_visit') active @else  @endif">
             <div>
-                @include('admin.quality_bench.monitor_visits')
+                @include('admin.quality_bench.monitor_visits.monitor_visits')
             </div>
         </div>
     
-        <div id="eventNow" class="tab-content">
+        <div id="action_point" class="tab-content @if(session('active') == 'action_point') active @else  @endif">
             <div>
-                @include('admin.quality_bench.action_point')
+                @include('admin.quality_bench.action_point.action_point')
             </div>
         </div>
-        <div id="eventIncoming" class="tab-content">
+        <div id="qbattachment" class="tab-content @if(session('active') == 'qbattachment') active @else  @endif">
             <div>
-                @include('admin.quality_bench.attachment')
+                @include('admin.quality_bench.qb_attachment.attachment')
             </div>
         </div>
         
     </div>
     @push('scripts')
  
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        function showTab(tabId) {
-            // Hide all tabs and tab contents
-            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            function showTab(tabId) {
+                // Hide all tabs and tab contents
+                document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
 
-            // Show the selected tab and corresponding tab content
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
-        }
-   
-        $('#date_visit').flatpickr({
-            altInput: true,
-            dateFormat: "y-m-d",
-            maxDate: "today",
-            minDate: new Date().fp_incr(-60), 
-        });
-        
-        $('#deadline').flatpickr({
-            altInput: true,
-            dateFormat: "y-m-d",
-            minDate: "today",
-            maxDate: new Date().fp_incr(+60), 
-        });
-   
-    </script>
-    @include('admin.frm.frm_script');
-    <script>
-        //Monitor Visits
-        var clients = $('#monitor_visits').DataTable({
-            "order": [
-                [1, 'asc']
-            ],
-            "processing": true,
-            "serverSide": true,
-            "searchDelay": 500,
-            "responsive": true,
-            "ajax": {
-                "url": "{{ route('get_monitor_visits') }}",
-                "dataType": "json",
-                "type": "POST",
-                "data": {
-                    "_token": "<?php echo csrf_token(); ?>"
-                }
-            },
-            "columns": [{
-                    "data": "id",
-                    "searchable": false,
-                    "orderable": false
-                },
-                {
-                    "data": "activity_number"
-                },
-                {
-                    "data": "qb_met"
-                },
-               
-                {
-                    "data": "created_at"
-                },
-                {
-                    "data": "action",
-                    "searchable": false,
-                    "orderable": false
-                }
-            ]
-        });
-        function viewInfo(id) {
+                // Show the selected tab and corresponding tab content
+                document.getElementById(tabId).classList.add('active');
+                event.currentTarget.classList.add('active');
+            }
     
-            var CSRF_TOKEN = '{{ csrf_token() }}';
-            $.post("{{ route('view_monitor_visit') }}", {
-                _token: CSRF_TOKEN,
-                id: id
-            }).done(function(response) {
-                $('.modal-body').html(response);
-                $('#view_monitor_visit').modal('show');
+            $('#date_visit').flatpickr({
+                altInput: true,
+                dateFormat: "y-m-d",
+                maxDate: "today",
+                minDate: new Date().fp_incr(-60), 
+            });
+            
+            $('#deadline').flatpickr({
+                altInput: true,
+                dateFormat: "y-m-d",
+                minDate: "today",
+                maxDate: new Date().fp_incr(+60), 
+            });
     
-            });
-        }
-        function del(id) {
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Yes, delete it!"
-            }).then(function(result) {
-                if (result.value) {
-                    Swal.fire(
-                        "Deleted!",
-                        "Your monitor visit has been deleted.",
-                        "success"
-                    );
-                    var APP_URL = {!! json_encode(url('/')) !!}
-                    window.location.href = APP_URL + "/monitor_visit/delete/" + id;
-                }
-            });
-        }
-    </script>
+        </script>
+        @include('admin.frm.frm_script');
+        @include('admin.quality_bench.qb_scripts');
+       
+        //Action Point Scripts
     @endpush
 
 </x-default-layout>

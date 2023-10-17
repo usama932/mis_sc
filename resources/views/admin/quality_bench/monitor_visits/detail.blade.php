@@ -10,7 +10,10 @@
                     </div>
                 </div>
                 <table class="table table-striped">
-
+                    <tr>
+                        <td><strong>QB </strong></td>
+                        <td>{{$monitor_visit->quality_bench_id ?? "NA"}}</td>
+                    </tr>
                     <tr>
                         <td ><strong>Activity Number</strong></td>
                         <td>{{$monitor_visit->activity_number}}</td>
@@ -36,17 +39,14 @@
                         <td>{{$monitor_visit->quality_bench_id ?? "NA"}}</td>
                     </tr>
                     <tr>
-                        <td><strong>Created At </strong></td>
+                        <td><strong>Created By </strong></td>
                         <td>{{$monitor_visit->created_by ?? "NA"}}</td>
                     </tr>
                     <tr>
-                        <td><strong>Created By </strong></td>
+                        <td><strong>Created At </strong></td>
                         <td>{{$monitor_visit->created_at ?? "NA"}}</td>
                     </tr>
-                    <tr>
-                        <td><strong>QB </strong></td>
-                        <td>{{$monitor_visit->quality_bench_id ?? "NA"}}</td>
-                    </tr>
+                  
                 </table>
                 
             </div>

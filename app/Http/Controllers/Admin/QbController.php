@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Http\Requests\CreateQbRequest;
 use App\Http\Requests\UpdateQbRequest;
 use Illuminate\Support\Facades\Session;
+use App\Models\MonitorVisit;
 use App\Repositories\Interfaces\QbRepositoryInterface;
 
 class QbController extends Controller
@@ -23,16 +24,81 @@ class QbController extends Controller
     }
     public function index()
     {
-        //
+        return view('admin.quality_bench.index');
     }
 
-   
+    public function get_qbs(Request $request)
+    {
+        $id = $request->qb_id;
+        $columns = array(
+			0 => 'id',
+			1 => 'comments',
+			2 => 'document',
+            8 => 'created_by',
+            9 => 'created_at',
+
+		);
+		
+		$totalData = QualityBench::count();
+		$limit = $request->input('length');
+		$start = $request->input('start');
+		$order = $columns[$request->input('order.0.column')];
+		$dir = $request->input('order.0.dir');
+		
+		
+        $qualit_benchs = QualityBench::offset($start)
+                            ->limit($limit)
+                            ->orderBy($order,$dir)
+                            ->get();
+        $totalFiltered = QualityBench::count();
+    
+		
+		
+		$data = array();
+		
+		if($qualit_benchs){
+			foreach($qualit_benchs as $r){
+				$edit_url = route('quality-benchs.edit',$r->id);
+				$nestedData['id'] = $r->id;
+				$nestedData['comments'] = $r->comments;
+                $nestedData['document'] = '<a class="btn btn-sm btn-clean btn-icon" title="Download Attachment" href=""'.$download_url.'"">
+                                            Download</a>';
+                $nestedData['created_by'] = $r->created_by;
+				$nestedData['action'] = '
+                                <div>
+                                <td>
+                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();viewInfo('.$r->id.');" title="View Monitor Visit" href="javascript:void(0)">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                                </div>
+                            ';
+				$data[] = $nestedData;
+			}
+		}
+		
+		$json_data = array(
+			"draw"			=> intval($request->input('draw')),
+			"recordsTotal"	=> intval($totalData),
+			"recordsFiltered" => intval($totalFiltered),
+			"data"			=> $data
+		);
+		
+		echo json_encode($json_data);
+    }
+    public function view_qb(Request $request){
+        $qb_attachment = QBAttachement::where('id',$request->id)->first();
+        return view('admin.quality_bench.qb_attachment.detail',compact('qb_attachment'));
+    }
     public function create()
     {
         $projects = Project::latest()->get();
         $themes = Theme::latest()->get();
         $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
-        return view('admin.quality_bench.create',compact('projects','themes','users'));
+        return view('admin.quality_bench.basic_information.create',compact('projects','themes','users'));
     }
 
    
@@ -59,11 +125,12 @@ class QbController extends Controller
         $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
         $qb = QualityBench::find($id);
         $active = 'basic_info';
+        $monitor_visits = MonitorVisit::where('quality_bench_id',$id)->latest()->get();
         if(session('active') == ''){
             session(['active' => $active]);
         }
         
-        return view('admin.quality_bench.edit',compact('projects','themes','users','qb'));
+        return view('admin.quality_bench.edit',compact('projects','themes','users','qb','monitor_visits'));
     }
 
   

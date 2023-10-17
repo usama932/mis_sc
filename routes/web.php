@@ -5,6 +5,7 @@ use App\Http\Controllers\Apps\RoleManagementController;
 use App\Http\Controllers\Apps\UserManagementController;
 use App\Http\Controllers\Admin\FRMController;
 use App\Http\Controllers\Admin\FBAjaxController;
+use App\Http\Controllers\Admin\QBAjaxController;
 use App\Http\Controllers\Admin\QbController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\DashboardController;
@@ -58,16 +59,28 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Quality Bench Routes
     Route::resource('/quality-benchs', QbController::class);
-    //montior visits
-
+    Route::post('get_qbs', [QbController::class,'get_qbs'])->name('get_qbs');
+    Route::post('view_qb', [QbController::class,'view_qb'])->name('view_qb');
+    Route::get('/qb/delete/{id}', [QbController::class,'destroy'])->name('qb.delete');
+    //montior visits Routes
     Route::resource('/monitor_visits', MonitorVisitsController::class);
     Route::post('get_monitor_visits', [MonitorVisitsController::class,'get_monitor_visits'])->name('get_monitor_visits');
     Route::post('view_monitor_visit', [MonitorVisitsController::class,'view_monitor_visit'])->name('view_monitor_visit');
     Route::get('/monitor_visit/delete/{id}', [MonitorVisitsController::class,'destroy'])->name('monitor_visit.delete');
 
+    //Action Points Routes
+    Route::post('getactivity', [QBAjaxController::class,'getactivity'])->name('getactivity');
     Route::resource('/action_points', QBActionPointController::class);
-    Route::resource('/attachments', QBAttachmentsController::class);
+    Route::post('get_action_points', [QBActionPointController::class,'get_action_points'])->name('get_action_points');
+    Route::post('view_action_point', [QBActionPointController::class,'view_action_point'])->name('view_action_point');
+    Route::get('/action_point/delete/{id}', [QBActionPointController::class,'destroy'])->name('action_point.delete');
 
+    //Qbattachments Routes
+    Route::resource('/attachments', QBAttachmentsController::class);
+    Route::post('get_qb_attachments', [QBAttachmentsController::class,'get_qb_attachments'])->name('get_qb_attachments');
+    Route::post('view_qb_attachments', [QBAttachmentsController::class,'view_qb_attachments'])->name('view_qb_attachments');
+    Route::get('/qb_attachments/delete/{id}', [QBAttachmentsController::class,'destroy'])->name('qb_attachments.delete');
+    Route::get('/download/qb_attachments/{id}', [QBAttachmentsController::class,'download_attachment'])->name('download.qb_attachments');
 
     //Reset Password
     Route::get('reset/password', [UserController::class,'reset_password'])->name('reset_password');
