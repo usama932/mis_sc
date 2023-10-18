@@ -45,6 +45,7 @@
                         </label>
                         <select name="name_of_registrar" id="name_of_registrar" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select form-select-solid" >
                             <option  value="" selected>Select Option</option>
+                            <option  value="" >None</option>
                             @foreach($users as $user)
                                 <option  value="{{$user->name}}" >{{$user->name}}</option>
                             @endforeach

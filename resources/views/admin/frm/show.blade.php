@@ -20,7 +20,7 @@
                     </tr>
                     <tr>
                         <td><strong>Date Received</strong></td>
-                        <td>{{$frm->date_received}}</td>
+                        <td>{{date('d-M-Y', strtotime($frm->date_received))}}</td>
                     </tr>
                     <tr>
                         <td><strong>Feedback Channel</strong></td>
@@ -130,6 +130,12 @@
                         <td>{{$frm->referral_position ?? 'NA'}}</td>
                     </tr>
                     <tr>
+                        <td><strong>Refferal Date</strong></td>
+                        
+                        <td>@if(!empty($frm->date_ofreferral))
+                            {{date('d-M-Y', strtotime($frm->date_ofreferral))  ?? 'NA'}} @else NA @endif</td>
+                    </tr>
+                    <tr>
                         <td><strong>Feedback Summary</strong></td>
                         <td>{{$frm->feedback_summary ?? 'NA'}}</td>
                     </tr>
@@ -145,11 +151,18 @@
                 <table class="table table-striped mr-3">
                     <tr>
                         <td><strong>Date of Response Given Back</strong></td>
-                        <td>{{$frm->date_of_respbackgiven ?? 'NA'}}</td>
+                        <td>{{ date('d-M-Y', strtotime($frm->date_of_respbackgiven)) ?? 'NA'}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Response Summary</strong></td>
+                        <td>{{$frm->response_summary ?? 'NA'}}</td>
                     </tr>
                     <tr>
                         <td><strong>Number of Day back to response</strong></td>
-                        <td>{{$frm->nodays_toclose_loop ?? 'NA'}}</td>
+                        <td>@if(!empty($frm->date_received))
+                            {{round((strtotime($frm->date_of_respbackgiven) -  strtotime($frm->date_received) )/ 86400)  ?? 'NA'}}
+                            @else NA @endif
+                        </td>
                     </tr>
                     <tr>
                         <td ><strong>Status</strong></td>
@@ -163,18 +176,7 @@
                         <td><strong>Created By</strong></td>
                         <td>{{$frm->user->name ?? 'NA'}}</td>
                     </tr>
-                    <tr>
-                        <td><strong>Created At</strong></td>
-                        <td>{{$frm->created_at ?? 'NA'}}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Updated By</strong></td>
-                        <td>{{$frm->user1->name ?? 'NA'}}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Updated At</strong></td>
-                        <td>{{$frm->updated_at ?? 'NA'}}</td>
-                    </tr>
+                    
                 </table>
                 @if($responses->count() > 0)
                 <div class="card-title  border-0 my-4"">
@@ -209,6 +211,32 @@
 
                 </table>
                 @endif
+                <div class="card-title  border-0 my-4"">
+                    <div class="card-title">
+                        <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
+                            <h5 class="fw-bold m-3">Record Details::</h5>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-striped mr-3">
+                  
+                    <tr>
+                        <td><strong>Created By</strong></td>
+                        <td>{{$frm->user->name ?? 'NA'}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Created At</strong></td>
+                        <td>{{date('d-M-Y', strtotime($frm->created_at)) ?? 'NA'}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Updated By</strong></td>
+                        <td>{{$frm->user1->name ?? 'NA'}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Updated At</strong></td>
+                        <td>{{$frm->updated_at ?? 'NA'}}</td>
+                    </tr>
+                </table>
             </div>
 
 

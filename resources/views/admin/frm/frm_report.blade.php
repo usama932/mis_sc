@@ -30,7 +30,9 @@
         <th>Referred Person's Designation</th>
         <th>Feedback Summary</th>
         <th>Date of Responseback Given</th>
-        <th>Response Given</th>
+        <th> Responseback Given</th>
+        <th>No of Days of Responseback Given</th>
+        <th>Satisfaction Level</th>
         <th>Complainant satisfaction level on Action</th>
         <th>Status</th>
     </tr>
@@ -62,11 +64,17 @@
             <td>{{ $frm->tehsils?->tehsil_name ?? $frm->tehsil}}</td>
             <td>{{ $frm->uc?->uc_name ?? $frm->union_counsil}}</td>
             <td>{{ $frm->village ?? 'NA'}}</td> 
-            <td>{{ $frm->date_ofreferral ?? 'NA'}}</td>
+            <td>@if(!empty($frm->date_ofreferral)) {{ $frm->date_ofreferral ?? 'NA'}} @else NA @endif</td>
             <td>{{ $frm->referral_name ?? 'NA'}}</td>
             <td>{{ $frm->referral_position ?? 'NA'}}</td>
             <td>{{ $frm->feedback_summary ?? 'NA'}}</td>
             <td>{{ $frm->date_of_respbackgiven ?? 'NA'}}</td>
+            <td>{{ $frm->response_summary ?? 'NA'}}</td>
+            <td>
+                @if(!empty($frm->date_received))
+                    {{round((strtotime($frm->date_of_respbackgiven) -  strtotime($frm->date_received) )/ 86400)  ?? 'NA'}}
+                @else NA @endif
+            </td>
             <td>{{ $frm->type_of_response_required ?? 'NA'}}</td>
             <td>{{ $frm->type_ofaction_taken ?? 'NA'}}</td>
             <td>{{ $frm->status ?? 'NA'}}</td>

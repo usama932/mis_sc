@@ -464,6 +464,7 @@ class FRMController extends Controller
         
         $frm =Frm::where('id',$request->frm_id)->first();
         if($request->status == "Close"){
+            
             $statis = $request->actiontaken;
             $date  = $request->date_feedback_referred;
             $date1 =Carbon::parse($frm->date_received);
@@ -482,12 +483,12 @@ class FRMController extends Controller
             'response_summary'      => $request->feedback_response,
             'date_of_respbackgiven' => $date,
             'type_ofaction_taken'   => $statis,
-            'nodays_toclose_loop'   => $num_of_days,
         ]);
         $frm = FrmResponse::create([
             'follow_up_date'    => $request->date_feedback_referred,
             'response_summary'  => $request->feedback_response,
             'fbreg_id'          => $request->frm_id,
+            'created_by'        => auth()->user()->id,
         ]);
         return redirect()->route('frm-managements.show', $request->frm_id);
 
