@@ -1,8 +1,17 @@
 <x-default-layout>
     @section('title')
-        View Feedback Registry
+        View Feedback Registry 
+        
     @endsection
-    <div class="card">
+    <div class="d-flex justify-content-center">
+        <h3>Respons Id.# :: {{$frm->response_id ?? ''}}  
+        @if($frm->status == "Close")
+            <span class="badge badge-success">{{$frm->status}}</span>
+        @else
+            <span class="badge badge-warning">{{$frm->status}}</span>
+        @endif</h3>
+    </div>
+    <div class="card p-2">
         <div class="row">
             <div class="col-md-6">
                 <div class="card-title  border-0 my-4"">
@@ -54,11 +63,11 @@
                     </tr>
                     <tr>
                         <td><strong>Province</strong></td>
-                        <td>{{$frm->provinces->province_name ?? 'NA'}}</td>
+                        <td>{{$frm->provinces->province_name ?? ''}}</td>
                     </tr>
                     <tr>
                         <td><strong>District</strong></td>
-                        <td>{{$frm->districts->district_name ?? 'NA'}}</td>
+                        <td>{{$frm->districts->district_name ?? ''}}</td>
                     </tr>
                     <tr>
                         <td><strong>Tehsil</strong></td>
@@ -78,11 +87,11 @@
                     </tr>
                     <tr>
                         <td><strong>Contact Number</strong></td>
-                        <td>{{$frm->client_contact ?? 'NA'}}</td>
+                        <td>{{$frm->client_contact ?? ''}}</td>
                     </tr>
                     <tr>
                         <td><strong>Feedback Description</strong></td>
-                        <td>{{$frm->feedback_description}}</td>
+                        <td>{{$frm->feedback_description ?? ''}}</td>
                     </tr>
                     <tr>
                         <td><strong>Feedback Category</strong></td>
@@ -119,28 +128,66 @@
                 <table class="table table-striped mr-3">
                     <tr>
                         <td ><strong>Feedback Reffered Share (Yes/No)</strong></td>
-                        <td class="mx-auto">{{$frm->feedback_referredorshared ?? 'NA'}}</td>
+                        <td class="mx-auto">{{$frm->feedback_referredorshared ?? ''}}</td>
                     </tr>
                     <tr>
                         <td ><strong>Refferal Name</strong></td>
-                        <td class="mx-auto">{{$frm->referral_name ?? 'NA'}}</td>
+                        <td class="mx-auto">{{$frm->referral_name ?? ''}}</td>
                     </tr>
                     <tr>
                         <td><strong>Refferal Postion</strong></td>
-                        <td>{{$frm->referral_position ?? 'NA'}}</td>
+                        <td>{{$frm->referral_position ?? ''}}</td>
                     </tr>
                     <tr>
                         <td><strong>Refferal Date</strong></td>
                         
                         <td>@if(!empty($frm->date_ofreferral))
-                            {{date('d-M-Y', strtotime($frm->date_ofreferral))  ?? 'NA'}} @else NA @endif</td>
+                            {{date('d-M-Y', strtotime($frm->date_ofreferral))  ?? ''}} @else NA @endif</td>
                     </tr>
                     <tr>
                         <td><strong>Feedback Summary</strong></td>
-                        <td>{{$frm->feedback_summary ?? 'NA'}}</td>
+                        <td>{{$frm->feedback_summary ?? ''}}</td>
                     </tr>
                  
                 </table>
+               
+                @if($responses->count() > 0)
+                    <div class="card-title  border-0 my-4"">
+                        <div class="card-title">
+                            <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
+                                <h5 class="fw-bold m-3">Feedback Responses::</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-sm mr-3">
+                        <tr>
+                            <th>
+                                <strong>Feedback Response</strong>
+                            </th>
+                            <th>
+                                <strong>Status</strong>
+                            </th>
+                            <th>
+                                <strong>Follow-up date</strong>
+                            </th>
+                           
+                        
+                        </tr>
+                        @foreach($responses as $response)
+                            <tr>
+                                <td>{{$response->response_summary ?? "--" }}</td>
+                                <td>{{$response->status }}</td>
+                                <td>@if($response->status == 'Open')
+                                     {{date('d-M-Y', strtotime($response->follow_up_date)) }}
+                                    @else
+
+                                    @endif
+                                </td>
+                               
+                            </tr>
+                        @endforeach
+                    </table>
+                @endif
                 <div class="card-title  border-0 my-4"">
                     <div class="card-title">
                         <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
@@ -150,67 +197,29 @@
                 </div>
                 <table class="table table-striped mr-3">
                     <tr>
-                        <td><strong>Date of Response Given Back</strong></td>
-                        <td>{{ date('d-M-Y', strtotime($frm->date_of_respbackgiven)) ?? 'NA'}}</td>
+                        <td><strong>Closed Date</strong></td>
+                        <td>{{ date('d-M-Y', strtotime($frm->date_of_respbackgiven)) ?? ''}}</td>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                         <td><strong>Response Summary</strong></td>
-                        <td>{{$frm->response_summary ?? 'NA'}}</td>
-                    </tr>
+                        <td>{{$frm->response_summary ?? ''}}</td>
+                    </tr> --}}
                     <tr>
-                        <td><strong>Number of Day back to response</strong></td>
+                        <td><strong>Closing the loop (Days)</strong></td>
                         <td>@if(!empty($frm->date_received))
-                            {{round((strtotime($frm->date_of_respbackgiven) -  strtotime($frm->date_received) )/ 86400)  ?? 'NA'}}
+                            {{round((strtotime($frm->date_of_respbackgiven) -  strtotime($frm->date_received) )/ 86400)  ?? ''}}
                             @else NA @endif
                         </td>
                     </tr>
+                   
                     <tr>
-                        <td ><strong>Status</strong></td>
-                        <td class="mx-auto">{{$frm->status ?? 'NA'}}</td>
+                        <td><strong>Satisfaction</strong></td>
+                        <td>{{$frm->type_ofaction_taken ?? ''}}</td>
                     </tr>
-                    <tr>
-                        <td><strong>Satisfiction</strong></td>
-                        <td>{{$frm->type_ofaction_taken ?? 'NA'}}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Created By</strong></td>
-                        <td>{{$frm->user->name ?? 'NA'}}</td>
-                    </tr>
+                 
                     
                 </table>
-                @if($responses->count() > 0)
-                <div class="card-title  border-0 my-4"">
-                    <div class="card-title">
-                        <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
-                            <h5 class="fw-bold m-3">Feedback Responses::</h5>
-                        </div>
-                    </div>
-                </div>
-                <table class="table table-striped mr-3">
-                    <thead>
-                        <th>
-                            S.No#
-                        </th>
-                        <th>
-                            Follow-up date
-                        </th>
-                        <th>
-                            Feedback Response
-                        </th>
-                    </thead>
-                    <tbody>
-                        @foreach ($responses as $response)
-                            <tr>
-                                <td class="mx-auto">{{$loop->index + 1}}</td>
-                                <td class="mx-auto">{{$response->follow_up_date }}</td>
-                                <td class="mx-auto">{{$response->response_summary ?? "NA" }}</td>
-                            </tr>
-                        @endforeach
-
-                    </tbody>
-
-                </table>
-                @endif
+            
                 <div class="card-title  border-0 my-4"">
                     <div class="card-title">
                         <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
@@ -222,19 +231,19 @@
                   
                     <tr>
                         <td><strong>Created By</strong></td>
-                        <td>{{$frm->user->name ?? 'NA'}}</td>
+                        <td>{{$frm->user->name ?? ''}}</td>
                     </tr>
                     <tr>
                         <td><strong>Created At</strong></td>
-                        <td>{{date('d-M-Y', strtotime($frm->created_at)) ?? 'NA'}}</td>
+                        <td>{{date('d-M-Y', strtotime($frm->created_at)) ?? ''}}</td>
                     </tr>
                     <tr>
                         <td><strong>Updated By</strong></td>
-                        <td>{{$frm->user1->name ?? 'NA'}}</td>
+                        <td>{{$frm->user1->name ?? ''}}</td>
                     </tr>
                     <tr>
                         <td><strong>Updated At</strong></td>
-                        <td>{{$frm->updated_at ?? 'NA'}}</td>
+                        <td>{{$frm->updated_at ?? ''}}</td>
                     </tr>
                 </table>
             </div>
@@ -242,4 +251,7 @@
 
         </div>
     </div>
+    @push('scripts')
+   
+    @endpush
 </x-default-layout>

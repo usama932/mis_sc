@@ -5,6 +5,7 @@ namespace App\Exports;
 use Maatwebsite\Excel\Concerns\FromView;
 use Illuminate\Contracts\View\View;
 use App\Models\Frm;
+use App\Models\FrmResponse;
 
 class FrmExport implements FromView
 {
@@ -49,10 +50,12 @@ class FrmExport implements FromView
        
         $frm->with('user','user1','districts','districts',
                     'tehsils','uc','category','theme_name','channel','project')->latest();
-        $frms =  $frm->get(); 
-       
+        $frms =  $frm->with('responses')->get(); 
+        
         return view('admin.frm.frm_report', [
-            'frms' => $frms
+            'frms' => $frms,
+           
+
         ]);
     }
    

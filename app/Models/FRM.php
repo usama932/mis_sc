@@ -51,6 +51,10 @@ class Frm extends Model
     {
         return $this->belongsTo(Project::class,'project_name','id');
     }
+    public function responses()
+    {
+        return $this->hasMany(FrmResponse::class,'fbreg_id','id');
+    }
 
 }
 

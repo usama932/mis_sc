@@ -99,44 +99,48 @@ class FRMController extends Controller
 			
 		}
        
-        if($request->name_of_registrar != null){
+        if($request->name_of_registrar != null && $request->name_of_registrar != 'None'){
             $frms->where('name_of_registrar',$request->name_of_registrar);
         }
         
-        if($request->date_received != null){
+        if($request->response_id != null && $request->response_id != 'None'){
+            $frms->where('response_id',$request->response_id);
+        }
+       
+        if($request->gender != null && $request->gender != 'None'){
+            $frms->where('gender',$request->gender);
+        }
+        
+        if($request->date_received != null ){
             $date = Carbon::parse($request->date_received)->format("Y-m-d");
             $frms->where('date_received',$request->date_received);
         }
-        if($request->kt_select2_district != null){
+        if($request->kt_select2_district != null && $request->kt_select2_district != 'None'){
             $frms->where('district',$request->kt_select2_district);
         }
-        if($request->kt_select2_province != null){
+        if($request->kt_select2_province != null && $request->kt_select2_province != 'None'){
 
             $frms->where('province',$request->kt_select2_province);
         }
-        if(auth()->user()->permissions_level == 'nation-wide')
-        {
-
-        }
         if(auth()->user()->permissions_level == 'province-wide')
         {
-            $frms->where('province',auth()->user()->province);
+            $frms->where('province',auth()->user()->province && $request->name_of_registrar != 'None');
         }
         if(auth()->user()->permissions_level == 'district-wide')
         {
             $frms->where('name_of_registrar',auth()->user()->name)->where('district',auth()->user()->district);
         }
 
-        if($request->feedback_channel != null){
+        if($request->feedback_channel != null && $request->feedback_channel != 'None'){
             $frms->where('feedback_channel',$request->feedback_channel);
         }
-        if($request->age_id != null){
+        if($request->age_id != null && $request->age_id != 'None'){
             $frms->where('age',$request->age_id);
         }
-        if($request->type_of_client != null){
+        if($request->type_of_client != null && $request->type_of_client != 'None'){
             $frms->where('status',$request->type_of_client);
         }
-        if($request->project_name != null){
+        if($request->project_name != null && $request->project_name != 'None'){
             $frms->where('project_name',$request->project_name);
         }
         $totalData =$frms->count();
@@ -488,6 +492,7 @@ class FRMController extends Controller
             'follow_up_date'    => $request->date_feedback_referred,
             'response_summary'  => $request->feedback_response,
             'fbreg_id'          => $request->frm_id,
+            'status'            => $request->status,
             'created_by'        => auth()->user()->id,
         ]);
         return redirect()->route('frm-managements.show', $request->frm_id);
@@ -495,7 +500,6 @@ class FRMController extends Controller
     }
     public function destroy(string $id)
     {
-        dd('s');
         $frm =Frm::find($id);
         if(!empty($frm))
         {

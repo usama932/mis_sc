@@ -39,13 +39,25 @@
             </div>
             <div class="card-header border-0 pt-6">
                 <div class="row mb-5">
+                    <div class="col-md-6 my-3">
+                        <label class="fs-6 fw-semibold form-label mb-2">
+                            <span class="required" >Response #id</span>
+                        </label>
+                        <input type="text" name="response_id" id="response_id" class="form-control" value="">
+                    </div>
+                    <div class="col-md-6 my-3">
+                        <label class="fs-6 fw-semibold form-label mb-2">
+                            <span class="required" >Date Received</span>
+                        </label>
+                        <input type="text" name="date_received" id="date_recieved_id" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
+                    </div>
                     <div class="col-md-3 my-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Staff Name</span>
                         </label>
                         <select name="name_of_registrar" id="name_of_registrar" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select form-select-solid" >
-                            <option  value="" selected>Select Option</option>
-                            <option  value="" >None</option>
+                            <option  value="">Select a Registrar Name</option>
+                            <option  value="None" >All</option>
                             @foreach($users as $user)
                                 <option  value="{{$user->name}}" >{{$user->name}}</option>
                             @endforeach
@@ -58,12 +70,7 @@
                             <option  value="Zahid Ali Khan" >Zahid Ali Khan</option>
                         </select>
                     </div>
-                    <div class="col-md-3 my-3">
-                        <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required" >Date Received</span>
-                        </label>
-                        <input type="text" name="date_received" id="date_recieved_id" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
-                    </div>
+                  
 
                     <div class="col-md-3 my-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
@@ -71,6 +78,7 @@
                         </label>
                         <select name="feedback_channel" id="feedback_channel" aria-label="Select a Feedback Channel" data-control="select2" data-placeholder="Select a Feedback Channel..." class="form-select form-select-solid">
                             <option  value="" selected>Select Option</option>
+                            <option  value="None" >All</option>
                             @foreach($feedbackchannels as $feedbackchannel)
                                 <option  value="{{$feedbackchannel->id}}">{{$feedbackchannel->name}}</option>
                             @endforeach
@@ -82,9 +90,24 @@
                         </label>
                         <select name="age" aria-label="Select a Age" data-control="select2" data-placeholder="Select a age..." class="form-select form-select-solid" id="age_id" >
                             <option  value="">Select Option</option>
+                            <option  value="None" >All</option>
                             <option value="Less than 18 years">Less than 18 years</option>
                             <option value="19-50 years">19-50 years</option>
                             <option value="Above 50 years">Above 50 years</option>
+                        </select>
+
+                    </div>
+                    <div class="col-md-3 my-3">
+                        <label class="fs-6 fw-semibold form-label mb-2">
+                            <span class="required">Gender</span>
+                        </label>
+                        <select name="gender" aria-label="Select a Gender" data-control="select2" data-placeholder="Select a Gender..." class="form-select form-select-solid" id="gender" >
+                            <option  value="">Select Option</option>
+                            <option  value="None" >All</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Boy">Boy</option>
+                            <option value="Girl">Girl</option>
                         </select>
 
                     </div>
@@ -94,6 +117,7 @@
                         </label>
                         <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select form-select-solid">
                             <option value="" selected>Select Province</option>
+                            <option  value="None" >All</option>
                             <option value='4'>Sindh</option>
                             <option value='2'>KPK</option>
                             <option value='3'>Balochistan</option>
@@ -114,6 +138,7 @@
                         </label>
                         <select   name="type_of_client" id="type_of_client" aria-label="Select a Status" data-control="select2" data-placeholder="Select a Status" class="form-select form-select-solid">
                             <option value="" selected>Select Status</option>
+                            <option  value="None" >All</option>
                             <option value="Open" >Open</option>
                             <option value="Close" >Close</option>
                             
@@ -125,6 +150,7 @@
                         </label>
                         <select name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Project Name" class="form-select form-select-solid">
                             <option value="" selected>Select Project</option>
+                              <option  value="None" >All</option>
                             @foreach($projects as $project)
                                 <option  value="{{$project->id}}">{{$project->name}}</option>
                             @endforeach
@@ -243,7 +269,7 @@
         });
 
 
-        $("#date_recieved_id,#kt_select2_district,kt_select2_province,#feedback_channel,#name_of_registrar,#age_id,#type_of_client,#project_name").change(function () {
+        $("#response_id,#date_recieved_id,#kt_select2_district,kt_select2_province,#feedback_channel,#name_of_registrar,#age_id,#gender,#type_of_client,#project_name").change(function () {
             var table = $('#frm').DataTable();
             table.destroy();
             var name_of_registrar = document.getElementById("name_of_registrar").value ?? '1';
@@ -254,6 +280,8 @@
             var age_id = document.getElementById("age_id").value ?? '1';
             var type_of_client = document.getElementById("type_of_client").value ?? '1';
             var project_name = document.getElementById("project_name").value ?? '1';
+            var response_id = document.getElementById("response_id").value ?? '1';
+            var gender = document.getElementById("gender").value ?? '1';
 
             var clients = $('#frm').DataTable( {
                 "order": [
@@ -280,7 +308,9 @@
                             'feedback_channel':feedback_channel,
                             'age_id':age_id,
                             'type_of_client':type_of_client,
-                            'project_name':project_name
+                            'project_name':project_name,
+                            'response_id':response_id,
+                            'gender':gender
                             }
                 },
                 "columns":[

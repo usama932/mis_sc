@@ -2,7 +2,7 @@
     <thead>
     <tr>
         <th>S.No.#</th>
-        <th>Response ID</th>
+        <th>Unique ID</th>
         <th>Name of staff who received feedback/complaint</th>
         <th>Date Received</th>
         <th>Feedback Channel</th>
@@ -14,8 +14,7 @@
         <th>Allow Contact</th>
         <th>Contact No</th>
         <th>Feedback Description</th>
-        <th>Feedback Category No.</th>
-        <th>Category in which this feedback or concern falls</th>
+        <th>Feedback Category </th>
         <th>DATIX Reference.#</th>
         <th>Theme</th>
         <th>Feedback Activity </th>
@@ -25,14 +24,15 @@
         <th>Tehsil</th>
         <th>UC</th>
         <th>Village</th>
-        <th>Date of Refferal</th>
-        <th>Name of staff member to whom feedback or concern was referred to</th>
-        <th>Referred Person's Designation</th>
+        <th>Referred Date</th>
+        <th>Referred to</th>
+        <th>Designation</th>
         <th>Feedback Summary</th>
         <th>Date of Responseback Given</th>
-        <th> Responseback Given</th>
-        <th>No of Days of Responseback Given</th>
+        <th>Response Back Given</th>
+        <th>Closing/Folloe-up Date</th>
         <th>Satisfaction Level</th>
+        <th>Remarks</th>
         <th>Complainant satisfaction level on Action</th>
         <th>Status</th>
     </tr>
@@ -41,43 +41,54 @@
     @foreach($frms as $frm)
         <tr>
             <td>{{ $loop->index + 1 }}</td>
-            <td>{{ $frm->response_id ?? 'NA'}}</td>
-            <td>{{ $frm->name_of_registrar ?? 'NA' }}</td>
-            <td>{{$frm->date_received ?? 'NA'}}</td>
-            <td>{{ $frm->channel?->name ?? 'NA'}}</td>
-            <td>{{ $frm->name_of_client ?? 'NA'}}</td>
-            <td>{{ $frm->type_of_client ?? 'NA'}}</td>
-            <td>{{ $frm->gender ?? 'NA'}}</td>
-            <td>{{ $frm->pwd_clwd ?? 'NA'}}</td>
-            <td>{{ $frm->age ?? 'NA'}}</td>
-            <td>{{ $frm->allow_contact ?? 'NA'}}</td>
-            <td>{{ $frm->client_contact ?? 'NA'}}</td>
-            <td>{{ $frm->feedback_description ?? 'NA'}}</td>
-            <td>{{ $frm->category?->name ?? 'NA'}}</td>
-            <td>{{ $frm->category?->description ?? 'NA'}}</td>
-            <td>{{ $frm->datix_number ?? 'NA'}}</td>
-            <td>{{ $frm->theme_name?->name ?? 'NA'}}</td>
-            <td>{{ $frm->feedback_activity ?? 'NA'}}</td>
-            <td>{{ $frm->project?->name ?? 'NA'}}</td>
-            <td>{{ $frm->provinces?->province_name ?? 'NA'}}</td>
-            <td>{{ $frm->districts?->district_name ?? 'NA'}}</td>
+            <td>{{ $frm->response_id ?? ''}}</td>
+            <td>{{ $frm->name_of_registrar ?? '' }}</td>
+            <td>{{$frm->date_received ?? ''}}</td>
+            <td>{{ $frm->channel?->name ?? ''}}</td>
+            <td>{{ $frm->name_of_client ?? ''}}</td>
+            <td>{{ $frm->type_of_client ?? ''}}</td>
+            <td>{{ $frm->gender ?? ''}}</td>
+            <td>{{ $frm->pwd_clwd ?? ''}}</td>
+            <td>{{ $frm->age ?? ''}}</td>
+            <td>{{ $frm->allow_contact ?? ''}}</td>
+            <td>{{ $frm->client_contact ?? ''}}</td>
+            <td>{{ $frm->feedback_description ?? ''}}</td>
+            <td>{{ $frm->category?->name ?? ''}} {{ $frm->category?->description ?? ''}}</td>
+            <td>{{ $frm->datix_number ?? ''}}</td>
+            <td>{{ $frm->theme_name?->name ?? ''}}</td>
+            <td>{{ $frm->feedback_activity ?? ''}}</td>
+            <td>{{ $frm->project?->name ?? ''}}</td>
+            <td>{{ $frm->provinces?->province_name ?? ''}}</td>
+            <td>{{ $frm->districts?->district_name ?? ''}}</td>
             <td>{{ $frm->tehsils?->tehsil_name ?? $frm->tehsil}}</td>
             <td>{{ $frm->uc?->uc_name ?? $frm->union_counsil}}</td>
-            <td>{{ $frm->village ?? 'NA'}}</td> 
-            <td>@if(!empty($frm->date_ofreferral)) {{ $frm->date_ofreferral ?? 'NA'}} @else NA @endif</td>
-            <td>{{ $frm->referral_name ?? 'NA'}}</td>
-            <td>{{ $frm->referral_position ?? 'NA'}}</td>
-            <td>{{ $frm->feedback_summary ?? 'NA'}}</td>
-            <td>{{ $frm->date_of_respbackgiven ?? 'NA'}}</td>
-            <td>{{ $frm->response_summary ?? 'NA'}}</td>
+            <td>{{ $frm->village ?? ''}}</td> 
+            <td>@if(!empty($frm->date_ofreferral)) {{ $frm->date_ofreferral ?? ''}} @else  @endif</td>
+            <td>{{ $frm->referral_name ?? ''}}</td>
+            <td>{{ $frm->referral_position ?? ''}}</td>
+            <td>{{ $frm->feedback_summary ?? ''}}</td>
+            <td>{{ $frm->date_of_respbackgiven ?? ''}}</td>
+            <td>{{ $frm->response_summary ?? ''}}</td>
             <td>
-                @if(!empty($frm->date_received))
-                    {{round((strtotime($frm->date_of_respbackgiven) -  strtotime($frm->date_received) )/ 86400)  ?? 'NA'}}
-                @else NA @endif
+                @if(!empty($frm->date_of_respbackgiven))
+                    {{round((strtotime($frm->date_of_respbackgiven) -  strtotime($frm->date_received) )/ 86400)  ?? ''}}
+                @else  @endif
             </td>
-            <td>{{ $frm->type_of_response_required ?? 'NA'}}</td>
-            <td>{{ $frm->type_ofaction_taken ?? 'NA'}}</td>
-            <td>{{ $frm->status ?? 'NA'}}</td>
+            <td>{{ $frm->type_of_response_required ?? ''}}</td>
+            
+            <td>
+                @if($frm->responses->count() > 0)
+                    @foreach($frm->responses as $response)
+                        {{$response->follow_up_date}}:: {{$response->response_summary ?? ''}}\n
+                       
+                    @endforeach
+                @else
+
+                @endif
+            </td>
+            
+            <td>{{ $frm->type_ofaction_taken ?? ''}}</td>
+            <td>{{ $frm->status ?? ''}}</td>
            
         </tr>
     @endforeach
