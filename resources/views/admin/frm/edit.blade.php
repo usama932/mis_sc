@@ -249,11 +249,13 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Feedback Referred or Shared</span>
                         </label>
-                        <select name="feedback_referredorshared"  @error('feedback_referredorshared') is-invalid @enderror aria-label="Select a Option" data-placeholder="Select a Statut..." class="form-select form-select-solid shareid"  required>
+                        
+                        <select name="feedback_referredorshared"  @error('feedback_referredorshared') is-invalid @enderror aria-label="Select a Option" data-placeholder="Select a Statut..." class="form-select form-select-solid shareid" disabled>
                             <option @if($frm->feedback_referredorshared == "") selected  @endif>Select Option</option>
                             <option  @if($frm->feedback_referredorshared == "Yes") selected  @endif value="Yes">Yes</option>
                             <option  @if($frm->feedback_referredorshared == "No") selected  @endif value="No">No</option>
                         </select>
+                        <input type="hidden" name="feedback_referredorshared" value="{{$frm->feedback_referredorshared}}" />
                         @error('feedback_referredorshared')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>

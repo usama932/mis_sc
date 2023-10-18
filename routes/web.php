@@ -59,8 +59,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Quality Bench Routes
     Route::resource('/quality-benchs', QbController::class);
-    Route::post('get_qbs', [QbController::class,'get_qbs'])->name('get_qbs');
-    Route::post('view_qb', [QbController::class,'view_qb'])->name('view_qb');
+    Route::post('get_qbs', [QbController::class,'get_qbs'])->name('admin.get_qbs');
+    Route::post('view_qb', [QbController::class,'view_qb'])->name('admin.view_qb');
     Route::get('/qb/delete/{id}', [QbController::class,'destroy'])->name('qb.delete');
     //montior visits Routes
     Route::resource('/monitor_visits', MonitorVisitsController::class);
