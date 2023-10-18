@@ -98,7 +98,7 @@ class FRMController extends Controller
 			$frms = Frm::where('id','!=',-1);
 			
 		}
-       
+        
         if($request->name_of_registrar != null && $request->name_of_registrar != 'None'){
             $frms->where('name_of_registrar',$request->name_of_registrar);
         }
@@ -124,7 +124,7 @@ class FRMController extends Controller
         }
         if(auth()->user()->permissions_level == 'province-wide')
         {
-            $frms->where('province',auth()->user()->province && $request->name_of_registrar != 'None');
+            $frms->where('province',auth()->user()->province);
         }
         if(auth()->user()->permissions_level == 'district-wide')
         {
