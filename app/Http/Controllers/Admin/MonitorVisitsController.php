@@ -75,10 +75,10 @@ class MonitorVisitsController extends Controller
 				$nestedData['action'] = '
                                 <div>
                                 <td>
-                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();viewInfo('.$r->id.');" title="View Monitor Visit" href="javascript:void(0)">
+                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();monitorviewInfo('.$r->id.');" title="View Monitor Visit" href="javascript:void(0)">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
-                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
+                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();monitordel('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </a>
                                 </td>
@@ -130,7 +130,7 @@ class MonitorVisitsController extends Controller
         
         session(['active' => $active]);
         Session::flash('success_message', 'Monitor Visit successfully Created!');
-        return redirect()->back();
+        return redirect()->back()->with('success','Monitor Visit successfully Created!');
     }
 
     /**

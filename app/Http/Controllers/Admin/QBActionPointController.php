@@ -73,10 +73,10 @@ class QBActionPointController extends Controller
 				$nestedData['action'] = '
                                 <div>
                                 <td>
-                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();viewInfo('.$r->id.');" title="View Monitor Visit" href="javascript:void(0)">
+                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();actionviewInfo('.$r->id.');" title="View Monitor Visit" href="javascript:void(0)">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
-                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
+                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();actiondel('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </a>
                                 </td>
@@ -131,7 +131,7 @@ class QBActionPointController extends Controller
         ]);
         session(['active' => $active]);
         Session::flash('success_message', 'Action Point Successfully Created!');
-        return redirect()->back();
+        return redirect()->back()->with('success','Action Point Successfully Created!');
 
     }
 

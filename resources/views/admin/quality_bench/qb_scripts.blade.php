@@ -44,7 +44,7 @@
             }
         ]
     });
-    function viewInfo(id) {
+    function monitorviewInfo(id) {
 
         var CSRF_TOKEN = '{{ csrf_token() }}';
         $.post("{{ route('view_monitor_visit') }}", {
@@ -56,7 +56,7 @@
 
         });
     }
-    function del(id) {
+    function monitordel(id) {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -150,7 +150,7 @@
             }
         ]
     });
-    function viewInfo(id) {
+    function actionviewInfo(id) {
 
         var CSRF_TOKEN = '{{ csrf_token() }}';
         $.post("{{ route('view_action_point') }}", {
@@ -162,7 +162,7 @@
 
         });
     }
-    function del(id) {
+    function actiondel(id) {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -228,7 +228,7 @@
             }
         ]
     });
-    function viewInfo(id) {
+    function qb_attachmentviewInfo(id) {
 
         var CSRF_TOKEN = '{{ csrf_token() }}';
         $.post("{{ route('view_qb_attachments') }}", {
@@ -240,7 +240,7 @@
 
         });
     }
-    function del(id) {
+    function qb_attachmentdel(id) {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",

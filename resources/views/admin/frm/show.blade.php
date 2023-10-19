@@ -1,16 +1,22 @@
 <x-default-layout>
     @section('title')
-        View Feedback Registry 
+        <div class="d-flex">
+            <div class="justify-content-start">
+            View Feedback Registry 
+            </div>
+        <div class="" style="margin-left: 150px !important;  margin-right: 0 !important;">
+            <h3>Respons Id.# :: {{$frm->response_id ?? ''}}  
+            @if($frm->status == "Close")
+                <span class="badge badge-success">{{$frm->status}}</span>
+            @else
+                <span class="badge badge-warning">{{$frm->status}}</span>
+            @endif</h3>
+        </div>
+        
+        </div>
         
     @endsection
-    <div class="d-flex justify-content-center">
-        <h3>Respons Id.# :: {{$frm->response_id ?? ''}}  
-        @if($frm->status == "Close")
-            <span class="badge badge-success">{{$frm->status}}</span>
-        @else
-            <span class="badge badge-warning">{{$frm->status}}</span>
-        @endif</h3>
-    </div>
+
     <div class="card p-2">
         <div class="row">
             <div class="col-md-6">

@@ -285,7 +285,7 @@
         });
 
 
-        $("#response_id,#date_recieved_id,#kt_select2_district,kt_select2_province,#feedback_channel,#name_of_registrar,#age_id,#gender,#type_of_client,#project_name").change(function () {
+        $("#response_id,#date_recieved_id,#kt_select2_district,#kt_select2_province,#feedback_channel,#name_of_registrar,#age_id,#gender,#type_of_client,#project_name").change(function () {
             var table = $('#frm').DataTable();
             table.destroy();
             var name_of_registrar = document.getElementById("name_of_registrar").value ?? '1';

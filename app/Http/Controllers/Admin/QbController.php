@@ -12,6 +12,7 @@ use App\Http\Requests\CreateQbRequest;
 use App\Http\Requests\UpdateQbRequest;
 use Illuminate\Support\Facades\Session;
 use App\Models\MonitorVisit;
+use Carbon\Carbon;
 use App\Repositories\Interfaces\QbRepositoryInterface;
 
 class QbController extends Controller
@@ -48,35 +49,84 @@ class QbController extends Controller
 		
 		$totalData = QualityBench::count();
 		$limit = $request->input('length');
-		$start = $request->input('start');
-		$order = $columns[$request->input('order.0.column')];
-		$dir = $request->input('order.0.dir');
-        $qualit_benchs = QualityBench::offset($start)
-                            ->limit($limit)
-                            ->orderBy($order,$dir)
-                            ->get();
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
         $totalFiltered = QualityBench::count();
+		$start = $request->input('start');
+		
+		
+        $qualit_benchs = QualityBench::where('id','!=',-1);
+        
+  
+        if($request->kt_select2_district != null && $request->kt_select2_district != 'None'){
+            $qualit_benchs->where('district',$request->kt_select2_district);
+        }
+        if($request->kt_select2_province != null && $request->kt_select2_province != 'None'){
+
+            $qualit_benchs->where('province',$request->kt_select2_province);
+        }
+        if($request->visit_staff != null && $request->visit_staff != 'None'){
+
+            $qualit_benchs->where('visit_staff_name',$request->visit_staff);
+        }
+      
+        $dateParts = explode('to', $request->date_visit);
+        $startdate = '';
+       
+        $enddate = '';
+        if(!empty($dateParts)){
+            $startdate = $dateParts[0];
+            $enddate = $dateParts[1] ?? '';
+        }
+      
+       
+        if($request->date_visit != null){
+
+            $qualit_benchs->whereBetween('date_visit',[$startdate ,$enddate]);
+        }
+        if($request->accompanied_by != null && $request->accompanied_by != 'None'){
+
+            $qualit_benchs->where('accompanied_by',$request->accompanied_by);
+        }
+        if($request->visit_type != null && $request->visit_type != 'None'){
+
+            $qualit_benchs->where('type_of_visit',$request->visit_type);
+        }
+        if($request->project_type != null){
+
+            $qualit_benchs->where('project_type',$request->project_type);
+        }
+        if($request->project_name != null){
+
+            $qualit_benchs->where('project_name',$request->project_name);
+        }
+        $qualit_bench =$qualit_benchs->offset($start)
+                                    ->limit($limit)
+                                    ->orderBy($order, $dir)->get()->sortByDesc("id");
 		$data = array();
-		if($qualit_benchs){
-			foreach($qualit_benchs as $r){
+		if($qualit_bench){
+			foreach($qualit_bench as $r){
 				$edit_url = route('quality-benchs.edit',$r->id);
 				$nestedData['id'] = $r->id;
-				$nestedData['visit_staff_name'] = $r->visit_staff_name;
-                $nestedData['date_visit'] = $r->date_visit;
-                $nestedData['accompanied_by'] = $r->accompanied_by;
-                $nestedData['type_of_visit'] = $r->type_of_visit;
-                $nestedData['province'] = $r->province;
-                $nestedData['district'] = $r->district;
-                $nestedData['project_type'] = $r->project_type;
-                $nestedData['project_type'] = $r->project_type;
-                $nestedData['project_name'] = $r->project_type;
-                $nestedData['created_at'] = $r->created_at;
+				$nestedData['visit_staff_name'] = $r->visit_staff_name ?? '';
+                $nestedData['date_visit'] =date('d-M-Y', strtotime($r->date_visit)) ?? '';
+                $nestedData['accompanied_by'] = $r->accompanied_by ?? '';
+                $nestedData['type_of_visit'] = $r->type_of_visit ?? '';
+                $nestedData['province'] = $r->provinces?->province_name ?? '';
+                $nestedData['district'] = $r->districts?->district_name ?? '';
+                $nestedData['project_type'] = $r->project_type ?? '';
+                $nestedData['project_type'] = $r->project?->name ?? '';
+                $nestedData['project_name'] = $r->project_type ?? '';
+                $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
 				$nestedData['action'] = '
                                 <div>
                                 <td>
                                     <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();viewInfo('.$r->id.');" title="View Quality Bench" href="javascript:void(0)">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
+                                    <a title="Edit" class="btn btn-sm btn-clean btn-icon"
+                                    href="'.$edit_url.'">
+                                    <i class="fa fa-pencil"></i></a>
                                     <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </a>
@@ -114,7 +164,8 @@ class QbController extends Controller
     {
         $data = $request->except('_token');
         $Qb = $this->QbRepository->storeQb($data);
-        
+        $active = 'basic_info';
+        session(['active' => $active]);
         return redirect()->route('quality-benchs.edit',$Qb->id);
         
     }
@@ -134,6 +185,7 @@ class QbController extends Controller
         $qb = QualityBench::find($id);
         $active = 'basic_info';
         $monitor_visits = MonitorVisit::where('quality_bench_id',$id)->latest()->get();
+        
         if(session('active') == ''){
             session(['active' => $active]);
         }
@@ -152,7 +204,14 @@ class QbController extends Controller
  
     public function destroy(string $id)
     {
-        dd($id);
+        $qb = QualityBench::find($id);
+        if(!empty($qb)){
+            $qb->monitor_visit->each->delete();
+            $qb->action_point->each->delete();
+            $qb->qbattachement->each->delete();
+            $qb->delete();
+            return redirect()->route('quality-benchs.index');
+        }
     }
   
 }

@@ -68,10 +68,10 @@ class QBAttachmentsController extends Controller
 				$nestedData['action'] = '
                                 <div>
                                 <td>
-                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();viewInfo('.$r->id.');" title="View Monitor Visit" href="javascript:void(0)">
+                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();qb_attachmentviewInfo('.$r->id.');" title="View Monitor Visit" href="javascript:void(0)">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
-                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
+                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();qb_attachmentdel('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </a>
                                 </td>

@@ -8,7 +8,7 @@
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div class="card">
             
-            {{-- <div class="accordion" id="accordionExample">
+            <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
                   <h2 class="accordion-header" id="headingOne">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -24,14 +24,14 @@
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class="required" >Date Visit</span>
                                     </label>
-                                    <input type="text" name="date_received" id="date_recieved_id" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
+                                    <input class="form-control form-control-solid" aria-label="Pick date range"  placeholder="Pick date range" id="date_visit" name="date_visit" value=" ">
                                 </div>
                                 <div class="col-md-3 my-3">
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class="required"> Name of Staff</span>
                                     </label>
-                                    <select name="name_of_registrar" id="name_of_registrar" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select form-select-solid" >
-                                        <option  value="">Select a Registrar Name</option>
+                                    <select name="visit_staff" id="visit_staff" aria-label="Select a Visit Staff" data-control="select2" data-placeholder="Select a  Visit Staff..." class="form-select form-select-solid" >
+                                        <option  value="">Select a  Visit Staff</option>
                                         <option  value="None" >All</option>
                                         @foreach($users as $user)
                                             <option  value="{{$user->name}}" >{{$user->name}}</option>
@@ -49,8 +49,8 @@
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class="required">Accompanied By</span>
                                     </label>
-                                    <select   name="type_of_client" id="type_of_client" aria-label="Select a Project Type" data-control="select2" data-placeholder="Select a Project Type" class="form-select form-select-solid">
-                                        <option value="" selected>Select Project Type</option>
+                                    <select   name="accompanied_by" id="accompanied_by" aria-label="Select a Accompanied By" data-control="select2" data-placeholder="Select a Accompanied By" class="form-select form-select-solid">
+                                        <option value="" selected>Select Accompanied By</option>
                                         <option  value="None" >All</option>
                                         <option  value="Project Staff">Project Staff</option>
                                         <option  value="Govt Officials">Govt Officials</option>
@@ -64,8 +64,8 @@
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class="required">Type of Visit</span>
                                     </label>
-                                    <select name="visit_type" id="visit_type" aria-label="Select a Type of Visit" data-control="select2" data-placeholder="Select a Type of Visit..." class="form-select form-select-solid" >
-                                        <option value="">Select Project Type</option>
+                                    <select name="visit_type" id="visit_type" aria-label="Select a Visit Type" data-control="select2" data-placeholder="Select a Visit Type..." class="form-select form-select-solid" >
+                                        <option value="">Select Visit Type</option>
                                         <option value="None">All</option>
                                         <option value="Independent">Independent</option>
                                         <option value="Joint">Joint</option>
@@ -96,7 +96,7 @@
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class="required">Project Type</span>
                                     </label>
-                                    <select   name="type_of_client" id="type_of_client" aria-label="Select a Project Type" data-control="select2" data-placeholder="Select a Project Type" class="form-select form-select-solid">
+                                    <select   name="project_type" id="project_type" aria-label="Select a Project Type" data-control="select2" data-placeholder="Select a Project Type" class="form-select form-select-solid">
                                         <option value="" selected>Select Project Type</option>
                                         <option  value="None" >All</option>
                                         <option value="Humanterian" >Humanterian</option>
@@ -123,7 +123,7 @@
                   </div>
                 </div>
                
-            </div> --}}
+            </div>
             <div class="card-body pt-0 overflow-*">
 
                 <div class="table-responsive overflow-*">
@@ -234,62 +234,62 @@
                 }
             });
         }
-        // $("#date_recieved_id,#kt_select2_district,kt_select2_province,#feedback_channel,#name_of_registrar,#age_id,#type_of_client,#project_name").change(function () {
-        //     var table = $('#frm').DataTable();
-        //     table.destroy();
-        //     var name_of_registrar = document.getElementById("name_of_registrar").value ?? '1';
-        //     var date_received = document.getElementById("date_recieved_id").value
-        //     var kt_select2_district = document.getElementById("kt_select2_district").value ?? '1';
-        //     var kt_select2_province = document.getElementById("kt_select2_province").value ?? '1';
-        //     var feedback_channel = document.getElementById("feedback_channel").value ?? '1';
-        //     var age_id = document.getElementById("age_id").value ?? '1';
-        //     var type_of_client = document.getElementById("type_of_client").value ?? '1';
-        //     var project_name = document.getElementById("project_name").value ?? '1';
+        $("#date_visit, #visit_staff, #accompanied_by, #visit_type, #kt_select2_province, #kt_select2_district, #project_type, #project_name").change(function () {
+            var table = $('#quality_bench').DataTable();
+            table.destroy();
+            var date_visit = document.getElementById("date_visit").value ?? '1';
+            var visit_staff = document.getElementById("visit_staff").value
+            var kt_select2_district = document.getElementById("kt_select2_district").value ?? '1';
+            var kt_select2_province = document.getElementById("kt_select2_province").value ?? '1';
+            var accompanied_by = document.getElementById("accompanied_by").value ?? '1';
+            var visit_type = document.getElementById("visit_type").value ?? '1';
+            var project_type = document.getElementById("project_type").value ?? '1';
+            var project_name = document.getElementById("project_name").value ?? '1';
 
-        //     var clients = $('#frm').DataTable( {
-        //         "order": [
-        //             [1, 'asc']
-        //         ],
+            var clients = $('#quality_bench').DataTable( {
+                "order": [
+                    [1, 'asc']
+                ],
 
-        //         responsive: true, // Enable responsive mode
-        //         "info": false,
+                responsive: true, // Enable responsive mode
+                "info": false,
 
-        //         "processing": true,
-        //         "serverSide": true,
-        //         "searching": false,
-        //         "responsive": false,
-        //         'info': true,
-        //         "ajax": {
-        //             "url":"{{ route('admin.getFrms') }}",
-        //             "dataType":"json",
-        //             "type":"POST",
-        //             "data":{"_token":"<?php echo csrf_token() ?>",
-        //                     'name_of_registrar':name_of_registrar,
-        //                     'date_received':date_received,
-        //                     'kt_select2_district':kt_select2_district,
-        //                     'kt_select2_province':kt_select2_province,
-        //                     'feedback_channel':feedback_channel,
-        //                     'age_id':age_id,
-        //                     'type_of_client':type_of_client,
-        //                     'project_name':project_name
-        //                     }
-        //         },
-        //         "columns":[
-        //                     {"data":"id","searchable":false,"orderable":false},
-        //                     {"data":"visit_staff_name"},
-        //                     {"data":"date_visit","searchable":false,"orderable":false},
-        //                     {"data":"accompanied_by" },
-        //                     {"data":"type_of_visit"},
-        //                     {"data":"province"},
-        //                     {"data":"district"},
-        //                     {"data":"project_type" },
-        //                     {"data":"project_name"},
-        //                     {"data":"created_at" ,"searchable":false,"orderable":false},
-        //                     {"data":"action","searchable":false,"orderable":false},
-        //                 ]
+                "processing": true,
+                "serverSide": true,
+                "searching": false,
+                "responsive": false,
+                'info': true,
+                "ajax": {
+                    "url":"{{ route('admin.get_qbs') }}",
+                    "dataType":"json",
+                    "type":"POST",
+                    "data":{"_token":"<?php echo csrf_token() ?>",
+                            'date_visit':date_visit,
+                            'visit_staff':visit_staff,
+                            'kt_select2_district':kt_select2_district,
+                            'kt_select2_province':kt_select2_province,
+                            'accompanied_by':accompanied_by,
+                            'visit_type':visit_type,
+                            'project_type':project_type,
+                            'project_name':project_name
+                            }
+                },
+               "columns":[
+                            {"data":"id","searchable":false,"orderable":false},
+                            {"data":"visit_staff_name"},
+                            {"data":"date_visit","searchable":false,"orderable":false},
+                            {"data":"accompanied_by" },
+                            {"data":"type_of_visit"},
+                            {"data":"province"},
+                            {"data":"district"},
+                            {"data":"project_type" },
+                            {"data":"project_name"},
+                            {"data":"created_at" ,"searchable":false,"orderable":false},
+                            {"data":"action","searchable":false,"orderable":false},
+                        ]
 
-        //     });
-        // });
+            });
+        });
         $("#kt_select2_province").change(function () {
 
             var value = $(this).val();
@@ -319,6 +319,12 @@
         }).trigger('change');
         $('.close').click(function() {
             $('#quality_benchmark').modal('hide');
+        });
+        var start = moment().subtract(31, "days");
+        var end = moment();
+        flatpickr("#date_visit", {
+            mode: "range",
+            dateFormat: "Y-m-d",
         });
     </script>
     <!--end::Vendors Javascript-->

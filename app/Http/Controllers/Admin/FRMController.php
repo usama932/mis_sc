@@ -104,7 +104,7 @@ class FRMController extends Controller
         }
         
         if($request->response_id != null && $request->response_id != 'None'){
-            $frms->where('response_id',$request->response_id);
+            $frms->where('response_id','LIKE','%'.$request->response_id.'%');
         }
        
         if($request->gender != null && $request->gender != 'None'){
@@ -115,10 +115,10 @@ class FRMController extends Controller
             $date = Carbon::parse($request->date_received)->format("Y-m-d");
             $frms->where('date_received',$request->date_received);
         }
-        if($request->kt_select2_district != null && $request->kt_select2_district != 'None'){
+        if($request->kt_select2_district != null){
             $frms->where('district',$request->kt_select2_district);
         }
-        if($request->kt_select2_province != null && $request->kt_select2_province != 'None'){
+        if($request->kt_select2_province != null){
 
             $frms->where('province',$request->kt_select2_province);
         }
@@ -143,9 +143,9 @@ class FRMController extends Controller
         if($request->project_name != null && $request->project_name != 'None'){
             $frms->where('project_name',$request->project_name);
         }
+        
         $totalData =$frms->count();
         $limit = $request->input('length');
-     
         $order = $columns[$request->input('order.0.column')];
         $dir = $request->input('order.0.dir');
         $totalFiltered = $frms->count();
@@ -503,6 +503,7 @@ class FRMController extends Controller
         $frm =Frm::find($id);
         if(!empty($frm))
         {
+            $frm->delete();
             return redirect()->route('frm-managements.index');
         }
     }
