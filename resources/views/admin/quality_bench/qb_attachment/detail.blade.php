@@ -20,11 +20,11 @@
                 </tr>
                 <tr>
                     <td><strong>Created By </strong></td>
-                    <td>{{$monitor_visit->created_by ?? "NA"}}</td>
+                    <td>{{$qb_attachment->created_by ?? "NA"}}</td>
                 </tr>
                 <tr>
                     <td><strong>Created At </strong></td>
-                    <td>{{$monitor_visit->created_at ?? "NA"}}</td>
+                    <td>{{$qb_attachment->created_at ?? "NA"}}</td>
                 </tr>
               
             </table>

@@ -263,3 +263,4 @@
         $('#view_monitor_visit,#view_action_point,#view_qbattachment').modal('hide');
     });
 </script>
+//Quality Benchmark

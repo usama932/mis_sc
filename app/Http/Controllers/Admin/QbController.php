@@ -24,7 +24,9 @@ class QbController extends Controller
     }
     public function index()
     {
-        return view('admin.quality_bench.index');
+        $projects = Project::latest()->get();
+        $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
+        return view('admin.quality_bench.index',compact('projects','users'));
     }
 
     public function get_qbs(Request $request)
@@ -72,7 +74,7 @@ class QbController extends Controller
 				$nestedData['action'] = '
                                 <div>
                                 <td>
-                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();viewInfo('.$r->id.');" title="View Monitor Visit" href="javascript:void(0)">
+                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();viewInfo('.$r->id.');" title="View Quality Bench" href="javascript:void(0)">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
                                     <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
@@ -95,8 +97,9 @@ class QbController extends Controller
 		echo json_encode($json_data);
     }
     public function view_qb(Request $request){
-        $qb_attachment = QBAttachement::where('id',$request->id)->first();
-        return view('admin.quality_bench.qb_attachment.detail',compact('qb_attachment'));
+        $qb = QualityBench::where('id',$request->id)->first();
+      
+        return view('admin.quality_bench.Qb_detail',compact('qb'));
     }
     public function create()
     {
@@ -149,15 +152,7 @@ class QbController extends Controller
  
     public function destroy(string $id)
     {
-        //
+        dd($id);
     }
-    public function monitor_visits(Request $request){
-        dd($request->all());
-    }
-    public function action_points(Request $request){
-        dd($request->all());
-    }
-    public function attachments(Request $request){
-        dd($request->all());
-    }
+  
 }
