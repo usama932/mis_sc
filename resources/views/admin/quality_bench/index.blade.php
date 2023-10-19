@@ -148,7 +148,6 @@
                             <th>District</th>
                             <th>Project Type</th>
                             <th>Project</th>
-                            <th>Monitoring By</th>
                             <th>Created At</th>
                             <th>Actions</th>
                         </tr>

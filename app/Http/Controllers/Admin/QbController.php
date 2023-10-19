@@ -32,10 +32,15 @@ class QbController extends Controller
         $id = $request->qb_id;
         $columns = array(
 			0 => 'id',
-			1 => 'comments',
-			2 => 'document',
-            8 => 'created_by',
-            9 => 'created_at',
+			1 => 'visit_staff_name',
+			2 => 'date_visit',
+            3 => 'accompanied_by',
+            4 => 'type_of_visit',
+            5 => 'province',
+            6 => 'district',
+            7 => 'project_type',
+            8 => 'project_name',
+            10 => 'created_at',
 
 		);
 		
@@ -44,26 +49,26 @@ class QbController extends Controller
 		$start = $request->input('start');
 		$order = $columns[$request->input('order.0.column')];
 		$dir = $request->input('order.0.dir');
-		
-		
         $qualit_benchs = QualityBench::offset($start)
                             ->limit($limit)
                             ->orderBy($order,$dir)
                             ->get();
         $totalFiltered = QualityBench::count();
-    
-		
-		
 		$data = array();
-		
 		if($qualit_benchs){
 			foreach($qualit_benchs as $r){
 				$edit_url = route('quality-benchs.edit',$r->id);
 				$nestedData['id'] = $r->id;
-				$nestedData['comments'] = $r->comments;
-                $nestedData['document'] = '<a class="btn btn-sm btn-clean btn-icon" title="Download Attachment" href=""'.$download_url.'"">
-                                            Download</a>';
-                $nestedData['created_by'] = $r->created_by;
+				$nestedData['visit_staff_name'] = $r->visit_staff_name;
+                $nestedData['date_visit'] = $r->date_visit;
+                $nestedData['accompanied_by'] = $r->accompanied_by;
+                $nestedData['type_of_visit'] = $r->type_of_visit;
+                $nestedData['province'] = $r->province;
+                $nestedData['district'] = $r->district;
+                $nestedData['project_type'] = $r->project_type;
+                $nestedData['project_type'] = $r->project_type;
+                $nestedData['project_name'] = $r->project_type;
+                $nestedData['created_at'] = $r->created_at;
 				$nestedData['action'] = '
                                 <div>
                                 <td>

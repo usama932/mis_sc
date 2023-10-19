@@ -37,128 +37,143 @@
                 </div>
              
             </div>
-            <div class="card-header border-0 pt-6">
-                <div class="row mb-5">
-                    <div class="col-md-6 my-3">
-                        <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required" >Response #id</span>
-                        </label>
-                        <input type="text" name="response_id" id="response_id" class="form-control" value="">
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <h2><i class="fa-solid fa-filter mx-4"></i>Filters</h2>
+                    </button>
+                  </h2>
+                  <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="card-header border-0 pt-6">
+                            <div class="row mb-5">
+                                <div class="col-md-6 my-3">
+                                    <label class="fs-6 fw-semibold form-label mb-2">
+                                        <span class="required" >Response #id</span>
+                                    </label>
+                                    <input type="text" name="response_id" id="response_id" class="form-control" value="">
+                                </div>
+                                <div class="col-md-6 my-3">
+                                    <label class="fs-6 fw-semibold form-label mb-2">
+                                        <span class="required" >Date Received</span>
+                                    </label>
+                                    <input type="text" name="date_received" id="date_recieved_id" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
+                                </div>
+                                <div class="col-md-3 my-3">
+                                    <label class="fs-6 fw-semibold form-label mb-2">
+                                        <span class="required">Staff Name</span>
+                                    </label>
+                                    <select name="name_of_registrar" id="name_of_registrar" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select form-select-solid" >
+                                        <option  value="">Select a Registrar Name</option>
+                                        <option  value="None" >All</option>
+                                        @foreach($users as $user)
+                                            <option  value="{{$user->name}}" >{{$user->name}}</option>
+                                        @endforeach
+                                        <option  value="Ruqaiya Bibi" >Ruqaiya Bibi</option>
+                                        <option  value="Dr. Kashmala" >Dr. Kashmala</option>
+                                        <option  value="Mehnaz" >Mehnaz</option>
+                                        <option  value="Musarrat Bibi" >Musarrat Bibi</option>
+                                        <option  value="Shaista Mir" >Shaista Mir</option>
+                                        <option  value="Shama" >Shama</option>
+                                        <option  value="Zahid Ali Khan" >Zahid Ali Khan</option>
+                                    </select>
+                                </div>
+                              
+            
+                                <div class="col-md-3 my-3">
+                                    <label class="fs-6 fw-semibold form-label mb-2">
+                                        <span class="required">Feedback Channel</span>
+                                    </label>
+                                    <select name="feedback_channel" id="feedback_channel" aria-label="Select a Feedback Channel" data-control="select2" data-placeholder="Select a Feedback Channel..." class="form-select form-select-solid">
+                                        <option  value="" selected>Select Option</option>
+                                        <option  value="None" >All</option>
+                                        @foreach($feedbackchannels as $feedbackchannel)
+                                            <option  value="{{$feedbackchannel->id}}">{{$feedbackchannel->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-3 my-3">
+                                    <label class="fs-6 fw-semibold form-label mb-2">
+                                        <span class="required">Age</span>
+                                    </label>
+                                    <select name="age" aria-label="Select a Age" data-control="select2" data-placeholder="Select a age..." class="form-select form-select-solid" id="age_id" >
+                                        <option  value="">Select Option</option>
+                                        <option  value="None" >All</option>
+                                        <option value="Less than 18 years">Less than 18 years</option>
+                                        <option value="19-50 years">19-50 years</option>
+                                        <option value="Above 50 years">Above 50 years</option>
+                                    </select>
+            
+                                </div>
+                                <div class="col-md-3 my-3">
+                                    <label class="fs-6 fw-semibold form-label mb-2">
+                                        <span class="required">Gender</span>
+                                    </label>
+                                    <select name="gender" aria-label="Select a Gender" data-control="select2" data-placeholder="Select a Gender..." class="form-select form-select-solid" id="gender" >
+                                        <option  value="">Select Option</option>
+                                        <option  value="None" >All</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Boy">Boy</option>
+                                        <option value="Girl">Girl</option>
+                                    </select>
+            
+                                </div>
+                                <div class="col-md-3 my-3">
+                                    <label class="fs-6 fw-semibold form-label mb-2">
+                                        <span class="required">Province</span>
+                                    </label>
+                                    <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select form-select-solid">
+                                        <option value="" selected>Select Province</option>
+                                        <option  value="None" >All</option>
+                                        <option value='4'>Sindh</option>
+                                        <option value='2'>KPK</option>
+                                        <option value='3'>Balochistan</option>
+                                    </select>
+            
+                                </div>
+                                <div class="col-md-3 my-3">
+                                    <label class="fs-6 fw-semibold form-label mb-2">
+                                        <span class="required">District</span>
+                                    </label>
+                                    <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select form-select-solid">
+            
+                                    </select>
+                                </div>
+                                <div class="col-md-3 my-3">
+                                    <label class="fs-6 fw-semibold form-label mb-2">
+                                        <span class="required">Status</span>
+                                    </label>
+                                    <select   name="type_of_client" id="type_of_client" aria-label="Select a Status" data-control="select2" data-placeholder="Select a Status" class="form-select form-select-solid">
+                                        <option value="" selected>Select Status</option>
+                                        <option  value="None" >All</option>
+                                        <option value="Open" >Open</option>
+                                        <option value="Close" >Close</option>
+                                        
+                                    </select>
+                                </div>
+                                <div class="col-md-3 mt-3">
+                                    <label class="fs-6 fw-semibold form-label mb-2">
+                                        <span class="required">Project</span>
+                                    </label>
+                                    <select name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Project Name" class="form-select form-select-solid">
+                                        <option value="" selected>Select Project</option>
+                                          <option  value="None" >All</option>
+                                        @foreach($projects as $project)
+                                            <option  value="{{$project->id}}">{{$project->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+            
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6 my-3">
-                        <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required" >Date Received</span>
-                        </label>
-                        <input type="text" name="date_received" id="date_recieved_id" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
-                    </div>
-                    <div class="col-md-3 my-3">
-                        <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required">Staff Name</span>
-                        </label>
-                        <select name="name_of_registrar" id="name_of_registrar" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select form-select-solid" >
-                            <option  value="">Select a Registrar Name</option>
-                            <option  value="None" >All</option>
-                            @foreach($users as $user)
-                                <option  value="{{$user->name}}" >{{$user->name}}</option>
-                            @endforeach
-                            <option  value="Ruqaiya Bibi" >Ruqaiya Bibi</option>
-                            <option  value="Dr. Kashmala" >Dr. Kashmala</option>
-                            <option  value="Mehnaz" >Mehnaz</option>
-                            <option  value="Musarrat Bibi" >Musarrat Bibi</option>
-                            <option  value="Shaista Mir" >Shaista Mir</option>
-                            <option  value="Shama" >Shama</option>
-                            <option  value="Zahid Ali Khan" >Zahid Ali Khan</option>
-                        </select>
-                    </div>
-                  
-
-                    <div class="col-md-3 my-3">
-                        <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required">Feedback Channel</span>
-                        </label>
-                        <select name="feedback_channel" id="feedback_channel" aria-label="Select a Feedback Channel" data-control="select2" data-placeholder="Select a Feedback Channel..." class="form-select form-select-solid">
-                            <option  value="" selected>Select Option</option>
-                            <option  value="None" >All</option>
-                            @foreach($feedbackchannels as $feedbackchannel)
-                                <option  value="{{$feedbackchannel->id}}">{{$feedbackchannel->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-3 my-3">
-                        <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required">Age</span>
-                        </label>
-                        <select name="age" aria-label="Select a Age" data-control="select2" data-placeholder="Select a age..." class="form-select form-select-solid" id="age_id" >
-                            <option  value="">Select Option</option>
-                            <option  value="None" >All</option>
-                            <option value="Less than 18 years">Less than 18 years</option>
-                            <option value="19-50 years">19-50 years</option>
-                            <option value="Above 50 years">Above 50 years</option>
-                        </select>
-
-                    </div>
-                    <div class="col-md-3 my-3">
-                        <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required">Gender</span>
-                        </label>
-                        <select name="gender" aria-label="Select a Gender" data-control="select2" data-placeholder="Select a Gender..." class="form-select form-select-solid" id="gender" >
-                            <option  value="">Select Option</option>
-                            <option  value="None" >All</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Boy">Boy</option>
-                            <option value="Girl">Girl</option>
-                        </select>
-
-                    </div>
-                    <div class="col-md-3 my-3">
-                        <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required">Province</span>
-                        </label>
-                        <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select form-select-solid">
-                            <option value="" selected>Select Province</option>
-                            <option  value="None" >All</option>
-                            <option value='4'>Sindh</option>
-                            <option value='2'>KPK</option>
-                            <option value='3'>Balochistan</option>
-                        </select>
-
-                    </div>
-                    <div class="col-md-3 my-3">
-                        <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required">District</span>
-                        </label>
-                        <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select form-select-solid">
-
-                        </select>
-                    </div>
-                    <div class="col-md-3 my-3">
-                        <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required">Status</span>
-                        </label>
-                        <select   name="type_of_client" id="type_of_client" aria-label="Select a Status" data-control="select2" data-placeholder="Select a Status" class="form-select form-select-solid">
-                            <option value="" selected>Select Status</option>
-                            <option  value="None" >All</option>
-                            <option value="Open" >Open</option>
-                            <option value="Close" >Close</option>
-                            
-                        </select>
-                    </div>
-                    <div class="col-md-3 mt-3">
-                        <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required">Project</span>
-                        </label>
-                        <select name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Project Name" class="form-select form-select-solid">
-                            <option value="" selected>Select Project</option>
-                              <option  value="None" >All</option>
-                            @foreach($projects as $project)
-                                <option  value="{{$project->id}}">{{$project->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
+                  </div>
                 </div>
+               
             </div>
+         
             <div class="card-body pt-0 overflow-*">
 
 
