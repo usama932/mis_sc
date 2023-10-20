@@ -361,10 +361,11 @@
 
             });
         });
-        $('#date_recieved_id,#date_feedback_referred,#date_feedback_referred_id').flatpickr({
+        $('#date_recieved_id').flatpickr({
             altInput: true,
-            dateFormat: "y-m-d",
-            maxDate: "today"
+            mode: "range",
+            dateFormat: "Y-m-d",
+         
 		});
         $("#kt_select2_province").change(function () {
 

@@ -110,10 +110,16 @@ class FRMController extends Controller
         if($request->gender != null && $request->gender != 'None'){
             $frms->where('gender',$request->gender);
         }
-        
+        $dateParts = explode('to', $request->date_received);
+        $startdate = '';
+        $enddate = '';
+        if(!empty($dateParts)){
+            $startdate = $dateParts[0] ?? '';
+            $enddate = $dateParts[1] ?? '';
+        }
         if($request->date_received != null ){
-            $date = Carbon::parse($request->date_received)->format("Y-m-d");
-            $frms->where('date_received',$request->date_received);
+          
+            $frms->whereBetween('date_received',[$startdate ,$enddate]);
         }
         if($request->kt_select2_district != null){
             $frms->where('district',$request->kt_select2_district);

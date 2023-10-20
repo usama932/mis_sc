@@ -13,6 +13,9 @@ use App\Http\Requests\UpdateQbRequest;
 use Illuminate\Support\Facades\Session;
 use App\Models\MonitorVisit;
 use Carbon\Carbon;
+use App\Exports\QB\ExportQB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\QB\ActionPoint;
 use App\Repositories\Interfaces\QbRepositoryInterface;
 
 class QbController extends Controller
@@ -72,7 +75,6 @@ class QbController extends Controller
       
         $dateParts = explode('to', $request->date_visit);
         $startdate = '';
-       
         $enddate = '';
         if(!empty($dateParts)){
             $startdate = $dateParts[0];
@@ -212,6 +214,44 @@ class QbController extends Controller
             $qb->delete();
             return redirect()->route('quality-benchs.index');
         }
+    }
+    public function getqbexportform(){
+        $projects = Project::latest()->get();
+        $themes = Theme::latest()->get();
+        $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
+
+        return view('admin.quality_bench.qb_export.qb_export',compact('projects','themes','users'));
+    }
+    public function getqbactionpointexportform(){
+        return view('admin.quality_bench.qb_export.qb_action_point');
+    }
+    public function getexportqb(Request $request){
+      
+        $visit_staff_name = $request->visit_staff_name;
+        $date_visit = $request->date_visit;
+        $accompanied_by = $request->accompanied_by;
+        $type_of_visit = $request->type_of_visit;
+        $province = $request->province;
+        $district = $request->district;
+        $project_type = $request->project_type;
+        $project_name = $request->project_name;
+        $data = [
+                    'visit_staff_name'  => $visit_staff_name,
+                    'date_visit'        => $date_visit,
+                    'accompanied_by'    => $accompanied_by,
+                    'type_of_visit'     => $type_of_visit,
+                    'province'          => $province,
+                    'district'          => $district,
+                    'project_type'      => $project_type,
+                    'project_name'      => $project_name,
+               
+                ];
+        $fileName = 'qb_' .'('. now()->format('d-m-Y') .')'. '.csv';
+        return Excel::download(new ExportQB($data),  $fileName);
+        
+    }
+    public function getexportfrm(Request $request){
+       
     }
   
 }

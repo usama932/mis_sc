@@ -320,8 +320,7 @@
         $('.close').click(function() {
             $('#quality_benchmark').modal('hide');
         });
-        var start = moment().subtract(31, "days");
-        var end = moment();
+     
         flatpickr("#date_visit", {
             mode: "range",
             dateFormat: "Y-m-d",

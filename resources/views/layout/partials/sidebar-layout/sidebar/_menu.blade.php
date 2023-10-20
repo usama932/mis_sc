@@ -75,7 +75,7 @@
 			<!--end:Menu item-->
 			<!--begin:Menu item-->
             @can('read user management')
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('user-management.*') ? 'here show' : '' }}">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->routeIs('user-management.*')) ? 'here show' : '' }} ">
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="svg-icon svg-icon-primary svg-icon-1x mx-2"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo8/dist/../src/media/svg/icons/Communication/Add-user.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -132,7 +132,7 @@
                 </div>
             @endcan
             @can('frm')
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('frm-managements.*') ? 'here show' : '' }}">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->segment(1) == 'frm-managements' ||  request()->routeIs('frm-export')) ? 'here show' : ''}}">
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="menu-icon">{!! getIcon('abstract-1', 'fs-2') !!}</span>
@@ -184,7 +184,7 @@
                 </div>
             @endcan
             @can('quality_bench')
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs('quality-benchs.*') ? 'here show' : '' }}">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->segment(1) == 'quality-benchs' ||  request()->routeIs('qb-export') || request()->routeIs('qbactionpoint-export')) ? 'here show' : ''}} ">
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="svg-icon svg-icon-primary svg-icon-1x mx-2"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Weather/Wind.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -228,11 +228,21 @@
                         @can('read quality benchmarks')
                             <div class="menu-item">
                                 <!--begin:Menu link-->
-                                <a class="menu-link {{ request()->routeIs('frm-export') ? 'active' : '' }}" href="{{ route('frm-export') }}">
+                                <a class="menu-link {{ request()->routeIs('qb-export') ? 'active' : '' }}" href="{{ route('qb-export') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
                                     <span class="menu-title">Export Quality Benchmarks</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                            <div class="menu-item">
+                                <!--begin:Menu link-->
+                                <a class="menu-link {{ request()->routeIs('qbactionpoint-export') ? 'active' : '' }}" href="{{ route('qbactionpoint-export') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Export QB Action Points</span>
                                 </a>
                                 <!--end:Menu link-->
                             </div>
