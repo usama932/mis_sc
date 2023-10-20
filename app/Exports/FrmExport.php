@@ -23,8 +23,17 @@ class FrmExport implements FromView
         if($this->data['name_of_registrar'] != null){
             $frm->where('name_of_registrar',$this->data['name_of_registrar']);
         }
+        
+      
         if($this->data['date_received'] != null){
-            $frm->where('date_received',$this->data['date_received']);
+            $dateParts = explode('to', $this->data['date_received']);
+            $startdate = '';
+            $enddate = '';
+            if(!empty($dateParts)){
+                $startdate = $dateParts[0];
+                $enddate = $dateParts[1] ?? '';
+            }
+            $frm->whereBetween('date_received',[$startdate ,$enddate]);
         }
         if($this->data['feedback_channel'] != null){
             $frm->where('feedback_channel',$this->data['feedback_channel']);
@@ -52,10 +61,8 @@ class FrmExport implements FromView
                     'tehsils','uc','category','theme_name','channel','project')->latest();
         $frms =  $frm->with('responses')->get(); 
         
-        return view('admin.frm.frm_report', [
+        return view('admin.frm.frm_export.frm_report', [
             'frms' => $frms,
-           
-
         ]);
     }
    

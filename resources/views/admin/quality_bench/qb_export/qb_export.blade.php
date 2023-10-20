@@ -14,7 +14,7 @@
            <!--begin::Card-->
             <div class="card">
                 <div class="card-title m-5">
-                    <h1>Quality Benchmark Action Points Exports:</h1>
+                    <h1>Quality Benchmark Exports:</h1>
                     <form class="form" action="{{route('getqb-export')}}" method="post">
                         @csrf
                         <div class="card-body py-4">
@@ -52,9 +52,9 @@
                                 </div>
                                 <div class="col-md-3 mt-3">
                                     <label class="fs-6 fw-semibold form-label mb-2">
-                                        <span class=" ">Date of monitoring visit </span>
+                                        <span class="">Date of monitoring visit </span>
                                     </label>
-                                    <input type="text"  @error('date_visit') is-invalid @enderror name="date_visit" id="date_visit" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value=""  >
+                                    <input class="form-control form-control-solid" aria-label="Pick date range"  placeholder="Pick date range" id="date_visit" name="date_visit" value=""  class="form-control">
                                     @error('date_visit')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -183,11 +183,10 @@
 
     @push("scripts")
     <script>
-        $('#date_visit').flatpickr({
-            altInput: true,
-            dateFormat: "y-m-d",
+        flatpickr("#date_visit", {
+            mode: "range",
+            dateFormat: "Y-m-d",
             maxDate: "today",
-            minDate: new Date().fp_incr(-60), 
         });
     </script>
     @include('admin.frm.frm_script');

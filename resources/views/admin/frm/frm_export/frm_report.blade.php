@@ -1,5 +1,4 @@
 <table>
-    <thead>
     <tr>
         <th>S.No.#</th>
         <th>Unique ID</th>
@@ -36,8 +35,7 @@
         <th>Complainant satisfaction level on Action</th>
         <th>Status</th>
     </tr>
-    </thead>
-    <tbody>
+   
     @foreach($frms as $frm)
         <tr>
             <td>{{ $loop->index + 1 }}</td>
@@ -52,7 +50,7 @@
             <td>{{ $frm->age ?? ''}}</td>
             <td>{{ $frm->allow_contact ?? ''}}</td>
             <td>{{ $frm->client_contact ?? ''}}</td>
-            <td>{!! $frm->feedback_description ?? ''!!}</td>
+            <td>{{ $frm->feedback_description ?? ''}}</td>
             <td>{{ $frm->category?->name ?? ''}} {{ $frm->category?->description ?? ''}}</td>
             <td>{{ $frm->datix_number ?? ''}}</td>
             <td>{{ $frm->theme_name?->name ?? ''}}</td>
@@ -66,9 +64,9 @@
             <td>@if(!empty($frm->date_ofreferral)) {{ $frm->date_ofreferral ?? ''}} @else  @endif</td>
             <td>{{ $frm->referral_name ?? ''}}</td>
             <td>{{ $frm->referral_position ?? ''}}</td>
-            <td>{!! $frm->feedback_summary ?? '' !!}</td>
+            <td>{{ $frm->feedback_summary ?? '' }}</td>
             <td>{{ $frm->date_of_respbackgiven ?? ''}}</td>
-            <td>{!! $frm->response_summary ?? ''!!}</td>
+            <td>{{ $frm->response_summary ?? ''}}</td>
             <td>
                 @if(!empty($frm->date_of_respbackgiven))
                     {{round((strtotime($frm->date_of_respbackgiven) -  strtotime($frm->date_received) )/ 86400)  ?? ''}}
@@ -92,5 +90,5 @@
            
         </tr>
     @endforeach
-    </tbody>
+   
 </table>

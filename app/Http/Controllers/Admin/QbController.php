@@ -250,8 +250,15 @@ class QbController extends Controller
         return Excel::download(new ExportQB($data),  $fileName);
         
     }
-    public function getexportfrm(Request $request){
-       
+    public function getexportqbactionpoint(Request $request){
+        $date_visit = $request->date_visit;
+        $data = [
+                    'date_visit'        => $date_visit,
+                ];
+
+      
+        $fileName = 'qb_ActionPoints' .'('. now()->format('d-m-Y') .')'. '.csv';
+        return Excel::download(new ActionPoint($data),  $fileName);
     }
   
 }

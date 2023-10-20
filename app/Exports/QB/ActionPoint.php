@@ -17,42 +17,26 @@ class ActionPoint implements FromView
     }
     public function view(): View
     {
-      
-        $qbs = QualityBench::latest();
-      
-        if($this->data['visit_staff_name'] != null){
-            $frm->where('visit_staff_name',$this->data['visit_staff_name']);
+        
+        $qb = QualityBench::latest();
+        $dateParts = explode('to', $this->data['date_visit']);
+        $startdate = '';
+        $enddate = '';
+        if(!empty($dateParts)){
+            $startdate = $dateParts[0];
+            $enddate = $dateParts[1] ?? '';
         }
         if($this->data['date_visit'] != null){
-            $frm->where('date_visit',$this->data['date_visit']);
+            $qb->whereBetween('date_visit',[$startdate ,$enddate]);
         }
-        if($this->data['accompanied_by'] != null){
-            $frm->where('accompanied_by',$this->data['accompanied_by']);
-        }
-        if($this->data['type_of_visit'] != null){
-            $frm->where('type_of_visit',$this->data['type_of_visit']);
-        }
-        if($this->data['province'] != null){
-            $frm->where('province',$this->data['province']);
-        }
-        if($this->data['district'] != null){
-            $frm->where('district',$this->data['district']);
-        }
-        if($this->data['project_type'] != null){
-            $frm->where('project_type',$this->data['project_type']);
-        }
-        if($this->data['project_name'] != null){
-            $frm->where('project_name',$this->data['project_name']);
-        }
-       
-       
-        $frm->with('user','user1','districts','districts',
+
+        $qb->with('action_point','user','user1','districts','districts',
                     'tehsils','uc','project')->latest();
-        $frms =  $frm->with('responses')->get(); 
-        
-        return view('admin.quality_bench.qb_export.qb_report', [
+        $qbs =  $qb->get(); 
+
+       
+        return view('admin.quality_bench.qb_export.qb_actionpoint_report', [
             'qbs' => $qbs,
-           
 
         ]);
     }

@@ -22,8 +22,15 @@ class ExportQB implements FromView
         if($this->data['visit_staff_name'] != null){
             $qb->where('visit_staff_name',$this->data['visit_staff_name']);
         }
+        $dateParts = explode('to', $this->data['date_visit']);
+        $startdate = '';
+        $enddate = '';
+        if(!empty($dateParts)){
+            $startdate = $dateParts[0];
+            $enddate = $dateParts[1] ?? '';
+        }
         if($this->data['date_visit'] != null){
-            $qb->where('date_visit',$this->data['date_visit']);
+            $qb->whereBetween('date_visit',[$startdate ,$enddate]);
         }
         if($this->data['accompanied_by'] != null){
             $qb->where('accompanied_by',$this->data['accompanied_by']);

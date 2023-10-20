@@ -111,14 +111,14 @@ class FRMController extends Controller
             $frms->where('gender',$request->gender);
         }
         $dateParts = explode('to', $request->date_received);
-        $startdate = '';
+           $startdate = '';
         $enddate = '';
         if(!empty($dateParts)){
             $startdate = $dateParts[0] ?? '';
             $enddate = $dateParts[1] ?? '';
         }
         if($request->date_received != null ){
-          
+            $date = Carbon::parse($request->date_received)->format("Y-m-d");
             $frms->whereBetween('date_received',[$startdate ,$enddate]);
         }
         if($request->kt_select2_district != null){
@@ -517,7 +517,7 @@ class FRMController extends Controller
 
         $feedbackchannels = FeedbackChannel::latest()->get();
         $projects = Project::latest()->get();
-        return view('admin.frm.export',compact('feedbackchannels','projects'));
+        return view('admin.frm.frm_export.export',compact('feedbackchannels','projects'));
     }
     public function getexportfrm(Request $request){
         $name_of_registrar = $request->name_of_registrar;
@@ -539,7 +539,7 @@ class FRMController extends Controller
                 'project_name'=>$project_name,
                 'status'=>$status,
                  ];
-        $fileName = 'frm_' .'('. now()->format('d-m-Y') .')'. '.csv';
+        $fileName = 'frm_' .'('. now()->format('d-m-Y') .')'. '.xlsx';
         return Excel::download(new FrmExport($data),  $fileName);
     }
 }

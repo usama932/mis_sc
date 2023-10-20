@@ -44,7 +44,8 @@
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required" >Date Received</span>
                                 </label>
-                                <input type="text" name="date_received" id="date_recieved_id" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
+                                <input class="form-control form-control-solid" aria-label="Pick date range"  placeholder="Pick date range" id="date_recieved_id" name="date_received" value=""  class="form-control">
+                               
                             </div>
 
                             <div class="col-md-3 my-3">
@@ -148,11 +149,16 @@
     <!--end::Page Vendors-->
     <script>
     
-        $('#date_recieved_id,#date_feedback_referred,#date_feedback_referred_id').flatpickr({
+        $('#date_feedback_referred,#date_feedback_referred_id').flatpickr({
             altInput: true,
             dateFormat: "y-m-d",
             maxDate: "today"
 		});
+        flatpickr("#date_recieved_id", {
+            mode: "range",
+            dateFormat: "Y-m-d",
+            maxDate: "today",
+        });
         $("#kt_select2_province").change(function () {
 
             var value = $(this).val();

@@ -364,6 +364,7 @@
         $('#date_recieved_id').flatpickr({
             altInput: true,
             mode: "range",
+            maxDate: "today",
             dateFormat: "Y-m-d",
          
 		});

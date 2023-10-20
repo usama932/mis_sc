@@ -14,4 +14,8 @@ class MonitorVisit extends Model
     {
         return $this->belongsTo(QualityBench::class,'quality_bench_id','id');
     }
+    public function action_point()
+    {
+        return $this->hasMany(ActionPoint::class,'monitor_visits_id','id');
+    }
 }

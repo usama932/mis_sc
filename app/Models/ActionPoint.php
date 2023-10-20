@@ -14,4 +14,8 @@ class ActionPoint extends Model
     {
         return $this->belongsTo(QualityBench::class,'quality_bench_id','id');
     }
+    public function monitor_visit()
+    {
+        return $this->belongsTo(MonitorVisit::class,'monitor_visits_id','id');
+    }
 }

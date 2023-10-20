@@ -28,8 +28,6 @@
         <th>Type of Visit</th>
         <th>Province</th>
         <th>District</th>
-        <th>Tehsil</th>
-        <th>UC</th>
         <th>Village</th>
         <th>Project Type</th>
         <th>Project</th>

@@ -324,6 +324,7 @@
         flatpickr("#date_visit", {
             mode: "range",
             dateFormat: "Y-m-d",
+            maxDate: "today",
         });
     </script>
     <!--end::Vendors Javascript-->
