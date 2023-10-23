@@ -25,7 +25,7 @@
 
     </style>
     @section('title')
-        Edit Feedback Registry Form #.{{$frm->response_id}}
+        Edit Feedback/Complaint #.{{$frm->response_id}}
     @endsection
     <div id="loader" class="loader"></div>
 
@@ -188,23 +188,25 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">FeedBack Category </span>
                         </label>
-                        <select   name="feedback_category"  @error('feedback_category') is-invalid @enderror aria-label="Select a Feedback Category" data-control="select2" data-placeholder="Select a Feedback Category" class="form-select form-select-solid categoryit" required>
+                        <select   name="feedback_category"  @error('feedback_category') is-invalid @enderror aria-label="Select a Feedback Category" data-control="select2" data-placeholder="Select a Feedback Category" class="form-select form-select-solid categoryit" required disabled>
                             <option @if($frm->feedback_category == '') selected @endif>Select Option</option>
                             @foreach($feedbackcategories as $feedbackcategory)
                                 <option @if($frm->feedback_category == $feedbackcategory->id) selected @endif value={{$feedbackcategory->id}}>{{$feedbackcategory->id}}-{{$feedbackcategory->description}}</option>
                             @endforeach
                         </select>
+                        <input type="hidden" name="feedback_category" value="{{$feedbackcategory->id}}">
                         @error('feedback_category')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
                     </div>
-                    <div class="col-md-3 mt-3 " id="show_datix">
+                    <div class="col-md-3 mt-3 "x>
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Datix Number</span>
                         </label>
-                        <input type="number" class="form-control"  @error('datix_number') is-invalid @enderror placeholder="Enter Datix Number" name="datix_number" value="{{$frm->datix_number ?? ''}}" />
+                        <input type="hidden" value="{{$frm->datix_number ?? ''}}"  name="datix_number" />
+                        <strong>{{$frm->datix_number ?? ''}}</strong>
                         @error('datix_number')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -227,7 +229,7 @@
                     </div>
                     <div class="col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required">Project</span>
+                            <span class="">Project</span>
                         </label>
                         <br>
                         <select   name="project_name"  @error('project_name') is-invalid @enderror aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Theme" class="form-select form-select-solid">
@@ -328,21 +330,23 @@
                             </span>
                         @enderror
                     </div>
-                    <div class="col-md-4 mt-3 no_divs actionid " id="actionid">
-                        <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required">Satisfiction </span>
-                        </label>
-                        <select name="actiontaken" id="action_id" aria-label="Select a Action"  @error('actiontaken') is-invalid @enderror data-control="select2" data-placeholder="Select a Action..." class="form-select form-select-solid " >
-                            @if(!empty($frm->type_ofaction_taken))
-                                <option value="{{$frm->type_ofaction_taken}}">{{$frm->type_ofaction_taken}}</option>
-                            @endif
-                        </select>
-                        @error('actiontaken')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
+                    @if($frm->feedback_referredorshared == "No" )
+                        <div class="col-md-4 mt-3 no_divs actionid " id="actionid">
+                            <label class="fs-6 fw-semibold form-label mb-2">
+                                <span class="required">Satisfiction </span>
+                            </label>
+                            <select name="actiontaken" id="action_id" aria-label="Select a Action"  @error('actiontaken') is-invalid @enderror data-control="select2" data-placeholder="Select a Action..." class="form-select form-select-solid " >
+                                @if(!empty($frm->type_ofaction_taken))
+                                    <option value="{{$frm->type_ofaction_taken}}">{{$frm->type_ofaction_taken}}</option>
+                                @endif
+                            </select>
+                            @error('actiontaken')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    @endif
                 </div>
                 <div class="text-center pt-15">
                     <button type="reset" class="btn btn-light me-3" >Discard</button>

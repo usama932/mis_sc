@@ -3,7 +3,7 @@
     @endpush
 
     @section('title')
-       Update Response Feedback Registry
+       Update Response Feedback/Complaint 
     @endsection
 
     <div class="card">

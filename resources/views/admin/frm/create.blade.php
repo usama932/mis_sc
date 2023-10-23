@@ -24,7 +24,7 @@
 
     </style>
     @section('title')
-        Add Feedback Registry Form #.{{$response_id}}
+        Add Feedback/Complaint #.{{$response_id}}
     @endsection
     <div id="loader" class="loader"></div>
 
@@ -372,7 +372,7 @@
                     </div>
                     <div class="col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required">Project</span>
+                            <span class="">Project</span>
                         </label>
                         <select   name="project_name"  @error('project_name') is-invalid @enderror aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Theme" class="form-select form-select-solid">
                             <option>Select Project</option>

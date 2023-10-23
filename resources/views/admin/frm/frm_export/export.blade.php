@@ -5,7 +5,7 @@
         <link href="{{asset("assets/plugins/custom/datatables/datatables.bundle.css")}}" rel="stylesheet" type="text/css" />
     @endsection
     @section('title')
-        Feedback Registry Management
+     Export Feedback Response Tracker
     @endsection
 
     <div id="kt_app_content" class="app-content flex-column-fluid">
@@ -38,6 +38,13 @@
                                     <option  value="Sanam Altaf">Sanam Altaf</option>
                                     <option  value="Shakila Memon">Shakila Memon</option>
                                     <option  value="Tariq Rahim Baig">Tariq Rahim Baig</option>
+                                    <option  value="Ruqaiya Bibi" >Ruqaiya Bibi</option>
+                                    <option  value="Dr. Kashmala">Dr. Kashmala</option>
+                                    <option  value="Mehnaz" >Mehnaz</option>
+                                    <option  value="Musarrat Bibi" >Musarrat Bibi</option>
+                                    <option  value="Shaista Mir" >Shaista Mir</option>
+                                    <option  value="Shama" >Shama</option>
+                                    <option  value="Zahid Ali Khan" >Zahid Ali Khan</option>
                                 </select>
                             </div>
                             <div class="col-md-3 my-3">

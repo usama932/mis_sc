@@ -42,7 +42,7 @@ class FrmRepository implements FrmRepositoryInterface
             'datix_number'          => $data['datix_number'],
             'theme'                 => $data['theme'],
             'feedback_activity'     => $data['feedback_activity'],
-            'project_name'          => $data['project_name'],
+            'project_name'          => $data['project_name'] ?? '',
             'date_ofreferral'       => $data['date_feedback_referred'],
             'referral_name'         => $data['refferal_name'],
             'referral_position'     => $data['refferal_position'],
