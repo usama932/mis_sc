@@ -22,10 +22,8 @@ class UpdatefrmRequest extends FormRequest
     public function rules(): array
     {
         return [
-
             'feedback_channel' => ['required','string'],
             'feedback_description' => ['required','string'],
-            'feedback_category' => ['required'],
             'feedback_referredorshared' => ['required'],
         ];
     }

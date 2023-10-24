@@ -85,8 +85,6 @@ class FrmRepository implements FrmRepositoryInterface
         return Frm::where('id',$id)->update([
             'feedback_channel'      => $data['feedback_channel'],
             'feedback_description'  => $data['feedback_description'] ,
-            'feedback_category'     => $data['feedback_category'],
-            'datix_number'          => $data['datix_number'],
             'date_ofreferral'       => $date,
             'referral_name'         => $data['refferal_name'],
             'referral_position'     => $data['refferal_position'],

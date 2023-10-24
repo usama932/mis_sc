@@ -520,6 +520,7 @@ class FRMController extends Controller
         return view('admin.frm.frm_export.export',compact('feedbackchannels','projects'));
     }
     public function getexportfrm(Request $request){
+    
         $name_of_registrar = $request->name_of_registrar;
         $date_received = $request->date_received;
         $feedback_channel = $request->feedback_channel;
@@ -539,7 +540,7 @@ class FRMController extends Controller
                 'project_name'=>$project_name,
                 'status'=>$status,
                  ];
-        $fileName = 'FRM_Tracker'.'('. now()->format('d-m-Y') .')'. '.xlsx';
+        $fileName = 'FRM_Tracker'.'('. now()->format('d-m-Y') .')'. '.csv';
         return Excel::download(new FrmExport($data),  $fileName);
     }
 }

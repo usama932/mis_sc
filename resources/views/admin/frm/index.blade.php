@@ -312,7 +312,7 @@
                 "searching": false,
                 "responsive": false,
                 'info': true,
-                "ajax": {
+               "ajax": {
                     "url":"{{ route('admin.getFrms') }}",
                     "dataType":"json",
                     "type":"POST",
@@ -324,7 +324,7 @@
                             'feedback_channel':feedback_channel,
                             'age_id':age_id,
                             'type_of_client':type_of_client,
-                            'project_name':project_name,
+                             'project_name':project_name,
                             'response_id':response_id,
                             'gender':gender
                             }

@@ -70,7 +70,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Feedback Channel</span>
                         </label>
-                        <select name="feedback_channel" aria-label="Select a Feedback Channel" data-control="select2" data-placeholder="Select a Country..." class="form-select form-select-solid" required  @error('feedback_channel') is-invalid @enderror>
+                        <select name="feedback_channel" aria-label="Select a Feedback Channel" data-control="select2" data-placeholder="Select a Country..." class="form-select" required  @error('feedback_channel') is-invalid @enderror>
                             <option @if($frm->feedback_channel == '') selected @endif value="">Select Option</option>
                             @foreach($feedbackchannels as $feedbackchannel)
                                 <option @if($feedbackchannel->id == $frm->feedback_channel)     selected @endif value="{{$feedbackchannel->id}}">{{$feedbackchannel->name}}</option>
@@ -122,7 +122,7 @@
                             <span class="required">Province</span>
                         </label>
                         <br>
-                        <strong>{{$frm->provinces->name ?? 'NA'}}</strong>
+                        <strong>{{$frm->provinces->province_name ?? $frm->province}}</strong>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
@@ -136,14 +136,14 @@
                             <span class="required">Tehsil</span>
                         </label>
                         <br>
-                        <strong>{{$frm->tehsils->tehsil_name ?? 'NA'}}</strong>
+                        <strong>{{$frm->tehsils->tehsil_name ?? $frm->tehsil}}</strong>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Union Counsil</span>
                         </label>
                         <br>
-                        <strong>{{$frm->uc->uc_name ?? 'NA'}}</strong>
+                        <strong>{{$frm->uc->uc_name ?? $frm->union_counsil}}</strong>
                     </div>
                     <div class="col-md-6 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
@@ -188,13 +188,8 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">FeedBack Category </span>
                         </label>
-                        <select   name="feedback_category"  @error('feedback_category') is-invalid @enderror aria-label="Select a Feedback Category" data-control="select2" data-placeholder="Select a Feedback Category" class="form-select form-select-solid categoryit" required disabled>
-                            <option @if($frm->feedback_category == '') selected @endif>Select Option</option>
-                            @foreach($feedbackcategories as $feedbackcategory)
-                                <option @if($frm->feedback_category == $feedbackcategory->id) selected @endif value={{$feedbackcategory->id}}>{{$feedbackcategory->id}}-{{$feedbackcategory->description}}</option>
-                            @endforeach
-                        </select>
-                        <input type="hidden" name="feedback_category" value="{{$feedbackcategory->id}}">
+                        <br>
+                        <strong>{{$frm->category->name}}-{{$frm->category->description}}</strong>
                         @error('feedback_category')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -205,7 +200,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Datix Number</span>
                         </label>
-                        <input type="hidden" value="{{$frm->datix_number ?? ''}}"  name="datix_number" />
+                        
                         <strong>{{$frm->datix_number ?? ''}}</strong>
                         @error('datix_number')
                             <span class="invalid-feedback" role="alert">
@@ -232,12 +227,13 @@
                             <span class="">Project</span>
                         </label>
                         <br>
-                        <select   name="project_name"  @error('project_name') is-invalid @enderror aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Theme" class="form-select form-select-solid">
-                            <option>Select Project</option>
+                        <strong>{{$frm->project?->name ?? ''}}</strong>
+                        {{-- <select   name="project_name"  @error('project_name') is-invalid @enderror aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a project" class="form-select form-select-solid">
+                            <option  value="">Select Project</option>
                             @foreach($projects as $project)
                                 <option @if($project->id == $frm->project_name) selected @endif value="{{$project->id}}">{{$project->name}}</option>
                             @endforeach
-                        </select>
+                        </select> --}}
                     </div>
                     <div class="card-title  border-0 my-4"">
                         <div class="card-title">
@@ -253,7 +249,7 @@
                         </label>
                         
                         <select name="feedback_referredorshared"  @error('feedback_referredorshared') is-invalid @enderror aria-label="Select a Option" data-placeholder="Select a Statut..." class="form-select form-select-solid shareid" disabled>
-                            <option @if($frm->feedback_referredorshared == "") selected  @endif>Select Option</option>
+                            <option @if($frm->feedback_referredorshared == "") selected  @endif  value="">Select Option</option>
                             <option  @if($frm->feedback_referredorshared == "Yes") selected  @endif value="Yes">Yes</option>
                             <option  @if($frm->feedback_referredorshared == "No") selected  @endif value="No">No</option>
                         </select>
@@ -267,14 +263,11 @@
                     <div class="col-md-4 mt-3 yes_divs">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required"> Date of feedback Referred </span><br>
-                            {{ $frm->date_ofreferral ?? ''}}
+                            
                         </label>
-
-                        @php
-
-                        @endphp
-
-                        <input type="text" @error('date_feedback_referred') is-invalid @enderror name="date_feedback_referred" id="date_feedback_referred" placeholder="Select date" class="form-control" value="">
+                        <br>
+                        <strong>{{ $frm->date_ofreferral ?? ''}}</strong>
+                        
                         @error('date_feedback_referred')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -320,7 +313,7 @@
                             <span class="required">Status</span>
                         </label>
                         <select   name="status" aria-label="Select a Status"  @error('status') is-invalid @enderror data-control="select2" data-placeholder="Select a Statut..." class="form-select form-select-solid statusid">
-                            <option @if($frm->status == '') selected @endif>Select Option</option>
+                            <option @if($frm->status == '') selected @endif value="">Select Option</option>
                             <option @if($frm->status == 'Open') selected @endif value="Open">Open</option>
                             <option @if($frm->status == 'Close') selected @endif value="Close">Close</option>
                         </select>

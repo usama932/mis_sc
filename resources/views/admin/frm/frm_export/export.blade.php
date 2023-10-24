@@ -16,7 +16,7 @@
                 <div class="card-title m-5">
                     <h1>FRM Exports  :</h1>
                 </div>
-                <form action="{{route('getfrm-export')}}" method="post">
+                <form id="exportid">
                     @csrf
                     <div class="card-header border-0 pt-6">
                         <div class="row mb-5">
@@ -26,6 +26,7 @@
                                 </label>
                                 <select name="name_of_registrar" id="name_of_registrar" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select form-select-solid" >
                                     <option  value="" selected>Select Option</option>
+                                    <option  value="None" >All</option>
                                     <option  value="Abdul Qadeer">Abdul Qadeer</option>
                                     <option  value="Asif Ali">Asif Ali</option>
                                     <option  value="Ejaz Shah">Ejaz Shah</option>
@@ -61,6 +62,7 @@
                                 </label>
                                 <select name="feedback_channel" id="feedback_channel" aria-label="Select a Feedback Channel" data-control="select2" data-placeholder="Select a Feedback Channel..." class="form-select form-select-solid">
                                     <option  value="" selected>Select Option</option>
+                                    <option  value="None" >All</option>
                                     <option  >Hotline</option>
                                     <option  >SMS</option>
                                     <option  >Feedback Form</option>
@@ -77,6 +79,7 @@
                                 </label>
                                 <select name="age" aria-label="Select a Age" data-control="select2" data-placeholder="Select a age..." class="form-select form-select-solid" id="age_id" >
                                     <option  value="">Select Option</option>
+                                    <option  value="None" >All</option>
                                     <option value="Under 18">Less than 18 years</option>
                                     <option value="19-50 years">19-50 years</option>
                                     <option value="Above 50 years">Above 50 years</option>
@@ -89,6 +92,7 @@
                                 </label>
                                 <select name="status" aria-label="Select a Age" data-control="select2" data-placeholder="Select a age..." class="form-select form-select-solid" id="status" >
                                     <option  value="">Select Option</option>
+                                    <option  value="None" >All</option>
                                     <option value="Close">Close</option>
                                     <option value="Open">Open</option>
                                    
@@ -101,6 +105,7 @@
                                 </label>
                                 <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select form-select-solid">
                                     <option value="" selected>Select Province</option>
+                                    <option  value="None" >All</option>
                                     <option value='4'>Sindh</option>
                                     <option value='2'>KPK</option>
                                 </select>
@@ -120,6 +125,7 @@
                                 </label>
                                 <select   name="type_of_client" id="type_of_client" aria-label="Select a Type of Client" data-control="select2" data-placeholder="Select a Type of Client..." class="form-select form-select-solid">
                                     <option value="" selected>Select Client</option>
+                                    <option  value="None" >All</option>
                                     <option value="Direct Beneficiary">Direct Beneficiary</option>
                                     <option value="Indirect Beneficiary">Indirect Beneficiary</option>
                                     <option value="Non-Beneficiary">Non-Beneficiary</option>
@@ -133,6 +139,7 @@
                                 </label>
                                 <select name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Project Name" class="form-select form-select-solid">
                                     <option value="" selected>Select Theme</option>
+                                    <option  value="None" >All</option>
                                     @foreach($projects as $project)
                                     <option value="{{$project->id}}" >{{$project->name}}</option>
                                     @endforeach
@@ -178,7 +185,7 @@
                 dataType: 'json',
                 success: function (data) {
                     $("#kt_select2_district").find('option').remove();
-                    $("#kt_select2_district").prepend("<option value='' >Select District</option>");
+                    $("#kt_select2_district").prepend("<option value='' >Select District</option><option  value='None'>All</option>");
                     var selected='';
                     $.each(data, function (i, item) {
 
@@ -193,6 +200,35 @@
             });
 
         }).trigger('change');
+        $(document).on({
+            ajaxStart: function() {
+                $('#loadingModal').modal('show');
+            },
+            ajaxStop: function() {
+                $('#loadingModal').modal('hide');
+            }
+        });
+        $('#exportid').click(function(e){
+            e.preventDefault();
+            
+          
+            $.ajax({
+                url: "{{ url('getfrm/export') }}",
+                type: 'POST',
+                data: {_token: csrf_token },
+                dataType: 'json',
+                success: function(response) {
+                    alert('a');
+                    console.log(result);
+                },
+                error: function(error) {
+                    $.each(error, function(key, value) {
+                        console.log(value);
+                    });
+                }
+            });
+        });
+    
     </script>
     <!--end::Vendors Javascript-->
     @endpush
