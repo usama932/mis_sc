@@ -86,7 +86,29 @@
             </td>
             
             <td>{{ $frm->type_ofaction_taken ?? ''}}</td>
-            <td>{{ $frm->status ?? ''}}</td>
+            @php
+                if(!empty($frm->date_of_respbackgiven)){
+                    $days = round((strtotime($frm->date_of_respbackgiven) -  strtotime($frm->date_received) )/ 86400)  ?? '';
+                    if(!empty($frm->date_of_respbackgiven))
+                        
+                        if($days = 0 ){
+                            $status = "Closed Timely";
+                        }
+                        elseif($days > 0 && $days <= 15){
+                            $status = "Closed Timely";
+                        }
+                        else{
+                            $status = "Closed with Delay";
+                        }
+                    else  {
+
+                    }
+                }
+               
+
+                
+            @endphp
+            <td>@if($frm->status == "Open") Open @else {{$status ?? ''}} @endif</td>
            
         </tr>
     @endforeach

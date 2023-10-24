@@ -136,7 +136,7 @@
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="menu-icon">{!! getIcon('abstract-1', 'fs-2') !!}</span>
-                        <span class="menu-title">FRM Management</span>
+                        <span class="menu-title">FRM Tracker</span>
                         <span class="menu-arrow"></span>
                     </span>
                     <!--end:Menu link-->
@@ -150,7 +150,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">Add FeedBack Registry</span>
+                                    <span class="menu-title">Add Feedback/Complaint</span>
                                 </a>
                                 <!--end:Menu link-->
                             </div>
@@ -162,7 +162,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">List FeedBack Registry</span>
+                                    <span class="menu-title">List Feedback/Complaint</span>
                                 </a>
                                 <!--end:Menu link-->
                             </div>
@@ -174,7 +174,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">Export FeedBack Registry</span>
+                                    <span class="menu-title">Export Feedback/Complaint</span>
                                 </a>
                                 <!--end:Menu link-->
                             </div>
