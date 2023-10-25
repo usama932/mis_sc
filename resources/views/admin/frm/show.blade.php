@@ -204,7 +204,7 @@
                 <table class="table table-striped mr-3">
                     <tr>
                         <td><strong>Closed Date</strong></td>
-                        <td>{{ date('d-M-Y', strtotime($frm->date_of_respbackgiven)) ?? ''}}</td>
+                        <td>@if($frm->status == "Close" && !empty($frm->date_of_respbackgiven)) {{ date('d-M-Y', strtotime($frm->date_of_respbackgiven)) ?? ''}} @else @endif</td>
                     </tr>
                     {{-- <tr>
                         <td><strong>Response Summary</strong></td>
@@ -212,9 +212,15 @@
                     </tr> --}}
                     <tr>
                         <td><strong>Closing the loop (Days)</strong></td>
-                        <td>@if(!empty($frm->date_received))
-                            {{round((strtotime($frm->date_of_respbackgiven) -  strtotime($frm->date_received) )/ 86400)  ?? ''}}
-                            @else NA @endif
+                        <td>@if($frm->status == "Close")
+                            @if(!empty($frm->date_received) && !empty($frm->date_of_respbackgiven))
+                                {{round((strtotime($frm->date_of_respbackgiven) -  strtotime($frm->date_received) )/ 86400)  ?? ''}}
+                            @endif
+                            @else
+                            $cur_date = Carbon\Carbon::now()->toDateTimeString('Y-m-d');
+                           
+                            {{($cur_date -  strtotime($frm->date_received) / 86400)  ?? ''}}
+                            @endif
                         </td>
                     </tr>
                    

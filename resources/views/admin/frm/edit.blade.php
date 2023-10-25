@@ -39,6 +39,16 @@
             </ul>
         </div>
         @endif
+        @if(session()->has('success'))
+        <div class="alert alert-success">
+            {{ session()->get('success') }}
+        </div>
+        @endif
+        @if(session()->has('danger'))
+        <div class="alert alert-danger">
+            {{ session()->get('danger') }}
+        </div>
+        @endif
         <form class="form" action="{{route('frm-managements.update',$frm->id)}}" method="post">
             @csrf
             @method('put')
@@ -91,59 +101,93 @@
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required">Name</span>
+                            <span class="required">Complainant Name</span>
                         </label>
-                        <br>
-                        <strong>{{$frm->name_of_client ?? 'NA'}}</strong>
+                        <input class="form-control"  @error('name_of_client') is-invalid @enderror placeholder="Enter Client Name" name="name_of_client" value="{{$frm->name_of_client ?? ''}}" required/>
+                       
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Type</span>
                         </label>
-                        <br>
-                        <strong>{{$frm->type_of_client ?? 'NA'}}</strong>
+                        <select   name="type_of_client" aria-label="Select a Type of Client" data-control="select2" data-placeholder="Select a Type of Client..." class="form-select form-select-solid"  @error('type_of_client') is-invalid @enderror required>
+                            <option @if($frm->type_of_client == "") selected @else  @endif value="">Select Client</option>
+                            <option @if($frm->type_of_client == "Direct Beneficiary") selected @else  @endif>Direct Beneficiary</option>
+                            <option @if($frm->type_of_client == "Indirect Beneficiary") selected @else  @endif>Indirect Beneficiary</option>
+                            <option @if($frm->type_of_client == "Non-Beneficiary") selected @else  @endif>Non-Beneficiary</option>
+                            <option @if($frm->type_of_client == "Partner Staff") selected @else  @endif>Partner Staff</option>
+                            <option @if($frm->type_of_client == "Save the Children Staff") selected @else  @endif>Save the Children Staff</option>
+                        </select>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Gender</span>
                         </label>
-                        <br>
-                        <strong>{{$frm->gender ?? 'NA'}}</strong>
+                        <select   name="gender"  @error('gender') is-invalid @enderror aria-label="Select a Gender" data-control="select2" data-placeholder="Select a Gender..." class="form-select form-select-solid genderit" required>
+                            <option @if($frm->gender == "") selected @else  @endif value="">Select Gender</option>
+                            <option @if($frm->gender == "Boy") selected @else  @endif  value="Boy">Boy</option>
+                            <option @if($frm->gender == "Girl") selected @else  @endif  value="Girl">Girl</option>
+                            <option @if($frm->gender == "Male") selected @else  @endif value="Male">Male</option>
+                            <option @if($frm->gender == "Female") selected @else  @endif value="Female">Female</option>
+                        </select>
+                       
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Age</span>
                         </label>
-                        <br>
-                        <strong>{{$frm->age ?? 'NA'}}</strong>
+                        <select   name="age"  @error('age') is-invalid @enderror aria-label="Select a Gender" data-control="select2" data-placeholder="Select a age..." class="form-select form-select-solid" id="age_id" required>
+                            @if(!empty($frm->age))
+                            <option value="{{$frm->age}}">{{$frm->age}}</option>
+                            @endif
+                        </select>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Province</span>
                         </label>
-                        <br>
-                        <strong>{{$frm->provinces->province_name ?? $frm->province}}</strong>
+                        <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select form-select-solid"   @error('province') is-invalid @enderror required>
+                           
+                                <option value="">Select Province</option>
+                                {{-- <option value='1'>Punjab</option> --}}
+                                <option @if($frm->province == '4') selected @endif value='4'>Sindh</option>
+                                <option  @if($frm->province == '2') selected @endif value='2'>KPK</option>
+                                <option   @if($frm->province == '3') selected @endif value='3'>Balochistan</option>
+                         
+                        </select>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">District</span>
                         </label>
-                        <br>
-                        <strong>{{$frm->districts->district_name ?? 'NA'}}</strong>
+                        <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select form-select-solid"  @error('district') is-invalid @enderror required>
+                            <option value="{{$frm->district}}">{{$frm->districts?->district_name ?? $frm->district}}</option>
+                        </select>
+                        
+                        <input type="hidden" id="kt_select2_district" value="{{$frm->district}}" />
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Tehsil</span>
                         </label>
-                        <br>
-                        <strong>{{$frm->tehsils->tehsil_name ?? $frm->tehsil}}</strong>
+                        <select id="kt_select2_tehsil"  @error('tehsil') is-invalid @enderror name="tehsil" aria-label="Select a Tehsil" data-control="select2" data-placeholder="Select a Tehsil..." class="form-select form-select-solid" required>
+                            @if(!empty($frm->tehsil))
+                            <option value="{{$frm->tehsil}}">{{$frm->tehsils->tehsil_name}}</option>
+                            @endif
+                        </select>
+                       
+                        {{-- <br>
+                        <strong>{{$frm->tehsils->tehsil_name ?? $frm->tehsil}}</strong> --}}
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required">Union Counsil</span>
+                            <span class="required">Union Council</span>
                         </label>
-                        <br>
-                        <strong>{{$frm->uc->uc_name ?? $frm->union_counsil}}</strong>
+                        <select id="kt_select2_union_counsil"  @error('union_counsil') is-invalid @enderror name="union_counsil" aria-label="Select a UC" data-control="select2" data-placeholder="Select a Uc..." class="form-select form-select-solid" required>
+                            @if(!empty($frm->union_counsil))
+                            <option value="{{$frm->union_counsil}}">{{$frm->uc?->uc_name ?? $frm->union_counsil}}</option>
+                            @endif
+                        </select>
                     </div>
                     <div class="col-md-6 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
@@ -172,8 +216,9 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Contact Number</span>
                         </label>
-                        <br>
-                        <strong>{{$frm->client_contact ?? 'NA'}}</strong>
+                       
+                        <input type="tel"  @error('contact_number') is-invalid @enderror class="form-control " placeholder="Enter Contact Number" name="contact_number" value=" {{ intval($frm->client_contact)  }}" />
+                      
                     </div>
                     <div class="col-md-9 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
@@ -214,15 +259,21 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Theme</span>
                         </label>
-                        <br>
-                        <strong>{{$frm->theme_name->name ?? 'NA'}}</strong>
+                        <select   name="theme"  @error('theme') is-invalid @enderror aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme" class="form-select form-select-solid" required>
+                            <option value="">Select Theme</option>
+                            @foreach($themes as $theme)
+                                <option  @if($frm->theme == $theme->id) selected @endif value="{{$theme->id}}">{{$theme->name}}</option>
+                            @endforeach
+                        </select>
+                        
                     </div>
                     <div class="col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Feedback Activity</span>
                         </label>
-                        <br>
-                        <strong>{{$frm->feedback_activity ?? 'NA'}}</strong>
+                        <input class="form-control"  @error('feedback_activity') is-invalid @enderror placeholder="Enter Feedback Activity" name="feedback_activity" value="{{$frm->feedback_activity ?? ''}}" / required>
+                       
+                    
                     </div>
                     <div class="col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">

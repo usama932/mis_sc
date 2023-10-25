@@ -76,19 +76,31 @@
                 if(!empty($frm->date_of_respbackgiven)){
                     $days = round((strtotime($frm->date_of_respbackgiven) -  strtotime($frm->date_received) )/ 86400)  ?? '';
                     if(!empty($frm->date_of_respbackgiven))
-                        
-                        if($days == '0' ){
+                        if($frm->feedback_category != '6' || $frm->feedback_category != '7'){
+                            if($days == '0' ){
                             $status = "Closed Timely";
-                        }
-                        elseif($days > '0' && $days <= '15' && $frm->feedback_category != '6'  || $frm->feedback_category != '7'){
-                            $status = "Closed Timely";
-                        }
-                        elseif($days > '0' && $days <= '90' && $frm->feedback_category == '6'  || $frm->feedback_category == '7'){
-                            $status = "Closed Timely";
+                            }
+                            elseif($days > '0' && $days <= '15'){
+                                $status = "Closed Timely";
+                            }
+                          
+                            else{
+                                $status = "Closed with Delay";
+                            }
                         }
                         else{
-                            $status = "Closed with Delay";
+                            if($days == '0' ){
+                                $status = "Closed Timely";
+                            }
+                            elseif($days > '0' && $days <= '90'){
+                                $status = "Closed Timely";
+                            }
+                          
+                            else{
+                                $status = "Closed with Delay";
+                            }
                         }
+                      
                     else  {
 
                     }

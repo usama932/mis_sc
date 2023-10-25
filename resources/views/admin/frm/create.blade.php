@@ -35,18 +35,18 @@
         </ul>
     </div>
     @endif
-    @if(session()->has('success'))
+
+    <div class="card">
+        @if(session()->has('success'))
         <div class="alert alert-success">
             {{ session()->get('success') }}
         </div>
-    @endif
-    @if(session()->has('danger'))
-    <div class="alert alert-danger">
-        {{ session()->get('danger') }}
-    </div>
-@endif
-    <div class="card">
-
+        @endif
+        @if(session()->has('danger'))
+        <div class="alert alert-danger">
+            {{ session()->get('danger') }}
+        </div>
+        @endif
         <form class="form" action="{{route('frm-managements.store')}}" method="post">
             @csrf
             <input type="hidden" name="response_id" value="{{$response_id}}">
@@ -119,7 +119,7 @@
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required">Name</span>
+                            <span class="required">Complainant Name</span>
                         </label>
                         <input class="form-control"  @error('name_of_client') is-invalid @enderror placeholder="Enter Client Name" name="name_of_client" value="" required/>
                         @error('name_of_client')
@@ -168,7 +168,7 @@
                             <span class="required">Age</span>
                         </label>
                         <select   name="age"  @error('age') is-invalid @enderror aria-label="Select a Gender" data-control="select2" data-placeholder="Select a age..." class="form-select form-select-solid" id="age_id" required>
-
+                            <option value="">Select Option</option>
                         </select>
                         @error('age')
                             <span class="invalid-feedback" role="alert">
@@ -283,7 +283,7 @@
                         </label>
                         <div class="form-check form-check-custom form-check-solid mt-4">
                             <!--begin::Input-->
-                            <input class="form-check-input contact_id"  @error('allow_contact') is-invalid @enderror name="allow_contact" type="radio" value="Yes"/ required>
+                            <input class="form-check-input contact_id"  @error('allow_contact') is-invalid @enderror name="allow_contact" type="radio" value="Yes"/ checked  required>
                             <!--end::Input-->
                             <!--begin::Label-->
                             <label class="form-check-label me-5">

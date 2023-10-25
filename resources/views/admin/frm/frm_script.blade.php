@@ -16,7 +16,7 @@
                     $(".box").hide();
                 }
             });
-        }).change();
+        });
     });
     //script for select Allow to Contact
     $(document).ready(function(){
@@ -160,7 +160,7 @@
 
         });
 
-    }).trigger('change');
+    });
 
     $("#kt_select2_district").change(function () {
 
@@ -185,7 +185,7 @@
         }
         });
 
-    }).trigger('change');
+    });
     $("#kt_select2_tehsil").change(function () {
 
         var value = $(this).val();
@@ -209,7 +209,7 @@
         }
         });
 
-    }).trigger('change');
+    });
 
     //select QB met
     $(document).ready(function(){

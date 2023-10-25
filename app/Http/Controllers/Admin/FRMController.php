@@ -459,11 +459,13 @@ class FRMController extends Controller
         ->where('province', $request->province)
         ->where('district', $request->district)
         ->where('tehsil', $request->tehsil)
-        ->where('theme', $request->theme)->get();
-
-        if(!empty($frm)){
-        return redirect()->route('frm-managements.create')->with('danger','Record already Exist');;
+        ->where('theme', $request->theme)
+        ->where('id','!=', $id)->get();
+        
+        if(!empty($frm) && $frm->count() > 0){
+        return redirect()->back()->with('danger','Record already Exist');;
         }
+        
         if($request->date_feedback_referred == "Yes"){
             $validatedData = $request->validate([
                 'refferal_position' => ['required','string'],
@@ -540,7 +542,7 @@ class FRMController extends Controller
         return view('admin.frm.frm_export.export',compact('feedbackchannels','projects'));
     }
     public function getexportfrm(Request $request){
-    
+      
         $name_of_registrar = $request->name_of_registrar;
         $date_received = $request->date_received;
         $feedback_channel = $request->feedback_channel;
@@ -560,6 +562,8 @@ class FRMController extends Controller
                 'project_name'=>$project_name,
                 'status'=>$status,
                  ];
+
+                
         $fileName = 'FRM_Tracker'.'('. now()->format('d-m-Y') .')'. '.csv';
         return Excel::download(new FrmExport($data),  $fileName);
     }

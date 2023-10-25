@@ -83,10 +83,20 @@ class FrmRepository implements FrmRepositoryInterface
             $date = $frm->date_ofreferral;
         }
         return Frm::where('id',$id)->update([
+            'name_of_client'        => $data['name_of_client'],
             'feedback_channel'      => $data['feedback_channel'],
-            'project_name'          => $data['project_name'] ?? $frm->project_name,
+            'gender'                => $data['gender'],
+            'age'                   => $data['age'],
+            'province'              => $data['province'],
+            'district'              => $data['district'],
+            'tehsil'                => $data['tehsil'],
+            'union_counsil'         => $data['union_counsil'],
             'village'               => $data['village'] ?? $frm->village,
+            'client_contact'        => $data['contact_number'],
             'feedback_description'  => $data['feedback_description'] ,
+            'theme'                 => $data['theme'],
+            'feedback_activity'     => $data['feedback_activity'],
+            'project_name'          => $data['project_name'] ?? $frm->project_name,
             'date_ofreferral'       => $date,
             'referral_name'         => $data['refferal_name'],
             'referral_position'     => $data['refferal_position'],

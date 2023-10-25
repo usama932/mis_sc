@@ -25,6 +25,16 @@ class UpdatefrmRequest extends FormRequest
             'feedback_channel' => ['required','string'],
             'feedback_description' => ['required','string'],
             'feedback_referredorshared' => ['required'],
+            'name_of_client' => ['required','string'],
+            'gender' => ['required','string'],
+            'age' => ['required'],
+            'province' => ['required'],
+            'district' => ['required'],
+            'tehsil' => ['required'],
+            'union_counsil' => ['required'],
+            'village' => ['required','string'],
+            'theme' => ['required'],
+            'feedback_activity' => ['required','string'],
         ];
     }
 }
