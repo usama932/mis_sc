@@ -380,6 +380,16 @@ class FRMController extends Controller
 
     public function store(CreatefrmRequest $request)
     {
+        $frm  = Frm::where('name_of_client', $request->name_of_client)
+                    ->where('date_received', $request->date_received)
+                    ->where('province', $request->province)
+                    ->where('district', $request->district)
+                    ->where('tehsil', $request->tehsil)
+                    ->where('theme', $request->theme)->get();
+      
+        if(!empty($frm)){
+            return redirect()->route('frm-managements.create')->with('danger','Record already Exist');;
+        }
 
         if($request->allow_contact == "Yes"){
             $validator = $request->validate([
@@ -410,7 +420,7 @@ class FRMController extends Controller
 
         $data = $request->except('_token');
         $this->frmRepository->storeFrm($data);
-        return redirect()->route('frm-managements.index');
+        return redirect()->route('frm-managements.index')->with('success','FRM Created');
     }
 
 
@@ -444,6 +454,16 @@ class FRMController extends Controller
 
     public function update(UpdatefrmRequest $request, string $id)
     {
+        $frm  = Frm::where('name_of_client', $request->name_of_client)
+        ->where('date_received', $request->date_received)
+        ->where('province', $request->province)
+        ->where('district', $request->district)
+        ->where('tehsil', $request->tehsil)
+        ->where('theme', $request->theme)->get();
+
+        if(!empty($frm)){
+        return redirect()->route('frm-managements.create')->with('danger','Record already Exist');;
+        }
         if($request->date_feedback_referred == "Yes"){
             $validatedData = $request->validate([
                 'refferal_position' => ['required','string'],
