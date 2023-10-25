@@ -29,7 +29,7 @@
         <th>Feedback Summary</th>
         <th>Date of Responseback Given</th>
         <th>Response Back Given</th>
-        <th>Closing/Folloe-up Date</th>
+        <th>Days taken in resolution feedback or concern</th>
         <th>Close Status</th>
         <th>Remarks</th>
         <th>Complainant satisfaction level on Action</th>
@@ -80,7 +80,10 @@
                         if($days == '0' ){
                             $status = "Closed Timely";
                         }
-                        elseif($days > '0' && $days <= '15'){
+                        elseif($days > '0' && $days <= '15' && $frm->feedback_category != '6'  || $frm->feedback_category != '7'){
+                            $status = "Closed Timely";
+                        }
+                        elseif($days > '0' && $days <= '90' && $frm->feedback_category == '6'  || $frm->feedback_category == '7'){
                             $status = "Closed Timely";
                         }
                         else{

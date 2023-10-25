@@ -76,7 +76,7 @@ class FrmRepository implements FrmRepositoryInterface
             }
         }
         $frm =Frm::where('id',$id)->find($id);
-        if($data['date_feedback_referred'] != null){
+        if($data['feedback_referredorshared'] != null){
             $date = $data['date_feedback_referred'];
         }
         else{
@@ -84,6 +84,8 @@ class FrmRepository implements FrmRepositoryInterface
         }
         return Frm::where('id',$id)->update([
             'feedback_channel'      => $data['feedback_channel'],
+            'project_name'          => $data['project_name'] ?? $frm->project_name,
+            'village'               => $data['village'] ?? $frm->village,
             'feedback_description'  => $data['feedback_description'] ,
             'date_ofreferral'       => $date,
             'referral_name'         => $data['refferal_name'],

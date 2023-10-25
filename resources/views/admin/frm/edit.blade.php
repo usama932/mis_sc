@@ -149,8 +149,10 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Village</span>
                         </label>
-                        <br>
-                        <strong>{{$frm->village ?? 'NA'}}</strong>
+                        <input class="form-control "  @error('village') is-invalid @enderror placeholder="Enter Village" name="village" value="{{$frm->village ?? ''}}">
+                      
+                        {{-- <br>
+                        <strong>{{$frm->village ?? 'NA'}}</strong> --}}
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
@@ -226,14 +228,14 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="">Project</span>
                         </label>
-                        <br>
-                        <strong>{{$frm->project?->name ?? ''}}</strong>
-                        {{-- <select   name="project_name"  @error('project_name') is-invalid @enderror aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a project" class="form-select form-select-solid">
+                        {{-- <br>
+                        <strong>{{$frm->project?->name ?? ''}}</strong> --}}
+                        <select   name="project_name"  @error('project_name') is-invalid @enderror aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a project" class="form-select">
                             <option  value="">Select Project</option>
                             @foreach($projects as $project)
                                 <option @if($project->id == $frm->project_name) selected @endif value="{{$project->id}}">{{$project->name}}</option>
                             @endforeach
-                        </select> --}}
+                        </select>
                     </div>
                     <div class="card-title  border-0 my-4"">
                         <div class="card-title">
@@ -264,9 +266,9 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required"> Date of feedback Referred </span><br>
                             
+                            {{ $frm->date_ofreferral ?? ''}}
                         </label>
-                        <br>
-                        <strong>{{ $frm->date_ofreferral ?? ''}}</strong>
+                        <input type="text"  @error('date_feedback_referred') is-invalid @enderror name="date_feedback_referred" id="date_feedback_referred" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()"  data-provide="datepicker" value="">
                         
                         @error('date_feedback_referred')
                             <span class="invalid-feedback" role="alert">

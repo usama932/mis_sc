@@ -16,7 +16,7 @@
                 <div class="card-title m-5">
                     <h1>FRM Exports  :</h1>
                 </div>
-                <form id="exportid">
+                <form method="post" action="{{route('getfrm-export')}}">
                     @csrf
                     <div class="card-header border-0 pt-6">
                         <div class="row mb-5">
@@ -200,34 +200,34 @@
             });
 
         }).trigger('change');
-        $(document).on({
-            ajaxStart: function() {
-                $('#loadingModal').modal('show');
-            },
-            ajaxStop: function() {
-                $('#loadingModal').modal('hide');
-            }
+        // $(document).on({
+        //     ajaxStart: function() {
+        //         $('#loadingModal').modal('show');
+        //     },
+        //     ajaxStop: function() {
+        //         $('#loadingModal').modal('hide');
+        //     }
         });
-        $('#exportid').click(function(e){
-            e.preventDefault();
+        // $('#exportid').click(function(e){
+        //     e.preventDefault();
             
           
-            $.ajax({
-                url: "{{ url('getfrm/export') }}",
-                type: 'POST',
-                data: {_token: csrf_token },
-                dataType: 'json',
-                success: function(response) {
-                    alert('a');
-                    console.log(result);
-                },
-                error: function(error) {
-                    $.each(error, function(key, value) {
-                        console.log(value);
-                    });
-                }
-            });
-        });
+        //     $.ajax({
+        //         url: "{{ url('getfrm/export') }}",
+        //         type: 'POST',
+        //         data: {_token: csrf_token },
+        //         dataType: 'json',
+        //         success: function(response) {
+        //             alert('a');
+        //             console.log(result);
+        //         },
+        //         error: function(error) {
+        //             $.each(error, function(key, value) {
+        //                 console.log(value);
+        //             });
+        //         }
+        //     });
+        // });
     
     </script>
     <!--end::Vendors Javascript-->
