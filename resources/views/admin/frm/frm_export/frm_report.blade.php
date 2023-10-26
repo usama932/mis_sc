@@ -74,7 +74,7 @@
                    
                        
                     $dayss = round((strtotime($frm->date_of_respbackgiven) -  strtotime($frm->date_received) )/ 86400)  ?? '';
-                    echo = $dayss
+                    echo  $dayss;
                 }
                 else{
                    
