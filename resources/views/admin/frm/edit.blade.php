@@ -164,7 +164,7 @@
                             <option value="{{$frm->district}}">{{$frm->districts?->district_name ?? $frm->district}}</option>
                         </select>
                         
-                        <input type="hidden" id="kt_select2_district" value="{{$frm->district}}" />
+                      
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
@@ -172,7 +172,7 @@
                         </label>
                         <select id="kt_select2_tehsil"  @error('tehsil') is-invalid @enderror name="tehsil" aria-label="Select a Tehsil" data-control="select2" data-placeholder="Select a Tehsil..." class="form-select form-select-solid" required>
                             @if(!empty($frm->tehsil))
-                            <option value="{{$frm->tehsil}}">{{$frm->tehsils->tehsil_name}}</option>
+                            <option value="{{$frm->tehsil}}">{{$frm->tehsils?->tehsil_name ?? $frm->tehsil }}</option>
                             @endif
                         </select>
                        

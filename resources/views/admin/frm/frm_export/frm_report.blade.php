@@ -30,10 +30,10 @@
         <th>Date of Responseback Given</th>
         <th>Response Back Given</th>
         <th>Days taken in resolution feedback or concern</th>
-        <th>Close Status</th>
+        <th>Action Status</th>
         <th>Remarks</th>
         <th>Complainant satisfaction level on Action</th>
-        <th>Status</th>
+        <th>System Status</th>
     </tr>
    
     @foreach($frms as $frm)
@@ -68,14 +68,26 @@
             <td>{{ $frm->date_of_respbackgiven ?? ''}}</td>
             <td>{{ $frm->response_summary ?? ''}}</td>
             <td>
-                @if(!empty($frm->date_of_respbackgiven) && $frm->date_of_respbackgiven != 0000-00-00)
-                    {{round((strtotime($frm->date_of_respbackgiven) -  strtotime($frm->date_received) )/ 86400)  ?? ''}}
-                @else  @endif
+                @php
+                if($frm->status == "Close" && !empty($frm->date_received) && $frm->date_of_respbackgiven !== null)
+                {
+                   
+                        round((strtotime($frm->date_of_respbackgiven) -  strtotime($frm->date_received) )/ 86400)  ?? '';
+                    
+                }
+                else{
+                   
+                   $dayss =  (strtotime(date("Y-m-d")) - strtotime($frm->date_received)) / 86400;
+                    echo $dayss;
+                }
+                @endphp
             </td>
             @php
-                if(!empty($frm->date_of_respbackgiven)){
+                if(!empty($frm->date_of_respbackgiven) &&  $frm->date_of_respbackgiven !== null && $frm->status == "Close"){
+                  
                     $days = round((strtotime($frm->date_of_respbackgiven) -  strtotime($frm->date_received) )/ 86400)  ?? '';
-                    if(!empty($frm->date_of_respbackgiven))
+                   
+                    if(!empty($frm->date_of_respbackgiven &&  $frm->date_of_respbackgiven !== null && $frm->status == "Close"))
                         if($frm->feedback_category != '6' || $frm->feedback_category != '7'){
                             if($days == '0' ){
                             $status = "Closed Timely";
@@ -102,7 +114,8 @@
                         }
                       
                     else  {
-
+                        $dayss =  (strtotime(date("Y-m-d")) - strtotime($frm->date_received)) / 86400;
+                        echo $dayss;
                     }
                 } 
             @endphp

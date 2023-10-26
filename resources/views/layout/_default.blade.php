@@ -32,7 +32,21 @@
             </div>
             <!--end::Wrapper-->
         </div>
-        <!--end::Page-->
+        <div class="modal wait fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                
+                <div class="modal-body d-flex justify-content-center     ">
+                    <button class="btn btn-primary" type="button" disabled>
+                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                        Please Wait...
+                    </button>
+                    
+                </div>
+             
+              </div>
+            </div>
+        </div>
     </div>
     <!--end::App-->
 

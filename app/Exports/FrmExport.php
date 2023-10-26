@@ -20,7 +20,7 @@ class FrmExport implements FromView
         
         $frm = Frm::latest();
          
-        if($this->data['name_of_registrar'] != null && $$this->data['feedback_channel']  != 'None'){
+        if($this->data['name_of_registrar'] != null && $this->data['feedback_channel']  != 'None'){
             $frm->where('name_of_registrar',$this->data['name_of_registrar']);
         }
         

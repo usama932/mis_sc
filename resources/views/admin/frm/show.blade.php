@@ -204,7 +204,7 @@
                 <table class="table table-striped mr-3">
                     <tr>
                         <td><strong>Closed Date</strong></td>
-                        <td>@if($frm->status == "Close" && !empty($frm->date_of_respbackgiven)) {{ date('d-M-Y', strtotime($frm->date_of_respbackgiven)) ?? ''}} @else @endif</td>
+                        <td>@if($frm->status == "Close" && $frm->date_of_respbackgiven  !== null ) {{ date('d-M-Y', strtotime($frm->date_of_respbackgiven)) ?? ''}} @else @endif</td>
                     </tr>
                     {{-- <tr>
                         <td><strong>Response Summary</strong></td>
@@ -212,15 +212,19 @@
                     </tr> --}}
                     <tr>
                         <td><strong>Closing the loop (Days)</strong></td>
-                        <td>@if($frm->status == "Close")
-                            @if(!empty($frm->date_received) && !empty($frm->date_of_respbackgiven))
-                                {{round((strtotime($frm->date_of_respbackgiven) -  strtotime($frm->date_received) )/ 86400)  ?? ''}}
-                            @endif
-                            @else
-                            $cur_date = Carbon\Carbon::now()->toDateTimeString('Y-m-d');
+                        <td>@php
+                            if($frm->status == "Close" && $frm->date_of_respbackgiven  !== null )
+                            {  
+                                $dayss = round((strtotime($frm->date_of_respbackgiven) -  strtotime($frm->date_received) )/ 86400)  ?? '';
+                                echo $dayss;
+                              
+                            }
+                            else{           
+                                $dayss =  (strtotime(date("Y-m-d")) - strtotime($frm->date_received)) / 86400;
+                                echo $dayss;
+                            }
+                            @endphp
                            
-                            {{($cur_date -  strtotime($frm->date_received) / 86400)  ?? ''}}
-                            @endif
                         </td>
                     </tr>
                    

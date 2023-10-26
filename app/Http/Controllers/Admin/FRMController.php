@@ -327,6 +327,7 @@ class FRMController extends Controller
                                     <i class="fa fa-eye"></i>
                                     </a>';
                         if($r->name_of_registrar == auth()->user()->name && $r->status != 'Close'){
+                            
                             $edit   = '<a title="Edit" target="_blank" class="btn btn-sm btn-clean btn-icon"
                                         href="'.$edit_url.'" >
                                         <i class="fa fa-pencil"></i></a>';
@@ -542,7 +543,7 @@ class FRMController extends Controller
         return view('admin.frm.frm_export.export',compact('feedbackchannels','projects'));
     }
     public function getexportfrm(Request $request){
-      
+       
         $name_of_registrar = $request->name_of_registrar;
         $date_received = $request->date_received;
         $feedback_channel = $request->feedback_channel;
@@ -552,6 +553,7 @@ class FRMController extends Controller
         $type_of_client = $request->type_of_client;
         $project_name = $request->project_name;
         $status = $request->status;
+      
         $data = ['name_of_registrar'=> $name_of_registrar,
                 'date_received'=>$date_received,
                 'feedback_channel'=>$feedback_channel,
@@ -562,9 +564,10 @@ class FRMController extends Controller
                 'project_name'=>$project_name,
                 'status'=>$status,
                  ];
-
-                
+                 
+                 
         $fileName = 'FRM_Tracker'.'('. now()->format('d-m-Y') .')'. '.csv';
+                 
         return Excel::download(new FrmExport($data),  $fileName);
     }
 }

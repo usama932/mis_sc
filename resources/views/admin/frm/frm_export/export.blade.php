@@ -7,16 +7,33 @@
     @section('title')
      Export Feedback Response Tracker
     @endsection
-
+    
     <div id="kt_app_content" class="app-content flex-column-fluid">
-
+     
+        <div class="modal loader fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                
+                <div class="modal-body d-flex justify-content-center     ">
+                    <button class="btn btn-primary" type="button" disabled>
+                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                        Downloading...
+                    </button>
+                    
+                </div>
+             
+              </div>
+            </div>
+        </div>
+     
         <div id="kt_app_content_container" class="app-container container-xxl">
            <!--begin::Card-->
             <div class="card">
                 <div class="card-title m-5">
                     <h1>FRM Exports  :</h1>
                 </div>
-                <form id="exportid">
+                <form  id="exportid" > 
+                    {{--  --}}
                     @csrf
                     <div class="card-header border-0 pt-6">
                         <div class="row mb-5">
@@ -160,6 +177,7 @@
     @push("scripts")
     <!--begin::Vendors Javascript(used for this page only)-->
     <script src="{{asset("assets/plugins/custom/datatables/datatables.bundle.js")}}"></script>
+    
     <!--end::Page Vendors-->
     <script>
     
@@ -174,7 +192,7 @@
             maxDate: "today",
         });
         $("#kt_select2_province").change(function () {
-
+           
             var value = $(this).val();
             csrf_token = $('meta[name="csrf-token"]').attr('content');
 
@@ -184,6 +202,7 @@
                 data: {'province': value, _token: csrf_token },
                 dataType: 'json',
                 success: function (data) {
+                    
                     $("#kt_select2_district").find('option').remove();
                     $("#kt_select2_district").prepend("<option value='' >Select District</option><option  value='None'>All</option>");
                     var selected='';
@@ -199,38 +218,73 @@
 
             });
 
-        }).trigger('change');
-        $(document).on({
-             ajaxStart: function() {
-                 $('#loadingModal').modal('show');
-             },
-             ajaxStop: function() {
-                 $('#loadingModal').modal('hide');
-             }
         });
-        $('#exportid').click(function(e){
-             e.preventDefault();
-            
-          
-            $.ajax({
-                url: "{{ url('getfrm/export') }}",
-                type: 'POST',
-                data: {_token: csrf_token },
-                dataType: 'json',
-                success: function(response) {
-                    alert('a');
-                    console.log(result);
-                },
-                error: function(error) {
-                    $.each(error, function(key, value) {
-                        console.log(value);
-                    });
-                }
+        // $(document).on({
+        //      ajaxStart: function() {
+        //          $('.loader').modal('show');
+        //      },
+        //      ajaxStop: function() {
+        //          $('.loader').modal('hide');
+        //      }
+        // });
+       
+    </script>
+ 
+    <script>
+        $(document).ready(function () {
+            $('#exportid').submit(function (e) {
+                e.preventDefault();
+
+                $('.loader').modal('show');
+                $.ajax({
+                    url: '{{route('getfrm-export')}}',
+                    type: 'POST',
+                    data: {
+                        "_token":"<?php echo csrf_token() ?>",
+                        'name_of_registrar':document.getElementById("name_of_registrar").value,
+                        'date_received':document.getElementById("date_recieved_id").value,
+                        'kt_select2_district':document.getElementById("kt_select2_district").value ,
+                        'kt_select2_province':document.getElementById("kt_select2_province").value ,
+                        'feedback_channel':document.getElementById("feedback_channel").value ,
+                        'age_id':document.getElementById("age_id").value , 
+                        'type_of_client':document.getElementById("type_of_client").value ,
+                        'project_name':document.getElementById("project_name").value ,
+                        'status':document.getElementById("status").value
+                    },
+                    success: function (response) {
+                        $('.loader').modal('hide');
+                        var blob = new Blob([response]);
+
+                        // Create a link element
+                        var link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        var currentDate = new Date();
+                        var formattedDate = currentDate.toISOString().slice(0,10); // Format: YYYYMMDD
+                        var fileName = 'FRM_Tracker_' + formattedDate + '.csv';
+                        link.download = fileName;
+
+                        // Append the link to the document
+                        document.body.appendChild(link);
+
+                        // Trigger a click on the link to start the download
+                        link.click();
+
+                        // Remove the link from the document
+                        document.body.removeChild(link);
+
+                                            
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle errors
+                        console.error(xhr.responseText);
+                        // Hide loader
+                        $('#loader').hide();
+                    }
+                });
             });
         });
-    
     </script>
-    <!--end::Vendors Javascript-->
+
     @endpush
 
 
