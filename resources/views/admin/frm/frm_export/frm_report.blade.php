@@ -72,8 +72,9 @@
                 if($frm->status == "Close" && !empty($frm->date_received) && $frm->date_of_respbackgiven !== null)
                 {
                    
-                        round((strtotime($frm->date_of_respbackgiven) -  strtotime($frm->date_received) )/ 86400)  ?? '';
-                    
+                       
+                    $dayss = round((strtotime($frm->date_of_respbackgiven) -  strtotime($frm->date_received) )/ 86400)  ?? '';
+                    echo = $dayss
                 }
                 else{
                    
