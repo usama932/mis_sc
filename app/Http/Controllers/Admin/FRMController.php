@@ -55,7 +55,7 @@ class FRMController extends Controller
         }
         $feedbackchannels = FeedbackChannel::latest()->get();
         $feedbackcategories = FeedbackCategory::latest()->get();
-        $projects = Project::latest()->get();
+        $projects = Project::where('active','1')->latest()->get();
         $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
      
         // $themes = Theme::latest()->get();
@@ -111,6 +111,7 @@ class FRMController extends Controller
             $frms->where('gender',$request->gender);
         }
         $dateParts = explode('to', $request->date_received);
+       
            $startdate = '';
         $enddate = '';
         if(!empty($dateParts)){
@@ -118,7 +119,6 @@ class FRMController extends Controller
             $enddate = $dateParts[1] ?? '';
         }
         if($request->date_received != null ){
-            $date = Carbon::parse($request->date_received)->format("Y-m-d");
             $frms->whereBetween('date_received',[$startdate ,$enddate]);
         }
         if($request->kt_select2_district != null){
@@ -366,7 +366,7 @@ class FRMController extends Controller
        
         $feedbackchannels = FeedbackChannel::get();
         $feedbackcategories = FeedbackCategory::get();
-        $projects = Project::latest()->get();
+        $projects = Project::where('active','1')->latest()->get();
         $themes = Theme::latest()->get();
         $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
         return view('admin.frm.create',compact('feedbackchannels','feedbackcategories','projects','themes','response_id','users'));
@@ -381,17 +381,20 @@ class FRMController extends Controller
 
     public function store(CreatefrmRequest $request)
     {
+       
         $frm  = Frm::where('name_of_client', $request->name_of_client)
                     ->where('date_received', $request->date_received)
                     ->where('province', $request->province)
                     ->where('district', $request->district)
                     ->where('tehsil', $request->tehsil)
                     ->where('theme', $request->theme)->get();
-      
-        if(!empty($frm)){
-            return redirect()->route('frm-managements.create')->with('danger','Record already Exist');;
+     
+        if(!empty($frm) && $frm->count() > 0){ 
+            return response()->json([
+                'error' => 'Record already Exist'
+            ]);
         }
-
+      
         if($request->allow_contact == "Yes"){
             $validator = $request->validate([
                 'contact_number' => 'required|numeric|min:11',
@@ -421,6 +424,7 @@ class FRMController extends Controller
 
         $data = $request->except('_token');
         $this->frmRepository->storeFrm($data);
+        Session::flash('success_message', 'FRM Created Successfully!');
         return redirect()->route('frm-managements.index')->with('success','FRM Created');
     }
 
@@ -443,7 +447,7 @@ class FRMController extends Controller
         $frm =Frm::find($id);
         $feedbackchannels = FeedbackChannel::latest()->get();
         $feedbackcategories = FeedbackCategory::latest()->get();
-        $projects = Project::latest()->get();
+        $projects = Project::where('active','1')->latest()->get();
         $themes = Theme::latest()->get();
         $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
         if(!empty($frm))
@@ -539,7 +543,7 @@ class FRMController extends Controller
     public function getexportform(Request $request){
 
         $feedbackchannels = FeedbackChannel::latest()->get();
-        $projects = Project::latest()->get();
+        $projects = Project::where('active','1')->latest()->get();
         return view('admin.frm.frm_export.export',compact('feedbackchannels','projects'));
     }
     public function getexportfrm(Request $request){

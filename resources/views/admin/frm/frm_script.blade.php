@@ -116,7 +116,7 @@
         altInput: true,
         dateFormat: "y-m-d",
         maxDate: "today",
-        minDate: new Date().fp_incr(-60), 
+        minDate: new Date().fp_incr(-90), 
     });
     $('#date_recieved_id').flatpickr({
         altInput: true,

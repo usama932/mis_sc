@@ -3,23 +3,10 @@
     <link rel="stylesheet" href="{{asset('assets/css/style.bundle.css')}}">
     @endpush
     <style>
-        .loader {
-            display: none;
-            border: 6px solid #f3f3f3;
-            border-top: 6px solid #3498db;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 2s linear infinite;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+         .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
         }
 
     </style>
@@ -42,14 +29,12 @@
             {{ session()->get('success') }}
         </div>
         @endif
-        @if(session()->has('danger'))
-        <div class="alert alert-danger">
-            {{ session()->get('danger') }}
+        <div class="print-error-msg ">
+            <ul></ul>
         </div>
-        @endif
-        <form class="form" action="{{route('frm-managements.store')}}" method="post">
+        <form class="form">
             @csrf
-            <input type="hidden" name="response_id" value="{{$response_id}}">
+            <input type="hidden" id="response_id" name="response_id" value="{{$response_id}}">
             <div class="card-body py-4">
                 <div class="card-title  border-0 my-4"">
                     <div class="card-title">
@@ -64,7 +49,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Staff Name</span>
                         </label>
-                        <select name="name_of_registrar" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select form-select-solid" required  @error('name_of_registrar') is-invalid @enderror>
+                        <select name="name_of_registrar" id="name_of_registrar" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select form-select-solid">
                             <option  value="">Select Option</option>
                             @foreach($users as $user)
                                 <option  value="{{$user->name}}" >{{$user->name}}</option>
@@ -77,38 +62,27 @@
                             <option  value="Shama" >Shama</option>
                             <option  value="Zahid Ali Khan" >Zahid Ali Khan</option>
                         </select>
-                        @error('name_of_registrar')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <div id="name_of_registrarError" class="error-message"></div> 
                     </div>
                     <div class="col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Date Received</span>
                         </label>
                         <input type="text"  @error('date_received') is-invalid @enderror name="date_received" id="date_recieved_id" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="" required>
-                        @error('date_received')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        
+                        <div id="date_receivedError" class="error-message"></div> 
                     </div>
                     <div class="col-md-4 mt-3 mb-2">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Feedback Channel</span>
                         </label>
-                        <select name="feedback_channel" aria-label="Select a Feedback Channel" data-control="select2" data-placeholder="Select a Feedback Channel..." class="form-select form-select-solid" required  @error('feedback_channel') is-invalid @enderror>
+                        <select name="feedback_channel" id="feedback_channel" aria-label="Select a Feedback Channel" data-control="select2" data-placeholder="Select a Feedback Channel..." class="form-select form-select-solid" required  @error('feedback_channel') is-invalid @enderror>
                             <option  value="">Select Option</option>
                             @foreach($feedbackchannels as $feedbackchannel)
                                 <option value="{{$feedbackchannel->id}}">{{$feedbackchannel->name}}</option>
                             @endforeach
                         </select>
-                        @error('feedback_channel')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <div id="feedback_channelError" class="error-message"></div>
                     </div>
                     <div class="card-title  border-2 my-4 ">
                         <div class="card-title">
@@ -121,18 +95,14 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Complainant Name</span>
                         </label>
-                        <input class="form-control"  @error('name_of_client') is-invalid @enderror placeholder="Enter Client Name" name="name_of_client" value="" required/>
-                        @error('name_of_client')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <input class="form-control"  @error('name_of_client') is-invalid @enderror placeholder="Enter Client Name" name="name_of_client" id="name_of_client" value="" required/>
+                        <div id="name_of_clientError" class="error-message"></div>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Type</span>
                         </label>
-                        <select   name="type_of_client" aria-label="Select a Type of Client" data-control="select2" data-placeholder="Select a Type of Client..." class="form-select form-select-solid"  @error('type_of_client') is-invalid @enderror required>
+                        <select   name="type_of_client" id="type_of_client" aria-label="Select a Type of Client" data-control="select2" data-placeholder="Select a Type of Client..." class="form-select form-select-solid"  @error('type_of_client') is-invalid @enderror required>
                             <option value="">Select Client</option>
                             <option>Direct Beneficiary</option>
                             <option>Indirect Beneficiary</option>
@@ -140,28 +110,21 @@
                             <option>Partner Staff</option>
                             <option>Save the Children Staff</option>
                         </select>
-                        @error('type_of_client')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        
+                        <div id="type_of_clientError" class="error-message"></div>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Gender</span>
                         </label>
-                        <select   name="gender"  @error('gender') is-invalid @enderror aria-label="Select a Gender" data-control="select2" data-placeholder="Select a Gender..." class="form-select form-select-solid genderit" required>
+                        <select   name="gender" id="gender"  @error('gender') is-invalid @enderror aria-label="Select a Gender" data-control="select2" data-placeholder="Select a Gender..." class="form-select form-select-solid genderit" required>
                             <option value="">Select Gender</option>
                             <option  value="Boy">Boy</option>
                             <option  value="Girl">Girl</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                         </select>
-                        @error('gender')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <div id="genderError" class="error-message"></div>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
@@ -170,11 +133,7 @@
                         <select   name="age"  @error('age') is-invalid @enderror aria-label="Select a Gender" data-control="select2" data-placeholder="Select a age..." class="form-select form-select-solid" id="age_id" required>
                             <option value="">Select Option</option>
                         </select>
-                        @error('age')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <div id="age_idError" class="error-message"></div>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
@@ -195,11 +154,7 @@
                                 <option value='3'>Balochistan</option>
                             @endif
                         </select>
-                        @error('province')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <div id="kt_select2_provinceError" class="error-message"></div>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
@@ -208,6 +163,7 @@
                         <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select form-select-solid"  @error('district') is-invalid @enderror required>
 
                         </select>
+                        <div id="kt_select2_districtError" class="error-message"></div>
                         @error('district')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -221,11 +177,7 @@
                         <select id="kt_select2_tehsil"  @error('tehsil') is-invalid @enderror name="tehsil" aria-label="Select a Tehsil" data-control="select2" data-placeholder="Select a Tehsil..." class="form-select form-select-solid" required>
 
                         </select>
-                        @error('tehsil')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <div id="kt_select2_tehsilError" class="error-message"></div>
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
@@ -234,22 +186,15 @@
                         <select id="kt_select2_union_counsil"  @error('union_counsil') is-invalid @enderror name="union_counsil" aria-label="Select a UC" data-control="select2" data-placeholder="Select a Uc..." class="form-select form-select-solid" required>
 
                         </select>
-                        @error('union_counsil')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <div id="kt_select2_union_counsilError" class="error-message"></div>
+                        
                     </div>
                     <div class="col-md-6 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Village</span>
                         </label>
-                        <input class="form-control "  @error('village') is-invalid @enderror placeholder="Enter Village" name="village" value="" / required>
-                        @error('village')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <input class="form-control "  @error('village') is-invalid @enderror placeholder="Enter Village" name="village" id="village" value="" / required>
+                       
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
@@ -257,24 +202,20 @@
                         </label>
                         <div class="form-check form-check-custom form-check-solid   mt-4">
                             <!--begin::Input-->
-                            <input class="form-check-input"  @error('pwd_clwd') is-invalid @enderror name="pwd_clwd" type="radio" value="Yes"/ required>
+                            <input class="form-check-input"  @error('pwd_clwd') is-invalid @enderror name="pwd_clwd" id="pwd_clwd"  type="radio" value="Yes"/ required>
                             <!--end::Input-->
                             <!--begin::Label-->
                             <label class="form-check-label me-5">
                                 <div class="fw-bold text-gray-800 ">Yes</div>
                             </label>
-                            <input class="form-check-input"   @error('pwd_clwd') is-invalid @enderror name="pwd_clwd" type="radio" value="No"/ required >
+                            <input class="form-check-input"   @error('pwd_clwd') is-invalid @enderror name="pwd_clwd" id="pwd_clwd" type="radio" value="No"/ required >
                             <!--end::Input-->
                             <!--begin::Label-->
                             <label class="form-check-label me-5">
                                 <div class="fw-bold text-gray-800">No</div>
                             </label>
                             <!--end::Label-->
-                            @error('pwd_clwd')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                            <div id="pwd_clwdError" class="error-message"></div>
                         </div>
                     </div>
                     <div class="col-md-3 mt-3">
@@ -283,13 +224,13 @@
                         </label>
                         <div class="form-check form-check-custom form-check-solid mt-4">
                             <!--begin::Input-->
-                            <input class="form-check-input contact_id"  @error('allow_contact') is-invalid @enderror name="allow_contact" type="radio" value="Yes"/ checked  required>
+                            <input class="form-check-input contact_id"  @error('allow_contact') is-invalid @enderror name="allow_contact" id="allow_contact" type="radio" value="Yes"/ checked  required>
                             <!--end::Input-->
                             <!--begin::Label-->
                             <label class="form-check-label me-5">
                                 <div class="fw-bold text-gray-800 ">Yes</div>
                             </label>
-                            <input  @error('allow_contact') is-invalid @enderror class="form-check-input contact_id" name="allow_contact" type="radio" value="No"/ required>
+                            <input  @error('allow_contact') is-invalid @enderror class="form-check-input contact_id" name="allow_contact" id="allow_contact"  id="allow_contact" type="radio" value="No"/ required>
                             <!--end::Input-->
                             <!--begin::Label-->
                             <label class="form-check-label me-5">
@@ -307,7 +248,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Contact Number</span>
                         </label>
-                        <input type="number"  @error('contact_number') is-invalid @enderror class="form-control " placeholder="Enter Contact Number" name="contact_number" value="" />
+                        <input type="number"  @error('contact_number') is-invalid @enderror class="form-control " placeholder="Enter Contact Number" name="contact_number" id="contact_number" value="" />
                         @error('contact_number')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -318,7 +259,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Description (Write Brief Narration)</span>
                         </label>
-                        <textarea type="number"  @error('feedback_description') is-invalid @enderror class="form-control "  name="feedback_description" / required></textarea>
+                        <textarea type="text"  @error('feedback_description') is-invalid @enderror class="form-control "  name="feedback_description" id="feedback_description" / required></textarea>
                         @error('feedback_description')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -329,7 +270,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">FeedBack Category </span>
                         </label>
-                        <select   name="feedback_category"  @error('feedback_category') is-invalid @enderror aria-label="Select a Feedback Category" data-control="select2" data-placeholder="Select a Feedback Category" class="form-select form-select-solid categoryit" required>
+                        <select   name="feedback_category" id="feedback_category" @error('feedback_category') is-invalid @enderror aria-label="Select a Feedback Category" data-control="select2" data-placeholder="Select a Feedback Category" class="form-select form-select-solid categoryit" required>
                             <option value="">Select Option</option>
                             @foreach($feedbackcategories as $feedbackcategory)
                                 <option value={{$feedbackcategory->id}}>{{$feedbackcategory->name}}-{{$feedbackcategory->description}}</option>
@@ -345,7 +286,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Datix Number</span>
                         </label>
-                        <input type="number" class="form-control"  @error('datix_number') is-invalid @enderror placeholder="Enter Datix Number" name="datix_number" value="" />
+                        <input type="number" class="form-control"  @error('datix_number') is-invalid @enderror placeholder="Enter Datix Number" name="datix_number" id="datix_number" value="" />
                         @error('datix_number')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -356,7 +297,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Theme</span>
                         </label>
-                        <select   name="theme"  @error('theme') is-invalid @enderror aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme" class="form-select form-select-solid" required>
+                        <select   name="theme" id="theme"  @error('theme') is-invalid @enderror aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme" class="form-select form-select-solid" required>
                             <option>Select Theme</option>
                             @foreach($themes as $theme)
                                 <option value="{{$theme->id}}">{{$theme->name}}</option>
@@ -372,7 +313,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Feedback Activity</span>
                         </label>
-                        <input class="form-control"  @error('feedback_activity') is-invalid @enderror placeholder="Enter Feedback Activity" name="feedback_activity" value="" / required>
+                        <input class="form-control"  @error('feedback_activity') is-invalid @enderror placeholder="Enter Feedback Activity" name="feedback_activity" id="feedback_activity" value="" / required>
                         @error('feedback_activity')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -383,7 +324,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="">Project</span>
                         </label>
-                        <select   name="project_name"  @error('project_name') is-invalid @enderror aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Theme" class="form-select form-select-solid">
+                        <select   name="project_name" id="project_name"  @error('project_name') is-invalid @enderror aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Theme" class="form-select form-select-solid">
                             <option>Select Project</option>
                             @foreach($projects as $project)
                                 <option value="{{$project->id}}">{{$project->name}}</option>
@@ -407,7 +348,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Feedback Referred or Shared</span>
                         </label>
-                        <select name="feedback_referredorshared"  @error('feedback_referredorshared') is-invalid @enderror aria-label="Select a Option" data-placeholder="Select a Statut..." class="form-select form-select-solid shareid"  required>
+                        <select name="feedback_referredorshared" id="feedback_referredorshared"  @error('feedback_referredorshared') is-invalid @enderror aria-label="Select a Option" data-placeholder="Select a Statut..." class="form-select form-select-solid shareid"  required>
                             <option value="">Select Option</option>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
@@ -433,7 +374,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Reffered To(Name)</span>
                         </label>
-                        <input type="text"  @error('refferal_name') is-invalid @enderror name="refferal_name" placeholder="Enter Reffered To (Name)"  class="form-control " value="">
+                        <input type="text"  @error('refferal_name') is-invalid @enderror name="refferal_name" id="refferal_name" placeholder="Enter Reffered To (Name)"  class="form-control " value="">
                         @error('refferal_name')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -444,7 +385,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Reffered To(Position)</span>
                         </label>
-                        <input type="text" name="refferal_position"   @error('refferal_position') is-invalid @enderror placeholder="Enter Reffered To (Position)"  class="form-control " value="">
+                        <input type="text" name="refferal_position" id="refferal_position"  @error('refferal_position') is-invalid @enderror placeholder="Enter Reffered To (Position)"  class="form-control " value="">
                         @error('refferal_position')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -455,7 +396,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Description of actions undertaken to resolve the feedback</span>
                         </label>
-                        <textarea  name="feedback_summary"   @error('feedback_summary') is-invalid @enderror  class="form-control"></textarea>
+                        <textarea  name="feedback_summary" id="feedback_summary"   @error('feedback_summary') is-invalid @enderror  class="form-control"></textarea>
                         @error('feedback_summary')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -466,7 +407,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Status</span>
                         </label>
-                        <select   name="status" aria-label="Select a Status"  @error('status') is-invalid @enderror data-control="select2" data-placeholder="Select a Statut..." class="form-select form-select-solid statusid">
+                        <select   name="status" id="status" aria-label="Select a Status"  @error('status') is-invalid @enderror data-control="select2" data-placeholder="Select a Statut..." class="form-select form-select-solid statusid">
                             <option value="">Select Option</option>
                             <option value="Open">Open</option>
                             <option value="Close">Close</option>
@@ -492,8 +433,8 @@
                     </div>
                 </div>
                 <div class="text-center pt-15">
-                    <button type="reset" class="btn btn-light me-3" >Discard</button>
-                    <button type="submit" class="btn btn-primary" >
+                    
+                    <button type="submit" class="btn btn-primary btn-submit" id="btn-submit" >
                         Submit
                     </button>
                 </div>
@@ -533,6 +474,171 @@
         });
     </script>
     @include('admin.frm.frm_script');
+
+    <script type="text/javascript">
+
+        
+        $("#btn-submit").click(function(e){
+         
+            e.preventDefault();
+            if (validateForm())
+            {
+                var response_id         = $("#response_id").val();
+                var token               = "<?php echo csrf_token() ?>";
+                var name_of_registrar   = $("#name_of_registrar").val();
+                var date_recieved_id    = $("#date_recieved_id").val();
+                var feedback_channel    = $("#feedback_channel").val();
+                var name_of_client      = $("#name_of_client").val();
+                var type_of_client      = $("#type_of_client").val();
+                var gender              = $("#gender").val();
+                var age                 = $("#age_id").val();
+                var kt_select2_province = $("#kt_select2_province").val();
+                var kt_select2_district = $("#kt_select2_district").val();
+                var kt_select2_tehsil   = $("#kt_select2_tehsil").val();
+                var kt_select2_union_counsil = $("#kt_select2_union_counsil").val();
+                var village             = $("#village").val();
+                var pwd_clwd            = $("#pwd_clwd").val();
+                var allow_contact       = $("#allow_contact").val();
+                var contact_number      = $("#contact_number").val();
+                var feedback_category   = $("#feedback_category").val();
+                var datix_number        = $("#datix_number").val();
+                var theme               = $("#theme").val();
+                var feedback_activity   = $("#feedback_activity").val();
+                var project_name        = $("#project_name").val();
+                var refferal_name       = $("#refferal_name").val();
+                var refferal_position   = $("#refferal_position").val();
+                var feedback_summary    = $("#feedback_summary").val();
+                var status              = $("#status").val();
+                var action_id           = $("#action_id").val();
+                var feedback_referredorshared   = $("#feedback_referredorshared").val();
+                var date_feedback_referred      = $("#date_feedback_referred").val();
+                var feedback_description        = $("#feedback_description").val();
+            
+            
+                $.ajax({
+                    type:'POST',
+                    url:"{{ route('frm-managements.store') }}",
+                    dataType: 'json',
+                    data:{
+                        _token:token,
+                        response_id:response_id,
+                        name_of_registrar:name_of_registrar, date_received :date_recieved_id,
+                        feedback_channel:feedback_channel, name_of_client:name_of_client,
+                        type_of_client:type_of_client, gender:gender,
+                        age:age, province:kt_select2_province,
+                        district:kt_select2_district,tehsil:kt_select2_tehsil,
+                        union_counsil:kt_select2_union_counsil, village:village,
+                        pwd_clwd:pwd_clwd,allow_contact:allow_contact,contact_number:contact_number,feedback_description:feedback_description,
+                        feedback_category:feedback_category, datix_number:datix_number,theme:theme,
+                        feedback_activity:feedback_activity, project_name:project_name,
+                        feedback_referredorshared:feedback_referredorshared,date_feedback_referred:date_feedback_referred,
+                        refferal_name:refferal_name,refferal_position:refferal_position, feedback_summary:feedback_summary,
+                        status:status,action_id:action_id,
+                    },
+                    success:function(data){
+                    
+                        if(!$.isEmptyObject(data.success)){
+                        
+                            swal.fire({
+                            text: "Sorry, looks like there are some errors detected, please try again.",
+                            icon: "error",
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok, got it!",
+                            customClass: {
+                                confirmButton: "btn font-weight-bold btn-light-primary"
+                            }
+                            });
+                        
+                        }else{
+                            $.each(data, function (i, item) {
+                                $(".print-error-msg").find("ul").html('');
+                                $(".print-error-msg").css({'display': 'block','margin-top': '3px','color': 'red'});
+                                $(".print-error-msg").find("ul").append('<li>'+item+'</li>');
+                                KTUtil.scrollTop();
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                    if (xhr.status == 422) {
+                    
+                        var errors = xhr.responseJSON.errors;
+
+                        // Loop through the errors and display them
+                        $.each(errors, function(key, value) {
+                            $(".print-error-msg").find("ul").html('');
+                                $(".print-error-msg").css({'display': 'block','margin-top': '3px','color': 'red'});
+                                $(".print-error-msg").find("ul").append('<li>'+value+'</li>');
+                                swal.fire({
+                                    text: "Sorry, looks like there are some errors detected, please try again.",
+                                    icon: "error",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn font-weight-bold btn-light-primary"
+                                    }
+                                    });
+                                KTUtil.scrollTop();
+                        });
+                    } else {
+                        // Handle other types of errors
+                    }
+                }
+            
+                });
+                
+            }
+            function validateForm() 
+            {
+              
+                $('.error-message').remove();
+
+                // Example validation (you can customize this)
+                var name_of_registrar   = $("#name_of_registrar").val();
+                var date_recieved_id    = $("#date_recieved_id").val();
+                var feedback_channel    = $("#feedback_channel").val();
+                var name_of_client      = $("#name_of_client").val();
+                var type_of_client      = $("#type_of_client").val();
+                var gender              = $("#gender").val();
+                var age                 = $("#age_id").val();
+                var kt_select2_province = $("#kt_select2_province").val();
+                var kt_select2_district = $("#kt_select2_district").val();
+                var kt_select2_tehsil   = $("#kt_select2_tehsil").val();
+                var kt_select2_union_counsil = $("#kt_select2_union_counsil").val();
+                var pwd_clwd            = $("#pwd_clwd").val();
+                var allow_contact       = $("#allow_contact").val();
+                var feedback_category   = $("#feedback_category").val();
+                var theme               = $("#theme").val();
+                var feedback_activity   = $("#feedback_activity").val();
+                var feedback_referredorshared   = $("#feedback_referredorshared").val();
+                var isValid = true;
+
+                if (name_of_registrar === '') {
+                    displayError('#name_of_registrar', 'Please enter your username', 'name_of_registrarError');
+                }
+
+                if (date_recieved_id === '') {
+                    displayError('#date_recievedError', 'Please enter your password');
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    // Scroll to the first element with an error message
+                    $('html, body').animate({
+                        scrollTop: $('.error-message:first').offset().top
+                    }, 100);
+                }
+
+                return isValid;
+            }
+
+            function displayError(field, message) {
+                // Display error message below the specified field
+                $(field).before('<div class="error-message">' + message + '</div>');
+            }
+        });
+    </script>
+
+   
 
 
 
