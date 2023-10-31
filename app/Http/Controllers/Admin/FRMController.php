@@ -381,7 +381,7 @@ class FRMController extends Controller
 
     public function store(CreatefrmRequest $request)
     {
-       
+         
         $frm  = Frm::where('name_of_client', $request->name_of_client)
                     ->where('date_received', $request->date_received)
                     ->where('province', $request->province)
@@ -394,38 +394,14 @@ class FRMController extends Controller
                 'error' => 'Record already Exist'
             ]);
         }
-      
-        if($request->allow_contact == "Yes"){
-            $validator = $request->validate([
-                'contact_number' => 'required|numeric|min:11',
-            ]);
-
-        }
-
-        if($request->date_feedback_referred == "Yes"){
-            $validatedData = $request->validate([
-                'refferal_position' => ['required','string'],
-                'refferal_name' => ['required','string'],
-                'feedback_summary' => ['required','string'],
-            ]);
-        }
-
-        if($request->date_feedback_referred == "No"){
-            $validatedData = $request->validate([
-                'status' => ['required'],
-            ]);
-        }
-
-        if($request->status == "Close"){
-            $validatedData = $request->validate([
-                'actiontaken' => ['required'],
-            ]);
-        }
+     
 
         $data = $request->except('_token');
         $this->frmRepository->storeFrm($data);
-        Session::flash('success_message', 'FRM Created Successfully!');
-        return redirect()->route('frm-managements.index')->with('success','FRM Created');
+       
+        return response()->json([
+            'success' => 'Record already Exist'
+        ]);
     }
 
 
