@@ -127,24 +127,17 @@
     //script for province, district,tehisl and uc
     ///get district cascade province
     $("#kt_select2_province").change(function () {
-        function showLoader() {
-            $("#loader").show();
-        }
-
-        // Function to hide the loader
-        function hideLoader() {
-            $("#loader").hide();
-        }
+       
         var value = $(this).val();
         csrf_token = $('[name="_token"]').val();
-        showLoader();
+        
         $.ajax({
             type: 'POST',
             url: '/getDistrict',
             data: {'province': value, _token: csrf_token },
             dataType: 'json',
             success: function (data) {
-                hideLoader();
+                
                 $("#kt_select2_district").find('option').remove();
                 $("#kt_select2_district").prepend("<option value='' >Select District</option>");
                 var selected='';

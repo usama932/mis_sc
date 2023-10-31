@@ -444,7 +444,8 @@
             });
 
         </script>
-        @include('admin.frm.frm_script')
+         @include('admin.frm.scripts_file.frm_script');
+        
 
     @endpush
 

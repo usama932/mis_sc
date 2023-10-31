@@ -97,7 +97,8 @@
     </div>
 
     @push('scripts')
-        @include('admin.frm.frm_script');
+    @include('admin.frm.scripts_file.frm_script');
+    
         <script>
 
             $(function () {

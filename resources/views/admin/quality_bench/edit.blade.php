@@ -133,7 +133,8 @@
             });
     
         </script>
-        @include('admin.frm.frm_script');
+         @include('admin.frm.scripts_file.frm_script');
+         
         @include('admin.quality_bench.qb_scripts');
        
         //Action Point Scripts

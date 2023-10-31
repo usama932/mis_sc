@@ -14,17 +14,7 @@
             </ul>
         </div>
         @endif
-        <ul class="nav nav-tabs mt-1 fs-6">
-            <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="tab" href="#kt_tab_pane_1">Summary</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" data-bs-toggle="tab" href="#kt_tab_pane_2" >Monitoring Checklist</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" data-bs-toggle="tab" href="#kt_tab_pane_3">Action Plan</a>
-            </li>
-        </ul>
+      
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="kt_tab_pane_1" role="tabpanel">
                 <form class="form" action="{{route('quality-benchs.store')}}" method="post">
@@ -38,7 +28,7 @@
                                 <select name="theme"  @error('theme') is-invalid @enderror aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme" class="form-select" required>
                                     <option>Select Theme</option>
                                     @foreach($themes as $theme)
-                                    <option value="{{$theme->id}}">{{$theme->name}}</option>
+                                        <option value="{{$theme->id}}">{{$theme->name}}</option>
                                     @endforeach
                                 </select>
                                 @error('theme')
@@ -67,8 +57,8 @@
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Partner</span>
                                 </label>
-                                <select   name="project_name"  @error('project_name') is-invalid @enderror aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Theme" class="form-select">
-                                    <option>Select Project</option>
+                                <select   name="partner" aria-label="Select a Partner Name" data-control="select2" data-placeholder="Select a Partner" class="form-select">
+                                    <option>Select Partner Name</option>
                                     @foreach($projects as $project)
                                     <option value="{{$project->id}}">{{$project->name}}</option>
                                     @endforeach
@@ -248,18 +238,14 @@
                                 @enderror
                             </div>
                             <div class="col-sm-3 col-md-1 col-lg-1">
-                                <label class="fs-6 fw-semibold form-label mb-2">
+                                <label class="fs-9 fw-semibold form-label mb-2">
                                     <span class="required">Total QBs</span>
                                 </label>
-                                <input type="text" class="form-control"  @error('qb_not_applicable') is-invalid @enderror name="total_qb" value="">
-                                @error('qb_not_applicable')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
+                                <input type="text" class="form-control"   name="total_qbs" value="">
+                               
                             </div>
                             <div class="col-md-1">
-                                <label class="fs-6 fw-semibold form-label mb-2">
+                                <label class="fs-9 fw-semibold form-label mb-2">
                                     <span class="required">Fully Met</span>
                                 </label>
                                 <input type="text" class="form-control"  @error('qbs_fully_met') is-invalid @enderror  name="qbs_fully_met" value="">
@@ -270,7 +256,7 @@
                                 @enderror
                             </div>
                             <div class="col-md-1">
-                                <label class="fs-6 fw-semibold form-label mb-2">
+                                <label class="fs-9 fw-semibold form-label mb-2">
                                     <span class="required">Not Met</span>
                                 </label>
                                 <input type="text" class="form-control"  @error('qbs_not_fully_met') is-invalid @enderror name="qbs_not_fully_met" value="">
@@ -290,7 +276,6 @@
                                     <option  value="{{$user->name}}" >{{$user->name}}</option>
                                     @endforeach
                                     <option  value="Ruqaiya Bibi" >Ruqaiya Bibi</option>
-                                    <option  value="Dr. Kashmala" >Dr. Kashmala</option>
                                     <option  value="Mehnaz" >Mehnaz</option>
                                     <option  value="Musarrat Bibi" >Musarrat Bibi</option>
                                     <option  value="Shaista Mir" >Shaista Mir</option>
@@ -307,50 +292,16 @@
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Staff Organization</span>
                                 </label>
-                                <select name="visit_staff_name" aria-label="Select a Visit Staff Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select form-select-solid" required  @error('visit_staff_name') is-invalid @enderror>
+                                <select name="staff_organization" aria-label="Select a Visit Staff Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select form-select-solid" required  @error('visit_staff_name') is-invalid @enderror>
                                     <option  value="">Select Option</option>
-                                    @foreach($users as $user)
-                                    <option  value="{{$user->name}}" >{{$user->name}}</option>
-                                    @endforeach
-                                    <option  value="Ruqaiya Bibi" >SC Staff</option>
-                                    <option  value="Dr. Kashmala" >SRSP Staff</option>
-                                    <option  value="Mehnaz" >LRF Staff</option>
-                                    <option  value="Musarrat Bibi" >TKF Staff</option>
+                                    <option  value="SC Staff" >SC Staff</option>
+                                    <option  value="SRSP Staff" >SRSP Staff</option>
+                                    <option  value="LRF Staff" >LRF Staff</option>
+                                    <option  value="TKF Staff" >TKF Staff</option>
                                 </select>
-                                @error('visit_staff_name')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
+                               
                             </div>
 
-                            <!--                    <div class="col-md-3 mt-3">
-                                                    <label class="fs-6 fw-semibold form-label mb-2">
-                                                        <span class="required">QBs not applicable .#</span>
-                                                    </label>
-                                                    <input type="number" class="form-control"  @error('qb_not_applicable') is-invalid @enderror placeholder="Enter QBs not applicable" name="qb_not_applicable" value="" / required>
-                                                           @error('qb_not_applicable')
-                                                           <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                    @enderror
-                                                </div>
-                                                
-                                                
-                                                <div class="col-md-3 mt-3">
-                                                    <label class="fs-6 fw-semibold form-label mb-2">
-                                                        <span class="required">Score out of 100%
-                            
-                                                        </span>
-                                                    </label>
-                                                    <input type="number" class="form-control"  @error('score_out') is-invalid @enderror placeholder="Enter Score Out of 100%" name="score_out" value="" / required>
-                                                           <small>Total fully met/Total not fully met</small>
-                                                    @error('score_out')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                    @enderror
-                                                </div>-->
                         </div>
                         <div class="separator my-10"></div>
                         <div class="text-end">
@@ -372,7 +323,8 @@
             minDate: new Date().fp_incr(-60),
         });
     </script>
-    @include('admin.frm.frm_script');
+     @include('admin.frm.scripts_file.frm_script');
+    
 
 
 

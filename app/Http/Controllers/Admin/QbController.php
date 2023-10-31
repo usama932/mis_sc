@@ -155,7 +155,7 @@ class QbController extends Controller
     }
     public function create()
     {
-        $projects = Project::latest()->get();
+        $projects = Project::where('active','1')->latest()->get();
         $themes = Theme::latest()->get();
         $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
         return view('admin.quality_bench.basic_information.create',compact('projects','themes','users'));
