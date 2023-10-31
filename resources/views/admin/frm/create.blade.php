@@ -633,7 +633,7 @@
 
             function displayError(field, message) {
                 // Display error message below the specified field
-                $(field).before('<div class="error-message">' + message + '</div>');
+                $('#name_of_registrar').after('<div class="error-message">' + message + '</div>');
             }
         });
     </script>
