@@ -203,7 +203,7 @@
                             <label class="form-check-label me-5">
                                 <div class="fw-bold text-gray-800 ">Yes</div>
                             </label>
-                            <input class="form-check-input"   @error('pwd_clwd') is-invalid @enderror name="pwd_clwd" id="pwd_clwd" type="radio" value="No"/ required >
+                            <input class="form-check-input"   @error('pwd_clwd') is-invalid @enderror name="pwd_clwd" id="pwd_clwd" type="radio" value="No"/>
                             <!--end::Input-->
                             <!--begin::Label-->
                             <label class="form-check-label me-5">
@@ -275,7 +275,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Theme</span>     
                         </label>
-                        <select   name="theme" id="theme" aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme" class="form-select form-select-solid" required>
+                        <select   name="theme" id="theme" aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme" class="form-select form-select-solid">
                             <option value="">Select Theme</option>
                             @foreach($themes as $theme)
                                 <option value="{{$theme->id}}">{{$theme->name}}</option>
@@ -287,7 +287,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Feedback Activity</span> 
                         </label>
-                        <input class="form-control" placeholder="Enter Feedback Activity" name="feedback_activity" id="feedback_activity" value="" / required>
+                        <input class="form-control" placeholder="Enter Feedback Activity" name="feedback_activity" id="feedback_activity" value="" />
                         <span id="feedback_activityError" class="error-message "></span>
                     </div>
                     <div class="col-md-4 mt-3">
@@ -369,14 +369,15 @@
                         <div id="actiontakenError" class="error-message "></div>
                     </div>
                 </div>
+                <div class="separator my-10"></div>
                 <div class="text-center pt-15">
                     <button type="submit" class="btn btn-primary me-10" id="btn-submit" >
                         <span class="indicator-label">
                             Submit
                         </span>
-                        {{-- <span class="indicator-progress">
+                        <span class="indicator-progress">
                             Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                        </span> --}}
+                        </span>
                     </button>
                    
                 </div>

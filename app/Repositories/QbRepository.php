@@ -8,6 +8,8 @@ class QbRepository implements QbRepositoryInterface
 {
     public function storeQb($data)
     {
+        $qb_not_met = $data['total_qbs'] - $data['qbs_fully_met'];   
+        $score_out =( $data['total_qbs'] - $data['qb_not_applicable'])/$data['qbs_fully_met'];   
         return QualityBench::create([
             'visit_staff_name'      => $data['visit_staff_name'],
             'date_visit'            => $data['date_visit'],
@@ -20,11 +22,15 @@ class QbRepository implements QbRepositoryInterface
             'village'               => $data['village'],
             'project_type'          => $data['project_type'],
             'project_name'          => $data['project_name'],
+            'theme'                 => $data['theme'],
+            'partner'               => $data['partner'],
+            'staff_organization'    => $data['staff_organization'],
             'monitoring_type'       => $data['monitoring_type'],
+            'total_qbs'             => $data['total_qbs'], 
             'qb_not_applicable'     => $data['qb_not_applicable'], 
             'qbs_fully_met'         => $data['qbs_fully_met'],
-            'qbs_not_fully_met'     => $data['qbs_not_fully_met'],
-            'score_out'             => $data['score_out'],
+            'qbs_not_fully_met'     => $qb_not_met,
+            'score_out'             => $score_out,
             'created_by'            => auth()->user()->id,
             'activity_description'  => $data['activity_description'],   
         ]);

@@ -168,7 +168,13 @@ class QbController extends Controller
         $Qb = $this->QbRepository->storeQb($data);
         $active = 'basic_info';
         session(['active' => $active]);
-        return redirect()->route('quality-benchs.edit',$Qb->id);
+        $editUrl = route('quality-benchs.edit',$Qb->id);
+
+        return response()->json([
+            'success' => 'Record already Exist',
+            'editUrl' => $editUrl
+        ]);
+       
         
     }
 

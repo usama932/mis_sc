@@ -163,8 +163,6 @@
                         <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select form-select-solid"  @error('district') is-invalid @enderror required>
                             <option value="{{$frm->district}}">{{$frm->districts?->district_name ?? $frm->district}}</option>
                         </select>
-                        
-                      
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">

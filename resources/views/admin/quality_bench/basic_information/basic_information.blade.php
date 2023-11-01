@@ -13,278 +13,227 @@
         </div>
         
         <div class="row">
-            <div class="col-md-3 mt-3">
+            <div class="col-sm-4 col-md-3 col-lg-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
-                    <span class="required">Visit Staff Name</span>
+                    <span class="required">Theme</span>
                 </label>
-                <br>
-                <strong>{{$qb->visit_staff_name ?? ''}}</strong>
-                {{-- <select name="visit_staff_name" aria-label="Select a Visit Staff Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select form-select-solid" required  @error('visit_staff_name') is-invalid @enderror>
-                    <option  value="">Select Option</option>
-                    @foreach($users as $user)
-                        <option  value="{{$user->name}}" >{{$user->name}}</option>
+                <select name="theme" id="theme" aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme" class="form-select">
+                    <option value="">Select Theme</option>
+                    @foreach($themes as $theme)
+                        <option value="{{$theme->id}}" @if($qb->theme == $theme->id) selected @endif >{{$theme->name}}</option>
                     @endforeach
-                    <option  value="Ruqaiya Bibi" >Ruqaiya Bibi</option>
-                    <option  value="Dr. Kashmala" >Dr. Kashmala</option>
-                    <option  value="Mehnaz" >Mehnaz</option>
-                    <option  value="Musarrat Bibi" >Musarrat Bibi</option>
-                    <option  value="Shaista Mir" >Shaista Mir</option>
-                    <option  value="Shama" >Shama</option>
-                    <option  value="Zahid Ali Khan" >Zahid Ali Khan</option>
-                </select> --}}
-                @error('visit_staff_name')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-            <div class="col-md-3 mt-3">
-                <label class="fs-6 fw-semibold form-label mb-2">
-                    <span class="required">Date of monitoring visit </span>
-                </label>
-                <br>
-                <strong>{{$qb->date_visit ?? ''}}</strong>
-                {{-- <input type="text"  @error('date_visit') is-invalid @enderror name="date_visit" id="date_visit" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="" required> --}}
-                @error('date_visit')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-            <div class="col-md-3 mt-3">
-                <label class="fs-6 fw-semibold form-label mb-2">
-                    <span class="required">Accompanied By</span>
-                </label>
-                <select name="accompanied_by" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Accompanied By..." class="form-select form-select-solid" required  @error('accompanied_by') is-invalid @enderror>
-                    <option  value="">Select Option</option>
-                    <option  value="Project Staff" @if($qb->accompanied_by == 'Project Staff') selected @endif>Project Staff</option>
-                    <option  value="Govt Officials"  @if($qb->accompanied_by == 'Govt Officials') selected @endif>Govt Officials</option>
-                    <option  value="Donor"  @if($qb->accompanied_by == 'Donor') selected @endif>Donor</option>
-                    <option  value="NA"  @if($qb->accompanied_by == 'NA') selected @endif>NA</option>                  
                 </select>
-                @error('name_of_registrar')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
+                <div id="themeError" class="error-message"></div>
             </div>
-            <div class="col-md-3 mt-3">
+            <div class="col-sm-4 col-md-6 col-lg-6">
                 <label class="fs-6 fw-semibold form-label mb-2">
-                    <span class="required">Type of visit</span>
+                    <span class="required">Project</span>
                 </label>
-                <select   name="type_of_visit"  @error('type_of_visit') is-invalid @enderror aria-label="Select a Type of Visit " data-control="select2" data-placeholder="Select a Type of Visit" class="form-select form-select-solid">
-                    <option value="" @if($qb->type_of_visit == '') selected @endif>Select Project Type</option>
-                    <option value="Independent" @if($qb->type_of_visit == 'Independent') selected @endif>Independent</option>
-                    <option value="Joint" @if($qb->type_of_visit == 'Joint') selected @endif>Joint</option>
+                <select   name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Theme" class="form-select">
+                    <option value="">Select Project</option>
+                    @foreach($projects as $project)
+                    <option value="{{$project->id}}" @if($qb->project_name == $project->id) selected @endif>{{$project->name}}</option>
+                    @endforeach
                 </select>
-                @error('type_of_visit')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
+                <div id="project_nameError" class="error-message "></div>
             </div>
-            <div class="col-md-3 mt-3">
+            <div class="col-sm-4 col-md-3 col-lg-3">
+                <label class="fs-6 fw-semibold form-label mb-2">
+                    <span class="required">Partner</span>
+                </label>
+                <select   name="partner" id="partner" aria-label="Select a Partner Name" data-control="select2" data-placeholder="Select a Partner" class="form-select">
+                    <option value="">Select Partner Name</option>
+                    <option  value="LRF"  @if($qb->partner == "LRF") selected @endif>LRF</option>
+                    <option  value="NRSP" @if($qb->partner == "NRSP") selected @endif>NRSP</option>
+                    <option  value="PPHI" @if($qb->partner == "PPHI") selected @endif>PPHI</option>
+                    <option  value="SRSP" @if($qb->partner == "SRSP") selected @endif>SRSP</option>
+                    <option  value="TKF"  @if($qb->partner == "TKF") selected @endif>TKF</option>
+                </select>
+                <div id="partnerError" class="error-message "></div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Province</span>
                 </label>
-                <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select form-select-solid"   @error('province') is-invalid @enderror required>
+                <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select form-select-solid">
                     @if(auth()->user()->permissions_level == 'province-wide' || auth()->user()->permissions_level == 'district-wide')
+                        <option value="">Select Province</option>
+                        {{-- <option value='1'>Punjab</option> --}}
+                        <option @if(auth()->user()->province == '4') selected @endif value='4'>Sindh</option>
+                        <option  @if(auth()->user()->province == '2') selected @endif value='2'>KPK</option>
+                        <option   @if(auth()->user()->province == '3') selected @endif value='3'>Balochistan</option>
+                    @else
                         <option value="">Select Province</option>
                         {{-- <option value='1'>Punjab</option> --}}
                         <option @if($qb->province == '4') selected @endif value='4'>Sindh</option>
                         <option  @if($qb->province == '2') selected @endif value='2'>KPK</option>
                         <option   @if($qb->province == '3') selected @endif value='3'>Balochistan</option>
-                    @else
-                        <option value="">Select Province</option>
-                        {{-- <option value='1'>Punjab</option> --}}
-                        <option value='4' @if($qb->province == '4') selected @endif>Sindh</option>
-                        <option  value='2' @if($qb->province == '2') selected @endif>KPK</option>
-                        <option value='3' @if($qb->province == '3') selected @endif>Balochistan</option>
                     @endif
                 </select>
-                @error('province')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
+                <div id="kt_select2_provinceError" class="error-message "></div>
             </div>
-            <div class="col-md-3 mt-3">
+            <div class="col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">District</span>
                 </label>
-                <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select form-select-solid"  @error('district') is-invalid @enderror required>
-
+                <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select form-select-solid">
+                    <option value="{{$qb->district}}">{{$qb->districts?->district_name ?? $frm->district}}</option>
                 </select>
-                @error('district')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
+                <div id="kt_select2_districtError" class="error-message "></div>
             </div>
-            <div class="col-md-3 mt-3">
+            <div class="col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Tehsil</span>
                 </label>
-                <select id="kt_select2_tehsil"  @error('tehsil') is-invalid @enderror name="tehsil" aria-label="Select a Tehsil" data-control="select2" data-placeholder="Select a Tehsil..." class="form-select form-select-solid" required>
-
+                <select id="kt_select2_tehsil" name="tehsil" aria-label="Select a Tehsil" data-control="select2" data-placeholder="Select a Tehsil..." class="form-select form-select-solid">
+                    @if(!empty($qb->tehsil))
+                        <option value="{{$qb->tehsil}}">{{$qb->tehsils?->tehsil_name ?? $qb->tehsil }}</option>
+                    @endif
                 </select>
-                @error('tehsil')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
+                <div id="kt_select2_tehsilError" class="error-message "></div>
             </div>
-            <div class="col-md-3 mt-3">
+            <div class="col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
-                    <span class="required">Union Counsil</span>
+                    <span class="required">UC</span>
                 </label>
-                <select id="kt_select2_union_counsil"  @error('union_counsil') is-invalid @enderror name="union_counsil" aria-label="Select a UC" data-control="select2" data-placeholder="Select a Uc..." class="form-select form-select-solid" required>
-
+                <select id="kt_select2_union_counsil" name="union_counsil" aria-label="Select a UC" data-control="select2" data-placeholder="Select a Uc..." class="form-select form-select-solid">
+                    @if(!empty($qb->union_counsil))
+                        <option value="{{$qb->union_counsil}}">{{$qb->uc?->uc_name ?? $frm->union_counsil}}</option>
+                    @endif
                 </select>
-                @error('union_counsil')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
+                <div id="kt_select2_union_counsilError" class="error-message "></div>
             </div>
-            <div class="col-md-6 mt-3">
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Village</span>
                 </label>
-                <input class="form-control "  @error('village') is-invalid @enderror placeholder="Enter Village" name="village" value="{{$qb->village}}" / required>
-                @error('village')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
+                <input class="form-control" id="vilage" placeholder="Enter Village" name="village" value="{{$qb->village ?? ''}}">
+                <div id="villageError" class="error-message "></div>
             </div>
-            <div class="col-md-3 mt-3">
+            <div class="col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Project Type</span>
                 </label>
-                <select   name="project_type"  @error('project_type') is-invalid @enderror aria-label="Select a Project Type" data-control="select2" data-placeholder="Select a Project Type" class="form-select form-select-solid">
+                <select name="project_type" id="project_type" aria-label="Select a Project Type" data-control="select2" data-placeholder="Select a Project Type" class="form-select">
                     <option value="">Select Project Type</option>
-                    <option value="Humanitarian"  @if($qb->project_type == 'Humanitarian') selected @endif>Humanitarian</option>
-                    <option value="Development" @if($qb->project_type == 'Development') selected @endif>Development</option>
+                    <option value="Humanitarian" @if($qb->project_type == "Humanitarian") selected @endif>Humanitarian</option>
+                    <option value="Development"  @if($qb->project_type == "Development") selected @endif>Development</option>
                 </select>
-                @error('project_type')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
+                <div id="project_typeError" class="error-message "></div>
             </div>
-            <div class="col-md-3 mt-3">
+            <div class="col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
-                    <span class="required">Project</span>
+                    <span class="required">Type of visit</span>
                 </label>
-                <select   name="project_name"  @error('project_name') is-invalid @enderror aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Theme" class="form-select form-select-solid">
-                    <option>Select Project</option>
-                    @foreach($projects as $project)
-                        <option value="{{$project->id}}"  @if($qb->project_name == $project->id) selected @endif>{{$project->name}}</option>
-                    @endforeach
+                <select   name="type_of_visit" id="type_of_visit"  aria-label="Select a Type of Visit " data-control="select2" data-placeholder="Select a Type of Visit" class="form-select">
+                    <option value="">Select Project Type</option>
+                    <option value="Independent" @if($qb->type_of_visit == "Independent") selected @endif>Independent</option>
+                    <option value="Joint" @if($qb->type_of_visit == "Joint") selected @endif>Joint</option>
                 </select>
-                @error('project_name')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
+                <div id="type_of_visitError" class="error-message "></div>
             </div>
-            {{-- <div class="col-md-4 mt-3">
+            <div class="col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
-                    <span class="required">Theme</span>
+                    <span class="required">Activity visited</span>
                 </label>
-                <select   name="theme"  @error('theme') is-invalid @enderror aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme" class="form-select form-select-solid" required>
-                    <option>Select Theme</option>
-                    @foreach($themes as $theme)
-                        <option value="{{$theme->id}}">{{$theme->name}}</option>
-                    @endforeach
-                </select>
-                @error('theme')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div> --}}
-          
-     
-            <div class="col-md-3 mt-3">
+                <textarea  rows="1" class="form-control" id="activity_description"  name="activity_description">{{$qb->activity_description ?? ''}}</textarea>
+                <div id="activity_descriptionError" class="error-message"></div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-6">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Monitoring Type</span>
                 </label>
-                <select   name="monitoring_type"  @error('monitoring_type') is-invalid @enderror aria-label="Select a Type of Visit " data-control="select2" data-placeholder="Select a Monitoring Type" class="form-select form-select-solid">
+                <select   name="monitoring_type" id="monitoring_type"  aria-label="Select a Type of Visit " data-control="select2" data-placeholder="Select a Monitoring Type" class="form-select">
                     <option value="">Select Monitoring Type</option>
-                    <option value="Process and output monitoring"  @if($qb->monitoring_type == 'Process and output monitoring') selected @endif>Process and output monitoring</option>
-                    <option value="Distribution" @if($qb->monitoring_type == 'Distribution') selected @endif>Distribution</option>
-                    <option value="Joint outcome monitoring" @if($qb->monitoring_type == 'Joint outcome monitoring') selected @endif>Joint outcome monitoring</option>
+                    <option value="Process and output monitoring"  @if($qb->monitoring_type == "Process and output monitoring") selected @endif>Process and output monitoring</option>
+                    <option value="Distribution" @if($qb->monitoring_type == "Distribution") selected @endif>Distribution</option>
+                    <option value="Joint outcome monitoring" @if($qb->monitoring_type == "Joint outcome monitoring") selected @endif>Joint outcome monitoring</option>
                 </select>
-                @error('monitoring_type')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
+                <div id="monitoring_typeError" class="error-message"></div>
             </div>
-            <div class="col-md-3 mt-3">
+            <div class="col-md-6">
                 <label class="fs-6 fw-semibold form-label mb-2">
-                    <span class="required">QBs not applicable .#</span>
+                    <span class="required">Accompanied By</span>
                 </label>
-                <input type="number" class="form-control"  @error('qb_not_applicable') is-invalid @enderror placeholder="Enter QBs not applicable" name="qb_not_applicable" value="{{$qb->qb_not_applicable ?? ''}}" / required>
-                @error('qb_not_applicable')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
+                <select name="accompanied_by" id="accompanied_by" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Accompanied By..." class="form-select form-select-solid">
+                    <option value="">Select Option</option>
+                    <option value="Project Staff">Project Staff</option>
+                    <option value="Govt Officials">Govt Officials</option>
+                    <option  value="Donor">Donor</option>
+                    <option  value="NA">NA</option>
+                </select>
+                <div id="accompanied_byError" class="error-message"></div>
             </div>
-            <div class="col-md-3 mt-3">
-                <label class="fs-6 fw-semibold form-label mb-2">
-                    <span class="required">QBs Fully Met .#</span>
-                </label>
-                <input type="number" class="form-control"  @error('qbs_fully_met') is-invalid @enderror placeholder="Enter QBs Fully Met" name="qbs_fully_met" value="{{$qb->qbs_fully_met ?? ''}}" / required>
-                @error('qbs_fully_met')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-            <div class="col-md-3 mt-3">
-                <label class="fs-6 fw-semibold form-label mb-2">
-                    <span class="required">QBs Not Fully Met .#</span>
-                </label>
-                <input type="number" class="form-control"  @error('qbs_not_fully_met') is-invalid @enderror placeholder="Enter QBs Not Fuuly Met" name="qbs_not_fully_met" value="{{$qb->qbs_not_fully_met ?? ''}}" / required>
-                @error('qbs_not_fully_met')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-            <div class="col-md-3 mt-3">
-                <label class="fs-6 fw-semibold form-label mb-2">
-                    <span class="required">Score out of 100%
-                       
-                    </span>
-                </label>
-                <input type="number" class="form-control"  @error('score_out') is-invalid @enderror placeholder="Enter Score Out of 100%" name="score_out" value="{{$qb->score_out ?? ''}}" / required>
-                <small>Total fully met/Total not fully met</small>
-                @error('score_out')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-            <div class="col-md-9 mt-3">
-                <label class="fs-6 fw-semibold form-label mb-2">
-                    <span class="required">Activities visited during the monitoring visit </span>
-                </label>
-                <textarea type="number"  @error('activity_description') is-invalid @enderror class="form-control "  name="activity_description" / required>{{$qb->activity_description ?? ''}}</textarea>
-                @error('activity_description')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-      
-        
-      
         </div>
+        <div class="row mt-3">
+            <div class="col-md-3">
+                <label class="fs-6 fw-semibold form-label mb-2">
+                    <span class="required">Date of monitoring visit </span>
+                </label>
+                <input type="text" name="date_visit" id="date_visit" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="" required>
+                <div id="date_visitError" class="error-message"></div>
+            </div>
+            <div class="col-sm-3 col-md-1 col-lg-1">
+                <label class="fs-9 fw-semibold form-label mb-2">
+                    <span class="required">Total QBs</span>
+                </label>
+                <input type="number" class="form-control" id="total_qbs"  name="total_qbs" value="">
+                <div id="total_qbsError" class="error-message"></div>
+            </div>
+            <div class="col-md-1">
+                <label class="fs-9 fw-semibold form-label mb-2">
+                    <span class="required">Fully Met</span>
+                </label>
+                <input type="number" class="form-control" id="qbs_fully_met" name="qbs_fully_met" value="">
+                <div id="qbs_fully_metError" class="error-message"></div>
+            </div>
+            <div class="col-md-1">
+                <label class="fs-9 fw-semibold form-label mb-2">
+                    <span class="required">Not Applicable</span>
+                </label>
+                <input type="number" class="form-control" name="qb_not_applicable" id="qb_not_applicable" value="">
+                <div id="qb_not_applicableError" class="error-message"></div>
+            </div>
+            <div class="col-md-3">
+                <label class="fs-6 fw-semibold form-label mb-2">
+                    <span class="required">Visit Staff Name</span>
+                </label>
+                <select name="visit_staff_name" id="visit_staff_name" aria-label="Select a Visit Staff Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select form-select-solid">
+                    <option  value="">Select Option</option>
+                    @foreach($users as $user)
+                    <option  value="{{$user->name}}" >{{$user->name}}</option>
+                    @endforeach
+                    <option  value="Ruqaiya Bibi" >Ruqaiya Bibi</option>
+                    <option  value="Mehnaz" >Mehnaz</option>
+                    <option  value="Musarrat Bibi" >Musarrat Bibi</option>
+                    <option  value="Shaista Mir" >Shaista Mir</option>
+                    <option  value="Shama" >Shama</option>
+                    <option  value="Zahid Ali Khan" >Zahid Ali Khan</option>
+                </select>
+                <div id="visit_staff_nameError" class="error-message"></div>
+            </div>
+            <div class="col-md-3">
+                <label class="fs-6 fw-semibold form-label mb-2">
+                    <span class="required">Staff Organization</span>
+                </label>
+                <select name="staff_organization" id="staff_organization" aria-label="Select a Visit Staff Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select form-select-solid" >
+                    <option  value="">Select Option</option>
+                    <option  value="SC Staff" >SC Staff</option>
+                    <option  value="SRSP Staff" >SRSP Staff</option>
+                    <option  value="LRF Staff" >LRF Staff</option>
+                    <option  value="TKF Staff" >TKF Staff</option>
+                </select>
+                <div id="staff_organizationError" class="error-message"></div>
+            </div>
+
+        </div>
+        <div class="separator my-10"></div>
         <div class="text-center pt-15">
             <a href="{{route('quality-benchs.index')}}" class="btn btn-light me-3" >Discard</a>
             <button type="submit" class="btn btn-primary" >
