@@ -45,18 +45,19 @@ $(document).ready(function() {
 
                 data: formData, // Use FormData directly
 
-                success:function(data){
-                    button.removeAttribute("data-kt-indicator");
-                    if(!$.isEmptyObject(data.success)){
+                success:function(response){
                     
-                        swal.fire({
-                        text: "FRM Created Successfull",
-                        icon: "success",
-                        buttonsStyling: false,
-                        confirmButtonText: "Ok, got it!",
-                        customClass: {
-                            confirmButton: "btn font-weight-bold btn-light-success"
-                        }
+                    button.removeAttribute("data-kt-indicator");
+                    if(!$.isEmptyObject(response.success)){
+                    
+                        Swal.fire({
+                            text: "Form has been successfully submitted!",
+                            icon: "success",
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok, got it!",
+                            customClass: {
+                                confirmButton: "btn btn-primary"
+                            }
                         });
                         KTUtil.scrollTop();
                     

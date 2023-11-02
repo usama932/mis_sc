@@ -362,7 +362,9 @@ class FRMController extends Controller
     public function create()
     {
         $last_record = Frm::latest()->first();
-        $response_id =  $last_record->id.'-'.time();
+        $id = $last_record->id;
+        $record = $id + 1;
+        $response_id = $record.'-'.time();
        
         $feedbackchannels = FeedbackChannel::get();
         $feedbackcategories = FeedbackCategory::get();
@@ -394,14 +396,16 @@ class FRMController extends Controller
                 'error' => 'Record already Exist'
             ]);
         }
-     
+        else{
+            $data = $request->except('_token');
+            $this->frmRepository->storeFrm($data);
+           
+            return response()->json([
+                'success' => 'FRM Created Succesfully'
+            ]);
+        }
 
-        $data = $request->except('_token');
-        $this->frmRepository->storeFrm($data);
        
-        return response()->json([
-            'success' => 'Record already Exist'
-        ]);
     }
 
 
