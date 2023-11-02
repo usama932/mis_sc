@@ -38,7 +38,7 @@ $(document).ready(function() {
             
             $.ajax({
                 type: 'POST',
-                url: "/frm-managements.store",
+                url: "/frm-managements",
                 dataType: 'json',
                 processData: false, // Don't process the data (already in FormData)
                 contentType: false, // Don't set content type (browser will set automatically)

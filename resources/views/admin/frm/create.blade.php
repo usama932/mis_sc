@@ -1,25 +1,8 @@
 <x-default-layout>
-   
-
     @section('title')
         Add Feedback/Complaint #.{{$response_id}}
     @endsection
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
-
     <div class="card">
-        @if(session()->has('success'))
-        <div class="alert alert-success">
-            {{ session()->get('success') }}
-        </div>
-        @endif
         <div class="print-error-msg ">
             <ul></ul>
         </div>
