@@ -1,15 +1,6 @@
 <x-default-layout>
-    @push('stylesheets')
-    <link rel="stylesheet" href="{{asset('assets/css/style.bundle.css')}}">
-    @endpush
-    <style>
-         .error-message {
-            color: red;
-            font-size: 12px;
-            margin-top: 5px;
-        }
+   
 
-    </style>
     @section('title')
         Add Feedback/Complaint #.{{$response_id}}
     @endsection
@@ -369,7 +360,7 @@
                         <div id="actiontakenError" class="error-message "></div>
                     </div>
                 </div>
-                <div class="separator my-10"></div>
+                 <div class="separator my-10"></div>
                 <div class="text-center pt-15">
                     <button type="submit" class="btn btn-primary me-10" id="btn-submit" >
                         <span class="indicator-label">
@@ -387,38 +378,9 @@
     </div>
 
     @push('scripts')
-    <script>
-        $(function () {
-            $('[name="date_feedback_referred"]').change(function(){
-                var date_recieved_id = $("#date_recieved_id").val();
-                var date_feedback_referred =$("#date_feedback_referred").val();
-                if(date_feedback_referred >= date_recieved_id) {
-                    //Do something..
-
-            }
-            else{
-                swal.fire({
-                        text: "Sorry, Date Reffered Must be Greater Than Date Recieved.",
-                        icon: "error",
-                        buttonsStyling: false,
-                        confirmButtonText: "Ok, got it!",
-                        customClass: {
-                            confirmButton: "btn font-weight-bold btn-light-primary"
-                        }
-                    }).then(function () {
-                        KTUtil.scrollTop();
-
-                    // $('#exampleModal').modal('hide');
-                    // console.log("invalid");
-                    });
-            }
-
-            });
-        });
-    </script>
-
-    @include('admin.frm.scripts_file.frm_script');
-    @include('admin.frm.scripts_file.create');
+    <script src="{{asset('assets/js/custom/frm/create.js')}}"></script>
+    <script src="{{asset('assets/js/custom/frm/frm.js')}}"></script>
+   
 
     @endpush
 

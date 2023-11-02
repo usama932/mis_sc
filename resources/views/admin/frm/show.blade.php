@@ -267,7 +267,4 @@
 
         </div>
     </div>
-    @push('scripts')
-   
-    @endpush
 </x-default-layout>

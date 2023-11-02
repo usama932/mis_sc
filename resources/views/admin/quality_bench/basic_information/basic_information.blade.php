@@ -163,10 +163,10 @@
                 </label>
                 <select name="accompanied_by" id="accompanied_by" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Accompanied By..." class="form-select form-select-solid">
                     <option value="">Select Option</option>
-                    <option value="Project Staff">Project Staff</option>
-                    <option value="Govt Officials">Govt Officials</option>
-                    <option  value="Donor">Donor</option>
-                    <option  value="NA">NA</option>
+                    <option value="Project Staff" @if($qb->accompanied_by == "Project Staff") selected @endif>Project Staff</option>
+                    <option value="Govt Officials" @if($qb->accompanied_by == "Govt Officials") selected @endif>Govt Officials</option>
+                    <option  value="Donor" @if($qb->accompanied_by == "Donor") selected @endif>Donor</option>
+                    <option  value="NA" @if($qb->accompanied_by == "NA") selected @endif>NA</option>
                 </select>
                 <div id="accompanied_byError" class="error-message"></div>
             </div>
@@ -174,30 +174,30 @@
         <div class="row mt-3">
             <div class="col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
-                    <span class="required">Date of monitoring visit </span>
+                    <span class="required">Date of monitoring visit</span>
                 </label>
-                <input type="text" name="date_visit" id="date_visit" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="" required>
+                <input type="text" name="date_visit" id="date_visit" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="{{date('Y-m-d', strtotime($qb->date_visit ?? ''))}}">
                 <div id="date_visitError" class="error-message"></div>
             </div>
             <div class="col-sm-3 col-md-1 col-lg-1">
                 <label class="fs-9 fw-semibold form-label mb-2">
                     <span class="required">Total QBs</span>
                 </label>
-                <input type="number" class="form-control" id="total_qbs"  name="total_qbs" value="">
+                <input type="number" class="form-control fs-9" id="total_qbs"  name="total_qbs" value="{{$qb->total_qbs ?? ''}}">
                 <div id="total_qbsError" class="error-message"></div>
             </div>
             <div class="col-md-1">
                 <label class="fs-9 fw-semibold form-label mb-2">
                     <span class="required">Fully Met</span>
                 </label>
-                <input type="number" class="form-control" id="qbs_fully_met" name="qbs_fully_met" value="">
+                <input type="number" class="form-control fs-9" id="qbs_fully_met" name="qbs_fully_met" value="{{$qb->qbs_fully_met ?? ''}}">
                 <div id="qbs_fully_metError" class="error-message"></div>
             </div>
             <div class="col-md-1">
                 <label class="fs-9 fw-semibold form-label mb-2">
                     <span class="required">Not Applicable</span>
                 </label>
-                <input type="number" class="form-control" name="qb_not_applicable" id="qb_not_applicable" value="">
+                <input type="number" class="form-control fs-9" name="qb_not_applicable" id="qb_not_applicable" value="{{$qb->qb_not_applicable ?? ''}}">
                 <div id="qb_not_applicableError" class="error-message"></div>
             </div>
             <div class="col-md-3">
@@ -207,14 +207,14 @@
                 <select name="visit_staff_name" id="visit_staff_name" aria-label="Select a Visit Staff Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select form-select-solid">
                     <option  value="">Select Option</option>
                     @foreach($users as $user)
-                    <option  value="{{$user->name}}" >{{$user->name}}</option>
+                    <option  value="{{$user->name}}" @if($qb->visit_staff_name == $user->name ) selected @endif>{{$user->name}}</option>
                     @endforeach
-                    <option  value="Ruqaiya Bibi" >Ruqaiya Bibi</option>
-                    <option  value="Mehnaz" >Mehnaz</option>
-                    <option  value="Musarrat Bibi" >Musarrat Bibi</option>
-                    <option  value="Shaista Mir" >Shaista Mir</option>
-                    <option  value="Shama" >Shama</option>
-                    <option  value="Zahid Ali Khan" >Zahid Ali Khan</option>
+                    <option  value="Ruqaiya Bibi" @if($qb->visit_staff_name == "Ruqaiya Bibi" ) selected @endif >Ruqaiya Bibi</option>
+                    <option  value="Mehnaz" @if($qb->visit_staff_name == "Mehnaz" ) selected @endif>Mehnaz</option>
+                    <option  value="Musarrat Bibi" @if($qb->visit_staff_name == "Musarrat Bibi" ) selected @endif >Musarrat Bibi</option>
+                    <option  value="Shaista Mir" @if($qb->visit_staff_name == "Shaista Mir" ) selected @endif >Shaista Mir</option>
+                    <option  value="Shama" @if($qb->visit_staff_name == "Shama" ) selected @endif>Shama</option>
+                    <option  value="Zahid Ali Khan" @if($qb->visit_staff_name == "Zahid Ali Khan" ) selected @endif >Zahid Ali Khan</option>
                 </select>
                 <div id="visit_staff_nameError" class="error-message"></div>
             </div>
@@ -223,11 +223,11 @@
                     <span class="required">Staff Organization</span>
                 </label>
                 <select name="staff_organization" id="staff_organization" aria-label="Select a Visit Staff Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select form-select-solid" >
-                    <option  value="">Select Option</option>
-                    <option  value="SC Staff" >SC Staff</option>
-                    <option  value="SRSP Staff" >SRSP Staff</option>
-                    <option  value="LRF Staff" >LRF Staff</option>
-                    <option  value="TKF Staff" >TKF Staff</option>
+                    <option  value=""  @if($qb->staff_organization == "" ) selected @endif>Select Option</option>
+                    <option  value="SC Staff"  @if($qb->staff_organization == "SC Staff" ) selected @endif >SC Staff</option>
+                    <option  value="SRSP Staff" @if($qb->staff_organization == "SRSP Staff" ) selected @endif>SRSP Staff</option>
+                    <option  value="LRF Staff" @if($qb->staff_organization == "LRF Staff" ) selected @endif >LRF Staff</option>
+                    <option  value="TKF Staff" @if($qb->staff_organization == "TKF Staff" ) selected @endif >TKF Staff</option>
                 </select>
                 <div id="staff_organizationError" class="error-message"></div>
             </div>

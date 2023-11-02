@@ -70,7 +70,7 @@
         @endif
         <input type="hidden" id="qb_id" value="{{$qb->id}}" />
         <div class="container-fluid">
-            <ul class="nav nav-pills d-flex justify-content-center  mt-3 p-2">
+            <ul class="nav nav-tabs nav-tabs-line d-flex justify-content-center  mt-3 p-2">
                 <ul class="tabs">
                     <li class="tab @if(session('active') == 'basic_info')  active @endif"  onclick="showTab('basic_info')">Basic Information</li>         
                     <li class="tab @if(session('active') == 'monitor_visit') active @else  @endif " onclick="showTab('monitor_visit')">Detail Monitor Visits</li>
@@ -120,14 +120,14 @@
     
             $('#date_visit').flatpickr({
                 altInput: true,
-                dateFormat: "y-m-d",
+                dateFormat: "Y-m-d",
                 maxDate: "today",
                 minDate: new Date().fp_incr(-60), 
             });
             
             $('#deadline').flatpickr({
                 altInput: true,
-                dateFormat: "y-m-d",
+                dateFormat: "Y-m-d",
                 minDate: "today",
                 maxDate: new Date().fp_incr(+60), 
             });

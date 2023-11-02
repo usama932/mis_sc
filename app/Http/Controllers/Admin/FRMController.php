@@ -388,7 +388,7 @@ class FRMController extends Controller
                     ->where('district', $request->district)
                     ->where('tehsil', $request->tehsil)
                     ->where('theme', $request->theme)->get();
-        
+     
         if(!empty($frm) && $frm->count() > 0){ 
             return response()->json([
                 'error' => 'Record already Exist'
