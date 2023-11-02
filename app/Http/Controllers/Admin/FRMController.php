@@ -371,6 +371,9 @@ class FRMController extends Controller
         $projects = Project::where('active','1')->latest()->get();
         $themes = Theme::latest()->get();
         $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
+        
+        addJavascriptFile('assets/js/custom/frm/general.js');
+        addJavascriptFile('assets/js/custom/frm/frm.js');
         return view('admin.frm.create',compact('feedbackchannels','feedbackcategories','projects','themes','response_id','users'));
     }
     public function getUpdate_response($id)

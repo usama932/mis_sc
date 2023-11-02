@@ -6,6 +6,7 @@ return [
         'default' => \App\Core\Bootstrap\BootstrapDefault::class,
         'auth' => \App\Core\Bootstrap\BootstrapAuth::class,
         'system' => \App\Core\Bootstrap\BootstrapSystem::class,
+        'nform' => \App\Core\Bootstrap\BootstrapnForm::class,
     ],
 
     'KT_THEME' => 'metronic',

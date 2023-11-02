@@ -1,4 +1,4 @@
-<x-default-layout>
+<x-nform-layout>
     @section('title')
         Add Feedback/Complaint #.{{$response_id}}
     @endsection
@@ -6,7 +6,7 @@
         <div class="print-error-msg ">
             <ul></ul>
         </div>
-        <form class="form" id="frm_form">
+        <form class="form" novalidate="novalidate" id="frm_form" data-kt-redirect-url="{{ route('frm-managements.store') }}" action="{{ route('frm-managements.store') }}">
             @csrf
             <input type="hidden" id="response_id" name="response_id" value="{{$response_id}}">
             <div class="card-body py-4">
@@ -19,7 +19,7 @@
                 </div>
                 
                 <div class="row">
-                    <div class="col-md-4 mt-3">
+                    <div class="fv-row col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="">Staff Name</span>
                           
@@ -39,15 +39,15 @@
                         </select>
                         <span id="name_of_registrarError" class="error-message"></span> 
                     </div>
-                    <div class="col-md-4 mt-3">
+                    <div class="fv-row col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Date Received</span>
                             
                         </label>
-                        <input type="text" name="date_received" id="date_recieved_id" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="" required>
+                        <input type="text" name="date_received" id="date_recieved_id" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
                         <span id="date_recievedError" class="error-message"></span>
                     </div>
-                    <div class="col-md-4 mt-3 mb-2"
+                    <div class="fv-row col-md-4 mt-3 mb-2">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Feedback Channel</span>
                             
@@ -60,14 +60,14 @@
                         </select>
                         <span id="feedback_channelError" class="error-message "></span>
                     </div>
-                    <div class="card-title  border-2 my-4 ">
+                    <div class="fv-row card-title  border-2 my-4 ">
                         <div class="card-title">
                             <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
                                 <h5 class="fw-bold m-3">Information about the people who shared feedback::</h5>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 mt-3">
+                    <div class="fv-row col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Complainant Name</span>
                             
@@ -75,7 +75,7 @@
                         <input class="form-control" placeholder="Enter Client Name" name="name_of_client" id="name_of_client" value=""/>
                         <span id="name_of_clientError" class="error-message"></span>
                     </div>
-                    <div class="col-md-3 mt-3">
+                    <div class="fv-row col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Type</span>
                             
@@ -90,7 +90,7 @@
                         </select>  
                         <span id="type_of_clientError" class="error-message "></span>
                     </div>
-                    <div class="col-md-3 mt-3">
+                    <div class="fv-row col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Gender</span>
                             
@@ -104,7 +104,7 @@
                         </select>
                         <span id="genderError" class="error-message "></span>
                     </div>
-                    <div class="col-md-3 mt-3">
+                    <div class="fv-row col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Age</span>   
                         </label>
@@ -113,7 +113,7 @@
                         </select>
                         <span id="ageError" class="error-message "></span>
                     </div>
-                    <div class="col-md-3 mt-3">
+                    <div class="fv-row col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Province</span>
                             
@@ -135,7 +135,7 @@
                         </select>
                         <span id="kt_select2_provinceError" class="error-message "></span>
                     </div>
-                    <div class="col-md-3 mt-3">
+                    <div class="fv-row col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">District</span>
                         </label>
@@ -143,7 +143,7 @@
                         </select>
                         <span id="kt_select2_districtError" class="error-message "></span>
                     </div>
-                    <div class="col-md-3 mt-3">
+                    <div class="fv-row col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Tehsil</span>     
                         </label>
@@ -151,7 +151,7 @@
                         </select>
                         <span id="kt_select2_tehsilError" class="error-message "></span>
                     </div>
-                    <div class="col-md-3 mt-3"> 
+                    <div class="fv-row col-md-3 mt-3"> 
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Union Counsil</span>
                         </label>
@@ -159,13 +159,13 @@
                         </select>
                         <span id="kt_select2_union_counsilError" class="error-message "></span>
                     </div>
-                    <div class="col-md-6 mt-3">
+                    <div class="fv-row col-md-6 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Village</span>                           
                         </label>
                         <input class="form-control " placeholder="Enter Village" name="village" id="village" value="">                       
                     </div>
-                    <div class="col-md-3 mt-3">
+                    <div class="fv-row col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2 d-flex justify-content-start">
                             <span class="required">PWD/CLWD</span>                            
                         </label>
@@ -188,7 +188,7 @@
                         <span id="pwd_clwdError" class="error-message"></span>
                         
                     </div>
-                    <div class="col-md-3 mt-3">
+                    <div class="fv-row col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Allow Contact</span>                           
                         </label>
@@ -211,7 +211,7 @@
                         </div>
                         <div id="allow_contactError" class="error-message "></div>
                     </div>
-                    <div class="col-md-3 mt-3 contact_div">
+                    <div class="fv-row col-md-3 mt-3 contact_div">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Contact Number</span>
                             
@@ -219,14 +219,14 @@
                         <input type="number"  @error('contact_number') is-invalid @enderror class="form-control " placeholder="Enter Contact Number" name="contact_number" id="contact_number" value="" />
                         <span id="contact_numberError" class="error-message "></span>
                     </div>
-                    <div class="col-md-9 mt-3">
+                    <div class="fv-row col-md-9 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Description (Write Brief Narration)</span>                          
                         </label>
                         <textarea type="text" class="form-control "  name="feedback_description" id="feedback_description" /></textarea>
                         <span id="feedback_descriptionError" class="error-message "></span>
                     </div>
-                    <div class="col-md-9 mt-3">
+                    <div class="fv-row col-md-9 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">FeedBack Category </span>
                         </label>
@@ -238,14 +238,14 @@
                         </select>
                         <span id="feedback_categoryError" class="error-message "></span>
                     </div>
-                    <div class="col-md-3 mt-3 " id="show_datix">
+                    <div class="fv-row col-md-3 mt-3 " id="show_datix">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Datix Number</span>                            
                         </label>
                         <input type="number" class="form-control" placeholder="Enter Datix Number" name="datix_number" id="datix_number" value="" />
                         <span id="datix_numberError" class="error-message "></span>
                     </div>
-                    <div class="col-md-4 mt-3">
+                    <div class="fv-row col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Theme</span>     
                         </label>
@@ -257,14 +257,14 @@
                         </select>
                         <span id="themeError" class="error-message "></span>
                     </div>
-                    <div class="col-md-4 mt-3">
+                    <div class="fv-row col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Feedback Activity</span> 
                         </label>
                         <input class="form-control" placeholder="Enter Feedback Activity" name="feedback_activity" id="feedback_activity" value="" />
                         <span id="feedback_activityError" class="error-message "></span>
                     </div>
-                    <div class="col-md-4 mt-3">
+                    <div class="fv-row col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="">Project</span>                          
                         </label>
@@ -275,7 +275,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="card-title  border-0 my-4"">
+                    <div class="fv-row card-title  border-0 my-4"">
                         <div class="card-title">
                             <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
                                 <h5 class="fw-bold m-3">Information about the referring,
@@ -283,7 +283,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 mt-3">
+                    <div class="fv-row col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Feedback Referred or Shared</span>                            
                         </label>
@@ -294,35 +294,35 @@
                         </select>
                         <span id="feedback_referredorsharedError" class="error-message "></span>
                     </div>
-                    <div class="col-md-4 mt-3 yes_divs">
+                    <div class="fv-row col-md-4 mt-3 yes_divs">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required"> Date of feedback Referred </span>
                         </label>
                         <input type="text"  name="date_feedback_referred" id="date_feedback_referred" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()"  data-provide="datepicker" value="">
                         <div id="date_feedback_referredError" class="error-message "></div>
                     </div>
-                    <div class="col-md-4 mt-3 yes_divs">
+                    <div class="fv-row col-md-4 mt-3 yes_divs">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Reffered To(Name)</span>
                         </label>
                         <input type="text"  @error('refferal_name') is-invalid @enderror name="refferal_name" id="refferal_name" placeholder="Enter Reffered To (Name)"  class="form-control " value="">
                         <div id="refferal_nameError" class="error-message "></div>
                     </div>
-                    <div class="col-md-4 mt-3 yes_divs">
+                    <div class="fv-row col-md-4 mt-3 yes_divs">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Reffered To(Position)</span>
                         </label>
                         <input type="text" name="refferal_position" id="refferal_position"  @error('refferal_position') is-invalid @enderror placeholder="Enter Reffered To (Position)"  class="form-control " value="">
                         <div id="refferal_positionError" class="error-message "></div>
                     </div>
-                    <div class="col-md-8 mt-3 yes_divs">
+                    <div class="fv-row col-md-8 mt-3 yes_divs">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Description of actions undertaken to resolve the feedback</span>
                         </label>
                         <textarea  name="feedback_summary" id="feedback_summary"   @error('feedback_summary') is-invalid @enderror  class="form-control"></textarea>
                         <div id="feedback_summaryError" class="error-message "></div>
                     </div>
-                    <div class="col-md-4 mt-3 no_divs">
+                    <div class="fv-row col-md-4 mt-3 no_divs">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Status</span>
                         </label>
@@ -333,7 +333,7 @@
                         </select>
                         <div id="statusError" class="error-message "></div>
                     </div>
-                    <div class="col-md-4 mt-3 no_divs actionid " id="actionid">
+                    <div class="fv-row col-md-4 mt-3 no_divs actionid " id="actionid">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Action Taken </span>
                         </label>
@@ -345,13 +345,8 @@
                 </div>
                  <div class="separator my-10"></div>
                 <div class="text-center pt-15">
-                    <button type="submit" class="btn btn-primary me-10" id="btn-submit" >
-                        <span class="indicator-label">
-                            Submit
-                        </span>
-                        <span class="indicator-progress">
-                            Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                        </span>
+                    <button type="submit" id="kt_btn_submit" class="btn btn-primary">
+                        @include('partials/general/_button-indicator', ['label' => 'Submit'])
                     </button>
                    
                 </div>
@@ -361,10 +356,10 @@
     </div>
 
     @push('scripts')
-    <script src="{{asset('assets/js/custom/frm/create.js')}}"></script>
+    {{-- <script src="{{asset('assets/js/custom/frm/create.js')}}"></script>
     <script src="{{asset('assets/js/custom/frm/frm.js')}}"></script>
-   
+    --}}
 
     @endpush
 
-</x-default-layout>
+</x-nform-layout>
