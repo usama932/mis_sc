@@ -1,5 +1,5 @@
 <div>
-    <form class="form" action="{{route('action_points.store')}}" method="post">
+    <form class="form" id="qb_action_point_form"  novalidate="novalidate" action="{{route('action_points.store')}}" method="post">  
         @csrf
         <input type="hidden" name="quality_bench_id" value="{{$qb->id}}">
         <div class="card-body py-4">
@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6 mt-3">
+                <div class="fv-row col-md-6 mt-3">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Quality Bench ID.#</span>
                     </label>
@@ -24,7 +24,7 @@
                         </span>
                     @enderror
                 </div>
-                <div class="col-md-6 mt-3">
+                <div class="fv-row col-md-6 mt-3">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Activity No.# from DIP</span>
                     </label>
@@ -42,7 +42,7 @@
                         </span>
                     @enderror
                 </div>
-                <div class="col-md-8 mt-3">
+                <div class="fv-row col-md-8 mt-3">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Debrief Notes against identify Gap</span>
                     </label>
@@ -54,7 +54,7 @@
                         </span>
                     @enderror
                 </div>
-                <div class="col-md-4 mt-3">
+                <div class="fv-row col-md-4 mt-3">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Action Point Agree</span>
                     </label>
@@ -69,7 +69,7 @@
                         </span>
                     @enderror
                 </div>
-                <div class="col-md-12 mt-3 action_agree_id">
+                <div class="fv-row col-md-12 mt-3 action_agree_id">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Actions to make QBs</span>
                     </label>
@@ -81,7 +81,7 @@
                         </span>
                     @enderror
                 </div>
-                <div class="col-md-4 mt-3 action_agree_id">
+                <div class="fv-row col-md-4 mt-3 action_agree_id">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Action Type</span>
                     </label>
@@ -98,7 +98,7 @@
                         </span>
                     @enderror
                 </div>
-                <div class="col-md-4 mt-3 action_agree_id">
+                <div class="fv-row col-md-4 mt-3 action_agree_id">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Who is responsible?</span>
                     </label>
@@ -110,7 +110,7 @@
                         </span>
                     @enderror
                 </div>
-                <div class="col-md-4 mt-3 action_agree_id">
+                <div class="fv-row col-md-4 mt-3 action_agree_id">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Deadline</span>
                     </label>
@@ -126,10 +126,10 @@
         
             </div>
             <div class="text-center pt-15">
-                <a href="{{route('quality-benchs.index')}}" class="btn btn-light me-3" >Discard</a>
-                <button type="submit" class="btn btn-primary" >
-                    Submit
+                <button type="submit" id="kt_action_point_submit" class="btn btn-primary">
+                    @include('partials/general/_button-indicator', ['label' => 'Submit'])
                 </button>
+                
             </div>
         </div>
        

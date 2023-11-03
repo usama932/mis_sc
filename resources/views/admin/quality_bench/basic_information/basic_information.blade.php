@@ -1,19 +1,20 @@
 
 <div>
-    <form class="form" action="{{route('quality-benchs.update',$qb->id)}}" method="post">
+    <form  class="form" id="qb_update_form"  novalidate="novalidate" action="{{route('quality-benchs.update',$qb->id)}}" method="post">
+       
     @csrf
     @method('put')
     <div class="card-body py-4">
-        <div class="card-title  border-0 my-4"">
+        {{-- <div class="card-title  border-0 my-4"">
             <div class="card-title">
                 <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
                     <h5 class="fw-bold m-3">Basic Information::</h5>
                 </div>
             </div>
-        </div>
+        </div> --}}
         
         <div class="row">
-            <div class="col-sm-4 col-md-3 col-lg-3">
+            <div class="fv-row col-sm-4 col-md-3 col-lg-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Theme</span>
                 </label>
@@ -25,11 +26,11 @@
                 </select>
                 <div id="themeError" class="error-message"></div>
             </div>
-            <div class="col-sm-4 col-md-6 col-lg-6">
+            <div class="fv-row col-sm-4 col-md-6 col-lg-6">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Project</span>
                 </label>
-                <select   name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Theme" class="form-select">
+                <select name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Theme" class="form-select">
                     <option value="">Select Project</option>
                     @foreach($projects as $project)
                     <option value="{{$project->id}}" @if($qb->project_name == $project->id) selected @endif>{{$project->name}}</option>
@@ -37,7 +38,7 @@
                 </select>
                 <div id="project_nameError" class="error-message "></div>
             </div>
-            <div class="col-sm-4 col-md-3 col-lg-3">
+            <div class="fv-row col-sm-4 col-md-3 col-lg-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Partner</span>
                 </label>
@@ -53,7 +54,7 @@
             </div>
         </div>
         <div class="row mt-3">
-            <div class="col-md-3">
+            <div class="fv-row col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Province</span>
                 </label>
@@ -74,7 +75,7 @@
                 </select>
                 <div id="kt_select2_provinceError" class="error-message "></div>
             </div>
-            <div class="col-md-3">
+            <div class="fv-row col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">District</span>
                 </label>
@@ -83,7 +84,7 @@
                 </select>
                 <div id="kt_select2_districtError" class="error-message "></div>
             </div>
-            <div class="col-md-3">
+            <div class="fv-row col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Tehsil</span>
                 </label>
@@ -94,7 +95,7 @@
                 </select>
                 <div id="kt_select2_tehsilError" class="error-message "></div>
             </div>
-            <div class="col-md-3">
+            <div class="fv-row col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">UC</span>
                 </label>
@@ -107,14 +108,14 @@
             </div>
         </div>
         <div class="row mt-3">
-            <div class="col-md-3">
+            <div class="fv-row col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Village</span>
                 </label>
                 <input class="form-control" id="vilage" placeholder="Enter Village" name="village" value="{{$qb->village ?? ''}}">
                 <div id="villageError" class="error-message "></div>
             </div>
-            <div class="col-md-3">
+            <div class="fv-row col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Project Type</span>
                 </label>
@@ -125,7 +126,7 @@
                 </select>
                 <div id="project_typeError" class="error-message "></div>
             </div>
-            <div class="col-md-3">
+            <div class="fv-row col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Type of visit</span>
                 </label>
@@ -136,7 +137,7 @@
                 </select>
                 <div id="type_of_visitError" class="error-message "></div>
             </div>
-            <div class="col-md-3">
+            <div class="fv-row col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Activity visited</span>
                 </label>
@@ -145,7 +146,7 @@
             </div>
         </div>
         <div class="row mt-3">
-            <div class="col-md-6">
+            <div class="fv-row col-md-6">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Monitoring Type</span>
                 </label>
@@ -157,7 +158,7 @@
                 </select>
                 <div id="monitoring_typeError" class="error-message"></div>
             </div>
-            <div class="col-md-6">
+            <div class="fv-row col-md-6">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Accompanied By</span>
                 </label>
@@ -172,35 +173,35 @@
             </div>
         </div>
         <div class="row mt-3">
-            <div class="col-md-3">
+            <div class="fv-row col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Date of monitoring visit</span>
                 </label>
                 <input type="text" name="date_visit" id="date_visit" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="{{date('Y-m-d', strtotime($qb->date_visit ?? ''))}}">
                 <div id="date_visitError" class="error-message"></div>
             </div>
-            <div class="col-sm-3 col-md-1 col-lg-1">
+            <div class="fv-row col-sm-3 col-md-1 col-lg-1">
                 <label class="fs-9 fw-semibold form-label mb-2">
                     <span class="required">Total QBs</span>
                 </label>
                 <input type="number" class="form-control fs-9" id="total_qbs"  name="total_qbs" value="{{$qb->total_qbs ?? ''}}">
                 <div id="total_qbsError" class="error-message"></div>
             </div>
-            <div class="col-md-1">
+            <div class="fv-row col-md-1">
                 <label class="fs-9 fw-semibold form-label mb-2">
                     <span class="required">Fully Met</span>
                 </label>
                 <input type="number" class="form-control fs-9" id="qbs_fully_met" name="qbs_fully_met" value="{{$qb->qbs_fully_met ?? ''}}">
                 <div id="qbs_fully_metError" class="error-message"></div>
             </div>
-            <div class="col-md-1">
+            <div class="fv-row col-md-1">
                 <label class="fs-9 fw-semibold form-label mb-2">
                     <span class="required">Not Applicable</span>
                 </label>
                 <input type="number" class="form-control fs-9" name="qb_not_applicable" id="qb_not_applicable" value="{{$qb->qb_not_applicable ?? ''}}">
                 <div id="qb_not_applicableError" class="error-message"></div>
             </div>
-            <div class="col-md-3">
+            <div class="fv-row col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Visit Staff Name</span>
                 </label>
@@ -218,7 +219,7 @@
                 </select>
                 <div id="visit_staff_nameError" class="error-message"></div>
             </div>
-            <div class="col-md-3">
+            <div class="fv-row col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Staff Organization</span>
                 </label>
@@ -235,10 +236,10 @@
         </div>
         <div class="separator my-10"></div>
         <div class="text-center pt-15">
-            <a href="{{route('quality-benchs.index')}}" class="btn btn-light me-3" >Discard</a>
-            <button type="submit" class="btn btn-primary" >
-                Update
+            <button type="submit" id="kt_qb_update_submit" class="btn btn-primary">
+                @include('partials/general/_button-indicator', ['label' => 'Update'])
             </button>
+            
         </div>
     </div>
     </form>

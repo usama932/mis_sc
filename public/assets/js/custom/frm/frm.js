@@ -111,8 +111,8 @@ $(document).ready(function(){
 });
 
 //flatpicker for date
-$('#date_feedback_referred,#date_feedback_referred_id').flatpickr({
-    altInput: true,
+$('#date_feedback_referred').flatpickr({
+    altInput: false,
     dateFormat: "Y-m-d",
     maxDate: "today",
     minDate: new Date().fp_incr(-90), 

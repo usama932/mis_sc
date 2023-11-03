@@ -30,8 +30,6 @@ class UpdateQbRequest extends FormRequest
             'monitoring_type' => ['required','string'],
             'qb_not_applicable' => ['required','numeric'],
             'qbs_fully_met' => ['required','numeric'],
-            'qbs_not_fully_met' => ['required','numeric'],
-            'score_out' => ['required','numeric'],
             'activity_description' => ['required','string'],
           
         ];

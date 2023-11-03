@@ -6,7 +6,7 @@
         <div class="print-error-msg ">
             <ul></ul>
         </div>
-        <form class="form" novalidate="novalidate" id="frm_form" data-kt-redirect-url="{{ route('frm-managements.store') }}" action="{{ route('frm-managements.store') }}">
+        <form class="form" novalidate="novalidate" id="frm_form" data-kt-redirect-url="{{ route('frm-managements.index') }}" action="{{ route('frm-managements.store') }}">
             @csrf
             <input type="hidden" id="response_id" name="response_id" value="{{$response_id}}">
             <div class="card-body py-4">

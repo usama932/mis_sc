@@ -129,8 +129,11 @@ class MonitorVisitsController extends Controller
         ]);
         
         session(['active' => $active]);
-        Session::flash('success_message', 'Monitor Visit successfully Created!');
-        return redirect()->back()->with('success','Monitor Visit successfully Created!');
+        $editUrl = route('quality-benchs.edit',$request->quality_bench_id);
+     
+        return response()->json([
+            'editUrl' => $editUrl
+        ]);
     }
 
     /**
@@ -162,7 +165,7 @@ class MonitorVisitsController extends Controller
      */
     public function destroy($id)
     {
-
+      
 	    $monitorVisit = MonitorVisit::find($id);
         $active = 'monitor_visit';
 	    if(!empty($monitorVisit)){

@@ -380,6 +380,9 @@ class FRMController extends Controller
     {
         $frm        = Frm::find($id);
         $responses  = FrmResponse::where('fbreg_id',$id)->get();
+          
+        addJavascriptFile('assets/js/custom/frm/update_response.js');
+        addJavascriptFile('assets/js/custom/frm/frm.js');
         return view('admin.frm.update_response',compact('frm','responses'));
     }
 
@@ -433,9 +436,12 @@ class FRMController extends Controller
         $projects = Project::where('active','1')->latest()->get();
         $themes = Theme::latest()->get();
         $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
+        addJavascriptFile('assets/js/custom/frm/edit.js');
+        addJavascriptFile('assets/js/custom/frm/frm.js');
+        $title =  'Edit Feedback/Complaint #' .$frm->response_id;
         if(!empty($frm))
         {
-            return view('admin.frm.edit',compact('frm','feedbackchannels','feedbackcategories','projects','themes','users'));
+            return view('admin.frm.edit',compact('frm','feedbackchannels','feedbackcategories','projects','themes','users','title'));
         }
     }
 

@@ -1,5 +1,6 @@
 <div>
-    <form class="form" action="{{route('attachments.store')}}" method="post" enctype="multipart/form-data">
+    <form class="form" id="qb_attachment_form"  novalidate="novalidate" action="{{route('attachments.store')}}" method="post" enctype="multipart/form-data">
+        
         @csrf
         <input type="hidden" name="quality_bench_id" value="{{$qb->id}}">
         <div class="card-body py-4">
@@ -24,7 +25,7 @@
                         </span>
                     @enderror
                 </div>
-                <div class="col-md-6 mt-3">
+                <div class="fv-row col-md-6 mt-3">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Upload Documents</span>
                     </label>
@@ -36,7 +37,7 @@
                         </span>
                     @enderror
                 </div>
-                <div class="col-md-12 mt-3">
+                <div class="fv-row col-md-12 mt-3">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Comments</span>
                     </label>
@@ -55,10 +56,10 @@
         
             </div>
             <div class="text-center pt-15">
-                <a href="{{route('quality-benchs.index')}}" class="btn btn-light me-3" >Discard</a>
-                <button type="submit" class="btn btn-primary" >
-                    Submit
+                <button type="submit" id="kt_attachment_submit" class="btn btn-primary">
+                    @include('partials/general/_button-indicator', ['label' => 'Submit'])
                 </button>
+                
             </div>
         </div>
     </form>

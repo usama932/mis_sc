@@ -125,8 +125,11 @@ class QBAttachmentsController extends Controller
             'quality_bench_id'     => $request->quality_bench_id,
         ]);
         session(['active' => $active]);
-        Session::flash('success_message', 'Attachment Successfully Created!');
-        return redirect()->back();
+        $editUrl = route('quality-benchs.edit',$request->quality_bench_id);
+     
+        return response()->json([
+            'editUrl' => $editUrl
+        ]);
     }
 
     public function download_attachment($id){

@@ -96,6 +96,7 @@ class QBActionPointController extends Controller
 		echo json_encode($json_data);
     }
     public function view_action_point(Request $request){
+       
         $action_point = ActionPoint::where('id',$request->id)->first();
         return view('admin.quality_bench.action_point.detail',compact('action_point'));
     }
@@ -129,9 +130,13 @@ class QBActionPointController extends Controller
             'deadline'              => $request->deadline,
             'created_by'            => auth()->user()->id,
         ]);
+        
         session(['active' => $active]);
-        Session::flash('success_message', 'Action Point Successfully Created!');
-        return redirect()->back()->with('success','Action Point Successfully Created!');
+        $editUrl = route('quality-benchs.edit',$request->quality_bench_id);
+     
+        return response()->json([
+            'editUrl' => $editUrl
+        ]);
 
     }
 
@@ -165,6 +170,7 @@ class QBActionPointController extends Controller
     public function destroy(string $id)
     {
         $action_point = ActionPoint::find($id);
+   
         $active = 'action_point';
 	    if(!empty($action_point)){
 		    $action_point->delete();

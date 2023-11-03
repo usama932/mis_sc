@@ -1,5 +1,5 @@
 <div>
-    <form class="form" action="{{route('monitor_visits.store')}}" method="post">
+    <form class="form" id="qb_monitor_form"  novalidate="novalidate" action="{{route('monitor_visits.store')}}" method="post">
         @csrf
         <input type="hidden" name="quality_bench_id" value="{{$qb->id}}">
         <div class="card-body py-4">
@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6 mt-3">
+                <div class="fv-row col-md-6 mt-3">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Quality Bench ID.#</span>
                     </label>
@@ -24,11 +24,11 @@
                         </span>
                     @enderror
                 </div>
-                <div class="col-md-6 mt-3">
+                <div class="fv-row col-md-6 mt-3">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Activity No.# from DIP</span>
                     </label>
-                    <input type="text"  @error('activity_number') is-invalid @enderror name="activity_number"  placeholder="Enter Activity Number"  class="form-control"   value="" required>
+                    <input type="text"  name="activity_number"  placeholder="Enter Activity Number"  class="form-control"   value="" required>
                 
                     @error('activity_number')
                         <span class="invalid-feedback" role="alert">
@@ -36,54 +36,40 @@
                         </span>
                     @enderror
                 </div>
-                <div class="col-md-8 mt-3">
+                <div class="fv-row col-md-8 mt-3">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Quality Benchmarks (QBs)</span>
                     </label>
-                    <textarea   @error('qbs_description') is-invalid @enderror class="form-control "  name="qbs_description" / required></textarea>
-                    
-                    @error('qbs_description')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+                    <textarea class="form-control "  name="qbs_description" / required></textarea>
+                
                 </div>
-                <div class="col-md-4 mt-3">
+                <div class="fv-row col-md-4 mt-3">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">QB Met</span>
                     </label>
-                    <select   name="qb_met"  @error('qb_met') is-invalid @enderror aria-label="Select a QB Met" data-control="select2" data-placeholder="Select a QB Met..." class="form-select form-select-solid qb_id" required>
+                    <select   name="qb_met" aria-label="Select a QB Met" data-control="select2" data-placeholder="Select a QB Met..." class="form-select form-select-solid qb_id" required>
                         <option value="">Select QB Met</option>
                         <option  value="Not Fully Met">Not Fully Met</option>
                         <option  value="Fully Met">Fully Met</option>
                     </select>
-                    @error('qb_met')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+                    
                 </div>
-                <div class="col-md-12 mt-3" id="gap_id">
+                <div class="fv-row col-md-12 mt-3" id="gap_id">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Gap/issue (if not fully met)</span>
                     </label>
-                    <textarea   @error('gap_issue') is-invalid @enderror class="form-control " name="gap_issue"></textarea>
-                    
-                    @error('gap_issue')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+                    <textarea class="form-control " name="gap_issue"></textarea>
+                  
                 </div>
             </div>
         
         
             </div>
             <div class="text-center pt-15">
-                <a href="{{route('quality-benchs.index')}}" class="btn btn-light me-3" >Discard</a>
-                <button type="submit" class="btn btn-primary" >
-                    Submit
+                <button type="submit" id="kt_qb_monitor_submit" class="btn btn-primary">
+                    @include('partials/general/_button-indicator', ['label' => 'Submit'])
                 </button>
+                
             </div>
         </div>
     </form>

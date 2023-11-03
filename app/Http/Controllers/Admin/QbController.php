@@ -158,6 +158,8 @@ class QbController extends Controller
         $projects = Project::where('active','1')->latest()->get();
         $themes = Theme::latest()->get();
         $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
+        addJavascriptFile('assets/js/custom/quality_benchmark/general.js');
+        addJavascriptFile('assets/js/custom/frm/frm.js');
         return view('admin.quality_bench.basic_information.create',compact('projects','themes','users'));
     }
 
@@ -169,12 +171,11 @@ class QbController extends Controller
         $active = 'basic_info';
         session(['active' => $active]);
         $editUrl = route('quality-benchs.edit',$Qb->id);
-
+     
         return response()->json([
-            'success' => 'Record already Exist',
             'editUrl' => $editUrl
         ]);
-       
+   
         
     }
 
@@ -193,12 +194,14 @@ class QbController extends Controller
         $qb = QualityBench::find($id);
         $active = 'basic_info';
         $monitor_visits = MonitorVisit::where('quality_bench_id',$id)->latest()->get();
-        
+        $title = "Edit Monitoring Quality Benchmarks";
         if(session('active') == ''){
             session(['active' => $active]);
         }
-        
-        return view('admin.quality_bench.edit',compact('projects','themes','users','qb','monitor_visits'));
+        addJavascriptFile('assets/js/custom/quality_benchmark/edit.js');
+        addJavascriptFile('assets/js/custom/frm/frm.js');
+        addVendors(['datatables']);
+        return view('admin.quality_bench.edit',compact('projects','themes','users','qb','monitor_visits','title'));
     }
 
   
@@ -206,7 +209,17 @@ class QbController extends Controller
     {
         $data = $request->except('_token');
         $Qb = $this->QbRepository->updateQb($data,$id);
-        return redirect()->back()->with('success','Quality Bench Updated');
+        $active = 'basic_info';
+        if(session('active') == ''){
+            session(['active' => $active]);
+        }
+        $editUrl = route('quality-benchs.edit',$id);
+     
+        return response()->json([
+            'editUrl' => $editUrl
+        ]);
+   
+    
     }
 
  

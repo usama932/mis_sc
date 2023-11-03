@@ -1,7 +1,15 @@
+$('#date_visit').flatpickr({
+    altInput: true,
+    dateFormat: "Y-m-d",
+    maxDate: "today",
+    minDate: new Date().fp_incr(-60),
+});
 "use strict";
 
-// Class definition
-var KTFRMValidate = function () {
+
+//Create QB Data
+// ----------------Start Create Qbs date------------------
+var KTQBValidate = function () {
     // Elements
     var form;
     var submitButton;
@@ -15,55 +23,28 @@ var KTFRMValidate = function () {
             {
                 
                 fields: {
-                    'name_of_registrar':{
+                    'theme':{
                         validators: {
                             notEmpty: {
-                                message: 'Name Registrar is required'
+                                message: 'theme required'
                             }
                         }
                     },
-                    'date_received':{
+                    'project_name':{
                         validators: {
                             notEmpty: {
-                                message: 'date recieved is required'
+                                message: 'Project Name is required'
                             }
                         }
                     },
-                    'feedback_channel':{
+                    'partner':{
                         validators: {
                             notEmpty: {
-                                message: 'Channel is required'
+                                message: 'Partner is required'
                             }
                         }
                     },
-                    'name_of_client':{
-                        validators: {
-                            notEmpty: {
-                                message: 'nName is required'
-                            }
-                        }
-                    },
-                    'type_of_client':{
-                        validators: {
-                            notEmpty: {
-                                message: 'Type of required'
-                            }
-                        }
-                    },
-                    'gender':{
-                        validators: {
-                            notEmpty: {
-                                message: 'Gender required'
-                            }
-                        }
-                    },
-                    'age':{
-                        validators: {
-                            notEmpty: {
-                                message: 'Age required'
-                            }
-                        }
-                    },
+                  
                     'province':{
                         validators: {
                             notEmpty: {
@@ -88,69 +69,90 @@ var KTFRMValidate = function () {
                     'union_counsil':{
                         validators: {
                             notEmpty: {
-                                message: 'union counsil required'
+                                message: 'Union Counsil required'
                             }
                         }
                     },
-                    'pwd_clwd':{
+                    'project_type':{
                         validators: {
                             notEmpty: {
-                                message: 'Pwd/Clwd required'
+                                message: 'Project Type required'
                             }
                         }
                     },
 
-                    'allow_contact':{
+                    'type_of_visit':{
                             validators: {
                                 notEmpty: {
-                                    message: 'allow_contact required'
+                                    message: 'Visit Type required'
                                 }
                         }
                     },
                   
-                    'contact_number':{
+                    'activity_description':{
                         validators: {
                             notEmpty: {
-                                message: 'contact number required'
+                                message: 'Description  required'
                             }
                         }
                     },
-                    'feedback_description':{
+                    'monitoring_type':{
                         validators: {
                             notEmpty: {
-                                message: 'feedback description required'
+                                message: 'Monitoring Type required'
                             }
                         }
                     },
-                    'feedback_category':{
+                    'accompanied_by':{
                         validators: {
                             notEmpty: {
-                                message: 'feedback category required'
+                                message: 'Accompanied by required'
                             }
                         }
                     },
-                    'theme':{
+                    'date_visit':{
                         validators: {
                             notEmpty: {
-                                message: 'theme required'
+                                message: 'Date Visit required'
                             }
                         }
                     },
-                    'feedback_activity':{
+                    'total_qbs':{
                         validators: {
                             notEmpty: {
-                                message: 'feedback activity required'
+                                message: 'Total QBs  required'
                             }
                         }
                     },
-                    'feedback_referredorshared':{
+                    'qbs_fully_met':{
                         validators: {
                             notEmpty: {
-                                message: 'feedback_referred  required'
+                                message: 'QBs Fully Met required'
                             }
                         }
                     },
-                   
+                    'qb_not_applicable':{
+                        validators: {
+                            notEmpty: {
+                                message: 'QBs Not Applicable required'
+                            }
+                        }
+                    },
+                    'visit_staff_name':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Staff Name required'
+                            }
+                        }
+                    },
+                    'staff_organization':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Staff Organization required'
+                            }
+                        }
+                    },
+                 
                 },
               
                 plugins: {
@@ -181,6 +183,7 @@ var KTFRMValidate = function () {
                     // Check axios library docs: https://axios-http.com/docs/intro
                     axios.post(submitButton.closest('form').getAttribute('action'), new FormData(form)).then(function (response) {
                         if (response) {
+                           
                             form.reset();
                             toastr.options = {
                                 "closeButton": true,
@@ -199,13 +202,9 @@ var KTFRMValidate = function () {
                                 "showMethod": "fadeIn",
                                 "hideMethod": "fadeOut"
                             };
-                              
-                            toastr.success("Record Updated", "success");
-                            const redirectUrl = form.getAttribute('data-kt-redirect-url');
-
-                            if (redirectUrl) {
-                                location.href = redirectUrl;
-                            }
+                            toastr.success("QB  Created", "success");
+                            window.location.href = response.data.editUrl;
+                            
                         } else {
                             toastr.options = {
                                 "closeButton": false,
@@ -287,8 +286,8 @@ var KTFRMValidate = function () {
         // Initialization
         init: function () {
             // Elements
-            form = document.querySelector('#frm_form');
-            submitButton = document.querySelector('#kt_btn_submit');
+            form = document.querySelector('#qb_form');
+            submitButton = document.querySelector('#kt_qb_submit');
             handleFormAjax();
         }
     };
@@ -296,32 +295,12 @@ var KTFRMValidate = function () {
 
 // On document ready
 KTUtil.onDOMContentLoaded(function () {
-    KTFRMValidate.init();
+    
+    KTQBValidate.init();
 });
-$(function () {
-    $('[name="date_feedback_referred"]').change(function(){
-        var date_recieved_id = $("#date_recieved_id").val();
-        var date_feedback_referred =$("#date_feedback_referred").val();
-        if(date_feedback_referred >= date_recieved_id) {
-            //Do something..
 
-    }
-    else{
-        swal.fire({
-                text: "Sorry, Date Reffered Must be Greater Than Date Recieved.",
-                icon: "error",
-                buttonsStyling: false,
-                confirmButtonText: "Ok, got it!",
-                customClass: {
-                    confirmButton: "btn font-weight-bold btn-light-primary"
-                }
-            }).then(function () {
-                KTUtil.scrollTop();
 
-            // $('#exampleModal').modal('hide');
-            // console.log("invalid");
-            });
-    }
+// ----------------End Create Qbs date------------------
 
-    });
-});
+
+

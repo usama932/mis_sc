@@ -1,34 +1,8 @@
 <x-default-layout>
-    @push('stylesheets')
-    <link rel="stylesheet" href="{{asset('assets/plugins/custom/datatables/datatables.bundle.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/css/style.bundle.css')}}">
-    @endpush
-    <style>
-        .loader {
-            display: none;
-            border: 6px solid #f3f3f3;
-            border-top: 6px solid #3498db;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 2s linear infinite;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-    </style>
     @section('title')
-        Edit Feedback/Complaint #.{{$frm->response_id}}
+     {{$title ?? ''}}
     @endsection
-    <div id="loader" class="loader"></div>
-
     <div class="card">
         @if ($errors->any())
         <div class="alert alert-danger">
@@ -322,9 +296,8 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required"> Date of feedback Referred </span><br>
                             
-                            {{ $frm->date_ofreferral ?? ''}}
                         </label>
-                        <input type="text"  @error('date_feedback_referred') is-invalid @enderror name="date_feedback_referred" id="date_feedback_referred" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()"  data-provide="datepicker" value="">
+                        <input type="text"  @error('date_feedback_referred') is-invalid @enderror name="date_feedback_referred" id="date_feedback_referred" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()"  data-provide="datepicker" value="{{date('Y-m-d', strtotime($frm->date_ofreferral ?? ''))}}">
                         
                         @error('date_feedback_referred')
                             <span class="invalid-feedback" role="alert">
