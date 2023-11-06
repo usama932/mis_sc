@@ -243,3 +243,8 @@ $(document).ready(function(){
         });
     }).change();
 });
+flatpickr("#date_visit", {
+    mode: "range",
+    dateFormat: "Y-m-d",
+    maxDate: "today",
+});

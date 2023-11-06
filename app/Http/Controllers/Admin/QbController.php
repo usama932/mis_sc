@@ -30,6 +30,7 @@ class QbController extends Controller
     {
         $projects = Project::latest()->get();
         $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
+
         return view('admin.quality_bench.index',compact('projects','users'));
     }
 
@@ -238,7 +239,7 @@ class QbController extends Controller
         $projects = Project::latest()->get();
         $themes = Theme::latest()->get();
         $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
-
+        addJavascriptFile('assets/js/custom/frm/frm.js');
         return view('admin.quality_bench.qb_export.qb_export',compact('projects','themes','users'));
     }
     public function getqbactionpointexportform(){

@@ -1,9 +1,4 @@
 <x-default-layout>
-
-    @section("stylesheets")
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        <link href="{{asset("assets/plugins/custom/datatables/datatables.bundle.css")}}" rel="stylesheet" type="text/css" />
-    @endsection
     @section('title')
         Quality Benchmark Management
     @endsection
@@ -180,17 +175,4 @@
         </div>
 
     </div>
-
-    @push("scripts")
-    <script>
-        flatpickr("#date_visit", {
-            mode: "range",
-            dateFormat: "Y-m-d",
-            maxDate: "today",
-        });
-    </script>
-    @include('admin.frm.frm_script');
-    @endpush
-
-
 </x-default-layout>
