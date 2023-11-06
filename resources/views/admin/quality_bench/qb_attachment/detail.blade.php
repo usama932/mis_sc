@@ -16,7 +16,7 @@
                 </tr>
                 <tr>
                     <td ><strong>document</strong></td>
-                    <td>{{$qb_attachment->document}}</td>
+                    <td>{{$qb_attachment->document ?? ''}}</td>
                 </tr>
                 <tr>
                     <td><strong>Created By </strong></td>

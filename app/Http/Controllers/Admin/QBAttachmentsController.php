@@ -119,10 +119,11 @@ class QBAttachmentsController extends Controller
            
         }
         $qbattachment = QBAttachement::create([
-            'document'     => $filename,
-            'comments'     => $request->comments,
-            'created_by'   => auth()->user()->id,
-            'quality_bench_id'     => $request->quality_bench_id,
+            'document'                  => $filename,
+            'comments'                  => $request->comments,
+            'created_by'                => auth()->user()->id,
+            'quality_bench_id'          => $request->quality_bench_id,
+            'generating_observation'    => $request->generating_observation
         ]);
         session(['active' => $active]);
         $editUrl = route('quality-benchs.edit',$request->quality_bench_id);

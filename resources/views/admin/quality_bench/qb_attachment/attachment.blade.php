@@ -41,13 +41,15 @@
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Comments</span>
                     </label>
-                    <textarea   @error('comments') is-invalid @enderror class="form-control " placeholder="How does the score from this visit compare to previous visits? Have any of these QBs been “not fully met” for two or more visits?"  name="comments" / required></textarea>
+                    <textarea class="form-control " placeholder="How does the score from this visit compare to previous visits? Have any of these QBs been “not fully met” for two or more visits?"  name="comments" / required></textarea>
+                </div>
+                <div class="fv-row col-md-12 mt-3">
+                    <label class="fs-6 fw-semibold form-label mb-2">
+                        <span class="required">General Observations by field monitor</span>
+                    </label>
+                    <textarea class="form-control " placeholder="General Observations by field monitor"  name="generating_observation" / required></textarea>
                 
-                    @error('comments')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+                   
                 </div>
              
                
