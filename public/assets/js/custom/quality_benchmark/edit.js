@@ -341,6 +341,21 @@ var KTqbmonitorValidate = function () {
                             }
                         }
                     },
+                    'gap_issue': {
+                        validators: {
+                            callback: {
+                                message: 'Gap Issue  is required',
+                                callback: function(value, validator) {
+                                    var qb_met = document.getElementById('qb_met').value;
+                                    var gap_issue = document.getElementById('gap_issue').value;
+                                    
+                                    if (qb_met === 'Not Fully Met' &&  gap_issue === '') {
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    },
                   
                 },
               
@@ -524,6 +539,51 @@ var KTqbactionpointValidate = function () {
                             }
                         }
                     },
+                    'qb_recommendation': {
+                        validators: {
+                            callback: {
+                                message: 'Qb Recommendation  is required',
+                                callback: function(value, validator) {
+                                    var action_agree = document.getElementById('action_agree').value;
+                                    var qb_recommendation = document.getElementById('qb_recommendation').value;
+                                    
+                                    if (action_agree === 'Yes' &&  qb_recommendation === '') {
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    'action_type': {
+                        validators: {
+                            callback: {
+                                message: 'Action Type is required',
+                                callback: function(value, validator) {
+                                    var action_agree = document.getElementById('action_agree').value;
+                                    var action_type = document.getElementById('action_type').value;
+                                    
+                                    if (action_agree === 'Yes' &&  action_type === '') {
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    'responsible_person': {
+                        validators: {
+                            callback: {
+                                message: 'Responsible Person is required',
+                                callback: function(value, validator) {
+                                    var action_agree = document.getElementById('action_agree').value;
+                                    var responsible_person = document.getElementById('responsible_person').value;
+                                    
+                                    if (action_agree === 'Yes' &&  responsible_person === '') {
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    },
                   
                 },
               
@@ -541,8 +601,6 @@ var KTqbactionpointValidate = function () {
         // Handle form submit
         submitButton.addEventListener('click', function (e) {
             e.preventDefault();
-
-
             validator.validate().then(function (status) {
                 if (status == 'Valid') {
                     // Show loading indication
@@ -676,7 +734,7 @@ KTUtil.onDOMContentLoaded(function () {
 
 // ----------------start  attachment   Qbs date------------------
 
-//Action Point   QB data
+//attachment validations   QB data
 var KTqbattachmentValidate = function () {
     // Elements
     var form;

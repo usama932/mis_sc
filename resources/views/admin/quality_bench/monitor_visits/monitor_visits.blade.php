@@ -47,7 +47,7 @@
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">QB Met</span>
                     </label>
-                    <select   name="qb_met" aria-label="Select a QB Met" data-control="select2" data-placeholder="Select a QB Met..." class="form-select form-select-solid qb_id" required>
+                    <select   name="qb_met" id="qb_met" aria-label="Select a QB Met" data-control="select2" data-placeholder="Select a QB Met..." class="form-select form-select-solid qb_id" required>
                         <option value="">Select QB Met</option>
                         <option  value="Not Fully Met">Not Fully Met</option>
                         <option  value="Fully Met">Fully Met</option>
@@ -58,7 +58,7 @@
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Gap/issue (if not fully met)</span>
                     </label>
-                    <textarea class="form-control " name="gap_issue"></textarea>
+                    <textarea class="form-control " name="gap_issue" id="gap_issue"></textarea>
                   
                 </div>
             </div>
