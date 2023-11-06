@@ -11,40 +11,32 @@
                 </div>
                 <table class="table table-striped">
                     <tr>
-                        <td><strong>QB </strong></td>
-                        <td>{{$monitor_visit->quality_bench_id ?? "NA"}}</td>
-                    </tr>
-                    <tr>
                         <td ><strong>Activity Number</strong></td>
                         <td>{{$monitor_visit->activity_number}}</td>
                     </tr>
                     <tr>
                         <td><strong>Activity Findings</strong></td>
-                        <td>{{$monitor_visit->qbs_description ?? 'NA'}}</td>
+                        <td>{{$monitor_visit->qbs_description ?? ''}}</td>
                     </tr>
                     <tr>
                         <td><strong>QB Met (Yes/no) </strong></td>
-                        <td>{{$monitor_visit->qb_met ?? "NA"}}</td>
+                        <td>{{$monitor_visit->qb_met ?? ""}}</td>
                     </tr>
                     <tr>
                         <td><strong>QB Met (Yes/no) </strong></td>
-                        <td>{{$monitor_visit->qb_met ?? "NA"}}</td>
+                        <td>{{$monitor_visit->qb_met ?? ""}}</td>
                     </tr>
                     <tr>
                         <td><strong>Gap/Issue </strong></td>
-                        <td>{{$monitor_visit->gap_issue ?? "NA"}}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>QB </strong></td>
-                        <td>{{$monitor_visit->quality_bench_id ?? "NA"}}</td>
+                        <td>{{$monitor_visit->gap_issue ?? ""}}</td>
                     </tr>
                     <tr>
                         <td><strong>Created By </strong></td>
-                        <td>{{$monitor_visit->created_by ?? "NA"}}</td>
+                        <td>{{$monitor_visit->user->name ?? ""}}</td>
                     </tr>
                     <tr>
                         <td><strong>Created At </strong></td>
-                        <td>{{$monitor_visit->created_at ?? "NA"}}</td>
+                        <td>{{$monitor_visit->created_at ?? ""}}</td>
                     </tr>
                   
                 </table>

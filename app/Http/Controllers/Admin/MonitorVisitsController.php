@@ -126,6 +126,7 @@ class MonitorVisitsController extends Controller
             'qbs_description'       => $request->qbs_description,
             'qb_met'                => $request->qb_met,
             'gap_issue'             => $request->gap_issue ?? 'NA',
+            'created_by'            => auth()->user()->id
         ]);
         
         session(['active' => $active]);

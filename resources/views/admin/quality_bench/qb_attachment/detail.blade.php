@@ -12,7 +12,7 @@
             <table class="table table-striped">
                 <tr>
                     <td><strong>Comments </strong></td>
-                    <td>{{$qb_attachment->comments ?? "NA"}}</td>
+                    <td>{{$qb_attachment->comments ?? ""}}</td>
                 </tr>
                 <tr>
                     <td ><strong>document</strong></td>
@@ -20,11 +20,11 @@
                 </tr>
                 <tr>
                     <td><strong>Created By </strong></td>
-                    <td>{{$qb_attachment->created_by ?? "NA"}}</td>
+                    <td>{{$qb_attachment->user->name ?? ""}}</td>
                 </tr>
                 <tr>
                     <td><strong>Created At </strong></td>
-                    <td>{{$qb_attachment->created_at ?? "NA"}}</td>
+                    <td>{{$qb_attachment->created_at ?? ""}}</td>
                 </tr>
               
             </table>
