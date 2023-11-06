@@ -533,6 +533,8 @@ class FRMController extends Controller
 
         $feedbackchannels = FeedbackChannel::latest()->get();
         $projects = Project::where('active','1')->latest()->get();
+        
+        addJavascriptFile('assets/js/custom/frm/export.js');
         return view('admin.frm.frm_export.export',compact('feedbackchannels','projects'));
     }
     public function getexportfrm(Request $request){

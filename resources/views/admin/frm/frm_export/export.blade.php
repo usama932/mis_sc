@@ -1,39 +1,16 @@
 <x-default-layout>
-
-    @section("stylesheets")
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        <link href="{{asset("assets/plugins/custom/datatables/datatables.bundle.css")}}" rel="stylesheet" type="text/css" />
-    @endsection
     @section('title')
      Export Feedback Response Tracker
     @endsection
     
     <div id="kt_app_content" class="app-content flex-column-fluid">
-     
-        <div class="modal loader fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-              <div class="modal-content">
-                
-                <div class="modal-body d-flex justify-content-center     ">
-                    <button class="btn btn-primary" type="button" disabled>
-                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-                        Downloading...
-                    </button>
-                    
-                </div>
-             
-              </div>
-            </div>
-        </div>
-     
         <div id="kt_app_content_container" class="app-container container-xxl">
            <!--begin::Card-->
             <div class="card">
                 <div class="card-title m-5">
                     <h1>FRM Exports  :</h1>
                 </div>
-                <form  id="exportid" > 
-                    {{--  --}}
+                <form  id="exportid"> 
                     @csrf
                     <div class="card-header border-0 pt-6">
                         <div class="row mb-5">
@@ -184,17 +161,5 @@
         </div>
 
     </div>
-
-    @push("scripts")
-    
-    <script src="{{asset("assets/plugins/custom/datatables/datatables.bundle.js")}}"></script>
-    
-    <script src="{{asset('assets/js/custom/frm/export.js')}}"></script>
-  
-  
-    </script>
-
-    @endpush
-
 
 </x-default-layout>
