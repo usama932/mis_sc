@@ -5,7 +5,7 @@
         <link href="{{asset("assets/plugins/custom/datatables/datatables.bundle.css")}}" rel="stylesheet" type="text/css" />
     @endsection
     @section('title')
-        Quality Benchmark Management
+    Quality Benchmark Action Points Exports
     @endsection
 
     <div id="kt_app_content" class="app-content flex-column-fluid">
@@ -13,10 +13,7 @@
         <div id="kt_app_content_container" class="app-container container-xxl">
            <!--begin::Card-->
             <div class="card">
-                <div class="card-title m-5">
-                    <h1>Quality Benchmark Action Points Exports  :</h1>
-                </div>
-                <form class="form" action="{{route('getaction-export')}}" method="post">
+                <form id="exportqbactionpoint">
                     @csrf
                     <div class="card-body py-4">
                         <div class="card-title  border-0 my-4"">
@@ -28,7 +25,6 @@
                         </div>
                         
                         <div class="row">
-                           
                             <div class="col-md-3 mt-3">
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class=" ">Date of monitoring visit </span>
@@ -42,9 +38,13 @@
                             </div>
                         </div>
                         <div class="text-center pt-15">
-                            <button type="reset" class="btn btn-light me-3" >Discard</button>
-                            <button type="submit" class="btn btn-primary" >
-                                Export
+                            <button type="submit" class="btn btn-primary me-10" id="btn-submit" >
+                                <span class="indicator-label">
+                                    Export
+                                </span>
+                                <span class="indicator-progress">
+                                    Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                </span>
                             </button>
                         </div>
                     </div>

@@ -1,8 +1,4 @@
-$('#date_feedback_referred,#date_feedback_referred_id').flatpickr({
-    altInput: true,
-    dateFormat: "y-m-d",
-    maxDate: "today"
-});
+
 flatpickr("#date_recieved_id", {
     mode: "range",
     dateFormat: "Y-m-d",

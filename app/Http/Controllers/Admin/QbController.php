@@ -248,9 +248,11 @@ class QbController extends Controller
         $themes = Theme::latest()->get();
         $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
         addJavascriptFile('assets/js/custom/frm/frm.js');
+        addJavascriptFile('assets/js/custom/quality_benchmark/export.js');
         return view('admin.quality_bench.qb_export.qb_export',compact('projects','themes','users'));
     }
     public function getqbactionpointexportform(){
+        addJavascriptFile('assets/js/custom/quality_benchmark/export.js');
         return view('admin.quality_bench.qb_export.qb_action_point');
     }
     public function getexportqb(Request $request){
