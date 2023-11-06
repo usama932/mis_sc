@@ -170,6 +170,7 @@ class MonitorVisitsController extends Controller
 	    $monitorVisit = MonitorVisit::find($id);
         $active = 'monitor_visit';
 	    if(!empty($monitorVisit)){
+            $qb->action_point->each->delete();
 		    $monitorVisit->delete();
 		    Session::flash('success_message', 'Monitor Visit successfully deleted!');
 	    }
