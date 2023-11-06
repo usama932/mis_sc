@@ -194,13 +194,13 @@
                         </label>
                         <div class="foallow_contactrm-check form-check-custom form-check-solid mt-4">
                             <!--begin::Input-->
-                            <input class="form-check-input contact_id" name="allow_contact" id="allow_contact" type="radio" value="Yes"/ checked>
+                            <input class="form-check-input contact_id" name="allow_contact" id="allow_contact_yes" type="radio" value="Yes"/ checked>
                             <!--end::Input-->
                             <!--begin::Label-->
                             <label class="form-check-label me-5">
                                 <div class="fw-bold text-gray-800 ">Yes</div>
                             </label>
-                            <input  @error('allow_contact') is-invalid @enderror class="form-check-input contact_id" name="allow_contact" id="allow_contact"  id="allow_contact" type="radio" value="No"/ required>
+                            <input class="form-check-input contact_id" name="allow_contact" id="allow_contact_no"  id="allow_contact" type="radio" value="No"/ required>
                             <!--end::Input-->
                             <!--begin::Label-->
                             <label class="form-check-label me-5">
@@ -216,7 +216,7 @@
                             <span class="required">Contact Number</span>
                             
                         </label>
-                        <input type="number"  @error('contact_number') is-invalid @enderror class="form-control " placeholder="Enter Contact Number" name="contact_number" id="contact_number" value="" />
+                        <input type="number" class="form-control " placeholder="Enter Contact Number" name="contact_number" id="contact_number" value="" />
                         <span id="contact_numberError" class="error-message "></span>
                     </div>
                     <div class="fv-row col-md-9 mt-3">
@@ -305,7 +305,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Reffered To(Name)</span>
                         </label>
-                        <input type="text"  @error('refferal_name') is-invalid @enderror name="refferal_name" id="refferal_name" placeholder="Enter Reffered To (Name)"  class="form-control " value="">
+                        <input type="text" name="refferal_name" id="refferal_name" placeholder="Enter Reffered To (Name)"  class="form-control " value="">
                         <div id="refferal_nameError" class="error-message "></div>
                     </div>
                     <div class="fv-row col-md-4 mt-3 yes_divs">

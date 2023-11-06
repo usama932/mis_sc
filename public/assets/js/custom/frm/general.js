@@ -107,14 +107,28 @@ var KTFRMValidate = function () {
                                 }
                         }
                     },
-                  
-                    'contact_number':{
+                    'contact_number': {
                         validators: {
-                            notEmpty: {
-                                message: 'contact number required'
+                            callback: {
+                                message: 'Contact number is required',
+                                callback: function(value, validator, $field) {
+                                    // Check if 'Yes' is selected for allow_contact
+                                    var allowContactYes = $('input[name="allow_contact"]:checked').val() === 'Yes';
+                                    var contact_number = document.getElementById('contact_number').value;
+                                    
+                                    // Check if allow_contact is 'Yes' and contact_number is empty
+                                    if (allowContactYes === true && contact_number === '') {
+                                       
+                                        return false;
+                                        
+                                    }
+                                    return true;
+                                    
+                                }
                             }
                         }
                     },
+                    
                     'feedback_description':{
                         validators: {
                             notEmpty: {
@@ -150,7 +164,96 @@ var KTFRMValidate = function () {
                             }
                         }
                     },
-                   
+                    'date_feedback_referred': {
+                        validators: {
+                            callback: {
+                              
+                                message: 'Date of feedback Referred is required',
+                                callback: function(value, validator) {
+                                   
+                                    var feedbackReferred = document.getElementById('feedback_referredorshared').value;
+                                    var date_feedback_referred = document.getElementById('date_feedback_referred').value;
+                                    if (feedbackReferred === 'Yes' && date_feedback_referred === '') {
+                                        return false;
+                                    }
+                                    
+                                }
+                            }
+                        }
+                    },
+                    'refferal_name': {
+                        validators: {
+                            callback: {
+                                message: 'Referred To (Name) is required',
+                                callback: function(value, validator) {
+                                    var feedbackReferred = document.getElementById('feedback_referredorshared').value;
+                                    var refferal_name = document.getElementById('refferal_name').value;
+                                    if (feedbackReferred === 'Yes' &&  refferal_name === '') {
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    'refferal_position': {
+                        validators: {
+                            callback: {
+                                message: 'Referred To (Position) is required',
+                                callback: function(value, validator) {
+                                    var feedbackReferred = document.getElementById('feedback_referredorshared').value;
+                                    var refferal_position = document.getElementById('refferal_position').value;
+                                    if (feedbackReferred === 'Yes' && refferal_position === '') {
+                                        return false;                                       
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    'feedback_summary': {
+                        validators: {
+                            callback: {
+                                message: 'Description of actions undertaken is required',
+                                callback: function(value, validator) {
+                                    var feedbackReferred = document.getElementById('feedback_referredorshared').value;
+                                    var feedback_summary = document.getElementById('feedback_summary').value;                                   
+                                    if (feedbackReferred === 'Yes' && feedback_summary === '') {
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    'status': {
+                        validators: {
+                            callback: {
+                                message: 'Status is required',
+                                callback: function(value, validator) {
+                                    var feedbackReferred = document.getElementById('feedback_referredorshared').value;
+                                    var status = document.getElementById('status').value;
+                                    if (feedbackReferred === 'No' && status === '') {
+                                        return false;
+                                    }
+                                    return true;
+                                }
+                            }
+                            
+                        }
+                    },
+                    'actiontaken': {
+                        validators: {
+                            callback: {
+                                message: 'Satisfiction error  is required',
+                                callback: function(value, validator) {
+                                    var status = document.getElementById('status').value;
+                                    var action_id = document.getElementById('action_id').value;
+                                    
+                                    if (status === 'Close' &&  action_id === '') {
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    },
                 },
               
                 plugins: {
