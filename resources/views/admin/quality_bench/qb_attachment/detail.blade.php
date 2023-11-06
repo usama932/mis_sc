@@ -24,7 +24,7 @@
                 </tr>
                 <tr>
                     <td><strong>Created At </strong></td>
-                    <td>{{$qb_attachment->created_at ?? ""}}</td>
+                    <td>{{date('d-M-Y', strtotime($qb->created_at)) ?? ""}}</td>
                 </tr>
               
             </table>
