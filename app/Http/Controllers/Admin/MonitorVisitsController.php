@@ -52,7 +52,6 @@ class MonitorVisitsController extends Controller
                                     ->orWhere('qb_met','like',"%{$search}%")
                                     ->offset($start)
                                     ->limit($limit)
-                                    ->orderBy($order, $dir)
                                     ->get();
 			$totalFiltered = MonitorVisit::where('quality_bench_id',$id)->orWhere('activity_number', 'like', "%{$search}%")
                                             ->orWhere('qb_met','like',"%{$search}%")
@@ -66,12 +65,9 @@ class MonitorVisitsController extends Controller
 		if($monitor_visits){
 			foreach($monitor_visits as $r){
 				$edit_url = route('monitor_visits.edit',$r->id);
-				$nestedData['id'] = $r->id;
 				$nestedData['activity_number'] = $r->activity_number;
-				$nestedData['qb_met'] = $r->qb_met;
-
-				
-				$nestedData['created_at'] = date('d-m-Y',strtotime($r->created_at));
+				$nestedData['gap_issue'] = $r->gap_issue;
+				$nestedData['created_at'] = date('d-m-Y H:i:s',strtotime($r->created_at));
 				$nestedData['action'] = '
                                 <div>
                                 <td>
@@ -170,7 +166,7 @@ class MonitorVisitsController extends Controller
 	    $monitorVisit = MonitorVisit::find($id);
         $active = 'monitor_visit';
 	    if(!empty($monitorVisit)){
-            $qb->action_point->each->delete();
+            $monitorVisit->action_point->each->delete();
 		    $monitorVisit->delete();
 		    Session::flash('success_message', 'Monitor Visit successfully deleted!');
 	    }

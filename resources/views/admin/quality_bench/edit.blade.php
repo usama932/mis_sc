@@ -5,7 +5,7 @@
        
     @endpush
     @section('title')
-        Edit Monitoring Quality Benchmarks
+         Quality Benchmarks (QB's)
     @endsection
     <style>
         .tabs {
@@ -73,7 +73,7 @@
             <ul class="nav nav-tabs nav-tabs-line d-flex justify-content-center  mt-3 p-2">
                 <ul class="tabs">
                     <li class="tab @if(session('active') == 'basic_info')  active @endif"  onclick="showTab('basic_info')">Basic Information</li>         
-                    <li class="tab @if(session('active') == 'monitor_visit') active @else  @endif " onclick="showTab('monitor_visit')">Detail Monitor Visits</li>
+                    <li class="tab @if(session('active') == 'monitor_visit') active @else  @endif " onclick="showTab('monitor_visit')">QBs Not Fully Met</li>
                     <li class="tab @if(session('active') == 'action_point') active @else  @endif"  onclick="showTab('action_point')">Action Point Details</li>
                     <li class="tab @if(session('active') == 'qbattachment') active @else  @endif"  onclick="showTab('qbattachment')">Attachments</li>
                 </ul>

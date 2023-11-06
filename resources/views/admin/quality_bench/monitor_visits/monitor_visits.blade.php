@@ -6,12 +6,12 @@
             <div class="card-title  border-0 my-4"">
                 <div class="card-title">
                     <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
-                        <h5 class="fw-bold m-3">Detail of Monitoring Visits::</h5>
+                        <h5 class="fw-bold m-3">Add QB Not Fully Met::</h5>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="fv-row col-md-6 mt-3">
+                {{-- <div class="fv-row col-md-6 mt-3">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Quality Bench ID.#</span>
                     </label>
@@ -23,37 +23,34 @@
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
-                </div>
-                <div class="fv-row col-md-6 mt-3">
-                    <label class="fs-6 fw-semibold form-label mb-2">
-                        <span class="required">Activity No.# from DIP</span>
+                </div> --}}
+                <div class="fv-row col-md-2 mt-3">
+                    <label class="fs-9 fw-semibold form-label mb-2">
+                        <span class="required">Activity No.# from DIP (eg: 1.1)</span>
                     </label>
                     <input type="text"  name="activity_number"  placeholder="Enter Activity Number"  class="form-control"   value="" required>
-                
-                    @error('activity_number')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
                 </div>
-                <div class="fv-row col-md-8 mt-3">
+                <div class="fv-row col-md-10 mt-3">
                     <label class="fs-6 fw-semibold form-label mb-2">
-                        <span class="required">Quality Benchmarks (QBs)</span>
+                        <span class="required">Quality Benchmark Activity Detail</span>
                     </label>
                     <textarea class="form-control "  name="qbs_description" / required></textarea>
                 
                 </div>
+                
                 <div class="fv-row col-md-4 mt-3">
-                    <label class="fs-6 fw-semibold form-label mb-2">
+                    <input type="hidden" name="qb_met" value="Not Fully Met" id="qb_met" >
+                     {{-- <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">QB Met</span>
-                    </label>
-                    <select   name="qb_met" id="qb_met" aria-label="Select a QB Met" data-control="select2" data-placeholder="Select a QB Met..." class="form-select form-select-solid qb_id" required>
-                        <option value="">Select QB Met</option>
-                        <option  value="Not Fully Met">Not Fully Met</option>
-                        <option  value="Fully Met">Fully Met</option>
-                    </select>
+                    </label> 
                     
-                </div>
+                     <select   name="c" id="qb_met" aria-label="Select a QB Met" data-control="select2" data-placeholder="Select a QB Met..." class="form-select form-select-solid qb_id" required>
+                        <option value="">Select QB Met</option>
+                        <option  value="Not Fully Met" selected>Not Fully Met</option>
+                     <option  value="Fully Met">Fully Met</option> 
+                    </select>  --}}
+                    
+                </div> 
                 <div class="fv-row col-md-12 mt-3" id="gap_id">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Gap/issue (if not fully met)</span>
@@ -78,7 +75,7 @@
         <div class="card-title  border-0 my-4"">
             <div class="card-title">
                 <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
-                    <h5 class="fw-bold m-3">Quality Bench Monitoring Visits::</h5>
+                    <h5 class="fw-bold m-3">QB/Issues List::</h5>
                 </div>
             </div>
         </div>
@@ -86,9 +83,9 @@
             <table class="table table-bordered" id="monitor_visits"style="margin-top: 13px !important">
             <thead>
                 <tr>
-                    <th>#S.No</th>
+                  
                     <th>Activity.#</th>
-                    <th>QB Met</th>
+                    <th>Gap/Issue</th>
                     <th>Created At</th>
                     <th>Actions</th>
                 

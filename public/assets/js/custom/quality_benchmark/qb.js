@@ -125,9 +125,8 @@ $('#date_recieved_id').flatpickr({
 });
 //script for province, district,tehisl and uc
 ///get district cascade province
-
 $("#kt_select2_province").change(function () {
-    document.getElementById('districtloader').style.display = 'block';
+   
     var value = $(this).val();
     csrf_token = $('[name="_token"]').val();
     
@@ -137,7 +136,7 @@ $("#kt_select2_province").change(function () {
         data: {'province': value, _token: csrf_token },
         dataType: 'json',
         success: function (data) {
-            document.getElementById('districtloader').style.display = 'none';
+            
             $("#kt_select2_district").find('option').remove();
             $("#kt_select2_district").prepend("<option value='' >Select District</option>");
             var selected='';
@@ -245,7 +244,7 @@ $(document).ready(function(){
     }).change();
 });
 flatpickr("#date_visit", {
-    mode: "range",
+   
     dateFormat: "Y-m-d",
     maxDate: "today",
 });

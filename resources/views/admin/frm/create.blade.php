@@ -117,7 +117,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Province</span>
                             
-                        </label>
+                        </label> 
                         <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select form-select-solid">
                             @if(auth()->user()->permissions_level == 'province-wide' || auth()->user()->permissions_level == 'district-wide')
                                 <option value="">Select Province</option>
@@ -132,14 +132,16 @@
                                 <option  value='2'>KPK</option>
                                 <option value='3'>Balochistan</option>
                             @endif
+                           
                         </select>
                         <span id="kt_select2_provinceError" class="error-message "></span>
                     </div>
                     <div class="fv-row col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">District</span>
+                            <span class="spinner-border spinner-border-sm align-middle ms-2" id="districtloader"></span>
                         </label>
-                        <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select form-select-solid">
+                        <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select  District" class="form-select form-select-solid">
                         </select>
                         <span id="kt_select2_districtError" class="error-message "></span>
                     </div>

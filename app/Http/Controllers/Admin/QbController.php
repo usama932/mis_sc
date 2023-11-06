@@ -168,7 +168,7 @@ class QbController extends Controller
         $themes = Theme::latest()->get();
         $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
         addJavascriptFile('assets/js/custom/quality_benchmark/general.js');
-        addJavascriptFile('assets/js/custom/frm/frm.js');
+        addJavascriptFile('assets/js/custom/quality_benchmark/qb.js');
         return view('admin.quality_bench.basic_information.create',compact('projects','themes','users'));
     }
 

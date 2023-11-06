@@ -935,19 +935,20 @@ var clients = $('#monitor_visits').DataTable({
         }
     },
     "columns": [{
-            "data": "id",
+            "data": "activity_number",
             "searchable": false,
             "orderable": false
         },
         {
-            "data": "activity_number"
-        },
-        {
-            "data": "qb_met"
+            "data": "gap_issue",
+            "searchable": false,
+            "orderable": false
         },
     
         {
-            "data": "created_at"
+            "data": "created_at",
+            "searchable": false,
+            "orderable": false
         },
         {
             "data": "action",
