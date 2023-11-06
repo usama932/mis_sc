@@ -103,6 +103,14 @@ class QbController extends Controller
 
             $qualit_benchs->where('project_name',$request->project_name);
         }
+        if(auth()->user()->permissions_level == 'province-wide')
+        {
+            $qualit_benchs->where('province',auth()->user()->province);
+        }
+        if(auth()->user()->permissions_level == 'district-wide')
+        {
+            $qualit_benchs->where('district',auth()->user()->district);
+        }
         $qualit_bench =$qualit_benchs->offset($start)
                                     ->limit($limit)
                                     ->orderBy($order, $dir)->get()->sortByDesc("id");
