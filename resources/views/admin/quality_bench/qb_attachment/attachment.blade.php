@@ -24,7 +24,7 @@
                             <span class="required">ReUpload Attachment</span>
                         </label>
                     @else
-                        <label class="fs-6 fw-semibold form-label mb-2">
+                        <label class="fs-6 fw-semibold form-label mb-2 ">
                             <span class="required">Upload Attachment</span>
                         </label>
                     @endif
@@ -32,7 +32,7 @@
                      
                         
                         @if(!empty($qb_attachment->document) && $qb_attachment->document != '')
-                        <input type="file" name="document" class="form-control" value="{{$qb_attachment->document}}" >
+                        <input type="file" name="document" class="form-control mx-4" value="{{$qb_attachment->document}}"  >
                             <div class="input-group-append">
                                 <a class="btn  btn-danger" title="Download Attachment" href="{{ route('showPDF.qb_attachments', $qb_attachment->id) }}" target="_blank">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-pdf" viewBox="0 0 16 16">

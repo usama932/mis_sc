@@ -112,8 +112,8 @@
             <table class="table table-bordered" id="action_points"style="margin-top: 13px !important">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Identified Gap(s)</th>
+                    <th>Activity.#</th>
+                    <th>Debrief Notes against identified Gap(s)</th>
                     <th>Action Agree</th>
                     <th>Actions to make QB Fully Met</th>
                     <th>Type</th>

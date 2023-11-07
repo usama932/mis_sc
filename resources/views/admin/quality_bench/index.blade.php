@@ -203,18 +203,6 @@
                         ]
         });
 
-        function viewInfo(id) {
-
-            var CSRF_TOKEN = '{{ csrf_token() }}';
-            $.post("{{ route('admin.view_qb') }}", {
-                _token: CSRF_TOKEN,
-                id: id
-            }).done(function(response) {
-                $('.modal-body').html(response);
-                $('#quality_benchmark').modal('show');
-
-            });
-        }
         function del(id) {
             Swal.fire({
                 title: "Are you sure?",

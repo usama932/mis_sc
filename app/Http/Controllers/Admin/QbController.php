@@ -119,6 +119,7 @@ class QbController extends Controller
 		if($qualit_bench){
 			foreach($qualit_bench as $r){
 				$edit_url = route('quality-benchs.edit',$r->id);
+                $view_url = route('quality-benchs.show',$r->id);
 				$nestedData['id'] = $r->id;
 				$nestedData['visit_staff_name'] = $r->visit_staff_name ?? '';
                 $nestedData['date_visit'] =date('d-M-Y', strtotime($r->date_visit)) ?? '';
@@ -127,13 +128,12 @@ class QbController extends Controller
                 $nestedData['province'] = $r->provinces?->province_name ?? '';
                 $nestedData['district'] = $r->districts?->district_name ?? '';
                 $nestedData['project_type'] = $r->project_type ?? '';
-                $nestedData['project_type'] = $r->project?->name ?? '';
-                $nestedData['project_name'] = $r->project_type ?? '';
+                $nestedData['project_name'] = $r->project?->name ?? '';
                 $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
 				$nestedData['action'] = '
                                 <div>
                                 <td>
-                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();viewInfo('.$r->id.');" title="View Quality Bench" href="javascript:void(0)">
+                                    <a class="btn btn-sm btn-clean btn-icon" href="'.$view_url.'">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
                                     <a title="Edit" class="btn btn-sm btn-clean btn-icon"
@@ -158,11 +158,7 @@ class QbController extends Controller
 		
 		echo json_encode($json_data);
     }
-    public function view_qb(Request $request){
-        $qb = QualityBench::where('id',$request->id)->first();
-      
-        return view('admin.quality_bench.Qb_detail',compact('qb'));
-    }
+
     public function create()
     {
         $projects = Project::where('active','1')->latest()->get();
@@ -192,7 +188,9 @@ class QbController extends Controller
 
     public function show(string $id)
     {
-        //
+        $qb = QualityBench::where('id',$id)->first();
+      
+        return view('admin.quality_bench.Qb_detail',compact('qb'));
     }
 
   

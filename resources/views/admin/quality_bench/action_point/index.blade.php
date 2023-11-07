@@ -1,14 +1,11 @@
 <x-default-layout>
 
-    @section("stylesheets")
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        <link href="{{asset("assets/plugins/custom/datatables/datatables.bundle.css")}}" rel="stylesheet" type="text/css" />
-    @endsection
+ 
 
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div class="card">
             
-            {{-- <div class="accordion" id="accordionExample">
+            <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
                   <h2 class="accordion-header" id="headingOne">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -123,14 +120,13 @@
                   </div>
                 </div>
                
-            </div> --}}
+            </div>
             <div class="card-body pt-0 overflow-*">
 
                 <div class="table-responsive overflow-*">
                     <table class="table table-striped table-bordered nowrap" id="qb_actionpoints" style="width:100%">
                     <thead>
                         <tr>
-                            <th>#S.No</th>
                             <th>QBs monitoried by</th>
                             <th>Project</th>
                             <th>Partner</th>
@@ -146,6 +142,7 @@
                             <th>Responsible Person</th>
                             <th>Deadline</th>
                             <th>Status</th>
+                            <th>Created By</th>
                             <th>Created At</th>
                             <th>Actions</th>
                         </tr>
@@ -196,32 +193,26 @@
                "data":{"_token":"<?php echo csrf_token() ?>"}
            },
             "columns":[
-                            {"data":"id","searchable":false,"orderable":false},
-                            {"data":"visit_staff_name"},
+                            {"data":"visit_staff_name","searchable":false,"orderable":false},
+                            {"data":"project_name","searchable":false,"orderable":false},
+                            {"data":"partner","searchable":false,"orderable":false},
+                            {"data":"province","searchable":false,"orderable":false},
+                            {"data":"district","searchable":false,"orderable":false},
+                            {"data":"theme" ,"searchable":false,"orderable":false},
+                            {"data":"activity" ,"searchable":false,"orderable":false},
+                            {"data":"village" ,"searchable":false,"orderable":false},
                             {"data":"date_visit","searchable":false,"orderable":false},
-                            {"data":"accompanied_by" },
-                            {"data":"type_of_visit"},
-                            {"data":"province"},
-                            {"data":"district"},
-                            {"data":"project_type" },
-                            {"data":"project_name"},
+                            {"data":"activity_number" ,"searchable":false,"orderable":false},
+                            {"data":"db_note" ,"searchable":false,"orderable":false},
+                            {"data":"qb_recommendation" ,"searchable":false,"orderable":false},
+                            {"data":"responsible_person" ,"searchable":false,"orderable":false},
+                            {"data":"deadline" ,"searchable":false,"orderable":false},
+                            {"data":"status" ,"searchable":false,"orderable":false},
+                            {"data":"created_by" ,"searchable":false,"orderable":false},
                             {"data":"created_at" ,"searchable":false,"orderable":false},
                             {"data":"action","searchable":false,"orderable":false},
                         ]
         });
-
-        function viewInfo(id) {
-
-            var CSRF_TOKEN = '{{ csrf_token() }}';
-            $.post("{{ route('admin.view_qb') }}", {
-                _token: CSRF_TOKEN,
-                id: id
-            }).done(function(response) {
-                $('.modal-body').html(response);
-                $('#quality_benchmark').modal('show');
-
-            });
-        }
         function del(id) {
             Swal.fire({
                 title: "Are you sure?",
@@ -233,7 +224,7 @@
                 if (result.value) {
                     Swal.fire(
                         "Deleted!",
-                        "Your Quality BenchMark` has been deleted.",
+                        "Your Quality BenchMark has been deleted.",
                         "success"
                     );
                     var APP_URL = {!! json_encode(url('/')) !!}
@@ -242,7 +233,7 @@
             });
         }
         $("#date_visit, #visit_staff, #accompanied_by, #visit_type, #kt_select2_province, #kt_select2_district, #project_type, #project_name").change(function () {
-            var table = $('#quality_bench').DataTable();
+            var table = $('#qb_actionpoints').DataTable();
             table.destroy();
             var date_visit = document.getElementById("date_visit").value ?? '1';
             var visit_staff = document.getElementById("visit_staff").value
@@ -253,7 +244,7 @@
             var project_type = document.getElementById("project_type").value ?? '1';
             var project_name = document.getElementById("project_name").value ?? '1';
 
-            var clients = $('#quality_bench').DataTable( {
+            var clients = $('#qb_actionpoints').DataTable( {
                 "order": [
                     [1, 'asc']
                 ],
@@ -267,7 +258,7 @@
                 "responsive": false,
                 'info': true,
                 "ajax": {
-                    "url":"{{ route('admin.get_qbs') }}",
+                    "url":"{{ route('get_qbs_actionpoints') }}",
                     "dataType":"json",
                     "type":"POST",
                     "data":{"_token":"<?php echo csrf_token() ?>",
@@ -282,15 +273,22 @@
                             }
                 },
                "columns":[
-                            {"data":"id","searchable":false,"orderable":false},
-                            {"data":"visit_staff_name"},
+                {"data":"visit_staff_name","searchable":false,"orderable":false},
+                            {"data":"project_name","searchable":false,"orderable":false},
+                            {"data":"partner","searchable":false,"orderable":false},
+                            {"data":"province","searchable":false,"orderable":false},
+                            {"data":"district","searchable":false,"orderable":false},
+                            {"data":"theme" ,"searchable":false,"orderable":false},
+                            {"data":"activity" ,"searchable":false,"orderable":false},
+                            {"data":"village" ,"searchable":false,"orderable":false},
                             {"data":"date_visit","searchable":false,"orderable":false},
-                            {"data":"accompanied_by" },
-                            {"data":"type_of_visit"},
-                            {"data":"province"},
-                            {"data":"district"},
-                            {"data":"project_type" },
-                            {"data":"project_name"},
+                            {"data":"activity_number" ,"searchable":false,"orderable":false},
+                            {"data":"db_note" ,"searchable":false,"orderable":false},
+                            {"data":"qb_recommendation" ,"searchable":false,"orderable":false},
+                            {"data":"responsible_person" ,"searchable":false,"orderable":false},
+                            {"data":"deadline" ,"searchable":false,"orderable":false},
+                            {"data":"status" ,"searchable":false,"orderable":false},
+                            {"data":"created_by" ,"searchable":false,"orderable":false},
                             {"data":"created_at" ,"searchable":false,"orderable":false},
                             {"data":"action","searchable":false,"orderable":false},
                         ]

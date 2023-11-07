@@ -1,9 +1,5 @@
 <x-default-layout>
-    @push('stylesheets')
-        <link rel="stylesheet" href="{{asset('assets/css/style.bundle.css')}}">
-        <script src="//code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
-       
-    @endpush
+ 
     @section('title')
          Quality Benchmarks (QB's)
     @endsection
