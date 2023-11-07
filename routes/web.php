@@ -86,6 +86,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('view_qb_attachments', [QBAttachmentsController::class,'view_qb_attachments'])->name('view_qb_attachments');
     Route::get('/qb_attachments/delete/{id}', [QBAttachmentsController::class,'destroy'])->name('qb_attachments.delete');
     Route::get('/download/qb_attachments/{id}', [QBAttachmentsController::class,'download_attachment'])->name('download.qb_attachments');
+    Route::get('/pdf/shows/{id}', [QBAttachmentsController::class,'showPDF'])->name('showPDF.qb_attachments');
 
     //Reset Password
     Route::get('reset/password', [UserController::class,'reset_password'])->name('reset_password');

@@ -5,30 +5,44 @@
         <input type="hidden" name="quality_bench_id" value="{{$qb->id}}">
         <div class="card-body py-4">
             <div class="row">
-                
-                <div class="fv-row col-md-6 mt-3">
+                <input type="hidden" value="{{$qb_attachment->id ?? ''}}" name="id" >
+                 <div class="fv-row col-md-6 mt-3">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">General Observations by field monitor</span>
                     </label>
-                    <textarea class="form-control " placeholder="General Observations by field monitor" row="2"  name="generating_observation"></textarea>
+                    <textarea class="form-control " placeholder="General Observations by field monitor" row="2"  name="generating_observation">{{$qb_attachment->generating_observation ?? ''}}</textarea>
                 </div>
                 <div class="fv-row col-md-6 mt-3">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Comments</span>
                     </label>
-                    <textarea class="form-control " placeholder="How does the score from this visit compare to previous visits? Have any of these QBs been “not fully met” for two or more visits?" row="2"  name="comments" / required></textarea>
+                    <textarea class="form-control " placeholder="How does the score from this visit compare to previous visits? Have any of these QBs been “not fully met” for two or more visits?" row="2"  name="comments" / required>{{$qb_attachment->comments ?? ''}}</textarea>
                 </div>
                 <div class="fv-row col-md-12 mt-3">
-                    <label class="fs-6 fw-semibold form-label mb-2">
-                        <span class="required">Upload Attachment</span>
-                    </label>
-                    <input type="file"  @error('documents') is-invalid @enderror name="document" class="form-control" value="" required>
-                
-                    @error('documents')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+                    @if($qb_attachment->document)
+                        <label class="fs-6 fw-semibold form-label mb-2">
+                            <span class="required">ReUpload Attachment</span>
+                        </label>
+                    @else
+                        <label class="fs-6 fw-semibold form-label mb-2">
+                            <span class="required">Upload Attachment</span>
+                        </label>
+                    @endif
+                    <div class="input-group">
+                     
+                        
+                        @if(!empty($qb_attachment->document) && $qb_attachment->document != '')
+                        <input type="file" name="document" class="form-control" value="{{$qb_attachment->document}}" >
+                            <div class="input-group-append">
+                                <a class="btn  btn-primary" title="Download Attachment" href="{{ route('showPDF.qb_attachments', $qb_attachment->id) }}" target="_blank">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-pdf" viewBox="0 0 16 16">
+                                        <!-- SVG path code -->
+                                    </svg> Download
+                                </a>
+                            </div>
+                        @endif
+                    </div>
+                    
                 </div>
                
                
@@ -39,11 +53,11 @@
         
             </div>
             <div class="d-flex justify-content-end pt-5">
-                <button type="button" id="" class="btn btn-primary">
-                    @include('partials/general/_button-indicator', ['label' => 'Save As Draft'])
-                </button>
-                <button type="submit" id="kt_attachment_submit" class="btn btn-primary">
+                <button type="button" id="" class="btn btn-primary btn-sm mx-3">
                     @include('partials/general/_button-indicator', ['label' => 'Submit'])
+                </button>
+                <button type="submit" id="kt_attachment_submit" class="btn btn-primary btn-sm">
+                    @include('partials/general/_button-indicator', ['label' => 'Save As Draft'])
                 </button>
                 
             </div>

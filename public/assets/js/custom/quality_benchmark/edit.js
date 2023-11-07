@@ -763,13 +763,13 @@ var KTqbattachmentValidate = function () {
             form,
             {
                 fields: {
-                    'document':{
-                        validators: {
-                            notEmpty: {
-                                message: 'Document is required'
-                            }
-                        }
-                    },
+                    // 'document':{
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: 'Document is required'
+                    //         }
+                    //     }
+                    // },
                     'comments':{
                         validators: {
                             notEmpty: {

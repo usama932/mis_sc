@@ -13,6 +13,7 @@ use App\Http\Requests\UpdateQbRequest;
 use Illuminate\Support\Facades\Session;
 use App\Models\MonitorVisit;
 use Carbon\Carbon;
+use App\Models\QBAttachement;
 use App\Exports\QB\ExportQB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\QB\ActionPoint;
@@ -203,6 +204,9 @@ class QbController extends Controller
         $qb = QualityBench::find($id);
         $active = 'basic_info';
         $monitor_visits = MonitorVisit::where('quality_bench_id',$id)->latest()->get();
+
+        $qb_attachment = QBAttachement::where('quality_bench_id',$id)->first();
+
         $title = "Edit Monitoring Quality Benchmarks";
         if(session('active') == ''){
             session(['active' => $active]);
@@ -210,7 +214,7 @@ class QbController extends Controller
         addJavascriptFile('assets/js/custom/quality_benchmark/edit.js');
         addJavascriptFile('assets/js/custom/frm/frm.js');
         addVendors(['datatables']);
-        return view('admin.quality_bench.edit',compact('projects','themes','users','qb','monitor_visits','title'));
+        return view('admin.quality_bench.edit',compact('projects','themes','users','qb','monitor_visits','title','qb_attachment'));
     }
 
   

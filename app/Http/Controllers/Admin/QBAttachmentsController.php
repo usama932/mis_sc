@@ -113,18 +113,40 @@ class QBAttachmentsController extends Controller
             return redirect()->back()->withErrors($validator);
         }
         if($request->hasFile('document')){
+         
+            $path = storage_path("app/public/qbattachment/" .$request->document);
+            
+            if(File::exists($path)){
+                
+                File::delete(storage_path('app/public/qbattachment/'.$request->document));
+    
+            }
+            
             $file = $request->file('document');
             $filename = $file->getClientOriginalName();
             $file->storeAs('public/qbattachment/',$filename);
            
         }
-        $qbattachment = QBAttachement::create([
-            'document'                  => $filename,
-            'comments'                  => $request->comments,
-            'created_by'                => auth()->user()->id,
-            'quality_bench_id'          => $request->quality_bench_id,
-            'generating_observation'    => $request->generating_observation
-        ]);
+        if($request->id == ''){
+            $qbattachment = QBAttachement::create([
+                'document'                  => $filename ?? '',
+                'comments'                  => $request->comments ?? '',
+                'created_by'                => auth()->user()->id,
+                'quality_bench_id'          => $request->quality_bench_id,
+                'generating_observation'    => $request->generating_observation
+            ]);
+        }
+        else{
+            $qb_attach = QBAttachement::where('id',$request->id)->first();
+            $qbattachment = QBAttachement::where('id',$request->id)->update([
+                'document'                  => $filename ?? $qb_attach->document,
+                'comments'                  => $request->comments,
+                'created_by'                => auth()->user()->id,
+                'quality_bench_id'          => $request->quality_bench_id,
+                'generating_observation'    => $request->generating_observation
+            ]);
+        }
+        
         session(['active' => $active]);
         $editUrl = route('quality-benchs.edit',$request->quality_bench_id);
      
@@ -138,7 +160,7 @@ class QBAttachmentsController extends Controller
         dd($qb_attachment);
 	    if(!empty($qb_attachment)){
             $path = storage_path("app/public/qbattachment/" . $qb_attachment->document);
-          
+            
             if(File::exists($path)){
                 dd($path);
            
@@ -193,5 +215,20 @@ class QBAttachmentsController extends Controller
             session(['active' => $active]);
 	    }
 	    return redirect()->back();
+    }
+    public function showPDF($id)
+    {
+     
+        $qb_attachment = QBAttachement::find($id);
+        $path = storage_path("app/public/qbattachment/" . $qb_attachment->document);
+       
+        $file = Storage::get('public/qbattachment/'.$qb_attachment->document);
+      
+        $response = response($file, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename= $qb_attachment->document.".pdf"',
+        ]);
+
+        return $response;
     }
 }
