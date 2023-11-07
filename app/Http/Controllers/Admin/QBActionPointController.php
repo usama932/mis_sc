@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ActionPoint;
+use App\Models\QualityBench;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -12,7 +13,7 @@ class QBActionPointController extends Controller
 {
     public function index()
     {
-        //
+        return view('admin.quality_bench.action_point.index');
     }
     public function get_action_points(Request $request)
     {
@@ -57,6 +58,85 @@ class QBActionPointController extends Controller
                                             ->orWhere('created_at','like',"%{$search}%")
                                             ->count();
             }
+		
+		
+		$data = array();
+		
+		if($action_points){
+			foreach($action_points as $r){
+				$edit_url = route('monitor_visits.edit',$r->id);
+				$nestedData['site'] = $r->monitor_visit?->activity_number ."-".$r->monitor_visit?->gap_issue  ;
+				$nestedData['db_note'] = $r->db_note ?? '';
+				$nestedData['action_agree'] = $r->action_agree ?? "";
+                $nestedData['qb_recommendation'] = $r->qb_recommendation ?? '';
+                $nestedData['action_type'] = $r->action_type ?? '';
+                $nestedData['responsible_person'] = $r->responsible_person ?? '';
+                $nestedData['deadline'] = date('d-M-Y',strtotime($r->deadline)) ?? '';
+                $nestedData['status'] = $r->status ?? '';
+                $nestedData['created_by'] = $r->user?->name ?? '';
+                $nestedData['created_at'] = date('d-M-Y H:i:s',strtotime($r->created_at)) ?? '';
+				$nestedData['action'] = '
+                                <div>
+                                <td>
+                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();actionviewInfo('.$r->id.');" title="View Monitor Visit" href="javascript:void(0)">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();actiondel('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                                </div>
+                            ';
+				$data[] = $nestedData;
+			}
+		}
+		
+		$json_data = array(
+			"draw"			=> intval($request->input('draw')),
+			"recordsTotal"	=> intval($totalData),
+			"recordsFiltered" => intval($totalFiltered),
+			"data"			=> $data
+		);
+		
+		echo json_encode($json_data);
+    }
+    public function get_qbs_actionpoints(Request $request)
+    {
+        $id = $request->qb_id;
+        $columns = array(
+			0 => 'id',
+			1 => 'visit_staff_name',
+			2 => 'project_name',
+			3 => 'partner',
+			4 => 'province',
+			5 => 'district',
+            6 => 'theme',
+            7 => 'activity',
+            9 => 'village',
+            5 => 'date_visit',
+            6 => 'activity_number',
+            7 => 'gap_issue',
+            9 => 'qb_recommendation',
+            0 => 'responsible_person',
+            0 => 'deadline',
+            0 => 'status',
+            9 => 'created_by',
+            10 => 'created_at',
+
+		);
+		
+		$totalData = QualityBench::where('quality_bench_id',$id)->with('action_point')->count();
+		$limit = $request->input('length');
+		$start = $request->input('start');
+		$order = $columns[$request->input('order.0.column')];
+		$dir = $request->input('order.0.dir');
+		
+		
+        $action_points = QualityBench::where('quality_bench_id',$id)->with('action_point')->offset($start)
+                            ->limit($limit)
+                            ->orderBy($order,$dir)
+                            ->get();
+        $totalFiltered = QualityBench::where('quality_bench_id',$id)->count();
 		
 		
 		$data = array();

@@ -34,10 +34,10 @@
                         @if(!empty($qb_attachment->document) && $qb_attachment->document != '')
                         <input type="file" name="document" class="form-control" value="{{$qb_attachment->document}}" >
                             <div class="input-group-append">
-                                <a class="btn  btn-primary" title="Download Attachment" href="{{ route('showPDF.qb_attachments', $qb_attachment->id) }}" target="_blank">
+                                <a class="btn  btn-danger" title="Download Attachment" href="{{ route('showPDF.qb_attachments', $qb_attachment->id) }}" target="_blank">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-pdf" viewBox="0 0 16 16">
                                         <!-- SVG path code -->
-                                    </svg> Download
+                                    </svg> Download Attachment
                                 </a>
                             </div>
                         @endif
@@ -53,7 +53,7 @@
         
             </div>
             <div class="d-flex justify-content-end pt-5">
-                <button type="submit" id="kt_attachment_submit" class="btn btn-primary btn-sm">
+                <button type="submit" id="kt_attachment_submit" class="btn btn-success btn-sm">
                     @include('partials/general/_button-indicator', ['label' => 'Save As Draft'])
                 </button>
                 <button type="button" id="" class="btn btn-primary btn-sm mx-3">

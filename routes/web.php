@@ -75,8 +75,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Action Points Routes
     Route::post('getactivity', [QBAjaxController::class,'getactivity'])->name('getactivity');
-    Route::resource('/action_points', QBActionPointController::class);
+    Route::resource('action_points', QBActionPointController::class);
     Route::post('get_action_points', [QBActionPointController::class,'get_action_points'])->name('get_action_points');
+    Route::post('get_qbs_actionpoints', [QBActionPointController::class,'get_qbs_actionpoints'])->name('get_qbs_actionpoints');
     Route::post('view_action_point', [QBActionPointController::class,'view_action_point'])->name('view_action_point');
     Route::get('/action_point/delete/{id}', [QBActionPointController::class,'destroy'])->name('action_point.delete');
 

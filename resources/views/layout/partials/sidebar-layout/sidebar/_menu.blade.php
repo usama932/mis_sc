@@ -228,6 +228,18 @@
                         @can('read quality benchmarks')
                             <div class="menu-item">
                                 <!--begin:Menu link-->
+                                <a class="menu-link {{ request()->routeIs('action_points.index') ? 'active' : '' }}" href="{{ route('action_points.index') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">List QB Action Tracker</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                        @endcan
+                        @can('read quality benchmarks')
+                            <div class="menu-item">
+                                <!--begin:Menu link-->
                                 <a class="menu-link {{ request()->routeIs('qb-export') ? 'active' : '' }}" href="{{ route('qb-export') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
