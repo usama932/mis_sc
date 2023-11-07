@@ -103,15 +103,6 @@ class QBAttachmentsController extends Controller
     public function store(Request $request)
     {
         $active = 'qbattachment';
-
-        $validator = Validator::make($request->all(), [
-        
-            'comments'  => 'required',
-            'document'  => 'mimes:doc,pdf,docx,jpeg,png,jpg,xlsx',
-        ]);
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
-        }
         if($request->hasFile('document')){
          
             $path = storage_path("app/public/qbattachment/" .$request->document);

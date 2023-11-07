@@ -26,8 +26,9 @@ class QBActionPointController extends Controller
 			5 => 'action_type',
             6 => 'responsible_person',
             7 => 'deadline',
-            8 => 'created_by',
-            9 => 'created_at',
+            9 => 'deadline',
+            9 => 'created_by',
+            10 => 'created_at',
 
 		);
 		
@@ -70,6 +71,7 @@ class QBActionPointController extends Controller
                 $nestedData['action_type'] = $r->action_type ?? '';
                 $nestedData['responsible_person'] = $r->responsible_person ?? '';
                 $nestedData['deadline'] = date('d-M-Y',strtotime($r->deadline)) ?? '';
+                $nestedData['status'] = $r->status ?? '';
                 $nestedData['created_by'] = $r->user?->name ?? '';
                 $nestedData['created_at'] = date('d-M-Y H:i:s',strtotime($r->created_at)) ?? '';
 				$nestedData['action'] = '
@@ -109,16 +111,22 @@ class QBActionPointController extends Controller
     public function store(Request $request)
     {
         $active = 'action_point';
-    
+        
+        session(['active' => $active]);
+        $editUrl = route('quality-benchs.edit',$request->quality_bench_id);
+
         if($request->action_agree == 'Yes'){
             $validator = Validator::make($request->all(), [
                 'qb_recommendation'  => 'required',
                 'action_type'  => 'required',
                 'responsible_person'  => 'required',
-                'deadline'  => 'required',
+                'status'  => 'required',
             ]);
             if ($validator->fails()) {
-                return redirect()->back()->withErrors($validator);
+                return response()->json([
+                    'editUrl' => $editUrl
+                ]);
+        
             }
         }
 
@@ -131,12 +139,10 @@ class QBActionPointController extends Controller
             'action_type'           => $request->action_type ?? 'NA',
             'responsible_person'    => $request->responsible_person ?? 'NA',
             'deadline'              => $request->deadline,
-            'created_by'            => auth()->user()->id,
+            'status'                => $request->status,
+            // 'created_by'            => auth()->user()->id,
         ]);
         
-        session(['active' => $active]);
-        $editUrl = route('quality-benchs.edit',$request->quality_bench_id);
-     
         return response()->json([
             'editUrl' => $editUrl
         ]);

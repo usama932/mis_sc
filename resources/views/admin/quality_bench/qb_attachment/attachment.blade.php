@@ -8,13 +8,13 @@
                 <input type="hidden" value="{{$qb_attachment->id ?? ''}}" name="id" >
                  <div class="fv-row col-md-6 mt-3">
                     <label class="fs-6 fw-semibold form-label mb-2">
-                        <span class="required">General Observations by field monitor</span>
+                        <span class="">General Observations by field monitor</span>
                     </label>
                     <textarea class="form-control " placeholder="General Observations by field monitor" row="2"  name="generating_observation">{{$qb_attachment->generating_observation ?? ''}}</textarea>
                 </div>
                 <div class="fv-row col-md-6 mt-3">
                     <label class="fs-6 fw-semibold form-label mb-2">
-                        <span class="required">Comments</span>
+                        <span class="">Comments</span>
                     </label>
                     <textarea class="form-control " placeholder="How does the score from this visit compare to previous visits? Have any of these QBs been “not fully met” for two or more visits?" row="2"  name="comments" / required>{{$qb_attachment->comments ?? ''}}</textarea>
                 </div>
@@ -53,12 +53,13 @@
         
             </div>
             <div class="d-flex justify-content-end pt-5">
-                <button type="button" id="" class="btn btn-primary btn-sm mx-3">
-                    @include('partials/general/_button-indicator', ['label' => 'Submit'])
-                </button>
                 <button type="submit" id="kt_attachment_submit" class="btn btn-primary btn-sm">
                     @include('partials/general/_button-indicator', ['label' => 'Save As Draft'])
                 </button>
+                <button type="button" id="" class="btn btn-primary btn-sm mx-3">
+                    @include('partials/general/_button-indicator', ['label' => 'Submit'])
+                </button>
+               
                 
             </div>
         </div>

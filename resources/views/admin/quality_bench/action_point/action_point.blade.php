@@ -48,12 +48,12 @@
                     <textarea  class="form-control "  name="qb_recommendation" id="qb_recommendation"></textarea>
                     
                 </div>
-                <div class="fv-row col-md-4 mt-3 action_agree_id">
+                <div class="fv-row col-md-3 mt-3 action_agree_id">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Action Type</span>
                     </label>
                    
-                    <select   name="action_type" id="action_type" aria-label="Select a Action Type" data-control="select2" data-placeholder="Select a Action Type..." class="form-select form-select-solid">
+                    <select   name="action_type" id="action_type" aria-label="Select a Action Type" data-control="select2" data-placeholder="Select a Action Type..." class="form-select">
                         <option value="">Select Action Type</option>
                         <option  value="Administrative">Administrative</option>
                         <option  value="Technical">Technical</option>
@@ -61,17 +61,31 @@
                     </select>
                  
                 </div>
-                <div class="fv-row col-md-4 mt-3 action_agree_id">
+                <div class="fv-row col-md-3 mt-3 action_agree_id">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Who is responsible?</span>
                     </label>
                     <input class="form-control" placeholder="Enter Who is Responsible" name="responsible_person" id="responsible_person" value="" >
                 </div>
-                <div class="fv-row col-md-4 mt-3 action_agree_id">
+                <div class="fv-row col-md-3 mt-3 action_agree_id">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Deadline</span>
                     </label>
                     <input type="text"  @error('deadline') is-invalid @enderror name="deadline" id="deadline" placeholder="Select Deadline"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="" >
+                </div>
+                <div class="fv-row col-md-3 mt-3 action_agree_id">
+                    <label class="fs-6 fw-semibold form-label mb-2">
+                        <span class="required">Status</span>
+                    </label>
+                   
+                    <select   name="status" id="status" aria-label="Select a Status" data-control="select2" data-placeholder="Select Status" class="form-select">
+                        <option value="">Select Status</option>
+                        <option  value="To be Acheived">To be Acheived</option>
+                        <option  value="Partialy Acheived">Partialy Acheived</option>
+                        <option  value="Acheived">Acheived</option>
+                        <option  value="Not Acheived">Not Acheived</option>   
+                    </select>
+                 
                 </div>
             </div>
         
@@ -105,7 +119,8 @@
                     <th>Type</th>
                     <th>Responsible Person</th>
                     <th>Deadline</th>
-                    <th>Created By</th>
+                    <th>status</th>
+                    {{-- <th>Created By</th> --}}
                     <th>Created At</th>
                     <th>Actions</th>
                 </tr>

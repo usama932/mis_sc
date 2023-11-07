@@ -584,15 +584,15 @@ var KTqbactionpointValidate = function () {
                             }
                         }
                     },
-                    'deadline': {
+                    'status': {
                         validators: {
                             callback: {
-                                message: 'Deadline is required',
+                                message: 'status is required',
                                 callback: function(value, validator) {
                                     var action_agree = document.getElementById('action_agree').value;
-                                    var deadline = document.getElementById('deadline').value;
+                                    var status = document.getElementById('status').value;
                                     
-                                    if (action_agree === 'Yes' &&  deadline === '') {
+                                    if (action_agree === 'Yes' &&  status === '') {
                                         return false;
                                     }
                                 }
@@ -763,27 +763,29 @@ var KTqbattachmentValidate = function () {
             form,
             {
                 fields: {
-                    // 'document':{
+                    'document':{
+                        validators: {
+                           
+                            file: {
+                                extension: 'pdf',
+                                message: 'The selected file is not valid'
+                            },
+                        }
+                    },
+                    // 'comments':{
                     //     validators: {
                     //         notEmpty: {
-                    //             message: 'Document is required'
+                    //             message: 'Comments is required'
                     //         }
                     //     }
                     // },
-                    'comments':{
-                        validators: {
-                            notEmpty: {
-                                message: 'Comments is required'
-                            }
-                        }
-                    },
-                    'generating_observation':{
-                        validators: {
-                            notEmpty: {
-                                message: 'General Observation is required'
-                            }
-                        }
-                    },
+                    // 'generating_observation':{
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: 'General Observation is required'
+                    //         }
+                    //     }
+                    // },
                   
                   
                 },
@@ -1042,7 +1044,7 @@ var clients = $('#action_points').DataTable({
     "processing": true,
     "serverSide": true,
     "searchDelay": 500,
-    "responsive": true,
+    "responsive": false,
     "ajax": {
         "url": "/get_action_points",
         "dataType": "json",
@@ -1089,10 +1091,15 @@ var clients = $('#action_points').DataTable({
             "orderable": false
         },
         {
-            "data": "created_by",
+            "data": "status",
             "searchable": false,
             "orderable": false
         },
+        // {
+        //     "data": "created_by",
+        //     "searchable": false,
+        //     "orderable": false
+        // },
         {
             "data": "created_at",
         },
