@@ -194,21 +194,21 @@
                                 <label class="fs-9 fw-semibold form-label mb-2">
                                     <span class="required">Total QBs</span>
                                 </label>
-                                <input type="number" class="form-control" id="total_qbs"  name="total_qbs" value="">
+                                <input type="text" class="form-control" id="total_qbs"  name="total_qbs" value="">
                                 <div id="total_qbsError" class="error-message"></div>
                             </div>
                             <div class="fv-row col-md-1">
                                 <label class="fs-9 fw-semibold form-label mb-2">
                                     <span class="required">Fully Met</span>
                                 </label>
-                                <input type="number" class="form-control" id="qbs_fully_met" name="qbs_fully_met" value="">
+                                <input type="text" class="form-control" id="qbs_fully_met" name="qbs_fully_met" value="">
                                 <div id="qbs_fully_metError" class="error-message"></div>
                             </div>
                             <div class="fv-row col-md-1">
                                 <label class="fs-9 fw-semibold form-label mb-2">
                                     <span class="required">Not Applicable</span>
                                 </label>
-                                <input type="number" class="form-control" name="qb_not_applicable" id="qb_not_applicable" value="">
+                                <input type="text" class="form-control" name="qb_not_applicable" id="qb_not_applicable" value="">
                                 <div id="qb_not_applicableError" class="error-message"></div>
                             </div>
                             <div class="fv-row col-md-3">

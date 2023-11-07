@@ -120,21 +120,30 @@ var KTQBValidate = function () {
                     'total_qbs':{
                         validators: {
                             notEmpty: {
-                                message: 'Total QBs  required'
+                                message: 'Required'
+                            },
+                            numeric: {
+                                message: 'Must be a number'
                             }
                         }
                     },
                     'qbs_fully_met':{
                         validators: {
                             notEmpty: {
-                                message: 'QBs Fully Met required'
+                                message: 'Required'
+                            },
+                            numeric: {
+                                message: 'Must be a number'
                             }
                         }
                     },
                     'qb_not_applicable':{
                         validators: {
                             notEmpty: {
-                                message: 'QBs Not Applicable required'
+                                message: 'Required'
+                            },
+                            numeric: {
+                                message: 'Must be a number'
                             }
                         }
                     },
