@@ -584,6 +584,21 @@ var KTqbactionpointValidate = function () {
                             }
                         }
                     },
+                    'deadline': {
+                        validators: {
+                            callback: {
+                                message: 'Deadline is required',
+                                callback: function(value, validator) {
+                                    var action_agree = document.getElementById('action_agree').value;
+                                    var deadline = document.getElementById('deadline').value;
+                                    
+                                    if (action_agree === 'Yes' &&  deadline === '') {
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    },
                   
                 },
               
@@ -759,6 +774,13 @@ var KTqbattachmentValidate = function () {
                         validators: {
                             notEmpty: {
                                 message: 'Comments is required'
+                            }
+                        }
+                    },
+                    'generating_observation':{
+                        validators: {
+                            notEmpty: {
+                                message: 'General Observation is required'
                             }
                         }
                     },
@@ -947,8 +969,6 @@ var clients = $('#monitor_visits').DataTable({
     
         {
             "data": "created_at",
-            "searchable": false,
-            "orderable": false
         },
         {
             "data": "action",
@@ -1032,28 +1052,49 @@ var clients = $('#action_points').DataTable({
             "qb_id":qb_id
         }
     },
-    "columns": [{
-            "data": "id",
+    "columns": [
+        {
+            "data": "site",
             "searchable": false,
             "orderable": false
         },
         {
-            "data": "monitor_visits_id"
+            "data": "db_note",
+            "searchable": false,
+            "orderable": false
         },
         {
-            "data": "action_agree"
+            "data": "action_agree",
+            "searchable": false,
+            "orderable": false
         },
         {
-            "data": "action_type"
+            "data": "qb_recommendation",
+            "searchable": false,
+            "orderable": false
         },
         {
-            "data": "responsible_person"
+            "data": "action_type",
+            "searchable": false,
+            "orderable": false
         },
         {
-            "data": "deadline"
+            "data": "responsible_person",
+            "searchable": false,
+            "orderable": false
         },
         {
-            "data": "created_by"
+            "data": "deadline",
+            "searchable": false,
+            "orderable": false
+        },
+        {
+            "data": "created_by",
+            "searchable": false,
+            "orderable": false
+        },
+        {
+            "data": "created_at",
         },
        
         {

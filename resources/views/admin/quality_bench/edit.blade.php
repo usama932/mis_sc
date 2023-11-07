@@ -75,7 +75,7 @@
                     <li class="tab @if(session('active') == 'basic_info')  active @endif"  onclick="showTab('basic_info')">Basic Information</li>         
                     <li class="tab @if(session('active') == 'monitor_visit') active @else  @endif " onclick="showTab('monitor_visit')">QBs Not Fully Met</li>
                     <li class="tab @if(session('active') == 'action_point') active @else  @endif"  onclick="showTab('action_point')">Action Point Details</li>
-                    <li class="tab @if(session('active') == 'qbattachment') active @else  @endif"  onclick="showTab('qbattachment')">Attachments</li>
+                    <li class="tab @if(session('active') == 'qbattachment') active @else  @endif"  onclick="showTab('qbattachment')">General Observations & Attachment</li>
                 </ul>
             </ul>
         </div>

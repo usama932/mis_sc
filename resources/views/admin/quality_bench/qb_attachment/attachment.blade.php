@@ -4,30 +4,23 @@
         @csrf
         <input type="hidden" name="quality_bench_id" value="{{$qb->id}}">
         <div class="card-body py-4">
-            <div class="card-title  border-0 my-4"">
-                <div class="card-title">
-                    <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
-                        <h5 class="fw-bold m-3">Attachments::</h5>
-                    </div>
-                </div>
-            </div>
             <div class="row">
-                <div class="col-md-6 mt-3">
-                    <label class="fs-6 fw-semibold form-label mb-2">
-                        <span class="required">Quality Bench ID.#</span>
-                    </label>
-                    <br>
-                    <strong>#.000{{$qb->id}}</strong>
                 
-                    @error('activity_number')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+                <div class="fv-row col-md-6 mt-3">
+                    <label class="fs-6 fw-semibold form-label mb-2">
+                        <span class="required">General Observations by field monitor</span>
+                    </label>
+                    <textarea class="form-control " placeholder="General Observations by field monitor" row="2"  name="generating_observation"></textarea>
                 </div>
                 <div class="fv-row col-md-6 mt-3">
                     <label class="fs-6 fw-semibold form-label mb-2">
-                        <span class="required">Upload Documents</span>
+                        <span class="required">Comments</span>
+                    </label>
+                    <textarea class="form-control " placeholder="How does the score from this visit compare to previous visits? Have any of these QBs been “not fully met” for two or more visits?" row="2"  name="comments" / required></textarea>
+                </div>
+                <div class="fv-row col-md-12 mt-3">
+                    <label class="fs-6 fw-semibold form-label mb-2">
+                        <span class="required">Upload Attachment</span>
                     </label>
                     <input type="file"  @error('documents') is-invalid @enderror name="document" class="form-control" value="" required>
                 
@@ -37,27 +30,18 @@
                         </span>
                     @enderror
                 </div>
-                <div class="fv-row col-md-12 mt-3">
-                    <label class="fs-6 fw-semibold form-label mb-2">
-                        <span class="required">Comments</span>
-                    </label>
-                    <textarea class="form-control " placeholder="How does the score from this visit compare to previous visits? Have any of these QBs been “not fully met” for two or more visits?"  name="comments" / required></textarea>
-                </div>
-                <div class="fv-row col-md-12 mt-3">
-                    <label class="fs-6 fw-semibold form-label mb-2">
-                        <span class="required">General Observations by field monitor</span>
-                    </label>
-                    <textarea class="form-control " placeholder="General Observations by field monitor"  name="generating_observation" / required></textarea>
-                
-                   
-                </div>
+               
+               
              
                
             </div>
         
         
             </div>
-            <div class="text-center pt-15">
+            <div class="d-flex justify-content-end pt-5">
+                <button type="button" id="" class="btn btn-primary">
+                    @include('partials/general/_button-indicator', ['label' => 'Save As Draft'])
+                </button>
                 <button type="submit" id="kt_attachment_submit" class="btn btn-primary">
                     @include('partials/general/_button-indicator', ['label' => 'Submit'])
                 </button>
@@ -65,7 +49,7 @@
             </div>
         </div>
     </form>
-    <div class="table-responsive overflow-*">
+    {{-- <div class="table-responsive overflow-*">
         <table class="table table-bordered" id="qbattachments"style="margin-top: 13px !important">
         <thead>
             <tr>
@@ -95,5 +79,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>

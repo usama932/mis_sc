@@ -53,7 +53,7 @@
                 </div> 
                 <div class="fv-row col-md-12 mt-3" id="gap_id">
                     <label class="fs-6 fw-semibold form-label mb-2">
-                        <span class="required">Gap/issue (if not fully met)</span>
+                        <span class="required">Gap/issue</span>
                     </label>
                     <textarea class="form-control " name="gap_issue" id="gap_issue"></textarea>
                   

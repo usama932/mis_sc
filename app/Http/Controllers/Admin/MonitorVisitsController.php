@@ -67,7 +67,7 @@ class MonitorVisitsController extends Controller
 				$edit_url = route('monitor_visits.edit',$r->id);
 				$nestedData['activity_number'] = $r->activity_number;
 				$nestedData['gap_issue'] = $r->gap_issue;
-				$nestedData['created_at'] = date('d-m-Y H:i:s',strtotime($r->created_at));
+				$nestedData['created_at'] = date('d-M-Y H:i:s',strtotime($r->created_at));
 				$nestedData['action'] = '
                                 <div>
                                 <td>

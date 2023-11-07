@@ -23,10 +23,6 @@
                         <td>{{$monitor_visit->qb_met ?? ""}}</td>
                     </tr>
                     <tr>
-                        <td><strong>QB Met (Yes/no) </strong></td>
-                        <td>{{$monitor_visit->qb_met ?? ""}}</td>
-                    </tr>
-                    <tr>
                         <td><strong>Gap/Issue </strong></td>
                         <td>{{$monitor_visit->gap_issue ?? ""}}</td>
                     </tr>

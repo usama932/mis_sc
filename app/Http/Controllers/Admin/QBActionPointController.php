@@ -63,13 +63,15 @@ class QBActionPointController extends Controller
 		if($action_points){
 			foreach($action_points as $r){
 				$edit_url = route('monitor_visits.edit',$r->id);
-				$nestedData['id'] = $r->id;
-				$nestedData['monitor_visits_id'] = $r->monitor_visits_id;
-				$nestedData['action_agree'] = $r->action_agree;
-                $nestedData['action_type'] = $r->action_type;
-                $nestedData['responsible_person'] = $r->responsible_person;
-                $nestedData['deadline'] = $r->deadline;
-                $nestedData['created_by'] = $r->created_by;
+				$nestedData['site'] = $r->monitor_visit?->activity_number ."-".$r->monitor_visit?->gap_issue  ;
+				$nestedData['db_note'] = $r->db_note ?? '';
+				$nestedData['action_agree'] = $r->action_agree ?? "";
+                $nestedData['qb_recommendation'] = $r->qb_recommendation ?? '';
+                $nestedData['action_type'] = $r->action_type ?? '';
+                $nestedData['responsible_person'] = $r->responsible_person ?? '';
+                $nestedData['deadline'] = date('d-M-Y',strtotime($r->deadline)) ?? '';
+                $nestedData['created_by'] = $r->user?->name ?? '';
+                $nestedData['created_at'] = date('d-M-Y H:i:s',strtotime($r->created_at)) ?? '';
 				$nestedData['action'] = '
                                 <div>
                                 <td>
@@ -125,6 +127,7 @@ class QBActionPointController extends Controller
             'monitor_visits_id'     => $request->activity_number,
             'action_agree'          => $request->action_agree,
             'qb_recommendation'     => $request->qb_recommendation ?? 'NA',
+            'db_note'               => $request->db_note ?? 'NA',
             'action_type'           => $request->action_type ?? 'NA',
             'responsible_person'    => $request->responsible_person ?? 'NA',
             'deadline'              => $request->deadline,

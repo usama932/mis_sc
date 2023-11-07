@@ -11,48 +11,25 @@
                 </div>
             </div>
             <div class="row">
-                <div class="fv-row col-md-6 mt-3">
-                    <label class="fs-6 fw-semibold form-label mb-2">
-                        <span class="required">Quality Bench ID.#</span>
-                    </label>
-                    <br>
-                    <strong>#.000{{$qb->id}}</strong>
                 
-                    @error('activity_number')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-                <div class="fv-row col-md-6 mt-3">
+                <div class="fv-row col-md-12 mt-3">
                     <label class="fs-6 fw-semibold form-label mb-2">
-                        <span class="required">Activity No.# from DIP</span>
+                        <span class="required">Select Identified Gap</span>
                     </label>
-                    <select   name="activity_number"  @error('activity_number') is-invalid @enderror aria-label="Select a Action Point Agree" data-control="select2" data-placeholder="Select a Activity Number..." class="form-select form-select-solid " id="activity_id" required>
+                    <select   name="activity_number"  @error('activity_number') is-invalid @enderror aria-label="Select a Action Point Agree" data-control="select2" data-placeholder="Gap/Issues" class="form-select form-select-solid " id="activity_id" >
                         <option value="">Select Activity Number</option>
                         @foreach($monitor_visits as $monitor_visit)
-                            <option  value="{{$monitor_visit->id}}">{{$monitor_visit->activity_number}}</option>
+                            <option  value="{{$monitor_visit->id}}">{{$monitor_visit->activity_number}}- {{$monitor_visit->gap_issue}}</option>
                         @endforeach
                         
                     </select>
-
-                    @error('activity_number')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
                 </div>
                 <div class="fv-row col-md-8 mt-3">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Debrief Notes against identify Gap</span>
                     </label>
-                    <textarea   @error('db_note') is-invalid @enderror class="form-control "  name="db_note" id="db_note"  required></textarea>
-                    
-                    @error('db_note')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+                    <textarea class="form-control "  name="db_note" ></textarea>
+
                 </div>
                 <div class="fv-row col-md-4 mt-3">
                     <label class="fs-6 fw-semibold form-label mb-2">
@@ -63,15 +40,10 @@
                         <option  value="Yes">Yes</option>
                         <option  value="No">No</option>
                     </select>
-                    @error('action_agree')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
                 </div>
                 <div class="fv-row col-md-12 mt-3 action_agree_id">
                     <label class="fs-6 fw-semibold form-label mb-2">
-                        <span class="required">Actions to make QBs</span>
+                        <span class="required">Actions to make QB Fully Met</span>
                     </label>
                     <textarea  class="form-control "  name="qb_recommendation" id="qb_recommendation"></textarea>
                     
@@ -105,11 +77,10 @@
         
         
             </div>
-            <div class="text-center pt-15">
-                <button type="submit" id="kt_action_point_submit" class="btn btn-primary">
-                    @include('partials/general/_button-indicator', ['label' => 'Submit'])
+            <div class="d-flex justify-content-end pt-5">
+                <button type="submit" id="kt_action_point_submit" class="btn btn-primary btn-sm">
+                    @include('partials/general/_button-indicator', ['label' => 'Add Action Point'])
                 </button>
-                
             </div>
         </div>
        
@@ -127,13 +98,15 @@
             <table class="table table-bordered" id="action_points"style="margin-top: 13px !important">
             <thead>
                 <tr>
-                    <th>#S.No</th>
-                    <th>Site Visit</th>
-                    <th>Agree</th>
+                    <th>#</th>
+                    <th>Identified Gap(s)</th>
+                    <th>Action Agree</th>
+                    <th>Actions to make QB Fully Met</th>
                     <th>Type</th>
                     <th>Responsible Person</th>
                     <th>Deadline</th>
                     <th>Created By</th>
+                    <th>Created At</th>
                     <th>Actions</th>
                 </tr>
             </thead>
