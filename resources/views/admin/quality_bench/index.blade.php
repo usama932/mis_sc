@@ -1,8 +1,7 @@
 <x-default-layout>
 
-    @section("stylesheets")
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        <link href="{{asset("assets/plugins/custom/datatables/datatables.bundle.css")}}" rel="stylesheet" type="text/css" />
+    @section('title')
+        QB's List
     @endsection
 
     <div id="kt_app_content" class="app-content flex-column-fluid">

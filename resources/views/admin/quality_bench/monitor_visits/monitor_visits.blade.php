@@ -1,11 +1,14 @@
 <div>
-    <div class="d-flex justify-content-end hover-elevate-up">
-       
-        <button class="btn btn-sm btn-primary ml-5" id="addqbBtn"> <i class="ki-duotone ki-abstract-10">
-            <span class="path1"></span>
-            <span class="path2"></span>
-            </i>Add QB</button>
+    <div class="">
+        <h5>This Monitoring Visit has <span class="text-danger"> {{$qb->qbs_not_fully_met ?? ''}}</span> QBs not fully met.</h5>
+        <div class="justify-content-end hover-elevate-up">
+            <button class="btn btn-sm btn-primary ml-5" id="addqbBtn"> <i class="ki-duotone ki-abstract-10">
+                <span class="path1"></span>
+                <span class="path2"></span>
+                </i>Add QB</button>
+        </div>
     </div>
+    
     <div  id="qbformDiv">
         
         <form class="form" id="qb_monitor_form"  novalidate="novalidate" action="{{route('monitor_visits.store')}}" method="post">

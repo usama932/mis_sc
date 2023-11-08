@@ -1,6 +1,8 @@
 <x-default-layout>
 
- 
+    @section('title')
+        QB List
+    @endsection
 
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div class="card">

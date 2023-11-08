@@ -1,7 +1,4 @@
 <x-default-layout>
-    @push('stylesheets')
-    @endpush
-
     @section('title')
        Update Response Feedback/Complaint 
     @endsection

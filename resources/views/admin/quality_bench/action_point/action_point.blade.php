@@ -1,11 +1,17 @@
 <div>
-    <div class="d-flex justify-content-end hover-elevate-up">
-        <button class="btn btn-sm btn-primary ml-5" id="addactionpointBtn"> <i class="ki-duotone ki-abstract-10">
+    
+    <div class="">
+        <h5>This Monitoring Visit has <span class="text-danger"> {{$qb->qbs_not_fully_met ?? ''}}</span> QBs not fully met.</h5>
+        <div class="d-flex justify-content-end hover-elevate-up">
+            <button class="btn btn-sm btn-primary ml-5" id="addactionpointBtn"> <i class="ki-duotone ki-abstract-10">
             <span class="path1"></span>
             <span class="path2"></span>
             </i>Action Point</button>
+        </div>
     </div>
+    <p>This Monitoring Visit has <span class="text-danger"> {{$qb->qbs_not_fully_met ?? ''}}</span> QBs not fully met.</p>
     <form class="form" id="qb_action_point_form"  novalidate="novalidate" action="{{route('action_points.store')}}" method="post">  
+       
         @csrf
         <input type="hidden" name="quality_bench_id" value="{{$qb->id}}">
         <div class="card-body py-4">

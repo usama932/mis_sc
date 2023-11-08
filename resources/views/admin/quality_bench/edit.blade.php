@@ -1,7 +1,7 @@
 <x-default-layout>
  
     @section('title')
-         Quality Benchmarks (QB's)
+        Edit Quality Benchmarks (QB's)
     @endsection
     <style>
         .tabs {

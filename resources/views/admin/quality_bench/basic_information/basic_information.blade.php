@@ -1,5 +1,6 @@
 
 <div>
+    <h5>This Monitoring Visit has <span class="text-danger"> {{$qb->qbs_not_fully_met ?? ''}}</span> QBs not fully met.</h5>
     <form  class="form" id="qb_update_form"  novalidate="novalidate" action="{{route('quality-benchs.update',$qb->id)}}" method="post">
        
     @csrf

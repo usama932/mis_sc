@@ -1,5 +1,7 @@
 <x-default-layout>
     @section('title')
+    View Feedback/Complaint
+    @endsection
         <div class="d-flex">
             <div class="justify-content-start">
                 View Feedback/Complaint
@@ -15,7 +17,7 @@
         
         </div>
         
-    @endsection
+    
 
     <div class="card p-2">
         <div class="row">
