@@ -105,8 +105,9 @@
                         <span id="genderError" class="error-message "></span>
                     </div>
                     <div class="fv-row col-md-3 mt-3">
-                        <label class="fs-6 fw-semibold form-label mb-2">
+                        <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                             <span class="required">Age</span>   
+                            
                         </label>
                         <select   name="age" aria-label="Select a Gender" data-control="select2" data-placeholder="Select a age..." class="form-select form-select-solid" id="age_id">
                             <option value="">Select Option</option>
@@ -137,7 +138,7 @@
                         <span id="kt_select2_provinceError" class="error-message "></span>
                     </div>
                     <div class="fv-row col-md-3 mt-3">
-                        <label class="fs-6 fw-semibold form-label mb-2">
+                        <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                             <span class="required">District</span>
                             <span class="spinner-border spinner-border-sm align-middle ms-2" id="districtloader"></span>
                         </label>
@@ -146,16 +147,18 @@
                         <span id="kt_select2_districtError" class="error-message "></span>
                     </div>
                     <div class="fv-row col-md-3 mt-3">
-                        <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required">Tehsil</span>     
+                        <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                            <span class="required">Tehsil</span>   
+                            <span class="spinner-border spinner-border-sm align-middle ms-2" id="tehsilloader"></span>  
                         </label>
                         <select id="kt_select2_tehsil" name="tehsil" aria-label="Select a Tehsil" data-control="select2" data-placeholder="Select a Tehsil..." class="form-select form-select-solid">
                         </select>
                         <span id="kt_select2_tehsilError" class="error-message "></span>
                     </div>
                     <div class="fv-row col-md-3 mt-3"> 
-                        <label class="fs-6 fw-semibold form-label mb-2">
+                        <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                             <span class="required">Union Counsil</span>
+                            <span class="spinner-border spinner-border-sm align-middle ms-2" id="ucloader"></span>
                         </label>
                         <select id="kt_select2_union_counsil" name="union_counsil" aria-label="Select a UC" data-control="select2" data-placeholder="Select a Uc..." class="form-select form-select-solid" >
                         </select>
@@ -358,9 +361,7 @@
     </div>
 
     @push('scripts')
-    {{-- <script src="{{asset('assets/js/custom/frm/create.js')}}"></script>
-    <script src="{{asset('assets/js/custom/frm/frm.js')}}"></script>
-    --}}
+  
 
     @endpush
 

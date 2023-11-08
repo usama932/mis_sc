@@ -109,6 +109,7 @@
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Age</span>
+                            <span class="spinner-border spinner-border-sm align-middle ms-2" id="ageloader"></span>
                         </label>
                         <select   name="age"  @error('age') is-invalid @enderror aria-label="Select a Gender" data-control="select2" data-placeholder="Select a age..." class="form-select form-select-solid" id="age_id" required>
                             @if(!empty($frm->age))
@@ -131,16 +132,18 @@
                         </select>
                     </div>
                     <div class="col-md-3 mt-3">
-                        <label class="fs-6 fw-semibold form-label mb-2">
+                        <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                             <span class="required">District</span>
+                           
                         </label>
                         <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select form-select-solid"  @error('district') is-invalid @enderror required>
                             <option value="{{$frm->district}}">{{$frm->districts?->district_name ?? $frm->district}}</option>
                         </select>
                     </div>
                     <div class="col-md-3 mt-3">
-                        <label class="fs-6 fw-semibold form-label mb-2">
+                        <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                             <span class="required">Tehsil</span>
+                            <span class="spinner-border spinner-border-sm align-middle ms-2" id="tehsilloader"></span>
                         </label>
                         <select id="kt_select2_tehsil"  @error('tehsil') is-invalid @enderror name="tehsil" aria-label="Select a Tehsil" data-control="select2" data-placeholder="Select a Tehsil..." class="form-select form-select-solid" required>
                             @if(!empty($frm->tehsil))
@@ -152,8 +155,9 @@
                         <strong>{{$frm->tehsils->tehsil_name ?? $frm->tehsil}}</strong> --}}
                     </div>
                     <div class="col-md-3 mt-3">
-                        <label class="fs-6 fw-semibold form-label mb-2">
+                        <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                             <span class="required">Union Council</span>
+                            <span class="spinner-border spinner-border-sm align-middle ms-2" id="ucloader"></span>
                         </label>
                         <select id="kt_select2_union_counsil"  @error('union_counsil') is-invalid @enderror name="union_counsil" aria-label="Select a UC" data-control="select2" data-placeholder="Select a Uc..." class="form-select form-select-solid" required>
                             @if(!empty($frm->union_counsil))
@@ -382,10 +386,5 @@
         </form>
 
     </div>
-
-    @push('scripts')
-        <script src="{{asset('assets/js/custom/frm/edit.js')}}"></script>
-        <script src="{{asset('assets/js/custom/frm/frm.js')}}"></script>
-    @endpush
 
 </x-default-layout>

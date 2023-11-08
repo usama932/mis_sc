@@ -78,8 +78,9 @@
                 <div id="kt_select2_provinceError" class="error-message "></div>
             </div>
             <div class="fv-row col-md-3">
-                <label class="fs-6 fw-semibold form-label mb-2">
+                <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                     <span class="required">District</span>
+                    <span class="spinner-border spinner-border-sm align-middle ms-2" id="districtloader"></span>
                 </label>
                 <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select">
                     <option value="{{$qb->district}}">{{$qb->districts?->district_name ?? $frm->district}}</option>
@@ -87,8 +88,9 @@
                 <div id="kt_select2_districtError" class="error-message "></div>
             </div>
             <div class="fv-row col-md-3">
-                <label class="fs-6 fw-semibold form-label mb-2">
+                <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                     <span class="required">Tehsil</span>
+                    <span class="spinner-border spinner-border-sm align-middle ms-2" id="tehsilloader"></span>
                 </label>
                 <select id="kt_select2_tehsil" name="tehsil" aria-label="Select a Tehsil" data-control="select2" data-placeholder="Select a Tehsil..." class="form-select ">
                     @if(!empty($qb->tehsil))
@@ -98,8 +100,9 @@
                 <div id="kt_select2_tehsilError" class="error-message "></div>
             </div>
             <div class="fv-row col-md-3">
-                <label class="fs-6 fw-semibold form-label mb-2">
+                <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                     <span class="required">UC</span>
+                    <span class="spinner-border spinner-border-sm align-middle ms-2" id="ucloader"></span>
                 </label>
                 <select id="kt_select2_union_counsil" name="union_counsil" aria-label="Select a UC" data-control="select2" data-placeholder="Select a Uc..." class="form-select">
                     @if(!empty($qb->union_counsil))

@@ -40,6 +40,8 @@
                                     </svg> Download Attachment
                                 </a>
                             </div>
+                        @else
+                        <input type="file" name="document" class="form-control mx-4" value="">
                         @endif
                     </div>
                     

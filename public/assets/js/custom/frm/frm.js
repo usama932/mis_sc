@@ -1,7 +1,9 @@
+
 $(document).ready(function(){
     $(".genderit").change(function(){
-
+      
         $(this).find("option:selected").each(function(){
+            
             var optionValue = $(this).attr("value");
 
             if(optionValue == "Girl" || optionValue == "Boy"){
@@ -125,7 +127,7 @@ $('#date_recieved_id').flatpickr({
 });
 //script for province, district,tehisl and uc
 ///get district cascade province
-
+document.getElementById('districtloader').style.display = 'none';
 $("#kt_select2_province").change(function () {
     document.getElementById('districtloader').style.display = 'block';
     var value = $(this).val();
@@ -154,9 +156,9 @@ $("#kt_select2_province").change(function () {
     });
 
 });
-
+document.getElementById('tehsilloader').style.display = 'none';
 $("#kt_select2_district").change(function () {
-
+    document.getElementById('tehsilloader').style.display = 'block';
     var value = $(this).val();
     csrf_token = $('[name="_token"]').val();
     $.ajax({
@@ -165,6 +167,7 @@ $("#kt_select2_district").change(function () {
     data: {'district_id': value, _token: csrf_token },
     dataType: 'json',
     success: function (data) {
+        document.getElementById('tehsilloader').style.display = 'none';
         $("#kt_select2_tehsil").find('option').remove();
         $("#kt_select2_tehsil").prepend("<option value='' >Select Tehsil</option>");
         var selected='';
@@ -179,8 +182,9 @@ $("#kt_select2_district").change(function () {
     });
 
 });
+document.getElementById('ucloader').style.display = 'none';
 $("#kt_select2_tehsil").change(function () {
-
+    document.getElementById('ucloader').style.display = 'block';
     var value = $(this).val();
     csrf_token = $('[name="_token"]').val();
     $.ajax({
@@ -189,6 +193,7 @@ $("#kt_select2_tehsil").change(function () {
     data: {'tehsil_id': value, _token: csrf_token },
     dataType: 'json',
     success: function (data) {
+        document.getElementById('ucloader').style.display = 'none';
     $("#kt_select2_union_counsil").find('option').remove();
     $("#kt_select2_union_counsil").prepend("<option value='' >Select UC</option>");
     var selected='';

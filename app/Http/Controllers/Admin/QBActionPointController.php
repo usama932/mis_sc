@@ -286,7 +286,7 @@ class QBActionPointController extends Controller
             'responsible_person'    => $request->responsible_person ?? 'NA',
             'deadline'              => $request->deadline,
             'status'                => $request->status,
-            // 'created_by'            => auth()->user()->id,
+            'created_by'            => auth()->user()->id,
         ]);
         
         return response()->json([

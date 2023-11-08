@@ -1,6 +1,7 @@
 
 
 // ----------------Start update Qbs date------------------
+
 $('#date_visit').flatpickr({
     altInput: true,
     dateFormat: "Y-m-d",
@@ -1260,7 +1261,7 @@ $('#date_visit').flatpickr({
 $('#deadline').flatpickr({
     altInput: true,
     dateFormat: "Y-m-d",
-    minDate: "today",
+    minDate: new Date().fp_incr(-60),
     maxDate: new Date().fp_incr(+60), 
 });
 $(document).ready(function(){
