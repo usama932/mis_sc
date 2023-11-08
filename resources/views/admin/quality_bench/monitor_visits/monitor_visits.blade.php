@@ -1,81 +1,93 @@
 <div>
-    <form class="form" id="qb_monitor_form"  novalidate="novalidate" action="{{route('monitor_visits.store')}}" method="post">
-        @csrf
-        <input type="hidden" name="quality_bench_id" value="{{$qb->id}}">
-        <div class="card-body py-4">
-            <div class="card-title  border-0 my-4"">
-                <div class="card-title">
-                    <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
-                        <h5 class="fw-bold m-3">Add QB Not Fully Met::</h5>
+    <div class="d-flex justify-content-end hover-elevate-up">
+       
+        <button class="btn btn-sm btn-primary ml-5" id="addqbBtn"> <i class="ki-duotone ki-abstract-10">
+            <span class="path1"></span>
+            <span class="path2"></span>
+            </i>Add QB</button>
+    </div>
+    <div  id="qbformDiv">
+        
+        <form class="form" id="qb_monitor_form"  novalidate="novalidate" action="{{route('monitor_visits.store')}}" method="post">
+            @csrf
+            <input type="hidden" name="quality_bench_id" value="{{$qb->id}}">
+            <div class="card-body py-4">
+                <div class="card-title  border-0 my-4"">
+                    <div class="card-title">
+                        <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
+                            <h5 class="fw-bold m-3">Add QB Not Fully Met::</h5>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                {{-- <div class="fv-row col-md-6 mt-3">
-                    <label class="fs-6 fw-semibold form-label mb-2">
-                        <span class="required">Quality Bench ID.#</span>
-                    </label>
-                    <br>
-                    <strong>#.000{{$qb->id}}</strong>
-                
-                    @error('activity_number')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div> --}}
-                <div class="fv-row col-md-2 mt-3">
-                    <label class="fs-9 fw-semibold form-label mb-2">
-                        <span class="required">Activity No.# from DIP (eg: 1.1)</span>
-                    </label>
-                    <input type="text"  name="activity_number"  placeholder="Enter Activity Number"  class="form-control"   value="" required>
-                </div>
-                <div class="fv-row col-md-10 mt-3">
-                    <label class="fs-6 fw-semibold form-label mb-2">
-                        <span class="required">Quality Benchmark Activity Detail</span>
-                    </label>
-                    <textarea class="form-control "  name="qbs_description" / required></textarea>
-                
-                </div>
-                
-                <div class="fv-row col-md-4 mt-3">
-                    <input type="hidden" name="qb_met" value="Not Fully Met" id="qb_met" >
-                     {{-- <label class="fs-6 fw-semibold form-label mb-2">
-                        <span class="required">QB Met</span>
-                    </label> 
+                <div class="row">
+                    {{-- <div class="fv-row col-md-6 mt-3">
+                        <label class="fs-6 fw-semibold form-label mb-2">
+                            <span class="required">Quality Bench ID.#</span>
+                        </label>
+                        <br>
+                        <strong>#.000{{$qb->id}}</strong>
                     
-                     <select   name="c" id="qb_met" aria-label="Select a QB Met" data-control="select2" data-placeholder="Select a QB Met..." class="form-select form-select-solid qb_id" required>
-                        <option value="">Select QB Met</option>
-                        <option  value="Not Fully Met" selected>Not Fully Met</option>
-                     <option  value="Fully Met">Fully Met</option> 
-                    </select>  --}}
+                        @error('activity_number')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div> --}}
+                    <div class="fv-row col-md-2 mt-3">
+                        <label class="fs-9 fw-semibold form-label mb-2">
+                            <span class="required">Activity No.# from DIP (eg: 1.1)</span>
+                        </label>
+                        <input type="text"  name="activity_number"  placeholder="Enter Activity Number"  class="form-control"   value="" required>
+                    </div>
+                    <div class="fv-row col-md-10 mt-3">
+                        <label class="fs-6 fw-semibold form-label mb-2">
+                            <span class="required">Quality Benchmark Activity Detail</span>
+                        </label>
+                        <textarea class="form-control "  name="qbs_description" / required></textarea>
                     
-                </div> 
-                <div class="fv-row col-md-12 mt-3" id="gap_id">
-                    <label class="fs-6 fw-semibold form-label mb-2">
-                        <span class="required">Gap/issue</span>
-                    </label>
-                    <textarea class="form-control " name="gap_issue" id="gap_issue"></textarea>
-                  
+                    </div>
+                    
+                    <div class="fv-row col-md-4 mt-3">
+                        <input type="hidden" name="qb_met" value="Not Fully Met" id="qb_met" >
+                        {{-- <label class="fs-6 fw-semibold form-label mb-2">
+                            <span class="required">QB Met</span>
+                        </label> 
+                        
+                        <select   name="c" id="qb_met" aria-label="Select a QB Met" data-control="select2" data-placeholder="Select a QB Met..." class="form-select  qb_id" required>
+                            <option value="">Select QB Met</option>
+                            <option  value="Not Fully Met" selected>Not Fully Met</option>
+                        <option  value="Fully Met">Fully Met</option> 
+                        </select>  --}}
+                        
+                    </div> 
+                    <div class="fv-row col-md-12 mt-3" id="gap_id">
+                        <label class="fs-6 fw-semibold form-label mb-2">
+                            <span class="required">Gap/issue</span>
+                        </label>
+                        <textarea class="form-control " name="gap_issue" id="gap_issue"></textarea>
+                    
+                    </div>
+                </div>
+            
+            
+                </div>
+                <div class="d-flex justify-content-end m-5">
+                    <button type="submit" id="kt_qb_monitor_submit" class="btn btn-sm btn-primary">
+                        @include('partials/general/_button-indicator', ['label' => 'Submit'])
+                    </button>
+                    
                 </div>
             </div>
-        
-        
-            </div>
-            <div class="text-center pt-15">
-                <button type="submit" id="kt_qb_monitor_submit" class="btn btn-primary">
-                    @include('partials/general/_button-indicator', ['label' => 'Submit'])
-                </button>
-                
-            </div>
-        </div>
-    </form>
-    <div class="card-body mt-5 overflow-*">
+        </form>
+    </div>
+    <div class="card-body mt-3" id="qbtableDiv">
 
         <div class="card-title  border-0 my-4"">
             <div class="card-title">
                 <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
                     <h5 class="fw-bold m-3">QB/Issues List::</h5>
+                  
+
                 </div>
             </div>
         </div>

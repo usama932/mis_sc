@@ -31,6 +31,20 @@ var KTupdateValidate = function () {
                             }
                         }
                     },
+                    'qb_filledby':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Filled By required'
+                            }
+                        }
+                    },
+                    'sub_theme':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Sub Theme By required'
+                            }
+                        }
+                    },
                     'project_name':{
                         validators: {
                             notEmpty: {
@@ -122,6 +136,9 @@ var KTupdateValidate = function () {
                         validators: {
                             notEmpty: {
                                 message: 'Total QBs  required'
+                            },
+                            numeric: {
+                                message: 'Must be a number'
                             }
                         }
                     },
@@ -129,6 +146,9 @@ var KTupdateValidate = function () {
                         validators: {
                             notEmpty: {
                                 message: 'QBs Fully Met required'
+                            },
+                            numeric: {
+                                message: 'Must be a number'
                             }
                         }
                     },
@@ -136,6 +156,9 @@ var KTupdateValidate = function () {
                         validators: {
                             notEmpty: {
                                 message: 'QBs Not Applicable required'
+                            },
+                            numeric: {
+                                message: 'Must be a number'
                             }
                         }
                     },
@@ -1227,5 +1250,29 @@ function qb_attachmentdel(id) {
 $('.close').click(function() {
     $('#view_monitor_visit,#view_action_point,#view_qbattachment').modal('hide');
 });
+$('#date_visit').flatpickr({
+    altInput: true,
+    dateFormat: "Y-m-d",
+    maxDate: "today",
+    minDate: new Date().fp_incr(-60), 
+});
 
+$('#deadline').flatpickr({
+    altInput: true,
+    dateFormat: "Y-m-d",
+    minDate: "today",
+    maxDate: new Date().fp_incr(+60), 
+});
+$(document).ready(function(){
+$("#addqbBtn").click(function(){
+  
+  $("#qbformDiv").slideToggle();
+  $("#qbtableDiv").slideToggle();
+});
+$("#addactionpointBtn").click(function(){
+  
+  $("#qb_action_point_form").slideToggle();
+  $("#actionpointtableDiv").slideToggle();
+});
+});
 

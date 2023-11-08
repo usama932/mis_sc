@@ -1,4 +1,10 @@
 <div>
+    <div class="d-flex justify-content-end hover-elevate-up">
+        <button class="btn btn-sm btn-primary ml-5" id="addactionpointBtn"> <i class="ki-duotone ki-abstract-10">
+            <span class="path1"></span>
+            <span class="path2"></span>
+            </i>Action Point</button>
+    </div>
     <form class="form" id="qb_action_point_form"  novalidate="novalidate" action="{{route('action_points.store')}}" method="post">  
         @csrf
         <input type="hidden" name="quality_bench_id" value="{{$qb->id}}">
@@ -16,7 +22,7 @@
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Select Identified Gap</span>
                     </label>
-                    <select   name="activity_number"  @error('activity_number') is-invalid @enderror aria-label="Select a Action Point Agree" data-control="select2" data-placeholder="Gap/Issues" class="form-select form-select-solid " id="activity_id" >
+                    <select   name="activity_number"  @error('activity_number') is-invalid @enderror aria-label="Select a Action Point Agree" data-control="select2" data-placeholder="Gap/Issues" class="form-select  " id="activity_id" >
                         <option value="">Select Activity Number</option>
                         @foreach($monitor_visits as $monitor_visit)
                             <option  value="{{$monitor_visit->id}}">{{$monitor_visit->activity_number}}- {{$monitor_visit->gap_issue}}</option>
@@ -35,7 +41,7 @@
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Action Point Agree</span>
                     </label>
-                    <select   name="action_agree" id="action_agree" @error('action_agree') is-invalid @enderror aria-label="Select a Action Point Agree" data-control="select2" data-placeholder="Select a Action Point Agree..." class="form-select form-select-solid agree_id" required>
+                    <select   name="action_agree" id="action_agree" @error('action_agree') is-invalid @enderror aria-label="Select a Action Point Agree" data-control="select2" data-placeholder="Select a Action Point Agree..." class="form-select  agree_id" required>
                         <option value="">Select Action Point Agree</option>
                         <option  value="Yes">Yes</option>
                         <option  value="No">No</option>
@@ -91,7 +97,7 @@
         
         
             </div>
-            <div class="d-flex justify-content-end pt-5">
+            <div class="d-flex justify-content-end pt-5 m-5">
                 <button type="submit" id="kt_action_point_submit" class="btn btn-primary btn-sm">
                     @include('partials/general/_button-indicator', ['label' => 'Add Action Point'])
                 </button>
@@ -99,7 +105,7 @@
         </div>
        
     </form>
-    <div class="card-body mt-5 overflow-*">
+    <div class="card-body mt-5 overflow-*" id="actionpointtableDiv">
 
         <div class="card-title  border-0 my-4"">
             <div class="card-title">

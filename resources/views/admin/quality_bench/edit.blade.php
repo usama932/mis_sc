@@ -66,11 +66,11 @@
         @endif
         <input type="hidden" id="qb_id" value="{{$qb->id}}" />
         <div class="container-fluid">
-            <ul class="nav nav-tabs nav-tabs-line d-flex justify-content-center  mt-3 p-2">
+            <ul class="nav  d-flex justify-content-center mt-3 p-2">
                 <ul class="tabs">
                     <li class="tab @if(session('active') == 'basic_info')  active @endif"  onclick="showTab('basic_info')">Basic Information</li>         
-                    <li class="tab @if(session('active') == 'monitor_visit') active @else  @endif " onclick="showTab('monitor_visit')">QBs Not Fully Met</li>
-                    <li class="tab @if(session('active') == 'action_point') active @else  @endif"  onclick="showTab('action_point')">Action Point Details</li>
+                    <li class="tab @if(session('active') == 'monitor_visit') active @else  @endif" onclick="showTab('monitor_visit')">QBs Not Fully Met</li>     
+                    <li class="tab @if(session('active') == 'action_point') active @else  @endif" onclick="showTab('action_point')" >Action Point Details</li>
                     <li class="tab @if(session('active') == 'qbattachment') active @else  @endif"  onclick="showTab('qbattachment')">General Observations & Attachment</li>
                 </ul>
             </ul>
@@ -88,7 +88,7 @@
             </div>
         </div>
     
-        <div id="action_point" class="tab-content @if(session('active') == 'action_point') active @else  @endif">
+        <div id="action_point" class="tab-content  @if(session('active') == 'action_point') active @else  @endif">
             <div>
                 @include('admin.quality_bench.action_point.action_point')
             </div>
@@ -101,9 +101,12 @@
         
     </div>
     @push('scripts')
- 
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script>
+            $("#qbformDiv").hide();
+            $("#qbtableDiv").show();
+            $("#qb_action_point_form").hide();
+            $("#actionpointtableDiv").show();
             function showTab(tabId) {
                 // Hide all tabs and tab contents
                 document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
@@ -113,25 +116,8 @@
                 document.getElementById(tabId).classList.add('active');
                 event.currentTarget.classList.add('active');
             }
-    
-            $('#date_visit').flatpickr({
-                altInput: true,
-                dateFormat: "Y-m-d",
-                maxDate: "today",
-                minDate: new Date().fp_incr(-60), 
-            });
-            
-            $('#deadline').flatpickr({
-                altInput: true,
-                dateFormat: "Y-m-d",
-                minDate: "today",
-                maxDate: new Date().fp_incr(+60), 
-            });
-    
         </script>
-      
-       
-        //Action Point Scripts
+     
     @endpush
 
 </x-default-layout>

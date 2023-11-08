@@ -14,7 +14,15 @@
         </div> --}}
         
         <div class="row">
-            <div class="fv-row col-sm-4 col-md-3 col-lg-3">
+            <div class="fv-row col-sm-3 col-md-3 col-lg-3">
+                <label class="fs-6 fw-semibold form-label mb-2">
+                    <span class="required">QB Filled By</span>
+                </label>
+                <input type="text" class="form-control" id="qb_filledby"  name="qb_filledby" value="{{$qb->qb_filledby ?? ''}}">
+              
+                <div id="qb_filledbyError" class="error-message"></div>
+            </div>
+            <div class="fv-row col-sm-3 col-md-3 col-lg-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Theme</span>
                 </label>
@@ -26,7 +34,14 @@
                 </select>
                 <div id="themeError" class="error-message"></div>
             </div>
-            <div class="fv-row col-sm-4 col-md-6 col-lg-6">
+            <div class="fv-row col-sm-3 col-md-3 col-lg-3">
+                <label class="fs-6 fw-semibold form-label mb-2">
+                    <span class="required">Sub Theme</span>
+                </label>
+                <input type="text" class="form-control" id="sub_theme"  name="sub_theme" value="{{$qb->sub_theme ?? ''}}" placeholder="Enter Sub-theme">            
+                <div id="sub_themeError" class="error-message"></div>
+            </div>
+            <div class="fv-row col-sm-3 col-md-3 col-lg-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Project</span>
                 </label>
@@ -38,27 +53,14 @@
                 </select>
                 <div id="project_nameError" class="error-message "></div>
             </div>
-            <div class="fv-row col-sm-4 col-md-3 col-lg-3">
-                <label class="fs-6 fw-semibold form-label mb-2">
-                    <span class="required">Partner</span>
-                </label>
-                <select   name="partner" id="partner" aria-label="Select a Partner Name" data-control="select2" data-placeholder="Select a Partner" class="form-select">
-                    <option value="">Select Partner Name</option>
-                    <option  value="LRF"  @if($qb->partner == "LRF") selected @endif>LRF</option>
-                    <option  value="NRSP" @if($qb->partner == "NRSP") selected @endif>NRSP</option>
-                    <option  value="PPHI" @if($qb->partner == "PPHI") selected @endif>PPHI</option>
-                    <option  value="SRSP" @if($qb->partner == "SRSP") selected @endif>SRSP</option>
-                    <option  value="TKF"  @if($qb->partner == "TKF") selected @endif>TKF</option>
-                </select>
-                <div id="partnerError" class="error-message "></div>
-            </div>
+           
         </div>
         <div class="row mt-3">
             <div class="fv-row col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Province</span>
                 </label>
-                <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select form-select-solid">
+                <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select ">
                     @if(auth()->user()->permissions_level == 'province-wide' || auth()->user()->permissions_level == 'district-wide')
                         <option value="">Select Province</option>
                         {{-- <option value='1'>Punjab</option> --}}
@@ -79,7 +81,7 @@
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">District</span>
                 </label>
-                <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select form-select-solid">
+                <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select">
                     <option value="{{$qb->district}}">{{$qb->districts?->district_name ?? $frm->district}}</option>
                 </select>
                 <div id="kt_select2_districtError" class="error-message "></div>
@@ -88,7 +90,7 @@
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Tehsil</span>
                 </label>
-                <select id="kt_select2_tehsil" name="tehsil" aria-label="Select a Tehsil" data-control="select2" data-placeholder="Select a Tehsil..." class="form-select form-select-solid">
+                <select id="kt_select2_tehsil" name="tehsil" aria-label="Select a Tehsil" data-control="select2" data-placeholder="Select a Tehsil..." class="form-select ">
                     @if(!empty($qb->tehsil))
                         <option value="{{$qb->tehsil}}">{{$qb->tehsils?->tehsil_name ?? $qb->tehsil }}</option>
                     @endif
@@ -99,7 +101,7 @@
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">UC</span>
                 </label>
-                <select id="kt_select2_union_counsil" name="union_counsil" aria-label="Select a UC" data-control="select2" data-placeholder="Select a Uc..." class="form-select form-select-solid">
+                <select id="kt_select2_union_counsil" name="union_counsil" aria-label="Select a UC" data-control="select2" data-placeholder="Select a Uc..." class="form-select">
                     @if(!empty($qb->union_counsil))
                         <option value="{{$qb->union_counsil}}">{{$qb->uc?->uc_name ?? $frm->union_counsil}}</option>
                     @endif
@@ -137,16 +139,24 @@
                 </select>
                 <div id="type_of_visitError" class="error-message "></div>
             </div>
-            <div class="fv-row col-md-3">
+            <div class="fv-row col-sm-3 col-md-3 col-lg-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
-                    <span class="required">Activity visited</span>
+                    <span class="required">Partner</span>
                 </label>
-                <textarea  rows="1" class="form-control" id="activity_description"  name="activity_description">{{$qb->activity_description ?? ''}}</textarea>
-                <div id="activity_descriptionError" class="error-message"></div>
+                <select   name="partner" id="partner" aria-label="Select a Partner Name" data-control="select2" data-placeholder="Select a Partner" class="form-select">
+                    <option value="">Select Partner Name</option>
+                    <option  value="LRF"  @if($qb->partner == "LRF") selected @endif>LRF</option>
+                    <option  value="NRSP" @if($qb->partner == "NRSP") selected @endif>NRSP</option>
+                    <option  value="PPHI" @if($qb->partner == "PPHI") selected @endif>PPHI</option>
+                    <option  value="SRSP" @if($qb->partner == "SRSP") selected @endif>SRSP</option>
+                    <option  value="TKF"  @if($qb->partner == "TKF") selected @endif>TKF</option>
+                </select>
+                <div id="partnerError" class="error-message "></div>
             </div>
+           
         </div>
         <div class="row mt-3">
-            <div class="fv-row col-md-6">
+            <div class="fv-row col-md-4">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Monitoring Type</span>
                 </label>
@@ -158,11 +168,11 @@
                 </select>
                 <div id="monitoring_typeError" class="error-message"></div>
             </div>
-            <div class="fv-row col-md-6">
+            <div class="fv-row col-md-4">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Accompanied By</span>
                 </label>
-                <select name="accompanied_by" id="accompanied_by" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Accompanied By..." class="form-select form-select-solid">
+                <select name="accompanied_by" id="accompanied_by" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Accompanied By..." class="form-select">
                     <option value="">Select Option</option>
                     <option value="Project Staff" @if($qb->accompanied_by == "Project Staff") selected @endif>Project Staff</option>
                     <option value="Govt Officials" @if($qb->accompanied_by == "Govt Officials") selected @endif>Govt Officials</option>
@@ -170,6 +180,13 @@
                     <option  value="NA" @if($qb->accompanied_by == "NA") selected @endif>NA</option>
                 </select>
                 <div id="accompanied_byError" class="error-message"></div>
+            </div>
+            <div class="fv-row col-md-4">
+                <label class="fs-6 fw-semibold form-label mb-2">
+                    <span class="required">Activity visited</span>
+                </label>
+                <textarea  rows="1" class="form-control" id="activity_description"  name="activity_description">{{$qb->activity_description ?? ''}}</textarea>
+                <div id="activity_descriptionError" class="error-message"></div>
             </div>
         </div>
         <div class="row mt-3">
@@ -184,28 +201,28 @@
                 <label class="fs-9 fw-semibold form-label mb-2">
                     <span class="required">Total QBs</span>
                 </label>
-                <input type="number" class="form-control fs-9" id="total_qbs"  name="total_qbs" value="{{$qb->total_qbs ?? ''}}">
+                <input type="text" class="form-control fs-9" id="total_qbs"  name="total_qbs" value="{{$qb->total_qbs ?? ''}}">
                 <div id="total_qbsError" class="error-message"></div>
             </div>
             <div class="fv-row col-md-1">
                 <label class="fs-9 fw-semibold form-label mb-2">
                     <span class="required">Fully Met</span>
                 </label>
-                <input type="number" class="form-control fs-9" id="qbs_fully_met" name="qbs_fully_met" value="{{$qb->qbs_fully_met ?? ''}}">
+                <input type="text" class="form-control fs-9" id="qbs_fully_met" name="qbs_fully_met" value="{{$qb->qbs_fully_met ?? ''}}">
                 <div id="qbs_fully_metError" class="error-message"></div>
             </div>
             <div class="fv-row col-md-1">
                 <label class="fs-9 fw-semibold form-label mb-2">
                     <span class="required">Not Applicable</span>
                 </label>
-                <input type="number" class="form-control fs-9" name="qb_not_applicable" id="qb_not_applicable" value="{{$qb->qb_not_applicable ?? ''}}">
+                <input type="text" class="form-control fs-9" name="qb_not_applicable" id="qb_not_applicable" value="{{$qb->qb_not_applicable ?? ''}}">
                 <div id="qb_not_applicableError" class="error-message"></div>
             </div>
             <div class="fv-row col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Visit Staff Name</span>
                 </label>
-                <select name="visit_staff_name" id="visit_staff_name" aria-label="Select a Visit Staff Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select form-select-solid">
+                <select name="visit_staff_name" id="visit_staff_name" aria-label="Select a Visit Staff Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select">
                     <option  value="">Select Option</option>
                     @foreach($users as $user)
                     <option  value="{{$user->name}}" @if($qb->visit_staff_name == $user->name ) selected @endif>{{$user->name}}</option>
@@ -223,7 +240,7 @@
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Staff Organization</span>
                 </label>
-                <select name="staff_organization" id="staff_organization" aria-label="Select a Visit Staff Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select form-select-solid" >
+                <select name="staff_organization" id="staff_organization" aria-label="Select a Visit Staff Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select" >
                     <option  value=""  @if($qb->staff_organization == "" ) selected @endif>Select Option</option>
                     <option  value="SC Staff"  @if($qb->staff_organization == "SC Staff" ) selected @endif >SC Staff</option>
                     <option  value="SRSP Staff" @if($qb->staff_organization == "SRSP Staff" ) selected @endif>SRSP Staff</option>

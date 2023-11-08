@@ -196,23 +196,29 @@ class QbController extends Controller
   
     public function edit(string $id)
     {
-        $projects = Project::latest()->get();
-        $themes = Theme::latest()->get();
-        $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
-        $qb = QualityBench::find($id);
-        $active = 'basic_info';
+        $active     = 'basic_info';
+        $title      = "Edit Monitoring Quality Benchmarks";
+
+        $projects   = Project::latest()->get();
+        $themes     = Theme::latest()->get();
+        $users      = User::where('user_type','R2')->orwhere('user_type','R1')->get();
+        $qb         = QualityBench::with('monitor_visit','action_point')->find($id);
+
+        $count_monitor_visit  =   $qb->monitor_visit->count();
+        $count_action_point   =   $qb->action_point->count();
+        
         $monitor_visits = MonitorVisit::where('quality_bench_id',$id)->latest()->get();
+        $qb_attachment  = QBAttachement::where('quality_bench_id',$id)->first();
 
-        $qb_attachment = QBAttachement::where('quality_bench_id',$id)->first();
-
-        $title = "Edit Monitoring Quality Benchmarks";
+        
         if(session('active') == ''){
             session(['active' => $active]);
         }
+
         addJavascriptFile('assets/js/custom/quality_benchmark/edit.js');
         addJavascriptFile('assets/js/custom/frm/frm.js');
         addVendors(['datatables']);
-        return view('admin.quality_bench.edit',compact('projects','themes','users','qb','monitor_visits','title','qb_attachment'));
+        return view('admin.quality_bench.edit',compact('projects','themes','users','qb','monitor_visits','title','qb_attachment','count_monitor_visit','count_action_point'));
     }
 
   

@@ -30,6 +30,20 @@ var KTQBValidate = function () {
                             }
                         }
                     },
+                    'qb_filledby':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Filled By required'
+                            }
+                        }
+                    },
+                    'sub_theme':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Sub Theme By required'
+                            }
+                        }
+                    },
                     'project_name':{
                         validators: {
                             notEmpty: {

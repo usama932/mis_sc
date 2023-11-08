@@ -21,14 +21,22 @@
             </ul>
         </div>
         @endif
-      
+       
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="kt_tab_pane_1" role="tabpanel">
                 <form class="form" id="qb_form"  novalidate="novalidate" data-kt-redirect-url="{{ route('quality-benchs.index') }}" action="{{ route('quality-benchs.store') }}">
                     @csrf
                     <div class="card-body">
                         <div class="row">
-                            <div class="fv-row col-sm-4 col-md-3 col-lg-3">
+                            <div class="fv-row col-sm-3 col-md-3 col-lg-3">
+                                <label class="fs-6 fw-semibold form-label mb-2">
+                                    <span class="required">QB Filled By</span>
+                                </label>
+                                <input type="text" class="form-control" id="qb_filledby"  name="qb_filledby" value="" placeholder="Enter Filled By">
+                              
+                                <div id="qb_filledbyError" class="error-message"></div>
+                            </div>
+                            <div class="fv-row col-sm-3 col-md-3 col-lg-3">
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Theme</span>
                                 </label>
@@ -40,7 +48,15 @@
                                 </select>
                                 <div id="themeError" class="error-message"></div>
                             </div>
-                            <div class="fv-row col-sm-4 col-md-6 col-lg-6">
+                            <div class="fv-row col-sm-3 col-md-3 col-lg-3">
+                                <label class="fs-6 fw-semibold form-label mb-2">
+                                    <span class="required">Sub Theme</span>
+                                </label>
+                                <input type="text" class="form-control" id="sub_theme"  name="sub_theme" value="" placeholder="Enter Sub-theme">
+                              
+                                <div id="sub_themeError" class="error-message"></div>
+                            </div>
+                            <div class="fv-row col-sm-3 col-md-3 col-lg-3">
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Project</span>
                                 </label>
@@ -52,27 +68,15 @@
                                 </select>
                                 <div id="project_nameError" class="error-message "></div>
                             </div>
-                            <div class="fv-row col-sm-4 col-md-3 col-lg-3">
-                                <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">Partner</span>
-                                </label>
-                                <select   name="partner" id="partner" aria-label="Select a Partner Name" data-control="select2" data-placeholder="Select a Partner" class="form-select">
-                                    <option value="">Select Partner Name</option>
-                                    <option  value="LRF" >LRF</option>
-                                    <option  value="NRSP" >NRSP</option>
-                                    <option  value="PPHI" >PPHI</option>
-                                    <option  value="SRSP" >SRSP</option>
-                                    <option  value="TKF" >TKF</option>
-                                </select>
-                                <div id="partnerError" class="error-message "></div>
-                            </div>
+                          
+                           
                         </div>
                         <div class="row mt-3">
                             <div class="fv-row col-md-3">
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Province</span>
                                 </label>
-                                <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select form-select-solid">
+                                <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select ">
                                     @if(auth()->user()->permissions_level == 'province-wide' || auth()->user()->permissions_level == 'district-wide')
                                     <option value="">Select Province</option>
                                     {{-- <option value='1'>Punjab</option> --}}
@@ -93,7 +97,7 @@
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">District</span>
                                 </label>
-                                <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select form-select-solid">
+                                <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select ">
 
                                 </select>
                                 <div id="kt_select2_districtError" class="error-message "></div>
@@ -102,7 +106,7 @@
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Tehsil</span>
                                 </label>
-                                <select id="kt_select2_tehsil" name="tehsil" aria-label="Select a Tehsil" data-control="select2" data-placeholder="Select a Tehsil..." class="form-select form-select-solid">
+                                <select id="kt_select2_tehsil" name="tehsil" aria-label="Select a Tehsil" data-control="select2" data-placeholder="Select a Tehsil..." class="form-select ">
 
                                 </select>
                                 <div id="kt_select2_tehsilError" class="error-message "></div>
@@ -111,11 +115,12 @@
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">UC</span>
                                 </label>
-                                <select id="kt_select2_union_counsil" name="union_counsil" aria-label="Select a UC" data-control="select2" data-placeholder="Select a Uc..." class="form-select form-select-solid">
+                                <select id="kt_select2_union_counsil" name="union_counsil" aria-label="Select a UC" data-control="select2" data-placeholder="Select a Uc..." class="form-select ">
 
                                 </select>
                                 <div id="kt_select2_union_counsilError" class="error-message "></div>
                             </div>
+                            
                         </div>
                         <div class="row mt-3">
                             <div class="fv-row col-md-3">
@@ -147,16 +152,23 @@
                                 </select>
                                 <div id="type_of_visitError" class="error-message "></div>
                             </div>
-                            <div class="fv-row col-md-3">
+                            <div class="fv-row col-sm-3 col-md-3 col-lg-3">
                                 <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">Activity visited</span>
+                                    <span class="required">Partner</span>
                                 </label>
-                                <textarea  rows="1" class="form-control" id="activity_description"  name="activity_description"></textarea>
-                                <div id="activity_descriptionError" class="error-message"></div>
+                                <select   name="partner" id="partner" aria-label="Select a Partner Name" data-control="select2" data-placeholder="Select a Partner" class="form-select">
+                                    <option value="">Select Partner Name</option>
+                                    <option  value="LRF" >LRF</option>
+                                    <option  value="NRSP" >NRSP</option>
+                                    <option  value="PPHI" >PPHI</option>
+                                    <option  value="SRSP" >SRSP</option>
+                                    <option  value="TKF" >TKF</option>
+                                </select>
+                                <div id="partnerError" class="error-message "></div>
                             </div>
                         </div>
                         <div class="row mt-3">
-                            <div class="fv-row col-md-6">
+                            <div class="fv-row col-md-4">
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Monitoring Type</span>
                                 </label>
@@ -168,11 +180,11 @@
                                 </select>
                                 <div id="monitoring_typeError" class="error-message"></div>
                             </div>
-                            <div class="fv-row col-md-6">
+                            <div class="fv-row col-md-4">
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Accompanied By</span>
                                 </label>
-                                <select name="accompanied_by" id="accompanied_by" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Accompanied By..." class="form-select form-select-solid">
+                                <select name="accompanied_by" id="accompanied_by" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Accompanied By..." class="form-select ">
                                     <option value="">Select Option</option>
                                     <option value="Project Staff">Project Staff</option>
                                     <option value="Govt Officials">Govt Officials</option>
@@ -180,6 +192,13 @@
                                     <option  value="NA">NA</option>
                                 </select>
                                 <div id="accompanied_byError" class="error-message"></div>
+                            </div>
+                            <div class="fv-row col-md-4">
+                                <label class="fs-6 fw-semibold form-label mb-2">
+                                    <span class="required">Activity visited</span>
+                                </label>
+                                <textarea  rows="1" class="form-control" id="activity_description"  name="activity_description"></textarea>
+                                <div id="activity_descriptionError" class="error-message"></div>
                             </div>
                         </div>
                         <div class="row mt-3">
@@ -215,7 +234,7 @@
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Visit Staff Name</span>
                                 </label>
-                                <select name="visit_staff_name" id="visit_staff_name" aria-label="Select a Visit Staff Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select form-select-solid">
+                                <select name="visit_staff_name" id="visit_staff_name" aria-label="Select a Visit Staff Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select ">
                                     <option  value="">Select Option</option>
                                     @foreach($users as $user)
                                     <option  value="{{$user->name}}" >{{$user->name}}</option>
@@ -233,7 +252,7 @@
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Staff Organization</span>
                                 </label>
-                                <select name="staff_organization" id="staff_organization" aria-label="Select a Visit Staff Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select form-select-solid" >
+                                <select name="staff_organization" id="staff_organization" aria-label="Select a Visit Staff Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select " >
                                     <option  value="">Select Option</option>
                                     <option  value="SC Staff" >SC Staff</option>
                                     <option  value="SRSP Staff" >SRSP Staff</option>

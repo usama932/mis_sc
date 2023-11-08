@@ -19,7 +19,7 @@
                     <textarea class="form-control " placeholder="How does the score from this visit compare to previous visits? Have any of these QBs been “not fully met” for two or more visits?" row="2"  name="comments" / required>{{$qb_attachment->comments ?? ''}}</textarea>
                 </div>
                 <div class="fv-row col-md-12 mt-3">
-                    @if($qb_attachment->document)
+                    @if(!empty($qb_attachment->document) && $qb_attachment->document != '')
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">ReUpload Attachment</span>
                         </label>
