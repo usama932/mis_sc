@@ -1,8 +1,8 @@
 $('#date_visit').flatpickr({
     altInput: true,
     dateFormat: "Y-m-d",
-    maxDate: "today",
-    minDate: new Date().fp_incr(-60),
+    maxDate: new Date().fp_incr(+4),
+    minDate: new Date().fp_incr(-30),
 });
 "use strict";
 

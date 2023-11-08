@@ -5,8 +5,8 @@
 $('#date_visit').flatpickr({
     altInput: true,
     dateFormat: "Y-m-d",
-    maxDate: "today",
-    minDate: new Date().fp_incr(-60),
+    maxDate:new Date().fp_incr(+4),
+    minDate: new Date().fp_incr(-30),
 });
 "use strict";
 
@@ -1251,17 +1251,12 @@ function qb_attachmentdel(id) {
 $('.close').click(function() {
     $('#view_monitor_visit,#view_action_point,#view_qbattachment').modal('hide');
 });
-$('#date_visit').flatpickr({
-    altInput: true,
-    dateFormat: "Y-m-d",
-    maxDate: "today",
-    minDate: new Date().fp_incr(-60), 
-});
+
 
 $('#deadline').flatpickr({
     altInput: true,
     dateFormat: "Y-m-d",
-    minDate: new Date().fp_incr(-60),
+    minDate: new Date().fp_incr(-30),
     maxDate: new Date().fp_incr(+60), 
 });
 $(document).ready(function(){

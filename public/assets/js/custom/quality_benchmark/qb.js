@@ -250,6 +250,7 @@ $(document).ready(function(){
 });
 flatpickr("#date_visit", {
    
-    dateFormat: "Y-m-d",
-    maxDate: "today",
+    dateFormat: "Y-M-d",
+    maxDate: new Date().fp_incr(+4), 
+    minDate: new Date().fp_incr(-30), 
 });

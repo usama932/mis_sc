@@ -14,6 +14,7 @@ class QbRepository implements QbRepositoryInterface
             'visit_staff_name'      => $data['visit_staff_name'],
             'date_visit'            => $data['date_visit'],
             'qb_filledby'           => $data['qb_filledby'],
+            'sub_theme'             => $data['sub_theme'],
             'accompanied_by'        => $data['accompanied_by'],
             'type_of_visit'         => $data['type_of_visit'],   
             'province'              => $data['province'],

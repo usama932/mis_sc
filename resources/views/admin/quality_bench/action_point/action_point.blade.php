@@ -105,16 +105,16 @@
         </div>
        
     </form>
-    <div class="card-body mt-5 overflow-*" id="actionpointtableDiv">
+    <div class="card-bod py-4" id="actionpointtableDiv">
 
-        <div class="card-title  border-0 my-4"">
-            <div class="card-title">
+        <div class="card-title  border-0">
+            <div class="card-title my-4">
                 <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
                     <h5 class="fw-bold m-3">Action Point List::</h5>
                 </div>
             </div>
         </div>
-        <div class="table-responsive overflow-*">
+        <div class="table-responsive">
             <table class="table table-bordered" id="action_points"style="margin-top: 13px !important">
             <thead>
                 <tr>

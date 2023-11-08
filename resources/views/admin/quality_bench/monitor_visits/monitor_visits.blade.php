@@ -11,8 +11,8 @@
         <form class="form" id="qb_monitor_form"  novalidate="novalidate" action="{{route('monitor_visits.store')}}" method="post">
             @csrf
             <input type="hidden" name="quality_bench_id" value="{{$qb->id}}">
-            <div class="card-body py-4">
-                <div class="card-title  border-0 my-4"">
+            <div class="card-body">
+                <div class="card-title  border-0"">
                     <div class="card-title">
                         <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
                             <h5 class="fw-bold m-3">Add QB Not Fully Met::</h5>
@@ -71,7 +71,7 @@
             
             
                 </div>
-                <div class="d-flex justify-content-end m-5">
+                <div class="d-flex justify-content-end m-5  ">
                     <button type="submit" id="kt_qb_monitor_submit" class="btn btn-sm btn-primary">
                         @include('partials/general/_button-indicator', ['label' => 'Submit'])
                     </button>
@@ -80,11 +80,11 @@
             </div>
         </form>
     </div>
-    <div class="card-body mt-3" id="qbtableDiv">
+    <div class="card-body" id="qbtableDiv">
 
-        <div class="card-title  border-0 my-4"">
+        <div class="card-title  border-0 ">
             <div class="card-title">
-                <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
+                <div class="d-flex align-items-center position-relative" style="background-color: #F1C40F !important; border-radius:25px;">
                     <h5 class="fw-bold m-3">QB/Issues List::</h5>
                   
 
