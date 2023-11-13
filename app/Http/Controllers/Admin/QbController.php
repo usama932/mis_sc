@@ -59,9 +59,7 @@ class QbController extends Controller
         $totalFiltered = QualityBench::count();
 		$start = $request->input('start');
 		
-		
         $qualit_benchs = QualityBench::where('id','!=',-1);
-        
   
         if($request->kt_select2_district != null && $request->kt_select2_district != 'None'){
             $qualit_benchs->where('district',$request->kt_select2_district);
@@ -188,7 +186,7 @@ class QbController extends Controller
 
     public function show(string $id)
     {
-        $qb = QualityBench::where('id',$id)->first();
+        $qb = QualityBench::where('id',$id)->with('monitor_visit','action_point','qbattachement')->first();
       
         return view('admin.quality_bench.Qb_detail',compact('qb'));
     }

@@ -2,7 +2,7 @@
 <x-default-layout>
 
     @section('title')
-        <a href="{{route('dashboard')}}">Dashboard</a>
+        Dashboard
     @endsection
     @section('breadcrumbs')
         Dashboard - FRM Dashboard

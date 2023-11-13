@@ -2,10 +2,10 @@
     @section('title')
     View Feedback/Complaint
     @endsection
-        <div class="d-flex">
-            <div class="justify-content-start">
-                View Feedback/Complaint
-            </div>
+    <div class="d-flex">
+        <div class="justify-content-start">
+            View Feedback/Complaint
+        </div>
         <div class="" style="margin-left: 150px !important;  margin-right: 0 !important;">
             <h3>Respons Id.# :: {{$frm->response_id ?? ''}}  
             @if($frm->status == "Close")
@@ -14,8 +14,7 @@
                 <span class="badge badge-warning">{{$frm->status}}</span>
             @endif</h3>
         </div>
-        
-        </div>
+    </div>
         
     
 
