@@ -1,13 +1,7 @@
 
 
 // ----------------Start update Qbs date------------------
-
-$('#date_visit').flatpickr({
-    altInput: true,
-    dateFormat: "Y-m-d",
-    maxDate:new Date().fp_incr(+4),
-    minDate: new Date().fp_incr(-30),
-});
+var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 "use strict";
 
 
@@ -136,20 +130,35 @@ var KTupdateValidate = function () {
                     'total_qbs':{
                         validators: {
                             notEmpty: {
-                                message: 'Total QBs  required'
+                                message: 'Total QBs required'
                             },
                             numeric: {
                                 message: 'Must be a number'
                             }
                         }
                     },
-                    'qbs_fully_met':{
+                    'qbs_fully_met': {
                         validators: {
                             notEmpty: {
-                                message: 'QBs Fully Met required'
+                                message: 'Required'
                             },
                             numeric: {
                                 message: 'Must be a number'
+                            },
+                            
+                            callback: {
+                                message: 'Must br greater than total',
+                                
+                                callback: function (input) {
+                                    var total_qbs = document.getElementById('total_qbs').value;
+                                    var qbs_fully_met = document.getElementById('qbs_fully_met').value;
+                                    if (total_qbs > qbs_fully_met || total_qbs == qbs_fully_met) {
+                                        return true;
+                                    }
+                                    else{
+                                        return false;
+                                    }
+                                }
                             }
                         }
                     },
@@ -546,7 +555,8 @@ var KTqbactionpointValidate = function () {
                         validators: {
                             notEmpty: {
                                 message: 'Activity Number required'
-                            }
+                            },
+                           
                         }
                     },
                     'db_note':{
@@ -1004,10 +1014,8 @@ var clients = $('#monitor_visits').DataTable({
     ]
 });
 function monitorviewInfo(id) {
-    
-     var CSRF_TOKEN = csrfToken;
      $.post(baseURL + '/view_monitor_visit', {
-         _token: csrfToken,
+         _token:csrfToken ,
          id: id
      }).done(function(response) {
          $('.modal-body').html(response);
@@ -1046,7 +1054,7 @@ $('.close').click(function() {
 $("#activity_id").change(function () {
         
     var value = $(this).val();
-    csrf_token = $('[name="_token"]').val();
+    csrf_token = csrfToken;
    
     $.ajax({
         type: 'POST',

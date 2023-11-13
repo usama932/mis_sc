@@ -116,6 +116,12 @@
                 document.getElementById(tabId).classList.add('active');
                 event.currentTarget.classList.add('active');
             }
+            $('#date_visit').flatpickr({
+            altInput: true,
+            dateFormat: "Y-m-d",
+            maxDate: new Date().fp_incr(+0),
+            minDate: new Date().fp_incr(-30),
+        });
         </script>
      
     @endpush

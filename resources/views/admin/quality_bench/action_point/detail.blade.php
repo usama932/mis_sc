@@ -28,7 +28,7 @@
                 </tr>
                 <tr>
                     <td><strong>Deadline </strong></td>
-                    <td>{{$action_point->deadline ?? ""}}</td>
+                    <td>{{date('d-M-Y H:i:s', strtotime($action_point->created_at)) ?? ""}} {{$action_point->deadline ?? ""}}</td>
                 </tr>
                 <tr>
                     <td><strong>Created By </strong></td>
@@ -36,7 +36,7 @@
                 </tr>
                 <tr>
                     <td><strong>Created At </strong></td>
-                    <td>{{date('d-M-Y', strtotime($action_point->created_at)) ?? ""}}</td>
+                    <td>{{date('d-M-Y H:i:s', strtotime($action_point->created_at)) ?? ""}}</td>
                 </tr>
              
             </table>

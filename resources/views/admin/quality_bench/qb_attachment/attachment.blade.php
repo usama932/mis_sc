@@ -1,4 +1,8 @@
 <div>
+    <div class="">
+        <h5><span class="text-danger ">Note:: </span> Monitoring Visit has <span class="text-danger "> {{$qb->qbs_not_fully_met ?? ''}}</span> QBs not fully met.</h5>
+       
+    </div>
     <form class="form" id="qb_attachment_form"  novalidate="novalidate" action="{{route('attachments.store')}}" method="post" enctype="multipart/form-data">
         
         @csrf
@@ -55,6 +59,7 @@
         
             </div>
             <div class="d-flex justify-content-end pt-5">
+                
                 <button type="submit" id="kt_attachment_submit" class="btn btn-success btn-sm">
                     @include('partials/general/_button-indicator', ['label' => 'Save As Draft'])
                 </button>

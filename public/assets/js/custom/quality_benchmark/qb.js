@@ -248,9 +248,3 @@ $(document).ready(function(){
         });
     }).change();
 });
-flatpickr("#date_visit", {
-   
-    dateFormat: "Y-M-d",
-    maxDate: new Date().fp_incr(+4), 
-    minDate: new Date().fp_incr(-30), 
-});

@@ -73,7 +73,8 @@ class QbController extends Controller
             $qualit_benchs->where('visit_staff_name',$request->visit_staff);
         }
       
-        $dateParts = explode('to', $request->date_visit);
+        $dateParts = explode(' to ',$request->date_visit);
+       
         $startdate = '';
         $enddate = '';
         if(!empty($dateParts)){
@@ -171,7 +172,7 @@ class QbController extends Controller
     public function store(CreateQbRequest $request)
     {
         $data = $request->except('_token');
-        $Qb = $this->QbRepository->storeQb($data);
+        $Qb = $this->QbRepository->storeQb( $data);
         $active = 'basic_info';
         session(['active' => $active]);
         $editUrl = route('quality-benchs.edit',$Qb->id);
@@ -214,7 +215,7 @@ class QbController extends Controller
         }
 
         addJavascriptFile('assets/js/custom/quality_benchmark/edit.js');
-        addJavascriptFile('assets/js/custom/frm/frm.js');
+        addJavascriptFile('assets/js/custom/quality_benchmark/qb.js');
         addVendors(['datatables']);
         return view('admin.quality_bench.edit',compact('projects','themes','users','qb','monitor_visits','title','qb_attachment','count_monitor_visit','count_action_point'));
     }

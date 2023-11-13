@@ -132,7 +132,7 @@ class QBAttachmentsController extends Controller
             $qbattachment = QBAttachement::where('id',$request->id)->update([
                 'document'                  => $filename ?? $qb_attach->document,
                 'comments'                  => $request->comments,
-                'created_by'                => auth()->user()->id,
+                'updated_by'                => auth()->user()->id,
                 'quality_bench_id'          => $request->quality_bench_id,
                 'generating_observation'    => $request->generating_observation
             ]);

@@ -1,9 +1,4 @@
-$('#date_visit').flatpickr({
-    altInput: true,
-    dateFormat: "Y-m-d",
-    maxDate: new Date().fp_incr(+4),
-    minDate: new Date().fp_incr(-30),
-});
+
 "use strict";
 
 
@@ -141,16 +136,32 @@ var KTQBValidate = function () {
                             }
                         }
                     },
-                    'qbs_fully_met':{
+                    'qbs_fully_met': {
                         validators: {
                             notEmpty: {
                                 message: 'Required'
                             },
                             numeric: {
                                 message: 'Must be a number'
+                            },
+                            
+                            callback: {
+                                message: 'Must br greater than total',
+                                
+                                callback: function (input) {
+                                    var total_qbs = document.getElementById('total_qbs').value;
+                                    var qbs_fully_met = document.getElementById('qbs_fully_met').value;
+                                    if (total_qbs > qbs_fully_met || total_qbs == qbs_fully_met) {
+                                        return true;
+                                    }
+                                    else{
+                                        return false;
+                                    }
+                                }
                             }
                         }
                     },
+                  
                     'qb_not_applicable':{
                         validators: {
                             notEmpty: {
@@ -327,3 +338,9 @@ KTUtil.onDOMContentLoaded(function () {
 
 
 
+$('#date_visit').flatpickr({
+    altInput: true,
+    dateFormat: "Y-m-d",
+    maxDate: new Date().fp_incr(+0),
+    minDate: new Date().fp_incr(-30),
+});
