@@ -1,5 +1,10 @@
-
-
+$('#submitbtn').on('click', function() {
+  
+   
+        $('#submit').val("0"); // Change the value to 0
+      
+    
+});
 // ----------------Start update Qbs date------------------
 var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 "use strict";
@@ -375,7 +380,7 @@ var KTqbmonitorValidate = function () {
                                 message: 'Activity Number required'
                             },
                             regexp: {
-                                regexp: /^(?:[1-9]|(?:[1-9]\.\d+))$/,
+                                regexp: /^(?:(?:[1-9]\.\d+))$/,
                                 message: 'Enter  decimal like 1.1, 1.2, etc.'
                             }
                         }
@@ -1163,7 +1168,7 @@ var KTqbattachmentValidate = function () {
         init: function () {
             // Elements
             form = document.querySelector('#qb_attachment_form');
-            submitButton = document.querySelector('#kt_attachment_submit');
+            submitButton = document.querySelector('.kt_attachment_submit');
             handleFormAjax();
         }
     };
@@ -1188,6 +1193,8 @@ var clients = $('#monitor_visits').DataTable({
     "serverSide": true,
     "searchDelay": 500,
     "responsive": true,
+    "searching": false,
+    "bLengthChange": false,
     "dom": 'lfrti',
     "bInfo" : false,
     "info": false,
@@ -1232,7 +1239,18 @@ function monitorviewInfo(id) {
          $('#view_monitor_visit').modal('show');
 
      });
- }
+}
+function monitoreditInfo(id) {
+    
+    $.post(baseURL + '/edit_monitor_visit', {
+        _token: csrfToken,
+        id: id
+    }).done(function(response) {
+        $('.modal-body').html(response);
+        $('#edit_monitor_visit').modal('show');
+
+    });
+}
 function monitordel(id) {
      Swal.fire({
          title: "Are you sure?",
@@ -1259,25 +1277,7 @@ $('.close').click(function() {
     $('#view_monitor_visit').modal('hide');
 });
 
-//Action Points
 
-$("#activity_id").change(function () {
-        
-    var value = $(this).val();
-    csrf_token = csrfToken;
-   
-    $.ajax({
-        type: 'POST',
-        url: '/getactivity',
-        data: {'activity_id': value, _token:csrfToken  },
-        dataType: 'json',
-        success: function (data) {
-            document.getElementById('db_note').value = data.qbs_description;
-        }
-
-    });
-
-}).trigger('change');
 
 var clients = $('#action_points').DataTable({
     "order": [
@@ -1286,7 +1286,9 @@ var clients = $('#action_points').DataTable({
     "processing": true,
     "serverSide": true,
     "searchDelay": 500,
-    "responsive": false,
+    "responsive": true,
+    "searching": false,
+    "bLengthChange": false,
     "dom": 'lfrti',
     "bInfo" : false,
     "info": false,

@@ -58,7 +58,6 @@ class QBAttachmentsController extends Controller
 		
 		if($qbattachments){
 			foreach($qbattachments as $r){
-				$edit_url = route('monitor_visits.edit',$r->id);
                 $download_url = route('download.qb_attachments',$r->id);
 				$nestedData['id'] = $r->id;
 				$nestedData['comments'] = $r->comments;
@@ -68,6 +67,7 @@ class QBAttachmentsController extends Controller
 				$nestedData['action'] = '
                                 <div>
                                 <td>
+                                   
                                     <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();qb_attachmentviewInfo('.$r->id.');" title="View Monitor Visit" href="javascript:void(0)">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>

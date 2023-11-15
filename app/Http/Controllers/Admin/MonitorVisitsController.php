@@ -66,7 +66,13 @@ class MonitorVisitsController extends Controller
 		if($monitor_visits){
 			foreach($monitor_visits as $r){
 				$edit_url = route('monitor_visits.edit',$r->id);
-				$nestedData['activity_number'] = !empty($r->activity_number) ? $r->activity_number  : $r->gb_id;
+                if( is_float($r->activity_number + 0 )){
+                    $activity_number = 'Act-'.$r->activity_number;
+                }
+                else{
+                    $activity_number = 'Obs-'.$r->activity_number;
+                }
+				$nestedData['activity_number'] =  $activity_number ?? '';
 				$nestedData['gap_issue'] = $r->gap_issue;
 				$nestedData['created_at'] = date('d-M-Y H:i:s',strtotime($r->created_at));
 				$nestedData['action'] = '
@@ -75,6 +81,7 @@ class MonitorVisitsController extends Controller
                                     <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();monitorviewInfo('.$r->id.');" title="View Monitor Visit" href="javascript:void(0)">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
+                                    
                                     <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();monitordel('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </a>
@@ -118,21 +125,21 @@ class MonitorVisitsController extends Controller
             }
         }
      
-        $g_obs = GeneralObservations::where('quality_bench_id', $request->quality_bench_id)->latest()->first();
-        if($request->gb == 0){
+        $g_obs = MonitorVisit::where('quality_bench_id', $request->quality_bench_id)->where('activity_type','obs')->latest()->first();
+        if($request->gb == "999999"){
             
-            $activity_number = '';
-            $gb_id =  !empty($g_obs) ? 'GB_'.$g_obs->observation_id + 1 : 1;
+            $activity_type = 'obs';
+            $activity_number =  !empty($g_obs) ? $g_obs->activity_number + 1 : "1";
         }
         else{
-            $gb_id = '';
+            $activity_type = 'act';
             $activity_number = $request->activity_number;
         }
        
         $monitor_visits = MonitorVisit::create([
             'quality_bench_id'      => $request->quality_bench_id,
             'activity_number'       => $activity_number,
-            'gb_id'                 => $gb_id,
+            'activity_type'         => $activity_type,
             'qbs_description'       => $request->qbs_description,
             'qb_met'                => $request->qb_met,
             'gap_issue'             => $request->gap_issue ?? 'NA',

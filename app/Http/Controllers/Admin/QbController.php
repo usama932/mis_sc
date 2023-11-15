@@ -199,10 +199,11 @@ class QbController extends Controller
         $users      = User::where('user_type','R2')->orwhere('user_type','R1')->get();
         $qb         = QualityBench::with('monitor_visit','action_point')->find($id);
 
-        $count_monitor_visit  =   $qb->monitor_visit->count();
+        $count_monitor_visit  = MonitorVisit::where('quality_bench_id',$id)->where('activity_type', 'act')->count();
         $count_action_point   =   $qb->action_point->count();
+
         
-        $monitor_visits = MonitorVisit::where('quality_bench_id',$id)->latest()->get();
+        $monitor_visits = MonitorVisit::where('activity_type',"act")->where('quality_bench_id',$id)->latest()->get();
         $qb_attachment  = QBAttachement::where('quality_bench_id',$id)->first();
 
         

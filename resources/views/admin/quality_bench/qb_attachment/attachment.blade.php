@@ -1,20 +1,15 @@
 <div>
     <div class="">
-        <div class="alert alert-warning d-flex align-items-center p-5 mt-10 mb-5 me-20 ms-10">
-            <i class="ki-duotone ki-shield-tick fs-2hx text-warning me-4"><span class="path1"></span><span class="path2"></span></i>                    
-            <div class="d-flex flex-column">
-                <h4 class="mb-1 text-warning">QBs Not Fully Met</h4>
-                <span>This Monitoring Visit has {{$qb->qbs_not_fully_met ?? ''}} Not Fully met QBs.</span>
-            </div>
-        </div>
+        
     </div>
-    <form class="form" id="qb_attachment_form"  novalidate="novalidate" action="{{route('attachments.store')}}" method="post" enctype="multipart/form-data">
+    <form class="form p-5" id="qb_attachment_form"  novalidate="novalidate" action="{{route('attachments.store')}}" method="post" enctype="multipart/form-data">
         
         @csrf
         <input type="hidden" name="quality_bench_id" value="{{$qb->id}}">
         <div class="card-body py-4">
             <div class="row">
                 <input type="hidden" value="{{$qb_attachment->id ?? ''}}" name="id" >
+                <input type="hidden" name="submit" value="0">
                 <div class="fv-row col-md-12 mt-3">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="">Comments</span>
@@ -46,26 +41,21 @@
                         @else
                         <input type="file" name="document" class="form-control mx-4" value="">
                         @endif
-                    </div>
-                    
-                </div>
-               
-               
-             
-               
+                    </div>          
+                </div>     
             </div>
         
         
             </div>
             <div class="d-flex justify-content-end pt-5">
-                <button type="submit" id="kt_attachment_submit" class="btn btn-success btn-sm">
+                <button type="submit"  class="btn btn-success btn-sm kt_attachment_submit">
                     @include('partials/general/_button-indicator', ['label' => 'Save As Draft'])
                 </button>
-                <button type="button" id="" class="btn btn-primary btn-sm mx-3">
-                    @include('partials/general/_button-indicator', ['label' => 'Submit'])
-                </button>
-               
-                
+                @if($qb->qbs_not_fully_met > $qb->action_point->count() && $qb->qbs_not_fully_met > $qb->monitor_visit->count())
+                    <button type="submit" id="submitbtn" class="btn btn-primary btn-sm mx-3 kt_attachment_submit">
+                        @include('partials/general/_button-indicator', ['label' => 'Submit'])
+                    </button>
+                @endif
             </div>
         </div>
     </form>

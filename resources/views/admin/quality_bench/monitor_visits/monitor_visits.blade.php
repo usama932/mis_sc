@@ -9,12 +9,12 @@
         </div>
       
         <div class="d-flex justify-content-end hover-elevate-up mx-5">
-            @if($qb->qbs_not_fully_met > $qb->monitor_visit->count())
-            <button class="btn btn-sm btn-primary mx-5" id="addqbBtn"> <i class="ki-duotone ki-abstract-10">
-                <span class="path1"></span>
-                <span class="path2"></span>
-                </i>Add QB Not Full Met
-            </button>
+            @if($qb->qbs_not_fully_met > $count_monitor_visit)
+                <button class="btn btn-sm btn-primary mx-5" id="addqbBtn"> <i class="ki-duotone ki-abstract-10">
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                    </i>Add QB Not Full Met
+                </button>
             @endif
             <button class="btn btn-sm btn-primary mx-5" id="addgeneralobs"> <i class="ki-duotone ki-abstract-10">
                 <span class="path1"></span>
@@ -30,13 +30,7 @@
             @csrf
             <input type="hidden" name="quality_bench_id" value="{{$qb->id}}">
             <div class="card-body">
-                <div class="card-title  border-0"">
-                    <div class="card-title">
-                        <div class="d-flex align-items-center position-relative my-1" style="background-color: #F1C40F !important; border-radius:25px;">
-                            <h5 class="fw-bold m-3">Add QB Not Fully Met::</h5>
-                        </div>
-                    </div>
-                </div>
+        
                 <div class="row">
                  
                     <div class="fv-row col-md-2 mt-3">
@@ -92,15 +86,9 @@
             @csrf
             <input type="hidden" name="quality_bench_id" value="{{$qb->id}}">
             <input type="hidden" name="activity_number" value="1.1">
-            <input type="hidden" name="gb" value="0">
+            <input type="hidden" name="gb" value="999999">
             <div class="card-body">
-                <div class="card-title  border-0"">
-                    <div class="card-title">
-                        <div class="d-flex align-items-center position-relative my-1" style="background-color: #F1C40F !important; border-radius:25px;">
-                            <h5 class="fw-bold m-3">Add QB Not Fully Met::</h5>
-                        </div>
-                    </div>
-                </div>
+               
                 <div class="row">
                   
                     <div class="fv-row col-md-10 mt-3">
@@ -149,7 +137,7 @@
         <div class="card-title  border-0 ">
             <div class="card-title">
                 <div class="d-flex align-items-center position-relative" style="background-color: #F1C40F !important; border-radius:25px;">
-                    <h5 class="fw-bold m-3">QB/Issues List::</h5>
+                    <h5 class="fw-bold m-3">QBs Not Fully Met & General Observations List</h5>
                   
 
                 </div>
