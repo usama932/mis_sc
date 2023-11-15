@@ -37,7 +37,7 @@ class QbRepository implements QbRepositoryInterface
     }
     public function updateQb($data,$id)
     {
-        $qb_not_met =  ($data['total_qbs'] + $data['qb_not_applicable']) - $data['qbs_fully_met'] ;   
+        $qb_not_met =  $data['total_qbs'] - ( $data['qbs_fully_met'] + $data['qb_not_applicable']) ;   
         $score_out =( $data['total_qbs'] - $data['qb_not_applicable'])/$data['qbs_fully_met'];
         return QualityBench::where('id',$id)->update([
 

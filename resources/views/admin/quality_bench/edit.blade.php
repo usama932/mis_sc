@@ -21,67 +21,59 @@
         @endif
         <input type="hidden" id="qb_id" value="{{$qb->id}}" />
         <div class="container-fluid">
-		<ul class="nav nav-tabs mt-1 fs-6">
-            <li class="nav-item">
-                <a class="nav-link @if(session('active') == 'basic_info')  active @endif" data-bs-toggle="tab" href="#basic_info">Summary</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link @if(session('active') == 'monitor_visit') active @else  @endif" data-bs-toggle="tab" href="#monitor_visit" >QBs Not Fully Met</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link @if(session('active') == 'action_point') active @else  @endif" data-bs-toggle="tab" href="#action_point">Action Point Details</a>
-            </li>
-			<li class="nav-item">
-                <a class="nav-link @if(session('active') == 'qbattachment') active @else  @endif" data-bs-toggle="tab" href="#qbattachment">Comments and Attachment</a>
-            </li>
-        </ul>
+            <ul class="nav nav-tabs mt-1 fs-6">
+                <li class="nav-item">
+                    <a class="nav-link @if(session('active') == 'basic_info')  active @endif" data-bs-toggle="tab" href="#basic_info">Summary</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @if(session('active') == 'monitor_visit') active @else  @endif" data-bs-toggle="tab" href="#monitor_visit" >QBs Not Fully Met</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @if(session('active') == 'action_point') active @else  @endif" data-bs-toggle="tab" href="#action_point">Action Point Details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @if(session('active') == 'qbattachment') active @else  @endif" data-bs-toggle="tab" href="#qbattachment">Comments and Attachment</a>
+                </li>
+            </ul>
         </div>
-<div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show @if(session('active') == 'basic_info') active @else  @endif" id="basic_info" role="tabpanel">
-            <div>
-                @include('admin.quality_bench.basic_information.basic_information')
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show @if(session('active') == 'basic_info') active @else  @endif" id="basic_info" role="tabpanel">
+                <div>
+                    @include('admin.quality_bench.basic_information.basic_information')
+                </div>
             </div>
-        </div>
-    <div class="tab-pane fade show @if(session('active') == 'monitor_visit') active @else  @endif" id="monitor_visit" role="tabpanel">
-            <div>
-                @include('admin.quality_bench.monitor_visits.monitor_visits')
+            <div class="tab-pane fade show @if(session('active') == 'monitor_visit') active @else  @endif" id="monitor_visit" role="tabpanel">
+                <div>
+                    @include('admin.quality_bench.monitor_visits.monitor_visits')
+                </div>
             </div>
-        </div>
-    <div class="tab-pane fade show @if(session('active') == 'action_point') active @else  @endif" id="action_point" role="tabpanel">
-        
-            <div>
-                @include('admin.quality_bench.action_point.action_point')
+            <div class="tab-pane fade show @if(session('active') == 'action_point') active @else  @endif" id="action_point" role="tabpanel">
+            
+                <div>
+                    @include('admin.quality_bench.action_point.action_point')
+                </div>
             </div>
-        </div>
-		<div class="tab-pane fade show @if(session('active') == 'qbattachment') active @else  @endif" id="qbattachment" role="tabpanel">
-            <div>
-                @include('admin.quality_bench.qb_attachment.attachment')
+            <div class="tab-pane fade show @if(session('active') == 'qbattachment') active @else  @endif" id="qbattachment" role="tabpanel">
+                <div>
+                    @include('admin.quality_bench.qb_attachment.attachment')
+                </div>
             </div>
-        </div>
         </div>
     </div>
     @push('scripts')
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script>
             $("#qbformDiv").hide();
+            $("#general_obsform").hide();
             $("#qbtableDiv").show();
             $("#qb_action_point_form").hide();
             $("#actionpointtableDiv").show();
-            function showTab(tabId) {
-                // Hide all tabs and tab contents
-                document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-
-                // Show the selected tab and corresponding tab content
-                document.getElementById(tabId).classList.add('active');
-                event.currentTarget.classList.add('active');
-            }
+          
             $('#date_visit').flatpickr({
-            altInput: true,
-            dateFormat: "Y-m-d",
-            maxDate: new Date().fp_incr(+0),
-            minDate: new Date().fp_incr(-30),
-        });
+                altInput: true,
+                dateFormat: "Y-m-d",
+                maxDate: new Date().fp_incr(+0),
+                minDate: new Date("2023-10-01"),
+            });
         </script>
      
     @endpush

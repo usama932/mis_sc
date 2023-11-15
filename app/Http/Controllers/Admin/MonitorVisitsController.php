@@ -10,6 +10,7 @@ use App\Models\Theme;
 use App\Models\User;
 use App\Models\MonitorVisit;
 use Illuminate\Support\Facades\Session;
+use App\Models\GeneralObservations;
 use Illuminate\Support\Facades\Validator;
 
 class MonitorVisitsController extends Controller
@@ -65,7 +66,7 @@ class MonitorVisitsController extends Controller
 		if($monitor_visits){
 			foreach($monitor_visits as $r){
 				$edit_url = route('monitor_visits.edit',$r->id);
-				$nestedData['activity_number'] = $r->activity_number;
+				$nestedData['activity_number'] = !empty($r->activity_number) ? $r->activity_number  : $r->gb_id;
 				$nestedData['gap_issue'] = $r->gap_issue;
 				$nestedData['created_at'] = date('d-M-Y H:i:s',strtotime($r->created_at));
 				$nestedData['action'] = '
@@ -104,6 +105,7 @@ class MonitorVisitsController extends Controller
 
     public function store(Request $request)
     {
+       
         $active = 'monitor_visit';
 
         if($request->qb_met == 'Not Fully Met'){
@@ -115,10 +117,22 @@ class MonitorVisitsController extends Controller
                 return redirect()->back()->withErrors($validator);
             }
         }
-
+     
+        $g_obs = GeneralObservations::where('quality_bench_id', $request->quality_bench_id)->latest()->first();
+        if($request->gb == 0){
+            
+            $activity_number = '';
+            $gb_id =  !empty($g_obs) ? 'GB_'.$g_obs->observation_id + 1 : 1;
+        }
+        else{
+            $gb_id = '';
+            $activity_number = $request->activity_number;
+        }
+       
         $monitor_visits = MonitorVisit::create([
             'quality_bench_id'      => $request->quality_bench_id,
-            'activity_number'       => $request->activity_number,
+            'activity_number'       => $activity_number,
+            'gb_id'                 => $gb_id,
             'qbs_description'       => $request->qbs_description,
             'qb_met'                => $request->qb_met,
             'gap_issue'             => $request->gap_issue ?? 'NA',
@@ -127,7 +141,7 @@ class MonitorVisitsController extends Controller
         
         session(['active' => $active]);
         $editUrl = route('quality-benchs.edit',$request->quality_bench_id);
-     
+      
         return response()->json([
             'editUrl' => $editUrl
         ]);

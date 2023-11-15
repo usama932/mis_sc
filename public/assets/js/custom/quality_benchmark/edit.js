@@ -130,11 +130,15 @@ var KTupdateValidate = function () {
                     'total_qbs':{
                         validators: {
                             notEmpty: {
-                                message: 'Total QBs required'
+                                message: 'Required'
                             },
                             numeric: {
-                                message: 'Must be a number'
-                            }
+                                message: 'only digits allowed'
+                            },
+							greaterThan:{
+								message: 'Must be greater than 0',
+								min: 1
+							}
                         }
                     },
                     'qbs_fully_met': {
@@ -143,16 +147,13 @@ var KTupdateValidate = function () {
                                 message: 'Required'
                             },
                             numeric: {
-                                message: 'Must be a number'
+                                message: 'only digits allowed'
                             },
-                            
-                            callback: {
-                                message: 'Must br greater than total',
-                                
-                                callback: function (input) {
-                                    var total_qbs = document.getElementById('total_qbs').value;
-                                    var qbs_fully_met = document.getElementById('qbs_fully_met').value;
-                                    if (total_qbs > qbs_fully_met || total_qbs == qbs_fully_met) {
+							callback: {
+                                message: 'Must be less or equal to total QBs',
+                                callback: function (i) {
+                                    var total_qbs = $('#total_qbs').val();
+                                    if (parseInt(total_qbs) >= i.value) {
                                         return true;
                                     }
                                     else{
@@ -165,10 +166,25 @@ var KTupdateValidate = function () {
                     'qb_not_applicable':{
                         validators: {
                             notEmpty: {
-                                message: 'QBs Not Applicable required'
+                                message: 'Required'
                             },
                             numeric: {
-                                message: 'Must be a number'
+                                message: 'only digits allowed'
+                            },
+							callback: {
+                                message: 'Met and not applicable QBs must be less then total QBs',
+                                callback: function (i) {
+                                    var total_qbs = $('#total_qbs').val();
+									var qbs_fully_met = $('#qbs_fully_met').val();
+									var _qb_count = parseInt(qbs_fully_met) + parseInt(i.value)
+									console.log(total_qbs, qbs_fully_met, i.value, _qb_count)
+                                    if (parseInt(total_qbs) >= _qb_count) {
+                                        return true;
+                                    }
+                                    else{
+                                        return false;
+                                    }
+                                }
                             }
                         }
                     },
@@ -357,6 +373,10 @@ var KTqbmonitorValidate = function () {
                         validators: {
                             notEmpty: {
                                 message: 'Activity Number required'
+                            },
+                            regexp: {
+                                regexp: /^(?:[1-9]|(?:[1-9]\.\d+))$/,
+                                message: 'Enter  decimal like 1.1, 1.2, etc.'
                             }
                         }
                     },
@@ -530,13 +550,200 @@ var KTqbmonitorValidate = function () {
     };
 }();
 
+
 // On document ready
 KTUtil.onDOMContentLoaded(function () {
   
     KTqbmonitorValidate.init();
 });
 // ----------------End Monitor   Qbs date------------------
+// general observation
+//Monitor   QB data
+var KTgbValidate = function () {
+    // Elements
+    var form;
+    var submitButton;
 
+
+    // Handle form ajax
+    var handleFormAjax = function (e) {
+        // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
+        var validator = FormValidation.formValidation(
+            form,
+            {
+                fields: {
+                    
+                    'qbs_description':{
+                        validators: {
+                            notEmpty: {
+                                message: 'QB Description is required'
+                            }
+                        }
+                    },
+                    'qb_met':{
+                        validators: {
+                            notEmpty: {
+                                message: 'QB Met is required'
+                            }
+                        }
+                    },
+                    'gap_issue': {
+                        validators: {
+                            notEmpty: {
+                                message: 'QB Met is required'
+                            }
+                        }
+                    },
+                  
+                },
+              
+                plugins: {
+                    trigger: new FormValidation.plugins.Trigger(),
+                    bootstrap: new FormValidation.plugins.Bootstrap5({
+                        rowSelector: '.fv-row',
+                        eleInvalidClass: '',  // comment to enable invalid state icons
+                        eleValidClass: '' // comment to enable valid state icons
+                    })
+                }
+            }
+        );
+            
+        // Handle form submit
+        submitButton.addEventListener('click', function (e) {
+            e.preventDefault();
+
+
+            validator.validate().then(function (status) {
+                if (status == 'Valid') {
+                    // Show loading indication
+                    submitButton.setAttribute('data-kt-indicator', 'on');
+
+                    // Disable button to avoid multiple click
+                    submitButton.disabled = true;
+
+
+                    // Check axios library docs: https://axios-http.com/docs/intro
+                    axios.post(submitButton.closest('form').getAttribute('action'), new FormData(form)).then(function (response) {
+                        if (response) {
+                           
+                            form.reset();
+                            toastr.options = {
+                                "closeButton": true,
+                                "debug": false,
+                                "newestOnTop": false,
+                                "progressBar": false,
+                                "positionClass": "toastr-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            };
+                            toastr.success("QB  Created", "success");
+                            window.location.href = response.data.editUrl;
+                            
+                        } else {
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": true,
+                                "newestOnTop": false,
+                                "progressBar": false,
+                                "positionClass": "toastr-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                              };
+                              
+                              toastr.error("Some thing Went Wrong", "Error");
+                        }
+                    }).catch(function (error) {
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": true,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toastr-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                          };
+                          
+                          toastr.error("Some thing Went Wrong", "Error");   
+                    }).then(() => {
+                        // Hide loading indication
+                        submitButton.removeAttribute('data-kt-indicator');
+
+                        // Enable button
+                        submitButton.disabled = false;
+                    });
+
+                } else {
+                    // Show error popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": true,
+                        "newestOnTop": false,
+                        "progressBar": false,
+                        "positionClass": "toastr-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                      };
+                      
+                      toastr.error("Some thing Went Wrong", "Error");
+                }
+            });
+        });
+
+    }
+
+    // Public functions
+    return {
+        // Initialization
+        init: function () {
+            
+            form = document.querySelector('#general_observation');
+            submitButton = document.querySelector('#kt_general_observation');
+            handleFormAjax();
+        }
+    };
+}();
+
+
+// On document ready
+KTUtil.onDOMContentLoaded(function () {
+  
+    KTgbValidate.init();
+});
+// ----------------End Monitor   Qbs date------------------
+
+// End observations
 //Action Point   QB data
 var KTqbactionpointValidate = function () {
     // Elements
@@ -975,14 +1182,16 @@ var baseURL = window.location.origin;
 var qb_id = document.getElementById("qb_id").value;
 var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 var clients = $('#monitor_visits').DataTable({
-    "order": [
-        [1, 'asc']
-    ],
+   
     
     "processing": true,
     "serverSide": true,
     "searchDelay": 500,
     "responsive": true,
+    "dom": 'lfrti',
+    "bInfo" : false,
+    "info": false,
+    "showNEntries" : false,
     "ajax": {
         "url": "/get_monitor_visits",
         "dataType": "json",
@@ -1015,9 +1224,8 @@ var clients = $('#monitor_visits').DataTable({
 });
 function monitorviewInfo(id) {
     
-     var CSRF_TOKEN = csrfToken;
      $.post(baseURL + '/view_monitor_visit', {
-         _token: c,
+         _token: csrfToken,
          id: id
      }).done(function(response) {
          $('.modal-body').html(response);
@@ -1079,6 +1287,10 @@ var clients = $('#action_points').DataTable({
     "serverSide": true,
     "searchDelay": 500,
     "responsive": false,
+    "dom": 'lfrti',
+    "bInfo" : false,
+    "info": false,
+    "showNEntries" : false,
     "ajax": {
         "url": "/get_action_points",
         "dataType": "json",
@@ -1270,15 +1482,22 @@ $('#deadline').flatpickr({
     maxDate: new Date().fp_incr(+60), 
 });
 $(document).ready(function(){
-$("#addqbBtn").click(function(){
-  
-  $("#qbformDiv").slideToggle();
-  $("#qbtableDiv").slideToggle();
-});
-$("#addactionpointBtn").click(function(){
-  
-  $("#qb_action_point_form").slideToggle();
-  $("#actionpointtableDiv").slideToggle();
-});
+        $("#addqbBtn").click(function(){
+        $("#qbtableDiv").slideToggle(); 
+        $("#qbformDiv").slideToggle();
+        $("#general_obsform").hide();
+
+    });
+    $("#addgeneralobs").click(function(){
+        $("#general_obsform").slideToggle();
+        $("#qbtableDiv").slideToggle(); 
+        $("#qbformDiv").hide();
+    });
+    
+    $("#addactionpointBtn").click(function(){
+    
+    $("#qb_action_point_form").slideToggle();
+    $("#actionpointtableDiv").slideToggle();
+    });
 });
 

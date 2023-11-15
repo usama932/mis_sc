@@ -115,6 +115,8 @@ class QbController extends Controller
 				$edit_url = route('quality-benchs.edit',$r->id);
                 $view_url = route('quality-benchs.show',$r->id);
 				$nestedData['id'] = $r->id;
+                
+                $nestedData['visit_staff_name'] =$r->visit_staff_name ?? '';
                 $nestedData['date_visit'] =date('d-M-Y', strtotime($r->date_visit)) ?? '';
                 $nestedData['accompanied_by'] = $r->accompanied_by ?? '';
                 $nestedData['type_of_visit'] = $r->type_of_visit ?? '';

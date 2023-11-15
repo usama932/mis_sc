@@ -339,9 +339,3 @@ KTUtil.onDOMContentLoaded(function () {
 
 
 
-$('#date_visit').flatpickr({
-    altInput: true,
-    dateFormat: "Y-m-d",
-    maxDate: new Date().fp_incr(+0),
-    minDate: new Date("2023-10-01"),
-});

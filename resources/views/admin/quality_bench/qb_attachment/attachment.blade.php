@@ -1,7 +1,12 @@
 <div>
     <div class="">
-        <h5><span class="text-danger ">Note:: </span> Monitoring Visit has <span class="text-danger "> {{$qb->qbs_not_fully_met ?? ''}}</span> QBs not fully met.</h5>
-       
+        <div class="alert alert-warning d-flex align-items-center p-5 mt-10 mb-5 me-20 ms-10">
+            <i class="ki-duotone ki-shield-tick fs-2hx text-warning me-4"><span class="path1"></span><span class="path2"></span></i>                    
+            <div class="d-flex flex-column">
+                <h4 class="mb-1 text-warning">QBs Not Fully Met</h4>
+                <span>This Monitoring Visit has {{$qb->qbs_not_fully_met ?? ''}} Not Fully met QBs.</span>
+            </div>
+        </div>
     </div>
     <form class="form" id="qb_attachment_form"  novalidate="novalidate" action="{{route('attachments.store')}}" method="post" enctype="multipart/form-data">
         
@@ -10,13 +15,7 @@
         <div class="card-body py-4">
             <div class="row">
                 <input type="hidden" value="{{$qb_attachment->id ?? ''}}" name="id" >
-                 <div class="fv-row col-md-6 mt-3">
-                    <label class="fs-6 fw-semibold form-label mb-2">
-                        <span class="">General Observations by field monitor</span>
-                    </label>
-                    <textarea class="form-control " placeholder="General Observations by field monitor" row="2"  name="generating_observation">{{$qb_attachment->generating_observation ?? ''}}</textarea>
-                </div>
-                <div class="fv-row col-md-6 mt-3">
+                <div class="fv-row col-md-12 mt-3">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="">Comments</span>
                     </label>

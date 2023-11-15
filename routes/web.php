@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\MonitorVisitsController;
+use App\Http\Controllers\Admin\generalobservationsConroller;
 use App\Http\Controllers\Admin\QBAttachmentsController;
 use App\Http\Controllers\Admin\QBActionPointController;
 use Illuminate\Support\Facades\Route;

@@ -134,7 +134,6 @@ class QBAttachmentsController extends Controller
                 'comments'                  => $request->comments,
                 'created_by'                => auth()->user()->id,
                 'quality_bench_id'          => $request->quality_bench_id,
-                'generating_observation'    => $request->generating_observation
             ]);
         }
         
