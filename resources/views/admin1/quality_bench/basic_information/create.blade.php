@@ -1,6 +1,6 @@
 <x-nform-layout>
     @section('title')
-        Add Monitoring Visit
+        Create Monitoring Quality Benchmarks
     @endsection
     <style>
         .error-message {
@@ -21,31 +21,46 @@
             </ul>
         </div>
         @endif
-       <ul class="nav nav-tabs mt-1 fs-6">
-            <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="tab" href="#kt_tab_pane_1">Summary</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" data-bs-toggle="tab" href="#kt_tab_pane_2" >QBs Not Fully Met</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" data-bs-toggle="tab" href="#kt_tab_pane_3">Action Point Details</a>
-            </li>
-			<li class="nav-item">
-                <a class="nav-link disabled" data-bs-toggle="tab" href="#kt_tab_pane_4">Comments and Attachment</a>
-            </li>
-        </ul>
+       
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="kt_tab_pane_1" role="tabpanel">
                 <form class="form" id="qb_form"  novalidate="novalidate" data-kt-redirect-url="{{ route('quality-benchs.index') }}" action="{{ route('quality-benchs.store') }}">
                     @csrf
                     <div class="card-body">
                         <div class="row">
-						<div class="fv-row col-sm-3 col-md-6 col-lg-6">
+                            <div class="fv-row col-sm-3 col-md-3 col-lg-3">
+                                <label class="fs-6 fw-semibold form-label mb-2">
+                                    <span class="required">QB Filled By</span>
+                                </label>
+                                <input type="text" class="form-control" id="qb_filledby"  name="qb_filledby" value="" placeholder="Enter Filled By">
+                              
+                                <div id="qb_filledbyError" class="error-message"></div>
+                            </div>
+                            <div class="fv-row col-sm-3 col-md-3 col-lg-3">
+                                <label class="fs-6 fw-semibold form-label mb-2">
+                                    <span class="required">Theme</span>
+                                </label>
+                                <select name="theme" id="theme" aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme" class="form-select">
+                                    <option value="">Select Theme</option>
+                                    @foreach($themes as $theme)
+                                        <option value="{{$theme->id}}">{{$theme->name}}</option>
+                                    @endforeach
+                                </select>
+                                <div id="themeError" class="error-message"></div>
+                            </div>
+                            <div class="fv-row col-sm-3 col-md-3 col-lg-3">
+                                <label class="fs-6 fw-semibold form-label mb-2">
+                                    <span class="required">Sub Theme</span>
+                                </label>
+                                <input type="text" class="form-control" id="sub_theme"  name="sub_theme" value="" placeholder="Enter Sub-theme">
+                              
+                                <div id="sub_themeError" class="error-message"></div>
+                            </div>
+                            <div class="fv-row col-sm-3 col-md-3 col-lg-3">
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Project</span>
                                 </label>
-                                <select   name="project_name" id="project_name" aria-label="Select Project" data-control="select2" data-placeholder="Select Project" class="form-select">
+                                <select   name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Theme" class="form-select">
                                     <option value="">Select Project</option>
                                     @foreach($projects as $project)
                                     <option value="{{$project->id}}">{{$project->name}}</option>
@@ -53,31 +68,8 @@
                                 </select>
                                 <div id="project_nameError" class="error-message "></div>
                             </div>
-						<div class="fv-row col-md-3">
-                                <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">Project Type</span>
-                                </label>
-                                <select name="project_type" id="project_type" aria-label="Select Project Type" data-control="select2" data-placeholder="Select Project Type" class="form-select">
-                                    <option value="">Select Project Type</option>
-                                    <option value="Humanitarian">Humanitarian</option>
-                                    <option value="Development">Development</option>
-                                </select>
-                                <div id="project_typeError" class="error-message "></div>
-                            </div>
-							<div class="fv-row col-sm-3 col-md-3 col-lg-3">
-                                <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">Partner</span>
-                                </label>
-                                <select   name="partner" id="partner" aria-label="Select Partner" data-control="select2" data-placeholder="Select Partner" class="form-select">
-                                    <option value="">Select Partner</option>
-                                    <option  value="LRF" >LRF</option>
-                                    <option  value="NRSP" >NRSP</option>
-                                    <option  value="PPHI" >PPHI</option>
-                                    <option  value="SRSP" >SRSP</option>
-                                    <option  value="TKF" >TKF</option>
-                                </select>
-                                <div id="partnerError" class="error-message "></div>
-                            </div>
+                          
+                           
                         </div>
                         <div class="row mt-3">
                             <div class="fv-row col-md-3">
@@ -141,19 +133,18 @@
                                 <input class="form-control" id="vilage" placeholder="Enter Village" name="village" value="">
                                 <div id="villageError" class="error-message "></div>
                             </div>
-							<div class="fv-row col-sm-3 col-md-3 col-lg-3">
+                            <div class="fv-row col-md-3">
                                 <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">Theme</span>
+                                    <span class="required">Project Type</span>
                                 </label>
-                                <select name="theme" id="theme" aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme" class="form-select">
-                                    <option value="">Select Theme</option>
-                                    @foreach($themes as $theme)
-                                        <option value="{{$theme->id}}">{{$theme->name}}</option>
-                                    @endforeach
+                                <select name="project_type" id="project_type" aria-label="Select a Project Type" data-control="select2" data-placeholder="Select a Project Type" class="form-select">
+                                    <option value="">Select Project Type</option>
+                                    <option value="Humanitarian">Humanitarian</option>
+                                    <option value="Development">Development</option>
                                 </select>
-                                <div id="themeError" class="error-message"></div>
+                                <div id="project_typeError" class="error-message "></div>
                             </div>
-							<div class="fv-row col-md-3">
+                            <div class="fv-row col-md-3">
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Type of visit</span>
                                 </label>
@@ -164,7 +155,35 @@
                                 </select>
                                 <div id="type_of_visitError" class="error-message "></div>
                             </div>
-							<div class="fv-row col-md-3">
+                            <div class="fv-row col-sm-3 col-md-3 col-lg-3">
+                                <label class="fs-6 fw-semibold form-label mb-2">
+                                    <span class="required">Partner</span>
+                                </label>
+                                <select   name="partner" id="partner" aria-label="Select a Partner Name" data-control="select2" data-placeholder="Select a Partner" class="form-select">
+                                    <option value="">Select Partner Name</option>
+                                    <option  value="LRF" >LRF</option>
+                                    <option  value="NRSP" >NRSP</option>
+                                    <option  value="PPHI" >PPHI</option>
+                                    <option  value="SRSP" >SRSP</option>
+                                    <option  value="TKF" >TKF</option>
+                                </select>
+                                <div id="partnerError" class="error-message "></div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="fv-row col-md-4">
+                                <label class="fs-6 fw-semibold form-label mb-2">
+                                    <span class="required">Monitoring Type</span>
+                                </label>
+                                <select   name="monitoring_type" id="monitoring_type"  aria-label="Select a Type of Visit " data-control="select2" data-placeholder="Select a Monitoring Type" class="form-select">
+                                    <option value="">Select Monitoring Type</option>
+                                    <option value="Process and output monitoring">Process and output monitoring</option>
+                                    <option value="Distribution">Distribution</option>
+                                    <option value="Joint outcome monitoring">Joint outcome monitoring</option>
+                                </select>
+                                <div id="monitoring_typeError" class="error-message"></div>
+                            </div>
+                            <div class="fv-row col-md-4">
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Accompanied By</span>
                                 </label>
@@ -177,28 +196,23 @@
                                 </select>
                                 <div id="accompanied_byError" class="error-message"></div>
                             </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="fv-row col-md-3">
-                                <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">Monitoring Type</span>
-                                </label>
-                                <select   name="monitoring_type" id="monitoring_type"  aria-label="Select a Type of Visit " data-control="select2" data-placeholder="Select a Monitoring Type" class="form-select">
-                                    <option value="">Select Monitoring Type</option>
-                                    <option value="Process and output monitoring">Process and output monitoring</option>
-                                    <option value="Distribution">Distribution</option>
-                                    <option value="Joint outcome monitoring">Joint outcome monitoring</option>
-                                </select>
-                                <div id="monitoring_typeError" class="error-message"></div>
-                            </div>
-                            <div class="fv-row col-md-6">
+                            <div class="fv-row col-md-4">
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Activity visited</span>
                                 </label>
                                 <textarea  rows="1" class="form-control" id="activity_description"  name="activity_description"></textarea>
                                 <div id="activity_descriptionError" class="error-message"></div>
                             </div>
-							<div class="fv-row col-sm-3 col-md-1 col-lg-1">
+                        </div>
+                        <div class="row mt-3">
+                            <div class="fv-row col-md-3">
+                                <label class="fs-6 fw-semibold form-label mb-2">
+                                    <span class="required">Date of monitoring visit </span>
+                                </label>
+                                <input type="text" name="date_visit" id="date_visit" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="" required>
+                                <div id="date_visitError" class="error-message"></div>
+                            </div>
+                            <div class="fv-row col-sm-3 col-md-1 col-lg-1">
                                 <label class="fs-9 fw-semibold form-label mb-2">
                                     <span class="required">Total QBs</span>
                                 </label>
@@ -219,22 +233,23 @@
                                 <input type="text" class="form-control" name="qb_not_applicable" id="qb_not_applicable" value="">
                                 <div id="qb_not_applicableError" class="error-message"></div>
                             </div>
-                        </div>
-                        <div class="row mt-3">
                             <div class="fv-row col-md-3">
                                 <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">Date of monitoring visit </span>
+                                    <span class="required">Visit Staff Name</span>
                                 </label>
-                                <input type="text" name="date_visit" id="date_visit" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="" required>
-                                <div id="date_visitError" class="error-message"></div>
-                            </div>
-							<div class="fv-row col-sm-3 col-md-3 col-lg-3">
-                                <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">QB Filled By</span>
-                                </label>
-                                <input type="text" class="form-control" id="qb_filledby"  name="qb_filledby" value="" placeholder="Enter Filled By">
-                              
-                                <div id="qb_filledbyError" class="error-message"></div>
+                                <select name="visit_staff_name" id="visit_staff_name" aria-label="Select a Visit Staff Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select ">
+                                    <option  value="">Select Option</option>
+                                    @foreach($users as $user)
+                                    <option  value="{{$user->name}}" >{{$user->name}}</option>
+                                    @endforeach
+                                    <option  value="Ruqaiya Bibi" >Ruqaiya Bibi</option>
+                                    <option  value="Mehnaz" >Mehnaz</option>
+                                    <option  value="Musarrat Bibi" >Musarrat Bibi</option>
+                                    <option  value="Shaista Mir" >Shaista Mir</option>
+                                    <option  value="Shama" >Shama</option>
+                                    <option  value="Zahid Ali Khan" >Zahid Ali Khan</option>
+                                </select>
+                                <div id="visit_staff_nameError" class="error-message"></div>
                             </div>
                             <div class="fv-row col-md-3">
                                 <label class="fs-6 fw-semibold form-label mb-2">
@@ -251,10 +266,11 @@
                             </div>
 
                         </div>
-                        <div class="separator my-3"></div>
-                        <div class="text-end">
+                        <div class="separator my-10"></div>
+                        
+                        <div class="text-center pt-15">
                             <button type="submit" id="kt_qb_submit" class="btn btn-primary">
-                                @include('partials/general/_button-indicator', ['label' => 'Continue'])
+                                @include('partials/general/_button-indicator', ['label' => 'Submit'])
                             </button>
                             
                         </div>

@@ -11,10 +11,8 @@ class QbRepository implements QbRepositoryInterface
         $qb_not_met = $data['total_qbs'] - $data['qbs_fully_met'];   
         $score_out =( $data['total_qbs'] - $data['qb_not_applicable'])/$data['qbs_fully_met'];   
         return QualityBench::create([
-            'visit_staff_name'      => $data['visit_staff_name'],
             'date_visit'            => $data['date_visit'],
             'qb_filledby'           => $data['qb_filledby'],
-            'sub_theme'             => $data['sub_theme'],
             'accompanied_by'        => $data['accompanied_by'],
             'type_of_visit'         => $data['type_of_visit'],   
             'province'              => $data['province'],
@@ -49,7 +47,6 @@ class QbRepository implements QbRepositoryInterface
             'province'              => $data['province'],
             'district'              => $data['district'],
             'qb_filledby'           => $data['qb_filledby'],
-            'sub_theme'             => $data['sub_theme'],
             'tehsil'                => $data['tehsil'],
             'union_counsil'         => $data['union_counsil'],
             'village'               => $data['village'],

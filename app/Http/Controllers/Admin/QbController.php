@@ -40,15 +40,14 @@ class QbController extends Controller
         $id = $request->qb_id;
         $columns = array(
 			0 => 'id',
-			1 => 'visit_staff_name',
-			2 => 'date_visit',
-            3 => 'accompanied_by',
-            4 => 'type_of_visit',
-            5 => 'province',
-            6 => 'district',
-            7 => 'project_type',
-            8 => 'project_name',
-            10 => 'created_at',
+			1 => 'date_visit',
+            2 => 'accompanied_by',
+            3 => 'type_of_visit',
+            4 => 'province',
+            5 => 'district',
+            6 => 'project_type',
+            7 => 'project_name',
+            8 => 'created_at',
 
 		);
 		
@@ -67,10 +66,6 @@ class QbController extends Controller
         if($request->kt_select2_province != null && $request->kt_select2_province != 'None'){
 
             $qualit_benchs->where('province',$request->kt_select2_province);
-        }
-        if($request->visit_staff != null && $request->visit_staff != 'None'){
-
-            $qualit_benchs->where('visit_staff_name',$request->visit_staff);
         }
       
         $dateParts = explode(' to ',$request->date_visit);
@@ -120,7 +115,6 @@ class QbController extends Controller
 				$edit_url = route('quality-benchs.edit',$r->id);
                 $view_url = route('quality-benchs.show',$r->id);
 				$nestedData['id'] = $r->id;
-				$nestedData['visit_staff_name'] = $r->visit_staff_name ?? '';
                 $nestedData['date_visit'] =date('d-M-Y', strtotime($r->date_visit)) ?? '';
                 $nestedData['accompanied_by'] = $r->accompanied_by ?? '';
                 $nestedData['type_of_visit'] = $r->type_of_visit ?? '';
@@ -196,7 +190,7 @@ class QbController extends Controller
     public function edit(string $id)
     {
         $active     = 'basic_info';
-        $title      = "Edit Monitoring Quality Benchmarks";
+        $title      = "Add QBs Details and Action Points Details";
 
         $projects   = Project::latest()->get();
         $themes     = Theme::latest()->get();
@@ -273,7 +267,6 @@ class QbController extends Controller
         $project_type = $request->project_type;
         $project_name = $request->project_name;
         $data = [
-                    'visit_staff_name'  => $visit_staff_name,
                     'date_visit'        => $date_visit,
                     'accompanied_by'    => $accompanied_by,
                     'type_of_visit'     => $type_of_visit,

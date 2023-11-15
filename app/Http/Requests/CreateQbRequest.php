@@ -26,8 +26,6 @@ class CreateQbRequest extends FormRequest
     public function rules(): array
     {
         return [
-         
-            'visit_staff_name' => ['required', 'string'],
             'date_visit' => ['required'],
             'accompanied_by' => ['required','string'],
             'type_of_visit' => ['required','string'],

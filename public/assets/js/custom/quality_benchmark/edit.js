@@ -1014,8 +1014,10 @@ var clients = $('#monitor_visits').DataTable({
     ]
 });
 function monitorviewInfo(id) {
+    
+     var CSRF_TOKEN = csrfToken;
      $.post(baseURL + '/view_monitor_visit', {
-         _token:csrfToken ,
+         _token: c,
          id: id
      }).done(function(response) {
          $('.modal-body').html(response);

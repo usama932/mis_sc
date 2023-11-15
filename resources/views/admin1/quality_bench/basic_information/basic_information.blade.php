@@ -1,20 +1,19 @@
 
 <div>
-    <!--begin::Alert-->
-<div class="alert alert-warning d-flex align-items-center p-5 mt-10 mb-5 me-20 ms-10">
-                    <i class="ki-duotone ki-shield-tick fs-2hx text-warning me-4"><span class="path1"></span><span class="path2"></span></i>                    
-					<div class="d-flex flex-column">
-                        <h4 class="mb-1 text-warning">QBs Not Fully Met</h4>
-                        <span>This Monitoring Visit has {{$qb->qbs_not_fully_met ?? ''}} Not Fully met QBs.</span>
-                    </div>
-                </div>
-	
-	<!--end::Alert-->
+    <h5><span class="text-danger ">Note:: </span>This Monitoring Visit has <span class="text-danger"> {{$qb->qbs_not_fully_met ?? ''}}</span> QBs not fully met.</h5>
     <form  class="form" id="qb_update_form"  novalidate="novalidate" action="{{route('quality-benchs.update',$qb->id)}}" method="post">
        
     @csrf
     @method('put')
     <div class="card-body py-4">
+        {{-- <div class="card-title  border-0 my-4"">
+            <div class="card-title">
+                <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
+                    <h5 class="fw-bold m-3">Basic Information::</h5>
+                </div>
+            </div>
+        </div> --}}
+        
         <div class="row">
             <div class="fv-row col-sm-3 col-md-3 col-lg-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
@@ -35,6 +34,13 @@
                     @endforeach
                 </select>
                 <div id="themeError" class="error-message"></div>
+            </div>
+            <div class="fv-row col-sm-3 col-md-3 col-lg-3">
+                <label class="fs-6 fw-semibold form-label mb-2">
+                    <span class="required">Sub Theme</span>
+                </label>
+                <input type="text" class="form-control" id="sub_theme"  name="sub_theme" value="{{$qb->sub_theme ?? ''}}" placeholder="Enter Sub-theme">            
+                <div id="sub_themeError" class="error-message"></div>
             </div>
             <div class="fv-row col-sm-3 col-md-3 col-lg-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
@@ -218,6 +224,24 @@
             </div>
             <div class="fv-row col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
+                    <span class="required">Visit Staff Name</span>
+                </label>
+                <select name="visit_staff_name" id="visit_staff_name" aria-label="Select a Visit Staff Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select">
+                    <option  value="">Select Option</option>
+                    @foreach($users as $user)
+                    <option  value="{{$user->name}}" @if($qb->visit_staff_name == $user->name ) selected @endif>{{$user->name}}</option>
+                    @endforeach
+                    <option  value="Ruqaiya Bibi" @if($qb->visit_staff_name == "Ruqaiya Bibi" ) selected @endif >Ruqaiya Bibi</option>
+                    <option  value="Mehnaz" @if($qb->visit_staff_name == "Mehnaz" ) selected @endif>Mehnaz</option>
+                    <option  value="Musarrat Bibi" @if($qb->visit_staff_name == "Musarrat Bibi" ) selected @endif >Musarrat Bibi</option>
+                    <option  value="Shaista Mir" @if($qb->visit_staff_name == "Shaista Mir" ) selected @endif >Shaista Mir</option>
+                    <option  value="Shama" @if($qb->visit_staff_name == "Shama" ) selected @endif>Shama</option>
+                    <option  value="Zahid Ali Khan" @if($qb->visit_staff_name == "Zahid Ali Khan" ) selected @endif >Zahid Ali Khan</option>
+                </select>
+                <div id="visit_staff_nameError" class="error-message"></div>
+            </div>
+            <div class="fv-row col-md-3">
+                <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Staff Organization</span>
                 </label>
                 <select name="staff_organization" id="staff_organization" aria-label="Select a Visit Staff Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select" >
@@ -231,8 +255,8 @@
             </div>
 
         </div>
-        <div class="separator my-3"></div>
-        <div class="text-end">
+        <div class="separator my-10"></div>
+        <div class="text-center pt-15">
             <button type="submit" id="kt_qb_update_submit" class="btn btn-primary">
                 @include('partials/general/_button-indicator', ['label' => 'Update'])
             </button>

@@ -59,6 +59,7 @@
         
             </div>
             <div class="d-flex justify-content-end pt-5">
+                
                 <button type="submit" id="kt_attachment_submit" class="btn btn-success btn-sm">
                     @include('partials/general/_button-indicator', ['label' => 'Save As Draft'])
                 </button>

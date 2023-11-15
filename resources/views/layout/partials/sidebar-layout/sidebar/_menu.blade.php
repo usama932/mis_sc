@@ -208,7 +208,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">Create Quality Benchmarks</span>
+                                    <span class="menu-title">Add Monitoring Visit</span>
                                 </a>
                                 <!--end:Menu link-->
                             </div>

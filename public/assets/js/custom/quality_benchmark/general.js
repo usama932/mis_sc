@@ -21,35 +21,28 @@ var KTQBValidate = function () {
                     'theme':{
                         validators: {
                             notEmpty: {
-                                message: 'theme required'
+                                message: 'Thematic Area required'
                             }
                         }
                     },
                     'qb_filledby':{
                         validators: {
                             notEmpty: {
-                                message: 'Filled By required'
-                            }
-                        }
-                    },
-                    'sub_theme':{
-                        validators: {
-                            notEmpty: {
-                                message: 'Sub Theme By required'
+                                message: 'Visitor Name required'
                             }
                         }
                     },
                     'project_name':{
                         validators: {
                             notEmpty: {
-                                message: 'Project Name is required'
+                                message: 'Project required'
                             }
                         }
                     },
                     'partner':{
                         validators: {
                             notEmpty: {
-                                message: 'Partner is required'
+                                message: 'Partner Organization required'
                             }
                         }
                     },
@@ -57,14 +50,14 @@ var KTQBValidate = function () {
                     'province':{
                         validators: {
                             notEmpty: {
-                                message: 'Province Name required'
+                                message: 'Province required'
                             }
                         }
                     },
                     'district':{
                         validators: {
                             notEmpty: {
-                                message: 'District Name required'
+                                message: 'District required'
                             }
                         }
                     },
@@ -93,7 +86,7 @@ var KTQBValidate = function () {
                     'type_of_visit':{
                             validators: {
                                 notEmpty: {
-                                    message: 'Visit Type required'
+                                    message: 'Type of visit required'
                                 }
                         }
                     },
@@ -101,7 +94,7 @@ var KTQBValidate = function () {
                     'activity_description':{
                         validators: {
                             notEmpty: {
-                                message: 'Description  required'
+                                message: 'Description of activity required'
                             }
                         }
                     },
@@ -132,8 +125,12 @@ var KTQBValidate = function () {
                                 message: 'Required'
                             },
                             numeric: {
-                                message: 'Must be a number'
-                            }
+                                message: 'only digits allowed'
+                            },
+							greaterThan:{
+								message: 'Must be greater than 0',
+								min: 1
+							}
                         }
                     },
                     'qbs_fully_met': {
@@ -142,16 +139,13 @@ var KTQBValidate = function () {
                                 message: 'Required'
                             },
                             numeric: {
-                                message: 'Must be a number'
+                                message: 'only digits allowed'
                             },
-                            
-                            callback: {
-                                message: 'Must br greater than total',
-                                
-                                callback: function (input) {
-                                    var total_qbs = document.getElementById('total_qbs').value;
-                                    var qbs_fully_met = document.getElementById('qbs_fully_met').value;
-                                    if (total_qbs > qbs_fully_met || total_qbs == qbs_fully_met) {
+							callback: {
+                                message: 'Must be less or equal to total QBs',
+                                callback: function (i) {
+                                    var total_qbs = $('#total_qbs').val();
+                                    if (parseInt(total_qbs) >= i.value) {
                                         return true;
                                     }
                                     else{
@@ -161,21 +155,28 @@ var KTQBValidate = function () {
                             }
                         }
                     },
-                  
                     'qb_not_applicable':{
                         validators: {
                             notEmpty: {
                                 message: 'Required'
                             },
                             numeric: {
-                                message: 'Must be a number'
-                            }
-                        }
-                    },
-                    'visit_staff_name':{
-                        validators: {
-                            notEmpty: {
-                                message: 'Staff Name required'
+                                message: 'only digits allowed'
+                            },
+							callback: {
+                                message: 'Met and not applicable QBs must be less then total QBs',
+                                callback: function (i) {
+                                    var total_qbs = $('#total_qbs').val();
+									var qbs_fully_met = $('#qbs_fully_met').val();
+									var _qb_count = parseInt(qbs_fully_met) + parseInt(i.value)
+									console.log(total_qbs, qbs_fully_met, i.value, _qb_count)
+                                    if (parseInt(total_qbs) >= _qb_count) {
+                                        return true;
+                                    }
+                                    else{
+                                        return false;
+                                    }
+                                }
                             }
                         }
                     },
@@ -342,5 +343,5 @@ $('#date_visit').flatpickr({
     altInput: true,
     dateFormat: "Y-m-d",
     maxDate: new Date().fp_incr(+0),
-    minDate: new Date().fp_incr(-30),
+    minDate: new Date("2023-10-01"),
 });
