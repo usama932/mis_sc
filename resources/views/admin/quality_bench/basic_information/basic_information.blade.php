@@ -16,27 +16,7 @@
     @method('put')
     <div class="card-body py-4">
         <div class="row">
-            <div class="fv-row col-sm-3 col-md-3 col-lg-3">
-                <label class="fs-6 fw-semibold form-label mb-2">
-                    <span class="required">QB Filled By</span>
-                </label>
-                <input type="text" class="form-control" id="qb_filledby"  name="qb_filledby" value="{{$qb->qb_filledby ?? ''}}">
-              
-                <div id="qb_filledbyError" class="error-message"></div>
-            </div>
-            <div class="fv-row col-sm-3 col-md-3 col-lg-3">
-                <label class="fs-6 fw-semibold form-label mb-2">
-                    <span class="required">Theme</span>
-                </label>
-                <select name="theme" id="theme" aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme" class="form-select">
-                    <option value="">Select Theme</option>
-                    @foreach($themes as $theme)
-                        <option value="{{$theme->id}}" @if($qb->theme == $theme->id) selected @endif >{{$theme->name}}</option>
-                    @endforeach
-                </select>
-                <div id="themeError" class="error-message"></div>
-            </div>
-            <div class="fv-row col-sm-3 col-md-3 col-lg-3">
+            <div class="fv-row col-md-6">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Project</span>
                 </label>
@@ -48,7 +28,31 @@
                 </select>
                 <div id="project_nameError" class="error-message "></div>
             </div>
-           
+            <div class="fv-row col-md-3">
+                <label class="fs-6 fw-semibold form-label mb-2">
+                    <span class="required">Project Type</span>
+                </label>
+                <select name="project_type" id="project_type" aria-label="Select a Project Type" data-control="select2" data-placeholder="Select a Project Type" class="form-select">
+                    <option value="">Select Project Type</option>
+                    <option value="Humanitarian" @if($qb->project_type == "Humanitarian") selected @endif>Humanitarian</option>
+                    <option value="Development"  @if($qb->project_type == "Development") selected @endif>Development</option>
+                </select>
+                <div id="project_typeError" class="error-message "></div>
+            </div>
+            <div class="fv-row col-sm-3 col-md-3 col-lg-3">
+                <label class="fs-6 fw-semibold form-label mb-2">
+                    <span class="required">Partner</span>
+                </label>
+                <select   name="partner" id="partner" aria-label="Select a Partner Name" data-control="select2" data-placeholder="Select a Partner" class="form-select">
+                    <option value="">Select Partner Name</option>
+                    <option  value="LRF"  @if($qb->partner == "LRF") selected @endif>LRF</option>
+                    <option  value="NRSP" @if($qb->partner == "NRSP") selected @endif>NRSP</option>
+                    <option  value="PPHI" @if($qb->partner == "PPHI") selected @endif>PPHI</option>
+                    <option  value="SRSP" @if($qb->partner == "SRSP") selected @endif>SRSP</option>
+                    <option  value="TKF"  @if($qb->partner == "TKF") selected @endif>TKF</option>
+                </select>
+                <div id="partnerError" class="error-message "></div>
+            </div>
         </div>
         <div class="row mt-3">
             <div class="fv-row col-md-3">
@@ -115,16 +119,17 @@
                 <input class="form-control" id="vilage" placeholder="Enter Village" name="village" value="{{$qb->village ?? ''}}">
                 <div id="villageError" class="error-message "></div>
             </div>
-            <div class="fv-row col-md-3">
+            <div class="fv-row col-sm-3 col-md-3 col-lg-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
-                    <span class="required">Project Type</span>
+                    <span class="required">Theme</span>
                 </label>
-                <select name="project_type" id="project_type" aria-label="Select a Project Type" data-control="select2" data-placeholder="Select a Project Type" class="form-select">
-                    <option value="">Select Project Type</option>
-                    <option value="Humanitarian" @if($qb->project_type == "Humanitarian") selected @endif>Humanitarian</option>
-                    <option value="Development"  @if($qb->project_type == "Development") selected @endif>Development</option>
+                <select name="theme" id="theme" aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme" class="form-select">
+                    <option value="">Select Theme</option>
+                    @foreach($themes as $theme)
+                        <option value="{{$theme->id}}" @if($qb->theme == $theme->id) selected @endif >{{$theme->name}}</option>
+                    @endforeach
                 </select>
-                <div id="project_typeError" class="error-message "></div>
+                <div id="themeError" class="error-message"></div>
             </div>
             <div class="fv-row col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
@@ -137,36 +142,7 @@
                 </select>
                 <div id="type_of_visitError" class="error-message "></div>
             </div>
-            <div class="fv-row col-sm-3 col-md-3 col-lg-3">
-                <label class="fs-6 fw-semibold form-label mb-2">
-                    <span class="required">Partner</span>
-                </label>
-                <select   name="partner" id="partner" aria-label="Select a Partner Name" data-control="select2" data-placeholder="Select a Partner" class="form-select">
-                    <option value="">Select Partner Name</option>
-                    <option  value="LRF"  @if($qb->partner == "LRF") selected @endif>LRF</option>
-                    <option  value="NRSP" @if($qb->partner == "NRSP") selected @endif>NRSP</option>
-                    <option  value="PPHI" @if($qb->partner == "PPHI") selected @endif>PPHI</option>
-                    <option  value="SRSP" @if($qb->partner == "SRSP") selected @endif>SRSP</option>
-                    <option  value="TKF"  @if($qb->partner == "TKF") selected @endif>TKF</option>
-                </select>
-                <div id="partnerError" class="error-message "></div>
-            </div>
-           
-        </div>
-        <div class="row mt-3">
-            <div class="fv-row col-md-4">
-                <label class="fs-6 fw-semibold form-label mb-2">
-                    <span class="required">Monitoring Type</span>
-                </label>
-                <select   name="monitoring_type" id="monitoring_type"  aria-label="Select a Type of Visit " data-control="select2" data-placeholder="Select a Monitoring Type" class="form-select">
-                    <option value="">Select Monitoring Type</option>
-                    <option value="Process and output monitoring"  @if($qb->monitoring_type == "Process and output monitoring") selected @endif>Process and output monitoring</option>
-                    <option value="Distribution" @if($qb->monitoring_type == "Distribution") selected @endif>Distribution</option>
-                    <option value="Joint outcome monitoring" @if($qb->monitoring_type == "Joint outcome monitoring") selected @endif>Joint outcome monitoring</option>
-                </select>
-                <div id="monitoring_typeError" class="error-message"></div>
-            </div>
-            <div class="fv-row col-md-4">
+            <div class="fv-row col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Accompanied By</span>
                 </label>
@@ -179,23 +155,30 @@
                 </select>
                 <div id="accompanied_byError" class="error-message"></div>
             </div>
-            <div class="fv-row col-md-4">
+           
+        </div>
+        <div class="row mt-3">
+            <div class="fv-row col-md-3">
+                <label class="fs-6 fw-semibold form-label mb-2">
+                    <span class="required">Monitoring Type</span>
+                </label>
+                <select   name="monitoring_type" id="monitoring_type"  aria-label="Select a Type of Visit " data-control="select2" data-placeholder="Select a Monitoring Type" class="form-select">
+                    <option value="">Select Monitoring Type</option>
+                    <option value="Process and output monitoring"  @if($qb->monitoring_type == "Process and output monitoring") selected @endif>Process and output monitoring</option>
+                    <option value="Distribution" @if($qb->monitoring_type == "Distribution") selected @endif>Distribution</option>
+                    <option value="Joint outcome monitoring" @if($qb->monitoring_type == "Joint outcome monitoring") selected @endif>Joint outcome monitoring</option>
+                </select>
+                <div id="monitoring_typeError" class="error-message"></div>
+            </div>
+         
+            <div class="fv-row col-md-6">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Activity visited</span>
                 </label>
                 <textarea  rows="1" class="form-control" id="activity_description"  name="activity_description">{{$qb->activity_description ?? ''}}</textarea>
                 <div id="activity_descriptionError" class="error-message"></div>
             </div>
-        </div>
-        <div class="row mt-3">
-            <div class="fv-row col-md-3">
-                <label class="fs-6 fw-semibold form-label mb-2">
-                    <span class="required">Date of monitoring visit</span>
-                </label>
-                <input type="text" name="date_visit" id="date_visit" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="{{date('Y-m-d', strtotime($qb->date_visit ?? ''))}}">
-                <div id="date_visitError" class="error-message"></div>
-            </div>
-            <div class="fv-row col-sm-3 col-md-1 col-lg-1">
+            <div class="fv-row col-sm-1 col-md-1 col-lg-1">
                 <label class="fs-9 fw-semibold form-label mb-2">
                     <span class="required">Total QBs</span>
                 </label>
@@ -215,6 +198,23 @@
                 </label>
                 <input type="text" class="form-control fs-9" name="qb_not_applicable" id="qb_not_applicable" value="{{$qb->qb_not_applicable ?? ''}}">
                 <div id="qb_not_applicableError" class="error-message"></div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="fv-row col-md-3">
+                <label class="fs-6 fw-semibold form-label mb-2">
+                    <span class="required">Date of monitoring visit</span>
+                </label>
+                <input type="text" name="date_visit" id="date_visit" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="{{date('Y-m-d', strtotime($qb->date_visit ?? ''))}}">
+                <div id="date_visitError" class="error-message"></div>
+            </div>
+            <div class="fv-row col-sm-3 col-md-3 col-lg-3">
+                <label class="fs-6 fw-semibold form-label mb-2">
+                    <span class="required">QB Filled By</span>
+                </label>
+                <input type="text" class="form-control" id="qb_filledby"  name="qb_filledby" value="{{$qb->qb_filledby ?? ''}}">
+              
+                <div id="qb_filledbyError" class="error-message"></div>
             </div>
             <div class="fv-row col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
