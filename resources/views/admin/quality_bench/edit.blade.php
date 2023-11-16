@@ -1,4 +1,4 @@
-<x-default-layout>
+<x-nform-layout>
  
     @section('title')
         Add QBs Details and Action Points Details
@@ -78,4 +78,4 @@
      
     @endpush
 
-</x-default-layout>
+</x-nform-layout>

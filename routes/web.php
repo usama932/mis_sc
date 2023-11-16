@@ -71,6 +71,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/monitor_visits', MonitorVisitsController::class);
     Route::post('get_monitor_visits', [MonitorVisitsController::class,'get_monitor_visits'])->name('get_monitor_visits');
     Route::post('view_monitor_visit', [MonitorVisitsController::class,'view_monitor_visit'])->name('view_monitor_visit');
+    Route::post('edit_monitor_visit', [MonitorVisitsController::class,'edit_monitor_visit'])->name('edit_monitor_visit');
     Route::get('/monitor_visit/delete/{id}', [MonitorVisitsController::class,'destroy'])->name('monitor_visit.delete');
 
     //Action Points Routes

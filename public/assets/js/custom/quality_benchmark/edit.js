@@ -585,20 +585,8 @@ var KTgbValidate = function () {
                             }
                         }
                     },
-                    'qb_met':{
-                        validators: {
-                            notEmpty: {
-                                message: 'QB Met is required'
-                            }
-                        }
-                    },
-                    'gap_issue': {
-                        validators: {
-                            notEmpty: {
-                                message: 'QB Met is required'
-                            }
-                        }
-                    },
+                  
+                   
                   
                 },
               
@@ -1192,7 +1180,7 @@ var clients = $('#monitor_visits').DataTable({
     "processing": true,
     "serverSide": true,
     "searchDelay": 500,
-    "responsive": true,
+    "responsive": false,
     "searching": false,
     "bLengthChange": false,
     "dom": 'lfrti',
@@ -1210,6 +1198,11 @@ var clients = $('#monitor_visits').DataTable({
     },
     "columns": [{
             "data": "activity_number",
+            "searchable": false,
+            "orderable": false
+        },
+        {
+            "data": "qbs_description",
             "searchable": false,
             "orderable": false
         },
@@ -1239,6 +1232,17 @@ function monitorviewInfo(id) {
          $('#view_monitor_visit').modal('show');
 
      });
+}
+function monitorEdit(id) {
+    
+    $.post(baseURL + '/edit_monitor_visit', {
+        _token: csrfToken,
+        id: id
+    }).done(function(response) {
+        $('.modal-body').html(response);
+        $('#edit_monitor_visit').modal('show');
+
+    });
 }
 function monitoreditInfo(id) {
     
@@ -1286,7 +1290,7 @@ var clients = $('#action_points').DataTable({
     "processing": true,
     "serverSide": true,
     "searchDelay": 500,
-    "responsive": true,
+    "responsive": false,
     "searching": false,
     "bLengthChange": false,
     "dom": 'lfrti',
@@ -1408,7 +1412,7 @@ var clients = $('#qbattachments').DataTable({
     "processing": true,
     "serverSide": true,
     "searchDelay": 500,
-    "responsive": true,
+    "responsive": false,
     "ajax": {
         "url": "/get_qb_attachments",
         "dataType": "json",
@@ -1473,7 +1477,7 @@ function qb_attachmentdel(id) {
     });
 }
 $('.close').click(function() {
-    $('#view_monitor_visit,#view_action_point,#view_qbattachment').modal('hide');
+    $('#view_monitor_visit,#view_action_point,#view_qbattachment,#edit_monitor_visit').modal('hide');
 });
 
 

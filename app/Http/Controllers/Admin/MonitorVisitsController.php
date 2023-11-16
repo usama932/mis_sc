@@ -60,28 +60,30 @@ class MonitorVisitsController extends Controller
                                             ->count();
             }
 		
-		
+            $monitor_visits->sortBy("activity_type");
 		$data = array();
 		
 		if($monitor_visits){
 			foreach($monitor_visits as $r){
-				$edit_url = route('monitor_visits.edit',$r->id);
                 if( is_float($r->activity_number + 0 )){
-                    $activity_number = 'Act-'.$r->activity_number;
+                    $activity_number = $r->activity_number;
                 }
                 else{
-                    $activity_number = 'Obs-'.$r->activity_number;
+                    $activity_number = 'Observation-'.$r->activity_number;
                 }
 				$nestedData['activity_number'] =  $activity_number ?? '';
-				$nestedData['gap_issue'] = $r->gap_issue;
+                $nestedData['qbs_description'] = $r->qbs_description     ?? '';
+				$nestedData['gap_issue'] = $r->gap_issue ?? '';
 				$nestedData['created_at'] = date('d-M-Y H:i:s',strtotime($r->created_at));
 				$nestedData['action'] = '
                                 <div>
                                 <td>
                                     <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();monitorviewInfo('.$r->id.');" title="View Monitor Visit" href="javascript:void(0)">
-                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
-                                    
+                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();monitorEdit('.$r->id.');" title="Edit Monitor Visit" href="javascript:void(0)">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </a>
                                     <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();monitordel('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </a>
@@ -104,6 +106,11 @@ class MonitorVisitsController extends Controller
     public function view_monitor_visit(Request $request){
         $monitor_visit = MonitorVisit::where('id',$request->id)->first();
         return view('admin.quality_bench.monitor_visits.detail',compact('monitor_visit'));
+    }
+    public function edit_monitor_visit(Request $request){
+        $monitor_visit = MonitorVisit::where('id',$request->id)->first();
+        $qb  = QualityBench::with('monitor_visit','action_point')->where('id',$monitor_visit->quality_bench_id)->first();
+        return view('admin.quality_bench.monitor_visits.edit',compact('monitor_visit','qb'));
     }
     public function create()
     {
@@ -175,7 +182,44 @@ class MonitorVisitsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+       
+        $active = 'monitor_visit';
+
+        if($request->qb_met == 'Not Fully Met'){
+            $validator = Validator::make($request->all(), [
+                'gap_issue'  => 'required',
+            ]);
+            if ($validator->fails()) {
+                
+                return redirect()->back()->withErrors($validator);
+            }
+        }
+     
+        $g_obs = MonitorVisit::where('quality_bench_id', $request->quality_bench_id)->where('activity_type','obs')->latest()->first();
+        if($request->gb == "999999"){
+            
+            $activity_type = 'obs';
+            $activity_number =  !empty($g_obs) ? $g_obs->activity_number + 1 : "1";
+        }
+        else{
+            $activity_type = 'act';
+            $activity_number = $request->activity_number;
+        }
+       
+        $monitor_visits = MonitorVisit::where('id',$id)->update([
+            'quality_bench_id'      => $request->quality_bench_id,
+            'activity_number'       => $activity_number,
+            'activity_type'         => $activity_type,
+            'qbs_description'       => $request->qbs_description,
+            'qb_met'                => $request->qb_met,
+            'gap_issue'             => $request->gap_issue ?? 'NA',
+            'created_by'            => auth()->user()->id
+        ]);
+        
+        session(['active' => $active]);
+        $editUrl = route('quality-benchs.edit',$request->quality_bench_id);
+      
+        return redirect()->route('quality-benchs.edit',$request->quality_bench_id);
     }
 
     /**

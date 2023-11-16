@@ -1,6 +1,6 @@
 <div>
     <div class="">
-        <div class="alert alert-warning d-flex align-items-center p-5 mt-10 mb-5 me-20 ms-10">
+        <div class="alert alert-warning d-flex align-items-center mt-10 me-20 ms-10">
             <i class="ki-duotone ki-shield-tick fs-2hx text-warning me-4"><span class="path1"></span><span class="path2"></span></i>                    
             <div class="d-flex flex-column">
                 <h4 class="mb-1 text-warning">QBs Not Fully Met</h4>
@@ -8,15 +8,15 @@
             </div>
         </div>
       
-        <div class="d-flex justify-content-end hover-elevate-up mx-5">
+        <div class="d-flex justify-content-end hover-elevate-up ">
             @if($qb->qbs_not_fully_met > $count_monitor_visit)
-                <button class="btn btn-sm btn-primary mx-5" id="addqbBtn"> <i class="ki-duotone ki-abstract-10">
+                <button class="btn btn-sm btn-primary mx-1" id="addqbBtn"> <i class="ki-duotone ki-abstract-10">
                     <span class="path1"></span>
                     <span class="path2"></span>
                     </i>Add QB Not Full Met
                 </button>
             @endif
-            <button class="btn btn-sm btn-primary mx-5" id="addgeneralobs"> <i class="ki-duotone ki-abstract-10">
+            <button class="btn btn-sm btn-info me-5" id="addgeneralobs"> <i class="ki-duotone ki-abstract-10">
                 <span class="path1"></span>
                 <span class="path2"></span>
                 </i>Add General Observations
@@ -91,9 +91,9 @@
                
                 <div class="row">
                   
-                    <div class="fv-row col-md-10 mt-3">
+                    <div class="fv-row col-md-12 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required">Quality Benchmark Activity Detail</span>
+                            <span class="required">General Observation Detail</span>
                         </label>
                         <textarea class="form-control "  name="qbs_description" / required></textarea>
                     
@@ -114,7 +114,7 @@
                     </div> 
                     <div class="fv-row col-md-12 mt-3" id="gap_id">
                         <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required">Gap/issue</span>
+                            <span class="">Gap/issue</span>
                         </label>
                         <textarea class="form-control " name="gap_issue" id="gap_issue"></textarea>
                     
@@ -149,6 +149,7 @@
                 <tr>
                   
                     <th>Activity.#</th>
+                    <th>QB/Observation</th>
                     <th>Gap/Issue</th>
                     <th>Created At</th>
                     <th>Actions</th>
@@ -162,7 +163,7 @@
         </div>
         <div class="modal fade" id="view_monitor_visit" data-backdrop="static" tabindex="-1" role="dialog"
             aria-labelledby="staticBackdrop" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -173,6 +174,19 @@
                         <button type="button" class="btn btn-light-primary font-weight-bold close"
                             data-dismiss="modal">Close</button>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="edit_monitor_visit" data-backdrop="static" tabindex="-1" role="dialog"
+            aria-labelledby="staticBackdrop" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered " role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="edit_monitor_visit">Edit QB Not Fully Met</h4>
+                    </div>
+                    <div class="modal-body"></div>
+                    
                 </div>
             </div>
         </div>

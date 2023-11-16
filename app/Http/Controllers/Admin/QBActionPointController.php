@@ -8,6 +8,7 @@ use App\Models\ActionPoint;
 use App\Models\Project;
 use App\Models\User;
 use App\Models\QualityBench;
+use App\Models\MonitorVisit;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -82,10 +83,11 @@ class QBActionPointController extends Controller
 				$nestedData['action'] = '
                                 <div>
                                 <td>
-                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();actionviewInfo('.$r->id.');" title="View Monitor Visit" href="javascript:void(0)">
+                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();actionviewInfo('.$r->id.');" title="View Action Point" href="javascript:void(0)">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
-                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();actiondel('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
+                                 
+                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();actiondel('.$r->id.');" title="Delete Action Point" href="javascript:void(0)">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </a>
                                 </td>
@@ -200,7 +202,7 @@ class QBActionPointController extends Controller
                 {
                     $edit_url = route('action_points.edit',$r->id);
                     $view_url = route('action_points.show',$r->id);
-                    $nestedData['visit_staff_name'] = $qb_action_point->visit_staff_name ?? '';
+                   
                     $nestedData['project_name'] = $qb_action_point->project?->name ?? '';
                     $nestedData['partner'] = $qb_action_point->partner ?? '';
                     $nestedData['province'] = $qb_action_point->provinces?->province_name ?? '';
@@ -225,7 +227,13 @@ class QBActionPointController extends Controller
                                     <div>
                                     <td>
                                         <a class="btn btn-sm btn-clean btn-icon" href="'.$view_url.'">
-                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </a>
+                                        <a class="btn btn-sm btn-clean btn-icon" title="Edit Action Point" href="'.$edit_url.'">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                        <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();actiondel('.$r->id.');" title="Delete Action Point" href="javascript:void(0)">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
                                         </a>
                                     </td>
                                     </div>
@@ -309,7 +317,12 @@ class QBActionPointController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $action_point =  ActionPoint::where('id',$id)->with('qb','monitor_visit')->first();
+        $monitor_visit = MonitorVisit::where('id',$action_point->monitor_visits_id)->first();
+        $qb  = QualityBench::with('monitor_visit','action_point')->where('id',$action_point->quality_bench_id)->first();
+        addJavascriptFile('assets/js/custom/quality_benchmark/updateactionpointvalidation.js');
+        
+        return view('admin.quality_bench.action_point.edit_actionpoint',compact('action_point','qb','monitor_visit'));
     }
 
     /**
@@ -317,7 +330,42 @@ class QBActionPointController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $active = 'action_point';
+        
+        session(['active' => $active]);
+        $editUrl = route('action_points.index');
+
+        if($request->action_agree == 'Yes'){
+            $validator = Validator::make($request->all(), [
+                'qb_recommendation'  => 'required',
+                'action_type'  => 'required',
+                'responsible_person'  => 'required',
+                'status'  => 'required',
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'editUrl' => $editUrl
+                ]);
+        
+            }
+        }
+
+        $monitor_visits = ActionPoint::where('id',$id)->update([
+            'quality_bench_id'      => $request->quality_bench_id,
+            'monitor_visits_id'     => $request->activity_number,
+            'action_agree'          => $request->action_agree,
+            'qb_recommendation'     => $request->qb_recommendation ?? 'NA',
+            'db_note'               => $request->db_note ?? 'NA',
+            'action_type'           => $request->action_type ?? 'NA',
+            'responsible_person'    => $request->responsible_person ?? 'NA',
+            'deadline'              => $request->deadline,
+            'status'                => $request->status,
+            'created_by'            => auth()->user()->id,
+        ]);
+        
+        return response()->json([
+            'editUrl' => $editUrl
+        ]);
     }
 
     /**

@@ -3,16 +3,16 @@
     <div class="">
        
         @if($qb->qbs_not_fully_met > $qb->action_point->count())
-        <div class="d-flex justify-content-end hover-elevate-up mx-5">
+        <div class="d-flex justify-content-end hover-elevate-up mt-10 mx-5">
             <button class="btn btn-sm btn-primary mx-5" id="addactionpointBtn"> <i class="ki-duotone ki-abstract-10">
             <span class="path1"></span>
             <span class="path2"></span>
-            </i>Action Point</button>
+            </i>Add Action Point</button>
         </div>
         @endif
     </div>
 
-    <form class="form"  id="qb_action_point_form"  novalidate="novalidate" action="{{route('action_points.store')}}" method="post">  
+    <form class="form p-5"  id="qb_action_point_form"  novalidate="novalidate" action="{{route('action_points.store')}}" method="post">  
 
         <input type="hidden" name="quality_bench_id" value="{{$qb->id}}">
         <div class="card-body ">
@@ -96,8 +96,8 @@
         
         
             </div>
-            <div class="d-flex justify-content-end pt-5">
-                <button type="submit" id="kt_action_point_submit" class="btn btn-primary btn-sm">
+            <div class="d-flex justify-content-end p-5">
+                <button type="submit" id="kt_action_point_submit" class="btn btn-primary btn-sm ">
                     @include('partials/general/_button-indicator', ['label' => 'Add Action Point'])
                 </button>
             </div>
@@ -136,7 +136,7 @@
         </div>
         <div class="modal fade" id="view_action_point" data-backdrop="static" tabindex="-1" role="dialog"
             aria-labelledby="staticBackdrop" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>

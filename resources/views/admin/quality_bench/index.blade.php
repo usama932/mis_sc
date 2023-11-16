@@ -130,7 +130,6 @@
                     <thead>
                         <tr>
                             <th>#S.No</th>
-                            <th>Name of Staff</th>
                             <th>Date Visit</th>
                             <th>Accompanied By</th>
                             <th>Type of Visit</th>
@@ -189,7 +188,6 @@
            },
             "columns":[
                             {"data":"id","searchable":false,"orderable":false},
-                            {"data":"visit_staff_name"},
                             {"data":"date_visit","searchable":false,"orderable":false},
                             {"data":"accompanied_by" },
                             {"data":"type_of_visit"},
@@ -263,7 +261,6 @@
                 },
                "columns":[
                             {"data":"id","searchable":false,"orderable":false},
-                            {"data":"visit_staff_name"},
                             {"data":"date_visit","searchable":false,"orderable":false},
                             {"data":"accompanied_by" },
                             {"data":"type_of_visit"},

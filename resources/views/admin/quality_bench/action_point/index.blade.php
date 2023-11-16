@@ -129,7 +129,6 @@
                     <table class="table table-striped table-bordered nowrap" id="qb_actionpoints" style="width:100%">
                     <thead>
                         <tr>
-                            <th>QBs monitoried by</th>
                             <th>Project</th>
                             <th>Partner</th>
                             <th>Province</th>
@@ -195,7 +194,7 @@
                "data":{"_token":"<?php echo csrf_token() ?>"}
            },
             "columns":[
-                            {"data":"visit_staff_name","searchable":false,"orderable":false},
+                            
                             {"data":"project_name","searchable":false,"orderable":false},
                             {"data":"partner","searchable":false,"orderable":false},
                             {"data":"province","searchable":false,"orderable":false},
@@ -275,7 +274,7 @@
                             }
                 },
                "columns":[
-                {"data":"visit_staff_name","searchable":false,"orderable":false},
+              
                             {"data":"project_name","searchable":false,"orderable":false},
                             {"data":"partner","searchable":false,"orderable":false},
                             {"data":"province","searchable":false,"orderable":false},
@@ -327,7 +326,29 @@
         $('.close').click(function() {
             $('#quality_benchmark').modal('hide');
         });
-     
+        function actiondel(id) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!"
+            }).then(function(result) {
+            
+                if (result.value) {
+                    Swal.fire(
+                        "Deleted!",
+                        "Your action point has been deleted.",
+                        "success"
+                    );
+                    
+                    var segments = window.location.href.split('/');
+                    var url = segments[1];
+                    var APP_URL = url + "/action_point/delete/" + id;
+                    window.location.href = APP_URL;
+                }
+            });
+        }
         flatpickr("#date_visit", {
             mode: "range",
             dateFormat: "Y-m-d",
