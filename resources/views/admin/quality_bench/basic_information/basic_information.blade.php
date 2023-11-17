@@ -29,19 +29,18 @@
                 <div id="project_nameError" class="error-message "></div>
             </div>
             <div class="fv-row col-md-3">
-                <label class="fs-6 fw-semibold form-label mb-2">
+                <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                     <span class="required">Project Type</span>
+                    <span class="spinner-border spinner-border-sm align-middle ms-2" id="projectloader"></span>
                 </label>
-                <select name="project_type" id="project_type" aria-label="Select a Project Type" data-control="select2" data-placeholder="Select a Project Type" class="form-select">
-                    <option value="">Select Project Type</option>
-                    <option value="Humanitarian" @if($qb->project_type == "Humanitarian") selected @endif>Humanitarian</option>
-                    <option value="Development"  @if($qb->project_type == "Development") selected @endif>Development</option>
-                </select>
+                <input type="text" name="project_type" id="project_type" class="form-control" value="{{$qb->project_type ?? ''}}" />
+               
                 <div id="project_typeError" class="error-message "></div>
             </div>
             <div class="fv-row col-sm-3 col-md-3 col-lg-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Partner</span>
+                    
                 </label>
                 <select   name="partner" id="partner" aria-label="Select a Partner Name" data-control="select2" data-placeholder="Select a Partner" class="form-select">
                     <option value="">Select Partner Name</option>

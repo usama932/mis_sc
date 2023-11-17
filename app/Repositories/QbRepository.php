@@ -9,7 +9,21 @@ class QbRepository implements QbRepositoryInterface
     public function storeQb($data)
     {
         $qb_not_met =  $data['total_qbs'] - ($data['qbs_fully_met'] + $data['qb_not_applicable']) ;   
-        $score_out =( $data['total_qbs'] - $data['qb_not_applicable'])/$data['qbs_fully_met'];   
+        $score = $data['qbs_fully_met'] /($data['total_qbs']- $data['qb_not_applicable']);
+        
+        $score_out = $score * 100;  
+        
+        if($score_out < 50){
+            $qb_status =  "Poor";
+        }
+        elseif($score_out > 50 && $score_out <= 80){
+            $qb_status =  "Average";
+        }
+        elseif($score_out > 80 && $score_out <= 95){
+            $qb_status =  "Good";
+        }else{
+            $qb_status =  "Excellent";
+        }
         return QualityBench::create([
             'date_visit'            => $data['date_visit'],
             'qb_filledby'           => $data['qb_filledby'],
@@ -30,7 +44,8 @@ class QbRepository implements QbRepositoryInterface
             'qb_not_applicable'     => $data['qb_not_applicable'], 
             'qbs_fully_met'         => $data['qbs_fully_met'],
             'qbs_not_fully_met'     => $qb_not_met,
-            'score_out'             => $score_out,
+            'score_out'             => $score_out, 
+            'qb_status'             => $qb_status,
             'created_by'            => auth()->user()->id,
             'activity_description'  => $data['activity_description'],   
         ]);

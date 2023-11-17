@@ -75,7 +75,12 @@
                     <button type="submit" id="kt_qb_monitor_submit" class="btn btn-sm btn-primary">
                         @include('partials/general/_button-indicator', ['label' => 'Submit'])
                     </button>
-                    
+                    <button type="button" class="btn btn-sm btn-danger mx-2 me-5" id="cancelmonitorBtn" style="display: none;"> 
+                        <i class="ki-duotone ki-abstract-10">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>Cancel
+                    </button>
                 </div>
             </div>
         </form>
@@ -127,7 +132,12 @@
                     <button type="submit" id="kt_general_observation" class="btn btn-sm btn-primary">
                         @include('partials/general/_button-indicator', ['label' => 'Submit'])
                     </button>
-                    
+                    <button type="button" class="btn btn-sm btn-danger mx-2 me-5" id="cancelgbBtn" style="display: none;"> 
+                        <i class="ki-duotone ki-abstract-10">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>Cancel
+                    </button>
                 </div>
             </div>
         </form>
@@ -148,11 +158,11 @@
             <thead>
                 <tr>
                   
-                    <th>Activity.#</th>
-                    <th>QB/Observation</th>
-                    <th>Gap/Issue</th>
-                    <th>Created At</th>
-                    <th>Actions</th>
+                    <th width="10%">Activity.#</th>
+                    <th width="30%">QB/Observation</th>
+                    <th width="30%">Gap/Issue</th>
+                    <th width="20%">Created At</th>
+                    <th width="10%">Actions</th>
                 
                 </tr>
                 

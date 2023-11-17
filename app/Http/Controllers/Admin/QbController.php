@@ -115,25 +115,44 @@ class QbController extends Controller
 				$edit_url = route('quality-benchs.edit',$r->id);
                 $view_url = route('quality-benchs.show',$r->id);
 				$nestedData['id'] = $r->id;
-                $nestedData['date_visit'] =date('d-M-Y', strtotime($r->date_visit)) ?? '';
-                $nestedData['accompanied_by'] = $r->accompanied_by ?? '';
-                $nestedData['type_of_visit'] = $r->type_of_visit ?? '';
+                $nestedData['project_name'] = $r->project?->name ?? '';
+                $nestedData['partner'] = $r->partner ?? '';
                 $nestedData['province'] = $r->provinces?->province_name ?? '';
                 $nestedData['district'] = $r->districts?->district_name ?? '';
-                $nestedData['project_type'] = $r->project_type ?? '';
-                $nestedData['project_name'] = $r->project?->name ?? '';
+                $nestedData['theme'] = $r->theme ?? '';
+                $nestedData['activity_description'] = $r->activity_description ?? '';
+                $nestedData['village'] = $r->village ?? '';
+                $nestedData['date_visit'] =date('d-M-Y', strtotime($r->date_visit)) ?? '';
+                $nestedData['total_qbs'] = $r->total_qbs ?? '';
+                $nestedData['qbs_not_fully_met'] = $r->qbs_not_fully_met ?? '';
+                $nestedData['qbs_fully_met'] = $r->qbs_fully_met ?? '';
+                $nestedData['qb_not_applicable'] = $r->qb_not_applicable ?? '';
+                
+                $nestedData['score_out'] = $r->score_out.'%' ?? '';
+                if($r->qb_status == "Poor"){
+                    $qb_status = '<span class="badge bg-danger">'.$r->qb_status.'</span>';
+                }
+                elseif($r->qb_status == "Average"){
+                    $qb_status = '<span class="badge bg-warning">'.$r->qb_status.'</span>';
+                }
+                elseif($r->qb_status == "Good"){
+                    $qb_status = '<span class="badge bg-secondary">'.$r->qb_status.'</span>';
+                }else{
+                    $qb_status = '<span class="badge bg-success">'.$r->qb_status.'</span>';
+                }
+                $nestedData['qb_status'] = $qb_status ?? '';
                 $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
 				$nestedData['action'] = '
                                 <div>
                                 <td>
-                                    <a class="btn btn-sm btn-clean btn-icon" href="'.$view_url.'">
-                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                    <a class="btn-icon mx-1" href="'.$view_url.'">
+                                    <i class="fa fa-eye text-warning" aria-hidden="true"></i>
                                     </a>
-                                    <a title="Edit" class="btn btn-sm btn-clean btn-icon"
+                                    <a title="Edit" class="btn-icon mx-1"
                                     href="'.$edit_url.'">
-                                    <i class="fa fa-pencil"></i></a>
-                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
-                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    <i class="fa fa-pencil text-info"></i></a>
+                                    <a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
+                                        <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                                     </a>
                                 </td>
                                 </div>

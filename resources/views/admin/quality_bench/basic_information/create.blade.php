@@ -53,29 +53,29 @@
                                 </select>
                                 <div id="project_nameError" class="error-message "></div>
                             </div>
-						<div class="fv-row col-md-3">
+						    <div class="fv-row col-md-3">
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Project Type</span>
+                                    <span class="spinner-border spinner-border-sm align-middle ms-2" id="projectloader"></span>
                                 </label>
-                                <select name="project_type" id="project_type" aria-label="Select Project Type" data-control="select2" data-placeholder="Select Project Type" class="form-select">
-                                    <option value="">Select Project Type</option>
-                                    <option value="Humanitarian">Humanitarian</option>
-                                    <option value="Development">Development</option>
-                                </select>
+                                <input type="text" name="project_type" id="project_type" class="form-control" />
+                              
                                 <div id="project_typeError" class="error-message "></div>
                             </div>
 							<div class="fv-row col-sm-3 col-md-3 col-lg-3">
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Partner</span>
+                                  
                                 </label>
-                                <select   name="partner" id="partner" aria-label="Select Partner" data-control="select2" data-placeholder="Select Partner" class="form-select">
-                                    <option value="">Select Partner</option>
-                                    <option  value="LRF" >LRF</option>
-                                    <option  value="NRSP" >NRSP</option>
-                                    <option  value="PPHI" >PPHI</option>
-                                    <option  value="SRSP" >SRSP</option>
-                                    <option  value="TKF" >TKF</option>
+                                <select   name="partner" id="partner" aria-label="Select a Partner Name" data-control="select2" data-placeholder="Select a Partner" class="form-select">
+                                    <option value="">Select Partner Name</option>
+                                    <option  value="LRF">LRF</option>
+                                    <option  value="NRSP">NRSP</option>
+                                    <option  value="PPHI">PPHI</option>
+                                    <option  value="SRSP">SRSP</option>
+                                    <option  value="TKF">TKF</option>
                                 </select>
+                                
                                 <div id="partnerError" class="error-message "></div>
                             </div>
                         </div>
@@ -169,11 +169,7 @@
                                     <span class="required">Accompanied By</span>
                                 </label>
                                 <select name="accompanied_by" id="accompanied_by" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Accompanied By..." class="form-select ">
-                                    <option value="">Select Option</option>
-                                    <option value="Project Staff">Project Staff</option>
-                                    <option value="Govt Officials">Govt Officials</option>
-                                    <option  value="Donor">Donor</option>
-                                    <option  value="NA">NA</option>
+                                    
                                 </select>
                                 <div id="accompanied_byError" class="error-message"></div>
                             </div>
@@ -266,7 +262,14 @@
     </div>
     @push('scripts')
         
-
+    <script>
+         $('#date_visit').flatpickr({
+                altInput: true,
+                dateFormat: "Y-m-d",
+                maxDate: new Date().fp_incr(+0),
+                minDate: new Date("2023-10-01"),
+            });
+    </script>
     @endpush
 
 </x-nform-layout>

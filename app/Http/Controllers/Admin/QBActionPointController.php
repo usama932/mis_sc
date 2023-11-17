@@ -83,12 +83,12 @@ class QBActionPointController extends Controller
 				$nestedData['action'] = '
                                 <div>
                                 <td>
-                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();actionviewInfo('.$r->id.');" title="View Action Point" href="javascript:void(0)">
-                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                    <a class="mx-1  " onclick="event.preventDefault();actionviewInfo('.$r->id.');" title="View Action Point" href="javascript:void(0)">
+                                    <i class="fa fa-eye text-warning" aria-hidden="true"></i>
                                     </a>
                                  
-                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();actiondel('.$r->id.');" title="Delete Action Point" href="javascript:void(0)">
-                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    <a class="mx-1 " onclick="event.preventDefault();actiondel('.$r->id.');" title="Delete Action Point" href="javascript:void(0)">
+                                        <i class="fa fa-trash  text-danger" aria-hidden="true"></i>
                                     </a>
                                 </td>
                                 </div>
@@ -226,14 +226,14 @@ class QBActionPointController extends Controller
                     $nestedData['action'] = '
                                     <div>
                                     <td>
-                                        <a class="btn btn-sm btn-clean btn-icon" href="'.$view_url.'">
-                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        <a class="btn-icon mx-1" href="'.$view_url.'">
+                                            <i class="fa fa-eye text-warning" aria-hidden="true"></i>
                                         </a>
-                                        <a class="btn btn-sm btn-clean btn-icon" title="Edit Action Point" href="'.$edit_url.'">
-                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        <a class="btn-icon  mx-1" title="Edit Action Point" href="'.$edit_url.'">
+                                            <i class="fa fa-pencil text-info" aria-hidden="true"></i>
                                         </a>
-                                        <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();actiondel('.$r->id.');" title="Delete Action Point" href="javascript:void(0)">
-                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        <a class="btn-icon  mx-1" onclick="event.preventDefault();actiondel('.$r->id.');" title="Delete Action Point" href="javascript:void(0)">
+                                            <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                                         </a>
                                     </td>
                                     </div>

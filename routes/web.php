@@ -57,7 +57,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('getDistrict', [FBAjaxController::class,'getDistrict'])->name('getDistrict');
     Route::post('getTehsil', [FBAjaxController::class,'getTehsil'])->name('getTehsil');
     Route::post('getUnionCouncil', [FBAjaxController::class,'getUnionCouncil'])->name('getUnionCouncil');
-
+    
     //Quality Bench Routes
     Route::resource('/quality-benchs', QbController::class);
     Route::post('get_qbs', [QbController::class,'get_qbs'])->name('admin.get_qbs');
@@ -89,7 +89,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/qb_attachments/delete/{id}', [QBAttachmentsController::class,'destroy'])->name('qb_attachments.delete');
     Route::get('/download/qb_attachments/{id}', [QBAttachmentsController::class,'download_attachment'])->name('download.qb_attachments');
     Route::get('/pdf/shows/{id}', [QBAttachmentsController::class,'showPDF'])->name('showPDF.qb_attachments');
-
+    // QB AJAX
+    Route::post('getproject_type', [QBAjaxController::class,'getproject_type'])->name('getproject_type');
     //Reset Password
     Route::get('reset/password', [UserController::class,'reset_password'])->name('reset_password');
     Route::post('update/password', [UserController::class,'password_update'])->name('update_password');

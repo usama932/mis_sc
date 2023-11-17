@@ -1,7 +1,7 @@
 <x-default-layout>
 
     @section('title')
-        QB's List
+    Monitoring Visits List
     @endsection
 
     <div id="kt_app_content" class="app-content flex-column-fluid">
@@ -130,13 +130,20 @@
                     <thead>
                         <tr>
                             <th>#S.No</th>
-                            <th>Date Visit</th>
-                            <th>Accompanied By</th>
-                            <th>Type of Visit</th>
+                            <th>Project</th>
+                            <th>Partner</th>
                             <th>Province</th>
                             <th>District</th>
-                            <th>Project Type</th>
-                            <th>Project</th>
+                            <th>Theme</th>
+                            <th>Activity</th>
+                            <th>GeoLocations</th>
+                            <th>Date Visit</th>
+                            <th>Total QBs</th>
+                            <th>QBs Not Fully Met</th>
+                            <th>QBs  Fully Met</th>
+                            <th>QBs  Not Applicable</th>
+                            <th>Score Out</th>
+                            <th>QBs Status</th>
                             <th>Created At</th>
                             <th>Actions</th>
                         </tr>
@@ -188,13 +195,20 @@
            },
             "columns":[
                             {"data":"id","searchable":false,"orderable":false},
+                            {"data":"project_name","searchable":false,"orderable":false},
+                            {"data":"partner","searchable":false,"orderable":false},
+                            {"data":"province","searchable":false,"orderable":false},
+                            {"data":"district","searchable":false,"orderable":false},
+                            {"data":"activity_description","searchable":false,"orderable":false},
+                            {"data":"theme","searchable":false,"orderable":false},
+                            {"data":"village","searchable":false,"orderable":false},
                             {"data":"date_visit","searchable":false,"orderable":false},
-                            {"data":"accompanied_by" },
-                            {"data":"type_of_visit"},
-                            {"data":"province"},
-                            {"data":"district"},
-                            {"data":"project_type" },
-                            {"data":"project_name"},
+                            {"data":"total_qbs","searchable":false,"orderable":false},
+                            {"data":"qbs_not_fully_met","searchable":false,"orderable":false},
+                            {"data":"qbs_fully_met","searchable":false,"orderable":false},
+                            {"data":"qb_not_applicable","searchable":false,"orderable":false},
+                            {"data":"score_out","searchable":false,"orderable":false},
+                            {"data":"qb_status","searchable":false,"orderable":false},
                             {"data":"created_at" ,"searchable":false,"orderable":false},
                             {"data":"action","searchable":false,"orderable":false},
                         ]
@@ -260,14 +274,21 @@
                             }
                 },
                "columns":[
-                            {"data":"id","searchable":false,"orderable":false},
+                {"data":"id","searchable":false,"orderable":false},
+                            {"data":"project_name","searchable":false,"orderable":false},
+                            {"data":"partner","searchable":false,"orderable":false},
+                            {"data":"province","searchable":false,"orderable":false},
+                            {"data":"district","searchable":false,"orderable":false},
+                            {"data":"activity_description","searchable":false,"orderable":false},
+                            {"data":"theme","searchable":false,"orderable":false},
+                            {"data":"village","searchable":false,"orderable":false},
                             {"data":"date_visit","searchable":false,"orderable":false},
-                            {"data":"accompanied_by" },
-                            {"data":"type_of_visit"},
-                            {"data":"province"},
-                            {"data":"district"},
-                            {"data":"project_type" },
-                            {"data":"project_name"},
+                            {"data":"total_qbs","searchable":false,"orderable":false},
+                            {"data":"qbs_not_fully_met","searchable":false,"orderable":false},
+                            {"data":"qbs_fully_met","searchable":false,"orderable":false},
+                            {"data":"qb_not_applicable","searchable":false,"orderable":false},
+                            {"data":"score_out","searchable":false,"orderable":false},
+                            {"data":"qb_status","searchable":false,"orderable":false},
                             {"data":"created_at" ,"searchable":false,"orderable":false},
                             {"data":"action","searchable":false,"orderable":false},
                         ]

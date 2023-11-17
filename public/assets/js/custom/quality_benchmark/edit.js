@@ -1488,16 +1488,29 @@ $('#deadline').flatpickr({
     maxDate: new Date().fp_incr(+60), 
 });
 $(document).ready(function(){
-        $("#addqbBtn").click(function(){
-        $("#qbtableDiv").slideToggle(); 
-        $("#qbformDiv").slideToggle();
+    $("#addqbBtn").click(function(){
+        $("#qbtableDiv, #qbformDiv").slideToggle(); 
         $("#general_obsform").hide();
-
+        $("#cancelmonitorBtn").show(); // Show the cancel button
+        $("#addqbBtn, #addgeneralobs").hide(); // Hide the other buttons
     });
+
     $("#addgeneralobs").click(function(){
-        $("#general_obsform").slideToggle();
-        $("#qbtableDiv").slideToggle(); 
+        $("#general_obsform, #qbtableDiv").slideToggle(); 
         $("#qbformDiv").hide();
+        $("#cancelgbBtn").show(); // Show the cancel button
+        $("#addqbBtn, #addgeneralobs").hide(); // Hide the other buttons
+    });
+
+    $("#cancelgbBtn").click(function(){
+        $("#general_obsform, #qbtableDiv").slideToggle(); 
+        $("#addqbBtn, #addgeneralobs").show(); // Show the other buttons
+        $(this).hide(); // Hide the cancel button
+    });
+    $("#cancelmonitorBtn").click(function(){
+        $("#qbformDiv, #qbtableDiv").slideToggle(); 
+        $("#addqbBtn, #addgeneralobs").show(); // Show the other buttons
+        $(this).hide(); // Hide the cancel button
     });
     
     $("#addactionpointBtn").click(function(){

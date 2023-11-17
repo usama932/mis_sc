@@ -61,17 +61,17 @@ class QBAttachmentsController extends Controller
                 $download_url = route('download.qb_attachments',$r->id);
 				$nestedData['id'] = $r->id;
 				$nestedData['comments'] = $r->comments;
-                $nestedData['document'] = '<a class="btn btn-sm btn-clean btn-icon" title="Download Attachment" href=""'.$download_url.'"">
+                $nestedData['document'] = '<a class="btn   btn-clean btn-icon" title="Download Attachment" href=""'.$download_url.'"">
                                             Download</a>';
                 $nestedData['created_by'] = $r->created_by;
 				$nestedData['action'] = '
                                 <div>
                                 <td>
                                    
-                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();qb_attachmentviewInfo('.$r->id.');" title="View Monitor Visit" href="javascript:void(0)">
+                                    <a class="btn   btn-clean btn-icon" onclick="event.preventDefault();qb_attachmentviewInfo('.$r->id.');" title="View Monitor Visit" href="javascript:void(0)">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
-                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();qb_attachmentdel('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
+                                    <a class="btn   btn-clean btn-icon" onclick="event.preventDefault();qb_attachmentdel('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </a>
                                 </td>

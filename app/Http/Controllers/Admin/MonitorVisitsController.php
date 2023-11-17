@@ -78,14 +78,14 @@ class MonitorVisitsController extends Controller
 				$nestedData['action'] = '
                                 <div>
                                 <td>
-                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();monitorviewInfo('.$r->id.');" title="View Monitor Visit" href="javascript:void(0)">
-                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                    <a class="btn-icon mx-1" onclick="event.preventDefault();monitorviewInfo('.$r->id.');" title="View Monitor Visit" href="javascript:void(0)">
+                                        <i class="fa fa-eye  text-warning" aria-hidden="true"></i>
                                     </a>
-                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();monitorEdit('.$r->id.');" title="Edit Monitor Visit" href="javascript:void(0)">
-                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    <a class="btn-icon  mx-1 text-success" onclick="event.preventDefault();monitorEdit('.$r->id.');" title="Edit Monitor Visit" href="javascript:void(0)">
+                                        <i class="fa fa-pencil  text-info" aria-hidden="true"></i>
                                     </a>
-                                    <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();monitordel('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
-                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    <a class="btn-icon  mx-1" onclick="event.preventDefault();monitordel('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
+                                        <i class="fa fa-trash  text-danger" aria-hidden="true"></i>
                                     </a>
                                 </td>
                                 </div>

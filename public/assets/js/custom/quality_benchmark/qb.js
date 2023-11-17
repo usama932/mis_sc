@@ -1,6 +1,5 @@
 
 
-///get district cascade province
 document.getElementById('districtloader').style.display = 'none';
 $("#kt_select2_province").change(function () {
    
@@ -123,4 +122,45 @@ $(document).ready(function(){
             }
         });
     }).change();
+});
+
+document.getElementById('districtloader').style.display = 'none';
+$("#project_name").change(function () {
+   
+    var value = $(this).val();
+    csrf_token = $('[name="_token"]').val();
+    document.getElementById('projectloader').style.display = 'block';
+    $.ajax({
+        type: 'POST',
+        url: '/getproject_type',
+        data: {'project_name': value, _token: csrf_token },
+        dataType: 'json',
+        success: function (data) {
+            document.getElementById('projectloader').style.display = 'none';
+
+            $("#project_type").val(data.type.replace(/_/g, ' '));
+           
+        }
+
+    });
+
+});
+$("#type_of_visit").change(function(){
+    
+    $(this).find("option:selected").each(function(){
+        
+        var optionValue = $(this).attr("value");
+
+        if(optionValue == "Independent"){
+            $('#accompanied_by').html('<option value="">Select Age</option>\<option  value="NA">NA</option>');
+
+        }else if(optionValue == "Joint" )
+        {
+            $('#accompanied_by').html('<option value="">Select Age</option>\<option value="Project Staff">Project Staff</option>\<option value="Govt Officials">Govt Officials</option>\<option  value="Donor">Donor</option>');
+        }
+        else{
+            $('#accompanied_by').html('<option value="">Select Age</option>');
+        }
+       
+    });
 });
