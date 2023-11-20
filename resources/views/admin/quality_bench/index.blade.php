@@ -181,12 +181,18 @@
             "order": [
                 [1, 'desc']
             ],
+            "dom": 'lfBrtip',
+            buttons: [
+                'csv', 'excel'
+            ],
             responsive: true, // Enable responsive mode
             "processing": true,
             "serverSide": true,
             "searching": false,
+            "bLengthChange": false,
+            "bInfo" : false,
             "responsive": false,
-            'info': true,
+            "info": false,
            "ajax": {
                "url":"{{route('admin.get_qbs')}}",
                "dataType":"json",
@@ -194,13 +200,14 @@
                "data":{"_token":"<?php echo csrf_token() ?>"}
            },
             "columns":[
-                            {"data":"id","searchable":false,"orderable":false},
+                            {"data":"assement_code","searchable":false,"orderable":false},
                             {"data":"project_name","searchable":false,"orderable":false},
                             {"data":"partner","searchable":false,"orderable":false},
                             {"data":"province","searchable":false,"orderable":false},
                             {"data":"district","searchable":false,"orderable":false},
-                            {"data":"activity_description","searchable":false,"orderable":false},
                             {"data":"theme","searchable":false,"orderable":false},
+                            {"data":"activity_description","searchable":false,"orderable":false},
+                          
                             {"data":"village","searchable":false,"orderable":false},
                             {"data":"date_visit","searchable":false,"orderable":false},
                             {"data":"total_qbs","searchable":false,"orderable":false},
@@ -257,7 +264,14 @@
                 "serverSide": true,
                 "searching": false,
                 "responsive": false,
-                'info': true,
+                "bLengthChange": false,
+                "bInfo" : false,
+                'info': false,
+                "dom": 'lfBrtip',
+
+                buttons: [
+                    'csv', 'excel'
+                ],
                 "ajax": {
                     "url":"{{ route('admin.get_qbs') }}",
                     "dataType":"json",
@@ -274,13 +288,14 @@
                             }
                 },
                "columns":[
-                {"data":"id","searchable":false,"orderable":false},
+                {"data":"assement_code","searchable":false,"orderable":false},
                             {"data":"project_name","searchable":false,"orderable":false},
                             {"data":"partner","searchable":false,"orderable":false},
                             {"data":"province","searchable":false,"orderable":false},
                             {"data":"district","searchable":false,"orderable":false},
-                            {"data":"activity_description","searchable":false,"orderable":false},
                             {"data":"theme","searchable":false,"orderable":false},
+                            {"data":"activity_description","searchable":false,"orderable":false},
+                           
                             {"data":"village","searchable":false,"orderable":false},
                             {"data":"date_visit","searchable":false,"orderable":false},
                             {"data":"total_qbs","searchable":false,"orderable":false},

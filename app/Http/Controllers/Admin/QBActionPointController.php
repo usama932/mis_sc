@@ -9,6 +9,7 @@ use App\Models\Project;
 use App\Models\User;
 use App\Models\QualityBench;
 use App\Models\MonitorVisit;
+use App\Models\ActionAcheive;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -76,7 +77,11 @@ class QBActionPointController extends Controller
                 $nestedData['qb_recommendation'] = $r->qb_recommendation ?? '';
                 $nestedData['action_type'] = $r->action_type ?? '';
                 $nestedData['responsible_person'] = $r->responsible_person ?? '';
-                $nestedData['deadline'] = date('d-M-Y',strtotime($r->deadline)) ?? '';
+                if($r->deadline != '' && $r->deadline != Null){
+                    $nestedData['deadline'] =date('d-M-Y',strtotime($r->deadline)) ?? '' ;
+                }else{
+                    $nestedData['deadline'] ='';
+                }
                 $nestedData['status'] = $r->status ?? '';
                 $nestedData['created_by'] = $r->user?->name ?? '';
                 $nestedData['created_at'] = date('d-M-Y H:i:s',strtotime($r->created_at)) ?? '';
@@ -111,7 +116,7 @@ class QBActionPointController extends Controller
         $id = $request->qb_id;
         $columns = array(
 			0 => 'id',
-			1 => 'visit_staff_name',
+			1 => 'assement_code',
 			2 => 'project_name',
 			3 => 'partner',
 			4 => 'province',
@@ -148,10 +153,7 @@ class QBActionPointController extends Controller
 
             $qb_actionpoints->where('province',$request->kt_select2_province);
         }
-        if($request->visit_staff != null && $request->visit_staff != 'None'){
-
-            $qb_actionpoints->where('visit_staff_name',$request->visit_staff);
-        }
+       
       
         $dateParts = explode('to', $request->date_visit);
         $startdate = '';
@@ -202,7 +204,7 @@ class QBActionPointController extends Controller
                 {
                     $edit_url = route('action_points.edit',$r->id);
                     $view_url = route('action_points.show',$r->id);
-                   
+                    $update_url = route('getupdate_actionpoint',$r->id);
                     $nestedData['project_name'] = $qb_action_point->project?->name ?? '';
                     $nestedData['partner'] = $qb_action_point->partner ?? '';
                     $nestedData['province'] = $qb_action_point->provinces?->province_name ?? '';
@@ -215,24 +217,31 @@ class QBActionPointController extends Controller
                     $nestedData['db_note'] = $r->monitor_visit?->gap_issue ?? "";
                     $nestedData['qb_recommendation'] = $r->qb_recommendation ?? '';
                     $nestedData['responsible_person'] = $r->responsible_person ?? '';
-                    if($r->deadline != ''){
+                    if($r->deadline != '' && $r->deadline != Null){
                         $nestedData['deadline'] =date('d-M-Y',strtotime($r->deadline)) ?? '' ;
                     }else{
-                        $nestedData['deadline'] = $r->deadline ?? '';
+                        $nestedData['deadline'] ='';
                     }
                     $nestedData['status'] = $r->status ?? '';
                     $nestedData['created_by'] = $r->user?->name ?? '';
                     $nestedData['created_at'] = date('d-M-Y H:i:s',strtotime($r->created_at)) ?? '';
+                    if($r->status == "Acheived" || $r->status == "Not Acheived" || $r->status == "Partialy Acheived"){
+                        $edit = '';
+                        $update_status = '<a class="btn-icon mx-1"  title=" Status Lock" href=""><i class="fa fa-lock text-warning" aria-hidden="true"></i></a>';
+                    }else{
+                        $edit = '<a class="btn-icon  mx-1" title="Edit Action Point" href="'.$edit_url.'"><i class="fa fa-pencil text-info" aria-hidden="true"></i></a>';
+                        $update_status = '<a class="btn-icon mx-1"  title="Update Status" href="'.$update_url.'"><i class="fa fa-lock-open text-warning" aria-hidden="true"></i></a>';
+                    }
+                  
                     $nestedData['action'] = '
                                     <div>
                                     <td>
-                                        <a class="btn-icon mx-1" href="'.$view_url.'">
+                                        <a class="btn-icon mx-1" href="'.$view_url.'" title="View Action Point">
                                             <i class="fa fa-eye text-warning" aria-hidden="true"></i>
                                         </a>
-                                        <a class="btn-icon  mx-1" title="Edit Action Point" href="'.$edit_url.'">
-                                            <i class="fa fa-pencil text-info" aria-hidden="true"></i>
-                                        </a>
-                                        <a class="btn-icon  mx-1" onclick="event.preventDefault();actiondel('.$r->id.');" title="Delete Action Point" href="javascript:void(0)">
+                                        '.$update_status.'
+                                        '.$edit.'
+                                        <a class="btn-icon  mx-1"  title="Delete ActionPoint" onclick="event.preventDefault();actiondel('.$r->id.');" title="Delete Action Point" href="javascript:void(0)">
                                             <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                                         </a>
                                     </td>
@@ -368,9 +377,39 @@ class QBActionPointController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    public function getupdate_actionpoint($id){
+        $action_point =  ActionPoint::where('id',$id)->with('qb','monitor_visit')->first();
+        return view('admin.quality_bench.action_point.update_actionpoint',compact('action_point'));
+    }
+    public function postupdate_actionpoint(Request $request,$id){
+        
+        $validator = Validator::make($request->all(), [ 
+            'status'  => 'required',
+            'completion_date'  => 'required',
+        ]);
+        if ($validator->fails()) {
+            return back()->withErrors($validator);;    
+        }
+        $actionachieve = ActionAcheive::create([
+            'monitor_action_points_id' => $request->quality_bench_id,
+            'completion_date' => $request->completion_date,
+            'comments' => $request->comments,
+            'status' => $request->status,
+        ]);
+        $actionachieve = ActionAcheive::create([
+            'monitor_action_points_id' => $request->quality_bench_id,
+            'completion_date' => $request->completion_date,
+            'comments' => $request->comments,
+            'status' => $request->status,
+        ]);
+        $monitor_visits = ActionPoint::where('id',$id)->update([
+            'status' => $request->status
+        ]);
+        $actionpoint = QualityBench::where('id',$request->quality_bench_id)->first();
+        $actionpoint->submit = '1';
+        $actionpoint->save();
+        return redirect()->route('action_points.index');
+    }
     public function destroy(string $id)
     {
         $action_point = ActionPoint::find($id);

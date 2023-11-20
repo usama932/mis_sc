@@ -3,12 +3,12 @@
     <div class="">
        
         @if($qb->qbs_not_fully_met > $qb->action_point->count())
-        <div class="d-flex justify-content-end hover-elevate-up mt-10 mx-5">
-            <button class="btn btn-sm btn-primary mx-5" id="addactionpointBtn"> <i class="ki-duotone ki-abstract-10">
-            <span class="path1"></span>
-            <span class="path2"></span>
-            </i>Add Action Point</button>
-        </div>
+            <div class="d-flex justify-content-end hover-elevate-up mt-10 mx-5">
+                <button class="btn btn-sm btn-primary mx-5" id="addactionpointBtn"> <i class="ki-duotone ki-abstract-10">
+                <span class="path1"></span>
+                <span class="path2"></span>
+                </i>Add Action Point</button>
+            </div>
         @endif
     </div>
 
@@ -76,12 +76,6 @@
                 </div>
                 <div class="fv-row col-md-3 mt-3 action_agree_id">
                     <label class="fs-6 fw-semibold form-label mb-2">
-                        <span class="required">Deadline</span>
-                    </label>
-                    <input type="text"  @error('deadline') is-invalid @enderror name="deadline" id="deadline" placeholder="Select Deadline"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="" >
-                </div>
-                <div class="fv-row col-md-3 mt-3 action_agree_id">
-                    <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Status</span>
                     </label>
                     <select name="status" id="status" aria-label="Select a Status" data-control="select2" data-placeholder="Select Status" class="form-select">
@@ -92,6 +86,13 @@
                         <option  value="Not Acheived">Not Acheived</option>   
                     </select>
                 </div>
+                <div class="fv-row col-md-3 mt-3 action_agree_id deadline">
+                    <label class="fs-6 fw-semibold form-label mb-2">
+                        <span class="required">Deadline</span>
+                    </label>
+                    <input type="text"  @error('deadline') is-invalid @enderror name="deadline" id="deadline" placeholder="Select Deadline"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="" >
+                </div>
+              
             </div>
         
         
@@ -99,6 +100,12 @@
             <div class="d-flex justify-content-end p-5">
                 <button type="submit" id="kt_action_point_submit" class="btn btn-primary btn-sm ">
                     @include('partials/general/_button-indicator', ['label' => 'Add Action Point'])
+                </button>
+                <button type="button" class="btn btn-sm btn-danger mx-2 me-5" id="cancelactionBtn" style="display: none;"> 
+                    <i class="ki-duotone ki-abstract-10">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                    </i>Cancel
                 </button>
             </div>
         </div>

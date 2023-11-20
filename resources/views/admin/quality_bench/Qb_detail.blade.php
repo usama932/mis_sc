@@ -1,7 +1,7 @@
 <x-default-layout>
  
     @section('title')
-    Monitoring Visits Detail
+    Monitoring Visits Detail ({{$qb->assement_code ?? ''}})
     @endsection
     <div class="card p-3">
         <div class="row">

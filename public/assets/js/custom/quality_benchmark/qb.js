@@ -124,7 +124,7 @@ $(document).ready(function(){
     }).change();
 });
 
-document.getElementById('districtloader').style.display = 'none';
+document.getElementById('projectloader').style.display = 'none';
 $("#project_name").change(function () {
    
     var value = $(this).val();

@@ -22,7 +22,7 @@
   
     <tr>
         <th >S.No.#</th>
-        <th>Name of staff Visit</th>
+        <th>Assesment Code</th>
         <th>Date Visit</th>
         <th>Accompanied By</th>
         <th>Type of Visit</th>
@@ -43,7 +43,7 @@
     @foreach($qbs as $qb)
       <tr>
         <td>#.000{{$qb->id}}</td>
-        <td>{{$qb->visit_staff_name}}</td>
+        <td>{{$qb->assement_code}}</td>
         <td>{{$qb->date_visit}}</td>
         <td>{{$qb->accompanied_by}}</td>
         <td>{{$qb->type_of_visit}}</td>

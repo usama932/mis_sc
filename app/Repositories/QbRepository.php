@@ -3,6 +3,7 @@ namespace App\Repositories;
 
 use App\Repositories\Interfaces\QbRepositoryInterface;
 use App\Models\QualityBench;
+use Illuminate\Support\Str;
 
 class QbRepository implements QbRepositoryInterface
 {
@@ -24,8 +25,10 @@ class QbRepository implements QbRepositoryInterface
         }else{
             $qb_status =  "Excellent";
         }
+        $assement_code = $data['district'].'-'.time();
         return QualityBench::create([
             'date_visit'            => $data['date_visit'],
+            'assement_code'         => $assement_code,
             'qb_filledby'           => $data['qb_filledby'],
             'accompanied_by'        => $data['accompanied_by'],
             'type_of_visit'         => $data['type_of_visit'],   

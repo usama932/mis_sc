@@ -1515,8 +1515,15 @@ $(document).ready(function(){
     
     $("#addactionpointBtn").click(function(){
     
-    $("#qb_action_point_form").slideToggle();
-    $("#actionpointtableDiv").slideToggle();
+        $("#qb_action_point_form").slideToggle();
+        $("#actionpointtableDiv").slideToggle();
+        $("#cancelactionBtn").show(); 
+        $("#addactionpointBtn").hide();
+    });
+    $("#cancelactionBtn").click(function(){
+        $("#qb_action_point_form, #actionpointtableDiv").slideToggle(); 
+        $("#addactionpointBtn").show(); // Show the other buttons
+        $(this).hide(); // Hide the cancel button
     });
 });
 

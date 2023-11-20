@@ -230,3 +230,18 @@ KTUtil.onDOMContentLoaded(function () {
   
     KTqbactionpointValidate.init();
 });
+
+$("#status").change(function(){
+   
+    $(this).find("option:selected").each(function(){
+        
+        var optionValue = $(this).attr("value");
+
+        if(optionValue == "To be Acheived" || optionValue == "Partialy Acheived"){
+            $('.deadline').show();
+        }
+        else{
+            $('.deadline').hide();
+        }
+    });
+});

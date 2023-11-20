@@ -48,9 +48,15 @@
                                 <span class="required">Action Point Agree</span>
                             </label>
                             <select   name="action_agree" id="action_agree" @error('action_agree') is-invalid @enderror aria-label="Select a Action Point Agree" data-control="select2" data-placeholder="Select a Action Point Agree..." class="form-select  agree_id" required>
-                                <option value="">Select Action Point Agree</option>
-                                <option  value="Yes" @if($action_point->action_agree == "Yes") selected @endif>Yes</option>
-                                <option  value="No" @if($action_point->action_agree == "No") selected @endif>No</option>
+                             
+                                @if($action_point->action_agree == "Yes")
+                                    <option  value="Yes" @if($action_point->action_agree == "Yes") selected @endif>Yes</option>
+                                @else
+                                    <option value="">Select Action Point Agree</option>
+                                    <option  value="Yes" @if($action_point->action_agree == "Yes") selected @endif>Yes</option>
+                                    <option  value="No" @if($action_point->action_agree == "No") selected @endif>No</option>
+                                @endif
+                               
                             </select>
                         </div>
                         <div class="fv-row col-md-12 mt-3 action_agree_id">
@@ -78,12 +84,6 @@
                         </div>
                         <div class="fv-row col-md-3 mt-3 action_agree_id">
                             <label class="fs-6 fw-semibold form-label mb-2">
-                                <span class="required">Deadline</span>
-                            </label>
-                            <input type="text"  @error('deadline') is-invalid @enderror name="deadline" id="deadline" placeholder="Select Deadline"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="{{date('Y-m-d', strtotime($action_point->deadline ?? ''))}} " >
-                        </div>
-                        <div class="fv-row col-md-3 mt-3 action_agree_id">
-                            <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Status</span>
                             </label>
                             <select name="status" id="status" aria-label="Select a Status" data-control="select2" data-placeholder="Select Status" class="form-select">
@@ -94,6 +94,13 @@
                                 <option  value="Not Acheived" @if($action_point->status == "Not Acheived") selected @endif>Not Acheived</option>   
                             </select>
                         </div>
+                        <div class="fv-row col-md-3 mt-3 action_agree_id deadline">
+                            <label class="fs-6 fw-semibold form-label mb-2">
+                                <span class="">Deadline</span>
+                            </label>
+                            <input type="text"  @error('deadline') is-invalid @enderror name="deadline" id="deadline" placeholder="Select Deadline"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="{{date('Y-m-d', strtotime($action_point->deadline ?? ''))}} " >
+                        </div>
+                     
                     </div>
                 
                 
@@ -112,23 +119,37 @@
     @push('scripts')
         <script>
             $(document).ready(function(){
-            $(".agree_id").change(function(){
+                $(".agree_id").change(function(){
 
-                $(this).find("option:selected").each(function(){
-                    var optionValue = $(this).attr("value");
+                    $(this).find("option:selected").each(function(){
+                        var optionValue = $(this).attr("value");
 
-                    if(optionValue == "Yes"){
-                        $('.action_agree_id').show();
+                        if(optionValue == "Yes"){
+                            $('.action_agree_id').show();
 
-                    }else if(optionValue == "No")
-                    {
-                        $('.action_agree_id').hide();
-                    }
-                    else{
-                        $('.action_agree_id').hide();
-                    }
+                        }else if(optionValue == "No")
+                        {
+                            $('.action_agree_id').hide();
+                        }
+                        else{
+                            $('.action_agree_id').hide();
+                        }
+                    });
+                }).change();
+                $("#status").change(function(){
+                    
+                    $(this).find("option:selected").each(function(){
+                        
+                        var optionValue = $(this).attr("value");
+
+                        if(optionValue == "To be Acheived" || optionValue == "Partialy Acheived"){
+                            $('.deadline').show();
+                        }
+                        else{
+                            $('.deadline').hide();
+                        }
+                    });
                 });
-            }).change();
             });
 
             $('#deadline').flatpickr({

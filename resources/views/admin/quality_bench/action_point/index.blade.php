@@ -129,6 +129,7 @@
                     <table class="table table-striped table-bordered nowrap" id="qb_actionpoints" style="width:100%">
                     <thead>
                         <tr>
+                            <th>Assement Code</th>
                             <th>Project</th>
                             <th>Partner</th>
                             <th>Province</th>
@@ -194,7 +195,7 @@
                "data":{"_token":"<?php echo csrf_token() ?>"}
            },
             "columns":[
-                            
+                {"data":"assement_code","searchable":false,"orderable":false},
                             {"data":"project_name","searchable":false,"orderable":false},
                             {"data":"partner","searchable":false,"orderable":false},
                             {"data":"province","searchable":false,"orderable":false},
@@ -274,7 +275,7 @@
                             }
                 },
                "columns":[
-              
+                {"data":"assement_code","searchable":false,"orderable":false},
                             {"data":"project_name","searchable":false,"orderable":false},
                             {"data":"partner","searchable":false,"orderable":false},
                             {"data":"province","searchable":false,"orderable":false},

@@ -115,11 +115,12 @@ class QbController extends Controller
 				$edit_url = route('quality-benchs.edit',$r->id);
                 $view_url = route('quality-benchs.show',$r->id);
 				$nestedData['id'] = $r->id;
+                $nestedData['assement_code'] = $r->assement_code ?? '';
                 $nestedData['project_name'] = $r->project?->name ?? '';
                 $nestedData['partner'] = $r->partner ?? '';
                 $nestedData['province'] = $r->provinces?->province_name ?? '';
                 $nestedData['district'] = $r->districts?->district_name ?? '';
-                $nestedData['theme'] = $r->theme ?? '';
+                $nestedData['theme'] = $r->theme_name?->name ?? '';
                 $nestedData['activity_description'] = $r->activity_description ?? '';
                 $nestedData['village'] = $r->village ?? '';
                 $nestedData['date_visit'] =date('d-M-Y', strtotime($r->date_visit)) ?? '';
@@ -278,7 +279,6 @@ class QbController extends Controller
     }
     public function getexportqb(Request $request){
       
-        $visit_staff_name = $request->visit_staff_name;
         $date_visit = $request->date_visit;
         $accompanied_by = $request->accompanied_by;
         $type_of_visit = $request->type_of_visit;

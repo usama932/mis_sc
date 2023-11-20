@@ -81,6 +81,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('get_qbs_actionpoints', [QBActionPointController::class,'get_qbs_actionpoints'])->name('get_qbs_actionpoints');
     Route::post('view_action_point', [QBActionPointController::class,'view_action_point'])->name('view_action_point');
     Route::get('/action_point/delete/{id}', [QBActionPointController::class,'destroy'])->name('action_point.delete');
+    Route::get('/getupdate_actionpoint/{id}', [QBActionPointController::class,'getupdate_actionpoint'])->name('getupdate_actionpoint');
+    Route::post('/postupdate_actionpoint/{id}', [QBActionPointController::class,'postupdate_actionpoint'])->name('postupdate_actionpoint');
 
     //Qbattachments Routes
     Route::resource('/attachments', QBAttachmentsController::class);
