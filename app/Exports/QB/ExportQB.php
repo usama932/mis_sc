@@ -19,9 +19,6 @@ class ExportQB implements FromView
     {
         $qb = QualityBench::latest();
      
-        if($this->data['visit_staff_name'] != null){
-            $qb->where('visit_staff_name',$this->data['visit_staff_name']);
-        }
         $dateParts = explode('to', $this->data['date_visit']);
         $startdate = '';
         $enddate = '';

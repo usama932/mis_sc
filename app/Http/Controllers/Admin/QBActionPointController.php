@@ -205,6 +205,8 @@ class QBActionPointController extends Controller
                     $edit_url = route('action_points.edit',$r->id);
                     $view_url = route('action_points.show',$r->id);
                     $update_url = route('getupdate_actionpoint',$r->id);
+                    
+                    $nestedData['assement_code'] = $qb_action_point->assement_code ?? '';
                     $nestedData['project_name'] = $qb_action_point->project?->name ?? '';
                     $nestedData['partner'] = $qb_action_point->partner ?? '';
                     $nestedData['province'] = $qb_action_point->provinces?->province_name ?? '';

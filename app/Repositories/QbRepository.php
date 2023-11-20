@@ -14,10 +14,10 @@ class QbRepository implements QbRepositoryInterface
         
         $score_out = $score * 100;  
         
-        if($score_out < 50){
+        if($score_out > 0 && $score_out < 50){
             $qb_status =  "Poor";
         }
-        elseif($score_out > 50 && $score_out <= 80){
+        elseif($score_out >= 50 && $score_out <= 80){
             $qb_status =  "Average";
         }
         elseif($score_out > 80 && $score_out <= 95){
@@ -57,7 +57,21 @@ class QbRepository implements QbRepositoryInterface
     {
        
         $qb_not_met =  $data['total_qbs'] - ($data['qbs_fully_met'] + $data['qb_not_applicable']) ;   
-        $score_out =( $data['total_qbs'] - $data['qb_not_applicable'])/$data['qbs_fully_met'];
+        $score = $data['qbs_fully_met'] /($data['total_qbs']- $data['qb_not_applicable']);
+        
+        $score_out = $score * 100;  
+        
+        if($score_out > 0 && $score_out < 50){
+            $qb_status =  "Poor";
+        }
+        elseif($score_out >= 50 && $score_out <= 80){
+            $qb_status =  "Average";
+        }
+        elseif($score_out > 80 && $score_out <= 95){
+            $qb_status =  "Good";
+        }else{
+            $qb_status =  "Excellent";
+        }
         return QualityBench::where('id',$id)->update([
 
             'accompanied_by'        => $data['accompanied_by'],

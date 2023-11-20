@@ -239,18 +239,12 @@
                         </div>
                     </div>
                 </div>
-                @if($qb->qbattachement->count() > 0)
+                @if( !empty($qb->qbattachement  ))
                     <div class="row"> 
-                        @foreach($qb->qbattachement as $qbattachement)
-                            <div class="col-md-12 col-sm-6 mt-5"> 
-                                <td><strong>Comments  </strong></td>
-                                <td>{{$qbattachement->comments ?? " "}}</td>
-                            </div>
                         
-                            <div class="col-md-12 col-sm-6 mt-5"> 
-                                <td><strong>Generral Observations  </strong></td>
-                                <td>{{$qbattachement->generating_observation ?? " "}}</td>
-                            </div>
+                       
+                       
+                           
                             <div class="col-md-12 col-sm-6 mt-5"> 
                                 <td><strong>Attachments  </strong></td>
                                 <td>    
@@ -281,7 +275,8 @@
                                 <td>{{date('d-M-Y H:i:s', strtotime($qbattachement->updated_at ?? " ")) }}</td>
                             </div>
                             <div class="separator border-2 my-10"></div>
-                        @endforeach
+                         
+                      
                     </div>
                 @else
                     <h5 class="text-center text-danger mt-3">There's No Qbs data</h5>

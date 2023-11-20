@@ -21,7 +21,6 @@
 <table id="customers">
   
     <tr>
-        <th >S.No.#</th>
         <th>Assesment Code</th>
         <th>Project</th>
         <th>Partner</th>
@@ -47,15 +46,15 @@
             <tr>
                 <td>{{$qb->assement_code ?? ''}}</td>
                 <td>{{$qb->project?->name ?? ''}}</td>
-                <td>{{$qb->parnter ?? ''}}</td>
+                <td>{{$qb->partner ?? ''}}</td>
                 <td>{{$qb->provinces?->province_name ?? ''}}</td>
                 <td>{{$qb->districts?->district_name ?? ''}}</td>
                 <td>{{$qb->tehsils?->tehsil_name ?? ''}}</td>
-                <td>{{$qb->theme_nama?->name ?? ''}}</td>
+                <td>{{$qb->theme_name?->name ?? ''}}</td>
                 <td>{{$qb->activity_description}}</td>
                 <td>{{$qb->village}}</td>
                 <td>{{$qb->date_visit ?? ''}}</td>
-                <td>{{$action_point->activity_number ?? ''}}</td>
+                <td>{{$action_point->monitor_visit?->activity_number ?? ''}}</td>
                 <td>{{$action_point->monitor_visit?->gap_issue ?? ''}}</td>
                 <td>{{$action_point->qb_recommendation ?? ''}}</td>
                 <td>{{$action_point->responsible_person ?? ''}}</td>

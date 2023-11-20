@@ -202,7 +202,7 @@ class QbController extends Controller
     public function show(string $id)
     {
         $qb = QualityBench::where('id',$id)->with('monitor_visit','action_point','qbattachement')->first();
-      
+
         return view('admin.quality_bench.Qb_detail',compact('qb'));
     }
 
@@ -260,7 +260,6 @@ class QbController extends Controller
         if(!empty($qb)){
             $qb->monitor_visit->each->delete();
             $qb->action_point->each->delete();
-            $qb->qbattachement->each->delete();
             $qb->delete();
             return redirect()->route('quality-benchs.index');
         }
