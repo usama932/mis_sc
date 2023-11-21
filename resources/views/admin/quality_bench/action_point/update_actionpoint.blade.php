@@ -14,7 +14,7 @@
     <div class="card">
     
         <div class="card">
-            <form class="form p-5" novalidate="novalidate" action="{{route('postupdate_actionpoint',$action_point->id)}}" method="post">  
+            <form class="form p-5" novalidate="novalidate" id="updateactionpointstatus" action="{{route('postupdate_actionpoint',$action_point->id)}}" method="post">  
                 @csrf
              
                 <input type="hidden" name="quality_bench_id" id="qb_id" value="{{$action_point->quality_bench_id}}">
@@ -56,6 +56,9 @@
                                 <span class="">Remarks</span>
                             </label>
                             <textarea  class="form-control " rows="1" name="comments" id="comments"></textarea>
+                            @error('comments')
+                            <div class="error text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                      
                     </div>
@@ -63,7 +66,7 @@
                 
                     </div>
                     <div class="d-flex justify-content-end p-5">
-                        <button type="submit" id="kt_action_point_submit" class="btn btn-primary btn-sm ">
+                        <button type="submit" id="kt_updateactionpointstatus" class="btn btn-primary btn-sm ">
                             @include('partials/general/_button-indicator', ['label' => 'Update Action Point'])
                         </button>
                     </div>

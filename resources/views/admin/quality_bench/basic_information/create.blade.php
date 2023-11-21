@@ -85,19 +85,14 @@
                                     <span class="required">Province</span>
                                 </label>
                                 <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select ">
-                                    @if(auth()->user()->permissions_level == 'province-wide' || auth()->user()->permissions_level == 'district-wide')
+                                
                                     <option value="">Select Province</option>
                                     {{-- <option value='1'>Punjab</option> --}}
-                                    <option @if(auth()->user()->province == '4') selected @endif value='4'>Sindh</option>
-                                    <option  @if(auth()->user()->province == '2') selected @endif value='2'>KPK</option>
-                                    <option   @if(auth()->user()->province == '3') selected @endif value='3'>Balochistan</option>
-                                    @else
                                     <option value="">Select Province</option>
-                                    {{-- <option value='1'>Punjab</option> --}}
                                     <option value='4'>Sindh</option>
                                     <option  value='2'>KPK</option>
                                     <option value='3'>Balochistan</option>
-                                    @endif
+                                 
                                 </select>
                                 <div id="kt_select2_provinceError" class="error-message "></div>
                             </div>

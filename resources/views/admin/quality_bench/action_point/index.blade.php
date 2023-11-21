@@ -27,22 +27,9 @@
                                 </div>
                                 <div class="col-md-3 my-3">
                                     <label class="fs-6 fw-semibold form-label mb-2">
-                                        <span class="required"> Name of Staff</span>
+                                        <span class="required">Assesment Code</span>
                                     </label>
-                                    <select name="visit_staff" id="visit_staff" aria-label="Select a Visit Staff" data-control="select2" data-placeholder="Select a  Visit Staff..." class="form-select " >
-                                        <option  value="">Select a  Visit Staff</option>
-                                        <option  value="None" >All</option>
-                                        @foreach($users as $user)
-                                            <option  value="{{$user->name}}" >{{$user->name}}</option>
-                                        @endforeach
-                                        <option  value="Ruqaiya Bibi" >Ruqaiya Bibi</option>
-                                        <option  value="Dr. Kashmala" >Dr. Kashmala</option>
-                                        <option  value="Mehnaz" >Mehnaz</option>
-                                        <option  value="Musarrat Bibi" >Musarrat Bibi</option>
-                                        <option  value="Shaista Mir" >Shaista Mir</option>
-                                        <option  value="Shama" >Shama</option>
-                                        <option  value="Zahid Ali Khan" >Zahid Ali Khan</option>
-                                    </select>
+                                    <input class="form-control" placeholder="Enter Assesment Code" id="assesment_code" name="assesment_code" >
                                 </div>
                                 <div class="col-md-3 my-3">
                                     <label class="fs-6 fw-semibold form-label mb-2">
@@ -234,11 +221,11 @@
                 }
             });
         }
-        $("#date_visit, #visit_staff, #accompanied_by, #visit_type, #kt_select2_province, #kt_select2_district, #project_type, #project_name").change(function () {
+        $("#date_visit,#assesment_code,#accompanied_by, #visit_type, #kt_select2_province, #kt_select2_district, #project_type, #project_name").change(function () {
             var table = $('#qb_actionpoints').DataTable();
             table.destroy();
+            var assesment_code = document.getElementById("assesment_code").value ?? '1';
             var date_visit = document.getElementById("date_visit").value ?? '1';
-            var visit_staff = document.getElementById("visit_staff").value
             var kt_select2_district = document.getElementById("kt_select2_district").value ?? '1';
             var kt_select2_province = document.getElementById("kt_select2_province").value ?? '1';
             var accompanied_by = document.getElementById("accompanied_by").value ?? '1';
@@ -265,7 +252,7 @@
                     "type":"POST",
                     "data":{"_token":"<?php echo csrf_token() ?>",
                             'date_visit':date_visit,
-                            'visit_staff':visit_staff,
+                            'assesment_code':assesment_code,
                             'kt_select2_district':kt_select2_district,
                             'kt_select2_province':kt_select2_province,
                             'accompanied_by':accompanied_by,

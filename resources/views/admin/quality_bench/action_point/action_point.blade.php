@@ -99,7 +99,7 @@
             </div>
             <div class="d-flex justify-content-end p-5">
                 <button type="submit" id="kt_action_point_submit" class="btn btn-primary btn-sm ">
-                    @include('partials/general/_button-indicator', ['label' => 'Add Action Point'])
+                    @include('partials/general/_button-indicator', ['label' => 'Submit Action Point'])
                 </button>
                 <button type="button" class="btn btn-sm btn-danger mx-2 me-5" id="cancelactionBtn" style="display: none;"> 
                     <i class="ki-duotone ki-abstract-10">

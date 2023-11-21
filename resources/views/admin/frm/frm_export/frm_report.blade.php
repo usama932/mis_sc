@@ -125,7 +125,7 @@
             <td>
                 @if($frm->responses->count() > 0)
                     @foreach($frm->responses as $response)
-                        {{$response->follow_up_date}}:: {{$response->response_summary ?? ''}}\n
+                        {{$response->follow_up_date}}:: {{$response->response_summary ?? ''}}<br style="mso-data-placement:same-cell;" />
                        
                     @endforeach
                 @else

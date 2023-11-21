@@ -6,15 +6,20 @@
 
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div class="card">
+            <div class="card-toolbar m-5 d-flex justify-content-end">
+
+                <!--begin::Button-->
+                <a href="{{ route('learning-logs.create') }}" class="btn btn-primary btn-sm font-weight-bolder">
+                New Record</a>
+                <!--end::Button-->
+            </div>
             
-       
-            <div class="card-body pt-0 overflow-*">
+            <div class="card-body pt-0 overflow-* rounded">
 
                 <div class="table-responsive overflow-*">
-                    <table class="table table-striped table-bordered nowrap" id="learninglogs" style="width:100%">
+                    <table class="table table-striped table-bordered nowrap " id="learninglogs" style="width:100% ">
                     <thead>
                         <tr>
-                            <th>#S.No</th>
                             <th>Title</th>
                             <th>Project</th>
                             <th>Project Type</th>
@@ -54,10 +59,7 @@
             "order": [
                 [1, 'desc']
             ],
-            "dom": 'lfBrtip',
-            buttons: [
-                'csv', 'excel'
-            ],
+           
             responsive: true, // Enable responsive mode
             "processing": true,
             "serverSide": true,

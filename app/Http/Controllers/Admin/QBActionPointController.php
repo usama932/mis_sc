@@ -113,6 +113,7 @@ class QBActionPointController extends Controller
     }
     public function get_qbs_actionpoints(Request $request)
     {
+        
         $id = $request->qb_id;
         $columns = array(
 			0 => 'id',
@@ -162,6 +163,10 @@ class QBActionPointController extends Controller
             $startdate = $dateParts[0];
             $enddate = $dateParts[1] ?? '';
         }
+        if($request->assesment_code != null){
+
+            $qb_actionpoints->where('assement_code',$request->assesment_code);
+        }
         if($request->date_visit != null){
 
             $qb_actionpoints->whereBetween('date_visit',[$startdate ,$enddate]);
@@ -195,11 +200,12 @@ class QBActionPointController extends Controller
                             ->limit($limit)
                             ->orderBy($order,$dir)
                             ->get();
-        
+      
 		$data = array();
-		
+     
 		if($action_points){
 			foreach($action_points as $qb_action_point){
+               
                 foreach($qb_action_point->action_point as $r)
                 {
                     $edit_url = route('action_points.edit',$r->id);
@@ -381,6 +387,7 @@ class QBActionPointController extends Controller
 
     public function getupdate_actionpoint($id){
         $action_point =  ActionPoint::where('id',$id)->with('qb','monitor_visit')->first();
+        addJavascriptFile('assets/js/custom/quality_benchmark/updateactionpointvalidation.js');
         return view('admin.quality_bench.action_point.update_actionpoint',compact('action_point'));
     }
     public function postupdate_actionpoint(Request $request,$id){
@@ -410,6 +417,11 @@ class QBActionPointController extends Controller
         $actionpoint = QualityBench::where('id',$request->quality_bench_id)->first();
         $actionpoint->submit = '1';
         $actionpoint->save();
+        $editUrl = route('action_points.index');
+     
+        return response()->json([
+            'editUrl' => $editUrl
+        ]);
         return redirect()->route('action_points.index');
     }
     public function destroy(string $id)

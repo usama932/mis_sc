@@ -11,4 +11,4 @@ class LearningLog extends Model
     protected $table = 'learning_logs';
     protected $guarded = [];
 }
-}
+

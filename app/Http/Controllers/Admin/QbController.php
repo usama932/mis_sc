@@ -222,7 +222,7 @@ class QbController extends Controller
         $count_action_point   =   $qb->action_point->count();
 
         
-        $monitor_visits = MonitorVisit::where('activity_type',"act")->where('quality_bench_id',$id)->latest()->get();
+        $monitor_visits = MonitorVisit::where('gap_issue','!=',Null)->where('quality_bench_id',$id)->orderBy('created_at')->get()->sortBy('activity_type');
         $qb_attachment  = QBAttachement::where('quality_bench_id',$id)->first();
 
         

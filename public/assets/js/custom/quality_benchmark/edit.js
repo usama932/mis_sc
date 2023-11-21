@@ -991,7 +991,9 @@ var KTqbattachmentValidate = function () {
                 fields: {
                     'document':{
                         validators: {
-                           
+                            notEmpty: {
+                                message: 'Document is required'
+                            },
                             file: {
                                 extension: 'pdf',
                                 message: 'The selected file is not valid'
@@ -1476,8 +1478,22 @@ $('.close').click(function() {
 $('#deadline').flatpickr({
     altInput: true,
     dateFormat: "Y-m-d",
-    minDate: new Date().fp_incr(-30),
     maxDate: new Date().fp_incr(+60), 
+    minDate: new Date("2023-10-01"),
+});
+$("#status").change(function(){
+   
+    $(this).find("option:selected").each(function(){
+        
+        var optionValue = $(this).attr("value");
+
+        if(optionValue == "To be Acheived"){
+            $('.deadline').show();
+        }
+        else{
+            $('.deadline').hide();
+        }
+    });
 });
 $(document).ready(function(){
     $("#addqbBtn").click(function(){
