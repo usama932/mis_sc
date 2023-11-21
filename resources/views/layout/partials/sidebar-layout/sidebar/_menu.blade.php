@@ -238,7 +238,7 @@
                             </div>
                         @endcan
                         @can('read quality benchmarks')
-                            <div class="menu-item">
+                            {{-- <div class="menu-item">
                                 <!--begin:Menu link-->
                                 <a class="menu-link {{ request()->routeIs('qb-export') ? 'active' : '' }}" href="{{ route('qb-export') }}">
                                     <span class="menu-bullet">
@@ -247,7 +247,7 @@
                                     <span class="menu-title">Export Quality Benchmarks</span>
                                 </a>
                                 <!--end:Menu link-->
-                            </div>
+                            </div> --}}
                             <div class="menu-item">
                                 <!--begin:Menu link-->
                                 <a class="menu-link {{ request()->routeIs('qbactionpoint-export') ? 'active' : '' }}" href="{{ route('qbactionpoint-export') }}">
@@ -263,6 +263,41 @@
                     <!--end:Menu sub-->
                 </div>
             @endcan
+            @can('learning_log')
+            <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->segment(1) == 'learning-logs' ) ? 'here show' : ''}} ">
+                <!--begin:Menu link-->
+                <span class="menu-link">
+                    <span class="svg-icon svg-icon-primary svg-icon-1x mx-2"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Weather/Wind.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <polygon points="0 0 24 0 24 24 0 24"/>
+                            <path d="M3,13 L3,11 L17.5,11 C18.3284271,11 19,10.3284271 19,9.5 L19,9 C19,8.44771525 18.5522847,8 18,8 C17.4477153,8 17,8.44771525 17,9 L17,10 L15,10 L15,9 C15,7.34314575 16.3431458,6 18,6 C19.6568542,6 21,7.34314575 21,9 L21,9.5 C21,11.4329966 19.4329966,13 17.5,13 L3,13 Z" fill="#000000" fill-rule="nonzero"/>
+                            <path d="M3,9 L3,7 L9.5,7 C10.3284271,7 11,6.32842712 11,5.5 L11,5 C11,4.44771525 10.5522847,4 10,4 C9.44771525,4 9,4.44771525 9,5 L9,6 L7,6 L7,5 C7,3.34314575 8.34314575,2 10,2 C11.6568542,2 13,3.34314575 13,5 L13,5.5 C13,7.43299662 11.4329966,9 9.5,9 L3,9 Z M3,15 L9.5,15 C11.4329966,15 13,16.5670034 13,18.5 L13,19 C13,20.6568542 11.6568542,22 10,22 C8.34314575,22 7,20.6568542 7,19 L7,18 L9,18 L9,19 C9,19.5522847 9.44771525,20 10,20 C10.5522847,20 11,19.5522847 11,19 L11,18.5 C11,17.6715729 10.3284271,17 9.5,17 L3,17 L3,15 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
+                        </g>
+                    </svg><!--end::Svg Icon--></span>
+                    <span class="menu-title">Learning Logs</span>
+                    <span class="menu-arrow"></span>
+                </span>
+                <!--end:Menu link-->
+                <!--begin:Menu sub-->
+                <div class="menu-sub menu-sub-accordion">
+                    <!--begin:Menu item-->
+                    @can('read learning log')
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{ request()->routeIs('learning-logs.index') ? 'active' : '' }}" href="{{ route('learning-logs.index') }}"">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">List Learning log</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                    @endcan
+                 
+                </div>
+                <!--end:Menu sub-->
+            </div>
+        @endcan
 			<!--end:Menu item-->
 		</div>
 		<!--end::Menu-->

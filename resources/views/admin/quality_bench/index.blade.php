@@ -145,6 +145,7 @@
                             <th>Score Out</th>
                             <th>QBs Status</th>
                             <th>Created At</th>
+                            <th>Created By</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -217,6 +218,7 @@
                             {"data":"score_out","searchable":false,"orderable":false},
                             {"data":"qb_status","searchable":false,"orderable":false},
                             {"data":"created_at" ,"searchable":false,"orderable":false},
+                            {"data":"created_by" ,"searchable":false,"orderable":false},
                             {"data":"action","searchable":false,"orderable":false},
                         ]
         });
@@ -305,6 +307,7 @@
                             {"data":"score_out","searchable":false,"orderable":false},
                             {"data":"qb_status","searchable":false,"orderable":false},
                             {"data":"created_at" ,"searchable":false,"orderable":false},
+                            {"data":"created_by" ,"searchable":false,"orderable":false},
                             {"data":"action","searchable":false,"orderable":false},
                         ]
 

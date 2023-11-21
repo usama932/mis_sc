@@ -500,8 +500,8 @@ class FRMController extends Controller
         }
         else{
             $statis = 'NA';
-            $date  = 'NA';
-            $num_of_days = "NA";
+            $date  = $frm->date_of_respbackgiven;
+            $num_of_days = "";
         }
      
         $frm = Frm::where('id',$request->frm_id)->update([

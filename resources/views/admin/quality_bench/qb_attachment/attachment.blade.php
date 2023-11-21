@@ -30,7 +30,7 @@
                      
                         
                         @if(!empty($qb_attachment->document) && $qb_attachment->document != '')
-                        <input type="file" name="document" class="form-control mx-4" value="{{$qb_attachment->document}}"  >
+                        <input type="file" name="document" class="form-control mx-4" value="{{$qb_attachment->document}}" accept=".pdf">
                             <div class="input-group-append">
                                 <a class="btn  btn-danger" title="Download Attachment" href="{{ route('showPDF.qb_attachments', $qb_attachment->id) }}" target="_blank">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-pdf" viewBox="0 0 16 16">
@@ -49,13 +49,15 @@
             </div>
             <div class="d-flex justify-content-end pt-5">
                 <button type="submit"  class="btn btn-success btn-sm kt_attachment_submit">
+                  
                     @include('partials/general/_button-indicator', ['label' => 'Save As Draft'])
                 </button>
-                @if($qb->qbs_not_fully_met > $qb->action_point->count() && $qb->qbs_not_fully_met > $qb->monitor_visit->count())
-                    <button type="submit" id="submitbtn" class="btn btn-primary btn-sm mx-3 kt_attachment_submit">
-                        @include('partials/general/_button-indicator', ['label' => 'Submit'])
-                    </button>
-                @endif
+              
+                <button type="submit" class="btn btn-primary btn-sm mx-3 kt_attachment_submit">
+                 
+                    @include('partials/general/_button-indicator', ['label' => 'Submit'])
+                </button>
+               
             </div>
         </div>
     </form>

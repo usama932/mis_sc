@@ -820,16 +820,8 @@ var KTqbactionpointValidate = function () {
                     },
                     'status': {
                         validators: {
-                            callback: {
-                                message: 'status is required',
-                                callback: function(value, validator) {
-                                    var action_agree = document.getElementById('action_agree').value;
-                                    var status = document.getElementById('status').value;
-                                    
-                                    if (action_agree === 'Yes' &&  status === '') {
-                                        return false;
-                                    }
-                                }
+                            notEmpty: {
+                                message: 'status is required'
                             }
                         }
                     },

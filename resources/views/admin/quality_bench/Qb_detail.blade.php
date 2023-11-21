@@ -239,17 +239,19 @@
                         </div>
                     </div>
                 </div>
-                @if( !empty($qb->qbattachement  ))
+                @if(!empty($qb->qbattachement))
                     <div class="row"> 
+                   
+                            <div class="col-md-12 col-sm-6 mt-5"> 
+                                <td><strong>Comments  </strong></td>
+                                <td>{{$qb->qbattachement->comments ?? " "}}</td>
+                            </div>
                         
-                       
-                       
-                           
                             <div class="col-md-12 col-sm-6 mt-5"> 
                                 <td><strong>Attachments  </strong></td>
                                 <td>    
-                                    @if(!empty($qbattachement->document) && $qbattachement->document != '')
-                                        <a class="btn btn-sm  btn-danger mx-5" title="Download Attachment" href="{{ route('showPDF.qb_attachments', $qbattachement->id) }}" target="_blank">
+                                    @if(!empty($qb->qbattachement) && $qb->qbattachement->document != '')
+                                        <a class="btn btn-sm  btn-danger mx-5" title="Download Attachment" href="{{ route('showPDF.qb_attachments', $qb->qbattachement->id) }}" target="_blank">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-pdf" viewBox="0 0 16 16">
                                                 <!-- SVG path code -->
                                             </svg> Download Attachment
@@ -275,8 +277,7 @@
                                 <td>{{date('d-M-Y H:i:s', strtotime($qbattachement->updated_at ?? " ")) }}</td>
                             </div>
                             <div class="separator border-2 my-10"></div>
-                         
-                      
+                       
                     </div>
                 @else
                     <h5 class="text-center text-danger mt-3">There's No Qbs data</h5>

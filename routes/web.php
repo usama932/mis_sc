@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\QBAjaxController;
 use App\Http\Controllers\Admin\QbController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Admin\LearningLogController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\MonitorVisitsController;
 use App\Http\Controllers\Admin\generalobservationsConroller;
@@ -97,6 +98,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('reset/password', [UserController::class,'reset_password'])->name('reset_password');
     Route::post('update/password', [UserController::class,'password_update'])->name('update_password');
     Route::post('getuserDistrict', [FBAjaxController::class,'getuserDistrict'])->name('getuserDistrict');
+
+    //Learning Log
+    Route::resource('/learning-logs', LearningLogController::class);
+    Route::post('get_learninglogs', [LearningLogController::class,'get_learninglogs'])->name('admin.get_learninglogs');
+    Route::post('view_learninglog', [LearningLogController::class,'view_learninglog'])->name('admin.view_learninglog');
+    Route::get('/learninglog/delete/{id}', [LearningLogController::class,'destroy'])->name('learninglog.delete');
 });
 
 Route::get('/error', function () {

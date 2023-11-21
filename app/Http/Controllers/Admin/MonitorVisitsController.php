@@ -122,15 +122,6 @@ class MonitorVisitsController extends Controller
        
         $active = 'monitor_visit';
 
-        if($request->qb_met == 'Not Fully Met'){
-            $validator = Validator::make($request->all(), [
-                'gap_issue'  => 'required',
-            ]);
-            if ($validator->fails()) {
-                
-                return redirect()->back()->withErrors($validator);
-            }
-        }
      
         $g_obs = MonitorVisit::where('quality_bench_id', $request->quality_bench_id)->where('activity_type','obs')->latest()->first();
         if($request->gb == "999999"){

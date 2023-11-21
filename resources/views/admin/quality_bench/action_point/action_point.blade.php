@@ -74,7 +74,7 @@
                     </label>
                     <input class="form-control" placeholder="Enter Who is Responsible" name="responsible_person" id="responsible_person" value="" >
                 </div>
-                <div class="fv-row col-md-3 mt-3 action_agree_id">
+                <div class="fv-row col-md-3 mt-3">
                     <label class="fs-6 fw-semibold form-label mb-2">
                         <span class="required">Status</span>
                     </label>

@@ -106,7 +106,7 @@ class QbController extends Controller
         {
             $qualit_benchs->where('district',auth()->user()->district);
         }
-        $qualit_bench =$qualit_benchs->offset($start)
+        $qualit_bench =$qualit_benchs->with('user')->offset($start)
                                     ->limit($limit)
                                     ->orderBy($order, $dir)->get()->sortByDesc("id");
 		$data = array();
@@ -143,6 +143,7 @@ class QbController extends Controller
                 }
                 $nestedData['qb_status'] = $qb_status ?? '';
                 $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
+                $nestedData['created_by'] =$r->user?->name;
 				$nestedData['action'] = '
                                 <div>
                                 <td>
