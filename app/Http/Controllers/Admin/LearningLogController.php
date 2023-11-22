@@ -5,10 +5,18 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\LearningLog;
+use App\Models\Project;
+use App\Repositories\Interfaces\LearningLogRepositoryInterface;
+
 
 class LearningLogController extends Controller
 {
-   
+    private $logRepository;
+
+    public function __construct(LearningLogRepositoryInterface $logRepository)
+    {
+        $this->logRepository = $logRepository;
+    }
     public function index()
     {
         addVendors(['datatables']);
@@ -46,23 +54,26 @@ class LearningLogController extends Controller
 		
 		if($logs){
 			foreach($logs as $r){
-                $download_url = route('download.qb_attachments',$r->id);
-				
+                $edit_url = route('learning-logs.edit',$r->id);
+                $show_url = route('learning-logs.show',$r->id);
                 $nestedData['title'] = $r->title;
-                $nestedData['project'] = $r->project;
-                $nestedData['project_type'] = $r->project_type;
-                $nestedData['research_type'] = '';
+                $nestedData['project'] = $r->projects?->name ?? '';
+                $nestedData['project_type'] = $r->project_type ?? '';
+                $nestedData['research_type'] = $r->research_type ?? '';
                 $nestedData['thumbnail'] = 'thumbnail';
-                $nestedData['created_by'] = $r->created_by;
+                $nestedData['created_by'] = $r->user->name ?? '';
 				$nestedData['action'] = '
                                 <div>
                                 <td>
                                    
-                                    <a class="btn   btn-clean btn-icon" onclick="event.preventDefault();qb_attachmentviewInfo('.$r->id.');" title="View Monitor Visit" href="javascript:void(0)">
-                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                    <a class=" btn-icon mx-1"  title="View Learning Log" href="'.$show_url.'">
+                                    <i class="fa fa-eye  text-info" aria-hidden="true"></i>
                                     </a>
-                                    <a class="btn   btn-clean btn-icon" onclick="event.preventDefault();qb_attachmentdel('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
-                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    <a class="btn-icon  mx-1"  title="Edit Learning Log" href="'.$edit_url.'">
+                                    <i class="fa fa-pencil text-warning" aria-hidden="true"></i>
+                                    </a>
+                                    <a class=" btn-icon  mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
+                                        <i class="fa fa-trash  text-danger" aria-hidden="true"></i>
                                     </a>
                                 </td>
                                 </div>
@@ -85,31 +96,58 @@ class LearningLogController extends Controller
     }
     public function create()
     {
-        return view('admin.learninglogs.create');
+        $projects = Project::where('active','1')->latest()->get();
+        addJavascriptFile('assets/js/custom/learninglog/createvalidations.js');
+        return view('admin.learninglogs.create',compact('projects'));
     }
 
     public function store(Request $request)
     {
-        //
+        
+        $data = $request->except('_token');
+        $Qb = $this->logRepository->storelearninglog($data);
+        $editUrl = route('learning-logs.index');
+        addJavascriptFile('assets/js/custom/learninglog/createvalidations.js');
+        return response()->json([
+            'editUrl' => $editUrl
+        ]);
     }
 
     public function show(string $id)
     {
-        //
+        $log = LearningLog::find($id);
+        return view('admin.learninglogs.show',compact('log'));
     }
 
     public function edit(string $id)
     {
-        //
+        $log = LearningLog::find($id);
+        $projects = Project::where('active','1')->latest()->get(); 
+        addJavascriptFile('assets/js/custom/learninglog/createvalidations.js');
+        return view('admin.learninglogs.edit',compact('log','projects'));
     }
 
     public function update(Request $request, string $id)
     {
-        //
+        $data = $request->except('_token');
+        $Qb = $this->logRepository->updatelearninglog($data, $id);
+        $editUrl = route('learning-logs.index');
+     
+        return response()->json([
+            'editUrl' => $editUrl
+        ]);
     }
 
     public function destroy(string $id)
     {
-        //
+        
+        $logs = LearningLog::find($id);
+	    if(!empty($logs)){
+            $logs->delete();
+		   
+		   
+	    }
+      
+	    return redirect()->back();
     }
 }

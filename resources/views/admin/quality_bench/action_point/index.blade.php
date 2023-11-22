@@ -27,7 +27,7 @@
                                 </div>
                                 <div class="col-md-3 my-3">
                                     <label class="fs-6 fw-semibold form-label mb-2">
-                                        <span class="required">Assesment Code</span>
+                                        <span class="required">Unique Code</span>
                                     </label>
                                     <input class="form-control" placeholder="Enter Assesment Code" id="assesment_code" name="assesment_code" >
                                 </div>
@@ -116,7 +116,7 @@
                     <table class="table table-striped table-bordered nowrap" id="qb_actionpoints" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Assement Code</th>
+                            <th>Unique Code</th>
                             <th>Project</th>
                             <th>Partner</th>
                             <th>Province</th>

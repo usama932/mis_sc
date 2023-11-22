@@ -1,14 +1,13 @@
 <x-nform-layout>
 
     @section('title')
-       Add Learning Logs
+        Edit Learning Logs
     @endsection
     <!--begin::Image input placeholder-->
     <style>
         .image-input-placeholder {
             background-image: url('svg/avatars/blank-dark.svg');
         }
-    
         [data-bs-theme="dark"] .image-input-placeholder {
             background-image: url('svg/avatars/blank-dark.svg');
         }
@@ -18,16 +17,16 @@
     <!--begin::Image input-->
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div class="card">
-            <form action="{{route('learning-logs.store')}}" method="post" id="learninglog" method="post" enctype="multipart/form-data">
+            <form action="{{route('learning-logs.update',$log->id)}}" method="post" id="learninglog" method="post" enctype="multipart/form-data">
                 @csrf
-           
+                @method('put')
                 <div class="card-body py-4">
                     <div class="row">
                         <div class="fv-row col-md-6 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="">Title</span>
                             </label>
-                            <input type="text" name="title" id="title" class="form-control" placeholder="Enter Title"/>
+                            <input type="text" name="title" id="title" class="form-control" placeholder="Enter Title" value="{{$log->title ?? ''}}"/>
                             <div id="titleError" class="error-message "></div>
                         </div>
                         <div class="fv-row col-md-6 mt-3">
@@ -47,24 +46,24 @@
                                 <span class="">Projects Type</span>
                                 <span class="spinner-border spinner-border-sm align-middle ms-2" id="projectloader"></span>
                             </label>
-                            <input type="text" name="project_type" id="project_type" class="form-control" placeholder="Enter Project Type"/>
+                            <input type="text" name="project_type" id="project_type" class="form-control" placeholder="Enter Project Type"  value="{{$log->project_type ?? ''}}"/>
                             <div id="project_typeError" class="error-message "></div>
                         </div>  
                         <div class="fv-row col-md-6 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="">Research Type</span>
                             </label>
-                            <input type="text" name="research_type" id="research_type" class="form-control" placeholder="Enter Research Type"/>
+                            <input type="text" name="research_type" id="research_type" class="form-control" placeholder="Enter Research Type" value="{{$log->research_type ?? ''}}"/>
                             <div id="research_typeError" class="error-message "></div>
                         </div>  
                         <div class="fv-row col-md-12 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="">Description</span>
                             </label>
-                            <textarea name="description" id="description" class="form-control" placeholder="Enter Description"></textarea>
+                            <textarea name="description" id="description" class="form-control" placeholder="Enter Description">{{$log->description ?? ''}}</textarea>
                             <div id="research_typeError" class="error-message "></div>
                         </div>  
-                      
+                     
                         <div class="fv-row col-md-6 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="">Thumbnail</span>

@@ -5,7 +5,7 @@
                 <i class="ki-duotone ki-shield-tick fs-2hx text-warning me-4"><span class="path1"></span><span class="path2"></span></i>                    
                 <div class="d-flex flex-column">
                     <h4 class="mb-1 text-warning">QBs Not Fully Met</h4>
-                    <span>This Monitoring Visit has {{$qb->qbs_not_fully_met ?? ''}} Not Fully met QBs.<span class="text-danger">Left {{$count_monitor_visit }}</span></span>
+                    <span>This Monitoring Visit has {{$qb->qbs_not_fully_met ?? ''}} Not Fully met QBs.<span class="text-danger">Remaining {{$qb->qbs_not_fully_met}} - {{$count_monitor_visit }}</span></span>
                 </div>
             </div>
         @endif

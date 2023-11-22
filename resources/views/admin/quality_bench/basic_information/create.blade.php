@@ -54,7 +54,7 @@
                                 <div id="project_nameError" class="error-message "></div>
                             </div>
 						    <div class="fv-row col-md-3">
-                                <label class="fs-6 fw-semibold form-label mb-2">
+                                <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                     <span class="required">Project Type</span>
                                     <span class="spinner-border spinner-border-sm align-middle ms-2" id="projectloader"></span>
                                 </label>

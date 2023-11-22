@@ -8,7 +8,9 @@ use Illuminate\Support\ServiceProvider;
 use App\Repositories\Interfaces\FrmRepositoryInterface;
 use App\Repositories\FrmRepository;
 use App\Repositories\Interfaces\QbRepositoryInterface;
+use App\Repositories\Interfaces\LearningLogRepositoryInterface;
 use App\Repositories\QbRepository;
+use App\Repositories\LearninglogRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(FrmRepositoryInterface::class, FrmRepository::class);
         $this->app->bind(QbRepositoryInterface::class, QbRepository::class);
+        $this->app->bind(LearningLogRepositoryInterface::class, LearninglogRepository::class);
     }
 
     /**

@@ -96,11 +96,11 @@
                 if (result.value) {
                     Swal.fire(
                         "Deleted!",
-                        "Your Quality BenchMark` has been deleted.",
+                        "Your Learning Log has been deleted.",
                         "success"
                     );
                     var APP_URL = {!! json_encode(url('/')) !!}
-                    window.location.href = APP_URL + "/learninglog/" + id;
+                    window.location.href = APP_URL + "/learninglog/delete/" + id;
                 }
             });
         }
