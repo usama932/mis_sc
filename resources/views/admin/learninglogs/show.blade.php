@@ -42,7 +42,7 @@
                         </tr>
                         <tr>
                             <td><strong>Thumbnail </strong></td>
-                            <td><img src="{{storage_path('/public/thumbnail/'.$log->thumbnail)}}" alt="..." class="img-thumbnail"></td>
+                            <td><img src="{{ asset('storage/learninglog/'.$log->thumbnail) }}" alt="..." class="img-thumbnail"></td>
                         </tr>
                         <tr>
                             <td><strong>Description </strong></td>

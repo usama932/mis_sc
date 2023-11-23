@@ -13,7 +13,7 @@ class QbRepository implements QbRepositoryInterface
         $score = $data['qbs_fully_met'] /($data['total_qbs']- $data['qb_not_applicable']);
         
         $score_out = $score * 100;  
-        
+        //dd($score_out);
         if($score_out > 0 && $score_out < 50){
             $qb_status =  "Poor";
         }
@@ -25,6 +25,7 @@ class QbRepository implements QbRepositoryInterface
         }else{
             $qb_status =  "Excellent";
         }
+        //dd($qb_status);
         $assement_code = $data['district'].'-'.time();
         return QualityBench::create([
             'date_visit'            => $data['date_visit'],
@@ -60,7 +61,7 @@ class QbRepository implements QbRepositoryInterface
         $score = $data['qbs_fully_met'] /($data['total_qbs']- $data['qb_not_applicable']);
         
         $score_out = $score * 100;  
-        
+        //dd($score_out);
         if($score_out > 0 && $score_out < 50){
             $qb_status =  "Poor";
         }
@@ -94,6 +95,7 @@ class QbRepository implements QbRepositoryInterface
             'qbs_fully_met'         => $data['qbs_fully_met'],
             'qbs_not_fully_met'     => $qb_not_met,
             'score_out'             => $score_out,
+            'qb_status'             => $qb_status,
             'activity_description'  => $data['activity_description'],   
             'updated_by'            => auth()->user()->id
         ]);

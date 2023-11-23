@@ -22,7 +22,7 @@ class LearninglogRepository implements LearningLogRepositoryInterface
             
             $file = $data['thumbnail'];
             $thumbnail = $file->getClientOriginalName();
-            $file->storeAs('public/qbattachment/',$thumbnail);
+            $file->storeAs('public/learninglog/',$thumbnail);
            
         }
         if($data['attachment']){
@@ -37,7 +37,7 @@ class LearninglogRepository implements LearningLogRepositoryInterface
             
             $file = $data['attachment'];
             $attachment = $file->getClientOriginalName();
-            $file->storeAs('public/qbattachment/',$attachment);
+            $file->storeAs('public/learninglog/',$attachment);
            
         }
        

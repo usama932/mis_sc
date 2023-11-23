@@ -1170,17 +1170,12 @@ var qb_id = document.getElementById("qb_id").value;
 var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 var clients = $('#monitor_visits').DataTable({
    
-    
     "processing": true,
     "serverSide": true,
     "searchDelay": 500,
     "responsive": false,
     "searching": false,
-    "bLengthChange": false,
-    "dom": 'lfrti',
-    "bInfo" : false,
-    "info": false,
-    "showNEntries" : false,
+  
     "ajax": {
         "url": "/get_monitor_visits",
         "dataType": "json",
@@ -1286,11 +1281,7 @@ var clients = $('#action_points').DataTable({
     "searchDelay": 500,
     "responsive": false,
     "searching": false,
-    "bLengthChange": false,
-    "dom": 'lfrti',
-    "bInfo" : false,
-    "info": false,
-    "showNEntries" : false,
+  
     "ajax": {
         "url": "/get_action_points",
         "dataType": "json",

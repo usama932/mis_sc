@@ -1,15 +1,12 @@
 <div class="mx-5">
     
     <div class="">
-       
-        @if($qb->qbs_not_fully_met > $qb->action_point->count())
-            <div class="d-flex justify-content-end hover-elevate-up mt-10 mx-5">
-                <button class="btn btn-sm btn-primary mx-5" id="addactionpointBtn"> <i class="ki-duotone ki-abstract-10">
-                <span class="path1"></span>
-                <span class="path2"></span>
-                </i>Add Action Point</button>
-            </div>
-        @endif
+        <div class="d-flex justify-content-end hover-elevate-up mt-10 mx-5">
+            <button class="btn btn-sm btn-primary mx-5" id="addactionpointBtn"> <i class="ki-duotone ki-abstract-10">
+            <span class="path1"></span>
+            <span class="path2"></span>
+            </i>Add Action Point</button>
+        </div>
     </div>
 
     <form class="form p-5"  id="qb_action_point_form"  novalidate="novalidate" action="{{route('action_points.store')}}" method="post">  

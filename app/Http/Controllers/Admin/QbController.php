@@ -222,7 +222,15 @@ class QbController extends Controller
         $count_action_point   =   $qb->action_point->count();
 
         
-        $monitor_visits = MonitorVisit::where('gap_issue','!=',Null)->where('quality_bench_id',$id)->orderBy('created_at')->get()->sortBy('activity_type');
+        $monitor_visits = MonitorVisit::leftJoin('monitor_action_points', 'monitor_visits.id', '=', 'monitor_action_points.monitor_visits_id')
+                                        ->where('monitor_visits.gap_issue', '!=', null)
+                                        ->where('monitor_visits.quality_bench_id', $id)
+                                        ->whereNull('monitor_action_points.id') // Filter for monitor visits without action points
+                                        ->orderBy('monitor_visits.created_at')
+                                        ->select('monitor_visits.id','gap_issue','monitor_visits.activity_number')
+                                        ->get()
+                                        ->sortBy('activity_type');
+                                      
         $qb_attachment  = QBAttachement::where('quality_bench_id',$id)->first();
 
         
