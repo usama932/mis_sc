@@ -15,8 +15,8 @@
                 </div>
                 <table class="table table-striped p-3">
                     <tr>
-                        <td><strong>Visit Staff </strong></td>
-                        <td>{{$action_point->qb?->visit_staff_name ?? " "}}</td>
+                        <td><strong>Unique Code</strong></td>
+                        <td>{{$action_point->qb?->assement_code ?? " "}}</td>
                     </tr>
                     <tr>
                         <td ><strong>Date Visit</strong></td>

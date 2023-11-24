@@ -145,7 +145,7 @@ class QBActionPointController extends Controller
 		
 		
         $qb_actionpoints = QualityBench::with('action_point');
-        $totalFiltered = QualityBench::count();
+        $totalFiltered = QualityBench::with('action_point')->count();
 
         if($request->kt_select2_district != null && $request->kt_select2_district != 'None'){
             $qb_actionpoints->where('district',$request->kt_select2_district);
@@ -368,8 +368,6 @@ class QBActionPointController extends Controller
         }
 
         $monitor_visits = ActionPoint::where('id',$id)->update([
-            'quality_bench_id'      => $request->quality_bench_id,
-            'monitor_visits_id'     => $request->activity_number,
             'action_agree'          => $request->action_agree,
             'qb_recommendation'     => $request->qb_recommendation ?? 'NA',
             'db_note'               => $request->db_note ?? 'NA',

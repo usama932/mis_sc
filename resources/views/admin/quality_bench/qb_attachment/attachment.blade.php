@@ -30,7 +30,7 @@
                      
                         
                         @if(!empty($qb_attachment->document) && $qb_attachment->document != '')
-                        <input type="file" name="document" class="form-control mx-4" value="{{$qb_attachment->document}}" accept=".pdf">
+                        <input type="file" name="document" class="form-control mx-4" value="{{$qb_attachment->document}}" onchange="validateFile()" accept=".pdf">
                             <div class="input-group-append">
                                 <a class="btn  btn-danger" title="Download Attachment" href="{{ route('showPDF.qb_attachments', $qb_attachment->id) }}" target="_blank">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-pdf" viewBox="0 0 16 16">
@@ -39,7 +39,8 @@
                                 </a>
                             </div>
                         @else
-                        <input type="file" name="document" class="form-control mx-4" value="">
+                        <input name="document" class="form-control upload_file_input" id="upload_file_input" accept="application/pdf" type="file" autocomplete="off" value="">
+                        
                         @endif
                     </div>          
                 </div>     
@@ -61,6 +62,7 @@
             </div>
         </div>
     </form>
+    
     {{-- <div class="table-responsive overflow-*">
         <table class="table table-bordered" id="qbattachments"style="margin-top: 13px !important">
         <thead>
