@@ -116,24 +116,20 @@ class QBActionPointController extends Controller
         
         $id = $request->qb_id;
         $columns = array(
-			0 => 'id',
-			1 => 'assement_code',
-			2 => 'project_name',
-			3 => 'partner',
-			4 => 'province',
-			5 => 'district',
-            6 => 'theme',
-            7 => 'activity',
-            9 => 'village',
-            5 => 'date_visit',
-            6 => 'activity_number',
-            7 => 'gap_issue',
-            9 => 'qb_recommendation',
-            0 => 'responsible_person',
-            0 => 'deadline',
-            0 => 'status',
-            9 => 'created_by',
-            10 => 'created_at',
+           
+            1 => 'assement_code',
+            2 => 'date_visit',
+			3 => 'district',
+            4 => 'village',
+            5 => 'theme',
+            6 => 'activity',
+            7 => 'qb_recommendation',
+            8 =>  "action_point",
+            9 => 'responsible_person',
+            10 => 'deadline',
+            11 => 'status',
+            12 => 'created_by',
+            13 => 'created_at',
 
 		);
 		
@@ -213,17 +209,15 @@ class QBActionPointController extends Controller
                     $update_url = route('getupdate_actionpoint',$r->id);
                     
                     $nestedData['assement_code'] = $qb_action_point->assement_code ?? '';
-                    $nestedData['project_name'] = $qb_action_point->project?->name ?? '';
-                    $nestedData['partner'] = $qb_action_point->partner ?? '';
-                    $nestedData['province'] = $qb_action_point->provinces?->province_name ?? '';
                     $nestedData['district'] = $qb_action_point->districts?->district_name ?? '';
                     $nestedData['theme'] = $qb_action_point->theme_name?->name ?? '';
                     $nestedData['activity'] = $qb_action_point->activity_description ?? '';
                     $nestedData['village'] = $qb_action_point->village ?? '';
                     $nestedData['date_visit'] =date('d-M-Y', strtotime($qb_action_point->date_visit)) ?? '';
                     $nestedData['activity_number'] = $r->monitor_visit?->activity_number ?? '';
-                    $nestedData['db_note'] = $r->monitor_visit?->gap_issue ?? "";
-                    $nestedData['qb_recommendation'] = $r->qb_recommendation ?? '';
+                    $nestedData['db_note'] = wordwrap($r->monitor_visit?->gap_issue, 5, "\n");
+                    $nestedData['action_point'] =wordwrap($r->db_note, 5, "\n"); 
+                    $nestedData['qb_recommendation'] = wordwrap( $r->qb_recommendation, 5, "\n");
                     $nestedData['responsible_person'] = $r->responsible_person ?? '';
                     if($r->deadline != '' && $r->deadline != Null){
                         $nestedData['deadline'] =date('d-M-Y',strtotime($r->deadline)) ?? '' ;
