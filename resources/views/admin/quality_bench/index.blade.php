@@ -144,6 +144,7 @@
                             <th>QBs  Not Applicable</th>
                             <th>Score Out</th>
                             <th>QBs Status</th>
+                            <th>Attachemnt</th>
                             <th>Created At</th>
                             <th>Created By</th>
                             <th>Actions</th>
@@ -217,6 +218,7 @@
                             {"data":"qb_not_applicable","searchable":false,"orderable":false},
                             {"data":"score_out","searchable":false,"orderable":false},
                             {"data":"qb_status","searchable":false,"orderable":false},
+                            {"data":"attachment","searchable":false,"orderable":false},
                             {"data":"created_at" ,"searchable":false,"orderable":false},
                             {"data":"created_by" ,"searchable":false,"orderable":false},
                             {"data":"action","searchable":false,"orderable":false},
@@ -306,6 +308,7 @@
                             {"data":"qb_not_applicable","searchable":false,"orderable":false},
                             {"data":"score_out","searchable":false,"orderable":false},
                             {"data":"qb_status","searchable":false,"orderable":false},
+                            {"data":"attachment","searchable":false,"orderable":false},
                             {"data":"created_at" ,"searchable":false,"orderable":false},
                             {"data":"created_by" ,"searchable":false,"orderable":false},
                             {"data":"action","searchable":false,"orderable":false},

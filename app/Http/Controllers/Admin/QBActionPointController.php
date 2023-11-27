@@ -118,28 +118,42 @@ class QBActionPointController extends Controller
         $id = $request->qb_id;
         $columns = array(
            
-            1 => 'assement_code',
-            2 => 'date_visit',
-			3 => 'district',
-            4 => 'village',
-            5 => 'theme',
-            6 => 'activity',
-            7 => 'qb_recommendation',
-            8 =>  "action_point",
+          
+            0 => 'assement_code',
+            1 => 'id',
+            2 => 'village',
+            3 => 'theme',
+			4 => 'activity',
+			5 => 'issue/gap',
+			6 => 'action_agree',
+			7 => 'db_note',
+			8 => 'action_point',
             9 => 'responsible_person',
             10 => 'deadline',
             11 => 'status',
             12 => 'created_by',
             13 => 'created_at',
+          
 
 		);
 		
         $start = $request->input('start');
-        $qb_actionpoints = QualityBench::with('action_point');
-        if($request->kt_select2_district != null && $request->kt_select2_district != 'None'){
-            $qb_actionpoints->where('district',$request->kt_select2_district);
+        $qb_actionpoints = ActionPoint::with('qb', 'monitor_visit');
+       
+        if ($request->kt_select2_district != null && $request->kt_select2_district != 'all' && $request->kt_select2_district != 'None') {
+            $qb_actionpoints->whereHas('qb', function ($query) use ($request) {
+                $query->where('district', $request->kt_select2_district);
+            });
         }
-      
+        if ($request->status != null && $request->status != 'None') {
+            $qb_actionpoints->where('status', $request->status);
+           
+        }
+        if ($request->assesment_code != null && $request->assesment_code != 'None') {
+            $qb_actionpoints->whereHas('qb', function ($query) use ($request) {
+                $query->where('assement_code', $request->assesment_code);
+            });
+        }
         $dateParts = explode('to', $request->date_visit);
         $startdate = '';
         $enddate = '';
@@ -147,22 +161,24 @@ class QBActionPointController extends Controller
             $startdate = $dateParts[0];
             $enddate = $dateParts[1] ?? '';
         }
-        if($request->assesment_code != null){
-
-            $qb_actionpoints->where('assement_code',$request->assesment_code);
-        }
-        if($request->date_visit != null){
-
-            $qb_actionpoints->whereBetween('date_visit',[$startdate ,$enddate]);
+        if ($request->date_visit != null && $request->date_visit != 'None') {
+            $qb_actionpoints->whereHas('qb', function ($query) use ($startdate ,$enddate) {
+                $query->whereBetween('date_visit',[$startdate ,$enddate]);
+            });
         }
        
         if(auth()->user()->permissions_level == 'province-wide')
         {
-            $qb_actionpoints->where('province',auth()->user()->province);
+            $qb_actionpoints->whereHas('qb', function ($query) {
+                $query->whereBetween('province',auth()->user()->province);
+            });
+         
         }
         if(auth()->user()->permissions_level == 'district-wide')
         {
-            $qb_actionpoints->where('district',auth()->user()->district);
+            $qb_actionpoints->whereHas('qb', function ($query) {
+                $query->whereBetween('district',auth()->user()->district);
+            });
         }
         $totalData = $qb_actionpoints->count();
         $limit = $request->input('length');
@@ -176,60 +192,55 @@ class QBActionPointController extends Controller
                             ->get();
       
 		$data = array();
-     
+        
 		if($action_points){
-			foreach($action_points as $qb_action_point){
-               
-                foreach($qb_action_point->action_point as $r)
-                {
+			foreach($action_points as $action_point){                 
+                $edit_url = route('action_points.edit',$action_point->id);
+                $view_url = route('action_points.show',$action_point->id);
+                $update_url = route('getupdate_actionpoint',$action_point->id);
+                $nestedData['assement_code'] = $action_point->qb->assement_code ?? '';
+                $nestedData['district'] = $action_point->qb->districts?->district_name ?? '';
+                $nestedData['theme'] = $action_point->qb->theme_name?->name ?? '';
+                $nestedData['activity'] = $action_point->qb->activity_description ?? '';
+                $nestedData['village'] = $action_point->qb->village ?? '';
+                $nestedData['date_visit'] =date('d-M-Y', strtotime($action_point->qb->date_visit)) ?? '';
+                $nestedData['activity_number'] =$action_point->monitor_visit?->activity_number ?? '';
+                $nestedData['db_note'] = wordwrap($action_point->monitor_visit?->gap_issue, 5, "\n");
+                $nestedData['action_point'] =wordwrap($action_point->db_note, 5, "\n"); 
+                $nestedData['qb_recommendation'] = wordwrap($action_point->qb_recommendation, 5, "\n");
+                $nestedData['responsible_person'] = $action_point->responsible_person ?? '';
+                if($action_point->deadline != '' && $action_point->deadline != Null){
+                    $nestedData['deadline'] =date('d-M-Y',strtotime($action_point->deadline)) ?? '' ;
+                }else{
+                    $nestedData['deadline'] ='';
+                }
+                $nestedData['status'] = $action_point->status ?? '';
+                $nestedData['created_by'] = $action_point->user?->name ?? '';
+                $nestedData['created_at'] = date('d-M-Y H:i:s',strtotime($action_point->created_at)) ?? '';
+                if($action_point->status == "Acheived" || $action_point->status == "Not Acheived" || $action_point->status == "Partialy Acheived"){
+                    $edit = '';
+                    $update_status = '<a class="btn-icon mx-1"  title=" Status Lock" href=""><i class="fa fa-lock text-warning" aria-hidden="true"></i></a>';
+                }else{
+                    $edit = '<a class="btn-icon  mx-1" title="Edit Action Point" href="'.$edit_url.'" target="_blank"><i class="fa fa-pencil text-info" aria-hidden="true"></i></a>';
+                    $update_status = '<a class="btn-icon mx-1"  title="Update Status" href="'.$update_url.'"><i class="fa fa-lock-open text-warning" aria-hidden="true"></i></a>';
+                }
+                
+                $nestedData['action'] = '
+                                <div>
+                                <td>
+                                    <a class="btn-icon mx-1" href="'.$view_url.'" title="View Action Point" target="_blank">
+                                        <i class="fa fa-eye text-warning" aria-hidden="true"></i>
+                                    </a>
+                                    '.$update_status.'
+                                    '.$edit.'
+                                    <a class="btn-icon  mx-1"  title="Delete ActionPoint" onclick="event.preventDefault();actiondel('.$action_point->id.');" title="Delete Action Point" href="javascript:void(0)">
+                                        <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                                </div>
+                            ';
+                $data[] = $nestedData;
                     
-                    $edit_url = route('action_points.edit',$r->id);
-                    $view_url = route('action_points.show',$r->id);
-                    $update_url = route('getupdate_actionpoint',$r->id);
-                    
-                    $nestedData['assement_code'] = $qb_action_point->assement_code ?? '';
-                    $nestedData['district'] = $qb_action_point->districts?->district_name ?? '';
-                    $nestedData['theme'] = $qb_action_point->theme_name?->name ?? '';
-                    $nestedData['activity'] = $qb_action_point->activity_description ?? '';
-                    $nestedData['village'] = $qb_action_point->village ?? '';
-                    $nestedData['date_visit'] =date('d-M-Y', strtotime($qb_action_point->date_visit)) ?? '';
-                    $nestedData['activity_number'] = $r->monitor_visit?->activity_number ?? '';
-                    $nestedData['db_note'] = wordwrap($r->monitor_visit?->gap_issue, 5, "\n");
-                    $nestedData['action_point'] =wordwrap($r->db_note, 5, "\n"); 
-                    $nestedData['qb_recommendation'] = wordwrap( $r->qb_recommendation, 5, "\n");
-                    $nestedData['responsible_person'] = $r->responsible_person ?? '';
-                    if($r->deadline != '' && $r->deadline != Null){
-                        $nestedData['deadline'] =date('d-M-Y',strtotime($r->deadline)) ?? '' ;
-                    }else{
-                        $nestedData['deadline'] ='';
-                    }
-                    $nestedData['status'] = $r->status ?? '';
-                    $nestedData['created_by'] = $r->user?->name ?? '';
-                    $nestedData['created_at'] = date('d-M-Y H:i:s',strtotime($r->created_at)) ?? '';
-                    if($r->status == "Acheived" || $r->status == "Not Acheived" || $r->status == "Partialy Acheived"){
-                        $edit = '';
-                        $update_status = '<a class="btn-icon mx-1"  title=" Status Lock" href=""><i class="fa fa-lock text-warning" aria-hidden="true"></i></a>';
-                    }else{
-                        $edit = '<a class="btn-icon  mx-1" title="Edit Action Point" href="'.$edit_url.'" target="_blank"><i class="fa fa-pencil text-info" aria-hidden="true"></i></a>';
-                        $update_status = '<a class="btn-icon mx-1"  title="Update Status" href="'.$update_url.'"><i class="fa fa-lock-open text-warning" aria-hidden="true"></i></a>';
-                    }
-                  
-                    $nestedData['action'] = '
-                                    <div>
-                                    <td>
-                                        <a class="btn-icon mx-1" href="'.$view_url.'" title="View Action Point" target="_blank">
-                                            <i class="fa fa-eye text-warning" aria-hidden="true"></i>
-                                        </a>
-                                        '.$update_status.'
-                                        '.$edit.'
-                                        <a class="btn-icon  mx-1"  title="Delete ActionPoint" onclick="event.preventDefault();actiondel('.$r->id.');" title="Delete Action Point" href="javascript:void(0)">
-                                            <i class="fa fa-trash text-danger" aria-hidden="true"></i>
-                                        </a>
-                                    </td>
-                                    </div>
-                                ';
-                    $data[] = $nestedData;
-                }     
 				
 			}
 		}

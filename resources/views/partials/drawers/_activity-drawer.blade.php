@@ -429,18 +429,7 @@
 								<!--begin::Title-->
 								<div class="fs-5 fw-semibold mb-2">You have received a new order:</div>
 								<!--end::Title-->
-								<!--begin::Description-->
-								<div class="d-flex align-items-center mt-1 fs-6">
-									<!--begin::Info-->
-									<div class="text-muted me-2 fs-7">Placed at 5:05 AM by</div>
-									<!--end::Info-->
-									<!--begin::User-->
-									<div class="symbol symbol-circle symbol-25px" data-bs-toggle="tooltip" data-bs-boundary="window" data-bs-placement="top" title="Robert Rich">
-										<img src="{{ image('avatars/300-4.jpg') }}" alt="img" />
-									</div>
-									<!--end::User-->
-								</div>
-								<!--end::Description-->
+								
 							</div>
 							<!--end::Timeline heading-->
 							<!--begin::Timeline details-->

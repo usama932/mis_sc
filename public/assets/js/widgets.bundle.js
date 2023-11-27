@@ -18056,82 +18056,12 @@ var KTTimelineWidget1 = function () {
 
         // Build vis-timeline datasets
         var groups = new vis.DataSet([
-            {
-                id: "research",
-                content: "Research",
-                order: 1
-            },
-            {
-                id: "qa",
-                content: "Phase 2.6 QA",
-                order: 2
-            },
-            {
-                id: "ui",
-                content: "UI Design",
-                order: 3
-            },
-            {
-                id: "dev",
-                content: "Development",
-                order: 4
-            }
+          
         ]);
 
 
         var items = new vis.DataSet([
-            {
-                id: 1,
-                group: 'research',
-                start: now,
-                end: moment(now).add(1.5, 'hours'),
-                content: 'Meeting',
-                progress: "60%",
-                color: 'primary',
-                users: [
-                    'avatars/300-6.jpg',
-                    'avatars/300-1.jpg'
-                ]
-            },
-            {
-                id: 2,
-                group: 'qa',
-                start: moment(now).add(1, 'hours'),
-                end: moment(now).add(2, 'hours'),
-                content: 'Testing',
-                progress: "47%",
-                color: 'success',
-                users: [
-                    'avatars/300-2.jpg'
-                ]
-            },
-            {
-                id: 3,
-                group: 'ui',
-                start: moment(now).add(30, 'minutes'),
-                end: moment(now).add(2.5, 'hours'),
-                content: 'Landing page',
-                progress: "55%",
-                color: 'danger',
-                users: [
-                    'avatars/300-5.jpg',
-                    'avatars/300-20.jpg'
-                ]
-            },
-            {
-                id: 4,
-                group: 'dev',
-                start: moment(now).add(1.5, 'hours'),
-                end: moment(now).add(3, 'hours'),
-                content: 'Products module',
-                progress: "75%",
-                color: 'info',
-                users: [
-                    'avatars/300-23.jpg',
-                    'avatars/300-12.jpg',
-                    'avatars/300-9.jpg'
-                ]
-            },
+        
         ]);
 
         // Set vis-timeline options
@@ -18231,82 +18161,12 @@ var KTTimelineWidget1 = function () {
 
         // Build vis-timeline datasets
         var groups = new vis.DataSet([
-            {
-                id: 1,
-                content: "Research",
-                order: 1
-            },
-            {
-                id: 2,
-                content: "Phase 2.6 QA",
-                order: 2
-            },
-            {
-                id: 3,
-                content: "UI Design",
-                order: 3
-            },
-            {
-                id: 4,
-                content: "Development",
-                order: 4
-            }
+           
         ]);
 
 
         var items = new vis.DataSet([
-            {
-                id: 1,
-                group: 1,
-                start: now,
-                end: moment(now).add(7, 'days'),
-                content: 'Framework',
-                progress: "71%",
-                color: 'primary',
-                users: [
-                    'avatars/300-6.jpg',
-                    'avatars/300-1.jpg'
-                ]
-            },
-            {
-                id: 2,
-                group: 2,
-                start: moment(now).add(7, 'days'),
-                end: moment(now).add(14, 'days'),
-                content: 'Accessibility',
-                progress: "84%",
-                color: 'success',
-                users: [
-                    'avatars/300-2.jpg'
-                ]
-            },
-            {
-                id: 3,
-                group: 3,
-                start: moment(now).add(3, 'days'),
-                end: moment(now).add(20, 'days'),
-                content: 'Microsites',
-                progress: "69%",
-                color: 'danger',
-                users: [
-                    'avatars/300-5.jpg',
-                    'avatars/300-20.jpg'
-                ]
-            },
-            {
-                id: 4,
-                group: 4,
-                start: moment(now).add(10, 'days'),
-                end: moment(now).add(21, 'days'),
-                content: 'Deployment',
-                progress: "74%",
-                color: 'info',
-                users: [
-                    'avatars/300-23.jpg',
-                    'avatars/300-12.jpg',
-                    'avatars/300-9.jpg'
-                ]
-            },
+        
         ]);
 
         // Set vis-timeline options
@@ -18431,58 +18291,7 @@ var KTTimelineWidget1 = function () {
 
 
         var items = new vis.DataSet([
-            {
-                id: 1,
-                group: 'research',
-                start: now,
-                end: moment(now).add(2, 'months'),
-                content: 'Tags',
-                progress: "79%",
-                color: 'primary',
-                users: [
-                    'avatars/300-6.jpg',
-                    'avatars/300-1.jpg'
-                ]
-            },
-            {
-                id: 2,
-                group: 'qa',
-                start: moment(now).add(0.5, 'months'),
-                end: moment(now).add(5, 'months'),
-                content: 'Testing',
-                progress: "64%",
-                color: 'success',
-                users: [
-                    'avatars/300-2.jpg'
-                ]
-            },
-            {
-                id: 3,
-                group: 'ui',
-                start: moment(now).add(2, 'months'),
-                end: moment(now).add(6.5, 'months'),
-                content: 'Media',
-                progress: "82%",
-                color: 'danger',
-                users: [
-                    'avatars/300-5.jpg',
-                    'avatars/300-20.jpg'
-                ]
-            },
-            {
-                id: 4,
-                group: 'dev',
-                start: moment(now).add(4, 'months'),
-                end: moment(now).add(7, 'months'),
-                content: 'Plugins',
-                progress: "58%",
-                color: 'info',
-                users: [
-                    'avatars/300-23.jpg',
-                    'avatars/300-12.jpg',
-                    'avatars/300-9.jpg'
-                ]
-            },
+   
         ]);
 
         // Set vis-timeline options
@@ -18741,58 +18550,7 @@ var KTTimelineWidget4 = function () {
 
 
         var items = new vis.DataSet([
-            {
-                id: 1,
-                group: 'research',
-                start: now,
-                end: moment(now).add(1.5, 'hours'),
-                content: 'Meeting',
-                progress: "60%",
-                color: 'primary',
-                users: [
-                    'avatars/300-6.jpg',
-                    'avatars/300-1.jpg'
-                ]
-            },
-            {
-                id: 2,
-                group: 'qa',
-                start: moment(now).add(1, 'hours'),
-                end: moment(now).add(2, 'hours'),
-                content: 'Testing',
-                progress: "47%",
-                color: 'success',
-                users: [
-                    'avatars/300-2.jpg'
-                ]
-            },
-            {
-                id: 3,
-                group: 'ui',
-                start: moment(now).add(30, 'minutes'),
-                end: moment(now).add(2.5, 'hours'),
-                content: 'Landing page',
-                progress: "55%",
-                color: 'danger',
-                users: [
-                    'avatars/300-5.jpg',
-                    'avatars/300-20.jpg'
-                ]
-            },
-            {
-                id: 4,
-                group: 'dev',
-                start: moment(now).add(1.5, 'hours'),
-                end: moment(now).add(3, 'hours'),
-                content: 'Products module',
-                progress: "75%",
-                color: 'info',
-                users: [
-                    'avatars/300-23.jpg',
-                    'avatars/300-12.jpg',
-                    'avatars/300-9.jpg'
-                ]
-            },
+          
         ]);
 
         // Set vis-timeline options
@@ -18916,58 +18674,7 @@ var KTTimelineWidget4 = function () {
 
 
         var items = new vis.DataSet([
-            {
-                id: 1,
-                group: 1,
-                start: now,
-                end: moment(now).add(7, 'days'),
-                content: 'Framework',
-                progress: "71%",
-                color: 'primary',
-                users: [
-                    'avatars/300-6.jpg',
-                    'avatars/300-1.jpg'
-                ]
-            },
-            {
-                id: 2,
-                group: 2,
-                start: moment(now).add(7, 'days'),
-                end: moment(now).add(14, 'days'),
-                content: 'Accessibility',
-                progress: "84%",
-                color: 'success',
-                users: [
-                    'avatars/300-2.jpg'
-                ]
-            },
-            {
-                id: 3,
-                group: 3,
-                start: moment(now).add(3, 'days'),
-                end: moment(now).add(20, 'days'),
-                content: 'Microsites',
-                progress: "69%",
-                color: 'danger',
-                users: [
-                    'avatars/300-5.jpg',
-                    'avatars/300-20.jpg'
-                ]
-            },
-            {
-                id: 4,
-                group: 4,
-                start: moment(now).add(10, 'days'),
-                end: moment(now).add(21, 'days'),
-                content: 'Deployment',
-                progress: "74%",
-                color: 'info',
-                users: [
-                    'avatars/300-23.jpg',
-                    'avatars/300-12.jpg',
-                    'avatars/300-9.jpg'
-                ]
-            },
+          
         ]);
 
         // Set vis-timeline options
@@ -19068,82 +18775,12 @@ var KTTimelineWidget4 = function () {
 
         // Build vis-timeline datasets
         var groups = new vis.DataSet([
-            {
-                id: "research",
-                content: "Research",
-                order: 1
-            },
-            {
-                id: "qa",
-                content: "Phase 2.6 QA",
-                order: 2
-            },
-            {
-                id: "ui",
-                content: "UI Design",
-                order: 3
-            },
-            {
-                id: "dev",
-                content: "Development",
-                order: 4
-            }
+         
         ]);
 
 
         var items = new vis.DataSet([
-            {
-                id: 1,
-                group: 'research',
-                start: now,
-                end: moment(now).add(2, 'months'),
-                content: 'Tags',
-                progress: "79%",
-                color: 'primary',
-                users: [
-                    'avatars/300-6.jpg',
-                    'avatars/300-1.jpg'
-                ]
-            },
-            {
-                id: 2,
-                group: 'qa',
-                start: moment(now).add(0.5, 'months'),
-                end: moment(now).add(5, 'months'),
-                content: 'Testing',
-                progress: "64%",
-                color: 'success',
-                users: [
-                    'avatars/300-2.jpg'
-                ]
-            },
-            {
-                id: 3,
-                group: 'ui',
-                start: moment(now).add(2, 'months'),
-                end: moment(now).add(6.5, 'months'),
-                content: 'Media',
-                progress: "82%",
-                color: 'danger',
-                users: [
-                    'avatars/300-5.jpg',
-                    'avatars/300-20.jpg'
-                ]
-            },
-            {
-                id: 4,
-                group: 'dev',
-                start: moment(now).add(4, 'months'),
-                end: moment(now).add(7, 'months'),
-                content: 'Plugins',
-                progress: "58%",
-                color: 'info',
-                users: [
-                    'avatars/300-23.jpg',
-                    'avatars/300-12.jpg',
-                    'avatars/300-9.jpg'
-                ]
-            },
+           
         ]);
 
         // Set vis-timeline options

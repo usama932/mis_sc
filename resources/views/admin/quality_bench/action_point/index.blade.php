@@ -17,33 +17,45 @@
                   <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <div class="card-header border-0 pt-6">
-                          
+                            <form class="kt-form kt-form--label-right">
                                 <div class="row mb-5">
                                 
-                                    <div class="col-md-3 my-3">
+                                    <div class="col-md-6 my-3">
                                         <label class="fs-6 fw-semibold form-label mb-2">
                                             <span class="required" >Date Visit</span>
                                         </label>
                                         <input class="form-control form-control-solid" aria-label="Pick date range"  placeholder="Pick date range" id="date_visit" name="date_visit" value=" ">
                                     </div>
-                                    <div class="col-md-3 my-3">
+                                    <div class="col-md-6 my-3">
                                         <label class="fs-6 fw-semibold form-label mb-2">
                                             <span class="required">Unique Code</span>
                                         </label>
                                         <input class="form-control" placeholder="Enter Assesment Code" id="assesment_code" name="assesment_code" >
                                     </div>
                                   
-                                 
-                                    <div class="col-md-3 my-3">
+                                    <div class="col-md-4 my-3">
+                                        <label class="fs-6 fw-semibold form-label mb-2">
+                                            <span class="required">Province</span>
+                                        </label>
+                                        <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select form-select-solid">
+                                            <option value="" selected>Select Province</option>
+                                           
+                                            <option value='4'>Sindh</option>
+                                            <option value='2'>KPK</option>
+                                            <option value='3'>Balochistan</option>
+                                        </select>
+                
+                                    </div>
+                                    <div class="col-md-4 my-3">
                                         <label class="fs-6 fw-semibold form-label mb-2">
                                             <span class="required">District</span>
                                         </label>
-                                        <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select ">
-                
+                                        <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select">
+                                            
                                         </select>
                                     </div>
                                    
-                                    <div class="col-md-3 mt-3">
+                                    <div class="col-md-4 mt-3">
                                         <label class="fs-6 fw-semibold form-label mb-2">
                                             <span class="required">Status</span>
                                         </label>
@@ -57,7 +69,12 @@
                                     </div>
                 
                                 </div>
-                            
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <div class="kt-form__actions">
+                                        <button type="reset" id="resetButton" class="btn btn-warning btn-sm">Reset All</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                   </div>
@@ -115,8 +132,8 @@
    
     <!--end::Page Vendors-->
     <script>
-        
-        var frm = $('#qb_actionpoints').DataTable( {
+        function initializeDataTable() {
+            return  $('#qb_actionpoints').DataTable( {
             "order": [
                 [1, 'desc']
             ],
@@ -192,11 +209,25 @@
                             {"data":"deadline" ,"searchable":false,"orderable":false},
                             {"data":"status","searchable":false,"orderable":false },
                             {"data":"created_by" ,"searchable":false,"orderable":false},
-                            {"data":"created_at" ,"searchable":false,"orderable":false},
+                            {"data":"created_at" },
                             {"data":"action","searchable":false,"orderable":false},
                         ]
+                    });
+        }
+        var dataTable = initializeDataTable();
+
+        // Function to reset DataTable
+        function resetDataTable() {
+            // Destroy DataTable
+            var table = $('#qb_actionpoints').DataTable();
+            table.destroy();
+
+            // Reinitialize DataTable
+            table = initializeDataTable();
+        }
+        $('#resetButton').on('click', function () {
+            resetDataTable();
         });
-       
         $("#date_visit,#assesment_code, #kt_select2_district,#status").change(function () {
             var table = $('#qb_actionpoints').DataTable();
             table.destroy();
@@ -245,7 +276,7 @@
                             {"data":"deadline" ,"searchable":false,"orderable":false},
                             {"data":"status" ,"searchable":false,"orderable":false},
                             {"data":"created_by" ,"searchable":false,"orderable":false},
-                            {"data":"created_at" ,"searchable":false,"orderable":false},
+                            {"data":"created_at" },
                             {"data":"action","searchable":false,"orderable":false},
                         ]
 
@@ -291,7 +322,7 @@
                 dataType: 'json',
                 success: function (data) {
                     $("#kt_select2_district").find('option').remove();
-                    $("#kt_select2_district").prepend("<option value='' >Select District</option>");
+                    $("#kt_select2_district").prepend("<option value='' >Select District</option><option value='all' >Select All</option>");
                     var selected='';
                     $.each(data, function (i, item) {
 
@@ -343,6 +374,11 @@
 
            
         }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#kt_select2_province, #kt_select2_district, #status').select2();
+        });
     </script>
     <!--end::Vendors Javascript-->
     @endpush

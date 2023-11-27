@@ -114,6 +114,13 @@ class QbController extends Controller
 			foreach($qualit_bench as $r){
 				$edit_url = route('quality-benchs.edit',$r->id);
                 $view_url = route('quality-benchs.show',$r->id);
+                if($r->qbattachement && $r->qbattachement->document){
+                    $attachment_url = route('showPDF.qb_attachments', $r->qbattachement->id);
+                }
+                else{
+                    $attachment_url = '#';
+                }
+               
 				$nestedData['id'] = $r->id;
                 $nestedData['assement_code'] = $r->assement_code ?? '';
                 $nestedData['project_name'] = $r->project?->name ?? '';
@@ -142,6 +149,14 @@ class QbController extends Controller
                     $qb_status = '<span class="badge bg-success">'.$r->qb_status.'</span>';
                 }
                 $nestedData['qb_status'] = $qb_status ?? '';
+                if($attachment_url != "#"){
+                    $nestedData['attachment'] = '<a class="btn-icon mx-1" href="'.$attachment_url.'" target="_blank"><i class="fa fa-download text-warning" aria-hidden="true" ></i>
+                    </a>';
+                }else{
+                    $nestedData['attachment'] = '';
+                }
+               
+                
                 $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
                 $nestedData['created_by'] =$r->user?->name;
 				$nestedData['action'] = '
