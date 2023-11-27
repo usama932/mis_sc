@@ -1,10 +1,13 @@
 <x-default-layout>
  
     @section('title')
-    Monitoring Visits Detail ({{$qb->assement_code ?? ''}})
+        Monitoring Visits Detail ({{$qb->assement_code ?? ''}})
     @endsection
     <div class="card p-3">
         <div class="row">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{{ route('quality-benchs.edit',$qb->id)}}" class="btn btn-primary me-md-2 btn-sm" target="_blank">Edit Monitoring Visit</a>
+            </div>
             <div class="col-md-12 ">
 
                 {{-- Basic Info --}}
@@ -89,10 +92,6 @@
                         <td><strong>Staff Organization</strong></td>
                         <td>{{$qb->staff_organization ?? " "}}</td>
                     </div>
-                  
-                  
-                  
-                 
                  
                     <div class="col-md-3 col-sm-3 mt-5">
                         <td ><strong>Score Out  </strong></td>

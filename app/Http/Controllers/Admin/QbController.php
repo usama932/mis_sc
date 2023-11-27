@@ -147,11 +147,11 @@ class QbController extends Controller
 				$nestedData['action'] = '
                                 <div>
                                 <td>
-                                    <a class="btn-icon mx-1" href="'.$view_url.'">
-                                    <i class="fa fa-eye text-warning" aria-hidden="true"></i>
+                                    <a class="btn-icon mx-1" href="'.$view_url.'" target="_blank">
+                                    <i class="fa fa-eye text-warning" aria-hidden="true" ></i>
                                     </a>
                                     <a title="Edit" class="btn-icon mx-1"
-                                    href="'.$edit_url.'">
+                                    href="'.$edit_url.'" target="_blank">
                                     <i class="fa fa-pencil text-info"></i></a>
                                     <a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
                                         <i class="fa fa-trash text-danger" aria-hidden="true"></i>

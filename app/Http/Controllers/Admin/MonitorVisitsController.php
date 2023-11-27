@@ -78,7 +78,7 @@ class MonitorVisitsController extends Controller
 				$nestedData['action'] = '
                                 <div>
                                 <td>
-                                    <a class="btn-icon mx-1" onclick="event.preventDefault();monitorviewInfo('.$r->id.');" title="View Monitor Visit" href="javascript:void(0)">
+                                    <a class="btn-icon mx-1" onclick="event.preventDefault();monitorviewInfo('.$r->id.');" title="View Monitor Visit" href="javascript:void(0)" >
                                         <i class="fa fa-eye  text-warning" aria-hidden="true"></i>
                                     </a>
                                     <a class="btn-icon  mx-1 text-success" onclick="event.preventDefault();monitorEdit('.$r->id.');" title="Edit Monitor Visit" href="javascript:void(0)">

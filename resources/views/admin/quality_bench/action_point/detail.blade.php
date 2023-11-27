@@ -1,5 +1,8 @@
 <div class="card">
     <div class="row">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="{{ route('action_points.edit',$action_point->id))}}" class="btn btn-primary me-md-2 btn-sm" target="_blank">Edit Monitoring Visit</a>
+        </div>
         <div class="col-md-12">
             <div class="card-title  border-0 my-4"">
                 <div class="card-title">

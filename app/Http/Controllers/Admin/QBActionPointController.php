@@ -19,6 +19,7 @@ class QBActionPointController extends Controller
     {
         $projects = Project::latest()->get();
         $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
+        addVendors(['datatables']);
         return view('admin.quality_bench.action_point.index',compact('projects','users'));
     }
     public function get_action_points(Request $request)
@@ -70,7 +71,7 @@ class QBActionPointController extends Controller
 		
 		if($action_points){
 			foreach($action_points as $r){
-				$edit_url = route('monitor_visits.edit',$r->id);
+                $edit_url = route('action_points.edit',$r->id);
 				$nestedData['site'] = $r->monitor_visit?->activity_number ."-".$r->monitor_visit?->gap_issue  ;
 				$nestedData['db_note'] = $r->db_note ?? '';
 				$nestedData['action_agree'] = $r->action_agree ?? "";
@@ -91,7 +92,7 @@ class QBActionPointController extends Controller
                                     <a class="mx-1  " onclick="event.preventDefault();actionviewInfo('.$r->id.');" title="View Action Point" href="javascript:void(0)">
                                     <i class="fa fa-eye text-warning" aria-hidden="true"></i>
                                     </a>
-                                 
+                                    <a class="btn-icon  mx-1" title="Edit Action Point" href="'.$edit_url.'" target="_blank"><i class="fa fa-pencil text-info" aria-hidden="true"></i></a>
                                     <a class="mx-1 " onclick="event.preventDefault();actiondel('.$r->id.');" title="Delete Action Point" href="javascript:void(0)">
                                         <i class="fa fa-trash  text-danger" aria-hidden="true"></i>
                                     </a>
@@ -133,24 +134,11 @@ class QBActionPointController extends Controller
 
 		);
 		
-		$totalData = QualityBench::with('action_point')->count();
-		$limit = $request->input('length');
-		$start = $request->input('start');
-		$order = $columns[$request->input('order.0.column')];
-		$dir = $request->input('order.0.dir');
-		
-		
+        $start = $request->input('start');
         $qb_actionpoints = QualityBench::with('action_point');
-        $totalFiltered = QualityBench::with('action_point')->count();
-
         if($request->kt_select2_district != null && $request->kt_select2_district != 'None'){
             $qb_actionpoints->where('district',$request->kt_select2_district);
         }
-        if($request->kt_select2_province != null && $request->kt_select2_province != 'None'){
-
-            $qb_actionpoints->where('province',$request->kt_select2_province);
-        }
-       
       
         $dateParts = explode('to', $request->date_visit);
         $startdate = '';
@@ -167,22 +155,7 @@ class QBActionPointController extends Controller
 
             $qb_actionpoints->whereBetween('date_visit',[$startdate ,$enddate]);
         }
-        if($request->accompanied_by != null && $request->accompanied_by != 'None'){
-
-            $qb_actionpoints->where('accompanied_by',$request->accompanied_by);
-        }
-        if($request->visit_type != null && $request->visit_type != 'None'){
-
-            $qb_actionpoints->where('type_of_visit',$request->visit_type);
-        }
-        if($request->project_type != null){
-
-            $qb_actionpoints->where('project_type',$request->project_type);
-        }
-        if($request->project_name != null){
-
-            $qb_actionpoints->where('project_name',$request->project_name);
-        }
+       
         if(auth()->user()->permissions_level == 'province-wide')
         {
             $qb_actionpoints->where('province',auth()->user()->province);
@@ -191,7 +164,12 @@ class QBActionPointController extends Controller
         {
             $qb_actionpoints->where('district',auth()->user()->district);
         }
-
+        $totalData = $qb_actionpoints->count();
+        $limit = $request->input('length');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+        $totalFiltered =  $qb_actionpoints->count();
+        
 		$action_points = $qb_actionpoints->offset($start)
                             ->limit($limit)
                             ->orderBy($order,$dir)
@@ -204,6 +182,7 @@ class QBActionPointController extends Controller
                
                 foreach($qb_action_point->action_point as $r)
                 {
+                    
                     $edit_url = route('action_points.edit',$r->id);
                     $view_url = route('action_points.show',$r->id);
                     $update_url = route('getupdate_actionpoint',$r->id);
@@ -231,14 +210,14 @@ class QBActionPointController extends Controller
                         $edit = '';
                         $update_status = '<a class="btn-icon mx-1"  title=" Status Lock" href=""><i class="fa fa-lock text-warning" aria-hidden="true"></i></a>';
                     }else{
-                        $edit = '<a class="btn-icon  mx-1" title="Edit Action Point" href="'.$edit_url.'"><i class="fa fa-pencil text-info" aria-hidden="true"></i></a>';
+                        $edit = '<a class="btn-icon  mx-1" title="Edit Action Point" href="'.$edit_url.'" target="_blank"><i class="fa fa-pencil text-info" aria-hidden="true"></i></a>';
                         $update_status = '<a class="btn-icon mx-1"  title="Update Status" href="'.$update_url.'"><i class="fa fa-lock-open text-warning" aria-hidden="true"></i></a>';
                     }
                   
                     $nestedData['action'] = '
                                     <div>
                                     <td>
-                                        <a class="btn-icon mx-1" href="'.$view_url.'" title="View Action Point">
+                                        <a class="btn-icon mx-1" href="'.$view_url.'" title="View Action Point" target="_blank">
                                             <i class="fa fa-eye text-warning" aria-hidden="true"></i>
                                         </a>
                                         '.$update_status.'
