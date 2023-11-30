@@ -6,70 +6,49 @@
     @section('title')
        Detail Learning Logs
     @endsection
-  
-    <div id="kt_app_content" class="app-content flex-column-fluid">
-        <div class="card">
-           
-            <div class="row p-3">
-                <div class="col-md-12 p-3">
-                    <div class="card-title  border-0 my-4"">
-                        <div class="card-title">
-                            <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
-                                <h5 class="fw-bold m-3">Detail Learning Log</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <table class="table table-striped p-5">
-                        <tr>
-                            <td><strong>Title </strong></td>
-                            <td>{{$log->title ?? ""}}</td>
-                        </tr>
-                        <tr>
-                            <td ><strong>Project</strong></td>
-                            <td>{{$log->projects->name ?? ''}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Project Type</strong></td>
-                            <td>{{$log->project_type ?? ""}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Research Type </strong></td>
-                            <td>{{$log->research_type ?? ""}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Description </strong></td>
-                            <td>{{$log->description ?? ""}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Thumbnail </strong></td>
-                            <td><img src="{{ asset('storage/learninglog/'.$log->thumbnail) }}" alt="..." class="img-thumbnail"></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Description </strong></td>
-                            <td>{{$log->description ?? ""}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Created By </strong></td>
-                            <td>{{$log->user?->name ?? ""}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Updated By</strong></td>
-                            <td>{{$log->user1?->name ?? ""}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Created At </strong></td>
-                            <td>{{date('d-M-Y', strtotime($log->created_at)) ?? ""}}</td>
-                        </tr>
-                        
-                    </table>
-                    
-                </div>
-        
-        
-            </div>
-            
+    <style>
+        .blog-title {
+            color: #007bff;
+        }
 
+        
+
+        .blog-image {
+            width: 100% !important;
+            height: 350px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+   
+
+        footer {
+            background-color: #343a40;
+            color: #ffffff;
+            padding: 15px 0;
+        }
+    </style>
+    <div id="kt_app_content" class="app-content flex-column-fluid">
+        <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="blog-title">{{$log->title}}</h1>
+                <p class="blog-meta text-muted">Published on {{$log->created_at}}</p>
+                <img src="{{ asset('storage/learninglog/'.$log->thumbnail) }}" alt="Blog Post Image" class="img-fluid blog-image mb-4">
+                
+                <!-- Blog Post Content -->
+                <p>{!! $log->description !!}</p>
+            </div>
+    
+           
+           
         </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="text-center py-3">
+        <p>&copy; 2023 {{$log->title}}</p>
+    </footer>
     </div>
    
 </x-nform-layout>

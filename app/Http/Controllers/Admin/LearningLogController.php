@@ -19,8 +19,8 @@ class LearningLogController extends Controller
     }
     public function index()
     {
-        addVendors(['datatables']);
-        return view('admin.learninglogs.index');
+        $logs = LearningLog::latest()->paginate(3);
+        return view('admin.learninglogs.index',compact('logs'));
     }
     public function get_learninglogs(Request $request){
         $id = $request->qb_id;

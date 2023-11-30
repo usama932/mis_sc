@@ -61,8 +61,8 @@
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="">Description</span>
                             </label>
-                            <textarea name="description" id="description" class="form-control" placeholder="Enter Description"></textarea>
-                            <div id="research_typeError" class="error-message "></div>
+                            <textarea name="kt-ckeditor-4" id="kt-ckeditor-4">
+                            </textarea> <div id="research_typeError" class="error-message "></div>
                         </div>  
                       
                         <div class="fv-row col-md-6 mt-3">
@@ -140,7 +140,36 @@
     </div>
    
     @push("scripts")
- 
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js"></script>
+    <script>
+      // Class definition
+
+    var KTCkeditor = function () {
+    // Private functions
+    var demos = function () {
+        ClassicEditor
+            .create( document.querySelector( '#kt-ckeditor-4' ) )
+            .then( editor => {
+                console.log( editor );
+            } )
+            .catch( error => {
+                console.error( error );
+            } );
+        }
+
+        return {
+            // public functions
+            init: function() {
+                demos();
+            }
+        };
+        }();
+
+        // Initialization
+        jQuery(document).ready(function() {
+            KTCkeditor.init();
+        });
+    </script>
     @endpush
 
 
