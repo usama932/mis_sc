@@ -117,7 +117,6 @@ class QBActionPointController extends Controller
         
         $id = $request->qb_id;
         $columns = array(
-           
           
             0 => 'assement_code',
             1 => 'id',
