@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\LearningLog;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Project;
+use App\Models\Theme;
 use App\Repositories\Interfaces\LearningLogRepositoryInterface;
 
 
@@ -96,9 +98,10 @@ class LearningLogController extends Controller
     }
     public function create()
     {
+        $themes = Theme::latest()->get();
         $projects = Project::where('active','1')->latest()->get();
         addJavascriptFile('assets/js/custom/learninglog/createvalidations.js');
-        return view('admin.learninglogs.create',compact('projects'));
+        return view('admin.learninglogs.create',compact('projects','themes'));
     }
 
     public function store(Request $request)
@@ -122,9 +125,21 @@ class LearningLogController extends Controller
     public function edit(string $id)
     {
         $log = LearningLog::find($id);
+        $themes = Theme::latest()->get();
         $projects = Project::where('active','1')->latest()->get(); 
         addJavascriptFile('assets/js/custom/learninglog/createvalidations.js');
-        return view('admin.learninglogs.edit',compact('log','projects'));
+        return view('admin.learninglogs.edit',compact('log','projects','themes'));
+    }
+    public function downloadFile($id)
+    {
+        $log = LearningLog::find($id);
+        
+        $path = storage_path("app/public/learninglog/attachment/" . $log->attachment);
+        
+        $file = Storage::get('public/learninglog/attachment/'.$log->attachment);
+         // Adjust the path and filename accordingly
+      
+        return response()->download($path);
     }
 
     public function update(Request $request, string $id)

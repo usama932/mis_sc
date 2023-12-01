@@ -22,7 +22,7 @@ class LearninglogRepository implements LearningLogRepositoryInterface
             
             $file = $data['thumbnail'];
             $thumbnail = $file->getClientOriginalName();
-            $file->storeAs('public/learninglog/',$thumbnail);
+            $file->storeAs('public/learninglog/thumbnail',$thumbnail);
            
         }
         if($data['attachment']){
@@ -37,7 +37,7 @@ class LearninglogRepository implements LearningLogRepositoryInterface
             
             $file = $data['attachment'];
             $attachment = $file->getClientOriginalName();
-            $file->storeAs('public/learninglog/',$attachment);
+            $file->storeAs('public/learninglog/attachment/',$attachment);
            
         }
        
@@ -47,6 +47,7 @@ class LearninglogRepository implements LearningLogRepositoryInterface
             'project_type'          => $data['project_type'],
             'research_type'         => $data['research_type'],
             'description'           => $data['description'],
+            'theme'                 => $data['theme'],
             'thumbnail'             => $thumbnail ?? '',
             'attachment'            => $attachment ?? '',
             'created_by'            => auth()->user()->id,
@@ -66,6 +67,7 @@ class LearninglogRepository implements LearningLogRepositoryInterface
             'project'               => $data['project'],
             'project_type'          => $data['project_type'],
             'research_type'         => $data['research_type'],
+            'theme'                 => $data['theme'],
             'description'           => $data['description'],
             'thumbnail'             => $data['thumbnail'] ?? $log->thumbnail,
             'attachment'            => $data['attachment'] ?? $log->attachment,

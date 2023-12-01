@@ -24,54 +24,66 @@
                     <div class="row">
                         <div class="fv-row col-md-6 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2">
-                                <span class="">Title</span>
+                                <span class="required">Title</span>
                             </label>
                             <input type="text" name="title" id="title" class="form-control" placeholder="Enter Title" value="{{$log->title ?? ''}}"/>
                             <div id="titleError" class="error-message "></div>
                         </div>
                         <div class="fv-row col-md-6 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2">
-                                <span class="">Projects</span>
+                                <span class="required">Projects</span>
                             </label>
                             <select   name="project" id="project" aria-label="Select Project" data-control="select2" data-placeholder="Select Project" class="form-select">
-                                <option value="">Select Project</option>
+                                <option value="required">Select Project</option>
                                 @foreach($projects as $project)
                                 <option value="{{$project->id}}">{{$project->name}}</option>
                                 @endforeach
                             </select>
                             <div id="projectError" class="error-message "></div>
                         </div>   
-                        <div class="fv-row col-md-6 mt-3">
+                        <div class="fv-row col-md-4 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                <span class="">Projects Type</span>
+                                <span class="required">Projects Type</span>
                                 <span class="spinner-border spinner-border-sm align-middle ms-2" id="projectloader"></span>
                             </label>
                             <input type="text" name="project_type" id="project_type" class="form-control" placeholder="Enter Project Type"  value="{{$log->project_type ?? ''}}"/>
                             <div id="project_typeError" class="error-message "></div>
                         </div>  
-                        <div class="fv-row col-md-6 mt-3">
+                        <div class="fv-row col-md-4 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="">Research Type</span>
                             </label>
                             <input type="text" name="research_type" id="research_type" class="form-control" placeholder="Enter Research Type" value="{{$log->research_type ?? ''}}"/>
                             <div id="research_typeError" class="error-message "></div>
                         </div>  
-                        <div class="fv-row col-md-12 mt-3">
+                        <div class="fv-row col-md-4 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2">
-                                <span class="">Description</span>
+                                <span class="required">Theme</span>
                             </label>
-                            <textarea name="description" id="description" class="form-control" placeholder="Enter Description">{{$log->description ?? ''}}</textarea>
+                            <select name="theme" id="theme" aria-label="Select Theme" data-control="select2" data-placeholder="Select Theme" class="form-select">
+                                <option value="">Select Theme</option>
+                                @foreach($themes as $theme)
+                                <option value="{{$theme->id}}" @if($theme->id == $log->theme) selected @endif>{{$theme->name}}</option>
+                                @endforeach
+                            </select>
+                            <div id="themeError" class="error-message "></div>
+                        </div>
+                        <div class="fv-row col-md-6 mt-3">
+                            <label class="fs-6 fw-semibold form-label mb-2">
+                                <span class="required">Description</span>
+                            </label>
+                            <textarea name="description" id="description" rows='5' class="form-control" placeholder="Enter Description">{{$log->description ?? ''}}</textarea>
                             <div id="research_typeError" class="error-message "></div>
                         </div>  
                      
                         <div class="fv-row col-md-6 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2">
-                                <span class="">Thumbnail</span>
+                                <span class="required">Thumbnail</span>
                             </label>
                             <br>
-                            <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url(/assets/media/svg/avatars/blank.svg)">
+                            <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url('{{ asset('storage/learninglog/thumbnail/'.$log->thumbnail) }}')">
                                 <!--begin::Image preview wrapper-->
-                                <div class="image-input-wrapper w-125px h-125px" style=""></div>
+                                <div class="image-input-wrapper w-400px h-125px" style=""></div>
                                 <!--end::Image preview wrapper-->
 
                                 <!--begin::Edit button-->
@@ -112,7 +124,7 @@
                             <!--end::Image input-->
                             <div id="thumbnailError" class="error-message "></div>
                         </div>  
-                        <div class="fv-row col-md-6 mt-3">
+                        <div class="fv-row col-md-12 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="">Research Type</span>
                             </label>

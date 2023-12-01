@@ -15,6 +15,10 @@ class LearningLog extends Model
     {
         return $this->belongsTo(Project::class,'project','id');
     }
+    public function theme_name()
+    {
+        return $this->belongsTo(Theme::class,'theme','id');
+    }
     public function user()
     {
         return $this->belongsTo(User::class,'created_by','id');

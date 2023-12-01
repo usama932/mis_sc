@@ -4,7 +4,7 @@
 <x-nform-layout>
 
     @section('title')
-       Detail Learning Logs
+     View {{$log->title ?? 'Lesson'}}
     @endsection
     <style>
         .blog-title {
@@ -30,11 +30,16 @@
     </style>
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div class="container mt-4">
-        <div class="row">
+            <div class="d-flex justify-content-between">
+               <a href="{{route('learning-logs.index')}}" class="btn btn-primary  btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i>Back</a>
+               <a href="{{route('learning-logs.index')}}" class="btn btn-primary btn-sm"><i class="fa fa-download" aria-hidden="true"></i>Download Attachment</a>
+            </div>
+        <div class="row mt-5">
             <div class="col-md-12">
-                <h1 class="blog-title">{{$log->title}}</h1>
+                <h1 class="">Title</h1> <h1 class="blog-title">{{$log->title}}</h1>
+                <h3 class="">Theme</h3> <h3 class="blog-title">{{$log->theme_name->name}}</h3>
                 <p class="blog-meta text-muted">Published on {{$log->created_at}}</p>
-                <img src="{{ asset('storage/learninglog/'.$log->thumbnail) }}" alt="Blog Post Image" class="img-fluid blog-image mb-4">
+                <img src="{{ asset('storage/learninglog/thumbnail/'.$log->thumbnail) }}" alt="Blog Post Image" class="img-fluid blog-image mb-4">
                 
                 <!-- Blog Post Content -->
                 <p>{!! $log->description !!}</p>
