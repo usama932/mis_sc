@@ -134,7 +134,7 @@
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                             <span class="required">District</span>
-                           
+                            <span class="spinner-border spinner-border-sm align-middle ms-2" id="districtloader" style="display="none !important;"></span>
                         </label>
                         <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select form-select-solid"  @error('district') is-invalid @enderror required>
                             <option value="{{$frm->district}}">{{$frm->districts?->district_name ?? $frm->district}}</option>
@@ -143,7 +143,7 @@
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                             <span class="required">Tehsil</span>
-                            <span class="spinner-border spinner-border-sm align-middle ms-2" id="tehsilloader"></span>
+                            <span class="spinner-border spinner-border-sm align-middle ms-2" id="tehsilloader" style="display="none !important;"></span>
                         </label>
                         <select id="kt_select2_tehsil"  @error('tehsil') is-invalid @enderror name="tehsil" aria-label="Select a Tehsil" data-control="select2" data-placeholder="Select a Tehsil..." class="form-select form-select-solid" required>
                             @if(!empty($frm->tehsil))
@@ -151,8 +151,7 @@
                             @endif
                         </select>
                        
-                        {{-- <br>
-                        <strong>{{$frm->tehsils->tehsil_name ?? $frm->tehsil}}</strong> --}}
+                    
                     </div>
                     <div class="col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2 d-flex">

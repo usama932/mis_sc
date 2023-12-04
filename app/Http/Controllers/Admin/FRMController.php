@@ -538,12 +538,12 @@ class FRMController extends Controller
         return view('admin.frm.frm_export.export',compact('feedbackchannels','projects'));
     }
     public function getexportfrm(Request $request){
-       
+      
         $name_of_registrar = $request->name_of_registrar;
         $date_received = $request->date_received;
         $feedback_channel = $request->feedback_channel;
         $age = $request->age;
-        $province = $request->province;
+        $province = $request->kt_select2_province;
         $district = $request->district;
         $type_of_client = $request->type_of_client;
         $project_name = $request->project_name;

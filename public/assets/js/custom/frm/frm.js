@@ -1,4 +1,4 @@
-
+document.getElementById('ageloader').style.display = 'none';
 $(document).ready(function(){
     $(".genderit").change(function(){
       

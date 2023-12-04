@@ -9,8 +9,8 @@ class LearninglogRepository implements LearningLogRepositoryInterface
 {
     public function storelearninglog($data)
     {
-     
-        if($data['thumbnail']){
+        
+        if(!empty($data['thumbnail'])){
          
             $path = storage_path("app/public/learninglog/thumbnail" .$data['thumbnail']);
             
@@ -46,6 +46,9 @@ class LearninglogRepository implements LearningLogRepositoryInterface
             'project'               => $data['project'],
             'project_type'          => $data['project_type'],
             'research_type'         => $data['research_type'],
+            'province'              => $data['province'],
+            'district'              => $data['district'],
+            'status'                => $data['status'],
             'description'           => $data['description'],
             'theme'                 => $data['theme'],
             'thumbnail'             => $thumbnail ?? '',
@@ -68,6 +71,9 @@ class LearninglogRepository implements LearningLogRepositoryInterface
             'project_type'          => $data['project_type'],
             'research_type'         => $data['research_type'],
             'theme'                 => $data['theme'],
+            'province'              => $data['province'],
+            'district'              => $data['district'],
+            'status'                => $data['status'],
             'description'           => $data['description'],
             'thumbnail'             => $data['thumbnail'] ?? $log->thumbnail,
             'attachment'            => $data['attachment'] ?? $log->attachment,

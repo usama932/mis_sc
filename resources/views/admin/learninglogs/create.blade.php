@@ -21,14 +21,14 @@
                 @csrf
                 <div class="card-body py-4">
                     <div class="row">
-                        <div class="fv-row col-md-6 mt-3">
+                        <div class="fv-row col-md-3">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Title</span>
                             </label>
                             <input type="text" name="title" id="title" class="form-control" placeholder="Enter Title"/>
                             <div id="titleError" class="error-message "></div>
                         </div>
-                        <div class="fv-row col-md-6 mt-3">
+                        <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Project</span>
                             </label>
@@ -40,7 +40,7 @@
                             </select>
                             <div id="projectError" class="error-message "></div>
                         </div>   
-                        <div class="fv-row col-md-4 mt-3">
+                        <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Project Type</span>
                                 <span class="spinner-border spinner-border-sm align-middle ms-2" id="projectloader"></span>
@@ -48,7 +48,7 @@
                             <input type="text" name="project_type" id="project_type" class="form-control" placeholder="Enter Project Type"/>
                             <div id="project_typeError" class="error-message "></div>
                         </div>  
-                        <div class="fv-row col-md-4 mt-3">
+                        <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Research Type</span>
                             </label>
@@ -62,7 +62,7 @@
                             </select>
                             <div id="research_typeError" class="error-message "></div>
                         </div>  
-                        <div class="fv-row col-md-4 mt-3">
+                        <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Theme</span>
                             </label>
@@ -74,7 +74,52 @@
                             </select>
                             <div id="themeError" class="error-message "></div>
                         </div>
-                        <div class="fv-row col-md-6 mt-3">
+                        <div class="fv-row col-md-3">
+                            <label class="fs-6 fw-semibold form-label mb-2">
+                                <span class="required">Province</span>
+                            </label>
+                            <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select ">
+                            
+                                <option value="">Select Province</option>
+                                {{-- <option value='1'>Punjab</option> --}}
+                                <option value="">Select Province</option>
+                                <option value='4'>Sindh</option>
+                                <option  value='2'>KPK</option>
+                                <option value='3'>Balochistan</option>
+                             
+                            </select>
+                            <div id="kt_select2_provinceError" class="error-message "></div>
+                        </div>
+                        <div class="fv-row col-md-3">
+                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                                <span class="required">District</span>
+                                <span class="spinner-border spinner-border-sm align-middle ms-2" id="districtloader"></span>
+                            </label>
+                            <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select ">
+
+                            </select>
+                            <div id="kt_select2_districtError" class="error-message "></div>
+                        </div>
+                        <div class="fv-row col-md-3">
+                            <label class="fs-6 fw-semibold form-label mb-2">
+                                <span class="required">Status</span>
+                            </label>
+                            <select name="status" id="status" aria-label="Select Status" data-control="select2" data-placeholder="Select Status" class="form-select">
+                                <option value="">Select Theme</option>
+                                <option value="Completed">Completed</option>
+                                <option value="Planned">Planned</option>
+                                <option value="In progress">In progress</option> 
+                            </select>
+                            <div id="themeError" class="error-message "></div>
+                        </div>
+                        <div class="fv-row col-md-12  ">
+                            <label class="fs-6 fw-semibold form-label mb-2">
+                                <span class="required">Attachment</span>
+                            </label>
+                            <input type="file" name="attachment" id="attachment" class="form-control" />
+                            <div id="attachmentError" class="error-message"></div>
+                        </div>  
+                        <div class="fv-row col-md-6  ">
                             <label class="fs-6 fw-semibold form-label mb-2  class="tox-target"">
                                 <span class="required">Description</span>
                                 <div id="descriptionError" class="error-message "></div>
@@ -84,9 +129,9 @@
                             
                         </div>  
                   
-                        <div class="fv-row col-md-6 mt-3">
+                        <div class="fv-row col-md-6  ">
                             <label class="fs-6 fw-semibold form-label mb-2">
-                                <span class="required">Thumbnail</span>
+                                <span class="">Thumbnail</span>
                             </label>
                             <br>
                             <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url(/assets/media/svg/avatars/blank.svg)">
@@ -132,13 +177,7 @@
                             <!--end::Image input-->
                             <div id="thumbnailError" class="error-message "></div>
                         </div>  
-                        <div class="fv-row col-md-12 mt-3">
-                            <label class="fs-6 fw-semibold form-label mb-2">
-                                <span class="">Attachment</span>
-                            </label>
-                            <input type="file" name="attachment" id="attachment" class="form-control" />
-                            <div id="attachmentError" class="error-message"></div>
-                        </div>  
+                     
                     </div>
                 
                 

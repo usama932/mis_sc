@@ -32,7 +32,7 @@
         <div class="container mt-4">
             <div class="d-flex justify-content-between">
                <a href="{{route('learning-logs.index')}}" class="btn btn-primary  btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i>Back</a>
-               <a href="{{route('learning-logs.index')}}" class="btn btn-primary btn-sm"><i class="fa fa-download" aria-hidden="true"></i>Download Attachment</a>
+               <a href="{{route('download.log_file',$log->id)}}" class="btn btn-primary btn-sm"><i class="fa fa-download" aria-hidden="true"></i>Download Attachment</a>
             </div>
         <div class="row mt-5">
             <div class="col-md-12">

@@ -1,4 +1,41 @@
 // Update Status of action Point
+flatpickr("#datepicker", {
+    dateFormat: "m Y", // Display format
+    minDate: "2023-01", // Minimum allowed date
+    maxDate: "2030-12", // Maximum allowed date
+    defaultDate: "today", // Default selected date
+    mode: "single", // Only allow selecting one date
+    showMonths: 1, // Show only one month
+  });
+document.getElementById('districtloader').style.display = 'none';
+$("#kt_select2_province").change(function () {
+   
+    var value = $(this).val();
+    csrf_token = $('[name="_token"]').val();
+    document.getElementById('districtloader').style.display = 'block';
+    $.ajax({
+        type: 'POST',
+        url: '/getDistrict',
+        data: {'province': value, _token: csrf_token },
+        dataType: 'json',
+        success: function (data) {
+            document.getElementById('districtloader').style.display = 'none';
+            $("#kt_select2_district").find('option').remove();
+            $("#kt_select2_district").prepend("<option value='' >Select District</option>");
+            var selected='';
+            $.each(data, function (i, item) {
+
+                $("#kt_select2_district").append("<option value='" + item.district_id + "' "+selected+" >" +
+                item.district_name.replace(/_/g, ' ') + "</option>");
+            });
+            $('#kt_select2_tehsil').html('<option value="">Select Tehsil</option>');
+            $('#kt_select2_union_counsil').html('<option value=""> Select UC</option>');
+
+        }
+
+    });
+
+});
 document.getElementById('projectloader').style.display = 'none';
 $("#project").change(function () {
    
@@ -48,6 +85,27 @@ var KTlearninglogValidate = function () {
                             }
                         }
                     },
+                    'province':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Province Name required'
+                            }
+                        }
+                    },
+                    'district':{
+                        validators: {
+                            notEmpty: {
+                                message: 'District Name required'
+                            }
+                        }
+                    },
+                    'status':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Status required'
+                            }
+                        }
+                    },
                     'project_type':{
                         validators: {
                             notEmpty: {
@@ -69,17 +127,12 @@ var KTlearninglogValidate = function () {
                             }
                         }
                     },
-                    'thumbnail':{
-                        validators: {
-                            notEmpty: {
-                                message: 'thumbnail is required'
-                            },
-                         
-                        }
-                    },
+                   
                     'attachment':{
                         validators: {
-                          
+                            notEmpty: {
+                                message: 'Attachment is required'
+                            }
                         }
                     }
                 },

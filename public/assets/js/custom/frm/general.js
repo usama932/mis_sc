@@ -143,6 +143,24 @@ var KTFRMValidate = function () {
                             }
                         }
                     },
+                    'datix_number': {
+                        validators: {
+                            callback: {
+                                message: 'datix number is required',
+                                callback: function(value, validator, $field) {
+                                    var categoryValue = $('#feedback_category').val();
+                                    var datix_number = $('#datix_number').val();
+
+                                    if ((categoryValue === '6' || categoryValue === '7' ) && datix_number === '') {
+                                        return false;
+                                    }
+                                    
+                                    return true;
+                                }
+                            }
+                        }
+                    },
+                    
                     'theme':{
                         validators: {
                             notEmpty: {

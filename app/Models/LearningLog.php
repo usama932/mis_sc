@@ -27,5 +27,10 @@ class LearningLog extends Model
     {
         return $this->belongsTo(User::class,'updated_by','id');
     }
+  
+    public function districts()
+    {
+        return $this->belongsTo(District::class,'district','district_id');
+    }
 }
 

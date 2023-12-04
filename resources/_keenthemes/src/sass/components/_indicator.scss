@@ -4,6 +4,7 @@
 
 .indicator-progress {
     display: none;
+    
 
     [data-kt-indicator="on"] > & {
         display: inline-block;

@@ -107,7 +107,7 @@
                     <div class="fv-row col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                             <span class="required">Age</span>   
-                            
+                            <span class="spinner-border spinner-border-sm align-middle ms-2" id="ageloader"></span>
                         </label>
                         <select   name="age" aria-label="Select a Gender" data-control="select2" data-placeholder="Select a age..." class="form-select form-select-solid" id="age_id">
                             <option value="">Select Option</option>
@@ -247,7 +247,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Datix Number</span>                            
                         </label>
-                        <input type="number" class="form-control" placeholder="Enter Datix Number" name="datix_number" id="datix_number" value="" />
+                        <input type="text" class="form-control" placeholder="Enter Datix Number" name="datix_number" id="datix_number" value="" />
                         <span id="datix_numberError" class="error-message "></span>
                     </div>
                     <div class="fv-row col-md-4 mt-3">

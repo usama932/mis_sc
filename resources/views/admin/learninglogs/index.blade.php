@@ -8,6 +8,11 @@
             width: 250px; /* Set your desired width */
             height: 200px; /* Set your desired height */
             overflow: hidden; /* Hide overflow content if necessary */
+            background-color: grey; /* Replace 'yourColor' with the color you want */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
         }
 
         .fixed-thumbnail img {
@@ -45,7 +50,9 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="fixed-thumbnail">
+                                        @if($log->thumbnail)
                                         <img src="{{ asset('storage/learninglog/thumbnail/'.$log->thumbnail) }}" class="img-thumbnail " alt="..." style="">
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="card-footer">
@@ -53,6 +60,9 @@
                                     <div class="d-flex justify-content-between">
                                         <span>Lesson ID: {{$log->id ?? ""}}</span>
                                         <div>{{ $log->created_at->format('d/m/Y')}}</div>
+                                        @if(!empty($log->attachment))
+                                        <a href="{{route('download.log_file',$log->id)}}" ><i class="fa fa-download" aria-hidden="true"></i></a>
+                                        @endif
                                     </div>
                                     <p>{{ substr($log->theme_name->name ?? '', 0, 50)}} ... 
                                     </p>

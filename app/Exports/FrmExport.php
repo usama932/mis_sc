@@ -42,13 +42,16 @@ class FrmExport implements FromView
             $frm->where('age',$this->data['age']);
         }
         if(auth()->user()->user_type == "admin" || auth()->user()->permissions_level == 'nation-wide'){
+            
             if($this->data['province'] != null  && $this->data['province']  != 'None'){
+            
                 $frm->where('province',$this->data['province']);
             }
             if($this->data['district'] != null  && $this->data['district']  != 'None'){
                 $frm->where('district',$this->data['district']);
             }
         }
+        
         if(auth()->user()->user_type != "admin" && auth()->user()->permissions_level == 'province-wide'){
            
             $frm->where('province',auth()->user()->province);

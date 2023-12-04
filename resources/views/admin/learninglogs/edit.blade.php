@@ -22,26 +22,26 @@
                 @method('put')
                 <div class="card-body py-4">
                     <div class="row">
-                        <div class="fv-row col-md-6 mt-3">
+                        <div class="fv-row col-md-3 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Title</span>
                             </label>
                             <input type="text" name="title" id="title" class="form-control" placeholder="Enter Title" value="{{$log->title ?? ''}}"/>
                             <div id="titleError" class="error-message "></div>
                         </div>
-                        <div class="fv-row col-md-6 mt-3">
+                        <div class="fv-row col-md-3">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Projects</span>
                             </label>
                             <select   name="project" id="project" aria-label="Select Project" data-control="select2" data-placeholder="Select Project" class="form-select">
                                 <option value="required">Select Project</option>
                                 @foreach($projects as $project)
-                                <option value="{{$project->id}}">{{$project->name}}</option>
+                                <option value="{{$project->id}}" @if($project->id  == $log->project) selected @endif>{{$project->name}}</option>
                                 @endforeach
                             </select>
                             <div id="projectError" class="error-message "></div>
                         </div>   
-                        <div class="fv-row col-md-4 mt-3">
+                        <div class="fv-row col-md-3">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Projects Type</span>
                                 <span class="spinner-border spinner-border-sm align-middle ms-2" id="projectloader"></span>
@@ -49,14 +49,21 @@
                             <input type="text" name="project_type" id="project_type" class="form-control" placeholder="Enter Project Type"  value="{{$log->project_type ?? ''}}"/>
                             <div id="project_typeError" class="error-message "></div>
                         </div>  
-                        <div class="fv-row col-md-4 mt-3">
+                        <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="">Research Type</span>
                             </label>
-                            <input type="text" name="research_type" id="research_type" class="form-control" placeholder="Enter Research Type" value="{{$log->research_type ?? ''}}"/>
+                            <select name="research_type" id="research_type" aria-label="Select Research Type" data-control="select2" data-placeholder="Select Research Type" class="form-select">
+                                <option value="">Select Research Type</option>
+                                <option value="Assessment" @if($log->research_type == "Assessment") selected @endif >Assessment</option>
+                                <option value="Evaluation" @if($log->research_type == "Evaluation") selected @endif >Evaluation</option>
+                                <option value="PDM" @if($log->research_type == "PDM") selected @endif>PDM</option>
+                                <option value="c" @if($log->research_type == "Survey Report") selected @endif>Reasrch Study</option>
+                                <option value="Survey Report" @if($log->research_type == "Survey Report") selected @endif>Survey Report</option>
+                            </select>
                             <div id="research_typeError" class="error-message "></div>
                         </div>  
-                        <div class="fv-row col-md-4 mt-3">
+                        <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Theme</span>
                             </label>
@@ -68,6 +75,44 @@
                             </select>
                             <div id="themeError" class="error-message "></div>
                         </div>
+                        <div class="fv-row col-md-3">
+                            <label class="fs-6 fw-semibold form-label mb-2">
+                                <span class="required">Province</span>
+                            </label>
+                            <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select ">
+                            
+                                <option value="">Select Province</option>
+                                {{-- <option value='1'>Punjab</option> --}}
+                                <option value="" >Select Province</option>
+                                <option value='4' @if($log->province == "4") selected @endif>province</option>
+                                <option  value='2' @if($log->province == "2") selected @endif>KPK</option>
+                                <option value='3' @if($log->province == "3") selected @endif>Balochistan</option>
+                             
+                            </select>
+                            <div id="kt_select2_provinceError" class="error-message "></div>
+                        </div>
+                        <div class="fv-row col-md-3">
+                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                                <span class="required">District</span>
+                                <span class="spinner-border spinner-border-sm align-middle ms-2" id="districtloader"></span>
+                            </label>
+                            <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select ">
+                                <option value="{{$log->district}}">{{$log->districts->district_name}}</option>
+                            </select>
+                            <div id="kt_select2_districtError" class="error-message "></div>
+                        </div>
+                        <div class="fv-row col-md-3">
+                            <label class="fs-6 fw-semibold form-label mb-2">
+                                <span class="required">Status</span>
+                            </label>
+                            <select name="status" id="status" aria-label="Select Status" data-control="select2" data-placeholder="Select Status" class="form-select">
+                                <option value="">Select Status</option>
+                                <option value="Completed" @if($log->status == "Completed") selected @endif>Completed</option>
+                                <option value="Planned" @if($log->status == "Planned") selected @endif>Planned</option>
+                                <option value="In progress" @if($log->status == "In progress") selected @endif>In progress</option> 
+                            </select>
+                            <div id="statusError" class="error-message "></div>
+                        </div>
                         <div class="fv-row col-md-6 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Description</span>
@@ -78,7 +123,7 @@
                      
                         <div class="fv-row col-md-6 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2">
-                                <span class="required">Thumbnail</span>
+                                <span class="">Thumbnail</span>
                             </label>
                             <br>
                             <div class="image-input image-input-outline" data-kt-image-input="true" style="background-image: url('{{ asset('storage/learninglog/thumbnail/'.$log->thumbnail) }}')">
@@ -137,7 +182,6 @@
                     </div>
                     <div class="d-flex justify-content-end">
                         <button type="submit" id="kt_learninglog" class="btn btn-success btn-sm  m-5">
-                          
                             @include('partials/general/_button-indicator', ['label' => 'Submit'])
                         </button>
                       
