@@ -47,6 +47,7 @@
                                             <i class="fa fa-trash text-danger mx-1" aria-hidden="true"></i>
                                         </a>
                                     </div>
+                                   
                                 </div>
                                 <div class="card-body">
                                     <div class="fixed-thumbnail">
@@ -58,13 +59,11 @@
                                 <div class="card-footer">
                                   
                                     <div class="d-flex justify-content-between">
-                                        <span>Lesson ID: {{$log->id ?? ""}}</span>
+                                        <div>{{ $log->projects->name}} ({{$log->project_type}})</div>
                                         <div>{{ $log->created_at->format('d/m/Y')}}</div>
-                                        @if(!empty($log->attachment))
-                                        <a href="{{route('download.log_file',$log->id)}}" ><i class="fa fa-download" aria-hidden="true"></i></a>
-                                        @endif
+                                      
                                     </div>
-                                    <p>{{ substr($log->theme_name->name ?? '', 0, 50)}} ... 
+                                    <p>{{ substr($log->description ?? '', 0, 50)}} ... 
                                     </p>
                                     <div class="d-flex justify-content-center">
                                         <a href="{{route('learning-logs.show',$log->id)}}" class="btn btn-primary btn-sm"> View Details</a>

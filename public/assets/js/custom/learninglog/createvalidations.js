@@ -126,14 +126,6 @@ var KTlearninglogValidate = function () {
                                 message: 'Description is required'
                             }
                         }
-                    },
-                   
-                    'attachment':{
-                        validators: {
-                            notEmpty: {
-                                message: 'Attachment is required'
-                            }
-                        }
                     }
                 },
               

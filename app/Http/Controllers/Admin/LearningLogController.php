@@ -106,7 +106,6 @@ class LearningLogController extends Controller
 
     public function store(Request $request)
     {
-        
         $data = $request->except('_token');
         $Qb = $this->logRepository->storelearninglog($data);
         $editUrl = route('learning-logs.index');
@@ -119,16 +118,23 @@ class LearningLogController extends Controller
     public function show(string $id)
     {
         $log = LearningLog::find($id);
-        return view('admin.learninglogs.show',compact('log'));
+        $theme_logs = json_decode($log->theme , true);
+        $themes = Theme::whereIn('id', $theme_logs)->get();
+        
+        return view('admin.learninglogs.show',compact('log','themes'));
     }
 
     public function edit(string $id)
     {
         $log = LearningLog::find($id);
-        $themes = Theme::latest()->get();
+        $theme_logs = json_decode($log->theme , true);
+       
+       
+        $themes = Theme::whereIn('id', $theme_logs)->latest()->get();
+       
         $projects = Project::where('active','1')->latest()->get(); 
         addJavascriptFile('assets/js/custom/learninglog/createvalidations.js');
-        return view('admin.learninglogs.edit',compact('log','projects','themes'));
+        return view('admin.learninglogs.edit',compact('log','projects','themes','theme_logs'));
     }
     public function downloadFile($id)
     {
@@ -144,6 +150,7 @@ class LearningLogController extends Controller
 
     public function update(Request $request, string $id)
     {
+        
         $data = $request->except('_token');
         $Qb = $this->logRepository->updatelearninglog($data, $id);
         $editUrl = route('learning-logs.index');

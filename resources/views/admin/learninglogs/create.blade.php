@@ -32,10 +32,10 @@
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Project</span>
                             </label>
-                            <select   name="project" id="project" aria-label="Select Project" data-control="select2" data-placeholder="Select Project" class="form-select">
+                            <select   name="project" id="project" aria-label="Select Project" data-control="select2" data-placeholder="Select Project" class="form-select"  data-allow-clear="true" >
                                 <option value="">Select Project</option>
                                 @foreach($projects as $project)
-                                <option value="{{$project->id}}">{{$project->name}}</option>
+                                    <option value="{{$project->id}}" @if($loop->index == "0") selected @endif>{{$project->name}}</option>
                                 @endforeach
                             </select>
                             <div id="projectError" class="error-message "></div>
@@ -52,12 +52,12 @@
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Research Type</span>
                             </label>
-                            <select name="research_type" id="research_type" aria-label="Select Research Type" data-control="select2" data-placeholder="Select Research Type" class="form-select">
-                                <option value="">Select Research Type</option>
-                                <option value="Assessment">Assessment</option>
+                            <select name="research_type" id="research_type" aria-label="Select Research Type" data-control="select2" data-placeholder="Select Research Type" class="form-select"  data-allow-clear="true" >
+                                <option value="" >Select Research Type</option>
+                                <option value="Assessment" selected>Assessment</option>
                                 <option value="Evaluation">Evaluation</option>
                                 <option value="PDM">PDM</option>
-                                <option value="Reasrch Study">Reasrch Study</option>
+                                <option value="Research Study">Research Study</option>
                                 <option value="Survey Report">Survey Report</option>
                             </select>
                             <div id="research_typeError" class="error-message "></div>
@@ -66,24 +66,26 @@
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Theme</span>
                             </label>
-                            <select name="theme" id="theme" aria-label="Select Theme" data-control="select2" data-placeholder="Select Theme" class="form-select">
-                                <option value="">Select Theme</option>
+                            <select name="theme[]" id="theme" class="form-select form-select-solid" data-control="select2" data-placeholder="Select an option" data-allow-clear="true" multiple>
+                                <option></option>
                                 @foreach($themes as $theme)
-                                <option value="{{$theme->id}}">{{$theme->name}}</option>
+                                
+                                <option value="{{$theme->id}}" @if($loop->index == '0') selected @endif>{{$theme->name}}</option>
                                 @endforeach
+                              
                             </select>
+                        
                             <div id="themeError" class="error-message "></div>
                         </div>
                         <div class="fv-row col-md-3">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Province</span>
                             </label>
-                            <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select ">
+                            <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select "  data-allow-clear="true" >
                             
                                 <option value="">Select Province</option>
                                 {{-- <option value='1'>Punjab</option> --}}
-                                <option value="">Select Province</option>
-                                <option value='4'>Sindh</option>
+                                <option value='4' >Sindh</option>
                                 <option  value='2'>KPK</option>
                                 <option value='3'>Balochistan</option>
                              
@@ -126,7 +128,6 @@
                             </label>
                             <textarea name="description" rows="5"  id="description"  class="form-control">
                             </textarea>
-                            
                         </div>  
                   
                         <div class="fv-row col-md-6  ">

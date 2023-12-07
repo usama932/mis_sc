@@ -34,6 +34,10 @@
         <th>Remarks</th>
         <th>Complainant satisfaction level on Action</th>
         <th>System Status</th>
+        <th>Created By</th>
+        <th>Created At</th>
+        <th>Updated By</th>
+        <th>Updated At</th>
     </tr>
    
     @foreach($frms as $frm)
@@ -136,7 +140,10 @@
             <td>{{ $frm->type_ofaction_taken ?? ''}}</td>
                
             <td>{{$frm->status ?? ""}}</td>
-           
+            <td>{{$frm->user->name ?? ""}}</td>
+            <td>{{date('d-M-Y', strtotime($frm->created_at)) ?? ''}}</td>
+            <td>{{$frm->user1->name ?? ''}}</td>
+            <td>{{date('d-M-Y', strtotime($frm->updated_at)) ?? ''}}</td>
         </tr>
     @endforeach
    

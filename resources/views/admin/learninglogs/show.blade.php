@@ -17,6 +17,8 @@
             width: 100% !important;
             height: 350px;
             border-radius: 8px;
+            background-color: grey; /* Replace 'yourColor' with the color you want */
+            display: flex;  
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
@@ -37,10 +39,21 @@
         <div class="row mt-5">
             <div class="col-md-12">
                 <h1 class="">Title</h1> <h1 class="blog-title">{{$log->title}}</h1>
-                <h3 class="">Theme</h3> <h3 class="blog-title">{{$log->theme_name->name}}</h3>
+                <h3 class="">Theme</h3> <h3 class="blog-title">
+                   
+                    @foreach($themes as $theme) 
+                       
+                        {{$theme->name ?? ''}}, 
+                    @endforeach</h3>
+                    
                 <p class="blog-meta text-muted">Published on {{$log->created_at}}</p>
-                <img src="{{ asset('storage/learninglog/thumbnail/'.$log->thumbnail) }}" alt="Blog Post Image" class="img-fluid blog-image mb-4">
-                
+                @if(!empty($log->thumbnail))
+                    <img src="{{ asset('storage/learninglog/thumbnail/'.$log->thumbnail) }}" alt="Blog Post Image" class="img-fluid blog-image mb-4">
+                @else
+                <div class="img-fluid blog-image mb-4 text-center" >
+                    <h1 class="text-white mx-auto my-auto">{{$log->title}}</h1>
+                </div>
+                @endif
                 <!-- Blog Post Content -->
                 <p>{!! $log->description !!}</p>
             </div>
