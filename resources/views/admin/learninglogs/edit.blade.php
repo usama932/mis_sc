@@ -35,7 +35,7 @@
                                 <span class="required">Project Type</span>
                                 <span class="spinner-border spinner-border-sm align-middle ms-2" id="projectloader"></span>
                             </label>
-                            <input type="text" name="project_type" id="project_type" class="form-control" placeholder="Enter Project Type"  value="{{$log->project_type ?? ''}}"/>
+                            <input type="text" name="project_type" id="project_type" class="form-control" placeholder="Enter Project Type"  value="{{$log->project_type ?? ''}}"/ readonly>
                             <div id="project_typeError" class="error-message "></div>
                         </div>  
                         <div class="fv-row col-md-3 ">
