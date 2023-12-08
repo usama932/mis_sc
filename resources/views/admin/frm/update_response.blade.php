@@ -94,8 +94,8 @@
     </div>
 
     @push('scripts')
-    <script src="{{asset('assets/js/custom/frm/frm.js')}}"></script>
-    <script src="{{asset('assets/js/custom/frm/update_response.js')}}"></script>
+    {{-- <script src="{{asset('assets/js/custom/frm/frm.js')}}"></script>
+    <script src="{{asset('assets/js/custom/frm/update_response.js')}}"></script> --}}
        
     @endpush
 

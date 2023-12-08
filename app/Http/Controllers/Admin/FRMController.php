@@ -382,7 +382,7 @@ class FRMController extends Controller
         $responses  = FrmResponse::where('fbreg_id',$id)->get();
           
         addJavascriptFile('assets/js/custom/frm/update_response.js');
-        addJavascriptFile('assets/js/custom/frm/frm.js');
+        // addJavascriptFile('assets/js/custom/frm/frm.js');
         return view('admin.frm.update_response',compact('frm','responses'));
     }
 
