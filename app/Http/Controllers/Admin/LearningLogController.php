@@ -8,6 +8,8 @@ use App\Models\LearningLog;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Project;
 use App\Models\Theme;
+use App\Models\District;
+use App\Models\Province;
 use App\Repositories\Interfaces\LearningLogRepositoryInterface;
 
 
@@ -119,22 +121,31 @@ class LearningLogController extends Controller
     {
         $log = LearningLog::find($id);
         $theme_logs = json_decode($log->theme , true);
+        $district_logs = json_decode($log->district , true);
+        $province_logs = json_decode($log->province , true);
+
         $themes = Theme::whereIn('id', $theme_logs)->get();
+        $districts = District::whereIn('district_id', $district_logs)->get();
+        $provinces = Province::whereIn('province_id', $province_logs)->get();
         
-        return view('admin.learninglogs.show',compact('log','themes'));
+        return view('admin.learninglogs.show',compact('log','themes','districts','provinces'));
     }
 
     public function edit(string $id)
     {
         $log = LearningLog::find($id);
         $theme_logs = json_decode($log->theme , true);
-       
+        $district_logs = json_decode($log->district , true);
+        $province_logs = json_decode($log->province , true);
        
         $themes = Theme::whereIn('id', $theme_logs)->latest()->get();
+        $districts = District::whereIn('district_id', $district_logs)->get();
        
+        $provinces = Province::whereIn('province_id', $province_logs)->get();
+        
         $projects = Project::where('active','1')->latest()->get(); 
         addJavascriptFile('assets/js/custom/learninglog/createvalidations.js');
-        return view('admin.learninglogs.edit',compact('log','projects','themes','theme_logs'));
+        return view('admin.learninglogs.edit',compact('log','projects','themes','theme_logs','districts','provinces'));
     }
     public function downloadFile($id)
     {

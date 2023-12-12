@@ -22,8 +22,6 @@ class QBAjaxController extends Controller
 
         $project_id = $request->project_name;
         $data = Project::where('id',$project_id)->first();
-      
-        
         return $data ;
     }
 }

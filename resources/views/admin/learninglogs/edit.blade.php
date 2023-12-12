@@ -68,13 +68,13 @@
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Province</span>
                             </label>
-                            <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select ">
+                            <select   name="province[]" multiple id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select ">
                             
                                 <option value=""  @if($log->province == "") selected @endif>Select Province</option>
                                 {{-- <option value='1'>Punjab</option> --}}
-                                <option value='4' @if($log->province == "4") selected @endif>Sindh</option>
-                                <option  value='2' @if($log->province == "2") selected @endif>KPK</option>
-                                <option value='3' @if($log->province == "3") selected @endif>Balochistan</option>
+                                <option value='4' @if(in_array('4', $provinces->pluck('province_id')->toArray())) selected @endif>Sindh</option>
+                                <option  value='2' @if(in_array('2', $provinces->pluck('province_id')->toArray())) selected @endif>KPK</option>
+                                <option value='3' @if(in_array('3', $provinces->pluck('province_id')->toArray())) selected @endif>Balochistan</option>
                              
                             </select>
                             <div id="kt_select2_provinceError" class="error-message "></div>
@@ -84,8 +84,11 @@
                                 <span class="required">District</span>
                                 <span class="spinner-border spinner-border-sm align-middle ms-2" id="districtloader"></span>
                             </label>
-                            <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select ">
-                                <option value="{{$log->district}}">{{$log->districts->district_name}}</option>
+                            <select id="kt_select2_district" name="district[]" multiple aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select ">
+                                @foreach($districts as $district)
+                                    <option value="{{$district->district_id}}" selected>{{$district->district_name}}</option>
+                                @endforeach 
+                               
                             </select>
                             <div id="kt_select2_districtError" class="error-message "></div>
                         </div>

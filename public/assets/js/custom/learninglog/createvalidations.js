@@ -15,7 +15,7 @@ $("#kt_select2_province").change(function () {
     document.getElementById('districtloader').style.display = 'block';
     $.ajax({
         type: 'POST',
-        url: '/getDistrict',
+        url: '/getlearningDistrict',
         data: {'province': value, _token: csrf_token },
         dataType: 'json',
         success: function (data) {

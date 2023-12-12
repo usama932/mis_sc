@@ -64,7 +64,7 @@
                         </div>  
                         <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
-                                <span class="required">Theme</span>
+                                <span class="required">Thematiic Area</span>
                             </label>
                             <select name="theme[]" id="theme" class="form-select form-select-solid" data-control="select2" data-placeholder="Select an option" data-allow-clear="true" multiple>
                                 <option></option>
@@ -81,7 +81,7 @@
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Province</span>
                             </label>
-                            <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select "  data-allow-clear="true" >
+                            <select   name="province[]" multiple id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select "  data-allow-clear="true" >
                             
                                 <option value="">Select Province</option>
                                 {{-- <option value='1'>Punjab</option> --}}
@@ -97,7 +97,7 @@
                                 <span class="required">District</span>
                                 <span class="spinner-border spinner-border-sm align-middle ms-2" id="districtloader"></span>
                             </label>
-                            <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select ">
+                            <select id="kt_select2_district" multiple name="district[]" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select ">
 
                             </select>
                             <div id="kt_select2_districtError" class="error-message "></div>
@@ -130,7 +130,7 @@
                             </textarea>
                         </div>  
                   
-                        <div class="fv-row col-md-6  ">
+                        <div class="fv-row col-md-6">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="">Thumbnail</span>
                             </label>

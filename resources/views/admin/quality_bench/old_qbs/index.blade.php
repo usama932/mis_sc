@@ -1,31 +1,14 @@
 <x-default-layout>
 
     @section('title')
-    Monitoring Visits List
+      Before October'23 QB's
     @endsection
 
     <div id="kt_app_content" class="app-content flex-column-fluid">
-        <div class="card-toolbar m-5 d-flex justify-content-end">
-            @can('create quality benchmarks')
-                <!--begin::Button-->
-                <a href="{{ route('quality-benchs.create') }}" class="btn btn-primary btn-sm font-weight-bolder">
-                    <span class="svg-icon svg-icon-primary svg-icon-1x mx-1">
-                        <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Navigation/Plus.svg-->
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                <rect fill="#FFFFFF" x="4" y="11" width="16" height="2" rx="1"/>
-                                <rect fill="#FFFFFF" opacity="0.3" transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000)" x="4" y="11" width="16" height="2" rx="1"/>
-                            </g>
-                        </svg>
-                    </span>Add Monitor Visit
-                </a>
-                <!--end::Button-->
-            @endcan
-        </div>
-        
+    
         <div class="card">
             
-            <div class="accordion" id="accordionExample">
+            {{-- <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
                   <h2 class="accordion-header" id="headingOne">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -140,19 +123,21 @@
                   </div>
                 </div>
                
-            </div>
-            <div class="card-body pt-0 overflow-*">
+            </div> --}}
+            <div class="card-body pt-3">
 
                 <div class="table-responsive overflow-*">
-                    <table class="table table-striped table-bordered nowrap" id="quality_bench" style="width:100%">
+                    <table class="table table-striped table-bordered nowrap" id="old_quality_bench" style="width:100%">
                     <thead>
                         <tr>
-                            <th>#S.No</th>
+                            <th>Unique Code</th>
+                            <th>QB Moniterized</th>
                             <th>Project</th>
-                            <th>Partner</th>
+                            <th>Partner Name</th>
                             <th>Province</th>
                             <th>District</th>
-                            <th>Theme</th>
+                            <th>theme</th>
+                            <th>Sub Theme</th>
                             <th>Activity</th>
                             <th>GeoLocations</th>
                             <th>Date Visit</th>
@@ -162,10 +147,10 @@
                             <th>QBs  Not Applicable</th>
                             <th>Score Out</th>
                             <th>QBs Status</th>
-                            <th>Attachemnt</th>
+                            <th>Completed By</th>
                             <th>Created At</th>
                             <th>Created By</th>
-                            <th>Actions</th>
+                            <th>Action Points/GB</th>
                         </tr>
                     </thead>
                     </table>
@@ -176,28 +161,13 @@
         </div>
         
     </div>
-    <div class="modal fade" id="quality_benchmark" data-backdrop="static" tabindex="1" role="dialog"
-        aria-labelledby="staticBackdrop" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content ">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="quality_benchmark">Quality Bench Detail</h4>
-                </div>
-                <div class="modal-body"></div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light-primary font-weight-bold close"
-                        data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
     @push("scripts")
     <!--begin::Vendors Javascript(used for this page only)-->
     <script src="{{asset("assets/plugins/custom/datatables/datatables.bundle.js")}}"></script>
     <!--end::Page Vendors-->
     <script>
-        var frm = $('#quality_bench').DataTable( {
+        var frm = $('#old_quality_bench').DataTable( {
             "order": [
                 [1, 'desc']
             ],
@@ -214,34 +184,35 @@
             "responsive": false,
             "info": false,
            "ajax": {
-               "url":"{{route('admin.get_qbs')}}",
+               "url":"{{route('admin.get_old_qbs')}}",
                "dataType":"json",
                "type":"POST",
                "data":{"_token":"<?php echo csrf_token() ?>"}
            },
             "columns":[
-                            {"data":"assement_code","searchable":false,"orderable":false},
-                            {"data":"project_name","searchable":false,"orderable":false},
+                            {"data":"unique_code","searchable":false,"orderable":false},
+                            {"data":"qb_moniterized","searchable":false,"orderable":false},
+                            {"data":"project","searchable":false,"orderable":false},
                             {"data":"partner","searchable":false,"orderable":false},
                             {"data":"province","searchable":false,"orderable":false},
                             {"data":"district","searchable":false,"orderable":false},
                             {"data":"theme","searchable":false,"orderable":false},
-                            {"data":"activity_description","searchable":false,"orderable":false},
-                          
+                            {"data":"sub-theme","searchable":false,"orderable":false},
+                            {"data":"activity","searchable":false,"orderable":false},
                             {"data":"village","searchable":false,"orderable":false},
                             {"data":"date_visit","searchable":false,"orderable":false},
                             {"data":"total_qbs","searchable":false,"orderable":false},
-                            {"data":"qbs_not_fully_met","searchable":false,"orderable":false},
-                            {"data":"qbs_fully_met","searchable":false,"orderable":false},
-                            {"data":"qb_not_applicable","searchable":false,"orderable":false},
+                            {"data":"total_qbs_not_met","searchable":false,"orderable":false},
+                            {"data":"total_qbs_met","searchable":false,"orderable":false},
+                            {"data":"not_applicable","searchable":false,"orderable":false},
                             {"data":"score_out","searchable":false,"orderable":false},
                             {"data":"qb_status","searchable":false,"orderable":false},
-                            {"data":"attachment","searchable":false,"orderable":false},
+                            {"data":"completed_by","searchable":false,"orderable":false},
                             {"data":"created_at" ,"searchable":false,"orderable":false},
                             {"data":"created_by" ,"searchable":false,"orderable":false},
                             {"data":"action","searchable":false,"orderable":false},
                         ]
-        });
+        });[]
 
         function del(id) {
             Swal.fire({

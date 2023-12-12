@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\MonitorVisitsController;
 use App\Http\Controllers\Admin\generalobservationsConroller;
 use App\Http\Controllers\Admin\QBAttachmentsController;
 use App\Http\Controllers\Admin\QBActionPointController;
+use App\Http\Controllers\Admin\OldQbController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -56,6 +57,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
     //Ajax Destrict
     Route::post('getDistrict', [FBAjaxController::class,'getDistrict'])->name('getDistrict');
+    Route::post('getlearningDistrict', [FBAjaxController::class,'getlearningDistrict'])->name('getlearningDistrict');
     Route::post('getTehsil', [FBAjaxController::class,'getTehsil'])->name('getTehsil');
     Route::post('getUnionCouncil', [FBAjaxController::class,'getUnionCouncil'])->name('getUnionCouncil');
     
@@ -66,7 +68,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('qb/export', [QbController::class,'getqbexportform'])->name('qb-export');
     Route::get('qbaction_points/export', [QbController::class,'getqbactionpointexportform'])->name('qbactionpoint-export');
     Route::post('getqb/export', [QbController::class,'getexportqb'])->name('getqb-export');
-    Route::post('getactionpoint/export', [QbController::class,'getexportqbactionpoint'])->name('getaction-export');
+    //Old Qbs
+    Route::get('get_old_qbs', [OldQbController::class,'index'])->name('get_oldqbs');
+    Route::post('get_old_qbs', [OldQbController::class,'get_old_qbs'])->name('admin.get_old_qbs');
+
 
     //montior visits Routes
     Route::resource('/monitor_visits', MonitorVisitsController::class);

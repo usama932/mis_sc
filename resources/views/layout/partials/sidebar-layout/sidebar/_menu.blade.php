@@ -143,18 +143,7 @@
                     <!--begin:Menu sub-->
                     <div class="menu-sub menu-sub-accordion">
                         <!--begin:Menu item-->
-                        @can('create feedback registry')
-                            <div class="menu-item">
-                                <!--begin:Menu link-->
-                                <a class="menu-link {{ request()->routeIs('frm-managements.create') ? 'active' : '' }}" href="{{ route('frm-managements.create') }}"">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">Add Feedback/Complaint</span>
-                                </a>
-                                <!--end:Menu link-->
-                            </div>
-                        @endcan
+               
                         @can('read feedback registry')
                             <div class="menu-item">
                                 <!--begin:Menu link-->
@@ -184,7 +173,7 @@
                 </div>
             @endcan
             @can('quality_bench')
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->segment(1) == 'quality-benchs' || request()->segment(1) == 'getupdate_actionpoint' || request()->segment(1) == 'action_points'  ||  request()->routeIs('qb-export') || request()->routeIs('qbactionpoint-export')) ? 'here show' : ''}} ">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->segment(1) == 'quality-benchs' || request()->segment(1) == 'get_oldqbs' ||  request()->segment(1) == 'getupdate_actionpoint' || request()->segment(1) == 'action_points'  ||  request()->routeIs('qb-export') || request()->routeIs('qbactionpoint-export')) ? 'here show' : ''}} ">
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="svg-icon svg-icon-primary svg-icon-1x mx-2"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Weather/Wind.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -201,18 +190,8 @@
                     <!--begin:Menu sub-->
                     <div class="menu-sub menu-sub-accordion">
                         <!--begin:Menu item-->
-                        @can('create quality benchmarks')
-                            <div class="menu-item">
-                                <!--begin:Menu link-->
-                                <a class="menu-link {{ request()->routeIs('quality-benchs.create') ? 'active' : '' }}" href="{{ route('quality-benchs.create') }}"">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">Add Monitoring Visit</span>
-                                </a>
-                                <!--end:Menu link-->
-                            </div>
-                        @endcan
+                       
+                           
                         @can('read quality benchmarks')
                             <div class="menu-item">
                                 <!--begin:Menu link-->
@@ -259,6 +238,19 @@
                                 <!--end:Menu link-->
                             </div>
                         @endcan
+                        @can('read quality benchmarks')
+                       
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{ request()->routeIs('get_oldqbs') ? 'active' : '' }}" href="{{ route('get_oldqbs') }}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Before October'23 QB's</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                    @endcan
                     </div>
                     <!--end:Menu sub-->
                 </div>

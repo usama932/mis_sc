@@ -25,6 +25,20 @@ class FBAjaxController extends Controller
         
         return ($data);
     }
+    public function getlearningDistrict(Request $request) {
+        $province_id = $request->province;
+        
+        if(auth()->user()->permissions_level == 'district-wide'){
+           
+            $data = District::whereIn('provinces_id',$province_id)->where('district_id',auth()->user()->district)->select('district_id', 'district_name')->where('status',1)->get();
+        }
+        else{
+         
+            $data = District::whereIn('provinces_id',$province_id)->select('district_id', 'district_name')->where('status',1)->get();
+        }
+        
+        return ($data);
+    }
     public function getuserDistrict(Request $request) {
         $province_id = $request->province;
         $data = District::where('provinces_id',$province_id)->select('district_id', 'district_name')->get();
