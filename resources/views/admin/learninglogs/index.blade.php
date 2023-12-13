@@ -43,9 +43,11 @@
                                         <a href="{{route('learning-logs.edit',$log->id)}}">
                                             <i class="fa fa-pencil text-info mx-1" aria-hidden="true"></i>
                                         </a>
-                                        <a href="javascript:void(0)" onclick="del('{{ $log->id }}')">
-                                            <i class="fa fa-trash text-danger mx-1" aria-hidden="true"></i>
-                                        </a>
+                                        @can('delete_learning_log')
+                                            <a href="javascript:void(0)" onclick="del('{{ $log->id }}')">
+                                                <i class="fa fa-trash text-danger mx-1" aria-hidden="true"></i>
+                                            </a>
+                                        @endcan
                                     </div>
                                    
                                 </div>
