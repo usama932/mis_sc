@@ -8,7 +8,7 @@
     
         <div class="card">
             
-            {{-- <div class="accordion" id="accordionExample">
+            <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
                   <h2 class="accordion-header" id="headingOne">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -24,63 +24,19 @@
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class="required" >Date Visit</span>
                                     </label>
-                                    <input class="form-control form-control-solid" aria-label="Pick date range"  placeholder="Pick date range" id="date_visit" name="date_visit" value=" ">
+                                    <input  data-allow-clear="true"  class="form-control form-control-solid" aria-label="Pick date range"  placeholder="Pick date range" id="date_visit" name="date_visit" value=" ">
                                 </div>
-                                <div class="col-md-3 my-3">
-                                    <label class="fs-6 fw-semibold form-label mb-2">
-                                        <span class="required"> Name of Staff</span>
-                                    </label>
-                                    <select name="visit_staff" id="visit_staff" aria-label="Select a Visit Staff" data-control="select2" data-placeholder="Select a  Visit Staff..." class="form-select form-select-solid" >
-                                        <option  value="">Select a  Visit Staff</option>
-                                        <option  value="None" >All</option>
-                                        @foreach($users as $user)
-                                            <option  value="{{$user->name}}" >{{$user->name}}</option>
-                                        @endforeach
-                                        <option  value="Ruqaiya Bibi" >Ruqaiya Bibi</option>
-                                        <option  value="Dr. Kashmala" >Dr. Kashmala</option>
-                                        <option  value="Mehnaz" >Mehnaz</option>
-                                        <option  value="Musarrat Bibi" >Musarrat Bibi</option>
-                                        <option  value="Shaista Mir" >Shaista Mir</option>
-                                        <option  value="Shama" >Shama</option>
-                                        <option  value="Zahid Ali Khan" >Zahid Ali Khan</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3 my-3">
-                                    <label class="fs-6 fw-semibold form-label mb-2">
-                                        <span class="required">Accompanied By</span>
-                                    </label>
-                                    <select   name="accompanied_by" id="accompanied_by" aria-label="Select a Accompanied By" data-control="select2" data-placeholder="Select a Accompanied By" class="form-select form-select-solid">
-                                        <option value="" selected>Select Accompanied By</option>
-                                        <option  value="None" >All</option>
-                                        <option  value="Project Staff">Project Staff</option>
-                                        <option  value="Govt Officials">Govt Officials</option>
-                                        <option  value="Donor">Donor</option>
-                                        <option  value="NA">NA</option>
-                                      
-                                        
-                                    </select>
-                                </div>
-                                <div class="col-md-3 my-3">
-                                    <label class="fs-6 fw-semibold form-label mb-2">
-                                        <span class="required">Type of Visit</span>
-                                    </label>
-                                    <select name="visit_type" id="visit_type" aria-label="Select a Visit Type" data-control="select2" data-placeholder="Select a Visit Type..." class="form-select form-select-solid" >
-                                        <option value="">Select Visit Type</option>
-                                        <option value="None">All</option>
-                                        <option value="Independent">Independent</option>
-                                        <option value="Joint">Joint</option>
-                                    </select>
-                                </div>
+                               
                                 <div class="col-md-3 my-3">
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class="required">Province</span>
                                     </label>
-                                    <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select form-select-solid">
+                                    <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select form-select-solid"  data-allow-clear="true" >
                                         <option value="" selected>Select Province</option>
                                         <option  value="None" >All</option>
-                                        <option value='4'>Sindh</option>
-                                        <option value='2'>KPK</option>
-                                        <option value='3'>Balochistan</option>
+                                        <option value='Sindh'>Sindh</option>
+                                        <option value='KP'>KP</option>
+                                        <option value='Balochistan'>Balochistan</option>
                                     </select>
             
                                 </div>
@@ -88,32 +44,49 @@
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class="required">District</span>
                                     </label>
-                                    <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select form-select-solid">
-            
-                                    </select>
-                                </div>
-                                <div class="col-md-3 my-3">
-                                    <label class="fs-6 fw-semibold form-label mb-2">
-                                        <span class="required">Project Type</span>
-                                    </label>
-                                    <select   name="project_type" id="project_type" aria-label="Select a Project Type" data-control="select2" data-placeholder="Select a Project Type" class="form-select form-select-solid">
-                                        <option value="" selected>Select Project Type</option>
-                                        <option  value="None" >All</option>
-                                        <option value="Humanterian" >Humanterian</option>
-                                        <option value="Development" >Development</option>
+                                    <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select form-select-solid"  data-allow-clear="true" >
+                                        <option  value=""  selected>Select District</option>
+                                        <option  value="Chaman" >Chaman</option>
+                                        <option  value="Dadu" >Dadu</option>
+                                        <option  value="Jacobabad" >Jacobabad</option>
+                                        <option  value="Khairpur" >Khairpur</option>
+                                        <option  value="Naseerabad" >Naseerabad</option>
+                                        <option  value="Peshawar" >Peshawar</option>
+                                        <option  value="Quetta" >Quetta</option>
+                                        <option  value="Sanghar" >Sanghar</option>
+                                        <option  value="Shikarpur" >Shikarpur</option>
+                                        <option  value="Swat" >Swat</option>
+                                        <option  value="Thatta" >Thatta</option>
                                         
+
                                     </select>
                                 </div>
+                               
                                 <div class="col-md-3 mt-3">
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class="required">Project</span>
                                     </label>
-                                    <select name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Project Name" class="form-select form-select-solid">
-                                        <option value="" selected>Select Project</option>
-                                          <option  value="None" >All</option>
-                                        @foreach($projects as $project)
-                                            <option  value="{{$project->id}}">{{$project->name}}</option>
-                                        @endforeach
+                                    <select name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Project Name" class="form-select form-select-solid" >
+                                    <option value="" selected>Select Project</option>
+                                        <option  value="None" >All</option>
+                                        <option  value="DEC II" >DEC II</option>
+                                        <option  value="ECHO Project" >ECHO Project</option>
+                                        <option  value="EU" >EU</option>
+                                        <option  value="Hunger Fund" >Hunger Fund</option>
+                                        <option  value="SWS II" >SWS II</option>
+                                        <option  value="SWS II" >All</option>
+                                        <option  value="DEC" >DEC</option>
+                                        <option  value="CONNECT-II" >CONNECT-II</option>
+                                        <option  value="VaC-RIEP" >VaC-RIEP</option>
+                                        <option  value="HC Canada" >HC Canada</option>
+                                        <option  value="HUM Response 2022" >HUM Response 2022</option>
+                                        <option  value="HBCC II" >HBCC II</option>
+                                        <option  value="HBCC II" >HBCC II</option>
+                                        <option  value="HKDRF" >HKDRF</option>
+                                        <option  value="UNIFOR" >UNIFOR</option>
+                                        <option  value="MCIC" >MCIC</option>
+                                        <option  value="SWS" >SWS</option>
+                                        <option  value="CDP" >CDP</option>
                                     </select>
                                 </div>
             
@@ -123,7 +96,7 @@
                   </div>
                 </div>
                
-            </div> --}}
+            </div>
             <div class="card-body pt-3">
 
                 <div class="table-responsive overflow-*">
@@ -167,6 +140,7 @@
     <script src="{{asset("assets/plugins/custom/datatables/datatables.bundle.js")}}"></script>
     <!--end::Page Vendors-->
     <script>
+        
         var frm = $('#old_quality_bench').DataTable( {
             "order": [
                 [1, 'desc']
@@ -180,6 +154,7 @@
             "serverSide": true,
             "searching": false,
             "bLengthChange": false,
+            "paging": false,
             "bInfo" : false,
             "responsive": false,
             "info": false,
@@ -214,38 +189,16 @@
                         ]
         });[]
 
-        function del(id) {
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Yes, delete it!"
-            }).then(function(result) {
-                if (result.value) {
-                    Swal.fire(
-                        "Deleted!",
-                        "Your Quality BenchMark` has been deleted.",
-                        "success"
-                    );
-                    var APP_URL = {!! json_encode(url('/')) !!}
-                    window.location.href = APP_URL + "/qb/delete/" + id;
-                }
-            });
-        }
-        $("#date_visit, #visit_staff, #accompanied_by, #visit_type, #kt_select2_province, #kt_select2_district, #project_type, #project_name").change(function () {
-            var table = $('#quality_bench').DataTable();
+        
+        $("#date_visit, #kt_select2_province, #kt_select2_district, #project_name").change(function () {
+            var table = $('#old_quality_bench').DataTable();
             table.destroy();
             var date_visit = document.getElementById("date_visit").value ?? '1';
-            var visit_staff = document.getElementById("visit_staff").value
             var kt_select2_district = document.getElementById("kt_select2_district").value ?? '1';
             var kt_select2_province = document.getElementById("kt_select2_province").value ?? '1';
-            var accompanied_by = document.getElementById("accompanied_by").value ?? '1';
-            var visit_type = document.getElementById("visit_type").value ?? '1';
-            var project_type = document.getElementById("project_type").value ?? '1';
             var project_name = document.getElementById("project_name").value ?? '1';
 
-            var clients = $('#quality_bench').DataTable( {
+            var clients = $('#old_quality_bench').DataTable( {
                 "order": [
                     [1, 'asc']
                 ],
@@ -258,6 +211,7 @@
                 "searching": false,
                 "responsive": false,
                 "bLengthChange": false,
+                "paging": false,
                 "bInfo" : false,
                 'info': false,
                 "dom": 'lfBrtip',
@@ -266,38 +220,35 @@
                     'csv', 'excel'
                 ],
                 "ajax": {
-                    "url":"{{ route('admin.get_qbs') }}",
+                    "url":"{{ route('admin.get_old_qbs') }}",
                     "dataType":"json",
                     "type":"POST",
                     "data":{"_token":"<?php echo csrf_token() ?>",
                             'date_visit':date_visit,
-                            'visit_staff':visit_staff,
                             'kt_select2_district':kt_select2_district,
                             'kt_select2_province':kt_select2_province,
-                            'accompanied_by':accompanied_by,
-                            'visit_type':visit_type,
-                            'project_type':project_type,
                             'project_name':project_name
                             }
                 },
                "columns":[
-                {"data":"assement_code","searchable":false,"orderable":false},
-                            {"data":"project_name","searchable":false,"orderable":false},
+                {"data":"unique_code","searchable":false,"orderable":false},
+                            {"data":"qb_moniterized","searchable":false,"orderable":false},
+                            {"data":"project","searchable":false,"orderable":false},
                             {"data":"partner","searchable":false,"orderable":false},
                             {"data":"province","searchable":false,"orderable":false},
                             {"data":"district","searchable":false,"orderable":false},
                             {"data":"theme","searchable":false,"orderable":false},
-                            {"data":"activity_description","searchable":false,"orderable":false},
-                           
+                            {"data":"sub-theme","searchable":false,"orderable":false},
+                            {"data":"activity","searchable":false,"orderable":false},
                             {"data":"village","searchable":false,"orderable":false},
                             {"data":"date_visit","searchable":false,"orderable":false},
                             {"data":"total_qbs","searchable":false,"orderable":false},
-                            {"data":"qbs_not_fully_met","searchable":false,"orderable":false},
-                            {"data":"qbs_fully_met","searchable":false,"orderable":false},
-                            {"data":"qb_not_applicable","searchable":false,"orderable":false},
+                            {"data":"total_qbs_not_met","searchable":false,"orderable":false},
+                            {"data":"total_qbs_met","searchable":false,"orderable":false},
+                            {"data":"not_applicable","searchable":false,"orderable":false},
                             {"data":"score_out","searchable":false,"orderable":false},
                             {"data":"qb_status","searchable":false,"orderable":false},
-                            {"data":"attachment","searchable":false,"orderable":false},
+                            {"data":"completed_by","searchable":false,"orderable":false},
                             {"data":"created_at" ,"searchable":false,"orderable":false},
                             {"data":"created_by" ,"searchable":false,"orderable":false},
                             {"data":"action","searchable":false,"orderable":false},
@@ -305,36 +256,7 @@
 
             });
         });
-        $("#kt_select2_province").change(function () {
-
-            var value = $(this).val();
-            csrf_token = $('meta[name="csrf-token"]').attr('content');
-
-            $.ajax({
-                type: 'POST',
-                url: '/getDistrict',
-                data: {'province': value, _token: csrf_token },
-                dataType: 'json',
-                success: function (data) {
-                    $("#kt_select2_district").find('option').remove();
-                    $("#kt_select2_district").prepend("<option value='' >Select District</option>");
-                    var selected='';
-                    $.each(data, function (i, item) {
-
-                        $("#kt_select2_district").append("<option value='" + item.district_id + "' "+selected+" >" +
-                        item.district_name.replace(/_/g, ' ') + "</option>");
-                    });
-                    $('#kt_select2_tehsil').html('<option value="">Select Tehsil</option>');
-                    $('#kt_select2_union_counsil').html('<option value=""> Select UC</option>');
-
-                }
-
-            });
-
-        }).trigger('change');
-        $('.close').click(function() {
-            $('#quality_benchmark').modal('hide');
-        });
+     
      
         flatpickr("#date_visit", {
             mode: "range",

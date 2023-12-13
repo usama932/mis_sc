@@ -173,7 +173,7 @@
                 </div>
             @endcan
             @can('quality_bench')
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->segment(1) == 'quality-benchs' || request()->segment(1) == 'get_oldqbs' ||  request()->segment(1) == 'getupdate_actionpoint' || request()->segment(1) == 'action_points'  ||  request()->routeIs('qb-export') || request()->routeIs('qbactionpoint-export')) ? 'here show' : ''}} ">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->segment(1) == 'quality-benchs' || request()->segment(1) == 'get_old_action_points' || request()->segment(1) == 'get_old_qbs' || request()->segment(1) == 'get_oldqbs' ||  request()->segment(1) == 'getupdate_actionpoint' || request()->segment(1) == 'action_points'  ||  request()->routeIs('qb-export') || request()->routeIs('qbactionpoint-export')) ? 'here show' : ''}} ">
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="svg-icon svg-icon-primary svg-icon-1x mx-2"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Weather/Wind.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -242,7 +242,7 @@
                        
                         <div class="menu-item">
                             <!--begin:Menu link-->
-                            <a class="menu-link {{ request()->routeIs('get_oldqbs') ? 'active' : '' }}" href="{{ route('get_oldqbs') }}">
+                            <a class="menu-link {{ request()->routeIs('get_oldqbs') ? 'active' : '' }} {{ request()->routeIs('get_old_action_points') ? 'active' : '' }}" href="{{ route('get_oldqbs') }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>

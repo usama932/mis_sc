@@ -71,7 +71,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //Old Qbs
     Route::get('get_old_qbs', [OldQbController::class,'index'])->name('get_oldqbs');
     Route::post('get_old_qbs', [OldQbController::class,'get_old_qbs'])->name('admin.get_old_qbs');
-
+    Route::get('get_old_action_points/{id}', [OldQbController::class,'get_old_action_points'])->name('get_old_action_points');
+    Route::post('get_old_action_points', [OldQbController::class,'old_action_points'])->name('admin.get_old_action_points');
 
     //montior visits Routes
     Route::resource('/monitor_visits', MonitorVisitsController::class);
