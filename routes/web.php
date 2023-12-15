@@ -15,6 +15,8 @@ use App\Http\Controllers\Admin\MonitorVisitsController;
 use App\Http\Controllers\Admin\generalobservationsConroller;
 use App\Http\Controllers\Admin\QBAttachmentsController;
 use App\Http\Controllers\Admin\QBActionPointController;
+use App\Http\Controllers\Admin\DipController;
+use App\Http\Controllers\Admin\DipActivityController;
 use App\Http\Controllers\Admin\OldQbController;
 use Illuminate\Support\Facades\Route;
 
@@ -55,7 +57,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('frm-managements/frm/export', [FRMController::class,'getexportform'])->name('frm-export');
     Route::post('getfrm/export', [FRMController::class,'getexportfrm'])->name('getfrm-export');
     
-    //Ajax Destrict
+    //Ajax Destrict Routes
     Route::post('getDistrict', [FBAjaxController::class,'getDistrict'])->name('getDistrict');
     Route::post('getlearningDistrict', [FBAjaxController::class,'getlearningDistrict'])->name('getlearningDistrict');
     Route::post('getTehsil', [FBAjaxController::class,'getTehsil'])->name('getTehsil');
@@ -98,19 +100,31 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/qb_attachments/delete/{id}', [QBAttachmentsController::class,'destroy'])->name('qb_attachments.delete');
     Route::get('/download/qb_attachments/{id}', [QBAttachmentsController::class,'download_attachment'])->name('download.qb_attachments');
     Route::get('/pdf/shows/{id}', [QBAttachmentsController::class,'showPDF'])->name('showPDF.qb_attachments');
-    // QB AJAX
+    // QB AJAX Routes
     Route::post('getproject_type', [QBAjaxController::class,'getproject_type'])->name('getproject_type');
     //Reset Password
     Route::get('reset/password', [UserController::class,'reset_password'])->name('reset_password');
     Route::post('update/password', [UserController::class,'password_update'])->name('update_password');
     Route::post('getuserDistrict', [FBAjaxController::class,'getuserDistrict'])->name('getuserDistrict');
 
-    //Learning Log
+    //Learning Log Routes
     Route::resource('/learning-logs', LearningLogController::class);
     Route::post('get_learninglogs', [LearningLogController::class,'get_learninglogs'])->name('admin.get_learninglogs');
     Route::post('view_learninglog', [LearningLogController::class,'view_learninglog'])->name('admin.view_learninglog');
     Route::get('/learninglog/delete/{id}', [LearningLogController::class,'destroy'])->name('learninglog.delete');
     Route::get('/download/log/{id}', [LearningLogController::class,'downloadFile'])->name('download.log_file');
+
+    //Dip Routes
+    Route::resource('/dips', DipController::class);
+    Route::post('get_dips', [DipController::class,'get_dips'])->name('admin.get_dips');
+    Route::post('view_dip', [DipController::class,'view_dip'])->name('admin.view_dip');
+    Route::get('/dip/delete/{id}', [DipController::class,'destroy'])->name('dip.delete');
+
+    //Dip Activity Routes
+    Route::resource('/activity_dips', DipActivityController::class);
+    Route::post('get_activity_dips', [DipActivityController::class,'get_activity_dips'])->name('admin.get_activity_dips');
+    Route::post('view_activity_dips', [DipActivityController::class,'view_activity_dips'])->name('admin.view_activity_dips');
+    Route::get('/activity_dips/delete/{id}', [DipActivityController::class,'destroy'])->name('activity_dips.delete');
 });
 
 Route::get('/error', function () {
