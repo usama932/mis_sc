@@ -1,6 +1,6 @@
 <div>
     <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-lg"> 
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Detail Implementation Plan Activity</h5>
@@ -10,7 +10,7 @@
                 </div>
                 <form action="{{route('activity_dips.store')}}" method="post" id="create_dip_activity">
                     @csrf
-                    <input name="dip_id" value="{{$dip->id}}" type="hidden">
+                    <input name="dip_id" id="dip_id" value="{{$dip->id}}" type="hidden">
                     <div class="modal-body">
                             <div class="row">
                             
@@ -71,10 +71,10 @@
             </div>
         </div>
     </div>
-    <div class="card-toolbar m-5 d-flex justify-content-end">   
+    <div class="card-toolbar  d-flex justify-content-end">   
         @can('create dip')
             <a href="{{ route('dips.create') }}" class="btn btn-primary btn-sm font-weight-bolder"  data-toggle="modal" data-target=".bd-example-modal-lg">
-                <span class="svg-icon svg-icon-primary svg-icon-1x mx-1">
+                <span class="svg-icon svg-icon-primary svg-icon-1x ">
                     <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Navigation/Plus.svg-->
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -84,10 +84,9 @@
                     </svg>
                 </span>Add DIP Activity
             </a>
-         
         @endcan
     </div>
-    <div class="card-body pt-3">
+    <div class="card-body">
         <div class="table-responsive overflow-*">
             <table class="table table-striped table-bordered nowrap" id="dip_activity" style="width:100%">
                 <thead>
@@ -97,7 +96,6 @@
                         <th>End Date</th>
                         <th>Status</th>
                         <th>Detail</th>
-                        <th>attachment</th>
                         <th>Created By</th>
                         <th>Created At</th>
                         <th>Actions</th>
@@ -106,4 +104,5 @@
             </table>
         </div>
     </div>
+    
 </div>

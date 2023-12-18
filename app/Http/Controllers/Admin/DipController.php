@@ -9,6 +9,8 @@ use App\Models\DipActivity;
 use App\Models\Project;
 use App\Models\Theme;
 use App\Models\Partner;
+use App\Models\District;
+use App\Models\Province;
 use App\Repositories\Interfaces\DipRepositoryInterface;
 
 class DipController extends Controller
@@ -88,16 +90,25 @@ class DipController extends Controller
 		if($dips){
 			foreach($dips as $r){
 			
-              
+                $edit_url = route('dips.edit',$r->id);
+                $show_url = route('dips.show',$r->id);
+             
 				$nestedData['id'] = $r->id;
                 $nestedData['project'] = $r->projects->name ?? '';
-                $nestedData['province'] = $r->provinces->province_name ?? '';
-                $nestedData['district'] = $r->districts->district_name ?? '';
-                $nestedData['partner'] = $r->partner_name ?? '';
-                $nestedData['province'] = $r->province ?? '';
-                $nestedData['district'] = $r->district ?? '';
-                $nestedData['project_tenure'] = $r->theme ?? '';
-                $nestedData['project_submition'] = $r->project_submition ?? '';
+                $province_dip = json_decode($r->province , true);
+                $provinces = Province::whereIn('province_id', $province_dip)->pluck('province_name');
+                $nestedData['province'] = $provinces ?? '';
+                $district_dip = json_decode($r->district , true);
+                $districts = District::whereIn('district_id', $district_dip)->pluck('district_name');
+                $nestedData['district'] = $districts ?? '';
+                $partner_dip = json_decode($r->partner , true);
+                $partners = Partner::whereIn('id', $partner_dip)->pluck('name');
+                $nestedData['partner'] = $partners ?? '';
+                $theme_dip = json_decode($r->theme , true);
+                $themes = Theme::whereIn('id', $theme_dip)->pluck('name');
+                $nestedData['theme'] = $themes ?? '';
+                $nestedData['project_tenure'] = date('d-M-Y', strtotime($r->project_start)) .' To '.date('d-M-Y', strtotime($r->project_end));
+                $nestedData['project_submition'] = date('d-M-Y', strtotime($r->project_submition)) ?? '';
                 $nestedData['attachment'] = $r->attachment ?? '';
                 $nestedData['created_by'] = $r->user->name ?? '';
                 $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
@@ -105,10 +116,16 @@ class DipController extends Controller
              
                 $nestedData['action'] = '<div>
                                         <td>
-                                            <a class="btn-icon mx-1" href="" target="_blank">
-                                            <i class="fa fa-arrow-right text-warning" aria-hidden="true" ></i>
+                                            <a class="btn-icon mx-1" href="'. $show_url.'" target="_blank">
+                                            <i class="fa fa-eye text-success" aria-hidden="true" ></i>
                                             </a>
-                                        
+                                            <a class="btn-icon mx-1" href="'. $edit_url.'" target="_blank">
+                                                <i class="fa fa-pencil text-warning" aria-hidden="true" ></i>
+                                            </a>
+                                            <a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
+                                                <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+                                            </a>
+                                        </a>
                                         </td>
                                         </div>
                                         ';
@@ -134,6 +151,7 @@ class DipController extends Controller
         $partners = Partner::all();
         
         $themes = Theme::all();
+
         addJavascriptFile('assets/js/custom/dip/create.js');
         return view('admin.dip.create',compact('projects','partners','themes'));
     }
@@ -162,14 +180,24 @@ class DipController extends Controller
         $dip = Dip::find($id);
         $projects = Project::where('active',1)->get();
         $partners = Partner::all();
+      
+
+        $themes = Theme::all();
+
+        
+        $theme_dip = json_decode($dip->theme , true);
+        $district_dip = json_decode($dip->district , true);
+        $province_dip = json_decode($dip->province , true);
+        $partner_dip = json_decode($dip->partner , true);
+
+        $districts = District::whereIn('district_id', $district_dip)->get();
+       
         if(session('active') == ''){
             session(['active' => $active]);
         }
-
-        $themes = Theme::all();
         addJavascriptFile('assets/js/custom/dip/create.js');
         addJavascriptFile('assets/js/custom/dip/dip_activity_validations.js');
-        return view('admin.dip.edit',compact('dip','projects','partners','themes'));
+        return view('admin.dip.edit',compact('dip','projects','partners','themes','theme_dip','districts','province_dip','partner_dip'));
     }
 
     public function update(Request $request, string $id)
@@ -179,6 +207,13 @@ class DipController extends Controller
 
     public function destroy(string $id)
     {
-        //
+        $dip = Dip::find($id);
+        if(!empty($dip)){
+            $dip->activity->each->delete();
+           
+            $dip->delete();
+            return redirect()->route('dips.index');
+        }
+          return redirect()->route('dips.index');
     }
 }

@@ -26,7 +26,7 @@
                     <a class="nav-link @if(session('active') == 'basic_info') active @endif " data-bs-toggle="tab" href="#kt_tab_pane_1">DIP</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link @if(session('dip_activity') == 'basic_info') active @endif " data-bs-toggle="tab" href="#kt_tab_pane_2">DIP Activities</a>
+                    <a class="nav-link @if(session('active') == 'dip_activity') active @endif " data-bs-toggle="tab" href="#kt_tab_pane_2">DIP Activities</a>
                 </li>
                
             </ul>
@@ -43,7 +43,66 @@
     </div>
     @push('scripts')
 
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="{{asset("assets/plugins/custom/datatables/datatables.bundle.js")}}"></script>
+   <script>
+    var dip_id = document.getElementById("dip_id").value;
+        var dip_activity = $('#dip_activity').DataTable( {
+        "order": [
+            [1, 'desc']
+        ],
+        "dom": 'lfBrtip',
+        buttons: [
+            'csv', 'excel'
+        ],
+        responsive: true, // Enable responsive mode
+        "processing": true,
+        "serverSide": true,
+        "searching": false,
+        "bLengthChange": false,
+        "paging": true,
+        "bInfo" : false,
+        "responsive": false,
+        "info": false,
+        "ajax": {
+           "url":"{{route('admin.get_activity_dips')}}",
+           "dataType":"json",
+           "type":"POST",
+           "data":{"_token":"<?php echo csrf_token() ?>",
+                    dip_id:dip_id  }
+        },
+        "columns":[
+                        {"data":"activity_number","searchable":false,"orderable":false},
+                        {"data":"start_date","searchable":false,"orderable":false},
+                        {"data":"end_date","searchable":false,"orderable":false},
+                        {"data":"status","searchable":false,"orderable":false},
+                        {"data":"detail","searchable":false,"orderable":false},
+                        {"data":"created_by","searchable":false,"orderable":false},
+                        {"data":"created_at","searchable":false,"orderable":false},
+                        {"data":"action","searchable":false,"orderable":false},
+                    ]
+        });
+        function del(id) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!"
+            }).then(function(result) {
+                if (result.value) {
+                    Swal.fire(
+                        "Deleted!",
+                        "Your DIP Activity has been deleted.",
+                        "success"
+                    );
+                    var APP_URL = {!! json_encode(url('/')) !!}
+                    window.location.href = APP_URL + "/activity_dips/delete/" + id;
+                }
+            });
+        }
+    </script>
+
     @endpush
 
 </x-nform-layout>

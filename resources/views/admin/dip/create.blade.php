@@ -98,7 +98,7 @@
                         </div>
                         <div class="fv-row col-md-4 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                <span class="required">Project Submission Date</span>
+                                <span class="required">Attachment</span>
                             </label>
                             <input type="file" name="attachment" id="attachment" class="form-control">
                             <div id="attachmentError" class="error-message "></div>

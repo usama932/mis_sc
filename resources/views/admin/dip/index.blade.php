@@ -120,8 +120,10 @@
                     <thead>
                         <tr>
                             <th>Project</th>
-                            <th>Province</th>
-                            <th>Distict</th>
+                            <th>Provinces</th>
+                            <th>Disticts</th>
+                            <th>Partners</th>
+                            <th>Theme</th>
                             <th>Project Tenure</th>
                             <th>Project Submmition</th>
                             <th>attachment</th>
@@ -158,7 +160,7 @@
             "serverSide": true,
             "searching": false,
             "bLengthChange": false,
-            "paging": false,
+            "paging": true,
             "bInfo" : false,
             "responsive": false,
             "info": false,
@@ -172,6 +174,8 @@
                             {"data":"project","searchable":false,"orderable":false},
                             {"data":"province","searchable":false,"orderable":false},
                             {"data":"district","searchable":false,"orderable":false},
+                            {"data":"partner","searchable":false,"orderable":false},
+                            {"data":"theme","searchable":false,"orderable":false},
                             {"data":"project_tenure","searchable":false,"orderable":false},
                             {"data":"project_submition","searchable":false,"orderable":false},
                             {"data":"attachment","searchable":false,"orderable":false},
@@ -237,7 +241,25 @@
         //     });
         // });
      
-     
+        function del(id) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!"
+            }).then(function(result) {
+                if (result.value) {
+                    Swal.fire(
+                        "Deleted!",
+                        "Your DIP has been deleted.",
+                        "success"
+                    );
+                    var APP_URL = {!! json_encode(url('/')) !!}
+                    window.location.href = APP_URL + "/dip/delete/" + id;
+                }
+            });
+        }
         // flatpickr("#date_visit", {
         //     mode: "range",
         //     dateFormat: "Y-m-d",
