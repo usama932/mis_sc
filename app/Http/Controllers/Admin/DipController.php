@@ -9,10 +9,16 @@ use App\Models\DipActivity;
 use App\Models\Project;
 use App\Models\Theme;
 use App\Models\Partner;
+use App\Repositories\Interfaces\DipRepositoryInterface;
 
 class DipController extends Controller
 {
-   
+    private $dipRepository;
+
+    public function __construct(DipRepositoryInterface $dipRepository)
+    {
+        $this->dipRepository = $dipRepository;
+    }
     public function index()
     {
         return view('admin.dip.index');
@@ -134,7 +140,15 @@ class DipController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $data = $request->except('_token');
+        $dip = $this->dipRepository->storedip( $data);
+        $active = 'basic_info';
+        session(['active' => $active]);
+        $editUrl = route('dips.edit',$dip->id);
+     
+        return response()->json([
+            'editUrl' => $editUrl
+        ]);
     }
 
     public function show(string $id)
@@ -144,7 +158,18 @@ class DipController extends Controller
 
     public function edit(string $id)
     {
-        //
+      
+        $dip = Dip::find($id);
+        $projects = Project::where('active',1)->get();
+        $partners = Partner::all();
+        if(session('active') == ''){
+            session(['active' => $active]);
+        }
+
+        $themes = Theme::all();
+        addJavascriptFile('assets/js/custom/dip/create.js');
+        addJavascriptFile('assets/js/custom/dip/dip_activity_validations.js');
+        return view('admin.dip.edit',compact('dip','projects','partners','themes'));
     }
 
     public function update(Request $request, string $id)

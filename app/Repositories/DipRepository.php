@@ -28,16 +28,14 @@ class DipRepository implements DipRepositoryInterface
         }
         
         return Dip::create([
-            'partner'               => $data['partner'],
+            'partner'               => json_encode($data['partner']),
             'project'               => $data['project'],
-            'theme'                 => $data['theme'],
-            'project_start_date'    => $data['project_start_date'],
+            'project_submition'    => $data['project_submition'],
             'province'              => json_encode($data['province']),
             'district'              => json_encode($data['district']),
-            'project_end_date'      => $data['project_end_date'],
-            'project_start_date'    => $data['project_start_date'],
+            'project_end'      => $data['project_end_date'],
+            'project_start'    => $data['project_start_date'],
             'theme'                 => json_encode($data['theme']) ,
-            'thumbnail'             => $thumbnail ?? '',
             'attachment'            => $attachment ?? '',
             'created_by'            => auth()->user()->id,
         ]);

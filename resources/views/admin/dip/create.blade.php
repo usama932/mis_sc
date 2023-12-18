@@ -93,7 +93,7 @@
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Project Submission Date</span>
                             </label>
-                            <input type="text" name="c" id="project_submition" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
+                            <input type="text" name="project_submition" id="project_submition" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
                             <div id="project_submitionError" class="error-message "></div>
                         </div>
                         <div class="fv-row col-md-4 mt-3">
