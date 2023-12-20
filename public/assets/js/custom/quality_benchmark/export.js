@@ -56,6 +56,7 @@ $(document).ready(function () {
     $('#exportqbactionpoint').submit(function (e) {
         e.preventDefault();
         button.setAttribute("data-kt-indicator", "on");
+        button.disabled = true;
         $.ajax({
             url: '/getactionpoint/export',
             type: 'POST',
@@ -66,6 +67,7 @@ $(document).ready(function () {
             },
             success: function (response) {
                 button.removeAttribute("data-kt-indicator");
+                button.disabled = false;
                 var blob = new Blob([response]);
 
                 // Create a link element

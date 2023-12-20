@@ -171,7 +171,19 @@ class DipController extends Controller
 
     public function show(string $id)
     {
-        //
+        $dip = Dip::with('projects','user','user1','activity')->find($id);
+        $theme_dip = json_decode($dip->theme , true);
+        $district_dip = json_decode($dip->district , true);
+        $province_dip = json_decode($dip->province , true);
+        $partner_dip = json_decode($dip->partner , true);
+
+        $themes = Theme::whereIn('id', $theme_dip)->latest()->get();
+        $partners = Partner::whereIn('id', $partner_dip)->get();
+       
+        $provinces = Province::whereIn('province_id', $province_dip)->get();
+        $districts = District::whereIn('district_id', $district_dip)->get();
+ 
+        return view('admin.dip.view_dip',compact('dip','themes','districts','provinces','partners'));
     }
 
     public function edit(string $id)
@@ -191,7 +203,7 @@ class DipController extends Controller
         $partner_dip = json_decode($dip->partner , true);
 
         $districts = District::whereIn('district_id', $district_dip)->get();
-       
+        $active = 'basic_info';
         if(session('active') == ''){
             session(['active' => $active]);
         }
@@ -202,7 +214,7 @@ class DipController extends Controller
 
     public function update(Request $request, string $id)
     {
-        //
+        dd($request->all());
     }
 
     public function destroy(string $id)

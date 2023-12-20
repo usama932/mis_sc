@@ -1,6 +1,7 @@
 <div>
-    <form action="{{route('dips.store')}}" method="post" id="create_dip" method="post" enctype="multipart/form-data">
+    <form action="{{route('dips.update',$dip->id)}}" method="post" id="create_dip" method="post" enctype="multipart/form-data">
         @csrf
+        @method('put')
         <div class="card-body py-4">
             <div class="row">
                 <div class="fv-row col-md-4 ">
