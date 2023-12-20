@@ -76,18 +76,18 @@ class OldQbController extends Controller
             $qualit_benchs->whereBetween('date_visit',[$startdate ,$enddate]);
         }
        
-        if($request->project_name != null){
+        if($request->project_name != null && $request->project_name != 'None'){
 
             $qualit_benchs->where('project',$request->project_name);
         }
-        if(auth()->user()->permissions_level == 'province-wide')
-        {
-            $qualit_benchs->where('province',auth()->user()->province);
-        }
-        if(auth()->user()->permissions_level == 'district-wide')
-        {
-            $qualit_benchs->where('district',auth()->user()->district);
-        }
+        // if(auth()->user()->permissions_level == 'province-wide')
+        // {
+        //     $qualit_benchs->where('province',auth()->user()->province);
+        // }
+        // if(auth()->user()->permissions_level == 'district-wide')
+        // {
+        //     $qualit_benchs->where('district',auth()->user()->district);
+        // }
         $qualit_bench =$qualit_benchs->limit($limit)
                                     ->orderBy($order, $dir)->get()->sortByDesc("date_visit");
 		$data = array();

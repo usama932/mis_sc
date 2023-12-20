@@ -70,6 +70,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('qb/export', [QbController::class,'getqbexportform'])->name('qb-export');
     Route::get('qbaction_points/export', [QbController::class,'getqbactionpointexportform'])->name('qbactionpoint-export');
     Route::post('getqb/export', [QbController::class,'getexportqb'])->name('getqb-export');
+    Route::post('/getactionpoint/export', [QbController::class,'getexportqbactionpoint'])->name('getactionpoint.export');
     //Old Qbs
     Route::get('get_old_qbs', [OldQbController::class,'index'])->name('get_oldqbs');
     Route::post('get_old_qbs', [OldQbController::class,'get_old_qbs'])->name('admin.get_old_qbs');
@@ -87,6 +88,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('getactivity', [QBAjaxController::class,'getactivity'])->name('getactivity');
     Route::resource('action_points', QBActionPointController::class);
     Route::post('get_action_points', [QBActionPointController::class,'get_action_points'])->name('get_action_points');
+  
     Route::post('get_qbs_actionpoints', [QBActionPointController::class,'get_qbs_actionpoints'])->name('get_qbs_actionpoints');
     Route::post('view_action_point', [QBActionPointController::class,'view_action_point'])->name('view_action_point');
     Route::get('/action_point/delete/{id}', [QBActionPointController::class,'destroy'])->name('action_point.delete');

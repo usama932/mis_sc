@@ -169,14 +169,14 @@ class QBActionPointController extends Controller
         if(auth()->user()->permissions_level == 'province-wide')
         {
             $qb_actionpoints->whereHas('qb', function ($query) {
-                $query->whereBetween('province',auth()->user()->province);
+                $query->where('province',auth()->user()->province);
             });
          
         }
         if(auth()->user()->permissions_level == 'district-wide')
         {
             $qb_actionpoints->whereHas('qb', function ($query) {
-                $query->whereBetween('district',auth()->user()->district);
+                $query->where('district',auth()->user()->district);
             });
         }
         $totalData = $qb_actionpoints->count();
