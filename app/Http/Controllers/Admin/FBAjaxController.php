@@ -63,4 +63,11 @@ class FBAjaxController extends Controller
 
         return ($data);
     }
+    public function update_province(Request $request){
+        $id = auth()->user()->id;
+        $user = User::find( $id);
+        $user->province = $request->province;
+        $user->save();
+        return response()->json(['message' => 'Province updated successfully']);
+    }
 }

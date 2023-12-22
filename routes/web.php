@@ -62,7 +62,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('getlearningDistrict', [FBAjaxController::class,'getlearningDistrict'])->name('getlearningDistrict');
     Route::post('getTehsil', [FBAjaxController::class,'getTehsil'])->name('getTehsil');
     Route::post('getUnionCouncil', [FBAjaxController::class,'getUnionCouncil'])->name('getUnionCouncil');
-    
+    Route::post('/update-province', [FBAjaxController::class,'update_province'])->name('update_province');
+
     //Quality Bench Routes
     Route::resource('/quality-benchs', QbController::class);
     Route::post('get_qbs', [QbController::class,'get_qbs'])->name('admin.get_qbs');

@@ -72,7 +72,32 @@
 <!--end::Custom Javascript-->
 @stack('scripts')
 <!--end::Javascript-->
+<script>
+    $(document).ready(function () {
+        $('#update_province').change(function () {
+            var selectedProvince = $(this).val();
 
+            // Make AJAX request
+            $.ajax({
+                "url":"{{route('update_province')}}",
+                "type":"POST",
+                data: {
+                    province: selectedProvince,
+                    _token: '<?php echo csrf_token() ?>' // Include CSRF token for security
+                },
+                success: function (response) {
+                    location.reload();
+                    console.log(response);
+                    // Handle success response here
+                },
+                error: function (error) {
+                    console.log(error);
+                    // Handle error here
+                }
+            });
+        });
+    });
+</script>
 <script>
     document.addEventListener('livewire:load', () => {
         Livewire.on('success', (message) => {
