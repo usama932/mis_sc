@@ -37,7 +37,7 @@
                                         <label class="fs-6 fw-semibold form-label mb-2">
                                             <span class="required">Province</span>
                                         </label>
-                                        <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select form-select-solid">
+                                        <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select form-select-solid" data-allow-clear="true" >
                                             <option value="" selected>Select Province</option>
                                            
                                             <option value='4'>Sindh</option>
@@ -50,7 +50,7 @@
                                         <label class="fs-6 fw-semibold form-label mb-2">
                                             <span class="required">District</span>
                                         </label>
-                                        <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select">
+                                        <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select" data-allow-clear="true" >
                                             
                                         </select>
                                     </div>
@@ -59,8 +59,8 @@
                                         <label class="fs-6 fw-semibold form-label mb-2">
                                             <span class="required">Status</span>
                                         </label>
-                                        <select name="status" id="status" aria-label="Select Status" data-control="select2" data-placeholder="Select Status" class="form-select ">
-                                            <option value="">Select Status</option>
+                                        <select name="status" id="status" aria-label="Select Status" data-control="select2" data-placeholder="Select Status" class="form-select " data-allow-clear="true" >
+                                            <option value="" selected>Select Status</option>
                                             <option  value="To be Acheived">To be Acheived</option>
                                             <option  value="Partialy Acheived">Partialy Acheived</option>
                                             <option  value="Acheived">Acheived</option>
