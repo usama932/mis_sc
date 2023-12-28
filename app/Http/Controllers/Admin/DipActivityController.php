@@ -81,8 +81,6 @@ class DipActivityController extends Controller
 		if($dips){
 			foreach($dips as $r){
 			
-              
-                $edit_url = route('activity_dips.edit',$r->id);
                 $show_url = route('activity_dips.show',$r->id);
 				$nestedData['id'] = $r->id;
                 $nestedData['activity_number'] = $r->activity_number?? '';
@@ -94,7 +92,7 @@ class DipActivityController extends Controller
                 $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
                 $nestedData['action'] = '<div>
                                         <td>
-                                            <a class="btn-icon mx-1" href="'. $edit_url.'" target="_blank">
+                                            <a class="btn-icon mx-1" href="javascript:void(0)" target="_blank" onclick="event.preventDefault();editInfo('.$r->id.');" >
                                                 <i class="fa fa-pencil text-warning" aria-hidden="true" ></i>
                                             </a>
                                             <a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
@@ -117,6 +115,11 @@ class DipActivityController extends Controller
 		);
 		
 		echo json_encode($json_data);
+    }
+    public function edit_activity_dips(Request $request){
+        $dip = DipActivity::where('id',$request->id)->first();
+      
+        return view('admin.dip.edit_dip_activity',compact('dip'));
     }
    
     public function create()
@@ -153,7 +156,17 @@ class DipActivityController extends Controller
 
     public function update(Request $request, string $id)
     {
-        //
+      
+        $data = $request->except('_token');
+        $dip_id =  DipActivity::where('id',$id)->first();
+        $dip_activity = $this->dipactivityRepository->updatedipactivity($data,$id);
+        $active = 'dip_activity';
+        session(['active' => $active]);
+        $editUrl = route('dips.edit',$dip_id->dip_id);
+        dd($editUrl);
+        return response()->json([
+            'editUrl' => $editUrl
+        ]);
     }
 
     public function destroy(string $id)

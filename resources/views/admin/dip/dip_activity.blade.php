@@ -3,8 +3,8 @@
         <div class="modal-dialog modal-lg"> 
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Detail Implementation Plan Activity</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title">Add Dip Activity</h5>
+                    <button type="button" class="create_close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -65,7 +65,7 @@
                         <button type="submit" id="kt_create_dip_activity" class="btn btn-success btn-sm 5">        
                             @include('partials/general/_button-indicator', ['label' => 'Update'])
                         </button>
-                        <button type="button" class="btn btn-secondary btn-sm   " data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary btn-sm  create_close " data-dismiss="modal">Close</button>
                     </div>
                 </form>
             </div>

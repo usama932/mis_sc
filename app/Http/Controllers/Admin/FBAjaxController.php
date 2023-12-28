@@ -30,11 +30,11 @@ class FBAjaxController extends Controller
         
         if(auth()->user()->permissions_level == 'district-wide'){
            
-            $data = District::whereIn('provinces_id',$province_id)->where('district_id',auth()->user()->district)->select('district_id', 'district_name')->where('status',1)->get();
+            $data = District::whereIn('provinces_id',$province_id)->where('district_id',auth()->user())->get();
         }
         else{
          
-            $data = District::whereIn('provinces_id',$province_id)->select('district_id', 'district_name')->where('status',1)->get();
+            $data = District::whereIn('provinces_id',$province_id)->select('district_id', 'district_name')->get();
         }
         
         return ($data);

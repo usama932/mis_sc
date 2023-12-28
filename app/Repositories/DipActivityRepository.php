@@ -10,27 +10,25 @@ class DipActivityRepository implements DipActivityInterface
     public function storedipactivity($data)
     {
         return DipActivity::create([
-            'activity_number'       => $data['activity_number'],
-            'start_date'               => $data['start_date'],
-            'end_date'               => $data['end_date'],
+            'activity_number'      => $data['activity_number'],
+            'start_date'           => $data['start_date'],
+            'end_date'             => $data['end_date'],
             'detail'               => $data['detail'],
             'status'               => $data['status'],
             'dip_id'               => $data['dip_id'],
-            'created_by'            => auth()->user()->id,
+            'created_by'           => auth()->user()->id,
         ]);
     }
 
     public function updatedipactivity($data, $id)
     {
-        $log = LearningLog::where('id',$id)->first();
-        return DipActivity::where('id',$id)->update([
-            'activity_number'       => $data['activity_number'],
-            'start_date'               => $data['start_date'],
-            'end_date'               => $data['end_date'],
+        return DipActivity::create([
+            'activity_number'      => $data['activity_number'],
+            'start_date'           => $data['start_date'],
+            'end_date'             => $data['end_date'],
             'detail'               => $data['detail'],
             'status'               => $data['status'],
-            'dip_id'               => $data['dip_id'],
-            'created_by'            => auth()->user()->id,
+            'updated_by'           => auth()->user()->id,
         ]);
     }
 

@@ -125,6 +125,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Dip Activity Routes
     Route::resource('/activity_dips', DipActivityController::class);
+    Route::post('edit_activity_dips', [DipActivityController::class,'edit_activity_dips'])->name('admin.edit_activity_dips');
     Route::post('get_activity_dips', [DipActivityController::class,'get_activity_dips'])->name('admin.get_activity_dips');
     Route::post('view_activity_dips', [DipActivityController::class,'view_activity_dips'])->name('admin.view_activity_dips');
     Route::get('/activity_dips/delete/{id}', [DipActivityController::class,'destroy'])->name('activity_dips.delete');
