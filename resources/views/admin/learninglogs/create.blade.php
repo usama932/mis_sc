@@ -13,7 +13,7 @@
         }
     </style>
     <!--end::Image input placeholder-->
-    
+  
     <!--begin::Image input-->
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div class="card">
