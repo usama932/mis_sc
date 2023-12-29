@@ -1,16 +1,9 @@
 @extends('layout.master')
 
 @section('content')
-<style>
-    .view_parent_image1{
-      
-        background: url({{ URL::asset('assets/media/logos/image.jpg') }});
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-        }
-</style>
+
     <!--begin::App-->
-    <div class="d-flex flex-column flex-root app-root view_parent_image1" id="kt_app_root">
+    <div class="d-flex flex-column flex-root app-root " id="kt_app_root" style="background-image: url('{{ URL::asset('assets/media/logos/image.jpg') }}'); background-size: 100% 100%;">
         <!--begin::Wrapper-->
         <div class="d-flex flex-column flex-lg-row flex-column-fluid">
             <!--begin::Body-->
@@ -18,7 +11,7 @@
                 <!--begin::Form-->
                 <div class="d-flex flex-center flex-column flex-lg-row-fluid">
                     <!--begin::Wrapper-->
-                    <div class="w-lg-500px p-10">
+                    <div class=" p-10">
                         <!--begin::Page-->
                         {{ $slot }}
                         <!--end::Page-->
@@ -40,5 +33,36 @@
         <!--end::Wrapper-->
     </div>
     <!--end::App-->
+    @push('scripts')
+    <script>
+        $("#kt_select2_province").change(function () {
 
+
+            var value = $(this).val();
+            csrf_token = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                type: 'POST',
+                url: '/getuserDistrict',
+                data: {'province': value, _token: csrf_token },
+                dataType: 'json',
+                success: function (data) {
+
+                    $("#kt_select2_district").find('option').remove();
+                    $("#kt_select2_district").prepend("<option value='' >Select District</option>");
+                    var selected='';
+                    $.each(data, function (i, item) {
+
+                        $("#kt_select2_district").append("<option value='" + item.district_id + "' "+selected+" >" +
+                        item.district_name.replace(/_/g, ' ') + "</option>");
+                    });
+                    $('#kt_select2_tehsil').html('<option value="">Select Tehsil</option>');
+                    $('#kt_select2_union_counsil').html('<option value=""> Select UC</option>');
+
+                }
+
+            });
+
+        }).trigger('change');
+    </script>
+@endpush
 @endsection

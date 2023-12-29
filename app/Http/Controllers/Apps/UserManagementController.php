@@ -20,9 +20,8 @@ class UserManagementController extends Controller
 
     public function create()
     {
-        $roles = Role::all();
         $designations = Designation::all();
-        return view('pages.apps.user-management.users.create',compact('roles','designations'));
+        return view('pages.apps.user-management.users.create',compact('designations'));
     }
 
     public function store(Request $request)
@@ -37,7 +36,7 @@ class UserManagementController extends Controller
             'status'            => '1',
         ]);
         $user->assignRole($request->role);
-        return redirect()->back()->with("success", "PUser Created successfully!");
+        return redirect()->back()->with("success", "User Created successfully!");
     }
 
     public function show(User $user)

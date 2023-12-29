@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use App\Providers\RouteServiceProvider;
+use App\Models\Designation;
 
 class RegisteredUserController extends Controller
 {
@@ -23,7 +24,8 @@ class RegisteredUserController extends Controller
     {
         addJavascriptFile('assets/js/custom/authentication/sign-up/general.js');
 
-        return view('pages.auth.register');
+        $designations = Designation::all();
+        return view('pages.auth.register',compact('designations'));
     }
 
     /**
@@ -37,19 +39,24 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+           
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'name'              => $request->name,
+            'email'             => $request->email,
+            'password'          => Hash::make($request->password),
+            'permissions_level' => 'nation-wide',
+            'designation'       => $request->designation,
+            'province'          => $request->province,
+            'district'          => $request->district,
+            'status'            => '1',
+            'user_type'         => 'R2',
             'last_login_at' => \Illuminate\Support\Carbon::now()->toDateTimeString(),
             'last_login_ip' => $request->getClientIp()
         ]);
-
+        $user->assignRole('Guest');
         event(new Registered($user));
 
         Auth::login($user);

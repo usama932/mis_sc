@@ -170,7 +170,7 @@ var KTdipValidate = function () {
                                 "showMethod": "fadeIn",
                                 "hideMethod": "fadeOut"
                             };
-                            toastr.success("DIP  Created", "success");
+                            toastr.success("Account Created", "success");
                             window.location.href = response.data.editUrl;
                             
                         } else {

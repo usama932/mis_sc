@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::post('getuserDistrict', [FBAjaxController::class,'getuserDistrict'])->name('getuserDistrict');
 Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/', [DashboardController::class, 'index']);
@@ -108,7 +108,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //Reset Password
     Route::get('reset/password', [UserController::class,'reset_password'])->name('reset_password');
     Route::post('update/password', [UserController::class,'password_update'])->name('update_password');
-    Route::post('getuserDistrict', [FBAjaxController::class,'getuserDistrict'])->name('getuserDistrict');
+  
 
     //Learning Log Routes
     Route::resource('/learning-logs', LearningLogController::class);
