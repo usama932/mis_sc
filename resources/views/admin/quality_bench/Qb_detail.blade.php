@@ -5,9 +5,11 @@
     @endsection
     <div class="card p-3">
         <div class="row">
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <a href="{{ route('quality-benchs.edit',$qb->id)}}" class="btn btn-primary me-md-2 btn-sm" target="_blank">Edit Monitoring Visit</a>
-            </div>
+            @can('edit quality benchmarks')
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="{{ route('quality-benchs.edit',$qb->id)}}" class="btn btn-primary me-md-2 btn-sm" target="_blank">Edit Monitoring Visit</a>
+                </div>
+            @endcan
             <div class="col-md-12 ">
 
                 {{-- Basic Info --}}

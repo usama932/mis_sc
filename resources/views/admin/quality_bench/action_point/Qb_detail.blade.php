@@ -5,9 +5,11 @@
     @endsection
     <div class="card p-3">
         <div class="row">
+            @can('edit quality benchmarks')
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <a href="{{ route('action_points.edit',$action_point->id) }}" class="btn btn-primary me-md-2 btn-sm" target="_blank">Edit QB</a>
             </div>
+            @endcan
             <div class="col-md-6 ">
                 <div class="card-title  border-0 my-4"">
                     <div class="card-title">

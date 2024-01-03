@@ -223,7 +223,7 @@ class QBActionPointController extends Controller
                     $edit = '<a class="btn-icon  mx-1" title="Edit Action Point" href="'.$edit_url.'" target="_blank"><i class="fa fa-pencil text-info" aria-hidden="true"></i></a>';
                     $update_status = '<a class="btn-icon mx-1"  title="Update Status" href="'.$update_url.'"><i class="fa fa-lock-open text-warning" aria-hidden="true"></i></a>';
                 }
-                
+                if (auth()->check() && auth()->user()->can('edit quality benchmarks', 'delete quality benchmarks',)){
                 $nestedData['action'] = '
                                 <div>
                                 <td>
@@ -238,6 +238,15 @@ class QBActionPointController extends Controller
                                 </td>
                                 </div>
                             ';
+                }else{
+                    $nestedData['action'] = '<div>
+                                            <td>
+                                                <a class="btn-icon mx-1" href="'.$view_url.'" title="View Action Point" target="_blank">
+                                                    <i class="fa fa-eye text-warning" aria-hidden="true"></i>
+                                                </a>
+                                            </td>
+                                            </div>';
+                }
                 $data[] = $nestedData;
                     
 				

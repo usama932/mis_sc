@@ -159,7 +159,8 @@ class QbController extends Controller
                 
                 $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
                 $nestedData['created_by'] =$r->user?->name;
-				$nestedData['action'] = '
+                if (auth()->check() && auth()->user()->can('edit quality benchmarks', 'delete quality benchmarks',)){
+                                $nestedData['action'] =' 
                                 <div>
                                 <td>
                                     <a class="btn-icon mx-1" href="'.$view_url.'" target="_blank">
@@ -173,7 +174,18 @@ class QbController extends Controller
                                     </a>
                                 </td>
                                 </div>
-                            ';
+                                ';
+                }
+                else{
+                    $nestedData['action'] ='<div>
+                                                <td>
+                                                    <a class="btn-icon mx-1" href="'.$view_url.'" target="_blank">
+                                                    <i class="fa fa-eye text-warning" aria-hidden="true" ></i>
+                                                    </a>
+                                                </td>
+                                            </div>';
+                }
+			
 				$data[] = $nestedData;
 			}
 		}

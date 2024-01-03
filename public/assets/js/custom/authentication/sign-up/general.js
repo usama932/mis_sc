@@ -176,8 +176,14 @@ var KTuserValidate = function () {
                             "hideMethod": "fadeOut"
                           };
                           
-                      
+                    
+                        if (error && error.response && error.response.data) {
                         toastr.error(error.response.data.message, "Error");
+                        } else {
+                        // Handle the case where error, error.response, or error.response.data is undefined.
+                        location.reload();
+                        }
+                          
                     }).then(() => {
                         // Hide loading indication
                         submitButton.removeAttribute('data-kt-indicator');

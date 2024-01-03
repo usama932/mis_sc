@@ -27,9 +27,13 @@
                 <button type="submit" id="kt_sign_in_submit" class="btn btn-primary">
                     @include('partials/general/_button-indicator', ['label' => 'Log In'])
                 </button>
+                <h3 class="text-center mt-3">
+                    <p>Not a member..! ? <a href="{{route('register')}}" class="btn btn-info  btn-sm text-white font-weight-bold">Register</a></p>
+                </h3>
+                   
             </div>
             <!--end::Submit button-->
-
+          
         
         </form>
     <!--end::Form-->
