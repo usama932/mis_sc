@@ -23,7 +23,7 @@ class LearningLogController extends Controller
     }
     public function index()
     {
-        $logs = LearningLog::latest()->paginate(3);
+        $logs = LearningLog::latest()->paginate(12);
         return view('admin.learninglogs.index',compact('logs'));
     }
     public function get_learninglogs(Request $request){

@@ -1,44 +1,16 @@
 
-flatpickr("#project_start_date", {
+flatpickr("#start_date", {
    
     dateFormat: "Y-m-d",
     maxDate: "today",
   });
-  flatpickr("#project_end_date", {
+  flatpickr("#end_date", {
   
     dateFormat: "Y-m-d",
     maxDate: "today",
   });
-  
-document.getElementById('districtloader').style.display = 'none';
-$("#kt_select2_province").change(function () {
-   
-    var value = $(this).val();
-    csrf_token = $('[name="_token"]').val();
-    document.getElementById('districtloader').style.display = 'block';
-    $.ajax({
-        type: 'POST',
-        url: '/getlearningDistrict',
-        data: {'province': value, _token: csrf_token },
-        dataType: 'json',
-        success: function (data) {
-            document.getElementById('districtloader').style.display = 'none';
-            $("#kt_select2_district").find('option').remove();
-            $("#kt_select2_district").prepend("<option value='' >Select District</option>");
-            var selected='';
-            $.each(data, function (i, item) {
+ 
 
-                $("#kt_select2_district").append("<option value='" + item.district_id + "' "+selected+" >" +
-                item.district_name.replace(/_/g, ' ') + "</option>");
-            });
-            $('#kt_select2_tehsil').html('<option value="">Select Tehsil</option>');
-            $('#kt_select2_union_counsil').html('<option value=""> Select UC</option>');
-
-        }
-
-    });
-
-});
 
 var KTdipValidate = function () {
     // Elements
@@ -55,64 +27,41 @@ var KTdipValidate = function () {
                 fields: {
 
                   
-                    'project':{
+                    'name':{
                         validators: {
                             notEmpty: {
-                                message: 'Project  is required'
+                                message: 'Project Name is required'
                             }
                         }
                     },
-                    'partner[]': {
+                    'type': {
                         validators: {
                             notEmpty: {
-                                message: 'Partner is required'
+                                message: 'Type is required'
                             }
                         }
                     },
-                    'theme[]': {
+                    'status': {
                         validators: {
                             notEmpty: {
-                                message: 'Theme is required'
+                                message: 'Status is required'
                             }
                         }
                     },
-                    'province[]':{
-                        validators: {
-                            notEmpty: {
-                                message: 'Province Name required'
-                            }
-                        }
-                    },
-                    'district[]':{
-                        validators: {
-                            notEmpty: {
-                                message: 'District Name required'
-                            }
-                        }
-                    },
-                    'project_start_date':{
+                    'start_date':{
                         validators: {
                             notEmpty: {
                                 message: 'Project Start Date Required'
                             }
                         }
                     },
-                    'project_end_date':{
+                    'end_date':{
                         validators: {
                             notEmpty: {
                                 message: 'Project End Date Required'
                             }
                         }
                     },
-                  
-                
-                    'attachment':{
-                        validators: {
-                            notEmpty: {
-                                message: 'Attachment is required'
-                            }
-                        }
-                    }
                 },
               
                 plugins: {
@@ -244,8 +193,8 @@ var KTdipValidate = function () {
         // Initialization
         init: function () {
             // Elements
-            form = document.querySelector('#create_dip');
-            submitButton = document.querySelector('#kt_create_dip');
+            form = document.querySelector('#create_project');
+            submitButton = document.querySelector('#kt_create_project');
             handleFormAjax();
         }
     };

@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\QBActionPointController;
 use App\Http\Controllers\Admin\DipController;
 use App\Http\Controllers\Admin\DipActivityController;
 use App\Http\Controllers\Admin\OldQbController;
+use App\Http\Controllers\Admin\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -63,7 +64,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('getTehsil', [FBAjaxController::class,'getTehsil'])->name('getTehsil');
     Route::post('getUnionCouncil', [FBAjaxController::class,'getUnionCouncil'])->name('getUnionCouncil');
     Route::post('/update-province', [FBAjaxController::class,'update_province'])->name('update_province');
-
+    Route::get('get-project', [FBAjaxController::class,'getproject'])->name('get-project');
+    
     //Quality Bench Routes
     Route::resource('/quality-benchs', QbController::class);
     Route::post('get_qbs', [QbController::class,'get_qbs'])->name('admin.get_qbs');
@@ -129,6 +131,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('get_activity_dips', [DipActivityController::class,'get_activity_dips'])->name('admin.get_activity_dips');
     Route::post('view_activity_dips', [DipActivityController::class,'view_activity_dips'])->name('admin.view_activity_dips');
     Route::get('/activity_dips/delete/{id}', [DipActivityController::class,'destroy'])->name('activity_dips.delete');
+
+    //projects 
+    Route::resource('/projects', ProjectController::class);
+    Route::post('get_projects', [ProjectController::class,'get_projects'])->name('admin.get_projects');
+    Route::post('view_get_project', [ProjectController::class,'view_get_project'])->name('admin.get_project');
+    Route::get('/project/delete/{id}', [ProjectController::class,'destroy'])->name('project.delete');
 });
 
 Route::get('/error', function () {

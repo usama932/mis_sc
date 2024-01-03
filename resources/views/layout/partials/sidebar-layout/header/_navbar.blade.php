@@ -2,7 +2,7 @@
 <div class="app-navbar flex-shrink-0">
     
 	<div class="app-navbar-item ms-1 ms-md-4" id="kt_header_user_menu_toggle">
-        @if(auth()->user()->designation == '6' && auth()->user()->permissions_level == 'province-wide')
+        @if(auth()->user()->designation == '6' || auth()->user()->designation == '5' && auth()->user()->permissions_level == 'province-wide')
             <div class="mx-5">
                 <div class="btn-group">
                     <select class="form-select btn btn-sm btn-info btn-outline-info rounded-circle" id="update_province">

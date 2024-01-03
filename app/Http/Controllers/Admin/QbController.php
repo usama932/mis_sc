@@ -37,6 +37,7 @@ class QbController extends Controller
 
     public function get_qbs(Request $request)
     {
+       
         $id = $request->qb_id;
         $columns = array(
 			0 => 'id',
@@ -106,9 +107,10 @@ class QbController extends Controller
         {
             $qualit_benchs->where('district',auth()->user()->district);
         }
-        $qualit_bench =$qualit_benchs->with('user')->offset($start)
+        $qualit_bench =$qualit_benchs->offset($start)
                                     ->limit($limit)
                                     ->orderBy($order, $dir)->get()->sortByDesc("id");
+                                    
 		$data = array();
 		if($qualit_bench){
 			foreach($qualit_bench as $r){
@@ -215,9 +217,10 @@ class QbController extends Controller
     {
         $data = $request->except('_token');
         $Qb = $this->QbRepository->storeQb($data);
+    
         $active = 'basic_info';
         session(['active' => $active]);
-        $editUrl = route('dashboard');
+        $editUrl = route('quality-benchs.edit',$Qb->id);
      
         return response()->json([
             'editUrl' => $editUrl

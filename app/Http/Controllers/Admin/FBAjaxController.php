@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Tehsil;
 use App\Models\District;
+use App\Models\Project;
 use App\Models\UnionCounsil;
 
 class FBAjaxController extends Controller
@@ -69,5 +70,15 @@ class FBAjaxController extends Controller
         $user->province = $request->province;
         $user->save();
         return response()->json(['message' => 'Province updated successfully']);
+    }
+    public function getproject(Request $request){
+        $projectId = $request->input('projectId');
+        // Fetch project details based on $projectId
+    
+        // Example: Fetch project details from the database
+        $project = Project::find($projectId);
+    
+        // Return the project details as JSON
+        return response()->json($project);
     }
 }

@@ -15,7 +15,7 @@
                                 <span class="required">Project</span>
                             </label>
                             <select   name="project" id="project" aria-label="Select Project" data-control="select2" data-placeholder="Select Project" class="form-select"  data-allow-clear="true" >
-                              
+                               
                                 @foreach($projects as $project)
                                     <option value="{{$project->id}}">{{$project->name}}</option>
                                 @endforeach
@@ -41,7 +41,7 @@
                                 <span class="required">Thematic Area</span>
                             </label>
                             <select name="theme[]" id="theme" class="form-select form-select-solid" data-control="select2" data-placeholder="Select an option" data-allow-clear="true" multiple>
-                              
+                               
                                 @foreach($themes as $theme)
                                     <option value="{{$theme->id}}" >{{$theme->name}}</option>
                                 @endforeach
@@ -55,8 +55,7 @@
                                 <span class="required">Province</span>
                             </label>
                             <select   name="province[]" multiple id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select "  data-allow-clear="true" >
-                            
-                                <option value="">Select Province</option>
+                               <option value="" selected>Select Province</option>
                                 {{-- <option value='1'>Punjab</option> --}}
                                 <option value='4' >Sindh</option>
                                 <option  value='2'>KPK</option>
@@ -79,23 +78,17 @@
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Project Start Date</span>
                             </label>
-                            <input type="text" name="project_start_date" id="project_start_date" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
+                            <input type="text" name="project_start_date" id="project_start_date" placeholder="Select date"  class="form-control" value="" readonly>
                             <div id="project_start_dateError" class="error-message "></div>
                         </div>
                         <div class="fv-row col-md-4 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Project End Date</span>
                             </label>
-                            <input type="text" name="project_end_date" id="project_end_date" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
+                            <input type="text" name="project_end_date" id="project_end_date" placeholder="Select date"  class="form-control"  value="">
                             <div id="project_end_dateError" class="error-message "></div>
                         </div>
-                        <div class="fv-row col-md-4 mt-3">
-                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                <span class="required">Project Submission Date</span>
-                            </label>
-                            <input type="text" name="project_submition" id="project_submition" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
-                            <div id="project_submitionError" class="error-message "></div>
-                        </div>
+                     
                         <div class="fv-row col-md-4 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Attachment</span>
@@ -123,7 +116,35 @@
     </div>
    
     @push("scripts")
- 
+        <script>
+            $(document).ready(function() {
+                // Initialize Select2
+            
+        
+                // Handle selection change
+                $('#project').on('change', function() {
+                    var projectId = $(this).val();
+                   
+                    // Make AJAX request to fetch project details
+                    $.ajax({
+                        url: '/get-project', // Change this to your Laravel route
+                        type: 'GET',
+                        data: { projectId: projectId },
+                        success: function(response) {
+                            // Handle the response (update your HTML with project details)
+                            console.log(response);
+                        
+                            $('#project_start_date').val(response.start_date);
+                            $('#project_end_date').val(response.end_date);
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    });
+                });
+            });
+        </script>
+    
     @endpush
 
 
