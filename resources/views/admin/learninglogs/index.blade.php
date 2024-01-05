@@ -22,11 +22,24 @@
     </style>
     <div id="kt_app_content" class="app-content flex-column-fluid">
        
-            <div class="card-toolbar m-5 d-flex justify-content-end">
-
+            <div class="card-toolbar m-5 d-flex justify-content-between">
+                <div class="col-md-4">
+                    <select name="research_type" id="research_type" aria-label="Select Research Type" data-control="select2" data-placeholder="Select Research Type" class="form-select form-control"  data-allow-clear="true" >
+                        <option value="" >Select Research Type</option>
+                        <option value="Assessment" >Assessment</option>
+                        <option value="Evaluation">Evalution</option>
+                        <option value="PDM">PDM</option>
+                        <option value="Research Study">Research Study</option>
+                        <option value="Survey Report">Survey Report</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                </div>
                 <!--begin::Button-->
-                <a href="{{ route('learning-logs.create') }}" class="btn btn-primary btn-sm font-weight-bolder">
-                New Record</a>
+                <div class="col-md-2">
+                    <a href="{{ route('learning-logs.create') }}" class="btn btn-primary btn-sm font-weight-bolder">
+                    New Record</a>
+                </div>
                 <!--end::Button-->
             </div>
             
@@ -146,6 +159,30 @@
         }
  
     
+    </script>
+       <script>
+        $(document).ready(function () {
+            $('#research_type').on('change', function () {
+                var researchType = $(this).val();
+              
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route("learning-logs.index") }}',
+                    data: {
+                        '_token': '{{ csrf_token() }}',
+                        'research_type': researchType
+                    },
+                    success: function (data) {
+                        // Handle the returned data
+                        console.log(data);
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle errors
+                        console.error(xhr.responseText);
+                     }
+                });
+            });
+        });
     </script>
     <!--end::Vendors Javascript-->
     @endpush

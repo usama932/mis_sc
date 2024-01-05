@@ -54,7 +54,7 @@
                             </label>
                             <select name="research_type" id="research_type" aria-label="Select Research Type" data-control="select2" data-placeholder="Select Research Type" class="form-select"  data-allow-clear="true" >
                                 <option value="" >Select Research Type</option>
-                                <option value="Assessment" selected>Assessment</option>
+                                <option value="Assessment" >Assessment</option>
                                 <option value="Evaluation">Evaluation</option>
                                 <option value="PDM">PDM</option>
                                 <option value="Research Study">Research Study</option>
@@ -199,7 +199,7 @@
     </div>
    
     @push("scripts")
- 
+     
     @endpush
 
 
