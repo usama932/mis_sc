@@ -83,7 +83,18 @@
                     <!--begin:Menu sub-->
                     <div class="menu-sub menu-sub-accordion">
                         <!--begin:Menu item-->
-               
+                        @can('create feedback registry')
+                            <div class="menu-item">
+                                <!--begin:Menu link-->
+                                <a class="menu-link {{ request()->routeIs('frm-managements.create') ? 'active' : '' }}" href="{{ route('frm-managements.create') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Add Feedback/Complaint</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                        @endcan
                         @can('read feedback registry')
                             <div class="menu-item">
                                 <!--begin:Menu link-->
@@ -131,7 +142,18 @@
                     <div class="menu-sub menu-sub-accordion">
                         <!--begin:Menu item-->
                        
-                           
+                        @can('create quality benchmarks')
+                            <div class="menu-item">
+                                <!--begin:Menu link-->
+                                <a class="menu-link {{ request()->routeIs('quality-benchs.create') ? 'active' : '' }}" href="{{ route('quality-benchs.create') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Add Monitoring Visits</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                        @endcan
                         @can('read quality benchmarks')
                             <div class="menu-item">
                                 <!--begin:Menu link-->
@@ -225,6 +247,18 @@
                     <!--begin:Menu sub-->
                     <div class="menu-sub menu-sub-accordion">
                         <!--begin:Menu item-->
+                        @can('create learning log')
+                            <div class="menu-item">
+                                <!--begin:Menu link-->
+                                <a class="menu-link {{ request()->routeIs('learning-logs.create') ? 'active' : '' }}" href="{{ route('learning-logs.create') }}"">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Add Learning log</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                        @endcan
                         @can('read learning log')
                             <div class="menu-item">
                                 <!--begin:Menu link-->
@@ -237,6 +271,7 @@
                                 <!--end:Menu link-->
                             </div>
                         @endcan
+                       
                     
                     </div>
                     <!--end:Menu sub-->

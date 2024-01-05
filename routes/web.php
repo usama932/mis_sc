@@ -117,6 +117,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('get_learninglogs', [LearningLogController::class,'get_learninglogs'])->name('admin.get_learninglogs');
     Route::post('view_learninglog', [LearningLogController::class,'view_learninglog'])->name('admin.view_learninglog');
     Route::get('/learninglog/delete/{id}', [LearningLogController::class,'destroy'])->name('learninglog.delete');
+    Route::post('/search/learninglog', [LearningLogController::class,'search'])->name('learninglog.search');
     Route::get('/download/log/{id}', [LearningLogController::class,'downloadFile'])->name('download.log_file');
 
     //Dip Routes

@@ -35,7 +35,7 @@
                             <select   name="project" id="project" aria-label="Select Project" data-control="select2" data-placeholder="Select Project" class="form-select"  data-allow-clear="true" >
                                 <option value="">Select Project</option>
                                 @foreach($projects as $project)
-                                    <option value="{{$project->id}}" @if($loop->index == "0") selected @endif>{{$project->name}}</option>
+                                    <option value="{{$project->id}}" >{{$project->name}}</option>
                                 @endforeach
                             </select>
                             <div id="projectError" class="error-message "></div>
@@ -64,7 +64,7 @@
                         </div>  
                         <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
-                                <span class="required">Thematiic Area</span>
+                                <span class="required">Thematic Area</span>
                             </label>
                             <select name="theme[]" id="theme" class="form-select form-select-solid" data-control="select2" data-placeholder="Select an option" data-allow-clear="true" multiple>
                                 <option></option>

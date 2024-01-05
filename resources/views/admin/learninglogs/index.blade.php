@@ -21,79 +21,50 @@
         }
     </style>
     <div id="kt_app_content" class="app-content flex-column-fluid">
-       
-            <div class="card-toolbar m-5 d-flex justify-content-between">
-                <div class="col-md-4">
-                    <select name="research_type" id="research_type" aria-label="Select Research Type" data-control="select2" data-placeholder="Select Research Type" class="form-select form-control"  data-allow-clear="true" >
-                        <option value="" >Select Research Type</option>
-                        <option value="Assessment" >Assessment</option>
-                        <option value="Evaluation">Evalution</option>
-                        <option value="PDM">PDM</option>
-                        <option value="Research Study">Research Study</option>
-                        <option value="Survey Report">Survey Report</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                </div>
-                <!--begin::Button-->
-                <div class="col-md-2">
+            <div class="card-toolbar mb-3 d-flex justify-content-between">
+                <h5>Learning Logs: {{$totallogs ?? ''}}</h5>
+                <h5> Assesment: {{$totalassesment ?? ''}}</h5>
+                <h5> Evaluation: {{$totalEvaluation ?? ''}}</h5>
+                <h5> PDM: {{$totalPDM ?? ''}}</h5>
+                <h5> Research Study: {{$totalResearch ?? ''}}</h5>
+                <h5> Survey: {{$totalSurvey ?? ''}}</h5>
+                <div class="">
                     <a href="{{ route('learning-logs.create') }}" class="btn btn-primary btn-sm font-weight-bolder">
-                    New Record</a>
+                    New Record {{$project ?? ''}}</a>
                 </div>
-                <!--end::Button-->
+            </div>
+            <div class="card-toolbar  justify-content-between">
+                <div class="row">
+                    <div class="col-md-4 ">
+                        <select  name="project" id="project" aria-label="Select Project" data-control="select2" data-placeholder="Select Project" class="form-select"  data-allow-clear="true" >
+                            <option value="">Select Project </option>
+                            @foreach($projects as $project)
+                                <option value="{{$project->id}}">{{$project->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-4 ">
+                        <select name="research_type" id="research_type" aria-label="Select Research Type" data-control="select2" data-placeholder="Select Research Type" class="form-select form-control"  data-allow-clear="true" >
+                            <option value="" >Select Research Type</option>
+                            <option value="Assessment" >Assessment</option>
+                            <option value="Evaluation">Evalution</option>
+                            <option value="PDM">PDM</option>
+                            <option value="Research Study">Research Study</option>
+                            <option value="Survey Report">Survey Report</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 ">               
+                        <select name="theme" id="theme" class="form-select form-control" data-control="select2" data-placeholder="Select an Theme" data-allow-clear="true">
+                            <option value="" >Select Theme</option>
+                            @foreach($themes as $theme)
+                                <option value="{{$theme->id}}" >{{$theme->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
             </div>
             
-            <div class="row">
-                    @forelse($logs as $log)
-                        <div class="col-md-4 col-sm-4 col-lg-4 my-5">
-                            <div class="card shadow-sm">
-                                <div class="card-header bg-secondary ">
-                                    <h3 class="card-title fs-7"> {{ mb_strimwidth($log->title ,0, 28, '...') }}</h3> 
-                                    <div class="card-toolbar">
-                                        <a href="{{route('download.log_file',$log->id)}}">
-                                            <i class="fa fa-download text-primary mx-1" aria-hidden="true"></i>
-                                        </a>
-                                        @can('delete_learning_log')
-                                        <a href="{{route('learning-logs.edit',$log->id)}}">
-                                            <i class="fa fa-pencil text-info mx-1" aria-hidden="true"></i>
-                                        </a>
-                                        @endcan
-                                        @can('delete_learning_log')
-                                            <a href="javascript:void(0)" onclick="del('{{ $log->id }}')">
-                                                <i class="fa fa-trash text-danger mx-1" aria-hidden="true"></i>
-                                            </a>
-                                        @endcan
-                                    </div>
-                                   
-                                </div>
-                                <div class="card-body">
-                                    <div class="fixed-thumbnail">
-                                        @if($log->thumbnail)
-                                        <img src="{{ asset('storage/learninglog/thumbnail/'.$log->thumbnail) }}" class="img-thumbnail " alt="..." style="">
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="card-footer">
-                                  
-                                    <div class="d-flex justify-content-between">
-                                        <div>{{ $log->projects->name}} ({{$log->project_type}})</div>
-                                        <div>{{ $log->created_at->format('d/m/Y')}}</div>
-                                      
-                                    </div>
-                                    <p class="fs-7">{{ mb_strimwidth($log->description ,0, 40, '...')}}  
-                                    </p>
-                                    <div class="d-flex justify-content-center">
-                                        <a href="{{route('learning-logs.show',$log->id)}}" class="btn btn-primary btn-sm"> View Details</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @empty
-                        <h1 class="text-danger text-center mt-5">No Record Found</h1>
-                    @endforelse
-                    
-            </div>
-           
+            @include('admin.learninglogs.search')
             {{-- <div class="card-body pt-0 overflow-* rounded">
 
                 <div class="table-responsive overflow-*">
@@ -115,9 +86,9 @@
             </div>
             --}}
         
-        
+          {{ $logs->links('pagination::bootstrap-5') }} 
     </div>
-    {{ $logs->links('pagination::bootstrap-4') }}
+    
     <div class="modal fade" id="quality_benchmark" data-backdrop="static" tabindex="1" role="dialog"
         aria-labelledby="staticBackdrop" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -136,8 +107,6 @@
     </div>
     @push("scripts")
     <script>
-      
-
         function del(id) {
             Swal.fire({
                 title: "Are you sure?",
@@ -160,29 +129,34 @@
  
     
     </script>
-       <script>
+    <script>
         $(document).ready(function () {
-            $('#research_type').on('change', function () {
-                var researchType = $(this).val();
-              
+            $('#research_type, #theme, #project').on('change', function () {
+                KTApp.showPageLoading();
+                var researchType =  $('#research_type').val();
+                var theme = $('#theme').val();
+                var project = $('#project').val();
                 $.ajax({
-                    type: 'get',
-                    url: '{{ route("learning-logs.index") }}',
+                    type: 'post',
+                    url: '{{ route("learninglog.search") }}',
                     data: {
                         '_token': '{{ csrf_token() }}',
-                        'research_type': researchType
+                        'research_type': researchType,
+                        'theme': theme,
+                        'project': project
                     },
                     success: function (data) {
-                        // Handle the returned data
-                        console.log(data);
+                        KTApp.hidePageLoading();
+                        $('#researchResults').html(data);
                     },
                     error: function (xhr, status, error) {
                         // Handle errors
                         console.error(xhr.responseText);
-                     }
+                    }
                 });
             });
         });
+
     </script>
     <!--end::Vendors Javascript-->
     @endpush

@@ -23,8 +23,42 @@ class LearningLogController extends Controller
     }
     public function index()
     {
-        $logs = LearningLog::latest()->paginate(12);
-        return view('admin.learninglogs.index',compact('logs'));
+        $logs = LearningLog::count();
+        $totalassesment = LearningLog::where('research_type', 'Assessment')->count();
+        $totalEvaluation = LearningLog::where('research_type', 'Evaluation')->count();
+        $totalPDM = LearningLog::where('research_type', 'PDM')->count();
+        $totalResearch = LearningLog::where('research_type', 'Research Study')->count();
+        $totalSurvey = LearningLog::where('research_type', 'Survey Repor')->count();
+        $totallogs = LearningLog::where('research_type', 'Assessment')->count();
+        $logs = LearningLog::latest()->paginate(6);
+        $projects = Project::where('active','1')->latest()->get();
+        $themes = Theme::latest()->paginate(12);
+        return view('admin.learninglogs.index',compact('logs','projects','themes','totalassesment','totalEvaluation',
+                    'totalPDM','totalResearch','totalSurvey','totallogs'));
+    }
+    public function search(Request $request)
+    {   
+        $research_type = $request->research_type;
+        $project = $request->project;
+        $theme = $request->theme;
+        $logs = LearningLog::where('id','!=',-1);
+      
+        if (!empty($request->research_type)) {
+            $logs->where('research_type', $request->research_type);
+            
+        }
+        if (!empty($request->project)) {
+           
+            $logs->where('project', $request->project);
+           
+        }
+        if (!empty($request->theme)) {
+            $logs->orWhereJsonContains('theme', $request->theme);
+        }
+        
+        $logs = $logs->paginate(12);
+      
+        return view('admin.learninglogs.search',compact('logs','project','theme','research_type'))->render();
     }
     public function get_learninglogs(Request $request){
         $id = $request->qb_id;
@@ -103,7 +137,7 @@ class LearningLogController extends Controller
         $themes = Theme::latest()->get();
         $projects = Project::where('active','1')->latest()->get();
         addJavascriptFile('assets/js/custom/learninglog/createvalidations.js');
-        return view('admin.learninglogs.create',compact('projects','themes'));
+        return view('admin.learninglogs.create',compact('projects','themes','projects','themes'));
     }
 
     public function store(Request $request)
