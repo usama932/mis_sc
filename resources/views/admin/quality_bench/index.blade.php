@@ -205,14 +205,14 @@
             buttons: [
                 'csv', 'excel'
             ],
-            responsive: true, // Enable responsive mode
+            "responsive": true, // Enable responsive mode
             "processing": true,
             "serverSide": true,
             "searching": false,
             "bLengthChange": false,
             "bInfo" : false,
             "responsive": false,
-            "info": false,
+            "info": true,
            "ajax": {
                "url":"{{route('admin.get_qbs')}}",
                "dataType":"json",
@@ -288,7 +288,7 @@
                 "responsive": false,
                 "bLengthChange": false,
                 "bInfo" : false,
-                'info': false,
+                'info': true,
                 "dom": 'lfBrtip',
 
                 buttons: [

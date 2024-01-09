@@ -11,8 +11,10 @@ class ProjectRepository implements ProjectRepositoryInterface
     {
         return Project::create([
            
-            'name'               => $data['name'],
+            'name'                  => $data['name'],
             'type'                  => $data['type'],
+            'sof'                   => $data['sof'],
+            'theme'                 => json_encode($data['theme']),
             'status'                => $data['status'],
             'start_date'            => $data['start_date'],
             'end_date'              => $data['end_date'],
@@ -29,6 +31,8 @@ class ProjectRepository implements ProjectRepositoryInterface
 
         return Project::where('id',$id)->update([
             'project'               => $data['project'],
+            'sof'                   => $data['sof'],
+            'theme'                 => json_encode($data['theme']),
             'type'                  => $data['type'],
             'start_date'            => $data['start_date'],
             'end_date'              => $data['end_date'],

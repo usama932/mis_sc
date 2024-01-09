@@ -17,7 +17,7 @@
                                 <rect fill="#FFFFFF" opacity="0.3" transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000)" x="4" y="11" width="16" height="2" rx="1"/>
                             </g>
                         </svg>
-                    </span>Add DIP
+                    </span>Update Project
                 </a>
              
            @endcan

@@ -17,7 +17,6 @@ var frm = $('#frm').DataTable( {
     "order": [
         [1, 'desc']
     ],
-    responsive: true, // Enable responsive mode
     "processing": true,
     "serverSide": true,
     "searching": false,

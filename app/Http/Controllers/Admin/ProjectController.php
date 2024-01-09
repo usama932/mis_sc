@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Project;
+use App\Models\Theme;
 use App\Models\User;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
 
@@ -119,7 +120,8 @@ class ProjectController extends Controller
     public function create()
     {
         addJavascriptFile('assets/js/custom/project/create.js');
-        return view('admin.projects.create');
+        $themes = Theme::orderBy('name')->get();
+        return view('admin.projects.create',compact('themes'));
     }
 
     public function store(Request $request)

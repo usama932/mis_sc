@@ -34,6 +34,26 @@ var KTdipValidate = function () {
                             }
                         }
                     },
+                    'theme[]':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Theme is required'
+                            }
+                        }
+                    },
+                    'sof': {
+                        validators: {
+                            notEmpty: {
+                                message: 'SOF Name is required'
+                            },
+                            regexp: {
+                                regexp: /^[0-9]{8}$/,
+                                message: 'SOF must be exactly 8 digits'
+                            }
+                        }
+                    },
+                    
+                    
                     'type': {
                         validators: {
                             notEmpty: {

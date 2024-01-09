@@ -3,7 +3,9 @@
 @section('content')
 
     <!--begin::App-->
-    <div class="d-flex flex-column flex-root app-root " id="kt_app_root" style="background-image: url('{{ URL::asset('assets/media/logos/image.jpg') }}'); background-size: 100% 100%;">
+    <div class="d-flex flex-column flex-root app-root" id="kt_app_root" style="background-image: linear-gradient(rgba(0, 0, 255, 0.1), rgba(0, 0, 255, 0.1)), url('{{ URL::asset('assets/media/logos/image.jpg') }}'); background-size: 100% 100%;">
+ 
+      
         <!--begin::Wrapper-->
         <div class="d-flex flex-column flex-lg-row flex-column-fluid">
             <!--begin::Body-->
