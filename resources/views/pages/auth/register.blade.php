@@ -80,9 +80,9 @@
                     <button type="submit" class="btn btn-primary"  id="kt_sign_up_submit">Submit</button>
                 </div>
             </form>
-            <h3 class="text-center mt-3">
+            {{-- <h3 class="text-center mt-3">
                 <p>Already You'r  member..! ? <a href="{{route('login')}}" class="btn btn-info  btn-sm text-white font-weight-bold">login</a></p>
-            </h3>
+            </h3> --}}
         </div>
     </div>
 

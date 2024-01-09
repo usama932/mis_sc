@@ -22,7 +22,7 @@
     </style>
     <div id="kt_app_content" class="app-content flex-column-fluid">
             <div class="card-toolbar mb-3 d-flex justify-content-between">
-                <h5>Learning Logs: {{$totallogs ?? ''}}</h5>
+                <h5> Learning Logs: {{$totallogs ?? ''}}</h5>
                 <h5> Assesment: {{$totalassesment ?? ''}}</h5>
                 <h5> Evaluation: {{$totalEvaluation ?? ''}}</h5>
                 <h5> PDM: {{$totalPDM ?? ''}}</h5>
