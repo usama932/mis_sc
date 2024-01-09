@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Apps\PermissionManagementController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Apps\RoleManagementController;
 use App\Http\Controllers\Apps\UserManagementController;
 use App\Http\Controllers\Admin\FRMController;
@@ -145,5 +146,6 @@ Route::get('/error', function () {
 });
 
 Route::get('/auth/redirect/{provider}', [SocialiteController::class, 'redirect']);
-
+Route::get('guest/login', [AuthenticatedSessionController::class,'guest_login'])->name('guest.login');
+Route::post('postguest/login', [AuthenticatedSessionController::class,'postguest_login'])->name('postguest.login');
 require __DIR__ . '/auth.php';

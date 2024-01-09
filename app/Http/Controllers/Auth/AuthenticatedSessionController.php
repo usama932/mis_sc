@@ -6,16 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Models\StaffEmail;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Display the login view.
-     *
-     * @return \Illuminate\View\View
-     */
+
     public function create()
     {
         addJavascriptFile('assets/js/custom/authentication/sign-in/general.js');
@@ -23,19 +21,12 @@ class AuthenticatedSessionController extends Controller
         return view('pages.auth.login');
     }
 
-    /**
-     * Handle an incoming authentication request.
-     *
-     * @param  \App\Http\Requests\Auth\LoginRequest  $request
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
+
     public function store(LoginRequest $request)
     {
      
         $credentials = $request->validate([
             'email' => ['required', 'email'],
-            'password' => ['required'],
             'password' => ['required'],
         ]);
  
@@ -52,14 +43,38 @@ class AuthenticatedSessionController extends Controller
        
        
     }
+    public function guest_login()
+    {
+        addJavascriptFile('assets/js/custom/authentication/sign-in/guest.js');
 
-    /**
-     * Destroy an authenticated session.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
+        return view('pages.auth.guest_login');
+    }
+    public function postguest_login(Request $request)
+    {
+        $request->validate([
+            'email' => ['required', 'email'],
+        ]);
+        
+        $user = StaffEmail::where('email', $request->email)->first();
+        
+        if ($user) {
+            $credentials = [
+                'email' => 'guest@savethechildren.org',  // Use the actual email from the database
+                'password' => 'usama11usama',  // Use the actual password from the database
+            ];
+        
+            if (Auth::attempt($credentials)) {
+                $request->session()->regenerate();
+        
+                $request->user()->update([
+                    'last_login_at' => now(),
+                    'last_login_ip' => $request->getClientIp(),
+                ]);
+        
+                return redirect()->intended(RouteServiceProvider::HOME);
+            }
+        }
+    }
     public function destroy(Request $request)
     {
         Auth::guard('web')->logout();

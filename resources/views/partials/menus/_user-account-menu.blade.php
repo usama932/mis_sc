@@ -16,9 +16,9 @@
             <!--end::Avatar-->
             <!--begin::Username-->
             <div class="d-flex flex-column">
-                <div class="fw-bold d-flex align-items-center fs-5">{{ Auth::user()->name}}
+                <div class="fw-bold d-flex align-items-center fs-5">  @if(auth()->user()->name != "Guest User") {{ Auth::user()->name}} @else Log As Guest @endif
                 </div>
-                <a href="#" class="fw-semibold text-muted text-hover-primary fs-7">{{ Auth::user()->desig->designation_name }}</a>
+                <a href="#" class="fw-semibold text-muted text-hover-primary fs-7">@if(auth()->user()->name != "Guest User") {{ Auth::user()->desig->designation_name }} @endif</a>
             </div>
             <!--end::Username-->
         </div>
@@ -28,10 +28,11 @@
     <div class="separator my-2"></div>
     <!--end::Menu separator-->
     <!--begin::Menu item-->
-    <div class="menu-item px-5">
-        <a href="{{route('reset_password')}}" class="menu-link px-5">Update Password</a>
-    </div>
-
+    @if(auth()->user()->name != "Guest User")
+        <div class="menu-item px-5">
+            <a href="{{route('reset_password')}}" class="menu-link px-5">Update Password</a>
+        </div>
+    @endif
 
 
     <div class="separator my-2"></div>

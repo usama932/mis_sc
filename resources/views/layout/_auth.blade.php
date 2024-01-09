@@ -5,12 +5,24 @@
     <!--begin::App-->
     <div class="d-flex flex-column flex-root app-root" id="kt_app_root" style="background-image: linear-gradient(rgba(0, 0, 255, 0.1), rgba(0, 0, 255, 0.1)), url('{{ URL::asset('assets/media/logos/image.jpg') }}'); background-size: 100% 100%;">
  
-      
-        <!--begin::Wrapper-->
+       
         <div class="d-flex flex-column flex-lg-row flex-column-fluid">
             <!--begin::Body-->
             <div class="d-flex flex-column flex-lg-row-fluid w-lg-50 p-10 order-2 order-lg-1">
-                <!--begin::Form-->
+                <?php
+                    $urlSegments = explode('/', $_SERVER['REQUEST_URI']);
+                    $showButton = !(count($urlSegments) >= 3 && $urlSegments[2] != 'guest');
+                ?>
+                @if($showButton)
+                <div style="margin-left: auto;">
+                    <a href="{{route('guest.login')}}" class="btn btn-danger">Guest Login</a>
+                </div>
+                @else
+                <div style="margin-left: auto;">
+                    <a href="{{route('login')}}" class="btn btn-danger">Staff Login</a>
+                </div>
+                @endif
+              
                 <div class="d-flex flex-center flex-column flex-lg-row-fluid">
                     <!--begin::Wrapper-->
                     <div class=" p-10">
