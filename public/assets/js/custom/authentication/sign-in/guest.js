@@ -209,8 +209,8 @@ var KTSigninGeneral = function () {
     return {
         // Initialization
         init: function () {
-            form = document.querySelector('#kt_sign_in_form');
-            submitButton = document.querySelector('#kt_sign_in_submit');
+            form = document.querySelector('#kt_guest_sign_in_form');
+            submitButton = document.querySelector('#kt_guest_sign_in_submit');
 
             handleValidation();
 

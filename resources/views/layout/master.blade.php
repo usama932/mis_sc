@@ -61,6 +61,7 @@
 
 
 @foreach(getVendors('js') as $path)
+
     {!! sprintf('<script src="%s"></script>', asset($path)) !!}
 @endforeach
 <!--end::Vendors Javascript-->
@@ -72,6 +73,25 @@
 <!--end::Custom Javascript-->
 @stack('scripts')
 <!--end::Javascript-->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var staffTab = document.getElementById("staffTab");
+        var guestTab = document.getElementById("guestTab");
+        var staffTabContent = document.getElementById("staffTabcontent");
+        var guestTabContent = document.getElementById("guestTabcontent");
+        guestTabContent.style.display = "none";
+
+        staffTab.addEventListener("click", function () {
+            staffTabContent.style.display = "block";
+            guestTabContent.style.display = "none";
+        });
+
+        guestTab.addEventListener("click", function () {
+            guestTabContent.style.display = "block";
+            staffTabContent.style.display = "none";
+        });
+    });
+</script>
 <script>
     $(document).ready(function () {
         $('#update_province').change(function () {

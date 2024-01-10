@@ -17,14 +17,13 @@ class AuthenticatedSessionController extends Controller
     public function create()
     {
         addJavascriptFile('assets/js/custom/authentication/sign-in/general.js');
-
+        addJavascriptFile('assets/js/custom/authentication/sign-in/guest.js');
         return view('pages.auth.login');
     }
 
 
     public function store(LoginRequest $request)
     {
-     
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
@@ -43,12 +42,7 @@ class AuthenticatedSessionController extends Controller
        
        
     }
-    public function guest_login()
-    {
-        addJavascriptFile('assets/js/custom/authentication/sign-in/guest.js');
-
-        return view('pages.auth.guest_login');
-    }
+    
     public function postguest_login(Request $request)
     {
         $request->validate([

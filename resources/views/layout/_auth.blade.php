@@ -9,20 +9,6 @@
         <div class="d-flex flex-column flex-lg-row flex-column-fluid">
             <!--begin::Body-->
             <div class="d-flex flex-column flex-lg-row-fluid w-lg-50 p-10 order-2 order-lg-1">
-                <?php
-                    $urlSegments = explode('/', $_SERVER['REQUEST_URI']);
-                    $showButton = !(count($urlSegments) >= 3 && $urlSegments[2] != 'guest');
-                ?>
-                @if($showButton)
-                <div style="margin-left: auto;">
-                    <a href="{{route('guest.login')}}" class="btn btn-danger">Guest Login</a>
-                </div>
-                @else
-                <div style="margin-left: auto;">
-                    <a href="{{route('login')}}" class="btn btn-danger">Staff Login</a>
-                </div>
-                @endif
-              
                 <div class="d-flex flex-center flex-column flex-lg-row-fluid">
                     <!--begin::Wrapper-->
                     <div class=" p-10">
@@ -48,7 +34,9 @@
     </div>
     <!--end::App-->
     @push('scripts')
+    
     <script>
+        
         $("#kt_select2_province").change(function () {
 
 
