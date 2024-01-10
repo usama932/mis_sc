@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\Theme;
 use App\Models\User;
+use App\Models\StaffEmail;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
 
 class ProjectController extends Controller
@@ -121,7 +122,8 @@ class ProjectController extends Controller
     {
         addJavascriptFile('assets/js/custom/project/create.js');
         $themes = Theme::orderBy('name')->get();
-        return view('admin.projects.create',compact('themes'));
+        $persons = StaffEmail::orderBy('name')->get();
+        return view('admin.projects.create',compact('themes','persons'));
     }
 
     public function store(Request $request)

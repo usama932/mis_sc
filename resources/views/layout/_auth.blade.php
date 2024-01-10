@@ -9,6 +9,12 @@
         <div class="d-flex flex-column flex-lg-row flex-column-fluid">
             <!--begin::Body-->
             <div class="d-flex flex-column flex-lg-row-fluid w-lg-50 p-10 order-2 order-lg-1">
+                <div class="" style="margin-left: auto">
+                    <div class="m-3">
+                        <button class="btn btn-primary  " id="staffTab">Staff Login</button>
+                        <button class="btn btn-danger  " id="guestTab">Guest Login</button>
+                    </div>
+                </div>
                 <div class="d-flex flex-center flex-column flex-lg-row-fluid">
                     <!--begin::Wrapper-->
                     <div class=" p-10">

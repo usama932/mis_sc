@@ -1,15 +1,12 @@
 <x-auth-layout>
-
+  
     <div class="text-center fw-bold">
         <img src="https://opmis.savethechildren.org.np/login//assets/images/Save1.png" height="50px" class="mb-3">
         <h2>MANAGEMENT INFORMATION SYSTEM (MIS) </h2>
     </div>
 
     <div class="border border-5 p-5 border-danger">
-        <div class="mb-3  d-flex">
-            <button class="btn btn-primary  w-50" id="staffTab">Staff</button>
-            <button class="btn btn-danger  w-50" id="guestTab">Guest</button>
-        </div>
+      
         <div id="staffTabcontent">
             <form class="form w-100" method="post" novalidate="novalidate" id="kt_sign_in_form" data-kt-redirect-url="{{ route('dashboard') }}" action="{{ route('login') }}">
                 @csrf

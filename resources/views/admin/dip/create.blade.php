@@ -1,6 +1,6 @@
 <x-nform-layout>
     @section('title')
-       Add Detail Implementation Plan
+       Update Project Details
     @endsection
    
     <div id="kt_app_content" class="app-content flex-column-fluid">
@@ -14,7 +14,6 @@
                                 <span class="required">Project</span>
                             </label>
                             <select   name="project" id="project" aria-label="Select Project" data-control="select2" data-placeholder="Select Project" class="form-select"  data-allow-clear="true" >
-                               
                                 @foreach($projects as $project)
                                     <option value="{{$project->id}}">{{$project->name}}</option>
                                 @endforeach
@@ -42,7 +41,7 @@
                             <div id="attachmentError" class="error-message "></div>
                         </div>
                     </div>
-
+                    <div id="partnerEmailFields" class="row"></div>
                 </div>
                 <div class="d-flex justify-content-end">
                     <button type="submit" id="kt_create_dip" class="btn btn-success btn-sm  m-5">
@@ -55,6 +54,35 @@
     </div>
    
     @push("scripts")
+    <script>
+        $(document).ready(function() {
+            // Initialize Select2
+            $('#partner').select2();
+    
+            // Handle partner selection change
+            $('#partner').on('change', function() {
+                var selectedPartners = $(this).val();
+                var numberOfSelectedPartners = selectedPartners ? selectedPartners.length : 0;
+    
+                // Remove existing partner email input fields
+                $('#partnerEmailFields').empty();
+    
+                // Create input fields for partner emails
+                for (var i = 0; i < numberOfSelectedPartners; i++) {
+                    var partnerName = $('#partner option[value="' + selectedPartners[i] + '"]').text();
+                    var partnerEmailField = '<div class="fv-row col-md-4">' +
+                                                '<label class="fs-6 fw-semibold form-label mb-2">' +
+                                                    '<span class="required">Partner ' + partnerName + ' Email</span>' +
+                                                '</label>' +
+                                                '<input type="text" name="partner_email[' + selectedPartners[i] + ']" class="form-control" placeholder="Enter Email for ' + partnerName + '">' +
+                                            '</div>';
+    
+                    $('#partnerEmailFields').append(partnerEmailField);
+                }
+            });
+        });
+    </script>
+    
         <script>
             $(document).ready(function() {
                 // Initialize Select2

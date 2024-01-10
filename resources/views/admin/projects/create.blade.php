@@ -9,14 +9,14 @@
                 <div class="card-body py-4">
                     <div class="row">
                        
-                        <div class="fv-row col-md-4 ">
+                        <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Project</span>
                             </label>
                             <input type="text" name="name" id="name" placeholder="Project Title"  class="form-control" value="">
                             <div id="nameError" class="error-message "></div>
                         </div>   
-                        <div class="fv-row col-md-4 ">
+                        <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Type</span>
                             </label>
@@ -27,7 +27,19 @@
                             </select>
                             <div id="typeError" class="error-message"></div>
                         </div>  
-                        <div class="fv-row col-md-4 ">
+                        <div class="fv-row col-md-3 ">
+                            <label class="fs-6 fw-semibold form-label mb-2">
+                                <span class="required">Type</span>
+                            </label>
+                            <select   name="focal_person" id="focal_person" aria-label="Select a Focal Person" data-control="select2" data-placeholder="Select a Focal Person..." class="form-select "  data-allow-clear="true" > 
+                                <option  value=''>Select Focal Person</option>
+                                @foreach($persons as $person)
+                                    <option  value='{{$person->id}}'>{{$person->name}}</option>
+                                @endforeach
+                            </select>
+                            <div id="focal_personError" class="error-message"></div>
+                        </div>  
+                        <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Status</span>
                             </label>

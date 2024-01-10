@@ -41,6 +41,13 @@ var KTdipValidate = function () {
                             }
                         }
                     },
+                    'focal_person':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Focal Person is required'
+                            }
+                        }
+                    },
                     'sof': {
                         validators: {
                             notEmpty: {
