@@ -11,21 +11,9 @@ class Dip extends Model
     protected $table = 'dip';
     protected $guarded = [];
 
-    public function theme_name()
-    {
-        return $this->belongsTo(Theme::class,'theme','id');
-    }
-    public function projects()
+    public function project()
     {
         return $this->belongsTo(Project::class,'project','id');
-    }
-    public function provinces()
-    {
-        return $this->belongsTo(Province::class,'province','province_id');
-    }
-    public function districts()
-    {
-        return $this->belongsTo(District::class,'district','district_id');
     }
     public function user()
     {

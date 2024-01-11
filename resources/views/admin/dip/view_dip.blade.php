@@ -62,12 +62,7 @@
                            {{ date('d-M-Y', strtotime($dip->project_start))}} -To- {{date('d-M-Y', strtotime($dip->project_end));}}
                         </td>
                     </tr>
-                    <tr>
-                        <td><strong>Project Submission</strong></td>
-                        <td>
-                            {{ date('d-M-Y', strtotime($dip->project_submition))}} 
-                        </td>
-                    </tr>
+                    
                 </table>
                 
             </div>

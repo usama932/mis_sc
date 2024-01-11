@@ -94,15 +94,15 @@ class DipController extends Controller
                 $show_url = route('dips.show',$r->id);
              
 				$nestedData['id'] = $r->id;
-                $nestedData['project'] = $r->projects->name ?? '';
+                $nestedData['project'] = $r->project->name ?? '';
                 $province_dip = json_decode($r->province , true);
                 $provinces = Province::whereIn('province_id', $province_dip)->pluck('province_name');
                 $nestedData['province'] = $provinces ?? '';
                 $district_dip = json_decode($r->district , true);
                 $districts = District::whereIn('district_id', $district_dip)->pluck('district_name');
                 $nestedData['district'] = $districts ?? '';
-                $partner_dip = json_decode($r->partner , true);
-                $partners = Partner::whereIn('id', $partner_dip)->pluck('name');
+                $partner_dip = json_decode($r->project->partner , true);
+                $partners = Partner::whereIn('id', $partner_dip)->pluck('slug');
                 $nestedData['partner'] = $partners ?? '';
                 $theme_dip = json_decode($r->theme , true);
                 $themes = Theme::whereIn('id', $theme_dip)->pluck('name');

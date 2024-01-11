@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use App\Models\StaffEmail;
 
 class AuthenticatedSessionController extends Controller
@@ -56,7 +57,8 @@ class AuthenticatedSessionController extends Controller
                 'email' => 'guest@savethechildren.org',  // Use the actual email from the database
                 'password' => 'usama11usama',  // Use the actual password from the database
             ];
-        
+            session(['user_email' => $user->email]);
+            session(['user_name' => $user->name]);
             if (Auth::attempt($credentials)) {
                 $request->session()->regenerate();
         

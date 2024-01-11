@@ -14,6 +14,10 @@ class Project extends Model
     {
         return $this->hasMany(Frm::class,'project_name','id');
     }
+    public function dip()
+    {
+        return $this->hasMany(Dip::class,'project_id','id');
+    }
     public function user()
     {
         return $this->belongsTo(User::class,'created_by','id');

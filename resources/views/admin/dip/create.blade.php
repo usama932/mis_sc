@@ -14,6 +14,7 @@
                                 <span class="required">Project</span>
                             </label>
                             <select   name="project" id="project" aria-label="Select Project" data-control="select2" data-placeholder="Select Project" class="form-select"  data-allow-clear="true" >
+                                <option value=""></option>
                                 @foreach($projects as $project)
                                     <option value="{{$project->id}}">{{$project->name}}</option>
                                 @endforeach
@@ -22,12 +23,11 @@
                         </div>   
                         <div class="fv-row col-md-4 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
-                                <span class="required">Partner </span>
+                                <span class="required">Partner</span>
                             </label>
                             <select   multiple name="partner[]" id="partner" aria-label="Select Partner" data-control="select2" data-placeholder="Select Partner" class="form-select"  data-allow-clear="true" >
-                              
                                 @foreach($partners as $partner)
-                                    <option value="{{$partner->id}}">{{$partner->name}}</option>
+                                    <option value="{{$partner->id}}">{{$partner->slug}}</option>
                                 @endforeach
                             </select>
                             <div id="partnerError" class="error-message "></div>
