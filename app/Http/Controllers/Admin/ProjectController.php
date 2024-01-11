@@ -129,8 +129,8 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $data = $request->except('_token');
-    
-        $Qb = $this->projectRepository->storeproject($data);
+        $this->projectRepository->storeproject($data);
+        
         $editUrl = route('projects.index');
         return response()->json([
             'editUrl' => $editUrl

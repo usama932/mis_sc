@@ -125,7 +125,6 @@
                             <th>Partners</th>
                             <th>Theme</th>
                             <th>Project Tenure</th>
-                            <th>Project Submmition</th>
                             <th>attachment</th>
                             <th>Created By</th>
                             <th>Created At</th>
@@ -155,7 +154,6 @@
             buttons: [
                 'csv', 'excel'
             ],
-            responsive: true, // Enable responsive mode
             "processing": true,
             "serverSide": true,
             "searching": false,
@@ -163,7 +161,7 @@
             "paging": true,
             "bInfo" : false,
             "responsive": false,
-            "info": false,
+            "info": true,
            "ajax": {
                "url":"{{route('admin.get_dips')}}",
                "dataType":"json",
@@ -177,7 +175,6 @@
                             {"data":"partner","searchable":false,"orderable":false},
                             {"data":"theme","searchable":false,"orderable":false},
                             {"data":"project_tenure","searchable":false,"orderable":false},
-                            {"data":"project_submition","searchable":false,"orderable":false},
                             {"data":"attachment","searchable":false,"orderable":false},
                             {"data":"created_by","searchable":false,"orderable":false},
                             {"data":"created_at","searchable":false,"orderable":false},

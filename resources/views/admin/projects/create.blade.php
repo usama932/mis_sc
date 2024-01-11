@@ -29,7 +29,7 @@
                         </div>  
                         <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
-                                <span class="required">Type</span>
+                                <span class="required">Focal Person</span>
                             </label>
                             <select   name="focal_person" id="focal_person" aria-label="Select a Focal Person" data-control="select2" data-placeholder="Select a Focal Person..." class="form-select "  data-allow-clear="true" > 
                                 <option  value=''>Select Focal Person</option>
@@ -63,7 +63,7 @@
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Theme</span>
                             </label>
-                            <select   name="status[]" multiple id="theme" aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme..." class="form-select "  data-allow-clear="true" > 
+                            <select   name="theme[]" multiple id="theme" aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme..." class="form-select "  data-allow-clear="true" > 
                                 <option  value=''>Select Theme</option>
                                 @foreach($themes as $theme)
                                     <option  value='{{$theme->id}}'>{{$theme->name}}</option>

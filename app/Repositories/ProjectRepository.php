@@ -3,25 +3,31 @@ namespace App\Repositories;
 
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
 use App\Models\Project;
+use App\Models\ProjectDetail;
 use File;
 
 class ProjectRepository implements ProjectRepositoryInterface
 {
     public function storeproject($data)
     {
-        return Project::create([
-           
+        $project = Project::create([
             'name'                  => $data['name'],
             'type'                  => $data['type'],
             'sof'                   => $data['sof'],
             'focal_person'          => $data['focal_person'],
-            'theme'                 => json_encode($data['theme']),
             'status'                => $data['status'],
             'start_date'            => $data['start_date'],
             'end_date'              => $data['end_date'],
             'active'                =>  '1',
             'created_by'            => auth()->user()->id,
+        ]); 
+        $projectdetail = ProjectDetail::create([
+            'theme'             => json_encode($data['theme']),
+            'created_by'        => auth()->user()->id,
+            'project_id'        => $project->id
         ]);
+        return $project;
+
     }
 
     public function updateproject($data, $id)

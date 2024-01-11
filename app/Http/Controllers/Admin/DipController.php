@@ -47,45 +47,39 @@ class DipController extends Controller
             
 		);
 		
-		$totalData = Dip::count();
+		$totalData = Project::count();
+       
 		$limit = $request->input('length');
         $order = $columns[$request->input('order.0.column')];
         $dir = $request->input('order.0.dir');
-        $totalFiltered = Dip::count();
+        $totalFiltered = Project::count();
+       
 		$start = $request->input('start');
 		
-        $dips = Dip::query();
-  
-        if($request->kt_select2_district != null && $request->kt_select2_district != 'None'){
-            $dips->where('district',$request->kt_select2_district);
-        }
-        if($request->kt_select2_province != null && $request->kt_select2_province != 'None'){
-
-            $dips->where('province',$request->kt_select2_province);
-        }
-      
-        $dateParts = explode(' to ',$request->date_visit);
-       
-        $startdate = '';
-        $enddate = '';
-        if(!empty($dateParts)){
-            $startdate = $dateParts[0];
-            $enddate = $dateParts[1] ?? '';
-        }
-      
-       
-        if($request->date_visit != null){
-
-            $dips->whereBetween('date_visit',[$startdate ,$enddate]);
-        }
-       
-        if($request->project_name != null){
-
-            $dips->where('project',$request->project_name);
-        }
+        $dips = Project::query();
         
-        $dips =$dips->limit($limit)
-                                    ->orderBy($order, $dir)->get()->sortByDesc("date_visit");
+        // if($request->kt_select2_district != null && $request->kt_select2_district != 'None'){
+        //     $dips->where('district',$request->kt_select2_district);
+        // }
+        // if($request->kt_select2_province != null && $request->kt_select2_province != 'None'){
+
+        //     $dips->where('province',$request->kt_select2_province);
+        // }
+      
+        // $dateParts = explode(' to ',$request->date_visit);
+       
+        // $startdate = '';
+        // $enddate = '';
+        // if(!empty($dateParts)){
+        //     $startdate = $dateParts[0];
+        //     $enddate = $dateParts[1] ?? '';
+        // }
+      
+       
+      
+        
+        $dips =$dips->limit($limit)->orderBy($order, $dir)->get();
+      
 		$data = array();
 		if($dips){
 			foreach($dips as $r){
@@ -94,26 +88,29 @@ class DipController extends Controller
                 $show_url = route('dips.show',$r->id);
              
 				$nestedData['id'] = $r->id;
-                $nestedData['project'] = $r->project->name ?? '';
-                $province_dip = json_decode($r->province , true);
+                $nestedData['project'] = $r->name ?? '';
+                
+                $province_dip = json_decode($r->detail->province , true);
+               
+                
                 $provinces = Province::whereIn('province_id', $province_dip)->pluck('province_name');
+                
                 $nestedData['province'] = $provinces ?? '';
-                $district_dip = json_decode($r->district , true);
+                $district_dip = json_decode($r->detail->district , true);
+                dd($district_dip);
                 $districts = District::whereIn('district_id', $district_dip)->pluck('district_name');
                 $nestedData['district'] = $districts ?? '';
-                $partner_dip = json_decode($r->project->partner , true);
+                $partner_dip = json_decode($r->detail->partner , true);
                 $partners = Partner::whereIn('id', $partner_dip)->pluck('slug');
                 $nestedData['partner'] = $partners ?? '';
-                $theme_dip = json_decode($r->theme , true);
+                $theme_dip = json_decode($r->detail->theme , true);
                 $themes = Theme::whereIn('id', $theme_dip)->pluck('name');
                 $nestedData['theme'] = $themes ?? '';
                 $nestedData['project_tenure'] = date('d-M-Y', strtotime($r->project_start)) .' To '.date('d-M-Y', strtotime($r->project_end));
-                $nestedData['project_submition'] = date('d-M-Y', strtotime($r->project_submition)) ?? '';
-                $nestedData['attachment'] = $r->attachment ?? '';
+                $nestedData['attachment'] = $r->detail->attachment ?? '';
                 $nestedData['created_by'] = $r->user->name ?? '';
                 $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
-          
-             
+                       
                 $nestedData['action'] = '<div>
                                         <td>
                                             <a class="btn-icon mx-1" href="'. $show_url.'" target="_blank">
