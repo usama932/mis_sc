@@ -1,6 +1,34 @@
 
 
+document.getElementById('districtloader').style.display = 'none';
+$("#kt_select2_province").change(function () {
+   
+    var value = $(this).val();
+    csrf_token = $('[name="_token"]').val();
+    document.getElementById('districtloader').style.display = 'block';
+    $.ajax({
+        type: 'POST',
+        url: '/getlearningDistrict',
+        data: {'province': value, _token: csrf_token },
+        dataType: 'json',
+        success: function (data) {
+            document.getElementById('districtloader').style.display = 'none';
+            $("#kt_select2_district").find('option').remove();
+            $("#kt_select2_district").prepend("<option value='' >Select District</option>");
+            var selected='';
+            $.each(data, function (i, item) {
 
+                $("#kt_select2_district").append("<option value='" + item.district_id + "' "+selected+" >" +
+                item.district_name.replace(/_/g, ' ') + "</option>");
+            });
+            $('#kt_select2_tehsil').html('<option value="">Select Tehsil</option>');
+            $('#kt_select2_union_counsil').html('<option value=""> Select UC</option>');
+
+        }
+
+    });
+
+});
 var KTdipValidate = function () {
     // Elements
     var form;

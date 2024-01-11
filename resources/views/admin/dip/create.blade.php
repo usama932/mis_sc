@@ -9,7 +9,7 @@
                 @csrf
                 <div class="card-body py-4">
                     <div class="row">
-                        <div class="fv-row col-md-4 ">
+                        <div class="fv-row col-md-3">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Project</span>
                             </label>
@@ -21,7 +21,43 @@
                             </select>
                             <div id="projectError" class="error-message "></div>
                         </div>   
-                        <div class="fv-row col-md-4 ">
+                        <div class="fv-row col-md-3">
+                            <label class="fs-6 fw-semibold form-label mb-2">
+                                <span class="required">Theme</span>
+                            </label>
+                            <select   name="theme" id="theme" aria-label="Select Theme" data-control="select2" data-placeholder="Select Theme" class="form-select"  data-allow-clear="true" >
+                                <option value=""></option>
+                                @foreach($themes as $theme)
+                                    <option value="{{$theme->id}}">{{$theme->name}}</option>
+                                @endforeach
+                            </select>
+                            <div id="projectError" class="error-message "></div>
+                        </div>
+                        <div class="fv-row col-md-3">
+                            <label class="fs-6 fw-semibold form-label mb-2">
+                                <span class="required">Province</span>
+                            </label>
+                            <select   name="province[]" multiple id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select "  data-allow-clear="true" >
+                            
+                                <option value="">Select Province</option>
+                                {{-- <option value='1'>Punjab</option> --}}
+                                <option value='4' >Sindh</option>
+                                <option  value='2'>KPK</option>
+                                <option value='3'>Balochistan</option>
+                             
+                            </select>
+                            <div id="kt_select2_provinceError" class="error-message "></div>
+                        </div>
+                        <div class="fv-row col-md-3 ">
+                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                                <span class="required">District</span>
+                                <span class="spinner-border spinner-border-sm align-middle ms-2" id="districtloader"></span>
+                            </label>
+                            <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select  District" class="form-select form-select-solid">
+                            </select>
+                            <span id="kt_select2_districtError" class="error-message "></span>
+                        </div>  
+                        <div class="fv-row col-md-3">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Partner</span>
                             </label>

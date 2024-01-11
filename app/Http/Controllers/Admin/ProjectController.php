@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\Theme;
 use App\Models\User;
-use App\Models\StaffEmail;
+use App\Models\District;
+use App\Models\Province;
+use App\Models\Partner;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
 
 class ProjectController extends Controller
@@ -139,15 +141,42 @@ class ProjectController extends Controller
 
     public function show(string $id)
     {
-        $project = Project::find($id);
-        return view('admin.projects.show',compact('project'));
+        $project = Project::with('detail')->find($id);
+
+        if($project->detail->theme != null) {
+            $theme_project = json_decode($project->detail->theme , true);
+            $themes = Theme::whereIn('id', $theme_project)->latest()->get();
+    
+        }
+        if($project->detail->district != null) {
+            $district_project = json_decode($project->detail->district , true);
+            $districts = District::whereIn('district_id', $district_project)->get();
+        }
+        if($project->detail->province != null) {
+            $province_project = json_decode($project->detail->province , true);
+            $provinces = Province::whereIn('province_id', $province_project)->get();
+        }
+        if($project->detail->partner != null) {
+            $partner_project = json_decode($project->detail->partner , true);
+            $partners = Partner::whereIn('id', $partner_project)->get();
+        }
+        return view('admin.projects.show',compact('project','partners','provinces','districts','themes'));
     }
 
     public function edit(string $id)
     {
         $project = Project::find($id);
         addJavascriptFile('assets/js/custom/project/create.js');
-        return view('admin.projects.edit',compact('project'));
+        if($project->detail->theme != null){
+            $theme_logs = json_decode($project->detail->theme , true);
+            $themes = Theme::whereIn('id', $theme_logs)->latest()->get();
+        }
+        else{
+            $themes = '';
+        }
+        $persons = StaffEmail::orderBy('name')->get();
+        $theme = Theme::orderBy('name')->get();
+        return view('admin.projects.edit',compact('project','persons','theme' ,'themes'));
     }
 
     public function update(Request $request, string $id)

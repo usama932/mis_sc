@@ -57,27 +57,7 @@ class DipController extends Controller
 		$start = $request->input('start');
 		
         $dips = Project::query();
-        
-        // if($request->kt_select2_district != null && $request->kt_select2_district != 'None'){
-        //     $dips->where('district',$request->kt_select2_district);
-        // }
-        // if($request->kt_select2_province != null && $request->kt_select2_province != 'None'){
 
-        //     $dips->where('province',$request->kt_select2_province);
-        // }
-      
-        // $dateParts = explode(' to ',$request->date_visit);
-       
-        // $startdate = '';
-        // $enddate = '';
-        // if(!empty($dateParts)){
-        //     $startdate = $dateParts[0];
-        //     $enddate = $dateParts[1] ?? '';
-        // }
-      
-       
-      
-        
         $dips =$dips->limit($limit)->orderBy($order, $dir)->get();
       
 		$data = array();
@@ -89,24 +69,44 @@ class DipController extends Controller
              
 				$nestedData['id'] = $r->id;
                 $nestedData['project'] = $r->name ?? '';
-                
-                $province_dip = json_decode($r->detail->province , true);
-               
-                
-                $provinces = Province::whereIn('province_id', $province_dip)->pluck('province_name');
-                
+                if(!empty($r->detail->province )){
+                    $province_dip = json_decode($r->detail->province , true);
+                    $provinces = Province::whereIn('province_id', $province_dip)->pluck('province_name');
+                }
+                else{
+                    $provinces = '';
+                }
                 $nestedData['province'] = $provinces ?? '';
-                $district_dip = json_decode($r->detail->district , true);
-                dd($district_dip);
-                $districts = District::whereIn('district_id', $district_dip)->pluck('district_name');
+                if(!empty($r->detail->district )){
+                    $district_dip = json_decode($r->detail->district , true);
+                    $districts = District::whereIn('district_id', $district_dip)->pluck('district_name');
+                }
+                else{
+                    $districts = '';
+                }
                 $nestedData['district'] = $districts ?? '';
-                $partner_dip = json_decode($r->detail->partner , true);
-                $partners = Partner::whereIn('id', $partner_dip)->pluck('slug');
+                if(!empty($r->detail->partner )){
+                    $partner_dip = json_decode($r->detail->partner , true);
+                    $partners = Partner::whereIn('id', $partner_dip)->pluck('slug');
+                }
+                else{
+                    $partners = '';
+                }
                 $nestedData['partner'] = $partners ?? '';
-                $theme_dip = json_decode($r->detail->theme , true);
-                $themes = Theme::whereIn('id', $theme_dip)->pluck('name');
+                if(!empty($r->detail->theme )){
+                    $theme_dip = json_decode($r->detail->theme , true);
+                    $themes = Theme::whereIn('id', $theme_dip)->pluck('name');
+                }
+                else{
+                    $themes = '';
+                }
                 $nestedData['theme'] = $themes ?? '';
-                $nestedData['project_tenure'] = date('d-M-Y', strtotime($r->project_start)) .' To '.date('d-M-Y', strtotime($r->project_end));
+                if($r->start_date != null && $r->end_date != null){
+                    $nestedData['project_tenure'] = date('d-M-Y', strtotime($r->start_date)) .' To '.date('d-M-Y', strtotime($r->end_date));
+                }
+                else{
+                    $nestedData['project_tenure'] ='' ;
+                }      
                 $nestedData['attachment'] = $r->detail->attachment ?? '';
                 $nestedData['created_by'] = $r->user->name ?? '';
                 $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
@@ -144,10 +144,10 @@ class DipController extends Controller
  
     public function create()
     {
-        $projects = Project::where('active',1)->get();
-        $partners = Partner::all();
+        $projects = Project::with('detail')->where('active',1)->orderBy('name')->doesntHave('detail')->get();
+        $partners = Partner::orderBy('slug')->get();
         
-        $themes = Theme::all();
+        $themes = Theme::orderBy('name')->get();
 
         addJavascriptFile('assets/js/custom/dip/create.js');
         return view('admin.dip.create',compact('projects','partners','themes'));
@@ -189,11 +189,7 @@ class DipController extends Controller
         $dip = Dip::find($id);
         $projects = Project::where('active',1)->get();
         $partners = Partner::all();
-      
-
-        $themes = Theme::all();
-
-        
+        $themes = Theme::all();     
         $theme_dip = json_decode($dip->theme , true);
         $district_dip = json_decode($dip->district , true);
         $province_dip = json_decode($dip->province , true);

@@ -144,7 +144,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::get('/error', function () {
     abort(500);
 });
-
+Route::get('send-mail', function () {
+   
+    $details = [
+        'title' => 'Mail from ItSolutionStuff.com',
+        'body' => 'This is for testing email using smtp'
+    ];
+   
+    \Mail::to('usama1517a@gmail.com')->send(new \App\Mail\sendMail($details));
+   
+    dd("Email is Sent.");
+});
 Route::get('/auth/redirect/{provider}', [SocialiteController::class, 'redirect']);
 Route::get('guest/login', [AuthenticatedSessionController::class,'guest_login'])->name('guest.login');
 Route::post('postguest/login', [AuthenticatedSessionController::class,'postguest_login'])->name('postguest.login');

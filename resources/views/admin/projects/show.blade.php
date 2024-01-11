@@ -37,7 +37,63 @@
                 
             </div>
             <div class="col-md-6">
-            
+                <table class="table table-striped m-4">
+                    
+                    <tr>
+                        <td><strong>Total Activities</strong></td>
+                        <td>{{$project->detail->total_activites ?? ''}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total Targets</strong></td>
+                        <td> {{$project->detail->total_targets ?? ''}}</td>
+                    </tr>
+                    
+                </table>
+            </div>
+            <h5 class="mx-3">Project Details</h5>
+            <div class="col-md-12">
+                <table class="table table-striped m-4">
+                    <tr>
+                        <td><strong>Project Description</strong></td>
+                        <td> {{$project->detail->project_description}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Thematic Area</strong></td>
+                        <td>
+                            @foreach($themes as $theme)
+                               {{ $theme->name}} @if(! $loop->last) , @endif
+                            @endforeach
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Partners</strong></td>
+                        <td>   
+                            @foreach($partners as $parnter)
+                                {{ $parnter->name}} ({{$parnter->slug}}) @if(! $loop->last) , @endif
+                            @endforeach
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Provinces</strong></td>
+                        <td>
+                            @foreach($provinces as $province)
+                                {{ $province->province_name}}  @if(! $loop->last) , @endif
+                            @endforeach
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Disticts</strong></td>
+                        <td>  @foreach($districts as $district)
+                            {{ $district->district_name}}  @if(! $loop->last) , @endif
+                            @endforeach
+                        </td>
+                    </tr>
+                    
+                </table>
+            </div>
+            <h5 class="mx-3"></h5>
+            <div class="col-md-12">
                 <table class="table table-striped m-4">
                     
                     <tr>
@@ -59,7 +115,6 @@
                 </table>
                 
             </div>
-    
         </div>
        
         

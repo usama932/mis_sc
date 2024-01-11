@@ -32,18 +32,23 @@ class ProjectRepository implements ProjectRepositoryInterface
 
     public function updateproject($data, $id)
     {
-       $project = Project::where('id',$id)->first();
+        $project = Project::where('id',$id)->first();
 
-        return Project::where('id',$id)->update([
-            'project'               => $data['project'],
-            'sof'                   => $data['sof'] ?? $project->sof,
-            'focal_person'          => $data['focal_person'] ?? $project->focal_person,
-            'theme'                 => json_encode($data['theme']) ?? $project->theme,
-            'type'                  => $data['type']  ?? $project->type,
-            'start_date'            => $data['start_date'] ?? $project->start_date,
-            'end_date'              => $data['end_date'] ?? $project->end_date,
-            'updated_by'            => auth()->user()->id,
+        Project::where('id',$id)->update([
+            'name'                  => $data['name'] ??  $project->name,
+            'type'                  => $data['type'] ??  $project->type,
+            'sof'                   => $data['sof'] ??  $project->sof,
+            'focal_person'          => $data['focal_person'] ??  $project->focal_person,
+            'status'                => $data['status'] ??  $project->status,
+            'start_date'            => $data['start_date'] ??  $project->start_date,
+            'end_date'              => $data['end_date'] ??  $project->end_date,
+            'updated_by'            => auth()->user()->id ,
         ]);
+        $projectdetail = ProjectDetail::where('project_id',$project->id)->update([
+            'theme'             => json_encode($data['theme']),
+            'updated_by'        => auth()->user()->id,
+        ]);
+        return $project;
     }
 
 }
