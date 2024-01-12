@@ -28,10 +28,12 @@
                 <h5> PDM: {{$totalPDM ?? ''}}</h5>
                 <h5> Research Study: {{$totalResearch ?? ''}}</h5>
                 <h5> Survey: {{$totalSurvey ?? ''}}</h5>
-                <div class="">
-                    <a href="{{ route('learning-logs.create') }}" class="btn btn-primary btn-sm font-weight-bolder">
-                    New Record {{$project ?? ''}}</a>
-                </div>
+                @can('learning_log')
+                    <div class="">
+                        <a href="{{ route('learning-logs.create') }}" class="btn btn-primary btn-sm font-weight-bolder">
+                        New Record {{$project ?? ''}}</a>
+                    </div>
+                @endcan
             </div>
             <div class="card-toolbar  justify-content-between">
                 <div class="row">

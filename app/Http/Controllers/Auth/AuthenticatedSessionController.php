@@ -67,7 +67,19 @@ class AuthenticatedSessionController extends Controller
                     'last_login_ip' => $request->getClientIp()
                 ]);
                 return redirect()->intended(RouteServiceProvider::HOME);
+                $message = 'You have successfully logged in!';
+     
+                return response()->json([
+                    'message' => $message
+                ]);
             }
+        }
+        else{
+            $message = 'You Emails is not Registered!';
+     
+            return response()->json([
+                'message' => $message
+            ]);
         }
     }
     public function destroy(Request $request)

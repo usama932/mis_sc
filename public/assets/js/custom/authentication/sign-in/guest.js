@@ -120,22 +120,36 @@ var KTSigninGeneral = function () {
                     axios.post(submitButton.closest('form').getAttribute('action'), new FormData(form)).then(function (response) {
                         if (response) {
                             form.reset();
-
+                          
                             // Show message popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
-                            Swal.fire({
-                                text: "You have successfully logged in!",
-                                icon: "success",
-                                buttonsStyling: false,
-                                confirmButtonText: "Ok, got it!",
-                                customClass: {
-                                    confirmButton: "btn btn-primary"
+                            if (response.data.message === "You Emails is not Registered!") {
+                                // Show error message popup without redirect
+                                Swal.fire({
+                                    text: response.data.message,
+                                    icon: "error",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn btn-primary"
+                                    }
+                                });
+                            } else {
+                                // Show success message popup with redirect
+                                Swal.fire({
+                                    text: response.data.message,
+                                    icon: "success",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn btn-primary"
+                                    }
+                                });
+                            
+                                const redirectUrl = form.getAttribute('data-kt-redirect-url');
+                            
+                                if (redirectUrl) {
+                                    location.href = redirectUrl;
                                 }
-                            });
-
-                            const redirectUrl = form.getAttribute('data-kt-redirect-url');
-
-                            if (redirectUrl) {
-                                location.href = redirectUrl;
                             }
                         } else {
                             // Show error popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
