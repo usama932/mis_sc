@@ -300,7 +300,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">List of DIP</span>
+                                    <span class="menu-title">List of Projects</span>
                                 </a>
                                 <!--end:Menu link-->
                             </div>
