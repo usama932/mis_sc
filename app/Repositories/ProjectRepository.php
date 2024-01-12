@@ -10,7 +10,7 @@ class ProjectRepository implements ProjectRepositoryInterface
 {
     public function storeproject($data)
     {
-        $project = Project::create([
+        return Project::create([
             'name'                  => $data['name'],
             'type'                  => $data['type'],
             'sof'                   => $data['sof'],
@@ -21,34 +21,34 @@ class ProjectRepository implements ProjectRepositoryInterface
             'active'                =>  '1',
             'created_by'            => auth()->user()->id,
         ]); 
-        $projectdetail = ProjectDetail::create([
-            'theme'             => json_encode($data['theme']),
-            'created_by'        => auth()->user()->id,
-            'project_id'        => $project->id
-        ]);
-        return $project;
+       
 
     }
 
-    public function updateproject($data, $id)
+    public function updateproject($data)
     {
-        $project = Project::where('id',$id)->first();
-
-        Project::where('id',$id)->update([
-            'name'                  => $data['name'] ??  $project->name,
-            'type'                  => $data['type'] ??  $project->type,
-            'sof'                   => $data['sof'] ??  $project->sof,
-            'focal_person'          => $data['focal_person'] ??  $project->focal_person,
-            'status'                => $data['status'] ??  $project->status,
-            'start_date'            => $data['start_date'] ??  $project->start_date,
-            'end_date'              => $data['end_date'] ??  $project->end_date,
-            'updated_by'            => auth()->user()->id ,
+        dd($data);
+        
+        return ProjectDetail::create([ 
+                'province'               => json_encode($data['province']),
+                'district'               => json_encode($data['district']),
+                'total_targets'          => $data['total_targets'],
+                'male_targets'           => $data['male_targets'],
+                'female_targets'         => $data['female_targets'],
+                'boys_targets'           => $data['boys_targets'],
+                'girls_targets'          => $data['girls_targets'],
+                'hh_targets'             => $data['hh_targets'],
+                'project_description'    => $data['project_description'],
+                'individual_targets'     => $data['district'],
+                'attachement'            => $data['attachement'],
+                'attachement'            => $data['attachement'],
+                'project_id'            => $data['project_id'],
+                'created_by'        => auth()->user()->id,
+                'project_id'        => $project->id
+            
         ]);
-        $projectdetail = ProjectDetail::where('project_id',$project->id)->update([
-            'theme'             => json_encode($data['theme']),
-            'updated_by'        => auth()->user()->id,
-        ]);
-        return $project;
+       
+         
     }
 
 }

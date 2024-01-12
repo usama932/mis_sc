@@ -137,6 +137,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //projects 
     Route::resource('/projects', ProjectController::class);
     Route::post('get_projects', [ProjectController::class,'get_projects'])->name('admin.get_projects');
+    Route::post('project/update', [ProjectController::class,'project_update'])->name('project.update');
     Route::post('view_get_project', [ProjectController::class,'view_get_project'])->name('admin.get_project');
     Route::get('/project/delete/{id}', [ProjectController::class,'destroy'])->name('project.delete');
 });

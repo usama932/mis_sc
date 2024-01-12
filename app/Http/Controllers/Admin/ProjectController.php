@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\District;
 use App\Models\Province;
 use App\Models\Partner;
+use App\Models\StaffEmail;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
 
 class ProjectController extends Controller
@@ -138,7 +139,11 @@ class ProjectController extends Controller
             'editUrl' => $editUrl
         ]);
     }
-
+    public function project_update(Request $request){
+        $data = $request->except('_token');
+        
+        $project = $this->projectRepository->updateproject($data);
+    }
     public function show(string $id)
     {
         $project = Project::with('detail')->find($id);
@@ -183,8 +188,8 @@ class ProjectController extends Controller
     {
         $data = $request->except('_token');
     
-        $Qb = $this->projectRepository->updateproject($data,$id);
-        $editUrl = route('projects.index');
+        $Qb = $this->projectRepository->updateproject($data);
+        $editUrl = route('project.index');
         return response()->json([
             'editUrl' => $editUrl
         ]);

@@ -5,6 +5,6 @@ Interface ProjectRepositoryInterface{
 
 
     public function storeproject($data);
-    public function updateproject($data, $id);
+    public function updateproject($data);
 
 }

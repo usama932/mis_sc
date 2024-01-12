@@ -51,15 +51,113 @@ var KTdipValidate = function () {
                             }
                         }
                     },
+                    'theme[]': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Theme is required'
+                            }
+                        }
+                    },
+                    'province[]': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Province is required'
+                            }
+                        }
+                    },
+                    'district[]': {
+                        validators: {
+                            notEmpty: {
+                                message: 'district is required'
+                            }
+                        }
+                    },
+                    'total_targets': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Overall Targets is required'
+                            },
+                            numeric: {
+                                message: 'Overall Target must be a number'
+                            }
+                        }
+                    },
+                   
+                    'hh_targets': {
+                        validators: {
+                            notEmpty: {
+                                message: 'House Hold Targets is required'
+                            },
+                            numeric: {
+                                message: 'House Hold Target must be a number'
+                            }
+                        }
+                    },
                     'partner[]': {
                         validators: {
                             notEmpty: {
                                 message: 'Partner is required'
                             }
+                            
                         }
                     },
-                    
-                
+                    'individual_targets': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Individual Targets is required'
+                            },
+                            numeric: {
+                                message: 'Individual Target must be a number'
+                            }
+                        }
+                    },
+                    'male_targets': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Male Target is required'
+                            },
+                            numeric: {
+                                message: 'Male Target must be a number'
+                            }
+                        }
+                    },
+                    'female_targets': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Female Target is required'
+                            },
+                            numeric: {
+                                message: 'Female Target must be a number'
+                            }
+                        }
+                    },
+                    'girls_targets': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Girls Target is required'
+                            },
+                            numeric: {
+                                message: 'Girls Target must be a number'
+                            }
+                        }
+                    },
+                    'boys_targets': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Boys Target is required'
+                            },
+                            numeric: {
+                                message: 'Boys Target must be a number'
+                            }
+                        }
+                    },
+                    'project_description': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Project Description is required'
+                            }
+                        }
+                    },
                     'attachment':{
                         validators: {
                             notEmpty: {

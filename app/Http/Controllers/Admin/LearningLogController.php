@@ -29,10 +29,10 @@ class LearningLogController extends Controller
         $totalPDM = LearningLog::where('research_type', 'PDM')->count();
         $totalResearch = LearningLog::where('research_type', 'Research Study')->count();
         $totalSurvey = LearningLog::where('research_type', 'Survey Repor')->count();
-        $totallogs = LearningLog::where('research_type', 'Assessment')->count();
-        $logs = LearningLog::latest()->paginate(6);
+        $totallogs = LearningLog::count();
+        $logs = LearningLog::latest()->paginate(12);
         $projects = Project::where('active','1')->latest()->get();
-        $themes = Theme::latest()->paginate(12);
+        $themes = Theme::latest()->get();
         return view('admin.learninglogs.index',compact('logs','projects','themes','totalassesment','totalEvaluation',
                     'totalPDM','totalResearch','totalSurvey','totallogs'));
     }
