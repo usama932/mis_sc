@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\DipController;
 use App\Http\Controllers\Admin\DipActivityController;
 use App\Http\Controllers\Admin\OldQbController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Auth\StaffLoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -145,18 +146,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::get('/error', function () {
     abort(500);
 });
-Route::get('send-mail', function () {
-   
-    $details = [
-        'title' => 'Mail from ItSolutionStuff.com',
-        'body' => 'This is for testing email using smtp'
-    ];
-   
-    \Mail::to('usama1517a@gmail.com')->send(new \App\Mail\sendMail($details));
-   
-    dd("Email is Sent.");
-});
+// Route::get('send-mail', function () {
+
 Route::get('/auth/redirect/{provider}', [SocialiteController::class, 'redirect']);
-Route::get('guest/login', [AuthenticatedSessionController::class,'guest_login'])->name('guest.login');
-Route::post('postguest/login', [AuthenticatedSessionController::class,'postguest_login'])->name('postguest.login');
+Route::get('otp/form/{email}', [StaffLoginController::class,'otp_form'])->name('otp.form');
+Route::post('postguest/login', [StaffLoginController::class,'login'])->name('postguest.login');
+Route::post('postguest/otp', [StaffLoginController::class,'login_otp'])->name('post_otp');
 require __DIR__ . '/auth.php';
+
+
+   
+//     $details = [
+//         'title' => 'Save the Children',
+//         'body' => 'Please use the verification code below to sign in.',
+//         'otp' => '2121'
+//     ];
+   
+//     \Mail::to('usama1517a@gmail.com')->send(new \App\Mail\sendMail($details));
+   
+//     dd("Email is Sent.");
+// });

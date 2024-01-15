@@ -41,7 +41,7 @@
             </form>
         </div>
         <div id="guestTabcontent">
-            <form class="form w-100" novalidate="novalidate" id="kt_guest_sign_in_form" data-kt-redirect-url="{{ route('dashboard') }}" action="{{ route('postguest.login') }}" method="post">
+            <form class="form w-100" novalidate="novalidate" id="kt_guest_sign_in_form" action="{{ route('postguest.login') }}" method="post">
                 @csrf
                 <div class="fv-row mb-8">
                     <!--begin::Email-->

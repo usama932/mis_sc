@@ -28,7 +28,7 @@
                 <h5> PDM: {{$totalPDM ?? ''}}</h5>
                 <h5> Research Study: {{$totalResearch ?? ''}}</h5>
                 <h5> Survey: {{$totalSurvey ?? ''}}</h5>
-                @can('learning_log')
+                @can('create learning log')
                     <div class="">
                         <a href="{{ route('learning-logs.create') }}" class="btn btn-primary btn-sm font-weight-bolder">
                         New Record {{$project ?? ''}}</a>

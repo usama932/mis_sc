@@ -1,7 +1,7 @@
 "use strict";
 
 // Class definition
-var KTSigninguest = function () {
+var KTSigninotp = function () {
     // Elements
     var form;
     var submitButton;
@@ -14,11 +14,11 @@ var KTSigninguest = function () {
             form,
             {
                 fields: {
-                    'email': {
+                    'otp': {
                         validators: {
                             regexp: {
-                                regexp: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                                message: 'The value is not a valid email address',
+                                regexp: /^[0-9]+$/,
+                                message: 'The value is not a valid number',
                             },
                             notEmpty: {
                                 message: 'Email address is required'
@@ -85,7 +85,7 @@ var KTSigninguest = function () {
                                     }
                                 });
                             
-                                const redirectUrl = response.data.Url;
+                                const redirectUrl = form.getAttribute('data-kt-redirect-url');
                             
                                 if (redirectUrl) {
                                     location.href = redirectUrl;
@@ -163,8 +163,8 @@ var KTSigninguest = function () {
     return {
         // Initialization
         init: function () {
-            form = document.querySelector('#kt_guest_sign_in_form');
-            submitButton = document.querySelector('#kt_guest_sign_in_submit');
+            form = document.querySelector('#kt_otp_form');
+            submitButton = document.querySelector('#kt_otp_submit');
 
             handleValidation();
 
@@ -179,5 +179,5 @@ var KTSigninguest = function () {
 
 // On document ready
 KTUtil.onDOMContentLoaded(function () {
-    KTSigninguest.init();
+    KTSigninotp.init();
 });

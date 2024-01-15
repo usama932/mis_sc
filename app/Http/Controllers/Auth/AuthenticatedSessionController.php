@@ -29,7 +29,6 @@ class AuthenticatedSessionController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
- 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
  
@@ -39,9 +38,6 @@ class AuthenticatedSessionController extends Controller
             ]);
             return redirect()->intended(RouteServiceProvider::HOME);
         }
-        
-       
-       
     }
     
     public function postguest_login(Request $request)

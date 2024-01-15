@@ -9,21 +9,20 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class sendMail extends Mailable
+class otpMail extends Mailable
 {
     use Queueable, SerializesModels;
-
     public $details;
+
     public function __construct($details)
     {
-       
         $this->details = $details;
     }
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Save the children',
+            subject: 'One Time Password for your Guest login',
         );
     }
 
@@ -33,6 +32,7 @@ class sendMail extends Mailable
             view: 'emails.otpemail',
         );
     }
+
 
     public function attachments(): array
     {
