@@ -143,6 +143,7 @@ class ProjectController extends Controller
         $data = $request->except('_token');
         
         $project = $this->projectRepository->updateproject($data);
+        dd ($request->all());
     }
     public function show(string $id)
     {

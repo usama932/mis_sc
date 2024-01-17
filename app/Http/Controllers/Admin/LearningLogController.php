@@ -53,7 +53,9 @@ class LearningLogController extends Controller
            
         }
         if (!empty($request->theme)) {
-            $logs->orWhereJsonContains('theme', $request->theme);
+         
+            $logs->whereJsonContains('theme', $request->theme);
+            
         }
         
         $logs = $logs->paginate(12);

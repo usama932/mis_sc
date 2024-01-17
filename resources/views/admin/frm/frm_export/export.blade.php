@@ -18,7 +18,7 @@
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Staff Name</span>
                                 </label>
-                                <select name="name_of_registrar" id="name_of_registrar" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select form-select-solid" data-allow-clear="true" >
+                                <select name="name_of_registrar" id="name_of_registrar" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select  " data-allow-clear="true" >
                                     <option  value="" selected>Select Option</option>
                                     <option  value="None" >All</option>
                                     <option  value="Abdul Qadeer">Abdul Qadeer</option>
@@ -54,7 +54,7 @@
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Feedback Channel</span>
                                 </label>
-                                <select name="feedback_channel" id="feedback_channel" aria-label="Select a Feedback Channel" data-control="select2" data-placeholder="Select a Feedback Channel..." class="form-select form-select-solid" data-allow-clear="true" >
+                                <select name="feedback_channel" id="feedback_channel" aria-label="Select a Feedback Channel" data-control="select2" data-placeholder="Select a Feedback Channel..." class="form-select  " data-allow-clear="true" >
                                     <option  value="" selected>Select Option</option>
                                     <option  value="None" >All</option>
                                     <option  >Hotline</option>
@@ -71,7 +71,7 @@
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Age</span>
                                 </label>
-                                <select name="age" aria-label="Select a Age" data-control="select2" data-placeholder="Select a age..." class="form-select form-select-solid" id="age_id" data-allow-clear="true" >
+                                <select name="age" aria-label="Select a Age" data-control="select2" data-placeholder="Select a age..." class="form-select  " id="age_id" data-allow-clear="true" >
                                     <option  value="" selected>Select Option</option>
                                     <option  value="None" >All</option>
                                     <option value="Under 18">Less than 18 years</option>
@@ -84,7 +84,7 @@
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Status</span>
                                 </label>
-                                <select name="status" aria-label="Select a Age" data-control="select2" data-placeholder="Select a age..." class="form-select form-select-solid" id="status" data-allow-clear="true" >
+                                <select name="status" aria-label="Select a Age" data-control="select2" data-placeholder="Select a age..." class="form-select  " id="status" data-allow-clear="true" >
                                     <option  value="" selected>Select Option</option>
                                     <option  value="None" >All</option>
                                     <option value="Close">Close</option>
@@ -97,7 +97,7 @@
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Province</span>
                                 </label>
-                                <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select form-select-solid" data-allow-clear="true" >
+                                <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select  " data-allow-clear="true" >
                                     <option value="" selected>Select Province</option>
                                     <option  value="None" >All</option>
                                     <option value='4'>Sindh</option>
@@ -109,7 +109,7 @@
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">District</span>
                                 </label>
-                                <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select form-select-solid" data-allow-clear="true" >
+                                <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select  " data-allow-clear="true" >
 
                                 </select>
                             </div>
@@ -117,7 +117,7 @@
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Type</span>
                                 </label>
-                                <select   name="type_of_client" id="type_of_client" aria-label="Select a Type of Client" data-control="select2" data-placeholder="Select a Type of Client..." class="form-select form-select-solid" data-allow-clear="true" >
+                                <select   name="type_of_client" id="type_of_client" aria-label="Select a Type of Client" data-control="select2" data-placeholder="Select a Type of Client..." class="form-select  " data-allow-clear="true" >
                                     <option value="" selected>Select Client</option>
                                     <option  value="None" >All</option>
                                     <option value="Direct Beneficiary">Direct Beneficiary</option>
@@ -131,7 +131,7 @@
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Project</span>
                                 </label>
-                                <select name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Project Name" class="form-select form-select-solid" data-allow-clear="true" >
+                                <select name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Project Name" class="form-select  " data-allow-clear="true" >
                                     <option value="" selected>Select Theme</option>
                                     <option  value="None" >All</option>
                                     @foreach($projects as $project)

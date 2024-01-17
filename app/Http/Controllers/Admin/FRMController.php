@@ -54,8 +54,8 @@ class FRMController extends Controller
            
         }
         $feedbackchannels = FeedbackChannel::latest()->get();
-        $feedbackcategories = FeedbackCategory::latest()->get();
-        $projects = Project::where('active','1')->latest()->get();
+        $feedbackcategories = FeedbackCategory::latest()->get()->sortBy('name');
+        $projects = Project::where('active','1')->get();
         $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
      
         // $themes = Theme::latest()->get();
@@ -127,6 +127,10 @@ class FRMController extends Controller
         if($request->kt_select2_province != null){
 
             $frms->where('province',$request->kt_select2_province);
+        }
+        if($request->feedback_category != null){
+           
+            $frms->where('feedback_category',$request->feedback_category);
         }
         if(auth()->user()->permissions_level == 'province-wide')
         {

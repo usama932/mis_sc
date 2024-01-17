@@ -204,7 +204,7 @@
                                 <td><strong>Deadline  </strong></td>
                                 <td>{{date('d-M-Y', strtotime($action_point->deadline ?? " ")) }}</td>
                             </div>
-                        
+
                             <div class="col-md-3 col-sm-3 mt-5"> 
                                 <td><strong>Created By  </strong></td>
                                 <td>{{$action_point->user?->name ?? " "}}</td>

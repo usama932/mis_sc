@@ -37,7 +37,7 @@
                                         <label class="fs-6 fw-semibold form-label mb-2">
                                             <span class="required">Province</span>
                                         </label>
-                                        <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select form-select-solid" data-allow-clear="true" >
+                                        <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select  " data-allow-clear="true" >
                                             <option value="" selected>Select Province</option>
                                            
                                             <option value='4'>Sindh</option>

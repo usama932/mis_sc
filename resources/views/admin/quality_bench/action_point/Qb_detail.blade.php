@@ -141,7 +141,10 @@
                         <td><strong>Deadline </strong></td>
                         <td>@if($action_point->deadline != '') {{date('d-M-Y', strtotime($action_point->deadline)) ?? ""}} @endif</td>
                     </tr>
-                    
+                    <div class="col-md-3 col-sm-3 mt-5"> 
+                        <td><strong>Completion Date </strong></td>
+                        <td>{{date('d-M-Y', strtotime($action_point->completion_date ?? " ")) }}</td>
+                    </div>
                     <tr>
                         <td><strong>QB Created By </strong></td>
                         <td>{{$action_point->qb?->user->name ?? ""}}</td>

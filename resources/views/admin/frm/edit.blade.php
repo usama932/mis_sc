@@ -84,7 +84,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Type</span>
                         </label>
-                        <select   name="type_of_client" aria-label="Select a Type of Client" data-control="select2" data-placeholder="Select a Type of Client..." class="form-select form-select-solid"  @error('type_of_client') is-invalid @enderror required>
+                        <select   name="type_of_client" aria-label="Select a Type of Client" data-control="select2" data-placeholder="Select a Type of Client..." class="form-select  "  @error('type_of_client') is-invalid @enderror required>
                             <option @if($frm->type_of_client == "") selected @else  @endif value="">Select Client</option>
                             <option @if($frm->type_of_client == "Direct Beneficiary") selected @else  @endif>Direct Beneficiary</option>
                             <option @if($frm->type_of_client == "Indirect Beneficiary") selected @else  @endif>Indirect Beneficiary</option>
@@ -97,7 +97,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Gender</span>
                         </label>
-                        <select   name="gender"  @error('gender') is-invalid @enderror aria-label="Select a Gender" data-control="select2" data-placeholder="Select a Gender..." class="form-select form-select-solid genderit" required>
+                        <select   name="gender"  @error('gender') is-invalid @enderror aria-label="Select a Gender" data-control="select2" data-placeholder="Select a Gender..." class="form-select   genderit" required>
                             <option @if($frm->gender == "") selected @else  @endif value="">Select Gender</option>
                             <option @if($frm->gender == "Boy") selected @else  @endif  value="Boy">Boy</option>
                             <option @if($frm->gender == "Girl") selected @else  @endif  value="Girl">Girl</option>
@@ -111,7 +111,7 @@
                             <span class="required">Age</span>
                             <span class="spinner-border spinner-border-sm align-middle ms-2" id="ageloader"></span>
                         </label>
-                        <select   name="age"  @error('age') is-invalid @enderror aria-label="Select a Gender" data-control="select2" data-placeholder="Select a age..." class="form-select form-select-solid" id="age_id" required>
+                        <select   name="age"  @error('age') is-invalid @enderror aria-label="Select a Gender" data-control="select2" data-placeholder="Select a age..." class="form-select  " id="age_id" required>
                             @if(!empty($frm->age))
                             <option value="{{$frm->age}}">{{$frm->age}}</option>
                             @endif
@@ -121,7 +121,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Province</span>
                         </label>
-                        <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select form-select-solid"   @error('province') is-invalid @enderror required>
+                        <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select  "   @error('province') is-invalid @enderror required>
                            
                                 <option value="">Select Province</option>
                                 {{-- <option value='1'>Punjab</option> --}}
@@ -136,7 +136,7 @@
                             <span class="required">District</span>
                             <span class="spinner-border spinner-border-sm align-middle ms-2" id="districtloader" style="display="none !important;"></span>
                         </label>
-                        <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select form-select-solid"  @error('district') is-invalid @enderror required>
+                        <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select  "  @error('district') is-invalid @enderror required>
                             <option value="{{$frm->district}}">{{$frm->districts?->district_name ?? $frm->district}}</option>
                         </select>
                     </div>
@@ -145,7 +145,7 @@
                             <span class="required">Tehsil</span>
                             <span class="spinner-border spinner-border-sm align-middle ms-2" id="tehsilloader" style="display="none !important;"></span>
                         </label>
-                        <select id="kt_select2_tehsil"  @error('tehsil') is-invalid @enderror name="tehsil" aria-label="Select a Tehsil" data-control="select2" data-placeholder="Select a Tehsil..." class="form-select form-select-solid" required>
+                        <select id="kt_select2_tehsil"  @error('tehsil') is-invalid @enderror name="tehsil" aria-label="Select a Tehsil" data-control="select2" data-placeholder="Select a Tehsil..." class="form-select  " required>
                             @if(!empty($frm->tehsil))
                             <option value="{{$frm->tehsil}}">{{$frm->tehsils?->tehsil_name ?? $frm->tehsil }}</option>
                             @endif
@@ -158,7 +158,7 @@
                             <span class="required">Union Council</span>
                             <span class="spinner-border spinner-border-sm align-middle ms-2" id="ucloader"></span>
                         </label>
-                        <select id="kt_select2_union_counsil"  @error('union_counsil') is-invalid @enderror name="union_counsil" aria-label="Select a UC" data-control="select2" data-placeholder="Select a Uc..." class="form-select form-select-solid" required>
+                        <select id="kt_select2_union_counsil"  @error('union_counsil') is-invalid @enderror name="union_counsil" aria-label="Select a UC" data-control="select2" data-placeholder="Select a Uc..." class="form-select  " required>
                             @if(!empty($frm->union_counsil))
                             <option value="{{$frm->union_counsil}}">{{$frm->uc?->uc_name ?? $frm->union_counsil}}</option>
                             @endif
@@ -234,7 +234,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Theme</span>
                         </label>
-                        <select   name="theme"  @error('theme') is-invalid @enderror aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme" class="form-select form-select-solid" required>
+                        <select   name="theme"  @error('theme') is-invalid @enderror aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme" class="form-select  " required>
                             <option value="">Select Theme</option>
                             @foreach($themes as $theme)
                                 <option  @if($frm->theme == $theme->id) selected @endif value="{{$theme->id}}">{{$theme->name}}</option>
@@ -276,13 +276,13 @@
                             <span class="required">Feedback Referred or Shared</span>
                         </label>
                         @if($frm->feedback_referredorshared == "Yes")
-                        <select name="feedback_referredorshared"  @error('feedback_referredorshared') is-invalid @enderror aria-label="Select a Option" data-placeholder="Select a Statut..." class="form-select form-select-solid shareid" disabled>
+                        <select name="feedback_referredorshared"  @error('feedback_referredorshared') is-invalid @enderror aria-label="Select a Option" data-placeholder="Select a Statut..." class="form-select   shareid" disabled>
                             <option @if($frm->feedback_referredorshared == "") selected  @endif  value="">Select Option</option>
                             <option  @if($frm->feedback_referredorshared == "Yes") selected  @endif value="Yes">Yes</option>
                             <option  @if($frm->feedback_referredorshared == "No") selected  @endif value="No">No</option>
                         </select>
                         @else
-                        <select name="feedback_referredorshared"  @error('feedback_referredorshared') is-invalid @enderror aria-label="Select a Option" data-placeholder="Select a Statut..." class="form-select form-select-solid shareid" >
+                        <select name="feedback_referredorshared"  @error('feedback_referredorshared') is-invalid @enderror aria-label="Select a Option" data-placeholder="Select a Statut..." class="form-select   shareid" >
                             <option @if($frm->feedback_referredorshared == "") selected  @endif  value="">Select Option</option>
                             <option  @if($frm->feedback_referredorshared == "Yes") selected  @endif value="Yes">Yes</option>
                             <option  @if($frm->feedback_referredorshared == "No") selected  @endif value="No">No</option>
@@ -346,7 +346,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Status</span>
                         </label>
-                        <select   name="status" aria-label="Select a Status"  @error('status') is-invalid @enderror data-control="select2" data-placeholder="Select a Statut..." class="form-select form-select-solid statusid">
+                        <select   name="status" aria-label="Select a Status"  @error('status') is-invalid @enderror data-control="select2" data-placeholder="Select a Statut..." class="form-select   statusid">
                             <option @if($frm->status == '') selected @endif value="">Select Option</option>
                             <option @if($frm->status == 'Open') selected @endif value="Open">Open</option>
                             <option @if($frm->status == 'Close') selected @endif value="Close">Close</option>
@@ -362,7 +362,7 @@
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Satisfiction </span>
                             </label>
-                            <select name="actiontaken" id="action_id" aria-label="Select a Action"  @error('actiontaken') is-invalid @enderror data-control="select2" data-placeholder="Select a Action..." class="form-select form-select-solid " >
+                            <select name="actiontaken" id="action_id" aria-label="Select a Action"  @error('actiontaken') is-invalid @enderror data-control="select2" data-placeholder="Select a Action..." class="form-select   " >
                                 @if(!empty($frm->type_ofaction_taken))
                                     <option value="{{$frm->type_ofaction_taken}}">{{$frm->type_ofaction_taken}}</option>
                                 @endif

@@ -61,7 +61,7 @@ var frm = $('#frm').DataTable( {
 });
 
 
-$("#response_id,#date_recieved_id,#kt_select2_district,#kt_select2_province,#feedback_channel,#name_of_registrar,#age_id,#gender,#type_of_client,#project_name").change(function () {
+$("#response_id,#date_recieved_id,#kt_select2_district,#kt_select2_province,#feedback_channel,#name_of_registrar,#age_id,#gender,#type_of_client,#project_name,#feedback_category").change(function () {
     var table = $('#frm').DataTable();
     table.destroy();
     var name_of_registrar = document.getElementById("name_of_registrar").value ?? '1';
@@ -74,7 +74,8 @@ $("#response_id,#date_recieved_id,#kt_select2_district,#kt_select2_province,#fee
     var project_name = document.getElementById("project_name").value ?? '1';
     var response_id = document.getElementById("response_id").value ?? '1';
     var gender = document.getElementById("gender").value ?? '1';
-
+    var feedback_category = document.getElementById("feedback_category").value ?? '1';
+    
     var clients = $('#frm').DataTable( {
         "order": [
             [1, 'asc']
@@ -102,7 +103,8 @@ $("#response_id,#date_recieved_id,#kt_select2_district,#kt_select2_province,#fee
                     'type_of_client':type_of_client,
                      'project_name':project_name,
                     'response_id':response_id,
-                    'gender':gender
+                    'gender':gender,
+                    'feedback_category':feedback_category
                     }
         },
         "columns":[

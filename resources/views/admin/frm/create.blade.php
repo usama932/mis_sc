@@ -24,7 +24,7 @@
                             <span class="">Staff Name</span>
                           
                         </label>
-                        <select name="name_of_registrar" id="name_of_registrar" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select form-select-solid">
+                        <select name="name_of_registrar" id="name_of_registrar" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select  ">
                             <option  value="">Select Option</option>
                             @foreach($users as $user)
                                 <option  value="{{$user->name}}" >{{$user->name}}</option>
@@ -52,7 +52,7 @@
                             <span class="required">Feedback Channel</span>
                             
                         </label>
-                        <select name="feedback_channel" id="feedback_channel" aria-label="Select a Feedback Channel" data-control="select2" data-placeholder="Select a Feedback Channel..." class="form-select form-select-solid">
+                        <select name="feedback_channel" id="feedback_channel" aria-label="Select a Feedback Channel" data-control="select2" data-placeholder="Select a Feedback Channel..." class="form-select  ">
                             <option  value="">Select Option</option>
                             @foreach($feedbackchannels as $feedbackchannel)
                                 <option value="{{$feedbackchannel->id}}">{{$feedbackchannel->name}}</option>
@@ -80,7 +80,7 @@
                             <span class="required">Type</span>
                             
                         </label>
-                        <select   name="type_of_client" id="type_of_client" aria-label="Select a Type of Client" data-control="select2" data-placeholder="Select a Type of Client..." class="form-select form-select-solid" >
+                        <select   name="type_of_client" id="type_of_client" aria-label="Select a Type of Client" data-control="select2" data-placeholder="Select a Type of Client..." class="form-select  " >
                             <option value="">Select Client</option>
                             <option>Direct Beneficiary</option>
                             <option>Indirect Beneficiary</option>
@@ -95,7 +95,7 @@
                             <span class="required">Gender</span>
                             
                         </label>
-                        <select   name="gender" id="gender" aria-label="Select a Gender" data-control="select2" data-placeholder="Select a Gender..." class="form-select form-select-solid genderit">
+                        <select   name="gender" id="gender" aria-label="Select a Gender" data-control="select2" data-placeholder="Select a Gender..." class="form-select   genderit">
                             <option value="">Select Gender</option>
                             <option  value="Boy">Boy</option>
                             <option  value="Girl">Girl</option>
@@ -109,7 +109,7 @@
                             <span class="required">Age</span>   
                             <span class="spinner-border spinner-border-sm align-middle ms-2" id="ageloader"></span>
                         </label>
-                        <select   name="age" aria-label="Select a Gender" data-control="select2" data-placeholder="Select a age..." class="form-select form-select-solid" id="age_id">
+                        <select   name="age" aria-label="Select a Gender" data-control="select2" data-placeholder="Select a age..." class="form-select  " id="age_id">
                             <option value="">Select Option</option>
                         </select>
                         <span id="ageError" class="error-message "></span>
@@ -119,7 +119,7 @@
                             <span class="required">Province</span>
                             
                         </label> 
-                        <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select form-select-solid">
+                        <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select  ">
                             @if(auth()->user()->permissions_level == 'province-wide' || auth()->user()->permissions_level == 'district-wide')
                                 <option value="">Select Province</option>
                                 {{-- <option value='1'>Punjab</option> --}}
@@ -142,7 +142,7 @@
                             <span class="required">District</span>
                             <span class="spinner-border spinner-border-sm align-middle ms-2" id="districtloader"></span>
                         </label>
-                        <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select  District" class="form-select form-select-solid">
+                        <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select  District" class="form-select  ">
                         </select>
                         <span id="kt_select2_districtError" class="error-message "></span>
                     </div>
@@ -151,7 +151,7 @@
                             <span class="required">Tehsil</span>   
                             <span class="spinner-border spinner-border-sm align-middle ms-2" id="tehsilloader"></span>  
                         </label>
-                        <select id="kt_select2_tehsil" name="tehsil" aria-label="Select a Tehsil" data-control="select2" data-placeholder="Select a Tehsil..." class="form-select form-select-solid">
+                        <select id="kt_select2_tehsil" name="tehsil" aria-label="Select a Tehsil" data-control="select2" data-placeholder="Select a Tehsil..." class="form-select  ">
                         </select>
                         <span id="kt_select2_tehsilError" class="error-message "></span>
                     </div>
@@ -160,7 +160,7 @@
                             <span class="required">Union Counsil</span>
                             <span class="spinner-border spinner-border-sm align-middle ms-2" id="ucloader"></span>
                         </label>
-                        <select id="kt_select2_union_counsil" name="union_counsil" aria-label="Select a UC" data-control="select2" data-placeholder="Select a Uc..." class="form-select form-select-solid" >
+                        <select id="kt_select2_union_counsil" name="union_counsil" aria-label="Select a UC" data-control="select2" data-placeholder="Select a Uc..." class="form-select  " >
                         </select>
                         <span id="kt_select2_union_counsilError" class="error-message "></span>
                     </div>
@@ -235,7 +235,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">FeedBack Category </span>
                         </label>
-                        <select   name="feedback_category" id="feedback_category" aria-label="Select a Feedback Category" data-control="select2" data-placeholder="Select a Feedback Category" class="form-select form-select-solid categoryit">
+                        <select   name="feedback_category" id="feedback_category" aria-label="Select a Feedback Category" data-control="select2" data-placeholder="Select a Feedback Category" class="form-select   categoryit">
                             <option value="">Select Option</option>
                             @foreach($feedbackcategories as $feedbackcategory)
                                 <option value={{$feedbackcategory->id}}>{{$feedbackcategory->name}}-{{$feedbackcategory->description}}</option>
@@ -254,7 +254,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Theme</span>     
                         </label>
-                        <select   name="theme" id="theme" aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme" class="form-select form-select-solid">
+                        <select   name="theme" id="theme" aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme" class="form-select  ">
                             <option value="">Select Theme</option>
                             @foreach($themes as $theme)
                                 <option value="{{$theme->id}}">{{$theme->name}}</option>
@@ -273,7 +273,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="">Project</span>                          
                         </label>
-                        <select   name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Theme" class="form-select form-select-solid">
+                        <select   name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Theme" class="form-select  ">
                             <option>Select Project</option>
                             @foreach($projects as $project)
                                 <option value="{{$project->id}}">{{$project->name}}</option>
@@ -292,7 +292,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Feedback Referred or Shared</span>                            
                         </label>
-                        <select name="feedback_referredorshared" id="feedback_referredorshared" aria-label="Select a Option" data-placeholder="Select a Statut..." class="form-select form-select-solid shareid">
+                        <select name="feedback_referredorshared" id="feedback_referredorshared" aria-label="Select a Option" data-placeholder="Select a Statut..." class="form-select   shareid">
                             <option value="">Select Option</option>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
@@ -331,7 +331,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Status</span>
                         </label>
-                        <select   name="status" id="status" aria-label="Select a Status"  @error('status') is-invalid @enderror data-control="select2" data-placeholder="Select a Statut..." class="form-select form-select-solid statusid">
+                        <select   name="status" id="status" aria-label="Select a Status"  @error('status') is-invalid @enderror data-control="select2" data-placeholder="Select a Statut..." class="form-select   statusid">
                             <option value="">Select Option</option>
                             <option value="Open">Open</option>
                             <option value="Close">Close</option>
@@ -342,7 +342,7 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Action Taken </span>
                         </label>
-                        <select name="actiontaken" id="action_id" aria-label="Select a Action"  @error('actiontaken') is-invalid @enderror data-control="select2" data-placeholder="Select a Action..." class="form-select form-select-solid " >
+                        <select name="actiontaken" id="action_id" aria-label="Select a Action"  @error('actiontaken') is-invalid @enderror data-control="select2" data-placeholder="Select a Action..." class="form-select   " >
 
                         </select>
                         <div id="actiontakenError" class="error-message "></div>

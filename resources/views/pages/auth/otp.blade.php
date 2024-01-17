@@ -9,7 +9,7 @@
       
         <form class="form w-100" method="post" novalidate="novalidate" id="kt_otp_form" data-kt-redirect-url="{{ route('dashboard') }}" action="{{ route('post_otp') }}">
             @csrf
-            <h6 class="text-black"> Your Varfication Code is Sent at  </h6>          
+            <h6 class="text-black "> Verification code is sent to your email "{{$email}} "</h6>          
             <input type="hidden"  name="email"  value="{{$email}}"/>
             <div class="fv-row mb-8">
                 <!--begin::Email-->

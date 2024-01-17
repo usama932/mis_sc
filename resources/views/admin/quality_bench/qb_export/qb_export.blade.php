@@ -25,7 +25,7 @@
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class=" ">Visit Staff Name</span>
                                     </label>
-                                    <select name="visit_staff_name" id="visit_staff_name" aria-label="Select a Visit Staff Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select form-select-solid">
+                                    <select name="visit_staff_name" id="visit_staff_name" aria-label="Select a Visit Staff Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select  ">
                                         <option  value="">Select Option</option>
                                         @foreach($users as $user)
                                             <option  value="{{$user->name}}" >{{$user->name}}</option>
@@ -50,7 +50,7 @@
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class=" ">Accompanied By</span>
                                     </label>
-                                    <select name="accompanied_by" id="accompanied_by" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Accompanied By..." class="form-select form-select-solid">
+                                    <select name="accompanied_by" id="accompanied_by" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Accompanied By..." class="form-select  ">
                                         <option  value="">Select Option</option>
                                         <option  value="Project Staff">Project Staff</option>
                                         <option  value="Govt Officials">Govt Officials</option>
@@ -65,7 +65,7 @@
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class=" ">Type of visit</span>
                                     </label>
-                                    <select   name="type_of_visit" id="type_of_visit" aria-label="Select a Type of Visit " data-control="select2" data-placeholder="Select a Type of Visit" class="form-select form-select-solid">
+                                    <select   name="type_of_visit" id="type_of_visit" aria-label="Select a Type of Visit " data-control="select2" data-placeholder="Select a Type of Visit" class="form-select  ">
                                         <option value="">Select Project Type</option>
                                         <option value="Independent">Independent</option>
                                         <option value="Joint">Joint</option>
@@ -75,7 +75,7 @@
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class=" ">Province</span>
                                     </label>
-                                    <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select form-select-solid"   @error('province') is-invalid @enderror  >
+                                    <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select  "   @error('province') is-invalid @enderror  >
                                         @if(auth()->user()->permissions_level == 'province-wide' || auth()->user()->permissions_level == 'district-wide')
                                             <option value="">Select Province</option>
                                             {{-- <option value='1'>Punjab</option> --}}
@@ -95,7 +95,7 @@
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class=" ">District</span>
                                     </label>
-                                    <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select form-select-solid"  @error('district') is-invalid @enderror  >
+                                    <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select  "  @error('district') is-invalid @enderror  >
             
                                     </select>
                                 </div>
@@ -103,7 +103,7 @@
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class=" ">Project Type</span>
                                     </label>
-                                    <select   name="project_type" id="project_type" aria-label="Select a Project Type" data-control="select2" data-placeholder="Select a Project Type" class="form-select form-select-solid">
+                                    <select   name="project_type" id="project_type" aria-label="Select a Project Type" data-control="select2" data-placeholder="Select a Project Type" class="form-select  ">
                                         <option value="">Select Project Type</option>
                                         <option value="Humanitarian">Humanitarian</option>
                                         <option value="Development">Development</option>
@@ -113,7 +113,7 @@
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class=" ">Project</span>
                                     </label>
-                                    <select   name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Theme" class="form-select form-select-solid">
+                                    <select   name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Theme" class="form-select  ">
                                         <option  value="">Select Project</option>
                                         @foreach($projects as $project)
                                             <option value="{{$project->id}}">{{$project->name}}</option>
