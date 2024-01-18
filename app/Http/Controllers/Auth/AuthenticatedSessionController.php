@@ -37,6 +37,10 @@ class AuthenticatedSessionController extends Controller
                 'last_login_ip' => $request->getClientIp()
             ]);
             return redirect()->intended(RouteServiceProvider::HOME);
+        }else{
+            return response()->json([
+                'message' => "Your Credentials are incorrect"
+            ]);
         }
     }
     

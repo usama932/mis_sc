@@ -11,7 +11,7 @@
         <tr>
             <td align="center" style="max-height: 50px; width: auto; padding:40px;" >
                 <a href="https://pakistan.savethechildren.net/" rel="noopener" target="_blank">
-                    <img alt="Logo" src="{{asset('assets/media/logos/logo.png')}}" style="max-height: 50px; width:50px !important;" />
+                    <img alt="Logo" src="https://mis-sc.pk/assets/media/logos/logo.png" width="50" height="50" style="max-height: 50px; width: 50px !important;" />
                 </a>
             </td>
         </tr>
@@ -19,24 +19,28 @@
             <td align="left">
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff; border-radius: 6px;">
                     <tr>
+                        <td style="padding: 20px; font-size: 17px;">
+                            <strong>Your One-Time Password Request!</strong>
+                        </td>
+                    </tr>
+                    <tr>
                         <td style="padding: 20px;">
-                            <div style="font-size: 17px; padding-bottom: 30px;">
-                                <strong>Your One-Time Password Request!</strong>
-                            </div>
-                            <div style="padding-bottom: 30px;">
-                                Dear Guest User,<br/>
-                                Your request has been processed successfully.
-                            </div>
-                            <div style="text-align: center; padding-bottom: 40px;">
-                                <p>Your One-Time Password is</p>
-                                <button style="padding: 8px 20px; font-size: 14px; border-radius: 4px; color: #ffffff; background-color: #009ef7; border: 0;">
-                                    {{ $details['otp'] }}
-                                </button>
-                            </div>
-                            <div style="padding-bottom: 30px;">
-                                Do not reply to this email. Please contact
-                                <a href="mailto:usama.qayyum@savethechildren.org">Administrator</a> for any query.
-                            </div>
+                            Dear Guest User,<br/>
+                            Your request has been processed successfully.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center; padding: 20px;">
+                            <p>Your One-Time Password is</p>
+                            <button id="copyButton" style="padding: 8px 20px; font-size: 14px; border-radius: 4px; color: #ffffff; background-color: #009ef7; border: 0;">
+                                {{ $details['otp'] }}
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 20px;">
+                            Do not reply to this email. Please contact
+                            <a href="mailto:usama.qayyum@savethechildren.org" style="color: #009ef7; text-decoration: none;">Administrator</a> for any query.
                         </td>
                     </tr>
                 </table>
@@ -47,6 +51,20 @@
             </td>
         </tr>
     </table>
-
-</body>
+    <script>
+        document.getElementById("copyButton").addEventListener("click", function() {
+            copyToClipboard("{{ $details['otp'] }}");
+            alert("OTP copied to clipboard!");
+        });
+    
+        function copyToClipboard(text) {
+            var dummy = document.createElement("textarea");
+            document.body.appendChild(dummy);
+            dummy.value = text;
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+        }
+    </script>
+</body> 
 </html>
