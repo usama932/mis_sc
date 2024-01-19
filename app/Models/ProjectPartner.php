@@ -5,18 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProjectTheme extends Model
+class ProjectPartner extends Model
 {
     use HasFactory;
-    protected $table = 'project_theme';
+    protected $table = 'project_partner';
     protected $guarded = [];
 
     public function project()
     {
         return $this->belongsTo(Project::class,'project_id','id');
     }
-    public function theme_name()
+    public function partner_name()
     {
-        return $this->belongsTo(Theme::class,'theme_id','id');
+        return $this->belongsTo(Partner::class,'partner_id','id');
     }
+    
 }

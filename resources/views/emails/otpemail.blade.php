@@ -11,7 +11,7 @@
         <tr>
             <td align="center" style="max-height: 50px; width: auto; padding:40px;" >
                 <a href="https://pakistan.savethechildren.net/" rel="noopener" target="_blank">
-                    <img alt="Logo" src="https://mis-sc.pk/assets/media/logos/logo.png" width="50" height="50" style="max-height: 50px; width: 50px !important;" />
+                    <img alt="Logo" src="https://mis-sc.pk/assets/media/logos/logo.png"/>
                 </a>
             </td>
         </tr>
@@ -30,12 +30,14 @@
                         </td>
                     </tr>
                     <tr>
+                       
                         <td style="text-align: center; padding: 20px;">
                             <p>Your One-Time Password is</p>
-                            <button id="copyButton" style="padding: 8px 20px; font-size: 14px; border-radius: 4px; color: #ffffff; background-color: #009ef7; border: 0;">
+                            <div id="copyButton" style="  padding: 8px 20px; font-size: 14px; border-radius: 4px; color: #ffffff; background-color: #009ef7; border: 0;">
                                 {{ $details['otp'] }}
-                            </button>
+                            </div>
                         </td>
+                       
                     </tr>
                     <tr>
                         <td style="padding: 20px;">

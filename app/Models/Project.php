@@ -14,6 +14,14 @@ class Project extends Model
     {
         return $this->hasMany(Frm::class,'project_name','id');
     }
+    public function themes()
+    {
+        return $this->hasMany(ProjectTheme::class,'project_id','id');
+    }
+    public function partners()
+    {
+        return $this->hasMany(ProjectPartner::class,'project_id','id');
+    }
     public function detail()
     {
         return $this->hasOne(ProjectDetail::class,'project_id','id');

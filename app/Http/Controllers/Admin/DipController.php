@@ -28,7 +28,7 @@ class DipController extends Controller
 
     public function get_dips(Request $request)
     {
-
+       
         $columns = array(
 			1 => 'id',
 			2 => 'project',
@@ -63,10 +63,19 @@ class DipController extends Controller
 		$data = array();
 		if($dips){
 			foreach($dips as $r){
-			
+                $create_url = route('dip.create',$r->id);
                 $edit_url = route('dips.edit',$r->id);
                 $show_url = route('dips.show',$r->id);
-             
+                $nestedData['dip_add'] = '<div>
+                                        <td>
+                                            <a class="btn-icon mx-1" href="'.  $create_url.'" target="_blank">
+                                            <i class="fa fa-pencil text-success" aria-hidden="true" ></i>
+                                            </a>
+                                          
+                                        </a>
+                                        </td>
+                                        </div>
+                                        ';
 				$nestedData['id'] = $r->id;
                 $nestedData['project'] = $r->name ?? '';
                 if(!empty($r->detail->province )){
@@ -141,16 +150,16 @@ class DipController extends Controller
 		
 		echo json_encode($json_data);
     }
- 
+    public function dip_create($id)
+    {
+        $project = Project::where('id',$id)->first();
+        addJavascriptFile('assets/js/custom/dip/dipvalidationform.js');
+        return view('admin.dip.create',compact('project'));
+    }
+
     public function create()
     {
-        $projects = Project::with('detail')->where('active',1)->orderBy('name')->doesntHave('detail')->get();
-        $partners = Partner::orderBy('slug')->get();
         
-        $themes = Theme::orderBy('name')->get();
-
-        addJavascriptFile('assets/js/custom/dip/create.js');
-        return view('admin.dip.create',compact('projects','partners','themes'));
     }
 
     public function store(Request $request)
@@ -188,22 +197,16 @@ class DipController extends Controller
     {
       
         $dip = Dip::find($id);
-        $projects = Project::where('active',1)->get();
-        $partners = Partner::all();
-        $themes = Theme::all();     
-        $theme_dip = json_decode($dip->theme , true);
-        $district_dip = json_decode($dip->district , true);
-        $province_dip = json_decode($dip->province , true);
-        $partner_dip = json_decode($dip->partner , true);
-
-        $districts = District::whereIn('district_id', $district_dip)->get();
+      
+        $project = Project::where('id',$dip->project)->first();
+      
         $active = 'basic_info';
         if(session('active') == ''){
             session(['active' => $active]);
         }
         addJavascriptFile('assets/js/custom/dip/create.js');
         addJavascriptFile('assets/js/custom/dip/dip_activity_validations.js');
-        return view('admin.dip.edit',compact('dip','projects','partners','themes','theme_dip','districts','province_dip','partner_dip'));
+        return view('admin.dip.edit',compact('dip','project'));
     }
 
     public function update(Request $request, string $id)

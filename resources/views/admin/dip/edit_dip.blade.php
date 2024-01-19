@@ -1,107 +1,34 @@
 <div>
-    <form action="{{route('dips.update',$dip->id)}}" method="post" id="create_dip" method="post" enctype="multipart/form-data">
-        @csrf
-        @method('put')
+   
         <div class="card-body py-4">
             <div class="row">
-                <div class="fv-row col-md-4 ">
-                    <label class="fs-6 fw-semibold form-label mb-2">
-                        <span class="required">Project</span>
-                    </label>
-                    <select   name="project" id="project" aria-label="Select Project" data-control="select2" data-placeholder="Select Project" class="form-select"  data-allow-clear="true" >
-                        @foreach($projects as $project)
-                            <option value="{{$project->id}}" @if($project->id == $dip->project) selected @endif >{{$project->name}}</option>
-                        @endforeach
-                    </select>
-                    <div id="projectError" class="error-message "></div>
-                </div>   
-                <div class="fv-row col-md-4 ">
-                    <label class="fs-6 fw-semibold form-label mb-2">
-                        <span class="required">Partner </span>
-                    </label>
-                    <select   multiple name="partner[]" id="partner" aria-label="Select Partner" data-control="select2" data-placeholder="Select Partner" class="form-select"  data-allow-clear="true" >
-                      
-                        @foreach($partners as $partner)
-                            <option value="{{$partner->id}}"  @if(in_array($partner->id, $partner_dip)) selected @endif>{{$partner->name}}</option>
-                        @endforeach
-                    </select>
-                    <div id="partnerError" class="error-message "></div>
-                </div>  
-                <div class="fv-row col-md-4 ">
-                    <label class="fs-6 fw-semibold form-label mb-2">
-                        <span class="required">Thematic Area</span>
-                    </label>
-                    <select name="theme[]" id="theme" class="form-select form-select-solid" data-control="select2" data-placeholder="Select an option" data-allow-clear="true" multiple>
-                      
-                        @foreach($themes as $theme)
-                            <option value="{{$theme->id}}" @if(in_array($theme->id, $theme_dip)) selected @endif >{{$theme->name}}</option>
-                        @endforeach
-                      
-                    </select>
-                
-                    <div id="themeError" class="error-message "></div>
+                <div class="col-md-6">
+                    <table class="table table-striped m-4">
+                        <tr>
+                            <td><strong>Project</strong></td>
+                            <td>{{$project->name ?? ''}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Type</strong></td>
+                            <td>{{$project->type ?? ''}}</td>
+                        </tr>
+                    </table>
                 </div>
-                <div class="fv-row col-md-4 mt-3">
-                    <label class="fs-6 fw-semibold form-label mb-2">
-                        <span class="required">Province</span>
-                    </label>
-                    <select   name="province[]" multiple id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select "  data-allow-clear="true" >
-                    
-                        <option value="">Select Province</option>
-                        {{-- <option value='1'>Punjab</option> --}}
-                        <option value='4' @if(in_array('4', $province_dip)) selected @endif  >Sindh</option>
-                        <option  value='2'  @if(in_array('2', $province_dip)) selected @endif >KPK</option>
-                        <option value='3'  @if(in_array('3', $province_dip)) selected @endif >Balochistan</option>
-                     
-                    </select>
-                    <div id="kt_select2_provinceError" class="error-message "></div>
+                <div class="col-md-6">
+                    <table class="table table-striped m-4">
+                        <tr>
+                            <td><strong>Status</strong></td>
+                            <td>{{$project->status ?? ''}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Project Tenure</strong></td>
+                            <td>
+                               {{ date('d-M-Y', strtotime($project->start_date))}} -To- {{date('d-M-Y', strtotime($project->end_date));}}
+                            </td>
+                        </tr>
+                    </table>
                 </div>
-                <div class="fv-row col-md-4 mt-3">
-                    <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                        <span class="required">District</span>
-                        <span class="spinner-border spinner-border-sm align-middle ms-2" id="districtloader"></span>
-                    </label>
-                    <select id="kt_select2_district" multiple name="district[]" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select ">
-                        @foreach($districts as $district)
-                            <option value="{{$district->id}}" selected>{{$district->district_name}}</option>
-                        @endforeach
-                    </select>
-                    <div id="kt_select2_districtError" class="error-message "></div>
-                </div>
-                <div class="fv-row col-md-4 mt-3">
-                    <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                        <span class="required">Project Start Date</span>
-                    </label>
-                    <input type="text" name="project_start_date" id="project_start_date" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="{{$dip->project_start}}">
-                    <div id="project_start_dateError" class="error-message "></div>
-                </div>
-                <div class="fv-row col-md-4 mt-3">
-                    <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                        <span class="required">Project End Date</span>
-                    </label>
-                    <input type="text" name="project_end_date" id="project_end_date" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="{{$dip->project_end}}">
-                    <div id="project_end_dateError" class="error-message "></div>
-                </div>
-                <div class="fv-row col-md-4 mt-3">
-                    <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                        <span class="required">Project Submission Date</span>
-                    </label>
-                    <input type="text" name="project_submition" id="project_submition" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="{{$dip->project_submition}}">
-                    <div id="project_submitionError" class="error-message "></div>
-                </div>
-                <div class="fv-row col-md-4 mt-3">
-                    <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                        <span class="required">Attachment</span>
-                    </label>
-                    <input type="file" name="attachment" id="attachment" class="form-control">
-                    <div id="attachmentError" class="error-message "></div>
-                </div>
-            </div>
-            <div class="d-flex justify-content-end">
-                <button type="submit" id="kt_create_dip" class="btn btn-success btn-sm  m-5">       
-                    @include('partials/general/_button-indicator', ['label' => 'Update'])
-                </button>             
             </div>
         </div>
-    </form>
+    
 </div>

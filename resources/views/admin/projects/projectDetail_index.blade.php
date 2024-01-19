@@ -4,10 +4,10 @@
         Project List
     @endsection
 
-        {{-- <div id="kt_app_content" class="app-content flex-column-fluid">
+        <div id="kt_app_content" class="app-content flex-column-fluid">
             <div class="card-toolbar m-5 d-flex justify-content-end">   
                 @can('create dip')
-                    <a href="{{ route('dips.create') }}" class="btn btn-primary btn-sm font-weight-bolder">
+                    <a href="{{ route('project.detail') }}" class="btn btn-primary btn-sm font-weight-bolder">
                         <span class="svg-icon svg-icon-primary svg-icon-1x mx-1">
                             <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Navigation/Plus.svg-->
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -114,17 +114,16 @@
                 <div class="card-body pt-3">
     
                     <div class="table-responsive overflow-*">
-                        <table class="table table-striped table-bordered nowrap" id="dips" style="width:100%">
+                        <table class="table table-striped table-bordered nowrap" id="project_details" style="width:100%">
                         <thead>
                             <tr>
-                                <th>Dip</th>
                                 <th>Project</th>
                                 <th>Provinces</th>
                                 <th>Disticts</th>
-                                {{-- <th>Partners</th>
-                                <th>Theme</th> --}}
+                                <th>Partners</th>
+                                <th>Theme</th>
                                 <th>Project Tenure</th>
-                                {{-- <th>attachment</th> --}}
+                                <th>attachment</th>
                                 <th>Created By</th>
                                 <th>Created At</th>
                                 <th>Actions</th>
@@ -146,7 +145,7 @@
         <script src="{{asset("assets/plugins/custom/datatables/datatables.bundle.js")}}"></script>
         <script>
             
-            var frm = $('#dips').DataTable( {
+            var frm = $('#project_details').DataTable( {
                 "order": [
                     [1, 'desc']
                 ],
@@ -163,20 +162,19 @@
                 "responsive": false,
                 "info": false,
             "ajax": {
-                "url":"{{route('admin.get_dips')}}",
+                "url":"{{route('admin.get_project_details')}}",
                 "dataType":"json",
                 "type":"POST",
                 "data":{"_token":"<?php echo csrf_token() ?>"}
             },
                 "columns":[
-                    {"data":"dip_add","searchable":false,"orderable":false},
                                 {"data":"project","searchable":false,"orderable":false},
                                 {"data":"province","searchable":false,"orderable":false},
                                 {"data":"district","searchable":false,"orderable":false},
-                                // {"data":"partner","searchable":false,"orderable":false},
-                                // {"data":"theme","searchable":false,"orderable":false},
+                                {"data":"partner","searchable":false,"orderable":false},
+                                {"data":"theme","searchable":false,"orderable":false},
                                 {"data":"project_tenure","searchable":false,"orderable":false},
-                                // {"data":"attachment","searchable":false,"orderable":false},
+                                {"data":"attachment","searchable":false,"orderable":false},
                                 {"data":"created_by","searchable":false,"orderable":false},
                                 {"data":"created_at","searchable":false,"orderable":false},
                                 {"data":"action","searchable":false,"orderable":false},
@@ -250,7 +248,7 @@
                     if (result.value) {
                         Swal.fire(
                             "Deleted!",
-                            "Your DIP has been deleted.",
+                            "Your Project has been deleted.",
                             "success"
                         );
                         var APP_URL = {!! json_encode(url('/')) !!}

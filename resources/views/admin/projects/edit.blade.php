@@ -51,33 +51,22 @@
                             </select>
                             <div id="statusError" class="error-message "></div>
                         </div>  
-                        <div class="fv-row col-md-3 mt-3">
+                        <div class="fv-row col-md-4 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">SOF</span>
                             </label>
                             <input type="text" name="sof" id="sof" placeholder="Enter SOF" class="form-control" value="{{ $project->sof ?? ''}}">
                             <div id="sofError" class="error-message "></div>
                         </div> 
-                        <div class="fv-row col-md-3 mt-3">
-                            <label class="fs-6 fw-semibold form-label mb-2">
-                                <span class="required">Theme</span>
-                            </label>
-                            <select   name="theme[]" multiple id="theme" aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme..." class="form-select "  data-allow-clear="true" > 
-                                <option  value=''>Select Theme</option>
-                                @foreach($theme as $th)
-                                    <option  value='{{$th->id}}' @if(in_array($th->id, $themes->pluck('id')->toArray())) selected @endif>{{$th->name}}</option>
-                                @endforeach
-                            </select>
-                            <div id="statusError" class="error-message "></div>
-                        </div>  
-                        <div class="fv-row col-md-3 mt-3">
+                      
+                        <div class="fv-row col-md-4 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Project Start Date</span>
                             </label>
                             <input type="text" name="start_date" id="start_date" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="{{$project->start_date}}">
                             <div id="start_dateError" class="error-message "></div>
                         </div>
-                        <div class="fv-row col-md-3 mt-3">
+                        <div class="fv-row col-md-4 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Project End Date</span>
                             </label>

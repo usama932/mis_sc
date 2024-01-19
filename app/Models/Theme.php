@@ -14,4 +14,9 @@ class Theme extends Model
     {
         return $this->hasMany(Frm::class,'theme','id');
     }
+    public function project()
+    {
+        return $this->hasOne(ProjectTheme::class,'theme_id','id');
+    }
+
 }

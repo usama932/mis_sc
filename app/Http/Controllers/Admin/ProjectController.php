@@ -25,7 +25,125 @@ class ProjectController extends Controller
     {
         return view('admin.projects.index');
     }
-    
+    public function get_project_index()
+    {
+        return view('admin.projects.projectDetail_index');
+    }
+    public function get_project_details(Request $request)
+    {
+
+        $columns = array(
+			1 => 'id',
+			2 => 'project',
+            3 => 'partner',
+            4 => 'theme',
+            5 => 'province',
+            6 => 'district',
+            7 => 'project_start',
+            8 => 'project_end',
+            9 => 'project_submition',
+            10 => 'attachment',
+            11 => 'created_by',
+            12 => 'created_at',
+            13 => 'updated_by',
+            14 => 'updated_at',
+            
+		);
+		
+		$totalData = Project::count();
+       
+		$limit = $request->input('length');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+        $totalFiltered = Project::count();
+       
+		$start = $request->input('start');
+		
+        $dips = Project::query();
+
+        $dips =$dips->limit($limit)->orderBy($order, $dir)->get();
+      
+		$data = array();
+		if($dips){
+			foreach($dips as $r){
+			
+                $edit_url = route('projects.edit',$r->id);
+                $show_url = route('projects.show',$r->id);
+             
+				$nestedData['id'] = $r->id;
+                $nestedData['project'] = $r->name ?? '';
+                if(!empty($r->detail->province )){
+                    $province_dip = json_decode($r->detail->province , true);
+                    $provinces = Province::whereIn('province_id', $province_dip)->pluck('province_name');
+                }
+                else{
+                    $provinces = '';
+                }
+                $nestedData['province'] = $provinces ?? '';
+                if(!empty($r->detail->district )){
+                    $district_dip = json_decode($r->detail->district , true);
+                    $districts = District::whereIn('district_id', $district_dip)->pluck('district_name');
+                }
+                else{
+                    $districts = '';
+                }
+                $nestedData['district'] = $districts ?? '';
+                if(!empty($r->detail->partner )){
+                    $partner_dip = json_decode($r->detail->partner , true);
+                    $partners = Partner::whereIn('id', $partner_dip)->pluck('slug');
+                }
+                else{
+                    $partners = '';
+                }
+                $nestedData['partner'] = $partners ?? '';
+                if(!empty($r->detail->theme )){
+                    $theme_dip = json_decode($r->detail->theme , true);
+                    $themes = Theme::whereIn('id', $theme_dip)->pluck('name');
+                }
+                else{
+                    $themes = '';
+                }
+                $nestedData['theme'] = $themes ?? '';
+                if($r->start_date != null && $r->end_date != null){
+                    $nestedData['project_tenure'] = date('d-M-Y', strtotime($r->start_date)) .' To '.date('d-M-Y', strtotime($r->end_date));
+                }
+                else{
+                    $nestedData['project_tenure'] ='' ;
+                }      
+                $nestedData['attachment'] = $r->detail->attachment ?? '';
+                $nestedData['created_by'] = $r->user->name ?? '';
+                $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
+                       
+                $nestedData['action'] = '<div>
+                                        <td>
+                                            <a class="btn-icon mx-1" href="'. $show_url.'" target="_blank">
+                                            <i class="fa fa-eye text-success" aria-hidden="true" ></i>
+                                            </a>
+                                            <a class="btn-icon mx-1" href="'. $edit_url.'" target="_blank">
+                                                <i class="fa fa-pencil text-warning" aria-hidden="true" ></i>
+                                            </a>
+                                            <a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
+                                                <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+                                            </a>
+                                        </a>
+                                        </td>
+                                        </div>
+                                        ';
+               
+				
+				$data[] = $nestedData;
+			}
+		}
+		
+		$json_data = array(
+			"draw"			=> intval($request->input('draw')),
+			"recordsTotal"	=> intval($totalData),
+			"recordsFiltered" => intval($totalFiltered),
+			"data"			=> $data
+		);
+		
+		echo json_encode($json_data);
+    }
     public function get_projects(Request $request)
     {
         $columns = array(
@@ -57,8 +175,8 @@ class ProjectController extends Controller
             $project->where('project',$request->project_name);
         }
         
-        $projects =$project->limit($limit)
-                                    ->orderBy($order, $dir)->get()->sortByDesc("date_visit");
+        $projects =$project->offset($start)
+                            ->limit($limit)->orderBy($order, $dir)->get();
 		$data = array();
 		if($projects){
 			foreach($projects as $r){
@@ -121,6 +239,16 @@ class ProjectController extends Controller
     {
         
     }
+    public function createProject_details(){
+
+        $projects = Project::with('detail')->where('active',1)->orderBy('name')->doesntHave('detail')->get();
+        $partners = Partner::orderBy('slug')->get();  
+        $themes = Theme::orderBy('name')->get();
+
+        addJavascriptFile('assets/js/custom/dip/create.js');
+
+        return view('admin.projects.updateprojectdetail',compact('projects','partners','themes'));
+    }
     public function create()
     {
         addJavascriptFile('assets/js/custom/project/create.js');
@@ -143,30 +271,25 @@ class ProjectController extends Controller
         $data = $request->except('_token');
         
         $project = $this->projectRepository->updateproject($data);
-        dd ($request->all());
+        
     }
     public function show(string $id)
     {
         $project = Project::with('detail')->find($id);
 
-        if($project->detail->theme != null) {
-            $theme_project = json_decode($project->detail->theme , true);
-            $themes = Theme::whereIn('id', $theme_project)->latest()->get();
-    
-        }
-        if($project->detail->district != null) {
+        $provinces = [];
+        $districts = "";
+        if($project->detail?->district != null) {
             $district_project = json_decode($project->detail->district , true);
             $districts = District::whereIn('district_id', $district_project)->get();
         }
-        if($project->detail->province != null) {
+       
+        if($project->detail?->province != null) {
             $province_project = json_decode($project->detail->province , true);
             $provinces = Province::whereIn('province_id', $province_project)->get();
         }
-        if($project->detail->partner != null) {
-            $partner_project = json_decode($project->detail->partner , true);
-            $partners = Partner::whereIn('id', $partner_project)->get();
-        }
-        return view('admin.projects.show',compact('project','partners','provinces','districts','themes'));
+        
+        return view('admin.projects.show',compact('project','provinces','districts'));
     }
 
     public function edit(string $id)
@@ -189,8 +312,8 @@ class ProjectController extends Controller
     {
         $data = $request->except('_token');
     
-        $Qb = $this->projectRepository->updateproject($data);
-        $editUrl = route('project.index');
+        $update_project_basic = $this->projectRepository->updatebasicproject($data,$id);
+        $editUrl = route('projects.index');
         return response()->json([
             'editUrl' => $editUrl
         ]);
@@ -203,7 +326,9 @@ class ProjectController extends Controller
         if(!empty($project)){
             $project->delete();
             return redirect()->route('projects.index');
+        }else{
+            return redirect()->route('projects.index');
         }
-        return redirect()->route('projects.index');
+        
     }
 }
