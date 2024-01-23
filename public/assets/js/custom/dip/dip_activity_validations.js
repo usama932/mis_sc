@@ -35,10 +35,29 @@ var KTdip_activityValidate = function () {
                            
                         }
                     },
-                    'months_target[]': {
+                    'month[]':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Month  is required'
+                            },
+                            callback: {
+                                message: 'Month cannot be null',
+                                callback: function(value) {
+                                    return value !== null;
+                                }
+                            }
+                        }
+                    },
+                    'target_month[]': {
                         validators: {
                             notEmpty: {
                                 message: 'Month Target is required'
+                            },
+                            callback: {
+                                message: 'Month cannot be null',
+                                callback: function(value) {
+                                    return value !== null;
+                                }
                             }
                         }
                     },

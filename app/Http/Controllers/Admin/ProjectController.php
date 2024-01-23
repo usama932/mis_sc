@@ -296,16 +296,9 @@ class ProjectController extends Controller
     {
         $project = Project::find($id);
         addJavascriptFile('assets/js/custom/project/create.js');
-        if($project->detail->theme != null){
-            $theme_logs = json_decode($project->detail->theme , true);
-            $themes = Theme::whereIn('id', $theme_logs)->latest()->get();
-        }
-        else{
-            $themes = '';
-        }
+       
         $persons = StaffEmail::orderBy('name')->get();
-        $theme = Theme::orderBy('name')->get();
-        return view('admin.projects.edit',compact('project','persons','theme' ,'themes'));
+        return view('admin.projects.edit',compact('project','persons'));
     }
 
     public function update(Request $request, string $id)

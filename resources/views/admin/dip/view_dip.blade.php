@@ -75,6 +75,13 @@
                            {{ date('d-M-Y', strtotime($project->project_start))}} -To- {{date('d-M-Y', strtotime($project->project_end));}}
                         </td>
                     </tr>
+                    <tr>
+                        <td><strong>Focal Person</strong></td>
+                        <td>
+                            {{$project->focalperson?->name ?? ''}}<br>
+                            {{$project->focalperson?->email ?? ''}}
+                        </td>
+                    </tr>
                     
                 </table>
                 

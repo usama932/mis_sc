@@ -26,17 +26,7 @@
                         @endphp
                     @endwhile
                 </tr>
-                <tr>
-                    <th>S.NO</th>
-                    <th>Activity</th>
-                    <th>Targets</th>
-                    @while ($startDate <= $endDate)
-                        <th class="mx-2">{{ $startDate->format('F ') }}</th>
-                        @php
-                            $startDate->addMonth();
-                        @endphp
-                    @endwhile
-                </tr>
+             
             </thead>
             <tbody>
                 <tr>
@@ -47,10 +37,21 @@
                         $startDate = \Carbon\Carbon::parse($dip_activity->project->start_date); // Reset start date
                     @endphp
                     @while ($startDate <= $endDate)
-                        <td></td> {{-- Add data for each month here --}}
-                        @php
-                            $startDate->addMonth();
-                        @endphp
+                        @foreach($dip_activity->months as $activity)
+                       
+                            @if(\Carbon\Carbon::parse($activity->month)->format('m-y') == $startDate->format('m-y'))
+                                <td>{{$activity->target ?? ''}}</td>
+                            
+                                
+                            @else
+                            <td>--</td>
+                            
+                            @endif
+                            @php
+                                $startDate->addMonth();
+                                @endphp
+                        @endforeach
+                     
                     @endwhile
                 </tr>
             </tbody>

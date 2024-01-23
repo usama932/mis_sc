@@ -11,6 +11,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Models\StaffEmail;
+use App\Models\LoginLog;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -35,6 +36,11 @@ class AuthenticatedSessionController extends Controller
             $request->user()->update([
                 'last_login_at' => Carbon::now()->toDateTimeString(),
                 'last_login_ip' => $request->getClientIp()
+            ]);
+            LoginLog::create([
+                'user_id' =>auth()->user()->id,
+                'login_ip' =>  $request->getClientIp(),
+                
             ]);
             return redirect()->intended(RouteServiceProvider::HOME);
         }else{
@@ -65,6 +71,11 @@ class AuthenticatedSessionController extends Controller
                 $request->user()->update([
                     'last_login_at' => Carbon::now()->toDateTimeString(),
                     'last_login_ip' => $request->getClientIp()
+                ]);
+                LoginLog::create([
+                    'user_id' => $user->id,
+                    'login_ip' =>  $request->getClientIp(),
+                    
                 ]);
                 return redirect()->intended(RouteServiceProvider::HOME);
                 $message = 'You have successfully logged in!';

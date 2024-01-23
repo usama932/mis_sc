@@ -1,8 +1,17 @@
 <x-nform-layout>
-    @section('title')
-       Add DIP
-    @endsection
-   
+    @push('stylesheets')
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css">
+    @endpush
+
+    @section('title', 'Add DIP')
+
+    <style>
+            .flatpickr-monthSelect-month {
+            
+            width: 25% !important; /* Adjusted width for 4 columns */
+            }
+        </style>
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div class="card">
             <div class="card-body">
@@ -43,7 +52,7 @@
                 <input name="project_id" value="{{$project->id}}" type="hidden">
                 <div class="card-body">
                         <div class="row">
-                            <div class="separator separator-dotted separator-content border-dark my-15"><span class="h5">Add Activity</span></div>
+                            <div class="separator separator-dotted separator-content border-dark my-15"><span class="h5"> Activity</span></div>
                             <div class="fv-row col-md-12">
                                 <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                     <span class="required">Activity Detail</span>
@@ -51,28 +60,41 @@
                                 <textarea name="activity" id="activity" rows="1" class="form-control"></textarea>
                                 <div id="detailError" class="error-message "></div>
                             </div>  
-                            @php
-                                $startDate = \Carbon\Carbon::parse($project->start_date);
-                                $endDate = \Carbon\Carbon::parse($project->end_date);
-                            @endphp                           
-                            <div class="fv-row col-md-12">
-                                <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                    <span class="required">Targets</span>
-                                </label>
-                                {{-- <select multiple name="months_target[]" id="months_target" aria-label="Select Multiple Partner" data-control="select2" data-placeholder="Select Multiple Partner" class="form-select" data-allow-clear="true">
-                                    @while ($startDate <= $endDate)    
-                                        <option value="{{ $startDate->format('F Y') }}">{{ $startDate->format('F Y') }}</option>
-                                        @php
-                                            $startDate->addMonth();
-                                        @endphp
-                                    @endwhile
-                                </select> --}}
-                                <input type="text" name="months_target" id="months_target" placeholder="Select date" class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
-                                <div id="partnerError" class="error-message "></div>
+                            <div class="separator separator-dotted separator-content border-dark my-15"><span class="h5"> Activity Target</span></div>
+                                @php
+                                    $startDate = \Carbon\Carbon::parse($project->start_date);
+                                    $endDate = \Carbon\Carbon::parse($project->end_date);
+                                @endphp                           
+                                <div class="fv-row col-md-12">
+                                    <div id="inputFormRow">
+                                        <div class="input-group mb-3">
+                                         
+                                            <input type="text" name="month[]"  id="month" placeholder="Select Month"  class="month form-control m-input mx-2" onkeydown="event.preventDefault()" data-provide="datepicker" value=""  autocomplete="off">
+                                            <div id="monthError" class="error-message "></div>
+                                            <input type="text" name="target_month[]" id="target_month" placeholder="Enter Target"  class="mx-2  form-control m-input value=""  autocomplete="off" required>
+                                            <div id="target_monthError" class="error-message "></div>
+                                            <div class="input-group-append">
+                                                {{-- <button id="removeRow" type="button" class="btn btn-danger btn-sm">Remove</button> --}}
+                                                <button id="addRow" type="button" class="btn btn-info btn-sm">
+                                                    <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo8/dist/../src/media/svg/icons/Navigation/Plus.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                            <rect fill="#000000" x="4" y="11" width="16" height="2" rx="1"/>
+                                                            <rect fill="#000000" opacity="0.3" transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000) " x="4" y="11" width="16" height="2" rx="1"/>
+                                                        </g>
+                                                        </svg><!--end::Svg Icon-->
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                        
+                                    <div id="newRow"></div>
+                                  
+                                
+                                </div>
                             </div>
-                            <div id="monthstargetFields" class="row"></div>
-                            
-                        </div>       
+                          
+                           
                 </div>
                 <div class="card-footer justify-content-end">
                     <button type="submit" id="kt_create_dip_activity" class="btn btn-success btn-sm 5">        
@@ -84,44 +106,60 @@
     </div>
    
     @push("scripts")
-        <script>
-              flatpickr("#months_target", {
-                mode: "multiple",
-                dateFormat: "F Y",
-                monthSelectorType: "dropdown",
-                disable: [
-                    function(date) {
-                        // Disable all dates that are not in the specific months you want
-                        return !["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"].includes(date.toLocaleString('en-us', { month: 'long' }));
-                    }
-                ],        
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
+        <script type="text/javascript">
+            flatpickr(".month", {
+                dateFormat: "M-Y",
+                minDate: "{{ $startDate->format('M-Y') }}",
+                maxDate: "{{ $endDate->format('M-Y') }}",
+                monthSelectorType: "static",
+                plugins: [
+                    new monthSelectPlugin({
+                        shorthand: true,
+                        dateFormat: "M-Y",
+                        altFormat: "F Y",
+                        theme: "light"
+                    })
+                ]
             });
-            $(document).ready(function() {
-                // Initialize Select2
-            
-                // Handle partner selection change
-                $('#months_target').on('change', function() {
-                    var selectedMonths = $('#months_target').val();
-                    alert(selectedMonths);
-                    var numberOfSelectedMonths = selectedMonths ? selectedMonths.length : 0;
-        
-                    // Remove existing partner email input fields
-                    $('#monthstargetFields').empty();
-        
-                    // Create input fields for partner emails
-                    for (var i = 0; i < numberOfSelectedMonths; i++) {
-                        var monthName = $('#months_target option[value="' + selectedMonths[i] + '"]').text();
-                        var monthstargetField = '<div class="fv-row col-md-2">' +
-                                                    '<label class="fs-6 fw-semibold form-label mb-2">' +
-                                                        '<span class="required">' + monthName + '</span>' +
-                                                    '</label>' +
-                                                    '<input type="text" name="monthName[' + selectedMonths[i] + ']" class="form-control" placeholder="Enter Target for ' + monthName + ' required">' +
-                                                '</div>';
-        
-                        $('#monthstargetFields').append(monthstargetField);
-                    }
+
+            $("#addRow").click(function () {
+                var html = '';
+                html += '<div id="inputFormRow">';
+                html += '<div class="input-group mb-3">';
+                html += '<input type="text" name="month[]" placeholder="Select Month" class="month form-control m-input mx-2" onkeydown="event.preventDefault()" data-provide="datepicker" value="" autocomplete="off">';
+                html += '  <input type="text" name="target_month[]" id="target_month" placeholder="Enter Target" class="mx-2 form-control m-input value="" autocomplete="off" required>'
+                html += '<div class="input-group-append">';
+                html += '<button id="removeRow" type="button" class="btn btn-danger btn-sm">Remove</button>';
+                html += '</div>';
+                html += '</div>';
+                html += '</div>';
+
+                $('#newRow').append(html);
+
+                // Call flatpickr for the new datepicker element
+                flatpickr(".month", {
+                dateFormat: "M-Y",
+                minDate: "{{ $startDate->format('M-Y') }}",
+                maxDate: "{{ $endDate->format('M-Y') }}",
+                monthSelectorType: "static",
+                plugins: [
+                    new monthSelectPlugin({
+                        shorthand: true,
+                        dateFormat: "M-Y",
+                        altFormat: "F Y",
+                        theme: "light"
+                    })
+                ]
                 });
             });
+
+            // remove row
+            $(document).on('click', '#removeRow', function () {
+                $(this).closest('#inputFormRow').remove();
+            });
         </script>
+
     @endpush
 </x-nform-layout>

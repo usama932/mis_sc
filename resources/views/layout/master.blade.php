@@ -37,7 +37,7 @@
         {!! sprintf('<link rel="stylesheet" href="%s">', asset($path)) !!}
     @endforeach
     <!--end::Custom Stylesheets-->
-
+    
     @livewireStyles
 </head>
 <!--end::Head-->

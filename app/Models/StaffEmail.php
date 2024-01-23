@@ -11,4 +11,8 @@ class StaffEmail extends Authenticatable
     use HasFactory;
     protected $table = 'staff_emails';
     protected $guarded = [];
+    public function project()
+    {
+        return $this->hasOne(Project::class,'focal_person','id');
+    }
 }

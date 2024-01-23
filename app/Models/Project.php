@@ -34,4 +34,8 @@ class Project extends Model
     {
         return $this->belongsTo(User::class,'updated_by','id');
     }
+    public function focalperson()
+    {
+        return $this->belongsTo(StaffEmail::class,'focal_person','id');
+    }
 }
