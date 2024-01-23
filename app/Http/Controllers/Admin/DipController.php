@@ -58,20 +58,19 @@ class DipController extends Controller
 		
         $dips = Project::query();
 
-        $dips =$dips->limit($limit)->orderBy($order, $dir)->get();
+        $dips =$dips->limit($limit)->offset($start)->orderBy($order, $dir)->get();
       
 		$data = array();
 		if($dips){
 			foreach($dips as $r){
-                $create_url = route('dip.create',$r->id);
+                
                 $edit_url = route('dips.edit',$r->id);
                 $show_url = route('dips.show',$r->id);
                 $nestedData['dip_add'] = '<div>
                                         <td>
-                                            <a class="btn-icon mx-1" href="'.  $create_url.'" target="_blank">
-                                            <i class="fa fa-pencil text-success" aria-hidden="true" ></i>
+                                            <a class="btn-icon mx-1" href="'.  $edit_url.'" target="_blank">
+                                            <i class="fa fa-eye text-success" aria-hidden="true" ></i>
                                             </a>
-                                          
                                         </a>
                                         </td>
                                         </div>
@@ -125,9 +124,7 @@ class DipController extends Controller
                                             <a class="btn-icon mx-1" href="'. $show_url.'" target="_blank">
                                             <i class="fa fa-eye text-success" aria-hidden="true" ></i>
                                             </a>
-                                            <a class="btn-icon mx-1" href="'. $edit_url.'" target="_blank">
-                                                <i class="fa fa-pencil text-warning" aria-hidden="true" ></i>
-                                            </a>
+
                                             <a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
                                                 <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                                             </a>
@@ -153,7 +150,7 @@ class DipController extends Controller
     public function dip_create($id)
     {
         $project = Project::where('id',$id)->first();
-        addJavascriptFile('assets/js/custom/dip/dipvalidationform.js');
+        addJavascriptFile('assets/js/custom/dip/dip_activity_validations.js');
         return view('admin.dip.create',compact('project'));
     }
 
@@ -178,27 +175,26 @@ class DipController extends Controller
 
     public function show(string $id)
     {
-        $dip = Dip::with('projects','user','user1','activity')->find($id);
-        $theme_dip = json_decode($dip->theme , true);
-        $district_dip = json_decode($dip->district , true);
-        $province_dip = json_decode($dip->province , true);
-        $partner_dip = json_decode($dip->partner , true);
-
-        $themes = Theme::whereIn('id', $theme_dip)->latest()->get();
-        $partners = Partner::whereIn('id', $partner_dip)->get();
+        $project = Project::with('detail','partners','themes','user','user1')->find($id);
+        $provinces = [];
+        $districts = "";
+        if($project->detail?->district != null) {
+            $district_project = json_decode($project->detail->district , true);
+            $districts = District::whereIn('district_id', $district_project)->get();
+        }
        
-        $provinces = Province::whereIn('province_id', $province_dip)->get();
-        $districts = District::whereIn('district_id', $district_dip)->get();
- 
-        return view('admin.dip.view_dip',compact('dip','themes','districts','provinces','partners'));
+        if($project->detail?->province != null) {
+            $province_project = json_decode($project->detail->province , true);
+            $provinces = Province::whereIn('province_id', $province_project)->get();
+        }
+
+        return view('admin.dip.view_dip',compact('project','districts','provinces'));
     }
 
     public function edit(string $id)
     {
-      
-        $dip = Dip::find($id);
-      
-        $project = Project::where('id',$dip->project)->first();
+
+        $project = Project::find($id);
       
         $active = 'basic_info';
         if(session('active') == ''){
@@ -206,7 +202,7 @@ class DipController extends Controller
         }
         addJavascriptFile('assets/js/custom/dip/create.js');
         addJavascriptFile('assets/js/custom/dip/dip_activity_validations.js');
-        return view('admin.dip.edit',compact('dip','project'));
+        return view('admin.dip.edit',compact('project'));
     }
 
     public function update(Request $request, string $id)

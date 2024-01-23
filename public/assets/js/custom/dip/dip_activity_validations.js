@@ -27,45 +27,21 @@ var KTdip_activityValidate = function () {
                 fields: {
 
                   
-                    'activity_number':{
+                    'activity':{
                         validators: {
                             notEmpty: {
-                                message: 'Activity Number is required'
+                                message: 'Activity  is required'
                             },
-                            regexp: {
-                                regexp: /^(?:(?:[1-9]\.\d+))$/,
-                                message: 'Enter  decimal like 1.1, 1.2, etc.'
+                           
+                        }
+                    },
+                    'months_target[]': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Month Target is required'
                             }
                         }
                     },
-                    'detail': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Detail is required'
-                            }
-                        }
-                    },
-                    'start_date': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Start Date is required'
-                            }
-                        }
-                    },
-                    'end_date':{
-                        validators: {
-                            notEmpty: {
-                                message: 'End Date is required'
-                            }
-                        }
-                    },
-                    'status':{
-                        validators: {
-                            notEmpty: {
-                                message: 'Status is Required'
-                            }
-                        }
-                    }
                    
                 },
               

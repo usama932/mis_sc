@@ -61,7 +61,7 @@ class ProjectController extends Controller
 		
         $dips = Project::query();
 
-        $dips =$dips->limit($limit)->orderBy($order, $dir)->get();
+        $dips =$dips->limit($limit)->offset($start)->orderBy($order, $dir)->get();
       
 		$data = array();
 		if($dips){

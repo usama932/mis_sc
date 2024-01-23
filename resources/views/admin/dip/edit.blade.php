@@ -19,7 +19,7 @@
                 {{ session()->get('success') }}
             </div>
         @endif
-        <input type="hidden" id="dip_id" value="{{$dip->id}}" />
+    
         <div class="container-fluid">
             <ul class="nav nav-tabs nav-line-tabs m-5 fs-6">
                 <li class="nav-item">
@@ -50,6 +50,7 @@
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+                    <input value="{{$project->id}}"id="dip_id" name="dip_id" type="hidden">
                     <div class="modal-body"></div>
                  
                 </div>
@@ -62,6 +63,7 @@
     <script src="{{asset("assets/plugins/custom/datatables/datatables.bundle.js")}}"></script>
     <script>
         var dip_id = document.getElementById("dip_id").value;
+        
         var dip_activity = $('#dip_activity').DataTable( {
             "order": [
                 [1, 'desc']
@@ -88,9 +90,6 @@
             },
             "columns":[
                             {"data":"activity_number","searchable":false,"orderable":false},
-                            {"data":"start_date","searchable":false,"orderable":false},
-                            {"data":"end_date","searchable":false,"orderable":false},
-                            {"data":"status","searchable":false,"orderable":false},
                             {"data":"detail","searchable":false,"orderable":false},
                             {"data":"created_by","searchable":false,"orderable":false},
                             {"data":"created_at","searchable":false,"orderable":false},

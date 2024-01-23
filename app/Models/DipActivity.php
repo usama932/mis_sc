@@ -19,9 +19,13 @@ class DipActivity extends Model
     {
         return $this->belongsTo(User::class,'updated_by','id');
     }
-    public function dip()
+    public function months()
     {
-        return $this->belongsTo(Dip::class,'dip_id','id');
+        return $this->hasMany(ActivityMonths::class,'activity_id','id');
+    }
+    public function project()
+    {
+        return $this->belongsTo(Project::class,'project_id','id');
     }
    
 }
