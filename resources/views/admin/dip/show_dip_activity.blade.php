@@ -3,6 +3,7 @@
     @section('title')
     View Project Detail
     @endsection
+
     <div class="container p-3" style="width: 100%; background-color: beige;">
         @php
             $startDate = \Carbon\Carbon::parse($dip_activity->project->start_date);
@@ -19,6 +20,9 @@
                     <th>S.NO</th>
                     <th>Activity</th>
                     <th>Targets</th>
+                    @php
+                        $startDate = \Carbon\Carbon::parse($dip_activity->project->start_date); // Reset start date
+                    @endphp
                     @while ($startDate <= $endDate)
                         <th class="mx-2">{{ $startDate->format('M-y') }}</th>
                         @php
@@ -26,7 +30,6 @@
                         @endphp
                     @endwhile
                 </tr>
-             
             </thead>
             <tbody>
                 <tr>
@@ -36,22 +39,27 @@
                     @php
                         $startDate = \Carbon\Carbon::parse($dip_activity->project->start_date); // Reset start date
                     @endphp
+                    
                     @while ($startDate <= $endDate)
+                        @php
+                            $found = false; // Flag to check if target for the month is found
+                        @endphp
                         @foreach($dip_activity->months as $activity)
-                       
                             @if(\Carbon\Carbon::parse($activity->month)->format('m-y') == $startDate->format('m-y'))
-                                <td>unset({{$activity->target ?? ''}})</td>
+                                <td>{{$activity->target ?? ''}}</td>
                                 @php
-                                    unset($startDate->addMonth());
+                                    $found = true;
+                                    break; // Break the loop once target is found for the month
                                 @endphp
-                                
-                            @else
-                            <td>--</td>
-                            
                             @endif
-                            
                         @endforeach
-                     
+                        {{-- If target is not found for the month, display default --}}
+                        @if (!$found)
+                            <td>--</td>
+                        @endif
+                        @php
+                            $startDate->addMonth();
+                        @endphp
                     @endwhile
                 </tr>
             </tbody>

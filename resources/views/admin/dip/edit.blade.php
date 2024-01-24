@@ -23,10 +23,10 @@
         <div class="container-fluid">
             <ul class="nav nav-tabs nav-line-tabs m-5 fs-6">
                 <li class="nav-item">
-                    <a class="nav-link @if(session('active') == 'basic_info') active @endif " data-bs-toggle="tab" href="#kt_tab_pane_1">DIP</a>
+                    <a class="nav-link @if(session('active') == 'basic_info') active @endif " data-bs-toggle="tab" href="#kt_tab_pane_1">Project Information</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link @if(session('active') == 'dip_activity') active @endif " data-bs-toggle="tab" href="#kt_tab_pane_2">DIP Activities</a>
+                    <a class="nav-link @if(session('active') == 'dip_activity') active @endif " data-bs-toggle="tab" href="#kt_tab_pane_2"> Activities</a>
                 </li>
                
             </ul>

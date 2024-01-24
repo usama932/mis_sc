@@ -300,7 +300,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">List of Projects</span>
+                                    <span class="menu-title">Manage Projects</span>
                                 </a>
                                 <!--end:Menu link-->
                             </div>
@@ -409,7 +409,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">List of Projects</span>
+                                    <span class="menu-title">Master Project List</span>
                                 </a>
                                 <!--end:Menu link-->
                             </div>

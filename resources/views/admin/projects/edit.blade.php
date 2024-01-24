@@ -10,14 +10,14 @@
                 <div class="card-body py-4">
                     <div class="row">
                        
-                        <div class="fv-row col-md-3 ">
+                        <div class="fv-row col-md-4 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Project</span>
                             </label>
                             <input type="text" name="name" id="name" placeholder="Project Title"  class="form-control" value="{{$project->name ?? ''}}">
                             <div id="nameError" class="error-message "></div>
                         </div>   
-                        <div class="fv-row col-md-3 ">
+                        <div class="fv-row col-md-4 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Type</span>
                             </label>
@@ -27,7 +27,7 @@
                             </select>
                             <div id="typeError" class="error-message"></div>
                         </div> 
-                        <div class="fv-row col-md-3 ">
+                        <div class="fv-row col-md-4 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Focal Person</span>
                             </label>
@@ -39,18 +39,7 @@
                             </select>
                             <div id="focal_personError" class="error-message"></div>
                         </div>   
-                        <div class="fv-row col-md-3 ">
-                            <label class="fs-6 fw-semibold form-label mb-2">
-                                <span class="required">Status</span>
-                            </label>
-                            <select   name="status" id="status" aria-label="Select a Status" data-control="select2" data-placeholder="Select a Status..." class="form-select "  data-allow-clear="true" > 
-                                <option  value='Initiative' @if($project->status == "Initiative")  selected @endif>Initiative</option>
-                                <option value='Not Started' @if($project->status == "Not Started")  selected @endif>Not Started</option>
-                                <option  value='In Process' @if($project->status == "In Process")  selected @endif>In Process</option>
-                                <option value='Completed' @if($project->status == "Completed")  selected @endif>Completed</option>
-                            </select>
-                            <div id="statusError" class="error-message "></div>
-                        </div>  
+                 
                         <div class="fv-row col-md-4 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">SOF</span>

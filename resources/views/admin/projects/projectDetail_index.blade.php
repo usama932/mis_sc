@@ -1,27 +1,11 @@
 <x-default-layout>
 
     @section('title')
-        Project List
+       Manage Project List
     @endsection
 
         <div id="kt_app_content" class="app-content flex-column-fluid">
-            <div class="card-toolbar m-5 d-flex justify-content-end">   
-                @can('create dip')
-                    <a href="{{ route('project.detail') }}" class="btn btn-primary btn-sm font-weight-bolder">
-                        <span class="svg-icon svg-icon-primary svg-icon-1x mx-1">
-                            <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Navigation/Plus.svg-->
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                    <rect fill="#FFFFFF" x="4" y="11" width="16" height="2" rx="1"/>
-                                    <rect fill="#FFFFFF" opacity="0.3" transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000)" x="4" y="11" width="16" height="2" rx="1"/>
-                                </g>
-                            </svg>
-                        </span>Update Project
-                    </a>    
-                @endcan
-            </div>
             <div class="card">
-                
                 {{-- <div class="accordion" id="accordionExample">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingOne">
@@ -118,12 +102,10 @@
                         <thead>
                             <tr>
                                 <th>Project</th>
+                                <th>SOF</th>
                                 <th>Provinces</th>
                                 <th>Disticts</th>
-                                <th>Partners</th>
-                                <th>Theme</th>
                                 <th>Project Tenure</th>
-                                <th>attachment</th>
                                 <th>Created By</th>
                                 <th>Created At</th>
                                 <th>Actions</th>
@@ -133,9 +115,7 @@
                     </div>
     
                 </div>
-                
             </div>
-            
         </div>
 
     </div>
@@ -169,12 +149,10 @@
             },
                 "columns":[
                                 {"data":"project","searchable":false,"orderable":false},
+                                {"data":"sof","searchable":false,"orderable":false},
                                 {"data":"province","searchable":false,"orderable":false},
                                 {"data":"district","searchable":false,"orderable":false},
-                                {"data":"partner","searchable":false,"orderable":false},
-                                {"data":"theme","searchable":false,"orderable":false},
                                 {"data":"project_tenure","searchable":false,"orderable":false},
-                                {"data":"attachment","searchable":false,"orderable":false},
                                 {"data":"created_by","searchable":false,"orderable":false},
                                 {"data":"created_at","searchable":false,"orderable":false},
                                 {"data":"action","searchable":false,"orderable":false},
@@ -256,11 +234,7 @@
                     }
                 });
             }
-            // flatpickr("#date_visit", {
-            //     mode: "range",
-            //     dateFormat: "Y-m-d",
-            //     maxDate: "today",
-            // });
+          
         </script>
     @endpush
 

@@ -9,33 +9,35 @@
                 @csrf
                 <div class="card-body py-4">
                     <div class="row">
-                        <div class="fv-row col-md-4">
+                        <div class="fv-row col-md-3">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Project</span>
                             </label>
-                            <select   name="project" id="project" aria-label="Select Project" data-control="select2" data-placeholder="Select Project" class="form-select"  data-allow-clear="true" >
-                                <option value=""></option>
-                                @foreach($projects as $project)
-                                    <option value="{{$project->id}}">{{$project->name}}</option>
-                                @endforeach
-                            </select>
+                            
+                            <input type="text"  readonly value="{{$project->name}}" class="form-control">
+                            <input type="hidden"  name="project" id="project"  value="{{$project->id}}" class="form-control">
                             <div id="projectError" class="error-message "></div>
                         </div>   
-                        <div class="fv-row col-md-4">
+                        <div class="fv-row col-md-3">
+                            <label class="fs-6 fw-semibold form-label mb-2">
+                                <span class="required">SOF</span>
+                            </label>
+                            
+                            <input type="text"  readonly value="{{$project->sof ?? ''}}" class="form-control">
+                            <div id="projectError" class="error-message "></div>
+                        </div>   
+                        <div class="fv-row col-md-3">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Province</span>
                             </label>
                             <select   name="province[]" multiple id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select Multiple Province..." class="form-select "  data-allow-clear="true" >
-                            
-                                {{-- <option value='1'>Punjab</option> --}}
-                                <option value='4' >Sindh</option>
-                                <option  value='2'>KPK</option>
-                                <option value='3'>Balochistan</option>
-                             
+                                    @foreach($provinces as $province)
+                                        <option value="{{$province->province_id}}">{{$province->province_name}}</option>
+                                    @endforeach
                             </select>
                             <div id="provinceError" class="error-message "></div>
                         </div>
-                        <div class="fv-row col-md-4 ">
+                        <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">District</span>
                                 <span class="spinner-border spinner-border-sm align-middle ms-2" id="districtloader"></span>
@@ -47,13 +49,6 @@
                         <div class="separator separator-dotted separator-content border-dark my-15"><span class="h5">Targets</span></div>
                         <div class="fv-row col-md-4 ">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                <span class="required">Overall Target</span>
-                            </label>
-                            <input type="text" name="total_targets" id="total_targets"  placeholder="Enter Overall Targets" class="form-control">
-                            <div id="total_targetsError" class="error-message "></div>
-                        </div>
-                        <div class="fv-row col-md-4 ">
-                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Households (HH) Target</span>
                             </label>
                             <input type="text" name="hh_targets" id="hh_targets"  placeholder="Enter House Hold Targets" class="form-control">
@@ -61,10 +56,18 @@
                         </div>
                         <div class="fv-row col-md-4 ">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                <span class="required">Individuals Target</span>
+                                <span class="required">Individuals Beneficiaries Target</span>
                             </label>
                             <input type="text" name="individual_targets" id="individual_targets"  placeholder="Enter House Individual Targets" class="form-control">
                             <div id="individual_targetsError" class="error-message "></div>
+                        </div>
+                        
+                        <div class="fv-row col-md-3 ">
+                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                                <span class="required">Female Target</span>
+                            </label>
+                            <input type="text" name="female_targets" id="female_targets"  placeholder="Enter Male Targets" class="form-control">
+                            <div id="female_targetsError" class="error-message "></div>
                         </div>
                         <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
@@ -75,10 +78,10 @@
                         </div>
                         <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                <span class="required">Female Target</span>
+                                <span class="required">Girls Target</span>
                             </label>
-                            <input type="text" name="female_targets" id="female_targets"  placeholder="Enter Male Targets" class="form-control">
-                            <div id="female_targetsError" class="error-message "></div>
+                            <input type="text" name="girls_targets" id="girls_targets"  placeholder="Enter Girls Targets" class="form-control">
+                            <div id="girls_targetsError" class="error-message "></div>
                         </div>
                         <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
@@ -86,13 +89,6 @@
                             </label>
                             <input type="text" name="boys_targets" id="boys_targets"  placeholder="Enter Boys Targets" class="form-control">
                             <div id="boys_targetsError" class="error-message "></div>
-                        </div>
-                        <div class="fv-row col-md-3 ">
-                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                <span class="required">Girls Target</span>
-                            </label>
-                            <input type="text" name="girls_targets" id="girls_targets"  placeholder="Enter Girls Targets" class="form-control">
-                            <div id="girls_targetsError" class="error-message "></div>
                         </div>
                         <div class="separator separator-dotted separator-content border-dark my-15"><span class="h5">Theme</span></div>
                         <div class="fv-row col-md-12">
@@ -168,9 +164,9 @@
                     var partnerName = $('#partner option[value="' + selectedPartners[i] + '"]').text();
                     var partnerEmailField = '<div class="fv-row col-md-4">' +
                                                 '<label class="fs-6 fw-semibold form-label mb-2">' +
-                                                    '<span class="required">Partner ' + partnerName + ' Email</span>' +
+                                                    '<span class="required">Partner ' + partnerName + ' Focal Person Email</span>' +
                                                 '</label>' +
-                                                '<input type="text" name="partner_email[' + selectedPartners[i] + ']" class="form-control" placeholder="Enter Email for ' + partnerName + ' required">' +
+                                                '<input type="email" name="partner_email[' + selectedPartners[i] + ']" class="form-control" placeholder="Enter Email for ' + partnerName + ' required">' +
                                             '</div>';
     
                     $('#partnerEmailFields').append(partnerEmailField);

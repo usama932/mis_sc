@@ -59,19 +59,20 @@ class ProjectController extends Controller
        
 		$start = $request->input('start');
 		
-        $dips = Project::query();
+        $project_details = Project::query();
 
-        $dips =$dips->limit($limit)->offset($start)->orderBy($order, $dir)->get();
+        $project_details =$project_details->limit($limit)->offset($start)->orderBy($order, $dir)->get();
       
 		$data = array();
-		if($dips){
-			foreach($dips as $r){
+		if($project_details){
+			foreach($project_details as $r){
 			
-                $edit_url = route('projects.edit',$r->id);
+                $edit_url = route('project.detail',$r->id);
                 $show_url = route('projects.show',$r->id);
              
 				$nestedData['id'] = $r->id;
                 $nestedData['project'] = $r->name ?? '';
+                $nestedData['sof'] = $r->sof ?? '';
                 if(!empty($r->detail->province )){
                     $province_dip = json_decode($r->detail->province , true);
                     $provinces = Province::whereIn('province_id', $province_dip)->pluck('province_name');
@@ -88,29 +89,14 @@ class ProjectController extends Controller
                     $districts = '';
                 }
                 $nestedData['district'] = $districts ?? '';
-                if(!empty($r->detail->partner )){
-                    $partner_dip = json_decode($r->detail->partner , true);
-                    $partners = Partner::whereIn('id', $partner_dip)->pluck('slug');
-                }
-                else{
-                    $partners = '';
-                }
-                $nestedData['partner'] = $partners ?? '';
-                if(!empty($r->detail->theme )){
-                    $theme_dip = json_decode($r->detail->theme , true);
-                    $themes = Theme::whereIn('id', $theme_dip)->pluck('name');
-                }
-                else{
-                    $themes = '';
-                }
-                $nestedData['theme'] = $themes ?? '';
+               
+             
                 if($r->start_date != null && $r->end_date != null){
                     $nestedData['project_tenure'] = date('d-M-Y', strtotime($r->start_date)) .' To '.date('d-M-Y', strtotime($r->end_date));
                 }
                 else{
                     $nestedData['project_tenure'] ='' ;
                 }      
-                $nestedData['attachment'] = $r->detail->attachment ?? '';
                 $nestedData['created_by'] = $r->user->name ?? '';
                 $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
                        
@@ -187,6 +173,7 @@ class ProjectController extends Controller
 				$nestedData['id'] = $r->id;
                 $nestedData['project'] = $r->name ?? '';
                 $nestedData['type'] = $r->type ?? '';
+                $nestedData['sof'] = $r->sof ?? '';
                 if(!empty($r->start_date)){
                     $nestedData['start_date'] = date('d-M-Y', strtotime($r->start_date)) ?? '';
                 }
@@ -239,15 +226,15 @@ class ProjectController extends Controller
     {
         
     }
-    public function createProject_details(){
+    public function createProject_details($id){
 
-        $projects = Project::with('detail')->where('active',1)->orderBy('name')->doesntHave('detail')->get();
-        $partners = Partner::orderBy('slug')->get();  
-        $themes = Theme::orderBy('name')->get();
-
+        $project   = Project::where('id',$id)->with('detail')->where('active',1)->orderBy('name')->first();
+        $partners   = Partner::orderBy('slug')->get();  
+        $themes     = Theme::orderBy('name')->get();
+        $provinces   = Province::orderBy('province_name')->get();
         addJavascriptFile('assets/js/custom/dip/create.js');
 
-        return view('admin.projects.updateprojectdetail',compact('projects','partners','themes'));
+        return view('admin.projects.updateprojectdetail',compact('project','partners','themes','provinces'));
     }
     public function create()
     {

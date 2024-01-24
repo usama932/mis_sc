@@ -121,6 +121,7 @@
                         <tr>
                             <th>Project</th>
                             <th>Type</th>
+                            <th>SOF</th>
                             <th>Start Date</th>
                             <th>End Date</th>
                             <th>Status</th>
@@ -171,6 +172,7 @@
             "columns":[
                             {"data":"project","searchable":false,"orderable":false},
                             {"data":"type","searchable":false,"orderable":false},
+                            {"data":"sof","searchable":false,"orderable":false},
                             {"data":"start_date","searchable":false,"orderable":false},
                             {"data":"end_date","searchable":false,"orderable":false},
                             {"data":"status","searchable":false,"orderable":false},

@@ -7,11 +7,44 @@ flatpickr("#start_date", {
   flatpickr("#end_date", {
   
     dateFormat: "Y-m-d",
-    maxDate: "today",
+   
   });
  
 
+var startDateInput = document.getElementById('start_date');
+var endDateInput = document.getElementById('end_date');
 
+// Check if both start date and end date inputs exist
+if (startDateInput && endDateInput) {
+    endDateInput.addEventListener('change', function () {
+        var startDate = new Date(startDateInput.value);
+        var endDate = new Date(endDateInput.value);
+
+        // Compare start and end dates
+        if (startDate.getTime() >= endDate.getTime()) {
+            toastr.options = {
+                "closeButton": false,
+                "debug": true,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toastr-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+              };
+              
+              toastr.error("End Date must be greater than Start Date", "Error");
+              endDateInput.value = '';
+        }
+    });
+}
 var KTdipValidate = function () {
     // Elements
     var form;
@@ -68,13 +101,6 @@ var KTdipValidate = function () {
                             }
                         }
                     },
-                    'status': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Status is required'
-                            }
-                        }
-                    },
                     'start_date':{
                         validators: {
                             notEmpty: {
@@ -86,6 +112,20 @@ var KTdipValidate = function () {
                         validators: {
                             notEmpty: {
                                 message: 'Project End Date Required'
+                            },
+                            callback: {
+                                message: 'End Date must be greater than Start Date',
+                                callback: function(value, validator, $field) {
+                                    // Retrieve the start date value
+                                    var startDate = validator.getFieldElements('start_date').val();
+                    
+                                    // Compare start and end dates
+                                    if (startDate && value <= startDate) {
+                                        return false;
+                                    }
+                    
+                                    return true;
+                                }
                             }
                         }
                     },
