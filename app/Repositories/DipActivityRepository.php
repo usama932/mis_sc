@@ -19,24 +19,31 @@ class DipActivityRepository implements DipActivityInterface
             'project_id'           => $data['project_id'],
             'created_by'           => auth()->user()->id,
         ]);
-        if(!empty($data['monthName']) && !empty($activity)){
+        if(!empty($data['month']) && !empty($activity)){
            
-            foreach($data['monthName'] as $key => $month){
-               
-                $activity_months =  ActivityMonths::where('activity_id',$activity->id)
-                                            ->where('project_id',$data['project_id'])->get();
-                if(!empty($activity_months)) {
-                    ActivityMonths::where('activity_id',$activity->id)
-                                    ->where('project_id',$data['project_id'])->delete();
+            foreach($data['month'] as $key_month => $month){
+              
+                foreach($data['target_month'] as $key => $target){
+                    if($key_month == $key ){
+                        $activity_months =  ActivityMonths::where('activity_id',$activity->id)
+                        ->where('project_id',$data['project_id'])->get();
+                        if(!empty($activity_months)) {
+                        ActivityMonths::where('activity_id',$activity->id)
+                                        ->where('project_id',$data['project_id'])->delete();
+                        }
+                        $activity_month =  ActivityMonths::create([
+                        'month'         =>  $month,
+                        'target'        =>  $target,
+                        'project_id'    =>  $data['project_id'],
+                        'activity_id'   =>  $activity->id,
+                        'created_by'    => auth()->user()->id,
+                        ]);
+                    }
+                  
                 }
-                $activity_month =  ActivityMonths::create([
-                    'month'         =>  $key,
-                    'target'        =>  $month,
-                    'project_id'    =>  $data['project_id'],
-                    'activity_id'   =>  $activity->id,
-                    'created_by'    => auth()->user()->id,
-                ]);
             }  
+        }else{
+            $activity->delete();
         }
         return $activity;
     }

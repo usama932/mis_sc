@@ -40,16 +40,16 @@
                         @foreach($dip_activity->months as $activity)
                        
                             @if(\Carbon\Carbon::parse($activity->month)->format('m-y') == $startDate->format('m-y'))
-                                <td>{{$activity->target ?? ''}}</td>
-                            
+                                <td>unset({{$activity->target ?? ''}})</td>
+                                @php
+                                    unset($startDate->addMonth());
+                                @endphp
                                 
                             @else
                             <td>--</td>
                             
                             @endif
-                            @php
-                                $startDate->addMonth();
-                                @endphp
+                            
                         @endforeach
                      
                     @endwhile
