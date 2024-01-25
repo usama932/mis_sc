@@ -117,15 +117,9 @@
                             <div id="partnerError" class="error-message "></div>
                         </div>
                         <div id="partnerEmailFields" class="row"></div>
-                        <div class="fv-row col-md-4 ">
-                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                <span class="required">Attachment</span>
-                            </label>
-                            <input type="file" name="attachment" id="attachment" class="form-control">
-                            <div id="attachmentError" class="error-message "></div>
-                        </div>
+                       
                         
-                        <div class="fv-row col-md-8 ">
+                        <div class="fv-row col-md-12 ">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Project Description</span>
                             </label>
@@ -164,7 +158,7 @@
                     var partnerName = $('#partner option[value="' + selectedPartners[i] + '"]').text();
                     var partnerEmailField = '<div class="fv-row col-md-4">' +
                                                 '<label class="fs-6 fw-semibold form-label mb-2">' +
-                                                    '<span class="required">Partner ' + partnerName + ' Focal Person Email</span>' +
+                                                    '<span class="required">Partner ' + partnerName + '  Email</span>' +
                                                 '</label>' +
                                                 '<input type="email" name="partner_email[' + selectedPartners[i] + ']" class="form-control" placeholder="Enter Email for ' + partnerName + ' required">' +
                                             '</div>';
