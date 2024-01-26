@@ -16,6 +16,7 @@ class ProjectRepository implements ProjectRepositoryInterface
             'name'                  => $data['name'],
             'type'                  => $data['type'],
             'sof'                   => $data['sof'],
+            'status'                => 'Initiative',
             'focal_person'          => $data['focal_person'],
             'start_date'            => $data['start_date'],
             'end_date'              => $data['end_date'],

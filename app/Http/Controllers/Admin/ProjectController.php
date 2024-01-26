@@ -188,7 +188,11 @@ class ProjectController extends Controller
                 }
                 
                 $nestedData['status'] = $r->status ?? '';
-                $nestedData['active'] = $r->active ?? '';
+                $nestedData['active'] = '<div>
+                                            <td>
+                                            <input class="form-check-input" type="checkbox" value="" id="flexSwitchDefault"/>
+                                            </td>
+                                        </div>';
                 $nestedData['created_by'] = $r->user->name ?? '';
                 $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
              
@@ -240,7 +244,7 @@ class ProjectController extends Controller
     {
         addJavascriptFile('assets/js/custom/project/create.js');
         $themes = Theme::orderBy('name')->get();
-        $persons = StaffEmail::orderBy('name')->get();
+        $persons = User::role('focal person')->get();
         return view('admin.projects.create',compact('themes','persons'));
     }
 
@@ -284,7 +288,7 @@ class ProjectController extends Controller
         $project = Project::find($id);
         addJavascriptFile('assets/js/custom/project/create.js');
        
-        $persons = StaffEmail::orderBy('name')->get();
+        $persons = User::role('focal person')->get();
         return view('admin.projects.edit',compact('project','persons'));
     }
 

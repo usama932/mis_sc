@@ -42,6 +42,15 @@ if (startDateInput && endDateInput) {
               
               toastr.error("End Date must be greater than Start Date", "Error");
               endDateInput.value = '';
+              end_dateError.textContent = "End Date must be greater than Start Date";
+              
+              // Change field outer color to red
+              end_date.style.borderColor = "red";
+              end_date.style.borderWidth = "2px";
+        }else{
+                end_dateError.textContent = "";
+                end_date.style.borderColor = "#4b5675";
+                end_date.style.borderWidth = "1px";
         }
     });
 }
