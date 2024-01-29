@@ -17,6 +17,7 @@ class ProjectRepository implements ProjectRepositoryInterface
             'type'                  => $data['type'],
             'sof'                   => $data['sof'],
             'status'                => 'Initiative',
+            'active'                => 1,
             'focal_person'          => $data['focal_person'],
             'start_date'            => $data['start_date'],
             'end_date'              => $data['end_date'],
@@ -93,6 +94,19 @@ class ProjectRepository implements ProjectRepositoryInterface
     }
     public function updatebasicproject($data,$id)
     { 
+        
+        if($data['project_extended'] == 'on'){
+            $extended = 1;
+            
+        }else{
+            $extended = 0;
+        }
+        if($data['active'] == 'on'){
+
+            $active = 1;
+        }else{
+            $active = 0;
+        }
         return Project::where('id',$id)->update([
             'name'                  => $data['name'],
             'type'                  => $data['type'],
@@ -100,7 +114,7 @@ class ProjectRepository implements ProjectRepositoryInterface
             'focal_person'          => $data['focal_person'],
             'start_date'            => $data['start_date'],
             'end_date'              => $data['end_date'],
-            'active'                =>  '1',
+            'active'                => $active,
             'updated_by'            => auth()->user()->id,
         ]); 
        

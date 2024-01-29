@@ -93,6 +93,7 @@ var KTdipValidate = function () {
                             }
                         }
                     },
+                    
                     'partner[]': {
                         validators: {
                             notEmpty: {
@@ -108,6 +109,14 @@ var KTdipValidate = function () {
                             },
                             numeric: {
                                 message: 'Individual Target must be a number'
+                            }
+                        }
+                    },
+                    'pwd_targets': {
+                        validators: {
+                            
+                            numeric: {
+                                message: 'PWD Target must be a number'
                             }
                         }
                     },

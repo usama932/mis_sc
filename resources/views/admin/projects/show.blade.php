@@ -29,7 +29,9 @@
                     <tr>
                         <td><strong>Project Tenure</strong></td>
                         <td>
-                           {{ date('d-M-Y', strtotime($project->start_date))}} -To- {{date('d-M-Y', strtotime($project->end_date));}}
+                            @if(!empty($project->start_date) && $project->start_date != null)
+                                {{ date('d-M-Y', strtotime($project->start_date))}} -To- {{date('d-M-Y', strtotime($project->end_date));}}
+                            @endif
                         </td>
                     </tr>
                     <tr>
@@ -37,6 +39,22 @@
                         <td>
                           {{$project->focalperson?->name ?? ''}}<br>
                           {{$project->focalperson?->email ?? ''}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Project Status </strong></td>
+                        <td>
+                          {{$project->status ?? ''}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Project Extended </strong></td>
+                        <td>
+                            @if($project->project_extended == "0")  
+                                No
+                            @else
+                               Yes 
+                            @endif
                         </td>
                     </tr>
                 </table>

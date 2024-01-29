@@ -22,29 +22,13 @@ if (startDateInput && endDateInput) {
 
         // Compare start and end dates
         if (startDate.getTime() >= endDate.getTime()) {
-            toastr.options = {
-                "closeButton": false,
-                "debug": true,
-                "newestOnTop": false,
-                "progressBar": false,
-                "positionClass": "toastr-top-right",
-                "preventDuplicates": false,
-                "onclick": null,
-                "showDuration": "300",
-                "hideDuration": "1000",
-                "timeOut": "5000",
-                "extendedTimeOut": "1000",
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-              };
+           
               
-              toastr.error("End Date must be greater than Start Date", "Error");
+             
               endDateInput.value = '';
               end_dateError.textContent = "End Date must be greater than Start Date";
               
-              // Change field outer color to red
+              end_dateError.style.color = 'red';
               end_date.style.borderColor = "red";
               end_date.style.borderWidth = "2px";
         }else{

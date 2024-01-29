@@ -409,7 +409,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">Master Project List</span>
+                                    <span class="menu-title">Master Projects List</span>
                                 </a>
                                 <!--end:Menu link-->
                             </div>

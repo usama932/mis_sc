@@ -10,14 +10,14 @@
                 <div class="card-body py-4">
                     <div class="row">
                        
-                        <div class="fv-row col-md-4 ">
+                        <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Project</span>
                             </label>
                             <input type="text" name="name" id="name" placeholder="Project Title"  class="form-control" value="{{$project->name ?? ''}}">
                             <div id="nameError" class="error-message "></div>
                         </div>   
-                        <div class="fv-row col-md-4 ">
+                        <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Type</span>
                             </label>
@@ -27,7 +27,7 @@
                             </select>
                             <div id="typeError" class="error-message"></div>
                         </div> 
-                        <div class="fv-row col-md-4 ">
+                        <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Focal Person</span>
                             </label>
@@ -40,7 +40,7 @@
                             <div id="focal_personError" class="error-message"></div>
                         </div>   
                  
-                        <div class="fv-row col-md-4 mt-3">
+                        <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">SOF</span>
                             </label>
@@ -48,25 +48,37 @@
                             <div id="sofError" class="error-message "></div>
                         </div> 
                       
-                        <div class="fv-row col-md-4 mt-3">
+                        <div class="fv-row col-md-3 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Project Start Date</span>
                             </label>
                             <input type="text" name="start_date" id="start_date" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="{{$project->start_date}}">
                             <div id="start_dateError" class="error-message "></div>
                         </div>
-                        <div class="fv-row col-md-4 mt-3">
+                        <div class="fv-row col-md-3 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Project End Date</span>
                             </label>
                             <input type="text" name="end_date" id="end_date" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="{{$project->end_date}}">
                             <div id="end_dateError" class="error-message "></div>
                         </div>
+                        <div class="fv-row col-md-3 mt-5">
+                            <div class="form-check form-switch   mt-5">
+                                <input class="form-check-input" type="checkbox" id="active" name="active" {{$project->active ? 'checked' : ''}}>
+                                <label class="form-check-label" for="active">Activate Project</label>
+                            </div>
+                        </div>
+                        <div class="fv-row col-md-3 mt-5">
+                            <div class="form-check form-switch mt-5">
+                                <input class="form-check-input" type="checkbox" id="project_extended" name="project_extended" {{$project->is_active ? 'checked' : ''}}>
+                                <label class="form-check-label" for="project_extended">Project Extended</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-end">
-                    <button type="submit" id="kt_create_project" class="btn btn-success btn-sm  m-5">
-                        @include('partials/general/_button-indicator', ['label' => 'Submit'])
+                    <button type="submit" id="kt_create_project" class="btn btn-primary btn-sm  m-5">
+                        @include('partials/general/_button-indicator', ['label' => 'Update'])
                     </button>
                 </div>
                 </div>

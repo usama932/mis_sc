@@ -23,15 +23,16 @@ class ProjectController extends Controller
     }
     public function index()
     {
-        return view('admin.projects.index');
+        $projects = Project::orderBy('name')->get();
+        return view('admin.projects.index',compact('projects'));
     }
     public function get_project_index()
     {
-        return view('admin.projects.projectDetail_index');
+        $projects = Project::orderBy('name')->get();
+        return view('admin.projects.projectDetail_index',compact('projects'));
     }
     public function get_project_details(Request $request)
     {
-
         $columns = array(
 			1 => 'id',
 			2 => 'project',
@@ -47,7 +48,6 @@ class ProjectController extends Controller
             12 => 'created_at',
             13 => 'updated_by',
             14 => 'updated_at',
-            
 		);
 		
 		$totalData = Project::count();
@@ -60,6 +60,10 @@ class ProjectController extends Controller
 		$start = $request->input('start');
 		
         $project_details = Project::query();
+        if($request->project != null){
+
+            $project_details->where('id',$request->project);
+        }
 
         $project_details =$project_details->limit($limit)->offset($start)->orderBy($order, $dir)->get();
       
@@ -99,22 +103,32 @@ class ProjectController extends Controller
                 }      
                 $nestedData['created_by'] = $r->user->name ?? '';
                 $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
-                       
-                $nestedData['action'] = '<div>
-                                        <td>
-                                            <a class="btn-icon mx-1" href="'. $show_url.'" target="_blank">
-                                            <i class="fa fa-eye text-success" aria-hidden="true" ></i>
-                                            </a>
-                                            <a class="btn-icon mx-1" href="'. $edit_url.'" target="_blank">
-                                                <i class="fa fa-pencil text-warning" aria-hidden="true" ></i>
-                                            </a>
-                                            <a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
-                                                <i class="fa fa-trash text-danger" aria-hidden="true"></i>
-                                            </a>
-                                        </a>
-                                        </td>
-                                        </div>
-                                        ';
+                if(empty($r->detail)){
+                    $nestedData['action'] = '<div>
+                                                <td>
+                                                <a class="btn btn-primary btn-sm" href="'. $edit_url .'" target="_blank" style="font-size: 0.8em; font-weight: bold; padding: 6px 10px;">
+                                                    <i class="fa fa-plus" aria-hidden="true"></i> Add Detail
+                                                </a>
+                                                </td>
+                                            </div>';
+                }else{
+                    $nestedData['action'] = '<div>
+                    <td>
+                        <a class="btn-icon mx-1" href="'. $show_url.'" target="_blank">
+                        <i class="fa fa-eye text-success" aria-hidden="true" ></i>
+                        </a>
+                        <a class="btn-icon mx-1" href="'. $edit_url.'" target="_blank">
+                            <i class="fa fa-pencil text-warning" aria-hidden="true" ></i>
+                        </a>
+                        <a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
+                            <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+                        </a>
+                    </a>
+                    </td>
+                    </div>
+                    ';
+                }
+               
                
 				
 				$data[] = $nestedData;
@@ -132,6 +146,7 @@ class ProjectController extends Controller
     }
     public function get_projects(Request $request)
     {
+       
         $columns = array(
 			1 => 'id',
 			2 => 'project',
@@ -156,9 +171,9 @@ class ProjectController extends Controller
 		
         $project = Project::query();
 
-        if($request->project_name != null){
+        if($request->project != null){
 
-            $project->where('project',$request->project_name);
+            $project->where('id',$request->project);
         }
         
         $projects =$project->offset($start)
@@ -188,11 +203,7 @@ class ProjectController extends Controller
                 }
                 
                 $nestedData['status'] = $r->status ?? '';
-                $nestedData['active'] = '<div>
-                                            <td>
-                                            <input class="form-check-input" type="checkbox" value="" id="flexSwitchDefault"/>
-                                            </td>
-                                        </div>';
+           
                 $nestedData['created_by'] = $r->user->name ?? '';
                 $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
              
@@ -232,7 +243,7 @@ class ProjectController extends Controller
     }
     public function createProject_details($id){
 
-        $project   = Project::where('id',$id)->with('detail')->where('active',1)->orderBy('name')->first();
+        $project   = Project::where('id',$id)->with('detail')->orderBy('name')->first();
         $partners   = Partner::orderBy('slug')->get();  
         $themes     = Theme::orderBy('name')->get();
         $provinces   = Province::orderBy('province_name')->get();
@@ -259,10 +270,14 @@ class ProjectController extends Controller
         ]);
     }
     public function project_update(Request $request){
+        dd($request->all());
         $data = $request->except('_token');
         
         $project = $this->projectRepository->updateproject($data);
-        
+        $editUrl = route('get_project_index');
+        return response()->json([
+            'editUrl' => $editUrl
+        ]);
     }
     public function show(string $id)
     {
@@ -306,7 +321,7 @@ class ProjectController extends Controller
 
     public function destroy(string $id)
     {
-        $project = Project::find($id);
+        $project = Project::with('themes','partners','detail')->find($id);
         if(!empty($project)){
             $project->delete();
             return redirect()->route('projects.index');

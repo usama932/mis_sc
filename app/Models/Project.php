@@ -36,6 +36,6 @@ class Project extends Model
     }
     public function focalperson()
     {
-        return $this->belongsTo(StaffEmail::class,'focal_person','id');
+        return $this->belongsTo(User::class,'focal_person','id');
     }
 }
