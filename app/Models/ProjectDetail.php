@@ -10,6 +10,7 @@ class ProjectDetail extends Model
     use HasFactory;
     protected $table = 'project_details';
     protected $guarded = [];
+    
     public function project()
     {
         return $this->belongsTo(Project::class,'project_id','id');

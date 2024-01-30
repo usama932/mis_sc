@@ -142,6 +142,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/project/details', [ProjectController::class,'get_project_index'])->name('get_project_index');
     Route::post('get_project_details', [ProjectController::class,'get_project_details'])->name('admin.get_project_details');
     Route::post('project/update', [ProjectController::class,'project_update'])->name('project.update');
+    Route::post('project_themes', [ProjectController::class,'project_themes'])->name('admin.project_themes');
     Route::post('view_get_project', [ProjectController::class,'view_get_project'])->name('admin.get_project');
     Route::get('/project/delete/{id}', [ProjectController::class,'destroy'])->name('project.delete');
     Route::get('/project/detailupdate/{id}', [ProjectController::class,'createProject_details'])->name('project.detail');

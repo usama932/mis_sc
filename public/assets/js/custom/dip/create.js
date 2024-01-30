@@ -1,6 +1,8 @@
 
 
 document.getElementById('districtloader').style.display = 'none';
+$("#project_theme_form").hide();
+var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 $("#kt_select2_province").change(function () {
    
     var value = $(this).val();
@@ -43,134 +45,71 @@ var KTdipValidate = function () {
             {
                 fields: {
 
-                  
-                    'project':{
-                        validators: {
-                            notEmpty: {
-                                message: 'Project  is required'
-                            }
-                        }
-                    },
-                    'theme[]': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Theme is required'
-                            }
-                        }
-                    },
-                    'province[]': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Province is required'
-                            }
-                        }
-                    },
-                    'district[]': {
-                        validators: {
-                            notEmpty: {
-                                message: 'district is required'
-                            }
-                        }
-                    },
-                    'total_targets': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Overall Targets is required'
-                            },
-                            numeric: {
-                                message: 'Overall Target must be a number'
-                            }
-                        }
-                    },
-                   
-                    'hh_targets': {
-                        validators: {
-                            notEmpty: {
-                                message: 'House Hold Targets is required'
-                            },
-                            numeric: {
-                                message: 'House Hold Target must be a number'
-                            }
-                        }
-                    },
+                 
                     
-                    'partner[]': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Partner is required'
-                            }
+                 
+                    // 'individual_targets': {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: 'Individual Targets is required'
+                    //         },
+                    //         numeric: {
+                    //             message: 'Individual Target must be a number'
+                    //         }
+                    //     }
+                    // },
+                    // 'pwd_targets': {
+                    //     validators: {
                             
-                        }
-                    },
-                    'individual_targets': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Individual Targets is required'
-                            },
-                            numeric: {
-                                message: 'Individual Target must be a number'
-                            }
-                        }
-                    },
-                    'pwd_targets': {
-                        validators: {
-                            
-                            numeric: {
-                                message: 'PWD Target must be a number'
-                            }
-                        }
-                    },
-                    'male_targets': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Male Target is required'
-                            },
-                            numeric: {
-                                message: 'Male Target must be a number'
-                            }
-                        }
-                    },
-                    'female_targets': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Female Target is required'
-                            },
-                            numeric: {
-                                message: 'Female Target must be a number'
-                            }
-                        }
-                    },
-                    'girls_targets': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Girls Target is required'
-                            },
-                            numeric: {
-                                message: 'Girls Target must be a number'
-                            }
-                        }
-                    },
-                    'boys_targets': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Boys Target is required'
-                            },
-                            numeric: {
-                                message: 'Boys Target must be a number'
-                            }
-                        }
-                    },
+                    //         numeric: {
+                    //             message: 'PWD Target must be a number'
+                    //         }
+                    //     }
+                    // },
+                    // 'male_targets': {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: 'Male Target is required'
+                    //         },
+                    //         numeric: {
+                    //             message: 'Male Target must be a number'
+                    //         }
+                    //     }
+                    // },
+                    // 'female_targets': {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: 'Female Target is required'
+                    //         },
+                    //         numeric: {
+                    //             message: 'Female Target must be a number'
+                    //         }
+                    //     }
+                    // },
+                    // 'girls_targets': {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: 'Girls Target is required'
+                    //         },
+                    //         numeric: {
+                    //             message: 'Girls Target must be a number'
+                    //         }
+                    //     }
+                    // },
+                    // 'boys_targets': {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: 'Boys Target is required'
+                    //         },
+                    //         numeric: {
+                    //             message: 'Boys Target must be a number'
+                    //         }
+                    //     }
+                    // },
                     'project_description': {
                         validators: {
                             notEmpty: {
                                 message: 'Project Description is required'
-                            }
-                        }
-                    },
-                    'attachment':{
-                        validators: {
-                            notEmpty: {
-                                message: 'Attachment is required'
                             }
                         }
                     }
@@ -316,3 +255,70 @@ KTUtil.onDOMContentLoaded(function () {
   
     KTdipValidate.init();
 });
+
+//Get project Theme
+$("#qb_action_point_form").hide();
+var project_id = document.getElementById("project_id").value ?? '1';
+var frm = $('#project_themes').DataTable( {
+    "order": [
+        [1, 'desc']
+    ],
+    "dom": 'lfBrtip',
+    buttons: [
+        'csv', 'excel'
+    ],
+    "responsive": true, // Enable responsive mode
+    "processing": true,
+    "serverSide": true,
+    "searching": false,
+    "bLengthChange": false,
+    "bInfo" : false,
+    "responsive": false,
+    "info": true,
+   "ajax": {
+    
+    "url": "/project_themes",
+       "dataType":"json",
+       "type":"POST",
+       "data":{_token: csrfToken,
+       'project_id':project_id}
+   },
+    "columns":[
+                    {"data":"id","searchable":false,"orderable":false},
+                    {"data":"theme","searchable":false,"orderable":false},
+                    {"data":"project","searchable":false,"orderable":false},
+                    {"data":"house_hold_target","searchable":false,"orderable":false},
+                    {"data":"individual_target","searchable":false,"orderable":false},
+                    {"data":"women_target","searchable":false,"orderable":false},
+                    {"data":"men_target","searchable":false,"orderable":false},
+                    {"data":"boys_target","searchable":false,"orderable":false},
+                    {"data":"girls_target","searchable":false,"orderable":false},
+                    {"data":"pwd_target","searchable":false,"orderable":false},
+                    {"data":"created_at" ,"searchable":false,"orderable":false},
+                    {"data":"created_by" ,"searchable":false,"orderable":false},
+                    {"data":"action","searchable":false,"orderable":false},
+                ]
+    });
+
+
+/// toggle project theme
+$("#cancelmonitorBtn").click(function(){
+    $("#qbformDiv, #qbtableDiv").slideToggle(); 
+    $("#addqbBtn, #addgeneralobs").show(); // Show the other buttons
+    $(this).hide(); // Hide the cancel button
+});
+
+$("#addprojectthemeBtn").click(function(){
+
+    $("#project_theme_form").slideToggle();
+    $("#project_theme_table").slideToggle();
+    $("#cancelprojectthemeBtn").show(); 
+    $(this).hide();
+});
+$("#cancelprojectthemeBtn").click(function(){
+    $("#project_theme_table").slideToggle();
+    $("#project_theme_form").slideToggle();
+    $("#addprojectthemeBtn").show(); // Show the other buttons
+    $(this).hide(); // Hide the cancel button
+});
+

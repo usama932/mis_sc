@@ -134,19 +134,21 @@
     <script>
         function initializeDataTable() {
             return  $('#qb_actionpoints').DataTable( {
-            "order": [
+                "order": [
                 [1, 'desc']
             ],
-          
+            "dom": 'lfBrtip',
+            buttons: [
+                'csv', 'excel'
+            ],
+            "responsive": true, // Enable responsive mode
             "processing": true,
-                "serverSide": true,
-                "searching": false,
-                "responsive": false,
-                "bLengthChange": false,
-                "bInfo" : false,
-                'info': false,
-                "dom": 'Bfrtip',
-                "buttons": ['csv','excel'],
+            "serverSide": true,
+            "searching": false,
+            "bLengthChange": false,
+            "bInfo" : false,
+            "responsive": false,
+            "info": true,
            "ajax": {
                "url":"{{route('get_qbs_actionpoints')}}",
                "dataType":"json",
@@ -228,29 +230,31 @@
         $('#resetButton').on('click', function () {
             resetDataTable();
         });
-        $("#date_visit,#assesment_code, #kt_select2_district,#status").change(function () {
+        $("#date_visit,#assesment_code, #kt_select2_district,#status ,#kt_select2_province").change(function () {
             var table = $('#qb_actionpoints').DataTable();
             table.destroy();
             var assesment_code = document.getElementById("assesment_code").value ?? '1';
             var date_visit = document.getElementById("date_visit").value ?? '1';
             var kt_select2_district = document.getElementById("kt_select2_district").value ?? '1';
-       
+            var kt_select2_province = document.getElementById("kt_select2_province").value ?? '1';
             var status = document.getElementById("status").value ?? '1';
 
             var clients = $('#qb_actionpoints').DataTable( {
                 "order": [
-                    [1, 'asc']
-                ],
-
-                "processing": true,
-                "serverSide": true,
-                "searching": false,
-                "responsive": false,
-                "bLengthChange": false,
-                "bInfo" : false,
-                'info': false,
-                "dom": 'Bfrtip',
-                "buttons": ['csv','excel'],
+                [1, 'desc']
+            ],
+            "dom": 'lfBrtip',
+            buttons: [
+                'csv', 'excel'
+            ],
+            "responsive": true, // Enable responsive mode
+            "processing": true,
+            "serverSide": true,
+            "searching": false,
+            "bLengthChange": false,
+            "bInfo" : false,
+            "responsive": false,
+            "info": true,
                 "ajax": {
                     "url":"{{ route('get_qbs_actionpoints') }}",
                     "dataType":"json",
@@ -259,6 +263,7 @@
                             'date_visit':date_visit,
                             'assesment_code':assesment_code,
                             'kt_select2_district':kt_select2_district,
+                            'kt_select2_province':kt_select2_province,
                             'status':status
                             }
                 },

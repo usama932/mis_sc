@@ -138,7 +138,13 @@ class QBActionPointController extends Controller
 		
         $start = $request->input('start');
         $qb_actionpoints = ActionPoint::with('qb', 'monitor_visit');
-       
+      
+        if($request->kt_select2_province != null && $request->kt_select2_province != 'all' && $request->kt_select2_province != 'None'){
+         
+            $qb_actionpoints->whereHas('qb', function ($query) use ($request) {
+                $query->where('province', $request->kt_select2_province);
+            });
+        }
         if ($request->kt_select2_district != null && $request->kt_select2_district != 'all' && $request->kt_select2_district != 'None') {
             $qb_actionpoints->whereHas('qb', function ($query) use ($request) {
                 $query->where('district', $request->kt_select2_district);
