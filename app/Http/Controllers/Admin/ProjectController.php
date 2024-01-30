@@ -5,14 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Project;
-use App\Models\ProjectDetail;
-use App\Models\ProjectTheme;
 use App\Models\Theme;
 use App\Models\User;
 use App\Models\District;
 use App\Models\Province;
 use App\Models\Partner;
-use App\Models\StaffEmail;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
 
 class ProjectController extends Controller
@@ -262,6 +259,8 @@ class ProjectController extends Controller
         session(['active' => $active]);
 
         addJavascriptFile('assets/js/custom/dip/create.js');
+        addJavascriptFile('assets/js/custom/project/projectthemeValidation.js');
+        addJavascriptFile('assets/js/custom/project/projectpartnerValidation.js');
         addVendors(['datatables']);
         return view('admin.projects.updateprojectdetail',compact('project','partners','themes','provinces','districts'));
     }
@@ -288,12 +287,13 @@ class ProjectController extends Controller
         $data = $request->except('_token');
         
         $project = $this->projectRepository->updateproject($data);
-        $editUrl = route('project.detail',$request->project);
+
         $active = 'detail';
-        
         session(['active' => $active]);
+        
         return response()->json([
-            'editUrl' => $editUrl
+            'message' => "Project Detail Update Successfully",
+            'error' => "true"
         ]);
     }
     public function show(string $id)
@@ -321,6 +321,7 @@ class ProjectController extends Controller
         $persons = User::role('focal person')->get();
 
         addJavascriptFile('assets/js/custom/project/create.js');
+  
        
         return view('admin.projects.edit',compact('project','persons'));
     }
@@ -348,88 +349,5 @@ class ProjectController extends Controller
         
     }
 
-    public function project_themes(Request $request){
-        $columns = array(
-			1  => 'id',
-			2  => 'theme_id',
-            3  => 'project_id',
-            4  => 'girls_target',
-            5  => 'boys_target',
-            6  => 'men_target',
-            7  => 'women_target',
-            11 => 'pwd_target',
-            11 => 'house_hold_target',
-            11 => 'individual_target',
-            12 => 'created_at',
-            13 => 'updated_by',
-            14 => 'updated_at',
-            
-		);
-		
-		$totalData = ProjectTheme::where('project_id',$request->project_id)->count();
-		$limit = $request->input('length');
-        $order = $columns[$request->input('order.0.column')];
-        $dir = $request->input('order.0.dir');
-        $totalFiltered = Project::count();
-		$start = $request->input('start');
-		
-        $project = ProjectTheme::where('project_id',$request->project_id);
-
-      
-        
-        $projects =$project->offset($start)
-                            ->limit($limit)->orderBy($order, $dir)->get();
-		$data = array();
-		if($projects){
-			foreach($projects as $r){
-			
-                $edit_url = route('projects.edit',$r->id);
-                $show_url = route('projects.show',$r->id);
-             
-				$nestedData['id'] = $r->id;
-                $nestedData['theme'] = $r->theme_name?->name ?? '';
-                $nestedData['project'] = $r->project?->name ?? '';
-                $nestedData['house_hold_target'] = $r->house_hold_target ?? '';
-                $nestedData['individual_target'] = $r->individual_target ?? '';
-                $nestedData['women_target'] = $r->women_target ?? '';
-                $nestedData['men_target'] = $r->men_target ?? '';
-                $nestedData['girls_target'] = $r->girls_target ?? '';
-                $nestedData['boys_target'] = $r->boys_target ?? '';
-                $nestedData['pwd_target'] = $r->pwd_target ?? '';
-                $nestedData['pwd_target'] = $r->pwd_target ?? '';
-                $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at))  ?? '';
-                $nestedData['created_by'] = $r->user?->created_by ?? '';
-
-              
-             
-                $nestedData['action'] = '<div>
-                                        <td>
-                                            <a class="btn-icon mx-1" href="'. $show_url.'" target="_blank">
-                                            <i class="fa fa-eye text-success" aria-hidden="true" ></i>
-                                            </a>
-                                            <a class="btn-icon mx-1" href="'. $edit_url.'" target="_blank">
-                                                <i class="fa fa-pencil text-warning" aria-hidden="true" ></i>
-                                            </a>
-                                            <a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
-                                                <i class="fa fa-trash text-danger" aria-hidden="true"></i>
-                                            </a>
-                                        </a>
-                                        </td>
-                                        </div>
-                                        ';
-               
-				
-				$data[] = $nestedData;
-			}
-		}
-		
-		$json_data = array(
-			"draw"			=> intval($request->input('draw')),
-			"recordsTotal"	=> intval($totalData),
-			"recordsFiltered" => intval($totalFiltered),
-			"data"			=> $data
-		);
-		
-		echo json_encode($json_data);
-    }
+  
 }

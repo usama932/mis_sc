@@ -20,6 +20,8 @@ use App\Http\Controllers\Admin\DipController;
 use App\Http\Controllers\Admin\DipActivityController;
 use App\Http\Controllers\Admin\OldQbController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\ProjectThemeController;
+use App\Http\Controllers\Admin\ProjectPartnerController;
 use App\Http\Controllers\Auth\StaffLoginController;
 use Illuminate\Support\Facades\Route;
 
@@ -136,16 +138,27 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('view_activity_dips', [DipActivityController::class,'view_activity_dips'])->name('admin.view_activity_dips');
     Route::get('/activity_dips/delete/{id}', [DipActivityController::class,'destroy'])->name('activity_dips.delete');
 
-    //projects 
+    //Master Projects  routes
     Route::resource('/projects', ProjectController::class);
     Route::post('get_projects', [ProjectController::class,'get_projects'])->name('admin.get_projects');
+    Route::post('project/update', [ProjectController::class,'project_update'])->name('project.update');
+    Route::get('/project/delete/{id}', [ProjectController::class,'destroy'])->name('project.delete');
+    
+    //Project detail Routes
+    Route::get('/project/detailupdate/{id}', [ProjectController::class,'createProject_details'])->name('project.detail');
     Route::get('/project/details', [ProjectController::class,'get_project_index'])->name('get_project_index');
     Route::post('get_project_details', [ProjectController::class,'get_project_details'])->name('admin.get_project_details');
-    Route::post('project/update', [ProjectController::class,'project_update'])->name('project.update');
-    Route::post('project_themes', [ProjectController::class,'project_themes'])->name('admin.project_themes');
-    Route::post('view_get_project', [ProjectController::class,'view_get_project'])->name('admin.get_project');
-    Route::get('/project/delete/{id}', [ProjectController::class,'destroy'])->name('project.delete');
-    Route::get('/project/detailupdate/{id}', [ProjectController::class,'createProject_details'])->name('project.detail');
+ 
+    //Project Theme Routes
+    Route::post('project_themes', [ProjectThemeController::class,'project_themes'])->name('admin.project_themes');
+    Route::resource('/projectthemes', ProjectThemeController::class);
+    Route::get('/project_theme/delete/{id}', [ProjectThemeController::class,'destroy'])->name('project_theme.delete');
+
+    //Project Partner
+    Route::resource('/projectpartners', ProjectPartnerController::class);
+    Route::post('project_partners', [ProjectPartnerController::class,'project_partners'])->name('admin.project_partners');
+    Route::get('/project_partner/delete/{id}', [ProjectPartnerController::class,'destroy'])->name('project_partner.delete');
+
 });
 
 Route::get('/error', function () {

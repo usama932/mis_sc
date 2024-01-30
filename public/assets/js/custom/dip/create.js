@@ -1,7 +1,8 @@
 
 
 document.getElementById('districtloader').style.display = 'none';
-$("#project_theme_form").hide();
+$("#create_projecttheme").hide();
+$("#create_projectpartner").hide();
 var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 $("#kt_select2_province").change(function () {
    
@@ -141,27 +142,51 @@ var KTdipValidate = function () {
                     // Check axios library docs: https://axios-http.com/docs/intro
                     axios.post(submitButton.closest('form').getAttribute('action'), new FormData(form)).then(function (response) {
                         if (response) {
+                            if (response.data.error != 'true') {
+                                toastr.options = {
+                                    "closeButton": true,
+                                    "debug": false,
+                                    "newestOnTop": false,
+                                    "progressBar": false,
+                                    "positionClass": "toastr-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                };
+                                toastr.error(response.data.message, "Error");
+                            }
+                            else{
+                                toastr.options = {
+                                    "closeButton": true,
+                                    "debug": false,
+                                    "newestOnTop": false,
+                                    "progressBar": false,
+                                    "positionClass": "toastr-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                };
+                                toastr.success("Project Detail Updated  Successfully", "Success");
+                                form.reset();
+                         
+                                frm.ajax.reload(null, false).draw(false);
+                               
+                            }
                            
-                            form.reset();
-                            toastr.options = {
-                                "closeButton": true,
-                                "debug": false,
-                                "newestOnTop": false,
-                                "progressBar": false,
-                                "positionClass": "toastr-top-right",
-                                "preventDuplicates": false,
-                                "onclick": null,
-                                "showDuration": "300",
-                                "hideDuration": "1000",
-                                "timeOut": "5000",
-                                "extendedTimeOut": "1000",
-                                "showEasing": "swing",
-                                "hideEasing": "linear",
-                                "showMethod": "fadeIn",
-                                "hideMethod": "fadeOut"
-                            };
-                            toastr.success("Account Created", "success");
-                            window.location.href = response.data.editUrl;
                             
                         } else {
                             toastr.options = {
@@ -256,69 +281,8 @@ KTUtil.onDOMContentLoaded(function () {
     KTdipValidate.init();
 });
 
-//Get project Theme
-$("#qb_action_point_form").hide();
-var project_id = document.getElementById("project_id").value ?? '1';
-var frm = $('#project_themes').DataTable( {
-    "order": [
-        [1, 'desc']
-    ],
-    "dom": 'lfBrtip',
-    buttons: [
-        'csv', 'excel'
-    ],
-    "responsive": true, // Enable responsive mode
-    "processing": true,
-    "serverSide": true,
-    "searching": false,
-    "bLengthChange": false,
-    "bInfo" : false,
-    "responsive": false,
-    "info": true,
-   "ajax": {
-    
-    "url": "/project_themes",
-       "dataType":"json",
-       "type":"POST",
-       "data":{_token: csrfToken,
-       'project_id':project_id}
-   },
-    "columns":[
-                    {"data":"id","searchable":false,"orderable":false},
-                    {"data":"theme","searchable":false,"orderable":false},
-                    {"data":"project","searchable":false,"orderable":false},
-                    {"data":"house_hold_target","searchable":false,"orderable":false},
-                    {"data":"individual_target","searchable":false,"orderable":false},
-                    {"data":"women_target","searchable":false,"orderable":false},
-                    {"data":"men_target","searchable":false,"orderable":false},
-                    {"data":"boys_target","searchable":false,"orderable":false},
-                    {"data":"girls_target","searchable":false,"orderable":false},
-                    {"data":"pwd_target","searchable":false,"orderable":false},
-                    {"data":"created_at" ,"searchable":false,"orderable":false},
-                    {"data":"created_by" ,"searchable":false,"orderable":false},
-                    {"data":"action","searchable":false,"orderable":false},
-                ]
-    });
 
 
-/// toggle project theme
-$("#cancelmonitorBtn").click(function(){
-    $("#qbformDiv, #qbtableDiv").slideToggle(); 
-    $("#addqbBtn, #addgeneralobs").show(); // Show the other buttons
-    $(this).hide(); // Hide the cancel button
-});
 
-$("#addprojectthemeBtn").click(function(){
 
-    $("#project_theme_form").slideToggle();
-    $("#project_theme_table").slideToggle();
-    $("#cancelprojectthemeBtn").show(); 
-    $(this).hide();
-});
-$("#cancelprojectthemeBtn").click(function(){
-    $("#project_theme_table").slideToggle();
-    $("#project_theme_form").slideToggle();
-    $("#addprojectthemeBtn").show(); // Show the other buttons
-    $(this).hide(); // Hide the cancel button
-});
 

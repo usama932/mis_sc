@@ -19,5 +19,20 @@ class ProjectPartner extends Model
     {
         return $this->belongsTo(Partner::class,'partner_id','id');
     }
-    
+    public function theme_name()
+    {
+        return $this->belongsTo(Theme::class,'themes','id');
+    }
+    public function provinces()
+    {
+        return $this->belongsTo(Province::class,'province','province_id');
+    }
+    public function districts()
+    {
+        return $this->belongsTo(District::class,'district','district_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class,'created_by','id');
+    }
 }

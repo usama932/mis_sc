@@ -80,4 +80,29 @@ class ProjectRepository implements ProjectRepositoryInterface
         ]); 
        
     }
+    public function storeprojecttheme($data){
+        return ProjectTheme::create([
+            'theme_id'              => $data['theme'],
+            'project_id'            => $data['project'],
+            'girls_target'          => $data['girls_target'],
+            'boys_target'           => $data['boys_target'],
+            'men_target'            => $data['men_target'],
+            'women_target'          => $data['women_target'],
+            'pwd_target'            => $data['pwd_target'],
+            'house_hold_target'     => $data['house_hold_target'],
+            'individual_target'     => $data['individual_target'],
+            'created_by'            => auth()->user()->id,
+        ]); 
+    }
+    public function storeprojectpartner($data){
+        return ProjectPartner::create([
+            'partner_id'        => $data['partner'],
+            'project_id'        => $data['project'],
+            'email'             => $data['email'],
+            'district'          => $data['district'],
+            'themes'            => $data['theme'],
+            'province'          => $data['province'],
+            'created_by'        => auth()->user()->id,
+        ]); 
+    }
 }

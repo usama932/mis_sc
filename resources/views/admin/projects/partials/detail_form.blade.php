@@ -1,41 +1,15 @@
 <form class="mx-4" action="{{route('project.update')}}" method="post" id="create_dip" method="post" enctype="multipart/form-data">   
-    <div class="separator separator-dotted separator-content border-dark my-10 mx-7"><span class="h5">Project Basic  Information</span></div>  
     @csrf
-
     <div class="p-5">
         <div class="row ">
-            <div class="fv-row col-md-3">
-                <label class="fs-6 fw-semibold form-label mb-2">
-                    <strong class="">Project</strong>
-                    {{$project->name }}
-                </label>
-            
-                <input type="hidden"  readonly value="{{$project->name }}" class="form-control">
-                <input type="hidden"  name="project" id="project"  value="{{$project->id}}" class="form-control">
-            
-            </div>   
-            <div class="fv-row col-md-3">
-                <label class="fs-6 fw-semibold form-label mb-2">
-                    <strong class="">SOF</strong>
-                    {{$project->name }}
-                </label>
-            </div>   
-            <div class="fv-row col-md-6">
-                <label class="fs-6 fw-semibold form-label mb-2">
-                    <strong class="">Project Tenure </strong>
-                    @if(!empty($project->start_date) && $project->start_date != null)
-                    {{ date('M d,Y', strtotime($project->start_date))}}  --To-- {{date('M d,Y', strtotime($project->end_date));}}
-                    @endif
-                </label>
-            </div>   
-            <div class="separator separator-dotted separator-content border-dark my-15 "><span class="h5">Project Detail</span></div>  
-
+            <input type="hidden" name="project" value="{{$project->id}}">
+          
             <div class="fv-row col-md-6">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Province</span>
                 </label>
                 <select   name="province[]" multiple id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select Multiple Province..." class="form-select "  data-allow-clear="true" >
-                    @if(!empty($project->detail->province))
+                    @if(!empty($project->detail?->province))
                         @foreach($provinces as $province)
                             @php
                             $selected = false; // Flag to determine if the option should be selected
