@@ -6,6 +6,8 @@ use App\Models\Project;
 use App\Models\ProjectDetail;
 use App\Models\ProjectPartner;
 use App\Models\ProjectTheme;
+use App\Mail\DipPartnerEmailMail;
+use Illuminate\Support\Facades\Mail;
 use File;
 
 class ProjectRepository implements ProjectRepositoryInterface
@@ -95,6 +97,13 @@ class ProjectRepository implements ProjectRepositoryInterface
         ]); 
     }
     public function storeprojectpartner($data){
+
+        $details = [
+            'title' => 'Save the children',
+           
+           
+        ];
+        Mail::to($data['email'])->send(new \App\Mail\partnerMail($details));
         return ProjectPartner::create([
             'partner_id'        => $data['partner'],
             'project_id'        => $data['project'],

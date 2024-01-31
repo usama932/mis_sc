@@ -37,6 +37,7 @@
                                             <span class="">Project</span>
                                         </label>
                                         <select name="project" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Project Name" class="form-select form-select-solid" >
+                                            <option value="">Select Project</option>
                                             @foreach($projects as $project)
                                                 <option value="{{$project->id}}">{{$project->name}}</option>
                                             @endforeach
@@ -61,6 +62,8 @@
                             <th>SOF</th>
                             <th>Start Date</th>
                             <th>End Date</th>
+                            <th>Uploaded By</th>
+                            <th>Uploaded Date</th>
                             <th>Actions</th>
                         </tr>
                     </thead>

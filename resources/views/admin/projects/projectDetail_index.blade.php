@@ -25,6 +25,7 @@
                                                     <span class="required">Project</span>
                                                 </label>
                                                 <select name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Project Name" class="form-select form-select-solid" >
+                                                    <option value="">Select Project</option>
                                                     @foreach($projects as $project)
                                                         <option value="{{$project->id}}">{{$project->name}}</option>
                                                     @endforeach
@@ -40,7 +41,6 @@
                     </div>
                 @endrole
                 <div class="card-body pt-3">
-    
                     <div class="table-responsive overflow-*">
                         <table class="table table-striped table-bordered nowrap" id="project_details" style="width:100%">
                         <thead>
@@ -55,7 +55,6 @@
                         </thead>
                         </table>
                     </div>
-    
                 </div>
             </div>
         </div>

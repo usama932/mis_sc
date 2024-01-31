@@ -7,7 +7,6 @@
         <div class="row">
            
             <div class="col-md-6">
-                
                 <table class="table table-striped m-4 table-responsive">
                     
                     <tr>
@@ -32,7 +31,6 @@
                    
                  
                 </table>
-                
             </div>
             <div class="col-md-6">
                 <table class="table table-striped m-4 table-responsive">
@@ -56,6 +54,7 @@
                     </tr>
                 </table>
             </div>
+        </div>
         <div class="card">
             <div class="container-fluid">
                 <ul class="nav nav-tabs mt-1 fs-6">
@@ -64,10 +63,10 @@
                         <a class="nav-link @if(session('active') == 'detail')  active @endif" data-bs-toggle="tab" href="#detail">Project Detail</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @if(session('active') == 'thematic') active @else  @endif" data-bs-toggle="tab" href="#thematic" >Thematic area</a>
+                        <a class="nav-link @if(session('active') == 'thematic') active @else  @endif" data-bs-toggle="tab" href="#thematic" @if(empty($project->detail)) disabled @endif >Thematic area</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @if(session('active') == 'partner') active @else  @endif" data-bs-toggle="tab" href="#partner">Implementing Partner</a>
+                        <a class="nav-link @if(session('active') == 'partner') active @else  @endif" data-bs-toggle="tab" href="#partner" @if(empty($project->detail)) disabled @endif >Implementing Partner</a>
                     </li>
                     
                 </ul>
@@ -78,15 +77,14 @@
                    
                         @include('admin.projects.partials.detail_form')
                 </div>
-                <div class="tab-pane fade show @if(session('active') == 'thematic') active @else  @endif" id="thematic" role="tabpanel">
+                <div class="tab-pane fade show @if(session('active') == 'thematic') active @else  @endif" id="thematic" role="tabpanel" @if(empty($project->detail)) disabled @endif >
                     @include('admin.projects.partials.project_theme')
                 </div>
-                <div class="tab-pane fade show @if(session('active') == 'partner') active @else  @endif" id="partner" role="tabpanel">
+                <div class="tab-pane fade show @if(session('active') == 'partner') active @else  @endif" id="partner" role="tabpanel" @if(empty($project->detail)) disabled @endif >
                     @include('admin.projects.partials.project_partners')
                 </div>
                 
             </div>
-           
         </div>
     </div>
    

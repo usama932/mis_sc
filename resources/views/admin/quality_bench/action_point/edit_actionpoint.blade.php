@@ -86,12 +86,12 @@
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Status</span>
                             </label>
-                            <select name="status" id="status" aria-label="Select a Status" data-control="select2" data-placeholder="Select Status" class="form-select">
+                            <select name="status" id="status" aria-label="Select a Status" data-control="select2" data-placeholder="Select Status" class="form-select" readonly>
                                 <option value="">Select Status</option>
                                 <option  value="To be Acheived" @if($action_point->status == "To be Acheived") selected @endif>To be Acheived</option>
                                 <option  value="Partialy Acheived" @if($action_point->status == "Partialy Acheived") selected @endif>Partialy Acheived</option>
-                                <option  value="Acheived" @if($action_point->status == "Acheived") selected @endif>Acheived</option>
-                                <option  value="Not Acheived" @if($action_point->status == "Not Acheived") selected @endif>Not Acheived</option>   
+                                {{-- <option  value="Acheived" @if($action_point->status == "Acheived") selected @endif>Acheived</option>
+                                <option  value="Not Acheived" @if($action_point->status == "Not Acheived") selected @endif>Not Acheived</option>    --}}
                             </select>
                         </div>
                         <div class="fv-row col-md-3 mt-3 action_agree_id deadline">

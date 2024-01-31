@@ -282,7 +282,9 @@ class ProjectController extends Controller
             'editUrl' => $editUrl
         ]);
     }
-    public function project_update(Request $request){
+    
+    public function project_update(Request $request)
+    {
        
         $data = $request->except('_token');
         
@@ -296,6 +298,7 @@ class ProjectController extends Controller
             'error' => "true"
         ]);
     }
+
     public function show(string $id)
     {
         $project = Project::with('detail')->find($id);
@@ -311,7 +314,10 @@ class ProjectController extends Controller
             $province_project = json_decode($project->detail->province , true);
             $provinces = Province::whereIn('province_id', $province_project)->get();
         }
-        
+        addJavascriptFile('assets/js/custom/dip/create.js');
+        addJavascriptFile('assets/js/custom/project/projectthemeValidation.js');
+        addJavascriptFile('assets/js/custom/project/projectpartnerValidation.js');
+        addVendors(['datatables']);
         return view('admin.projects.show',compact('project','provinces','districts'));
     }
 

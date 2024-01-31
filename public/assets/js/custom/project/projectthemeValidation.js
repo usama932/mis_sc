@@ -1,4 +1,5 @@
 //Datatable
+var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 var project_id = document.getElementById("project_id").value ?? '1';
 var project_theme = $('#project_themes').DataTable({
     "order": [

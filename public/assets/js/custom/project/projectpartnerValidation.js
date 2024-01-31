@@ -1,4 +1,5 @@
 //project partner validation
+var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 var KTprojectpartnerValidate = function() {
     // Elements
     var form;
@@ -352,14 +353,13 @@ document.getElementById('districtload').style.display = 'none';
 $("#kt_province").change(function() {
     document.getElementById('districtload').style.display = 'block';
     var value = $(this).val();
-    csrf_token = $('[name="_token"]').val();
 
     $.ajax({
         type: 'POST',
         url: '/getDistrict',
         data: {
             'province': value,
-            _token: csrf_token
+            _token: csrfToken
         },
         dataType: 'json',
         success: function(data) {
