@@ -23,7 +23,7 @@ class partnerMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'One Time Password for your Guest login',
+            subject: 'Assignment as Focal Person for Project',
         );
     }
 

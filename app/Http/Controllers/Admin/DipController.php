@@ -47,16 +47,22 @@ class DipController extends Controller
             
 		);
 		
-		$totalData = Project::count();
+		$totalData = Project::whereHas('partners', function ($query) {
+            $query->where('email', auth()->user()->email);
+        })->count();
        
 		$limit = $request->input('length');
         $order = $columns[$request->input('order.0.column')];
         $dir = $request->input('order.0.dir');
-        $totalFiltered = Project::count();
+        $totalFiltered = Project::whereHas('partners', function ($query) {
+            $query->where('email', auth()->user()->email);
+        })->count();
        
 		$start = $request->input('start');
 		
-        $dips = Project::query();
+        $dips = Project::whereHas('partners', function ($query) {
+            $query->where('email', auth()->user()->email);
+        });
 
         $dips =$dips->limit($limit)->offset($start)->orderBy($order, $dir)->get();
       

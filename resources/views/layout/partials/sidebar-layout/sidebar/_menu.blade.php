@@ -294,6 +294,7 @@
                     <div class="menu-sub menu-sub-accordion">
                         <!--begin:Menu item-->
                         @can('read dip')
+                            @can('read project detail')
                             <div class="menu-item">
                                 <!--begin:Menu link-->
                                 <a class="menu-link {{ request()->routeIs('get_project_index') ? 'active' : '' }}" href="{{ route('get_project_index') }}"">
@@ -304,6 +305,8 @@
                                 </a>
                                 <!--end:Menu link-->
                             </div>
+                            @endcan
+                            @can('create dip')
                             <div class="menu-item">
                                 <!--begin:Menu link-->
                                 <a class="menu-link {{ request()->routeIs('dips.index') ? 'active' : '' }}" href="{{ route('dips.index') }}"">
@@ -314,6 +317,7 @@
                                 </a>
                                 <!--end:Menu link-->
                             </div>
+                            @endcan
                         @endcan
                     
                     </div>

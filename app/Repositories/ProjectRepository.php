@@ -6,9 +6,11 @@ use App\Models\Project;
 use App\Models\ProjectDetail;
 use App\Models\ProjectPartner;
 use App\Models\ProjectTheme;
-use App\Mail\DipPartnerEmailMail;
+use App\Models\Partner;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use File;
+
 
 class ProjectRepository implements ProjectRepositoryInterface
 {
@@ -97,13 +99,34 @@ class ProjectRepository implements ProjectRepositoryInterface
         ]); 
     }
     public function storeprojectpartner($data){
-
+        $project = Project::where('id',$data['project'])->first();
+        $partner = Partner::where('id' ,$data['partner'])->first();
         $details = [
             'title' => 'Save the children',
-           
+            "password" => "12345678",
+            'email' => $data['email'],
+            'project' => $project->name,
+            'partner' => $partner->name
            
         ];
         Mail::to($data['email'])->send(new \App\Mail\partnerMail($details));
+     
+        $user = User::where('email' ,$data['email'])->first();
+        if(empty($user)){
+            $user = User::create([
+                'name'              => $partner->name,
+                'email'             => $data['email'],
+                'password'          => Hash::make('12345678'),
+                'permissions_level' => 'nation-wide',
+                'designation'       => '48',
+                'province'          => $data['province'],
+                'district'          => $data['district'],
+                'status'            => '1',
+                'user_type'         => 'R1',
+              
+            ]);
+            $user->assignRole('partner');
+        }
         return ProjectPartner::create([
             'partner_id'        => $data['partner'],
             'project_id'        => $data['project'],
