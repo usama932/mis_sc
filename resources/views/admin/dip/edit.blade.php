@@ -91,6 +91,7 @@
             "columns":[
                             {"data":"activity_number","searchable":false,"orderable":false},
                             {"data":"detail","searchable":false,"orderable":false},
+                            {"data":"lop_target","searchable":false,"orderable":false},
                             {"data":"created_by","searchable":false,"orderable":false},
                             {"data":"created_at","searchable":false,"orderable":false},
                             {"data":"action","searchable":false,"orderable":false},

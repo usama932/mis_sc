@@ -53,13 +53,7 @@
                 <div class="card-body">
                         <div class="row">
                             <div class="separator separator-dotted separator-content border-dark my-15"><span class="h5"> Activity</span></div>
-                            <div class="fv-row col-md-12">
-                                <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                    <span class="required">Activity Detail</span>
-                                </label>
-                                <textarea name="activity" id="activity" rows="1" class="form-control"></textarea>
-                                <div id="detailError" class="error-message "></div>
-                            </div>  
+                            
                             <div class="separator separator-dotted separator-content border-dark my-15"><span class="h5"> Activity Target</span></div>
                                 @php
                                     $startDate = \Carbon\Carbon::parse($project->start_date);
@@ -69,7 +63,8 @@
                                     <div id="inputFormRow">
                                         <div class="input-group mb-3">
                                          
-                                            <input type="text" name="month[]"  id="month" placeholder="Select Month"  class="month form-control m-input mx-2" onkeydown="event.preventDefault()" data-provide="datepicker" value=""  autocomplete="off">
+                                            <input type="text" name="start_month[]"  id="start_month" placeholder="Select Month"  class="start_month form-control m-input mx-2" onkeydown="event.preventDefault()" data-provide="datepicker" value=""  autocomplete="off">
+                                            <input type="text" name="end_month[]"  id="end_month" placeholder="Select Month"  class="end_month form-control m-input mx-2" onkeydown="event.preventDefault()" data-provide="datepicker" value=""  autocomplete="off">
                                             <div id="monthError" class="error-message "></div>
                                             <input type="text" name="target_month[]" id="target_month" placeholder="Enter Target"  class="mx-2  form-control m-input value=""  autocomplete="off" required>
                                             <div id="target_monthError" class="error-message "></div>
@@ -109,7 +104,21 @@
         <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
         <script type="text/javascript">
-            flatpickr(".month", {
+            flatpickr(".start_month", {
+                dateFormat: "M-Y",
+                minDate: "{{ $startDate->format('M-Y') }}",
+                maxDate: "{{ $endDate->format('M-Y') }}",
+                monthSelectorType: "static",
+                plugins: [
+                    new monthSelectPlugin({
+                        shorthand: true,
+                        dateFormat: "M-Y",
+                        altFormat: "F Y",
+                        theme: "light"
+                    })
+                ]
+            });
+            flatpickr(".end_month", {
                 dateFormat: "M-Y",
                 minDate: "{{ $startDate->format('M-Y') }}",
                 maxDate: "{{ $endDate->format('M-Y') }}",
@@ -124,11 +133,12 @@
                 ]
             });
 
-            $("#addRow").click(function () {
+            $("#addRow").click(function () { 
                 var html = '';
                 html += '<div id="inputFormRow">';
                 html += '<div class="input-group mb-3">';
-                html += '<input type="text" name="month[]" placeholder="Select Month" class="month form-control m-input mx-2" onkeydown="event.preventDefault()" data-provide="datepicker" value="" autocomplete="off">';
+                html += '<input type="text" name="start_month[]" placeholder="Select Target start Month" class="month form-control m-input mx-2" onkeydown="event.preventDefault()" data-provide="datepicker" value="" autocomplete="off">';
+                html += '<input type="text" name="end_month[]" placeholder="Select Target end Month" class="month form-control m-input mx-2" onkeydown="event.preventDefault()" data-provide="datepicker" value="" autocomplete="off">';
                 html += '  <input type="text" name="target_month[]" id="target_month" placeholder="Enter Target" class="mx-2 form-control m-input value="" autocomplete="off" required>'
                 html += '<div class="input-group-append">';
                 html += '<button id="removeRow" type="button" class="btn btn-danger btn-sm">Remove</button>';
@@ -139,19 +149,33 @@
                 $('#newRow').append(html);
 
                 // Call flatpickr for the new datepicker element
-                flatpickr(".month", {
-                dateFormat: "M-Y",
-                minDate: "{{ $startDate->format('M-Y') }}",
-                maxDate: "{{ $endDate->format('M-Y') }}",
-                monthSelectorType: "static",
-                plugins: [
-                    new monthSelectPlugin({
-                        shorthand: true,
-                        dateFormat: "M-Y",
-                        altFormat: "F Y",
-                        theme: "light"
-                    })
-                ]
+                flatpickr(".start_month", {
+                    dateFormat: "M-Y",
+                    minDate: "{{ $startDate->format('M-Y') }}",
+                    maxDate: "{{ $endDate->format('M-Y') }}",
+                    monthSelectorType: "static",
+                    plugins: [
+                        new monthSelectPlugin({
+                            shorthand: true,
+                            dateFormat: "M-Y",
+                            altFormat: "F Y",
+                            theme: "light"
+                        })
+                    ]
+                });
+                flatpickr(".end_month", {
+                    dateFormat: "M-Y",
+                    minDate: "{{ $startDate->format('M-Y') }}",
+                    maxDate: "{{ $endDate->format('M-Y') }}",
+                    monthSelectorType: "static",
+                    plugins: [
+                        new monthSelectPlugin({
+                            shorthand: true,
+                            dateFormat: "M-Y",
+                            altFormat: "F Y",
+                            theme: "light"
+                        })
+                    ]
                 });
             });
 

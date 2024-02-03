@@ -49,7 +49,7 @@
                 <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                     <span class="required">Project Description</span>
                 </label>
-                <textarea class="form-control" rows="1" name="project_description" id="project_description">{{$project->detail?->project_description ?? ''}}</textarea>
+                <textarea class="form-control" rows="2" name="project_description" id="project_description">{{$project->detail?->project_description ?? ''}}</textarea>
                 <div id="project_descriptionError" class="error-message "></div>
             </div>
         </div>

@@ -50,7 +50,8 @@ class DipActivityController extends Controller
 			
                 $show_url = route('activity_dips.show',$r->id);
 				$nestedData['activity_number'] = $r->activity_number ?? ''; 
-                $nestedData['detail'] = $r->activity_detail ?? '';
+                $nestedData['detail'] = $r->activity_title ?? '';
+                $nestedData['lop_target'] = $r->lop_target ?? '';
                 $nestedData['created_by'] = $r->user->name ?? '';
                 $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
                 $nestedData['action'] = '<div>
@@ -80,8 +81,8 @@ class DipActivityController extends Controller
 		echo json_encode($json_data);
     }
     public function edit_activity_dips(Request $request){
+        
         $dip = DipActivity::where('id',$request->id)->first();
-      
         return view('admin.dip.edit_dip_activity',compact('dip'));
     }
    

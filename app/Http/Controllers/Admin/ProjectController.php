@@ -51,17 +51,29 @@ class ProjectController extends Controller
             13 => 'updated_by',
             14 => 'updated_at',
 		);
-		
-		$totalData = Project::count();
+		if(auth()->user()->user_type != 'admin'){
+		    $totalData = Project::where('focal_person' ,auth()->user()->id)->count();
+        }
+        else{
+            $totalData = Project::count();
+        }
        
 		$limit = $request->input('length');
         $order = $columns[$request->input('order.0.column')];
         $dir = $request->input('order.0.dir');
-        $totalFiltered = Project::count();
-       
+        if(auth()->user()->user_type != 'admin'){
+            $totalFiltered = Project::where('focal_person' ,auth()->user()->id)->count();
+        }
+        else{
+            $totalFiltered = Project::count();
+        }
 		$start = $request->input('start');
-		
-        $project_details = Project::query();
+		if(auth()->user()->user_type != 'admin'){
+          $project_details = Project::where('focal_person' ,auth()->user()->id);
+        }
+        else{
+            $project_details = Project::query();
+        }
         if($request->project != null){
 
             $project_details->where('id',$request->project);

@@ -46,23 +46,36 @@ class DipController extends Controller
             14 => 'updated_at',
             
 		);
+		if(auth()->user()->user_type != 'admin'){
+            $totalData = Project::whereHas('partners', function ($query) {
+                $query->where('email', auth()->user()->email);
+            })->count();
+        }else{
+            $totalData = Project::count();
+        }
 		
-		$totalData = Project::whereHas('partners', function ($query) {
-            $query->where('email', auth()->user()->email);
-        })->count();
        
 		$limit = $request->input('length');
         $order = $columns[$request->input('order.0.column')];
         $dir = $request->input('order.0.dir');
-        $totalFiltered = Project::whereHas('partners', function ($query) {
-            $query->where('email', auth()->user()->email);
-        })->count();
+        if(auth()->user()->user_type != 'admin'){
+            $totalFiltered = Project::whereHas('partners', function ($query) {
+                $query->where('email', auth()->user()->email);
+            })->count();
+        }
+        else{
+            $totalFiltered = Project::count();
+        }
        
 		$start = $request->input('start');
-		
-        $dips = Project::whereHas('partners', function ($query) {
-            $query->where('email', auth()->user()->email);
-        });
+		if(auth()->user()->user_type != 'admin'){
+            $dips = Project::whereHas('partners', function ($query) {
+                $query->where('email', auth()->user()->email);
+            });
+        }
+        else{
+            $dips = Project::query();
+        }
 
         $dips =$dips->limit($limit)->offset($start)->orderBy($order, $dir)->get();
       
