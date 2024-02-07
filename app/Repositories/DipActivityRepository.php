@@ -11,39 +11,27 @@ class DipActivityRepository implements DipActivityInterface
     public function storedipactivity($data)
     { 
        
-        $activity_number = rand(0,999);
-        
         $activity =  DipActivity::create([
-            'activity_number'      => $activity_number,
-            'activity_detail'      => $data['activity'],
+            'activity_number'      => $data['activity'],
+            'lop_target'           => $data['lop_target'],
             'project_id'           => $data['project_id'],
             'created_by'           => auth()->user()->id,
         ]);
-        if(!empty($data['month']) && !empty($activity)){
+      
+        foreach($data['quarter']  as $key => $q){
            
-            foreach($data['month'] as $key_month => $month){
-              
-                foreach($data['target_month'] as $key => $target){
-                    if($key_month == $key ){
-                        $activity_months =  ActivityMonths::where('activity_id',$activity->id)
-                        ->where('project_id',$data['project_id'])->get();
-                        if(!empty($activity_months)) {
-                        ActivityMonths::where('activity_id',$activity->id)
-                                        ->where('project_id',$data['project_id'])->delete();
-                        }
-                        $activity_month =  ActivityMonths::create([
-                        'month'         =>  $month,
-                        'target'        =>  $target,
-                        'project_id'    =>  $data['project_id'],
-                        'activity_id'   =>  $activity->id,
-                        'created_by'    => auth()->user()->id,
-                        ]);
-                    }
-                  
+            foreach($data['target_quarter']  as $k => $t){
+                if($t != null && $q != null){
+                    ActivityMonths::create([
+                        'project_id'     => $data['project_id'],
+                        'activity_id'    =>$activity->id,
+                        'month'          =>$q,
+                        'target'         =>$t,
+                        'created_by'     => auth()->user()->id,
+                    ]);
                 }
-            }  
-        }else{
-            $activity->delete();
+               
+            }
         }
         return $activity;
     }

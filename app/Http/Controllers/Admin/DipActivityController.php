@@ -93,13 +93,13 @@ class DipActivityController extends Controller
 
     public function store(Request $request)
     {
-       
+     
         $data = $request->except('_token');
         $dip_activity = $this->dipactivityRepository->storedipactivity($data);
         $active = 'dip_activity';
         session(['active' => $active]);
         $editUrl = route('dips.edit',$dip_activity->project_id);
-     
+        
         return response()->json([
             'editUrl' => $editUrl
         ]);

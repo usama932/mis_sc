@@ -11,6 +11,7 @@ use App\Models\Theme;
 use App\Models\Partner;
 use App\Models\District;
 use App\Models\Province;
+use Carbon\Carbon; 
 use App\Repositories\Interfaces\DipRepositoryInterface;
 
 class DipController extends Controller
@@ -87,8 +88,8 @@ class DipController extends Controller
                 $show_url = route('dips.show',$r->id);
                 $nestedData['dip_add'] = '<div>
                                         <td>
-                                            <a class="btn-icon mx-1" href="'.  $edit_url.'" target="_blank">
-                                            <i class="fa fa-eye text-success" aria-hidden="true" ></i>
+                                            <a class="btn btn-info btn-sm " title="Add Activity" href="'.  $edit_url.'" target="_blank">
+                                            <i class="fa fa-plus" aria-hidden="true" ></i>
                                             </a>
                                         </a>
                                         </td>
@@ -112,22 +113,8 @@ class DipController extends Controller
                     $districts = '';
                 }
                 $nestedData['district'] = $districts ?? '';
-                if(!empty($r->detail->partner )){
-                    $partner_dip = json_decode($r->detail->partner , true);
-                    $partners = Partner::whereIn('id', $partner_dip)->pluck('slug');
-                }
-                else{
-                    $partners = '';
-                }
-                $nestedData['partner'] = $partners ?? '';
-                if(!empty($r->detail->theme )){
-                    $theme_dip = json_decode($r->detail->theme , true);
-                    $themes = Theme::whereIn('id', $theme_dip)->pluck('name');
-                }
-                else{
-                    $themes = '';
-                }
-                $nestedData['theme'] = $themes ?? '';
+              
+               
                 if($r->start_date != null && $r->end_date != null){
                     $nestedData['project_tenure'] = date('d-M-Y', strtotime($r->start_date)) .' To '.date('d-M-Y', strtotime($r->end_date));
                 }
@@ -140,11 +127,11 @@ class DipController extends Controller
                        
                 $nestedData['action'] = '<div>
                                         <td>
-                                            <a class="btn-icon mx-1" href="'. $show_url.'" target="_blank">
+                                            <a class="btn-icon mx-1"title="View Project"  href="'. $show_url.'" target="_blank">
                                             <i class="fa fa-eye text-success" aria-hidden="true" ></i>
                                             </a>
 
-                                            <a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
+                                            <a class="btn-icon mx-1" title="Delete " onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
                                                 <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                                             </a>
                                         </a>
@@ -168,9 +155,30 @@ class DipController extends Controller
     }
     public function dip_create($id)
     {
+        
         $project = Project::where('id',$id)->first();
+        $start_date = Carbon::parse($project->start_date);
+        $end_date = Carbon::parse($project->end_date);
+
+        $quarters = [];
+
+        $currentQuarterStart = $start_date->copy()->startOfQuarter();
+        while ($currentQuarterStart->lte($end_date)) {
+            $nextQuarterStart = $currentQuarterStart->copy()->addMonths(3);
+            $quarterEnd = $nextQuarterStart->lte($end_date) ? $nextQuarterStart->copy()->subDay() : $end_date;
+        
+            $quarter = [
+                'start_month' => $currentQuarterStart->format('F Y'),
+                'end_month' => $quarterEnd->format('F Y')
+            ];
+            $quarters[] = $quarter;
+        
+            // Move to the start of the next quarter
+            $currentQuarterStart = $nextQuarterStart->startOfQuarter();
+        }
+       
         addJavascriptFile('assets/js/custom/dip/dip_activity_validations.js');
-        return view('admin.dip.create',compact('project'));
+        return view('admin.dip.create',compact('project','quarters'));
     }
 
     public function create()
@@ -220,7 +228,7 @@ class DipController extends Controller
             session(['active' => $active]);
         }
         addJavascriptFile('assets/js/custom/dip/create.js');
-        addJavascriptFile('assets/js/custom/dip/dip_activity_validations.js');
+        addVendors(['datatables']);
         return view('admin.dip.edit',compact('project'));
     }
 

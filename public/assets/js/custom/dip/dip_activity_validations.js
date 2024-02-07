@@ -1,32 +1,22 @@
-
-flatpickr("#start_date", {
-   
-    dateFormat: "Y-m-d",
-    maxDate: "today",
-  });
-  flatpickr("#end_date", {
-  
-    dateFormat: "Y-m-d",
-    maxDate: "today",
-  });
+//Datatables
+var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
 
 
-var KTdip_activityValidate = function () {
+//project theme Form Validations
+
+var KTdipActivityValidate = function() {
     // Elements
     var form;
     var submitButton;
 
 
     // Handle form ajax
-    var handleFormAjax = function (e) {
+    var handleFormAjax = function(e) {
         // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
         var validator = FormValidation.formValidation(
-            form,
-            {
+            form, {
                 fields: {
-
-                  
                     'activity':{
                         validators: {
                             notEmpty: {
@@ -35,50 +25,37 @@ var KTdip_activityValidate = function () {
                            
                         }
                     },
-                    'month[]':{
+                 
+                    'lop_target': {
                         validators: {
-                            notEmpty: {
-                                message: 'Month  is required'
-                            },
-                            callback: {
-                                message: 'Month cannot be null',
-                                callback: function(value) {
-                                    return value !== null;
-                                }
-                            }
+                                notEmpty: {
+                                    message: 'LOP Target is required'
+                                },
+                                numeric: {
+                                    message: 'LOP Targets must be a number'
+                                },
+                              
                         }
                     },
-                    'target_month[]': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Month Target is required'
-                            },
-                            callback: {
-                                message: 'Month cannot be null',
-                                callback: function(value) {
-                                    return value !== null;
-                                }
-                            }
-                        }
-                    },
-                   
+
                 },
-              
+
                 plugins: {
                     trigger: new FormValidation.plugins.Trigger(),
                     bootstrap: new FormValidation.plugins.Bootstrap5({
                         rowSelector: '.fv-row',
-                        eleInvalidClass: '',  // comment to enable invalid state icons
+                        eleInvalidClass: '', // comment to enable invalid state icons
                         eleValidClass: '' // comment to enable valid state icons
                     })
                 }
             }
         );
-            
+
         // Handle form submit
-        submitButton.addEventListener('click', function (e) {
+        submitButton.addEventListener('click', function(e) {
             e.preventDefault();
-            validator.validate().then(function (status) {
+            validator.validate().then(function(status) {
+
                 if (status == 'Valid') {
                     // Show loading indication
                     submitButton.setAttribute('data-kt-indicator', 'on');
@@ -88,30 +65,52 @@ var KTdip_activityValidate = function () {
 
 
                     // Check axios library docs: https://axios-http.com/docs/intro
-                    axios.post(submitButton.closest('form').getAttribute('action'), new FormData(form)).then(function (response) {
+                    axios.post(submitButton.closest('form').getAttribute('action'), new FormData(form)).then(function(response) {
                         if (response) {
-                           
-                            form.reset();
-                            toastr.options = {
-                                "closeButton": true,
-                                "debug": false,
-                                "newestOnTop": false,
-                                "progressBar": false,
-                                "positionClass": "toastr-top-right",
-                                "preventDuplicates": false,
-                                "onclick": null,
-                                "showDuration": "300",
-                                "hideDuration": "1000",
-                                "timeOut": "5000",
-                                "extendedTimeOut": "1000",
-                                "showEasing": "swing",
-                                "hideEasing": "linear",
-                                "showMethod": "fadeIn",
-                                "hideMethod": "fadeOut"
-                            };
-                            toastr.success("DIP Activity  Created", "success");
-                            window.location.href = response.data.editUrl;
-                            
+                            if (response.data.error == 'true') {
+                                toastr.options = {
+                                    "closeButton": true,
+                                    "debug": false,
+                                    "newestOnTop": false,
+                                    "progressBar": false,
+                                    "positionClass": "toastr-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                };
+                                toastr.error(response.data.message, "Error");
+                            } else {
+                                toastr.options = {
+                                    "closeButton": true,
+                                    "debug": false,
+                                    "newestOnTop": false,
+                                    "progressBar": false,
+                                    "positionClass": "toastr-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                };
+                                toastr.success("Theme Added Successfully", "Success");
+                                form.reset();
+
+                                window.location.href = response.data.editUrl;
+                            }
+
+
                         } else {
                             toastr.options = {
                                 "closeButton": false,
@@ -129,11 +128,11 @@ var KTdip_activityValidate = function () {
                                 "hideEasing": "linear",
                                 "showMethod": "fadeIn",
                                 "hideMethod": "fadeOut"
-                              };
-                              
-                              toastr.error("Some thing Went Wrong", "Error");
+                            };
+
+                            toastr.error(error);
                         }
-                    }).catch(function (error) {
+                    }).catch(function(error) {
                         toastr.options = {
                             "closeButton": false,
                             "debug": true,
@@ -150,9 +149,9 @@ var KTdip_activityValidate = function () {
                             "hideEasing": "linear",
                             "showMethod": "fadeIn",
                             "hideMethod": "fadeOut"
-                          };
-                          
-                          toastr.error("Some thing Went Wrong", "Error");   
+                        };
+
+                        toastr.error(error, "Some  Error");
                     }).then(() => {
                         // Hide loading indication
                         submitButton.removeAttribute('data-kt-indicator');
@@ -179,9 +178,9 @@ var KTdip_activityValidate = function () {
                         "hideEasing": "linear",
                         "showMethod": "fadeIn",
                         "hideMethod": "fadeOut"
-                      };
-                      
-                      toastr.error("Some thing Went Wrong", "Error");
+                    };
+
+                    toastr.error("Some thing Went Wrong", "Error");
                 }
             });
         });
@@ -191,7 +190,7 @@ var KTdip_activityValidate = function () {
     // Public functions
     return {
         // Initialization
-        init: function () {
+        init: function() {
             // Elements
             form = document.querySelector('#create_dip_activity');
             submitButton = document.querySelector('#kt_create_dip_activity');
@@ -200,7 +199,10 @@ var KTdip_activityValidate = function () {
     };
 }();
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-  
-    KTdip_activityValidate.init();
+KTUtil.onDOMContentLoaded(function() {
+
+    KTdipActivityValidate.init();
 });
+
+
+

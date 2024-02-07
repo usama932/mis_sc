@@ -276,13 +276,13 @@ var KTdipValidate = function () {
     };
 }();
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
+`KTUtil.onDOMContentLoaded(function () {
   
     KTdipValidate.init();
 });
 
 
 
-
+`
 
 
