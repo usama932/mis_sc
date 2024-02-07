@@ -24,6 +24,12 @@
                                 {{ $province->province_name }}
                             </option>
                         @endforeach
+                    @else
+                        @foreach($provinces as $province)
+                            <option value="{{ $province->province_id }}">
+                                {{ $province->province_name }}
+                            </option>
+                        @endforeach
                     @endif
                 </select>
                 <div id="provinceError" class="error-message "></div>

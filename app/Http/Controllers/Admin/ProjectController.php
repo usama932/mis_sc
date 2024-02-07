@@ -304,8 +304,10 @@ class ProjectController extends Controller
 
         $active = 'detail';
         session(['active' => $active]);
-        
+        $editUrl = route('project.detail',$request->project);
+     
         return response()->json([
+            'editUrl' => $editUrl,
             'message' => "Project Detail Update Successfully",
             'error' => "true"
         ]);

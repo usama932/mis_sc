@@ -113,7 +113,7 @@ class ProjectThemeController extends Controller
             ]);
         }
         $total_target = $request->women_target + $request->men_target + $request->girls_target + $request->boys_target;
-        
+       
         if($total_target !=  $request->individual_target){
             return response()->json([
                 'message' => "Individually Target Distributed Incorrectly",

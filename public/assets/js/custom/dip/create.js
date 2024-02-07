@@ -32,81 +32,33 @@ $("#kt_select2_province").change(function () {
     });
 
 });
-var KTdipValidate = function () {
+var KTprojectupdateValidate = function() {
     // Elements
     var form;
     var submitButton;
 
 
     // Handle form ajax
-    var handleFormAjax = function (e) {
+    var handleFormAjax = function(e) {
         // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
         var validator = FormValidation.formValidation(
-            form,
-            {
+            form, {
                 fields: {
-
-                 
                     
-                 
-                    // 'individual_targets': {
-                    //     validators: {
-                    //         notEmpty: {
-                    //             message: 'Individual Targets is required'
-                    //         },
-                    //         numeric: {
-                    //             message: 'Individual Target must be a number'
-                    //         }
-                    //     }
-                    // },
-                    // 'pwd_targets': {
-                    //     validators: {
-                            
-                    //         numeric: {
-                    //             message: 'PWD Target must be a number'
-                    //         }
-                    //     }
-                    // },
-                    // 'male_targets': {
-                    //     validators: {
-                    //         notEmpty: {
-                    //             message: 'Male Target is required'
-                    //         },
-                    //         numeric: {
-                    //             message: 'Male Target must be a number'
-                    //         }
-                    //     }
-                    // },
-                    // 'female_targets': {
-                    //     validators: {
-                    //         notEmpty: {
-                    //             message: 'Female Target is required'
-                    //         },
-                    //         numeric: {
-                    //             message: 'Female Target must be a number'
-                    //         }
-                    //     }
-                    // },
-                    // 'girls_targets': {
-                    //     validators: {
-                    //         notEmpty: {
-                    //             message: 'Girls Target is required'
-                    //         },
-                    //         numeric: {
-                    //             message: 'Girls Target must be a number'
-                    //         }
-                    //     }
-                    // },
-                    // 'boys_targets': {
-                    //     validators: {
-                    //         notEmpty: {
-                    //             message: 'Boys Target is required'
-                    //         },
-                    //         numeric: {
-                    //             message: 'Boys Target must be a number'
-                    //         }
-                    //     }
-                    // },
+                    'province[]': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Province Description is required'
+                            }
+                        }
+                    },
+                    'district[]': {
+                        validators: {
+                            notEmpty: {
+                                message: 'District Description is required'
+                            }
+                        }
+                    },
                     'project_description': {
                         validators: {
                             notEmpty: {
@@ -114,23 +66,25 @@ var KTdipValidate = function () {
                             }
                         }
                     }
+
                 },
-              
+
                 plugins: {
                     trigger: new FormValidation.plugins.Trigger(),
                     bootstrap: new FormValidation.plugins.Bootstrap5({
                         rowSelector: '.fv-row',
-                        eleInvalidClass: '',  // comment to enable invalid state icons
+                        eleInvalidClass: '', // comment to enable invalid state icons
                         eleValidClass: '' // comment to enable valid state icons
                     })
                 }
             }
         );
-            
+
         // Handle form submit
-        submitButton.addEventListener('click', function (e) {
+        submitButton.addEventListener('click', function(e) {
             e.preventDefault();
-            validator.validate().then(function (status) {
+            validator.validate().then(function(status) {
+
                 if (status == 'Valid') {
                     // Show loading indication
                     submitButton.setAttribute('data-kt-indicator', 'on');
@@ -140,9 +94,9 @@ var KTdipValidate = function () {
 
 
                     // Check axios library docs: https://axios-http.com/docs/intro
-                    axios.post(submitButton.closest('form').getAttribute('action'), new FormData(form)).then(function (response) {
+                    axios.post(submitButton.closest('form').getAttribute('action'), new FormData(form)).then(function(response) {
                         if (response) {
-                            if (response.data.error != 'true') {
+                            if (response.data.error == 'true') {
                                 toastr.options = {
                                     "closeButton": true,
                                     "debug": false,
@@ -160,9 +114,9 @@ var KTdipValidate = function () {
                                     "showMethod": "fadeIn",
                                     "hideMethod": "fadeOut"
                                 };
-                                toastr.error(response.data.message, "Error");
-                            }
-                            else{
+                                toastr.success(response.data.message, "Error");
+                                window.location.href = response.data.editUrl;
+                            } else {
                                 toastr.options = {
                                     "closeButton": true,
                                     "debug": false,
@@ -180,14 +134,13 @@ var KTdipValidate = function () {
                                     "showMethod": "fadeIn",
                                     "hideMethod": "fadeOut"
                                 };
-                                toastr.success("Project Detail Updated  Successfully", "Success");
+                                toastr.success("Theme Added Successfully", "Success");
                                 form.reset();
-                         
-                                frm.ajax.reload(null, false).draw(false);
-                               
+
+                                window.location.href = response.data.editUrl;
                             }
-                           
-                            
+
+
                         } else {
                             toastr.options = {
                                 "closeButton": false,
@@ -205,11 +158,11 @@ var KTdipValidate = function () {
                                 "hideEasing": "linear",
                                 "showMethod": "fadeIn",
                                 "hideMethod": "fadeOut"
-                              };
-                              
-                              toastr.error("Some thing Went Wrong", "Error");
+                            };
+
+                            toastr.error(error);
                         }
-                    }).catch(function (error) {
+                    }).catch(function(error) {
                         toastr.options = {
                             "closeButton": false,
                             "debug": true,
@@ -226,9 +179,9 @@ var KTdipValidate = function () {
                             "hideEasing": "linear",
                             "showMethod": "fadeIn",
                             "hideMethod": "fadeOut"
-                          };
-                          
-                          toastr.error("Some thing Went Wrong", "Error");   
+                        };
+
+                        toastr.error(error, "Some  Error");
                     }).then(() => {
                         // Hide loading indication
                         submitButton.removeAttribute('data-kt-indicator');
@@ -255,9 +208,9 @@ var KTdipValidate = function () {
                         "hideEasing": "linear",
                         "showMethod": "fadeIn",
                         "hideMethod": "fadeOut"
-                      };
-                      
-                      toastr.error("Some thing Went Wrong", "Error");
+                    };
+
+                    toastr.error("Some thing Went Wrong", "Error");
                 }
             });
         });
@@ -267,7 +220,7 @@ var KTdipValidate = function () {
     // Public functions
     return {
         // Initialization
-        init: function () {
+        init: function() {
             // Elements
             form = document.querySelector('#create_dip');
             submitButton = document.querySelector('#kt_create_dip');
@@ -276,13 +229,7 @@ var KTdipValidate = function () {
     };
 }();
 // On document ready
-`KTUtil.onDOMContentLoaded(function () {
-  
-    KTdipValidate.init();
+KTUtil.onDOMContentLoaded(function() {
+
+    KTprojectupdateValidate.init();
 });
-
-
-
-`
-
-

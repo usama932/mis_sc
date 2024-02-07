@@ -35,16 +35,9 @@ class ProjectRepository implements ProjectRepositoryInterface
     public function updateproject($data)
     { 
         $project = ProjectDetail::where('project_id',$data['project'])->first();
-        if(!empty($data['project'])){
-            $project_details = ProjectDetail::where('project_id',$data['project'])->update([ 
-                'province'               => json_encode($data['province']),
-                'district'               => json_encode($data['district']),
-                'project_description'    => $data['project_description'],
-                'project_id'             => $data['project'],
-                'updated_by'             => auth()->user()->id
-            ]);
-        }
-        else{
+   
+        if(empty($project )){
+            
             $project_details = ProjectDetail::create([ 
                 'province'               => json_encode($data['province']),
                 'district'               => json_encode($data['district']),
@@ -52,6 +45,18 @@ class ProjectRepository implements ProjectRepositoryInterface
                 'project_id'             => $data['project'],
                 'created_by'             => auth()->user()->id
             ]);
+            
+        }
+        else{
+         
+            $project_details = ProjectDetail::where('project_id',$data['project'])->update([ 
+                'province'               => json_encode($data['province']),
+                'district'               => json_encode($data['district']),
+                'project_description'    => $data['project_description'],
+                'project_id'             => $data['project'],
+                'updated_by'             => auth()->user()->id
+            ]);
+           
         }
 
         return $project_details;
@@ -109,8 +114,8 @@ class ProjectRepository implements ProjectRepositoryInterface
             'partner' => $partner->name
            
         ];
-        Mail::to($data['email'])->send(new \App\Mail\partnerMail($details));
-     
+        // Mail::to($data['email'])->send(new \App\Mail\partnerMail($details));
+    //  dd('sd');
         $user = User::where('email' ,$data['email'])->first();
         if(empty($user)){
             $user = User::create([
