@@ -50,7 +50,7 @@ class DipActivityController extends Controller
 			
                 $show_url = route('activity_dips.show',$r->id);
 				$nestedData['activity_number'] = $r->activity_number ?? ''; 
-                $nestedData['detail'] = $r->activity_title ?? '';
+              
                 $nestedData['lop_target'] = $r->lop_target ?? '';
                 $nestedData['created_by'] = $r->user->name ?? '';
                 $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
@@ -96,8 +96,8 @@ class DipActivityController extends Controller
      
         $data = $request->except('_token');
         $dip_activity = $this->dipactivityRepository->storedipactivity($data);
-        $active = 'dip_activity';
-        session(['active' => $active]);
+        $active = 'basic_project';
+        session(['dip' => $active]);
         $editUrl = route('dips.edit',$dip_activity->project_id);
         
         return response()->json([
@@ -126,9 +126,9 @@ class DipActivityController extends Controller
         $dip_id =  DipActivity::where('id',$id)->first();
         $dip_activity = $this->dipactivityRepository->updatedipactivity($data,$id);
         $active = 'dip_activity';
-        session(['active' => $active]);
+        session(['dip' => $active]);
         $editUrl = route('dips.edit',$dip_id->dip_id);
-        dd($editUrl);
+        
         return response()->json([
             'editUrl' => $editUrl
         ]);
@@ -137,6 +137,8 @@ class DipActivityController extends Controller
     public function destroy(string $id)
     {
         $dip = DipActivity::find($id);
+        $active = 'dip_activity';
+        session(['dip' => $active]);
         if(!empty($dip)){  
             $dip->delete();
            

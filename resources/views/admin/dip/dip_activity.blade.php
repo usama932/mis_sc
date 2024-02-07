@@ -20,8 +20,7 @@
             <table class="table table-striped table-bordered nowrap" id="dip_activity" style="width:100%">
                 <thead>
                     <tr>
-                        <th>Activity Number</th>
-                        <th>Title</th>
+                        <th>Activity</th>
                         <th>LOP Target</th>
                         <th>Created By</th>
                         <th>Created At</th>
