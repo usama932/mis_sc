@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Dip;
 use App\Models\DipActivity;
+use Carbon\Carbon; 
 use App\Repositories\Interfaces\DipActivityInterface;
 
 class DipActivityController extends Controller
@@ -110,7 +111,29 @@ class DipActivityController extends Controller
     public function show(string $id)
     {
         $dip_activity = DipActivity::where('id',$id)->with('months','project','user','user1')->first();
-        return view('admin.dip.show_dip_activity',compact('dip_activity'));
+        $start_date = Carbon::parse($dip_activity->project->start_date);
+        $end_date = Carbon::parse($dip_activity->project->end_date);
+
+        $quarters = [];
+
+        $currentQuarterStart = $start_date->copy()->startOfQuarter();
+        while ($currentQuarterStart->lte($end_date)) {
+            $nextQuarterStart = $currentQuarterStart->copy()->addMonths(3);
+            $quarterEnd = $nextQuarterStart->lte($end_date) ? $nextQuarterStart->copy()->subDay() : $end_date;
+        
+            $quarter = [
+                'start' => $currentQuarterStart->format('F Y'),
+                'end' => $quarterEnd->format('F Y'),
+                'start_month' => $currentQuarterStart->format('M y'),
+                'end_month' => $quarterEnd->format('M y')
+            ];
+            $quarters[] = $quarter;
+        
+            // Move to the start of the next quarter
+            $currentQuarterStart = $nextQuarterStart->startOfQuarter();
+        }
+       
+        return view('admin.dip.show_dip_activity',compact('dip_activity','quarters'));
     }
 
     public function edit(string $id)

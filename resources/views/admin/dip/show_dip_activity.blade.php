@@ -5,10 +5,7 @@
     @endsection
 
     <div class="container p-3" style="width: 100%; background-color: beige;">
-        @php
-            $startDate = \Carbon\Carbon::parse($dip_activity->project->start_date);
-            $endDate = \Carbon\Carbon::parse($dip_activity->project->end_date);
-        @endphp 
+       
     
         <h1 class="text-center text-capitalize">National Rural Support Programme</h1>
         <h4 class="text-center text-capitalize">SCI-EU Funded Project "Conflict-sensitive Early Recovery Support to flood-affected communities" District Dadu.</h4>
@@ -20,47 +17,29 @@
                     <th>S.NO</th>
                     <th>Activity</th>
                     <th>Targets</th>
-                    @php
-                        $startDate = \Carbon\Carbon::parse($dip_activity->project->start_date); // Reset start date
-                    @endphp
-                    @while ($startDate <= $endDate)
-                        <th class="mx-2">{{ $startDate->format('M-y') }}</th>
-                        @php
-                            $startDate->addMonth();
-                        @endphp
-                    @endwhile
+                   
+                    @foreach ($quarters as $key =>  $quarter)
+                        <th class="mx-2">{{ $quarter['start_month'] }} - {{ $quarter['end_month'] }}</th>
+                    @endforeach
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>1</td>
-                    <td>{{ $dip_activity->activity_detail }}</td>
-                    <td></td> {{-- Add targets here --}}
-                    @php
-                        $startDate = \Carbon\Carbon::parse($dip_activity->project->start_date); // Reset start date
-                    @endphp
+                    <td>{{ $dip_activity->activity_number }}</td>
+                    <td>{{ $dip_activity->lop_target }}</td> {{-- Add targets here --}}
                     
-                    @while ($startDate <= $endDate)
-                        @php
-                            $found = false; // Flag to check if target for the month is found
-                        @endphp
-                        @foreach($dip_activity->months as $activity)
-                            @if(\Carbon\Carbon::parse($activity->month)->format('m-y') == $startDate->format('m-y'))
-                                <td>{{$activity->target ?? ''}}</td>
-                                @php
-                                    $found = true;
-                                    break; // Break the loop once target is found for the month
-                                @endphp
+                    @foreach($dip_activity->months as $month)
+                        @foreach ($quarters as $quarter)
+                            @if($quarter['start'].'-'.$quarter['end'] == $month->month)
+                                <td>{{ $month->target }}</td>
+           
                             @endif
                         @endforeach
-                        {{-- If target is not found for the month, display default --}}
-                        @if (!$found)
-                            <td>--</td>
-                        @endif
-                        @php
-                            $startDate->addMonth();
-                        @endphp
-                    @endwhile
+                    @endforeach
+                    
+                    
+                    
                 </tr>
             </tbody>
         </table>
