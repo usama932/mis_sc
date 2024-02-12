@@ -70,6 +70,7 @@
                                     @endforeach
                                 </select>
                             </div>
+                            
                             <div class="col-md-4">
                                 <input type="text" name="target_quarter[]" placeholder="Enter Target" class="form-control" autocomplete="off" required>
                             </div>
@@ -98,10 +99,10 @@
                     <div class="col-md-6">
                         <select name="quarter[]" aria-label="Select a Quarter Target" data-control="select2" data-placeholder="Select a Quarter Target" class="form-select select2" data-allow-clear="true">
                             <option value=''>Select Quarter Target</option>`;
-            quarters.forEach(function(quarter) {
-                html += `<option value="${quarter.start_month}-${quarter.end_month}">${quarter.start_month}-${quarter.end_month}</option>`;
-            });
-            html += `
+                        quarters.forEach(function(quarter) {
+                            html += `<option value="${quarter.start_month}-${quarter.end_month}">${quarter.start_month}-${quarter.end_month}</option>`;
+                        });
+                        html += `
                         </select>
                     </div>
                     <div class="col-md-4">

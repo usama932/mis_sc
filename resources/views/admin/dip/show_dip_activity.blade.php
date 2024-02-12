@@ -1,7 +1,7 @@
 <x-default-layout>
  
     @section('title')
-    View Project Activity Detail
+        Project Activity Detail
     @endsection
 
     <div class="container p-3" style="width: 100%; background-color: beige;">
