@@ -32,6 +32,7 @@
             </ul>
             
             <div class="tab-content" id="myTabContent">
+             
                 <div class="tab-pane fade   @if(session('dip') == 'basic_project') show active @else  @endif" id="kt_tab_pane_1" role="tabpanel">
                    @include('admin.dip.edit_dip')
                 </div>

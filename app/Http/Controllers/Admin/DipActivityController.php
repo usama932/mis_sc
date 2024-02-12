@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Dip;
 use App\Models\DipActivity;
 use Carbon\Carbon; 
+use App\Models\District;
+use App\Models\Province;
+
 use App\Repositories\Interfaces\DipActivityInterface;
 
 class DipActivityController extends Controller
@@ -113,7 +116,23 @@ class DipActivityController extends Controller
         $dip_activity = DipActivity::where('id',$id)->with('months','project','user','user1')->first();
         $start_date = Carbon::parse($dip_activity->project->start_date);
         $end_date = Carbon::parse($dip_activity->project->end_date);
-
+       
+        if(!empty($dip_activity->project->detail->province )){
+            $province_dip = json_decode($dip_activity->project->detail->province , true);
+            
+            $provinces = Province::whereIn('province_id', $province_dip)->pluck('province_name');
+            
+        }
+        else{
+            $provinces = '';
+        }
+        if(!empty($dip_activity->project->detail->district )){
+            $district_dip = json_decode($dip_activity->project->detail->district , true);
+            $districts = District::whereIn('district_id', $district_dip)->pluck('district_name');
+        }
+        else{
+            $districts = '';
+        }
         $quarters = [];
 
         $currentQuarterStart = $start_date->copy()->startOfQuarter();
@@ -133,7 +152,7 @@ class DipActivityController extends Controller
             $currentQuarterStart = $nextQuarterStart->startOfQuarter();
         }
        
-        return view('admin.dip.show_dip_activity',compact('dip_activity','quarters'));
+        return view('admin.dip.show_dip_activity',compact('dip_activity','quarters','districts','provinces'));
     }
 
     public function edit(string $id)

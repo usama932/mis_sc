@@ -60,27 +60,27 @@
                 <ul class="nav nav-tabs mt-1 fs-6">
                     <li class="nav-item">
                         
-                        <a class="nav-link @if(session('active') == 'detail')  active @endif" data-bs-toggle="tab" href="#detail">Project Detail</a>
+                        <a class="nav-link @if(session('project') == 'detail')  active @endif" data-bs-toggle="tab" href="#detail">Project Detail</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @if(session('active') == 'thematic') active @else  @endif" data-bs-toggle="tab" href="#thematic" @if(empty($project->detail)) disabled @endif >Thematic area</a>
+                        <a class="nav-link @if(session('project') == 'thematic') active @else  @endif" data-bs-toggle="tab" href="#thematic" @if(empty($project->detail)) disabled @endif >Thematic area</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @if(session('active') == 'partner') active @else  @endif" data-bs-toggle="tab" href="#partner" @if(empty($project->detail)) disabled @endif >Implementing Partner</a>
+                        <a class="nav-link @if(session('project') == 'partner') active @else  @endif" data-bs-toggle="tab" href="#partner" @if(empty($project->detail)) disabled @endif >Implementing Partner</a>
                     </li>
                     
                 </ul>
             </div>
             <div class="tab-content" id="myTabContent">
                 
-                <div class="tab-pane fade show @if(session('active') == 'detail') active @else  @endif" id="detail" role="tabpanel">
+                <div class="tab-pane fade show @if(session('project') == 'detail') active @else  @endif" id="detail" role="tabpanel">
                    
                         @include('admin.projects.partials.detail_form')
                 </div>
-                <div class="tab-pane fade show @if(session('active') == 'thematic') active @else  @endif" id="thematic" role="tabpanel" @if(empty($project->detail)) disabled @endif >
+                <div class="tab-pane fade show @if(session('project') == 'thematic') active @else  @endif" id="thematic" role="tabpanel" @if(empty($project->detail)) disabled @endif >
                     @include('admin.projects.partials.project_theme')
                 </div>
-                <div class="tab-pane fade show @if(session('active') == 'partner') active @else  @endif" id="partner" role="tabpanel" @if(empty($project->detail)) disabled @endif >
+                <div class="tab-pane fade show @if(session('project') == 'partner') active @else  @endif" id="partner" role="tabpanel" @if(empty($project->detail)) disabled @endif >
                     @include('admin.projects.partials.project_partners')
                 </div>
                 

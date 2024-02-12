@@ -1,45 +1,31 @@
 <x-default-layout>
  
     @section('title')
-    View Project Detail
+    View Project Activity Detail
     @endsection
 
     <div class="container p-3" style="width: 100%; background-color: beige;">
        
     
-        <h1 class="text-center text-capitalize">National Rural Support Programme</h1>
-        <h4 class="text-center text-capitalize">SCI-EU Funded Project "Conflict-sensitive Early Recovery Support to flood-affected communities" District Dadu.</h4>
-        <h6 class="text-center text-capitalize">KP & Sindh</h6>
+        <h1 class="text-center text-capitalize">{{$dip_activity->project->name ?? ''}}</h1>
+        <h4 class="text-center text-capitalize">{{$dip_activity->activity_number ?? ''}}</h4>
+        <h6 class="text-center text-capitalize">@foreach($provinces as $province) {{$province }},  @endforeach</h6>
     
         <table class="table table-striped table-bordered nowrap table-responsive" style="width: 100%; background-color: beige;">
             <thead>
                 <tr>
-                    <th>S.NO</th>
-                    <th>Activity</th>
-                    <th>Targets</th>
-                   
-                    @foreach ($quarters as $key =>  $quarter)
-                        <th class="mx-2">{{ $quarter['start_month'] }} - {{ $quarter['end_month'] }}</th>
+                    <th class=" fs-7">LOP Targets</th>
+                    @foreach($dip_activity->months as $month)
+                        <th class="mx-1 fs-8">{{$month->month}}</th>
                     @endforeach
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>1</td>
-                    <td>{{ $dip_activity->activity_number }}</td>
-                    <td>{{ $dip_activity->lop_target }}</td> {{-- Add targets here --}}
-                    
+                    <td>{{ $dip_activity->lop_target ?? '' }}</td>
                     @foreach($dip_activity->months as $month)
-                        @foreach ($quarters as $quarter)
-                            @if($quarter['start'].'-'.$quarter['end'] == $month->month)
-                                <td>{{ $month->target }}</td>
-           
-                            @endif
-                        @endforeach
+                        <td>{{ $month->target ?? '' }}</td>
                     @endforeach
-                    
-                    
-                    
                 </tr>
             </tbody>
         </table>

@@ -191,8 +191,8 @@ class DipController extends Controller
      
         $data = $request->except('_token');
         $dip = $this->dipRepository->storedip( $data);
-        $active = 'basic_info';
-        session(['active' => $active]);
+        $dip = 'basic_info';
+        session(['dip' => $dip]);
         $editUrl = route('dips.edit',$dip->id);
      
         return response()->json([
@@ -222,11 +222,10 @@ class DipController extends Controller
     {
 
         $project = Project::find($id);
-      
-        $active = 'basic_info';
-        if(session('active') == ''){
-            session(['active' => $active]);
-        }
+
+        $dip = 'basic_project';
+        session(['dip' => $dip]);
+       
         addJavascriptFile('assets/js/custom/dip/create.js');
         addVendors(['datatables']);
         return view('admin.dip.edit',compact('project'));

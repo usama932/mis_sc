@@ -112,10 +112,12 @@
                     </div>
                 </div>`;
             $('#targetRows').append(html);
+            
         }
 
         function removeTargetRow(btn) {
             $(btn).closest('.row').remove();
         }
+      
     </script>   
 </x-nform-layout>

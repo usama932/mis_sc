@@ -268,7 +268,7 @@ class ProjectController extends Controller
             $districts   =  '';
         }
         $active = 'detail';    
-        session(['active' => $active]);
+        session(['project' => $active]);
 
         addJavascriptFile('assets/js/custom/dip/create.js');
         addJavascriptFile('assets/js/custom/project/projectthemeValidation.js');
@@ -302,8 +302,8 @@ class ProjectController extends Controller
         
         $project = $this->projectRepository->updateproject($data);
 
-        $active = 'detail';
-        session(['active' => $active]);
+        $project = 'detail';
+        session(['project' => $project]);
         $editUrl = route('project.detail',$request->project);
      
         return response()->json([
