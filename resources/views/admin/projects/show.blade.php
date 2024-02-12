@@ -6,11 +6,9 @@
     <div class="card p-3">
         <input type="hidden" id="project_id" value="{{$project->id}}">
         <div class="row">
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <a href="{{ route('projects.edit',$project->id)}}" class="btn btn-primary me-md-2 btn-sm" target="_blank">Edit project</a>
-            </div>
-            <div class="col-md-6">
-                <table class="table table-striped m-4">
+            
+            <div class="col-md-6 p-4">
+                <table class="table table-striped p-4">
                     
                     <tr>
                         <td><strong>Project</strong></td>
@@ -97,18 +95,20 @@
                 <ul class="nav nav-tabs mt-1 fs-6">
                    
                     <li class="nav-item">
-                        <a class="nav-link @if(session('active') == 'thematic') active @else  @endif" data-bs-toggle="tab" href="#thematic" >Thematic area</a>
+                        <a class="nav-link  active " data-bs-toggle="tab" href="#thematic" >Thematic area</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @if(session('active') == 'partner') active @else  @endif" data-bs-toggle="tab" href="#partner">Implementing Partner</a>
+                        <a class="nav-link  " data-bs-toggle="tab" href="#partner">Implementing Partner</a>
                     </li>
-                    
+                    <li class="nav-item">
+                        <a class="nav-link  " data-bs-toggle="tab" href="#activities">Project Activities</a>
+                    </li>
                 </ul>
             </div>
             <div class="tab-content" id="myTabContent">
                 
                 
-                <div class="tab-pane fade show @if(session('active') == 'thematic') active @else  @endif" id="thematic" role="tabpanel">
+                <div class="tab-pane fade show  active " id="thematic" role="tabpanel">
                     <div class="card m-4"  id="project_theme_table">
                         <div class="card-body overflow-*">
                             <div class="table-responsive overflow-*">
@@ -135,7 +135,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade show @if(session('active') == 'partner') active @else  @endif" id="partner" role="tabpanel">
+                <div class="tab-pane fade show" id="partner" role="tabpanel">
                     <div class="card m-4"  id="project_partner_table">
                         <div class="card-body overflow-*">
                             <div class="table-responsive overflow-*">
@@ -159,8 +159,87 @@
                         </div>
                     </div>
                 </div>
-                
+                <div class="tab-pane fade show" id="activities" role="tabpanel">
+                    <div class="card m-4"  id="project_partner_table">
+                        <div class="card-body overflow-*">
+                            <div class="table-responsive overflow-*">
+                                <table class="table table-striped table-bordered nowrap" id="dip_activity" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Activity</th>
+                                            <th>LOP Target</th>
+                                            <th>Created By</th>
+                                            <th>Created At</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    @push('scripts')
+    <script>
+        var dip_id = document.getElementById("project_id").value ;
+        var dip_activity = $('#dip_activity').DataTable( {
+            "order": [
+            [1, 'desc']
+        ],
+        "dom": 'lfBrtip',
+        buttons: [
+            'csv', 'excel'
+        ],
+        "responsive": true, // Enable responsive mode
+        "processing": true,
+        "serverSide": true,
+        "searching": false,
+        "bLengthChange": false,
+        "bInfo" : false,
+        "responsive": false,
+        "info": true,   
+        "ajax": {
+            "url":"{{route('admin.get_activity_dips')}}",
+            "dataType":"json",
+            "type":"POST",
+            "data":{"_token":"<?php echo csrf_token() ?>",
+                    "dip_id":dip_id}
+        },
+            "columns":[
+                
+                            {"data":"activity_number","searchable":false,"orderable":false},
+                            {"data":"lop_target","searchable":false,"orderable":false},
+                            {"data":"created_by","searchable":false,"orderable":false},
+                            {"data":"created_at","searchable":false,"orderable":false},
+                            {"data":"action","searchable":false,"orderable":false},
+                        ]
+        });
+
+        
+     
+    
+        function del(id) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!"
+            }).then(function(result) {
+                if (result.value) {
+                    Swal.fire(
+                        "Deleted!",
+                        "Your DIP has been deleted.",
+                        "success"
+                    );
+                    var APP_URL = {!! json_encode(url('/')) !!}
+                    window.location.href = APP_URL + "/activity_dips/delete/" + id;
+                }
+            });
+        }
+       
+    </script>
+    @endpush
 </x-default-layout>

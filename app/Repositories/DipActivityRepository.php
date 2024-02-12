@@ -4,7 +4,7 @@ namespace App\Repositories;
 use App\Repositories\Interfaces\DipActivityInterface;
 use App\Models\DipActivity;
 use App\Models\ActivityMonths;
-use File;
+
 
 class DipActivityRepository implements DipActivityInterface
 {
@@ -21,16 +21,17 @@ class DipActivityRepository implements DipActivityInterface
         foreach($data['quarter']  as $key => $q){
            
             foreach($data['target_quarter']  as $k => $t){
-                if($t != null && $q != null){
-                    ActivityMonths::create([
-                        'project_id'     => $data['project_id'],
-                        'activity_id'    =>$activity->id,
-                        'month'          =>$q,
-                        'target'         =>$t,
-                        'created_by'     => auth()->user()->id,
-                    ]);
+                if($k != null && $key){
+                    if($t != null && $q != null){
+                        ActivityMonths::create([
+                            'project_id'     => $data['project_id'],
+                            'activity_id'    =>$activity->id,
+                            'month'          =>$q,
+                            'target'         =>$t,
+                            'created_by'     => auth()->user()->id,
+                        ]);
+                    }
                 }
-               
             }
         }
         return $activity;
@@ -38,14 +39,24 @@ class DipActivityRepository implements DipActivityInterface
 
     public function updatedipactivity($data, $id)
     {
-        return DipActivity::create([
-            'activity_number'      => $data['activity_number'],
-            'start_date'           => $data['start_date'],
-            'end_date'             => $data['end_date'],
-            'detail'               => $data['detail'],
-            'status'               => $data['status'],
-            'updated_by'           => auth()->user()->id,
-        ]);
+        $q = ActivityMonths::where('activity_id',$id)->delete();
+      
+        foreach($data['quarter']  as $key => $q){
+            foreach($data['target_quarter']  as $k => $t){
+                if($k == $key){
+                    if($t != null && $q != null){
+                        $activity = ActivityMonths::create([
+                            'project_id'     => $data['project_id'],
+                            'activity_id'    => $data['activity_id'],
+                            'month'          => $q,
+                            'target'         => $t,
+                            'created_by'     => auth()->user()->id,
+                        ]);
+                    }
+                }
+            }
+        }
+        return $activity;
     }
 
 }

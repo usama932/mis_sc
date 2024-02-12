@@ -92,34 +92,104 @@
                         </div>
                     </div>
                     <table class="table table-striped m-4">
-                        
-                        <tr>
-                            <td><strong>Total Target</strong></td>
-                            <td> {{$project->detail?->total_targets ?? ''}}</td>
-                        </tr>
+                    
+                   
                         <tr>
                             <td><strong>House Hold Target </strong></td>
-                            <td> {{$project->detail?->hh_targets ?? ''}}</td>
+                            <td>  
+                                @if(!empty($project->themes))
+                                    @foreach($project->themes as $theme)
+                                        @php
+                                            $hh_hold = 0;
+                                            $hh_hold =$hh_hold + $theme->house_hold_target ;
+                                            echo  $hh_hold;
+                                        @endphp
+                                    @endforeach
+                                @else
+                                    0
+                                @endif
+                            </td>
                         </tr>
                         <tr>
                             <td><strong>Individual Target </strong></td>
-                            <td> {{$project->detail?->individual_targets ?? ''}}</td>
+                            <td> 
+                                @if(!empty($project->themes))
+                                    @foreach($project->themes as $theme)
+                                        @php
+                                            $individual_target = 0;
+                                            $individual_target =$individual_target + $theme->individual_target ;
+                                            echo  $individual_target;
+                                        @endphp
+                                    @endforeach
+                                @else
+                                    0
+                                @endif
+                            </td>
                         </tr>
                         <tr>
-                            <td><strong>Male Target </strong></td>
-                            <td> {{$project->detail?->male_targets ?? ''}}</td>
+                            <td><strong>Women Target </strong></td>
+                            <td> 
+                                @if(!empty($project->themes))
+                                    @foreach($project->themes  as $theme)
+                                        @php
+                                            $women_target = 0;
+                                            $women_target =$women_target + $theme->women_target ;
+                                            echo  $women_target;
+                                        @endphp
+                                    @endforeach
+                                @else
+                                    0
+                                @endif
+                            </td>
                         </tr>
                         <tr>
-                            <td><strong>Female Target </strong></td>
-                            <td> {{$project->detail?->female_targets ?? ''}}</td>
+                            <td><strong>Men Target </strong></td>
+                            <td>
+                                @if(!empty($project->themes))
+                                    @foreach($project->themes  as $theme)
+                                    @php
+                                        $men_target = 0;
+                                        $men_target =$men_target + $theme->women_target ;
+                                        echo  $men_target;
+                                    @endphp
+                                    @endforeach
+                                @else
+                                    0
+                                @endif
+                            </td>
+                        </tr>
+                       
+                        <tr>
+                            <td><strong>Girls Target </strong></td>
+                            <td> 
+                                @if(!empty($project->themes))
+                                    @foreach($project->themes  as $theme)
+                                        @php
+                                            $girls_target = 0;
+                                            $girls_target = $girls_target + $theme->women_target ;
+                                            echo  $girls_target;
+                                        @endphp
+                                    @endforeach
+                                @else
+                                    0
+                                @endif
+                            </td>
                         </tr>
                         <tr>
                             <td><strong>Boys Target </strong></td>
-                            <td> {{$project->detail?->boys_targets ?? ''}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Girls Target </strong></td>
-                            <td> {{$project->detail?->girls_targets ?? ''}}</td>
+                            <td> 
+                                @if(!empty($project->themes))
+                                    @foreach($project->themes  as $theme)
+                                        @php
+                                            $boys_target = 0;
+                                            $boys_target =$boys_target + $theme->women_target ;
+                                            echo  $boys_target;
+                                        @endphp
+                                    @endforeach
+                                @else
+                                    0
+                                @endif
+                            </td>
                         </tr>
                         
                     </table>

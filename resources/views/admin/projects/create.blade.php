@@ -34,7 +34,7 @@
                             <select   name="focal_person" id="focal_person" aria-label="Select a Focal Person" data-control="select2" data-placeholder="Select a Focal Person..." class="form-select "  data-allow-clear="true" > 
                                 <option  value=''>Select Focal Person</option>
                                 @foreach($persons as $person)
-                                    <option  value='{{$person->id}}'>{{$person->name}}</option>
+                                    <option  value='{{$person->id}}'>{{ucfirst($person->name)}} - {{$person->desig?->designation_name  ?? ''}}</option>
                                 @endforeach
                             </select>
                             <div id="focal_personError" class="error-message"></div>

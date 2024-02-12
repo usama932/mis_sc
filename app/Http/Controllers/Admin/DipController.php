@@ -48,7 +48,7 @@ class DipController extends Controller
             
 		);
 		if(auth()->user()->user_type != 'admin'){
-            $totalData = Project::whereHas('partners', function ($query) {
+            $totalData = Project::orWhere('focal_person' ,auth()->user()->id)->orWhereHas('partners', function ($query) {
                 $query->where('email', auth()->user()->email);
             })->count();
         }else{
@@ -60,17 +60,19 @@ class DipController extends Controller
         $order = $columns[$request->input('order.0.column')];
         $dir = $request->input('order.0.dir');
         if(auth()->user()->user_type != 'admin'){
-            $totalFiltered = Project::whereHas('partners', function ($query) {
+            $totalFiltered = Project::orWhere('focal_person' ,auth()->user()->id)->orWhereHas('partners', function ($query) {
                 $query->where('email', auth()->user()->email);
             })->count();
         }
         else{
-            $totalFiltered = Project::count();
+            $totalFiltered = Project::orWhere('focal_person' ,auth()->user()->id)->orWhereHas('partners', function ($query) {
+                $query->where('email', auth()->user()->email);
+            })->count();
         }
        
 		$start = $request->input('start');
 		if(auth()->user()->user_type != 'admin'){
-            $dips = Project::whereHas('partners', function ($query) {
+            $dips = Project::orWhere('focal_person' ,auth()->user()->id)->orWhereHas('partners', function ($query) {
                 $query->where('email', auth()->user()->email);
             });
         }
@@ -131,14 +133,16 @@ class DipController extends Controller
                                             <i class="fa fa-eye text-success" aria-hidden="true" ></i>
                                             </a>
 
+                                         
+                                        </a>';
+                                        if (auth()->user()->user_type == 'admin') {
+                                            $nestedData['action'] .= '
                                             <a class="btn-icon mx-1" title="Delete " onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
-                                                <i class="fa fa-trash text-danger" aria-hidden="true"></i>
-                                            </a>
-                                        </a>
-                                        </td>
-                                        </div>
-                                        ';
-               
+                                            <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+                                            </a>';
+                                        }
+                                        $nestedData['action'] .= '</td></div>';
+                        
 				
 				$data[] = $nestedData;
 			}

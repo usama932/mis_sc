@@ -118,7 +118,7 @@ class ProjectController extends Controller
                 $nestedData['created_by'] = $r->user->name ?? '';
                 $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
                 if(empty($r->detail)){
-                    $nestedData['action'] = '<div>
+                $nestedData['action'] = '<div>
                                                 <td>
                                                 <a class="btn btn-primary btn-sm" href="'. $edit_url .'" target="_blank" style="font-size: 0.8em; font-weight: bold; padding: 6px 10px;">
                                                     <i class="fa fa-plus" aria-hidden="true"></i> Add Detail
@@ -129,18 +129,20 @@ class ProjectController extends Controller
                     $nestedData['action'] = '<div>
                     <td>
                         <a class="btn-icon mx-1" href="'. $show_url.'" target="_blank">
-                        <i class="fa fa-eye text-success" aria-hidden="true" ></i>
+                            <i class="fa fa-eye text-success" aria-hidden="true" ></i>
                         </a>
                         <a class="btn-icon mx-1" href="'. $edit_url.'" target="_blank">
                             <i class="fa fa-pencil text-warning" aria-hidden="true" ></i>
-                        </a>
-                        <a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
-                            <i class="fa fa-trash text-danger" aria-hidden="true"></i>
-                        </a>
-                    </a>
-                    </td>
-                    </div>
-                    ';
+                        </a>';
+                
+                    if (auth()->user()->user_type == 'admin') {
+                        $nestedData['action'] .= '
+                            <a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
+                                <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+                            </a>';
+                    }
+                
+                    $nestedData['action'] .= '</td></div>';
                 }
                
                

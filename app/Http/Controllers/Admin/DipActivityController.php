@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Dip;
 use App\Models\DipActivity;
 use Carbon\Carbon; 
 use App\Models\District;
+use App\Models\ActivityMonths;
 use App\Models\Province;
+use App\Models\Project;
 
 use App\Repositories\Interfaces\DipActivityInterface;
 
@@ -53,6 +54,7 @@ class DipActivityController extends Controller
 			foreach($dips as $r){
 			
                 $show_url = route('activity_dips.show',$r->id);
+                $edit_url = route('activity_dips.edit',$r->id);
 				$nestedData['activity_number'] = $r->activity_number ?? ''; 
               
                 $nestedData['lop_target'] = $r->lop_target ?? '';
@@ -63,13 +65,16 @@ class DipActivityController extends Controller
                                             <a class="btn-icon mx-1" href="'.$show_url.'" target="_blank"  >
                                                 <i class="fa fa-eye text-warning" aria-hidden="true" ></i>
                                             </a>
-                                            <a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
-                                                <i class="fa fa-trash text-danger" aria-hidden="true"></i>
-                                            </a>
-                                        </td>
-                                        </div>
-                                        ';
-               
+                                            <a class="btn-icon mx-1" href="'.$edit_url.'" target="_blank"  >
+                                            <i class="fa fa-pencil text-primary" aria-hidden="true" ></i>
+                                            </a>';
+                                            if (auth()->user()->user_type == 'admin') {
+                                                $nestedData['action'] .= '
+                                                <a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
+                                                    <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+                                                </a>';
+                                            }
+                                            $nestedData['action'] .= '</td></div>';
 				
 				$data[] = $nestedData;
 			}
@@ -99,6 +104,7 @@ class DipActivityController extends Controller
     {
      
         $data = $request->except('_token');
+       
         $dip_activity = $this->dipactivityRepository->storedipactivity($data);
         $active = 'basic_project';
         session(['dip' => $active]);
@@ -147,37 +153,76 @@ class DipActivityController extends Controller
                 'end_month' => $quarterEnd->format('M y')
             ];
             $quarters[] = $quarter;
-        
-            // Move to the start of the next quarter
             $currentQuarterStart = $nextQuarterStart->startOfQuarter();
         }
-       
+        addJavascriptFile('assets/js/custom/dip/dipquarteroupdateValidation.js');
         return view('admin.dip.show_dip_activity',compact('dip_activity','quarters','districts','provinces'));
     }
 
     public function edit(string $id)
     {
-        //
+       
+        $dip = DipActivity::where('id',$id)->first();
+        $project = Project::where('id',$dip->project_id)->first();
+        $start_date = Carbon::parse($project->start_date);
+        $end_date = Carbon::parse($project->end_date);
+
+       
+
+        $quarters = [];
+
+        $currentQuarterStart = $start_date->copy()->startOfQuarter();
+        while ($currentQuarterStart->lte($end_date)) {
+            $nextQuarterStart = $currentQuarterStart->copy()->addMonths(3);
+            $quarterEnd = $nextQuarterStart->copy()->subDay()->endOfMonth();
+
+            $quarter = [
+                'start_month' => $currentQuarterStart->format('F Y'),
+                'end_month' => $quarterEnd->format('F Y')
+            ];
+            $quarters[] = $quarter;
+
+            // Move to the start of the next quarter
+            $currentQuarterStart = $nextQuarterStart->startOfQuarter();
+        }
+        
+        addJavascriptFile('assets/js/custom/dip/dip_activity_validations.js');
+        return view('admin.dip.edit_dip_activity',compact('dip' ,'project','quarters'));
     }
 
 
     public function update(Request $request, string $id)
     {
-      
+       
         $data = $request->except('_token');
-        $dip_id =  DipActivity::where('id',$id)->first();
-        $dip_activity = $this->dipactivityRepository->updatedipactivity($data,$id);
+       
+        $dip_activity = $this->dipactivityRepository->updatedipactivity($data ,$id);
         $active = 'dip_activity';
         session(['dip' => $active]);
-        $editUrl = route('dips.edit',$dip_id->dip_id);
+        $editUrl = route('dips.edit',$dip_activity->project_id);
         
         return response()->json([
             'editUrl' => $editUrl
         ]);
+   
+       
     }
 
+
+    public function delete_month(string $id)
+    {
+       
+        $dip = ActivityMonths::find($id);
+        
+        if(!empty($dip)){  
+            $dip->delete();
+            return redirect()->back();
+        }
+        return redirect()->back();
+    }
     public function destroy(string $id)
     {
+        
         $dip = DipActivity::find($id);
         $active = 'dip_activity';
         session(['dip' => $active]);
