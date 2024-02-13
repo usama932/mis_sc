@@ -58,6 +58,13 @@ class DipActivityController extends Controller
 				$nestedData['activity_number'] = $r->activity_number ?? ''; 
               
                 $nestedData['lop_target'] = $r->lop_target ?? '';
+                $quarterTarget = '';
+                foreach ($r->months as $month) {
+                    $quarterTarget .= '<br>'. $month->tenure?->quarter_start ?? "". '-'. $month->tenure?->quarter_end ?? "". ' = '.$month->target ?? "". '<br>';
+                }
+                $quarterTarget = rtrim($quarterTarget ?? "", ', '); // Remove the trailing comma and space
+
+                $nestedData['quarter_target'] = $quarterTarget;
                 $nestedData['created_by'] = $r->user->name ?? '';
                 $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
                 $nestedData['action'] = '<div>
@@ -139,24 +146,9 @@ class DipActivityController extends Controller
         else{
             $districts = '';
         }
-        $quarters = [];
-
-        $currentQuarterStart = $start_date->copy()->startOfQuarter();
-        while ($currentQuarterStart->lte($end_date)) {
-            $nextQuarterStart = $currentQuarterStart->copy()->addMonths(3);
-            $quarterEnd = $nextQuarterStart->lte($end_date) ? $nextQuarterStart->copy()->subDay() : $end_date;
         
-            $quarter = [
-                'start' => $currentQuarterStart->format('F Y'),
-                'end' => $quarterEnd->format('F Y'),
-                'start_month' => $currentQuarterStart->format('M y'),
-                'end_month' => $quarterEnd->format('M y')
-            ];
-            $quarters[] = $quarter;
-            $currentQuarterStart = $nextQuarterStart->startOfQuarter();
-        }
         addJavascriptFile('assets/js/custom/dip/dipquarteroupdateValidation.js');
-        return view('admin.dip.show_dip_activity',compact('dip_activity','quarters','districts','provinces'));
+        return view('admin.dip.show_dip_activity',compact('dip_activity','districts','provinces'));
     }
 
     public function edit(string $id)

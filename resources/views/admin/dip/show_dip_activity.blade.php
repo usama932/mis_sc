@@ -15,16 +15,25 @@
             <thead>
                 <tr>
                     <th class=" fs-7">LOP Targets</th>
-                    @foreach($dip_activity->months as $month)
-                        <th class="mx-1 fs-8">{{$month->month}}</th>
+                    @foreach($dip_activity->months ?? [] as $month)
+                        @foreach($dip_activity->project->quarters ?? [] as $tenure)
+                            @if(isset($month->month) && isset($tenure->id) && $month->month == $tenure->id)
+                                <th class="mx-1 fs-9">{{$tenure->quarter_start}} - {{$tenure->quarter_end}}</th>
+                            @endif
+                        @endforeach
                     @endforeach
+                 
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>{{ $dip_activity->lop_target ?? '' }}</td>
-                    @foreach($dip_activity->months as $month)
-                        <td>{{ $month->target ?? '' }}</td>
+                    @foreach($dip_activity->months ?? [] as $month)
+                        @foreach($dip_activity->project->quarters ?? [] as $tenure)
+                            @if(isset($month->month) && isset($tenure->id) && $month->month == $tenure->id)
+                                <td>{{ $month->target ?? '' }}</td>
+                            @endif
+                        @endforeach
                     @endforeach
                 </tr>
             </tbody>

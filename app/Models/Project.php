@@ -18,6 +18,10 @@ class Project extends Model
     {
         return $this->hasMany(ProjectTheme::class,'project_id','id');
     }
+    public function quarters()
+    {
+        return $this->hasMany(ProjectQuarter::class,'project_id','id');
+    }
     public function partners()
     {
         return $this->hasMany(ProjectPartner::class,'project_id','id');

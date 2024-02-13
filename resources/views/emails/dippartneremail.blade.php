@@ -79,18 +79,19 @@
                 <table class="header" style="background-color: #ffffff; border-radius: 6px;">
                     <tr>
                         <td class="content" style="padding: 20px; font-size: 17px;">
-                            <strong>Assignment as Focal Person for {{ $details['project'] }} Project</strong>
+                            <strong>Assignment as Focal Person for {{ $details['project'] }}</strong>
                         </td>
                     </tr>
                     <tr>
                         <td class="content" style="padding: 20px; font-size: 17px;">
-                            Dear {{ $details['partner'] }},
+                            Dear ,
+                            <br>
 
                             I trust this message finds you well.
 
-                            I am pleased to inform you that you have been appointed as the focal person for the {{ $details['project'] }} project. 
-                            Your commitment to excellence and proven capabilities make you an ideal candidate for this crucial role.
-                        </td>
+                            I am pleased to inform you that, You are the focal person for the {{ $details['project'] }}.
+                            Sign-In for further Information  
+                            </td>
                     </tr>
                     <tr>
                         <td class="content credentials" style="padding: 20px; font-size: 17px; background-color: #f9f9f9; border-radius: 6px;">
@@ -101,11 +102,7 @@
                             it is imperative that you change the password to enhance the security of the account.
                         </td>
                     </tr>
-                    <tr>
-                        <td class="content" style="padding: 20px; font-size: 17px;">
-                            Your dedication to the success of this project is highly valued, and I am confident that your contributions will significantly contribute to its fruition.
-                        </td>
-                    </tr>
+                   
                     <tr>
                         <td class="content" style="text-align: center; padding: 20px; font-size: 17px;">
                             <a href="https://mis-sc.pk/" class="button" style="display: inline-block; padding: 8px 20px; font-size: 14px; border-radius: 4px; color: #ffffff; background-color: #009ef7; border: 0; text-decoration: none;">

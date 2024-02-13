@@ -8,15 +8,38 @@ use App\Models\ProjectPartner;
 use App\Models\ProjectTheme;
 use App\Models\Partner;
 use App\Models\User;
+use Carbon\Carbon; 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Models\ProjectQuarter;
 
 
 class ProjectRepository implements ProjectRepositoryInterface
 {
     public function storeproject($data)
     {
-        return Project::create([
+        $start_date = Carbon::parse($data['start_date']);
+        $end_date = Carbon::parse($data['end_date']);
+
+        $quarters = [];
+
+        $currentQuarterStart = $start_date->copy()->startOfQuarter();
+        while ($currentQuarterStart->lte($end_date)) {
+            $nextQuarterStart = $currentQuarterStart->copy()->addMonths(3);
+            $quarterEnd = $nextQuarterStart->lte($end_date) ? $nextQuarterStart->copy()->subDay() : $end_date;
+        
+            $quarter = [
+                'start_month' => $currentQuarterStart->format('F Y'),
+                'end_month' => $quarterEnd->format('F Y')
+            ];
+            $quarters[] = $quarter;
+        
+            // Move to the start of the next quarter
+            $currentQuarterStart = $nextQuarterStart->startOfQuarter();
+        }
+      
+       
+        $project =  Project::create([
             'name'                  => $data['name'],
             'type'                  => $data['type'],
             'sof'                   => $data['sof'],
@@ -28,7 +51,14 @@ class ProjectRepository implements ProjectRepositoryInterface
             'active'                =>  '1',
             'created_by'            => auth()->user()->id,
         ]); 
-       
+        foreach($quarters as $key => $quarter){
+            ProjectQuarter::create([
+                'project_id' =>  $project->id,
+                'quarter_start' =>  $quarter['start_month'],
+                'quarter_end'   =>  $quarter['end_month'],
+            ]);
+        }
+        return $project;
 
     }
 
@@ -65,19 +95,38 @@ class ProjectRepository implements ProjectRepositoryInterface
     public function updatebasicproject($data,$id)
     { 
         
-        if($data['project_extended'] == 'on'){
+        if(!empty($data['project_extended']) && $data['project_extended'] == 'on'){
             $extended = 1;
             
         }else{
             $extended = 0;
         }
-        if($data['active'] == 'on'){
+        if(!empty($data['active']) &&  $data['active'] == 'on'){
 
             $active = 1;
         }else{
             $active = 0;
         }
-        return Project::where('id',$id)->update([
+        $start_date = Carbon::parse($data['start_date']);
+        $end_date = Carbon::parse($data['end_date']);
+
+        $quarters = [];
+
+        $currentQuarterStart = $start_date->copy()->startOfQuarter();
+        while ($currentQuarterStart->lte($end_date)) {
+            $nextQuarterStart = $currentQuarterStart->copy()->addMonths(3);
+            $quarterEnd = $nextQuarterStart->lte($end_date) ? $nextQuarterStart->copy()->subDay() : $end_date;
+        
+            $quarter = [
+                'start_month' => $currentQuarterStart->format('F Y'),
+                'end_month' => $quarterEnd->format('F Y')
+            ];
+            $quarters[] = $quarter;
+        
+            // Move to the start of the next quarter
+            $currentQuarterStart = $nextQuarterStart->startOfQuarter();
+        }
+        $project =  Project::where('id',$id)->update([
             'name'                  => $data['name'],
             'type'                  => $data['type'],
             'sof'                   => $data['sof'],
@@ -87,6 +136,20 @@ class ProjectRepository implements ProjectRepositoryInterface
             'active'                => $active,
             'updated_by'            => auth()->user()->id,
         ]); 
+       
+        foreach($quarters as $key => $quarter){
+            $project_quarter = ProjectQuarter::where('quarter_start',$quarter['start_month'])
+                                            ->where('quarter_end',$quarter['end_month'])->first();
+            if(empty($project_quarter))   
+            {
+                ProjectQuarter::create([
+                    'project_id' =>  $project,
+                    'quarter_start' =>  $quarter['start_month'],
+                    'quarter_end'   =>  $quarter['end_month'],
+                ]);
+            }   
+        }
+        return $project;
        
     }
     public function storeprojecttheme($data){
@@ -114,7 +177,7 @@ class ProjectRepository implements ProjectRepositoryInterface
             'partner' => $partner->name
            
         ];
-        // Mail::to($data['email'])->send(new \App\Mail\partnerMail($details));
+        Mail::to($data['email'])->send(new \App\Mail\partnerMail($details));
     //  dd('sd');
         $user = User::where('email' ,$data['email'])->first();
         if(empty($user)){

@@ -361,8 +361,12 @@ class ProjectController extends Controller
 
     public function destroy(string $id)
     {
-        $project = Project::with('themes','partners','detail')->find($id);
+        $project = Project::with('themes','partners','detail','quarters')->find($id);
         if(!empty($project)){
+            $project->themes->each?->delete();
+            $project->partners?->each?->delete();
+            $project->detail?->each?->delete();
+            $project->quarters?->each?->delete();
             $project->delete();
             return redirect()->route('projects.index');
         }else{

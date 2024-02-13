@@ -168,6 +168,7 @@
                                         <tr>
                                             <th>Activity</th>
                                             <th>LOP Target</th>
+                                            <th>Quarter  Target</th>
                                             <th>Created By</th>
                                             <th>Created At</th>
                                             <th>Actions</th>
@@ -211,6 +212,7 @@
                 
                             {"data":"activity_number","searchable":false,"orderable":false},
                             {"data":"lop_target","searchable":false,"orderable":false},
+                            {"data":"quarter_target","searchable":false,"orderable":false},
                             {"data":"created_by","searchable":false,"orderable":false},
                             {"data":"created_at","searchable":false,"orderable":false},
                             {"data":"action","searchable":false,"orderable":false},

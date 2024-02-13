@@ -84,8 +84,8 @@
 
                                 <select name="quarter[]" aria-label="Select a Quarter Target" data-control="select2" data-placeholder="Select a Quarter Target" class="form-select" data-allow-clear="true">
                                     <option value=''>Select Quarter Target</option>
-                                    @foreach($quarters as $quarter)
-                                    <option value='{{$quarter["start_month"]}}-{{$quarter["end_month"]}}'>{{$quarter["start_month"]}}-{{$quarter["end_month"]}}</option>
+                                    @foreach($project->quarters as $quarter)
+                                        <option value='{{$quarter->id}}'>{{$quarter->quarter_start}} - {{$quarter->quarter_end}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -110,7 +110,7 @@
     <script>
          
         function addTargetRow() {
-            var quarters = @json($quarters);
+            var quarters = @json($project->quarters);
             var html = `
                 <div class="row mt-3">
                     <div class="col-md-6">

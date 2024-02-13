@@ -52,7 +52,7 @@
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Project Start Date</span>
                             </label>
-                            <input type="text" name="start_date" id="start_date" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="{{$project->start_date}}">
+                            <input type="text" name="start_date"    placeholder="Select date"  class="form-control"  value="{{$project->start_date}}" readonly>
                             <div id="start_dateError" class="error-message "></div>
                         </div>
                         <div class="fv-row col-md-3 mt-3">

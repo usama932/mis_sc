@@ -161,28 +161,9 @@ class DipController extends Controller
     {
         
         $project = Project::where('id',$id)->first();
-        $start_date = Carbon::parse($project->start_date);
-        $end_date = Carbon::parse($project->end_date);
-
-        $quarters = [];
-
-        $currentQuarterStart = $start_date->copy()->startOfQuarter();
-        while ($currentQuarterStart->lte($end_date)) {
-            $nextQuarterStart = $currentQuarterStart->copy()->addMonths(3);
-            $quarterEnd = $nextQuarterStart->lte($end_date) ? $nextQuarterStart->copy()->subDay() : $end_date;
-        
-            $quarter = [
-                'start_month' => $currentQuarterStart->format('F Y'),
-                'end_month' => $quarterEnd->format('F Y')
-            ];
-            $quarters[] = $quarter;
-        
-            // Move to the start of the next quarter
-            $currentQuarterStart = $nextQuarterStart->startOfQuarter();
-        }
-       
+     
         addJavascriptFile('assets/js/custom/dip/dip_activity_validations.js');
-        return view('admin.dip.create',compact('project','quarters'));
+        return view('admin.dip.create',compact('project'));
     }
 
     public function create()
