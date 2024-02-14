@@ -26,19 +26,24 @@ class ProjectRepository implements ProjectRepositoryInterface
         $currentQuarterStart = $start_date->copy()->startOfQuarter();
         while ($currentQuarterStart->lte($end_date)) {
             $nextQuarterStart = $currentQuarterStart->copy()->addMonths(3);
-            $quarterEnd = $nextQuarterStart->lte($end_date) ? $nextQuarterStart->copy()->subDay() : $end_date;
-        
+            $quarterEnd =$currentQuarterStart->copy()->endOfQuarter();
+            
             $quarter = [
+                'quarter' => 'Q' . ceil($currentQuarterStart->month / 3) . '-' . $currentQuarterStart->format('Y'),
                 'start_month' => $currentQuarterStart->format('F Y'),
                 'end_month' => $quarterEnd->format('F Y')
             ];
             $quarters[] = $quarter;
-        
+            
             // Move to the start of the next quarter
             $currentQuarterStart = $nextQuarterStart->startOfQuarter();
+
+            // If the next quarter starts in the next year, update the year
+            if ($nextQuarterStart->year != $currentQuarterStart->year) {
+                $currentQuarterStart->year($nextQuarterStart->year);
+            }
         }
-      
-       
+
         $project =  Project::create([
             'name'                  => $data['name'],
             'type'                  => $data['type'],
@@ -54,6 +59,7 @@ class ProjectRepository implements ProjectRepositoryInterface
         foreach($quarters as $key => $quarter){
             ProjectQuarter::create([
                 'project_id' =>  $project->id,
+                'quarter' => $quarter['quarter'],
                 'quarter_start' =>  $quarter['start_month'],
                 'quarter_end'   =>  $quarter['end_month'],
             ]);

@@ -278,7 +278,7 @@
                 </div>
             @endcan
             @can('read dip')
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->segment(1) == 'dips'  || request()->segment(1) == 'get_project_index'|| request()->segment(1) == 'dips.create'||  request()->segment(1) == 'dips.edit' ) ? 'here show' : '' }} ">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->segment(1) == 'dips' || request()->segment(1) == 'activity_dips.progress' ||   request()->segment(1) == 'get_project_index'|| request()->segment(1) == 'dips.create'||  request()->segment(1) == 'dips.edit' ) ? 'here show' : '' }} ">
                     <span class="menu-link">
                         <span class="svg-icon svg-icon-primary svg-icon-1x mx-2"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Design/Color-profile.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -314,6 +314,18 @@
                                         <span class="bullet bullet-dot"></span>
                                     </span>
                                     <span class="menu-title">DIP</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                            @endcan
+                            @can('create dip')
+                            <div class="menu-item">
+                                <!--begin:Menu link-->
+                                <a class="menu-link {{ request()->routeIs('activity_dips.progress') ? 'active' : '' }}" href="{{ route('activity_dips.progress') }}"">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Manage Activities</span>
                                 </a>
                                 <!--end:Menu link-->
                             </div>

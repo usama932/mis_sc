@@ -10,6 +10,8 @@ use App\Models\District;
 use App\Models\ActivityMonths;
 use App\Models\Province;
 use App\Models\Project;
+use App\Models\ActivityProgress;
+use File;
 
 use App\Repositories\Interfaces\DipActivityInterface;
 
@@ -55,18 +57,18 @@ class DipActivityController extends Controller
 			
                 $show_url = route('activity_dips.show',$r->id);
                 $edit_url = route('activity_dips.edit',$r->id);
+                $progress_url = route('postprogress',$r->id);
 				$nestedData['activity_number'] = $r->activity_number ?? ''; 
               
                 $nestedData['lop_target'] = $r->lop_target ?? '';
                 $quarterTarget = '';
                 foreach ($r->months as $month) {
-                    $quarterTarget .= '<br>'. $month->tenure?->quarter_start ?? "". '-'. $month->tenure?->quarter_end ?? "". ' = '.$month->target ?? "". '<br>';
+                    $quarterTarget .= '<span class="fs-9"><br>'.$month->month.' = ' . $month->target.',</span>';
                 }
-                $quarterTarget = rtrim($quarterTarget ?? "", ', '); // Remove the trailing comma and space
-
                 $nestedData['quarter_target'] = $quarterTarget;
                 $nestedData['created_by'] = $r->user->name ?? '';
                 $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
+                $nestedData['update_progress'] = '<a  href="'.$progress_url.'" target="_blank"  ><span class="badge badge-success">Update Progress</span> </a>';
                 $nestedData['action'] = '<div>
                                         <td>
                                             <a class="btn-icon mx-1" href="'.$show_url.'" target="_blank"  >
@@ -126,10 +128,9 @@ class DipActivityController extends Controller
 
     public function show(string $id)
     {
+     
         $dip_activity = DipActivity::where('id',$id)->with('months','project','user','user1')->first();
-        $start_date = Carbon::parse($dip_activity->project->start_date);
-        $end_date = Carbon::parse($dip_activity->project->end_date);
-       
+  
         if(!empty($dip_activity->project->detail->province )){
             $province_dip = json_decode($dip_activity->project->detail->province , true);
             
@@ -137,7 +138,7 @@ class DipActivityController extends Controller
             
         }
         else{
-            $provinces = '';
+            $provinces =[];
         }
         if(!empty($dip_activity->project->detail->district )){
             $district_dip = json_decode($dip_activity->project->detail->district , true);
@@ -155,31 +156,13 @@ class DipActivityController extends Controller
     {
        
         $dip = DipActivity::where('id',$id)->first();
-        $project = Project::where('id',$dip->project_id)->first();
+        $project = Project::with(['quarters' => function ($query) {
+            $query->orderBy('id', 'asc');
+        }])->where('id',$dip->project_id)->first();
         $start_date = Carbon::parse($project->start_date);
         $end_date = Carbon::parse($project->end_date);
 
-       
-
-        $quarters = [];
-
-        $currentQuarterStart = $start_date->copy()->startOfQuarter();
-        while ($currentQuarterStart->lte($end_date)) {
-            $nextQuarterStart = $currentQuarterStart->copy()->addMonths(3);
-            $quarterEnd = $nextQuarterStart->copy()->subDay()->endOfMonth();
-
-            $quarter = [
-                'start_month' => $currentQuarterStart->format('F Y'),
-                'end_month' => $quarterEnd->format('F Y')
-            ];
-            $quarters[] = $quarter;
-
-            // Move to the start of the next quarter
-            $currentQuarterStart = $nextQuarterStart->startOfQuarter();
-        }
-        
-        addJavascriptFile('assets/js/custom/dip/dip_activity_validations.js');
-        return view('admin.dip.edit_dip_activity',compact('dip' ,'project','quarters'));
+        return view('admin.dip.edit_dip_activity',compact('dip' ,'project'));
     }
 
 
@@ -224,5 +207,61 @@ class DipActivityController extends Controller
             return redirect()->back();
         }
         return redirect()->back();
+    }
+    public function activity_progress(){
+        
+        if(auth()->user()->user_type != 'admin'){
+            $projects = Project::where('focal_person',auth()->user()->id)->orderBy('name')->get();
+        }else{
+            $projects = Project::orderBy('name')->get();
+        }
+        addVendors(['datatables']);
+        return view('admin.dip.activity_progress',compact('projects'));
+    }
+    public function postprogress($id){
+        $activity = DipActivity::where('id',$id)->first();
+        addJavascriptFile('assets/js/custom/dip/update_progress.js');
+       
+        return view('admin.dip.update_progress',compact('activity'));
+    }
+    public function updateprogress(Request $request){
+        $quarter = ActivityMonths::where('id',$request->quarter)->first();
+        if(!empty($quarter)){
+            if($request->attachment){
+         
+                $path = storage_path("app/public/activity_progress/attachment" .$request->attachment);
+                
+                if(File::exists($path)){
+                    File::delete(storage_path('app/public/activity_progress/attachment'.$request->attachment));
+                }
+                
+                $file = $request->attachment;
+                $attachment = $file->getClientOriginalName();
+                $file->storeAs('public/activity_progress/attachment/',$attachment);
+               
+            }
+            ActivityProgress::create([
+                'quarter_id' =>$request->quarter,
+                'project_id' =>$quarter->project_id,
+                'activity_id' =>$quarter->activity_id,
+                'target' =>$request->target,
+                'attachment' => $attachment,
+                'created_by' => auth()->user()->id
+            ]);
+            $editUrl = route('activity_dips.progress');
+            return response()->json([
+                'editUrl' => $editUrl
+            ]);
+        }
+       
+    }
+   public function fetchquartertarget(Request $request)
+    {
+        dd("asd");
+        $quarterId = $request->quarter_id;
+        $quarter = ActivityMonths::find($quarterId);
+        $lopTarget = $quarter->target;
+
+        return response()->json(['lop_target' => $lopTarget]);
     }
 }

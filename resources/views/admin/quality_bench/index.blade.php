@@ -209,8 +209,8 @@
             "processing": true,
             "serverSide": true,
             "searching": false,
-            "bLengthChange": false,
-            "bInfo" : false,
+            "bLengthChange": true,
+            "bInfo" : true,
             "responsive": false,
             "info": true,
            "ajax": {
@@ -280,14 +280,14 @@
                 ],
 
                 responsive: true, // Enable responsive mode
-                "info": false,
+                "info": true,
 
                 "processing": true,
                 "serverSide": true,
                 "searching": false,
                 "responsive": false,
-                "bLengthChange": false,
-                "bInfo" : false,
+                "bLengthChange": true,
+                "bInfo" : true,
                 'info': true,
                 "dom": 'lfBrtip',
 

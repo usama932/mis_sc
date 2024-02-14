@@ -137,8 +137,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('get_activity_dips', [DipActivityController::class,'get_activity_dips'])->name('admin.get_activity_dips');
     Route::post('view_activity_dips', [DipActivityController::class,'view_activity_dips'])->name('admin.view_activity_dips');
     Route::get('/activity_dips/delete/{id}', [DipActivityController::class,'destroy'])->name('activity_dips.delete');
+    Route::get('/activity/progress', [DipActivityController::class,'activity_progress'])->name('activity_dips.progress');
     Route::get('/delete_month/delete/{id}', [DipActivityController::class,'delete_month'])->name('delete_month.delete');
-
+    Route::get('postprogress/{id}', [DipActivityController::class,'postprogress'])->name('postprogress');
+    Route::post('updateprogress', [DipActivityController::class,'updateprogress'])->name('updateprogress');
+    Route::post('fetchquartertarget', [DipActivityController::class,'fetchquartertarget'])->name('fetchquartertarget');
     //Master Projects  routes
     Route::resource('/projects', ProjectController::class);
     Route::post('get_projects', [ProjectController::class,'get_projects'])->name('admin.get_projects');
@@ -147,6 +150,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
     //Project detail Routes
     Route::get('/project/detailupdate/{id}', [ProjectController::class,'createProject_details'])->name('project.detail');
+    Route::get('/project/detailview/{id}', [ProjectController::class,'project_view'])->name('project.view');
     Route::get('/project/details', [ProjectController::class,'get_project_index'])->name('get_project_index');
     Route::post('get_project_details', [ProjectController::class,'get_project_details'])->name('admin.get_project_details');
  

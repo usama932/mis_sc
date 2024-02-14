@@ -22,6 +22,14 @@ class Project extends Model
     {
         return $this->hasMany(ProjectQuarter::class,'project_id','id');
     }
+    public function activities()
+    {
+        return $this->hasMany(DipActivity::class,'project_id','id');
+    }
+    public function activity_months()
+    {
+        return $this->hasMany(ActivityMonths::class,'project_id','id');
+    }
     public function partners()
     {
         return $this->hasMany(ProjectPartner::class,'project_id','id');

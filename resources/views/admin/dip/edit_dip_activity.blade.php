@@ -75,7 +75,7 @@
                                     <input type="text" name="target_quarter[]" placeholder="Enter Target" class="form-control" autocomplete="off" value="{{$month->target}}" required>
                                 </div>
                                 <div class="col-md-2 my-1">
-                                    <a class="btn-icon mx-1" onclick="event.preventDefault();del('{{$month->id}}');" title="Delete Activity" href="javascript:void(0)">
+                                    <a class="btn-icon mx-1" onclick="event.preventDefault();del('{{$month->tenure?->quarter}}');" title="Delete Activity" href="javascript:void(0)">
                                         <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                                     </a>    
                                 </div>
@@ -85,7 +85,7 @@
                                 <select name="quarter[]" aria-label="Select a Quarter Target" data-control="select2" data-placeholder="Select a Quarter Target" class="form-select" data-allow-clear="true">
                                     <option value=''>Select Quarter Target</option>
                                     @foreach($project->quarters as $quarter)
-                                        <option value='{{$quarter->id}}'>{{$quarter->quarter_start}} - {{$quarter->quarter_end}}</option>
+                                        <option value='{{$quarter->quarter}}'>{{$quarter->quarter_start}} - {{$quarter->quarter_end}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -117,7 +117,7 @@
                         <select name="quarter[]" aria-label="Select a Quarter Target" data-control="select2" data-placeholder="Select a Quarter Target" class="form-select select2" data-allow-clear="true">
                             <option value=''>Select Quarter Target</option>`;
             quarters.forEach(function(quarter) {
-                html += `<option value="${quarter.start_month}-${quarter.end_month}">${quarter.start_month}-${quarter.end_month}</option>`;
+                html += `<option value="${quarter.quarter}">${quarter.quarter_start}-${quarter.quarter_end}</option>`;
             });
             html += `
                         </select>

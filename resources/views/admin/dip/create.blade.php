@@ -65,8 +65,8 @@
                             <div class="col-md-6">
                                 <select name="quarter[]" aria-label="Select a Quarter Target" data-control="select2" data-placeholder="Select a Quarter Target" class="form-select" data-allow-clear="true">
                                     <option value=''>Select Quarter Target</option>
-                                    @foreach($project->quarters->sortByDesc('created_at') as $quarter)
-                                    <option value='{{$quarter->id}}'>{{$quarter->quarter_start}} - {{$quarter->quarter_end}}</option>
+                                    @foreach($project->quarters as $quarter)
+                                    <option value='{{$quarter->quarter}}'>{{$quarter->quarter_start}} - {{$quarter->quarter_end}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -98,7 +98,7 @@
                         <select name="quarter[]" aria-label="Select a Quarter Target" data-control="select2" data-placeholder="Select a Quarter Target" class="form-select select2" data-allow-clear="true">
                             <option value=''>Select Quarter Target</option>`;
             quarters.forEach(function(quarter) {
-                html += `<option value="${quarter.id}">${quarter.quarter_start}-${quarter.quarter_end}</option>`;
+                html += `<option value="${quarter.quarter}">${quarter.quarter_start}-${quarter.quarter_end}</option>`;
             });
             html += `
                         </select>

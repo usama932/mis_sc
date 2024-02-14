@@ -15,7 +15,7 @@
                         <table class="table table-striped table-bordered nowrap" id="dips" style="width:100%">
                         <thead>
                             <tr>
-                                <th>Dip</th>
+                                <th>Manage Activites/Targets</th>
                                 <th>Project</th>
                                 <th>Provinces</th>
                                 <th>Disticts</th>

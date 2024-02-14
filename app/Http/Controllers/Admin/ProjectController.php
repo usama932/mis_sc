@@ -86,6 +86,7 @@ class ProjectController extends Controller
 			foreach($project_details as $r){
 			
                 $edit_url = route('project.detail',$r->id);
+                $view_url = route('project.view',$r->id);
                 $show_url = route('projects.show',$r->id);
              
 				$nestedData['id'] = $r->id;
@@ -130,6 +131,9 @@ class ProjectController extends Controller
                     <td>
                         <a class="btn-icon mx-1" href="'. $show_url.'" target="_blank">
                             <i class="fa fa-eye text-success" aria-hidden="true" ></i>
+                        </a>
+                        <a class="btn-icon mx-1" href="'. $view_url.'" target="_blank">
+                            <i class="fa fa-eye text-primary" aria-hidden="true" ></i>
                         </a>
                         <a class="btn-icon mx-1" href="'. $edit_url.'" target="_blank">
                             <i class="fa fa-pencil text-warning" aria-hidden="true" ></i>
@@ -277,6 +281,14 @@ class ProjectController extends Controller
         addJavascriptFile('assets/js/custom/project/projectpartnerValidation.js');
         addVendors(['datatables']);
         return view('admin.projects.updateprojectdetail',compact('project','partners','themes','provinces','districts'));
+    }
+    public function project_view($id){
+
+        $project   = Project::with(['quarters' => function ($query) {
+            $query->orderBy('id', 'asc');
+        }])->where('id',$id)->with('detail','activities')->orderBy('name')->first();
+      
+        return view('admin.projects.projectView',compact('project'));
     }
     public function create()
     {

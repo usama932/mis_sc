@@ -65,9 +65,7 @@ class DipController extends Controller
             })->count();
         }
         else{
-            $totalFiltered = Project::orWhere('focal_person' ,auth()->user()->id)->orWhereHas('partners', function ($query) {
-                $query->where('email', auth()->user()->email);
-            })->count();
+            $totalFiltered = Project::count();
         }
        
 		$start = $request->input('start');
@@ -149,10 +147,10 @@ class DipController extends Controller
 		}
 		
 		$json_data = array(
-			"draw"			=> intval($request->input('draw')),
-			"recordsTotal"	=> intval($totalData),
-			"recordsFiltered" => intval($totalFiltered),
-			"data"			=> $data
+			"draw"			    => intval($request->input('draw')),
+			"recordsTotal"	    => intval($totalData),
+			"recordsFiltered"   => intval($totalFiltered),
+			"data"			    => $data
 		);
 		
 		echo json_encode($json_data);
@@ -160,7 +158,9 @@ class DipController extends Controller
     public function dip_create($id)
     {
         
-        $project = Project::where('id',$id)->first();
+        $project = Project::with(['quarters' => function ($query) {
+            $query->orderBy('id', 'asc');
+        }])->where('id',$id)->first();
      
         addJavascriptFile('assets/js/custom/dip/dip_activity_validations.js');
         return view('admin.dip.create',compact('project'));
@@ -206,7 +206,9 @@ class DipController extends Controller
     public function edit(string $id)
     {
 
-        $project = Project::find($id);
+        $project = Project::with(['quarters' => function ($query) {
+            $query->orderBy('id', 'asc');
+        }])->find($id);
 
         $dip = 'basic_project';
         session(['dip' => $dip]);
@@ -223,11 +225,10 @@ class DipController extends Controller
 
     public function destroy(string $id)
     {
-        $dip = Dip::find($id);
+        $dip = Project::find($id);
+        
         if(!empty($dip)){
-            $dip->activity->each->delete();
-           
-            $dip->delete();
+            $dip->detail?->delete();
             return redirect()->route('dips.index');
         }
           return redirect()->route('dips.index');

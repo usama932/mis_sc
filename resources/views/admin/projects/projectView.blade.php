@@ -7,30 +7,31 @@
     <div class="container p-3" style="width: 100%; background-color: beige;">
        
     
-        <h1 class="text-center text-capitalize">{{$dip_activity->project->name ?? ''}}</h1>
-        <h4 class="text-center text-capitalize">{{$dip_activity->activity_number ?? ''}}</h4>
-        <h6 class="text-center text-capitalize">@foreach($provinces as $province) {{$province }},  @endforeach</h6>
+        <h1 class="text-center text-capitalize">{{$project->name ?? ''}}</h1>
+        <h6 class="text-center text-capitalize"></h6>
     
         <table class="table table-striped table-bordered nowrap table-responsive" style="width: 100%; background-color: beige;">
             <thead>
                 <tr>
-                    <th class="fs-7">LOP Targets</th>
-                    @if(!empty($dip_activity->project))
-                        @foreach($dip_activity->project?->quarters->sortby('id') as $tenure)
-                            <th class="mx-1 fs-9">{{ $tenure->quarter }}</th>
-                        @endforeach
-                    @endif
+                    <th class=" fs-7">Activity</th>
+                    <th class=" fs-7">LOP Targets</th>
+                    @foreach($project->quarters as $tenure)
+                        <th class="mx-1 fs-9">{{ $tenure->quarter }}</th>
+                    @endforeach
+                    
                 </tr>
             </thead>
             <tbody>
+                @foreach ($project->activities as $item)
                 <tr>
-                    <td>{{ $dip_activity->lop_target ?? '' }}</td>
-                    @if(!empty($dip_activity->project))
-                        @foreach($dip_activity->project->quarters->sortby('id') as $quarter)
+                   
+                        <td>{{$item->activity_number ?? ''}}</td>
+                        <td>{{$item->lop_target ?? ''}}</td>
+                        @foreach($project->quarters->sortbyDesc('id') as $quarter)
                         @php
                             $found = false;
                         @endphp
-                        @foreach($dip_activity->months as $month)
+                        @foreach($project->activity_months as $month)
                             @if($month->month == $quarter->quarter)
                                 <td>{{ $month->target ?? '' }}</td>
                                 @php
@@ -42,12 +43,12 @@
                         @if(!$found)
                             <td></td>
                         @endif
-                        @endforeach
-                    @endif
+                    @endforeach
+                  
                 </tr>
+                @endforeach
             </tbody>
         </table>
-        
     </div>
     
 </x-default-layout>
