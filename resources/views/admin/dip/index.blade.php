@@ -72,11 +72,7 @@
                                 {"data":"sof","searchable":false,"orderable":false},
                                 {"data":"province","searchable":false,"orderable":false},
                                 {"data":"district","searchable":false,"orderable":false},
-                                // {"data":"partner","searchable":false,"orderable":false},
-                                // {"data":"theme","searchable":false,"orderable":false},
                                 {"data":"project_tenure","searchable":false,"orderable":false},
-                                // {"data":"attachment","searchable":false,"orderable":false},
-                              
                                 {"data":"action","searchable":false,"orderable":false},
                             ]
             });[]

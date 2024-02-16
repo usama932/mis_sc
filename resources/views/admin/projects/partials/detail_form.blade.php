@@ -10,12 +10,12 @@
                 </label>
                 <select   name="province[]" multiple id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select Multiple Province..." class="form-select "  data-allow-clear="true" >
                     @if(!empty($project->detail?->province))
-                        @foreach($provinces as $province)
+                        @foreach($ps as $province)
                             @php
-                            $selected = false; // Flag to determine if the option should be selected
+                            $selected = false; 
                             $decodedProvinces = json_decode($project->detail->province);
                             
-                            // Check if the current province_id is in the decoded array
+                          
                             if (in_array($province->province_id, $decodedProvinces)) {
                                 $selected = true;
                             }
@@ -25,7 +25,7 @@
                             </option>
                         @endforeach
                     @else
-                        @foreach($provinces as $province)
+                        @foreach($ps as $province)
                             <option value="{{ $province->province_id }}">
                                 {{ $province->province_name }}
                             </option>

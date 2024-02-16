@@ -19,7 +19,7 @@
                     </label>
                     <select name="theme" class="form-control m-input" data-control="select2" data-placeholder="Select Theme" class="form-select" data-allow-clear="true">
                         <option  value=''>Select Theme</option>
-                        @foreach($themes as $theme)
+                        @foreach($ths as $theme)
                             <option value="{{$theme->id}}">{{$theme->name}}</option>
                         @endforeach
                     </select>

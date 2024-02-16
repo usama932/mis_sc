@@ -90,7 +90,6 @@
                                 {"data":"activity_number","searchable":false,"orderable":false},
                                 {"data":"lop_target","searchable":false,"orderable":false},
                                 {"data":"quarter_target","searchable":false,"orderable":false},
-                                {"data":"update_progress","searchable":false,"orderable":false},
                                 {"data":"created_by","searchable":false,"orderable":false},
                                 {"data":"created_at","searchable":false,"orderable":false},
                                 {"data":"action","searchable":false,"orderable":false},

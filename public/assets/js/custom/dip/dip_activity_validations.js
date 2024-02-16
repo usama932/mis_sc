@@ -25,7 +25,22 @@ var KTdipActivityValidate = function() {
                            
                         }
                     },
-                 
+                    'theme':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Theme  is required'
+                            },
+                           
+                        }
+                    },
+                    'sub_theme':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Sub-Theme  is required'
+                            },
+                           
+                        }
+                    },
                     'lop_target': {
                         validators: {
                                 notEmpty: {
@@ -51,9 +66,42 @@ var KTdipActivityValidate = function() {
             }
         );
 
-        // Handle form submit
+        // Handle form submitac
         submitButton.addEventListener('click', function(e) {
             e.preventDefault();
+              
+            var status = 'Valid';
+
+            // Check if any quarter field is empty
+            var quarters = document.querySelectorAll('input[name="quarter[]"]');
+            quarters.forEach(function(quarter) {
+                if (quarter.value.trim() === '') {
+                    status = false;
+                    toastr.error('Quarter is required', 'Error');
+                }
+            });
+
+            // Check if any target quarter field is empty
+            var targetQuarters = document.querySelectorAll('input[name="target_quarter[]"]');
+            targetQuarters.forEach(function(targetQuarter) {
+                if (targetQuarter.value.trim() === '') {
+                    status = false;
+                    toastr.error('Activity Quarter is required', 'Error');
+                }
+            });
+
+            // Check if any target benefit field is empty
+            var targetBenefits = document.querySelectorAll('input[name="target_benefit[]"]');
+            targetBenefits.forEach(function(targetBenefit) {
+                if (targetBenefit.value.trim() === '') {
+                    status = false;
+                    toastr.error('Target Benefit is required', 'Error');
+                }
+            });
+
+            // If any field is empty, prevent form submission and display errors
+          
+
             validator.validate().then(function(status) {
 
                 if (status == 'Valid') {

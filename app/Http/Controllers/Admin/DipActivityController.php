@@ -58,12 +58,12 @@ class DipActivityController extends Controller
                 $show_url = route('activity_dips.show',$r->id);
                 $edit_url = route('activity_dips.edit',$r->id);
                 $progress_url = route('postprogress',$r->id);
-				$nestedData['activity_number'] = $r->activity_number ?? ''; 
+				$nestedData['activity_number'] = $r->activity_title ?? ''; 
               
                 $nestedData['lop_target'] = $r->lop_target ?? '';
                 $quarterTarget = '';
                 foreach ($r->months as $month) {
-                    $quarterTarget .= '<span class="fs-9"><br>'.$month->month.' = ' . $month->target.',</span>';
+                    $quarterTarget .= '<span class="fs-9"><br>'.$month->quarter.'-'.$month->year.' = ' . $month->target.',</span>';
                 }
                 $nestedData['quarter_target'] = $quarterTarget;
                 $nestedData['created_by'] = $r->user->name ?? '';
@@ -111,7 +111,7 @@ class DipActivityController extends Controller
 
     public function store(Request $request)
     {
-     
+   
         $data = $request->except('_token');
        
         $dip_activity = $this->dipactivityRepository->storedipactivity($data);

@@ -60,13 +60,7 @@ var KTdipValidate = function () {
                             }
                         }
                     },
-                    'theme[]':{
-                        validators: {
-                            notEmpty: {
-                                message: 'Theme is required'
-                            }
-                        }
-                    },
+                   
                     'focal_person':{
                         validators: {
                             notEmpty: {
@@ -157,27 +151,51 @@ var KTdipValidate = function () {
                     // Check axios library docs: https://axios-http.com/docs/intro
                     axios.post(submitButton.closest('form').getAttribute('action'), new FormData(form)).then(function (response) {
                         if (response) {
-                           
-                            form.reset();
-                            toastr.options = {
-                                "closeButton": true,
-                                "debug": false,
-                                "newestOnTop": false,
-                                "progressBar": false,
-                                "positionClass": "toastr-top-right",
-                                "preventDuplicates": false,
-                                "onclick": null,
-                                "showDuration": "300",
-                                "hideDuration": "1000",
-                                "timeOut": "5000",
-                                "extendedTimeOut": "1000",
-                                "showEasing": "swing",
-                                "hideEasing": "linear",
-                                "showMethod": "fadeIn",
-                                "hideMethod": "fadeOut"
-                            };
-                            toastr.success("Account Created", "success");
-                            window.location.href = response.data.editUrl;
+                            if(response.data.error == true){
+                                form.reset();
+                                toastr.options = {
+                                    "closeButton": true,
+                                    "debug": false,
+                                    "newestOnTop": false,
+                                    "progressBar": false,
+                                    "positionClass": "toastr-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                };
+                                toastr.error("Project already exist", "Error");
+                         
+                            }
+                            else{
+                                form.reset();
+                                toastr.options = {
+                                    "closeButton": true,
+                                    "debug": false,
+                                    "newestOnTop": false,
+                                    "progressBar": false,
+                                    "positionClass": "toastr-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                };
+                                toastr.success("Project Created", "Success");
+                         
+                            }
+                          
                             
                         } else {
                             toastr.options = {

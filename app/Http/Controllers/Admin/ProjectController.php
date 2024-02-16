@@ -263,10 +263,11 @@ class ProjectController extends Controller
     }
     public function createProject_details($id){
 
-        $project   = Project::where('id',$id)->with('detail')->orderBy('name')->first();
+        $project    = Project::where('id',$id)->with('detail')->orderBy('name')->first();
         $partners   = Partner::orderBy('slug')->get();  
         $themes     =  $project->themes;
-      
+        $ths        = Theme::orderBy('name')->get();
+        $ps         = Province::orderBy('province_name')->get();
       
         if($project->detail?->province != null) {
             $province_project = json_decode($project->detail->province , true);
@@ -287,7 +288,8 @@ class ProjectController extends Controller
         addJavascriptFile('assets/js/custom/project/projectthemeValidation.js');
         addJavascriptFile('assets/js/custom/project/projectpartnerValidation.js');
         addVendors(['datatables']);
-        return view('admin.projects.updateprojectdetail',compact('project','partners','themes','provinces','districts'));
+    
+        return view('admin.projects.updateprojectdetail',compact('project','partners','themes','provinces','districts','ps','ths'));
     }
     public function project_view($id){
 
@@ -307,13 +309,24 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->except('_token');
-        $this->projectRepository->storeproject($data);
-        
-        $editUrl = route('projects.index');
-        return response()->json([
-            'editUrl' => $editUrl
-        ]);
+        $project = Project::orWhere('name',$request->name)->orWhere('sof',$request->sof)->first();
+        if(empty($project)){
+            $data = $request->except('_token');
+            $this->projectRepository->storeproject($data);
+             
+            $editUrl = route('projects.index');
+            return response()->json([
+                'editUrl' => $editUrl,
+                'error' => false,
+            ]);
+        }
+        else{
+            return response()->json([
+                'error' => true,
+                'message' => "Project already exist"
+            ]);
+        }
+      
     }
     
     public function project_update(Request $request)

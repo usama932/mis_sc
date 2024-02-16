@@ -22,7 +22,6 @@
                         <th>Activity</th>
                         <th>LOP Target</th>
                         <th>Quarter Target</th>
-                        <th>Update Quarter</th>
                         <th>Created By</th>
                         <th>Created At</th>
                         <th>Actions</th>

@@ -9,6 +9,7 @@ use App\Models\Tehsil;
 use App\Models\District;
 use App\Models\Project;
 use App\Models\UnionCounsil;
+use App\Models\SciSubTheme; 
 
 class FBAjaxController extends Controller
 {
@@ -96,5 +97,14 @@ class FBAjaxController extends Controller
     
         // Return the project details as JSON
         return response()->json($project);
+    }
+
+    public function getSubTheme(Request $request){
+    
+        $themeId = $request->input('theme_id');
+
+        $themes = SciSubTheme::where('sci_theme_id',$themeId)->get();
+       
+        return response()->json($themes);
     }
 }

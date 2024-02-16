@@ -4,14 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Dip;
-use App\Models\DipActivity;
 use App\Models\Project;
-use App\Models\Theme;
-use App\Models\Partner;
 use App\Models\District;
 use App\Models\Province;
-use Carbon\Carbon; 
+use App\Models\SCITheme;
 use App\Repositories\Interfaces\DipRepositoryInterface;
 
 class DipController extends Controller
@@ -128,10 +124,7 @@ class DipController extends Controller
                        
                 $nestedData['action'] = '<div>
                                         <td>
-                                            <a class="btn-icon mx-1"title="View Project"  href="'. $show_url.'" target="_blank">
-                                            <i class="fa fa-eye text-success" aria-hidden="true" ></i>
-                                            </a>
-                                        </a>';
+                                           ';
                                         if (auth()->user()->user_type == 'admin') {
                                             $nestedData['action'] .= '
                                             <a class="btn-icon mx-1" title="Delete " onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
@@ -156,13 +149,12 @@ class DipController extends Controller
     }
     public function dip_create($id)
     {
-        
         $project = Project::with(['quarters' => function ($query) {
             $query->orderBy('id', 'asc');
         }])->where('id',$id)->first();
-     
+        $themes = SCITheme::orderBy('name')->get();
         addJavascriptFile('assets/js/custom/dip/dip_activity_validations.js');
-        return view('admin.dip.create',compact('project'));
+        return view('admin.dip.create',compact('project','themes'));
     }
 
     public function create()
