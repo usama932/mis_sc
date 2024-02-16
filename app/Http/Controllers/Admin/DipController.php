@@ -97,6 +97,7 @@ class DipController extends Controller
                                         ';
 				$nestedData['id'] = $r->id;
                 $nestedData['project'] = $r->name ?? '';
+                $nestedData['sof'] = $r->sof ?? '';
                 if(!empty($r->detail->province )){
                     $province_dip = json_decode($r->detail->province , true);
                     $provinces = Province::whereIn('province_id', $province_dip)->pluck('province_name');
@@ -130,8 +131,6 @@ class DipController extends Controller
                                             <a class="btn-icon mx-1"title="View Project"  href="'. $show_url.'" target="_blank">
                                             <i class="fa fa-eye text-success" aria-hidden="true" ></i>
                                             </a>
-
-                                         
                                         </a>';
                                         if (auth()->user()->user_type == 'admin') {
                                             $nestedData['action'] .= '
@@ -212,10 +211,21 @@ class DipController extends Controller
 
         $dip = 'basic_project';
         session(['dip' => $dip]);
+        $provinces = [];
+        $districts = "";
+        if($project->detail?->district != null) {
+            $district_project = json_decode($project->detail->district , true);
+            $districts = District::whereIn('district_id', $district_project)->get();
+        }
        
-        addJavascriptFile('assets/js/custom/dip/create.js');
+        if($project->detail?->province != null) {
+            $province_project = json_decode($project->detail->province , true);
+            $provinces = Province::whereIn('province_id', $province_project)->get();
+        }
+
         addVendors(['datatables']);
-        return view('admin.dip.edit',compact('project'));
+        
+        return view('admin.dip.edit',compact('project','provinces','districts'));
     }
 
     public function update(Request $request, string $id)

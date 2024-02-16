@@ -74,6 +74,13 @@ var KTdipValidate = function () {
                             }
                         }
                     },
+                    'donor':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Project Donor is required'
+                            }
+                        }
+                    },
                     'sof': {
                         validators: {
                             notEmpty: {

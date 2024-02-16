@@ -5,43 +5,14 @@
 
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="separator separator-dotted separator-content border-dark my-15"><span class="h5">Project Info</span></div>
-                    <div class="col-md-6">
-                        <table class="table table-striped m-4">
-                            <tr>
-                                <td><strong>Project</strong></td>
-                                <td>{{$project->name ?? ''}}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>House Hold Target</strong></td>
-                                <td>{{$project->detail?->hh_targets ?? ''}}</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="col-md-6">
-                        <table class="table table-striped m-4">
-                            <tr>
-                                <td><strong>Individual Target</strong></td>
-                                <td>{{$project->detail?->individual_targets ?? ''}}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Project Tenure</strong></td>
-                                <td>{{ date('d-M-Y', strtotime($project->start_date))}} -To- {{date('d-M-Y', strtotime($project->end_date));}}</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
+           
         
             <form action="{{route('activity_dips.store')}}" method="post" id="create_dip_activity">
                 @csrf
                 <input name="project_id" id="project_id" value="{{$project->id}}" type="hidden">
                 <div class="card-body">
                     <div class="row">
-                        <div class="separator separator-dotted separator-content border-dark my-15"><span class="h5"> Activity</span></div>
-                        <input name="project_id" value="{{$project->id}}" type="hidden">
+                         <input name="project_id" value="{{$project->id}}" type="hidden">
                         <div class="row">
                             <div class="fv-row col-md-6 col-lg-6 col-sm-12">
                                 <label class="fs-6 fw-semibold form-label mb-2 d-flex">

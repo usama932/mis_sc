@@ -40,6 +40,22 @@ class FBAjaxController extends Controller
         
         return ($data);
     }
+    public function getprojectDistrict(Request $request) {
+        $province_id = $request->province;
+           
+        $project   = Project::where('id', $request->project)->with('detail')->first();
+        
+        if(!empty($project->detail?->district)){
+            $data   = District::where('provinces_id',$province_id)->whereIn('district_id', json_decode($project->detail->district))->select('district_id', 'district_name')->get();
+           
+        }
+        else{
+            $data   = [];
+        }
+       
+        
+        return ($data);
+    }
     public function getuserDistrict(Request $request) {
         $province_id = $request->province;
         $data = District::where('provinces_id',$province_id)->select('district_id', 'district_name')->get();

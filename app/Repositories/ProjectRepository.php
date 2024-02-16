@@ -51,6 +51,7 @@ class ProjectRepository implements ProjectRepositoryInterface
             'status'                => 'Initiative',
             'active'                => 1,
             'focal_person'          => $data['focal_person'],
+            'donor'          => $data['donor'],
             'start_date'            => $data['start_date'],
             'end_date'              => $data['end_date'],
             'active'                =>  '1',
@@ -137,6 +138,7 @@ class ProjectRepository implements ProjectRepositoryInterface
             'type'                  => $data['type'],
             'sof'                   => $data['sof'],
             'focal_person'          => $data['focal_person'],
+            'donor'                 => $data['donor'],
             'start_date'            => $data['start_date'],
             'end_date'              => $data['end_date'],
             'active'                => $active,
@@ -184,7 +186,7 @@ class ProjectRepository implements ProjectRepositoryInterface
            
         ];
         Mail::to($data['email'])->send(new \App\Mail\partnerMail($details));
-    //  dd('sd');
+    
         $user = User::where('email' ,$data['email'])->first();
         if(empty($user)){
             $user = User::create([

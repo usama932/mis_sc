@@ -11,9 +11,12 @@
         @csrf
         <input type="hidden" name="project" value="{{$project->id}}">
         <div class="px-5">
-            <h3>Add Project Theme</h3>
+        
             <div class="row ">
                 <div class="fv-row col-md-3">
+                    <label class="fs-8 fw-semibold form-label 2">
+                        <span class="required">Project Theme</span>
+                    </label>
                     <select name="theme" class="form-control m-input" data-control="select2" data-placeholder="Select Theme" class="form-select" data-allow-clear="true">
                         <option  value=''>Select Theme</option>
                         @foreach($themes as $theme)
@@ -22,26 +25,48 @@
                     </select>
                 </div>
                 <div class="fv-row col-md-3">
+                    <label class="fs-8 fw-semibold form-label ">
+                        <span class="required"> House Hold target</span>
+                    </label>
                     <input type="text" name="house_hold_target" class="form-control  mx-1" placeholder="Enter House Hold Target" autocomplete="off">
                 </div>
                 <div class="fv-row col-md-3">
+                    <label class="fs-8 fw-semibold form-label">
+                        <span class="required">Expected Beneficiaries Target</span>
+                    </label>
                     <input type="text" name="individual_target" id="individual_target" class="form-control  mx-1" placeholder="Enter Individual Target" autocomplete="off">
                 </div>
                 <div class="fv-row col-md-3">
+                    <label class="fs-8 fw-semibold form-label">
+                        <span class="required">PWD Target</span>
+                    </label>
+                    <input type="text" name="pwd_target" id="pwd_target" class="form-control" placeholder="Enter PWD target" autocomplete="off" value="">
+                </div>
+                <div class="fv-row col-md-3">
+                    <label class="fs-8 fw-semibold form-label ">
+                        <span class="required">Women Target</span>
+                    </label>
                     <input type="text" name="women_target" id="women_target" class="form-control  mx-1" placeholder="Enter Women Target" autocomplete="off">
                 </div>
                 <div class="fv-row col-md-3">
-                    <input type="text" name="men_target" id="men_target" class="form-control mt-3 mx-1" placeholder="Enter Men target" autocomplete="off">
+                    <label class="fs-8 fw-semibold form-label ">
+                        <span class="required">Men Target</span>
+                    </label>
+                    <input type="text" name="men_target" id="men_target" class="form-control" placeholder="Enter Men target" autocomplete="off">
                 </div>
                 <div class="fv-row col-md-3">
-                    <input type="text" name="girls_target" id="girls_target" class="form-control mt-3 mx-1" placeholder="Enter Girls target" autocomplete="off">
+                    <label class="fs-8 fw-semibold form-label ">
+                        <span class="required">Girls Target</span>
+                    </label>
+                    <input type="text" name="girls_target" id="girls_target" class="form-control" placeholder="Enter Girls target" autocomplete="off">
                 </div>
                 <div class="fv-row col-md-3">
-                    <input type="text" name="boys_target" id="boys_target" class="form-control mt-3 mx-1" placeholder="Enter Boys target" autocomplete="off">
+                    <label class="fs-8 fw-semibold form-label">
+                        <span class="required">Boys Target</span>
+                    </label>
+                    <input type="text" name="boys_target" id="boys_target" class="form-control" placeholder="Enter Boys target" autocomplete="off">
                 </div>
-                <div class="fv-row col-md-3">
-                    <input type="text" name="pwd_target" id="pwd_target" class="form-control mt-3 mx-1" placeholder="Enter PWD target" autocomplete="off" value="">
-                </div>
+            
             </div>
             <div class="d-flex justify-content-end my-3">
                 <button type="button" id="cancelprojectthemeBtn" class="btn btn-primary btn-sm mx-3 ">

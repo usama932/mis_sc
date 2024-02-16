@@ -1,18 +1,20 @@
 
-
-document.getElementById('districtloader').style.display = 'none';
 $("#create_projecttheme").hide();
 $("#create_projectpartner").hide();
+document.getElementById('districtloader').style.display = 'none';
+document.getElementById('districtload').style.display = 'none';
 var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 $("#kt_select2_province").change(function () {
    
     var value = $(this).val();
     csrf_token = $('[name="_token"]').val();
     document.getElementById('districtloader').style.display = 'block';
+  
     $.ajax({
         type: 'POST',
         url: '/getlearningDistrict',
-        data: {'province': value, _token: csrf_token },
+        data: {'province': value,
+                 _token: csrf_token },
         dataType: 'json',
         success: function (data) {
             document.getElementById('districtloader').style.display = 'none';
@@ -24,8 +26,38 @@ $("#kt_select2_province").change(function () {
                 $("#kt_select2_district").append("<option value='" + item.district_id + "' "+selected+" >" +
                 item.district_name.replace(/_/g, ' ') + "</option>");
             });
-            $('#kt_select2_tehsil').html('<option value="">Select Tehsil</option>');
-            $('#kt_select2_union_counsil').html('<option value=""> Select UC</option>');
+           
+
+        }
+
+    });
+
+});
+$("#project_province").change(function () {
+    document.getElementById('districtload').style.display = 'block';
+    var value = $(this).val();
+    csrf_token = $('[name="_token"]').val();
+   
+    var project = document.getElementById('project_id').value || '';
+    $.ajax({
+        type: 'POST',
+        url: '/getprojectDistrict',
+        data: {'province': value,
+                'project': project,
+                 _token: csrf_token },
+        dataType: 'json',
+        success: function (data) {
+            document.getElementById('districtload').style.display = 'none';
+            
+            $("#project_district").find('option').remove();
+            $("#project_district").prepend("<option value='' >Select District</option>");
+            var selected='';
+            $.each(data, function (i, item) {
+              
+                $("#project_district").append("<option value='" + item.district_id + "' "+selected+" >" +
+                item.district_name.replace(/_/g, ' ') + "</option>");
+            });
+           
 
         }
 

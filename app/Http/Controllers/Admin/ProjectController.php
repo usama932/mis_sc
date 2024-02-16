@@ -265,13 +265,20 @@ class ProjectController extends Controller
 
         $project   = Project::where('id',$id)->with('detail')->orderBy('name')->first();
         $partners   = Partner::orderBy('slug')->get();  
-        $themes     = Theme::orderBy('name')->get();
-        $provinces   = Province::orderBy('province_name')->get();
+        $themes     =  $project->themes;
+      
+      
+        if($project->detail?->province != null) {
+            $province_project = json_decode($project->detail->province , true);
+            $provinces = Province::whereIn('province_id', $province_project)->get();
+        }else{
+            $provinces   = [];
+        }
         if(!empty($project->detail?->district)){
             $districts   = District::whereIn('district_id', json_decode($project->detail->district))->orderBy('district_name')->get();
         }
         else{
-            $districts   =  '';
+            $districts   = [];
         }
         $active = 'detail';    
         session(['project' => $active]);

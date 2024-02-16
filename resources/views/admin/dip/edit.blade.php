@@ -23,7 +23,7 @@
         <div class="container-fluid">
             <ul class="nav nav-tabs nav-line-tabs m-5 fs-6">
                 <li class="nav-item">
-                    <a class="nav-link @if(session('active') == 'basic_info') active @endif " data-bs-toggle="tab" href="#kt_tab_pane_1">Project Information</a>
+                    <a class="nav-link @if(session('dip') != 'dip_activity') active @endif " data-bs-toggle="tab" href="#kt_tab_pane_1">Project Information</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link @if(session('active') == 'dip_activity') active @endif " data-bs-toggle="tab" href="#kt_tab_pane_2"> Activities</a>
@@ -33,7 +33,7 @@
             
             <div class="tab-content" id="myTabContent">
              
-                <div class="tab-pane fade   @if(session('dip') == 'basic_project') show active @else  @endif" id="kt_tab_pane_1" role="tabpanel">
+                <div class="tab-pane fade   @if(session('dip') != 'dip_activity') show active   @endif" id="kt_tab_pane_1" role="tabpanel">
                    @include('admin.dip.edit_dip')
                 </div>
                 <div class="tab-pane fade @if(session('dip') == 'dip_activity') show active @endif" id="kt_tab_pane_2" role="tabpanel">
@@ -89,6 +89,8 @@
                     
                                 {"data":"activity_number","searchable":false,"orderable":false},
                                 {"data":"lop_target","searchable":false,"orderable":false},
+                                {"data":"quarter_target","searchable":false,"orderable":false},
+                                {"data":"update_progress","searchable":false,"orderable":false},
                                 {"data":"created_by","searchable":false,"orderable":false},
                                 {"data":"created_at","searchable":false,"orderable":false},
                                 {"data":"action","searchable":false,"orderable":false},
@@ -117,7 +119,180 @@
                     }
                 });
             }
-           
+            var project_id = document.getElementById("project_id").value ?? '1';
+            var project_partners = $('#project_partners').DataTable({
+                "order": [
+                    [1, 'desc']
+                ],
+                "dom": 'lfBrtip',
+                buttons: [
+                    'csv', 'excel'
+                ],
+                "responsive": true, // Enable responsive mode
+                "processing": true,
+                "serverSide": true,
+                "searching": false,
+                "bLengthChange": false,
+                "bInfo": false,
+                "responsive": false,
+                "info": true,
+                "ajax": {
+
+                    "url": "/project_partners",
+                    "dataType": "json",
+                    "type": "POST",
+                    "data": {
+                        _token: "<?php echo csrf_token() ?>",
+                        'project_id': project_id
+                    }
+                },
+                "columns": [{
+                        "data": "id",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                    {
+                        "data": "project",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                    {
+                        "data": "themes",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                    {
+                        "data": "partner",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                    {
+                        "data": "email",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                    {
+                        "data": "province",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                    {
+                        "data": "district",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                    // {
+                    //     "data": "created_at",
+                    //     "searchable": false,
+                    //     "orderable": false
+                    // },
+                    // {
+                    //     "data": "created_by",
+                    //     "searchable": false,
+                    //     "orderable": false
+                    // },
+                    {
+                        "data": "action",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                ]
+            });
+            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            var project_id = document.getElementById("project_id").value ?? '1';
+            var project_theme = $('#project_themes').DataTable({
+                "order": [
+                    [1, 'desc']
+                ],
+                "dom": 'lfBrtip',
+                buttons: [
+                    'csv', 'excel'
+                ],
+                "responsive": true, // Enable responsive mode
+                "processing": true,
+                "serverSide": true,
+                "searching": false,
+                "bLengthChange": false,
+                "bInfo": false,
+                "responsive": false,
+                "info": true,
+                "ajax": {
+
+                    "url": "/project_themes",
+                    "dataType": "json",
+                    "type": "POST",
+                    "data": {
+                        _token: "<?php echo csrf_token() ?>",
+                        'project_id': project_id
+                    }
+                },
+                "columns": [{
+                        "data": "id",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                    {
+                        "data": "theme",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                    {
+                        "data": "project",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                    {
+                        "data": "house_hold_target",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                    {
+                        "data": "individual_target",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                    {
+                        "data": "women_target",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                    {
+                        "data": "men_target",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                    {
+                        "data": "boys_target",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                    {
+                        "data": "girls_target",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                    {
+                        "data": "pwd_target",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                    // {
+                    //     "data": "created_at",
+                    //     "searchable": false,
+                    //     "orderable": false
+                    // },
+                    // {
+                    //     "data": "created_by",
+                    //     "searchable": false,
+                    //     "orderable": false
+                    // },
+                    {
+                        "data": "action",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                ]
+            });
         </script>
     @endpush
 

@@ -65,6 +65,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //Ajax Destrict Routes
     Route::post('getDistrict', [FBAjaxController::class,'getDistrict'])->name('getDistrict');
     Route::post('getlearningDistrict', [FBAjaxController::class,'getlearningDistrict'])->name('getlearningDistrict');
+    Route::post('getprojectDistrict', [FBAjaxController::class,'getprojectDistrict'])->name('getprojectDistrict');
     Route::post('getTehsil', [FBAjaxController::class,'getTehsil'])->name('getTehsil');
     Route::post('getUnionCouncil', [FBAjaxController::class,'getUnionCouncil'])->name('getUnionCouncil');
     Route::post('/update-province', [FBAjaxController::class,'update_province'])->name('update_province');

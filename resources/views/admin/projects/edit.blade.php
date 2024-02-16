@@ -12,7 +12,7 @@
                        
                         <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
-                                <span class="required">Project</span>
+                                <span class="required">Project Title</span>
                             </label>
                             <input type="text" name="name" id="name" placeholder="Project Title"  class="form-control" value="{{$project->name ?? ''}}">
                             <div id="nameError" class="error-message "></div>
@@ -39,7 +39,16 @@
                             </select>
                             <div id="focal_personError" class="error-message"></div>
                         </div>   
-                 
+                        <div class="fv-row col-md-3 ">
+                            <label class="fs-6 fw-semibold form-label mb-2">
+                                <span class="required">Donor</span>
+                            </label>
+                            <select   name="donor" id="donor" aria-label="Select a Donor" data-control="select2" data-placeholder="Select a Donor" class="form-select "  data-allow-clear="true" > 
+                                <option  value=''>Select Donor</option>
+                                <option  value='SC Japan'>SC Japan</option>
+                            </select>
+                            <div id="donorError" class="error-message"></div>
+                        </div>  
                         <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">SOF</span>

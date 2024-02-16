@@ -9,14 +9,14 @@
                 <div class="card-body py-4">
                     <div class="row">
                        
-                        <div class="fv-row col-md-4 ">
+                        <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
-                                <span class="required">Project</span>
+                                <span class="required">Project Title</span>
                             </label>
                             <input type="text" name="name" id="name" placeholder="Project Title"  class="form-control" value="">
                             <div id="nameError" class="error-message "></div>
                         </div>   
-                        <div class="fv-row col-md-4 ">
+                        <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Type</span>
                             </label>
@@ -27,7 +27,17 @@
                             </select>
                             <div id="typeError" class="error-message"></div>
                         </div>  
-                        <div class="fv-row col-md-4 ">
+                        <div class="fv-row col-md-3 ">
+                            <label class="fs-6 fw-semibold form-label mb-2">
+                                <span class="required">Donor</span>
+                            </label>
+                            <select   name="donor" id="donor" aria-label="Select a Donor" data-control="select2" data-placeholder="Select a Donor" class="form-select "  data-allow-clear="true" > 
+                                <option  value=''>Select Donor</option>
+                                <option  value='SC Japan'>SC Japan</option>
+                            </select>
+                            <div id="donorError" class="error-message"></div>
+                        </div>  
+                        <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Focal Person</span>
                             </label>

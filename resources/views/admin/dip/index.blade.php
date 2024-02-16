@@ -16,7 +16,8 @@
                         <thead>
                             <tr>
                                 <th>Manage Activites/Targets</th>
-                                <th>Project</th>
+                                <th>Project Title</th>
+                                <th>Sof</th>
                                 <th>Provinces</th>
                                 <th>Disticts</th>
                                 {{-- <th>Partners</th>
@@ -68,6 +69,7 @@
                 "columns":[
                     {"data":"dip_add","searchable":false,"orderable":false},
                                 {"data":"project","searchable":false,"orderable":false},
+                                {"data":"sof","searchable":false,"orderable":false},
                                 {"data":"province","searchable":false,"orderable":false},
                                 {"data":"district","searchable":false,"orderable":false},
                                 // {"data":"partner","searchable":false,"orderable":false},

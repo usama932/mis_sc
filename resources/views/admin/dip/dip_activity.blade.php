@@ -1,5 +1,4 @@
 <div>
-    
     <div class="card-toolbar  d-flex justify-content-end">   
         @can('create dip')
             <a href="{{route('dip.create',$project->id)}}" target="_blank" class="btn btn-primary btn-sm font-weight-bolder">
@@ -22,6 +21,8 @@
                     <tr>
                         <th>Activity</th>
                         <th>LOP Target</th>
+                        <th>Quarter Target</th>
+                        <th>Update Quarter</th>
                         <th>Created By</th>
                         <th>Created At</th>
                         <th>Actions</th>

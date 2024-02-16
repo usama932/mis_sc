@@ -348,37 +348,7 @@ function project_parnterdel(id) {
     });
 }
 
-///get district cascade province
-document.getElementById('districtload').style.display = 'none';
-$("#kt_province").change(function() {
-    document.getElementById('districtload').style.display = 'block';
-    var value = $(this).val();
 
-    $.ajax({
-        type: 'POST',
-        url: '/getDistrict',
-        data: {
-            'province': value,
-            _token: csrfToken
-        },
-        dataType: 'json',
-        success: function(data) {
-            document.getElementById('districtload').style.display = 'none';
-            $("#kt_district").find('option').remove();
-            $("#kt_district").prepend("<option value='' >Select District</option>");
-            var selected = '';
-            $.each(data, function(i, item) {
-
-                $("#kt_district").append("<option value='" + item.district_id + "' " + selected + " >" +
-                    item.district_name.replace(/_/g, ' ') + "</option>");
-            });
-
-
-        }
-
-    });
-
-});
 
 /// toggle project theme
 $("#addprojectpartnerBtn").click(function() {
