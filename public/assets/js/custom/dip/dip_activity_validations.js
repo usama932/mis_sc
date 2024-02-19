@@ -80,24 +80,17 @@ var KTdipActivityValidate = function() {
                     toastr.error('Quarter is required', 'Error');
                 }
             });
-
-            // Check if any target quarter field is empty
             var targetQuarters = document.querySelectorAll('input[name="target_quarter[]"]');
             targetQuarters.forEach(function(targetQuarter) {
                 if (targetQuarter.value.trim() === '') {
                     status = false;
                     toastr.error('Activity Quarter is required', 'Error');
+                    // Add a CSS class to highlight the empty field
+                    targetQuarter.classList.add('highlight-field');
                 }
             });
 
-            // Check if any target benefit field is empty
-            var targetBenefits = document.querySelectorAll('input[name="target_benefit[]"]');
-            targetBenefits.forEach(function(targetBenefit) {
-                if (targetBenefit.value.trim() === '') {
-                    status = false;
-                    toastr.error('Target Benefit is required', 'Error');
-                }
-            });
+            
 
             // If any field is empty, prevent form submission and display errors
           
