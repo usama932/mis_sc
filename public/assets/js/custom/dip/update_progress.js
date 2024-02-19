@@ -14,17 +14,39 @@ var KTupdateProgressValidate = function () {
                 fields: {
 
                   
-                    'achieve_target':{
-                        validators: {
-                            notEmpty: {
-                                message: 'Target Progress is required'
-                            }
-                        }
-                    },
+                   
                     'quarter':{
                         validators: {
                             notEmpty: {
                                 message: 'Quarter  is required'
+                            }
+                        }
+                    },
+                    'women_target':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Women Target  is required'
+                            }
+                        }
+                    },
+                    'men_target':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Men Target is required'
+                            }
+                        }
+                    },
+                    'girls_target':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Girls Target is required'
+                            }
+                        }
+                    },
+                    'boys_target':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Boys Target is required'
                             }
                         }
                     },

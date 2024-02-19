@@ -4,6 +4,7 @@ namespace App\Repositories;
 use App\Repositories\Interfaces\DipActivityInterface;
 use App\Models\DipActivity;
 use App\Models\ActivityMonths;
+use App\Models\SCIQuarter;
 
 
 class DipActivityRepository implements DipActivityInterface
@@ -24,19 +25,20 @@ class DipActivityRepository implements DipActivityInterface
             foreach($data['target_quarter']  as $k => $t){
                 foreach($data['target_benefit']  as $tb => $b){
                     if($k == $key  && $key == $tb ){
-
+                       
                         if($t != null && $q != null){
                             $parts = explode("-", $q);
                             $quarter = $parts[0]; // Q1
                             $year = $parts[1]; 
-                            
+                            $q = SCIQuarter::where('slug',$parts[0])->first();
                             ActivityMonths::create([
-                                'project_id'     => $data['project_id'],
-                                'activity_id'    =>$activity->id,
-                                'quarter'          =>$quarter,
-                                'year'         =>$year,
-                                'target'         =>$t,
-                                'created_by'     => auth()->user()->id,
+                                'project_id'         => $data['project_id'],
+                                'activity_id'        => $activity->id,
+                                'quarter'            => $q->id,
+                                'beneficiary_target' => $b,
+                                'year'               => $year,
+                                'target'             => $t,
+                                'created_by'         => auth()->user()->id,
                             ]);
                         }
                     }

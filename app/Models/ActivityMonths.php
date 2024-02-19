@@ -23,4 +23,8 @@ class ActivityMonths extends Model
     {
         return $this->belongsTo(Project::class,'project_id','id');
     }
+    public function slug()
+    {
+        return $this->belongsTo(SCIQuarter::class,'quarter','id');
+    }
 }

@@ -63,7 +63,7 @@ class DipActivityController extends Controller
                 $nestedData['lop_target'] = $r->lop_target ?? '';
                 $quarterTarget = '';
                 foreach ($r->months as $month) {
-                    $quarterTarget .= '<span class="fs-9"><br>'.$month->quarter.'-'.$month->year.' = ' . $month->target.',</span>';
+                    $quarterTarget .= '<span class="fs-9"><br>'.$month->slug?->slug.'-'.$month->year.' = ' . $month->target.',</span>';
                 }
                 $nestedData['quarter_target'] = $quarterTarget;
                 $nestedData['created_by'] = $r->user->name ?? '';
@@ -74,15 +74,16 @@ class DipActivityController extends Controller
                                             <a class="btn-icon mx-1" href="'.$show_url.'" target="_blank"  >
                                                 <i class="fa fa-eye text-warning" aria-hidden="true" ></i>
                                             </a>
-                                            <a class="btn-icon mx-1" href="'.$edit_url.'" target="_blank"  >
-                                            <i class="fa fa-pencil text-primary" aria-hidden="true" ></i>
-                                            </a>';
+                                            ';
                                             if (auth()->user()->user_type == 'admin') {
                                                 $nestedData['action'] .= '
                                                 <a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
                                                     <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                                                 </a>';
                                             }
+                                            // <a class="btn-icon mx-1" href="'.$edit_url.'" target="_blank"  >
+                                            // <i class="fa fa-pencil text-primary" aria-hidden="true" ></i>
+                                            // </a>
                                             $nestedData['action'] .= '</td></div>';
 				
 				$data[] = $nestedData;
@@ -220,12 +221,13 @@ class DipActivityController extends Controller
     }
     public function postprogress($id){
         $activity = DipActivity::where('id',$id)->first();
-        addJavascriptFile('assets/js/custom/dip/update_progress.js');
+            addJavascriptFile('assets/js/custom/dip/update_progress.js');
        
         return view('admin.dip.update_progress',compact('activity'));
     }
     public function updateprogress(Request $request){
         $quarter = ActivityMonths::where('id',$request->quarter)->first();
+       
         if(!empty($quarter)){
             if($request->attachment){
          
@@ -240,13 +242,31 @@ class DipActivityController extends Controller
                 $file->storeAs('public/activity_progress/attachment/',$attachment);
                
             }
+            if($request->image){
+         
+                $path = storage_path("app/public/activity_progress/image" .$request->image);
+                
+                if(File::exists($path)){
+                    File::delete(storage_path('app/public/activity_progress/image'.$request->image));
+                }
+                
+                $file = $request->image;
+                $image = $file->getClientOriginalName();
+                $file->storeAs('public/activity_progress/image/',$image);
+               
+            }
             ActivityProgress::create([
-                'quarter_id' =>$request->quarter,
-                'project_id' =>$quarter->project_id,
-                'activity_id' =>$quarter->activity_id,
-                'target' =>$request->target,
-                'attachment' => $attachment,
-                'created_by' => auth()->user()->id
+                'quarter_id'    => $request->quarter,
+                'project_id'    => $quarter->project_id,
+                'activity_id'   => $quarter->activity_id,
+                'women_target'  => $request->women_target,
+                'boys_target'   => $request->women_target,
+                'girls_target'  => $request->women_target,
+                'men_target'    => $request->women_target,
+                'remarks'       => $request->remarks,
+                'attachment'    => $attachment,
+                'image'         => $image,
+                'created_by'    => auth()->user()->id
             ]);
             $editUrl = route('activity_dips.progress');
             return response()->json([
@@ -257,11 +277,12 @@ class DipActivityController extends Controller
     }
    public function fetchquartertarget(Request $request)
     {
-        dd("asd");
+       
         $quarterId = $request->quarter_id;
         $quarter = ActivityMonths::find($quarterId);
         $lopTarget = $quarter->target;
+        $benefit_target = $quarter->beneficiary_target;
 
-        return response()->json(['lop_target' => $lopTarget]);
+        return response()->json(['lop_target' => $lopTarget,'benefit_target' => $benefit_target ]);
     }
 }
