@@ -55,8 +55,8 @@
                <div class="card mt-5">
                   <div class="card-header">
                      <div class="card-title"> Quarterly Targets</div>
-                     <div class="col-md-2 mt-5 justify-content-end d-flex">
-                        <button type="button" class="btn btn-info btn-sm" onclick="addTargetRow()" id="add_quarter_target">Add New Quarter </button>
+                     <div class="card-toolbar justify-content-end d-flex">
+                        <button type="button" class="btn btn-info btn-sm " onclick="addTargetRow()" id="add_quarter_target">Add New Quarter</button>
                      </div>
                   </div>
                   <div class="card-body">
@@ -77,13 +77,13 @@
                               <label class="fs-6 fw-semibold form-label mb-2">
                               <span class="">Activity  Target</span>
                               </label>
-                              <input type="text" name="target_quarter[]" placeholder="Enter Target" class="form-control" autocomplete="off" required>
+                              <input type="text" name="target_quarter[]" placeholder="Enter Activity Target" class="form-control" autocomplete="off" required>
                            </div>
                            <div class="col-md-3">
                               <label class="fs-6 fw-semibold form-label mb-2">
                               <span class="">Beneficiaries Target</span>
                               </label>
-                              <input type="text" name="target_benefit[]" placeholder="Enter Target" class="form-control" autocomplete="off" required>
+                              <input type="text" name="target_benefit[]" placeholder="Enter Beneficiary Target" class="form-control" autocomplete="off" required>
                            </div>
                         </div>
                      </div>
@@ -132,10 +132,10 @@
                               </select>
                         </div> 
                         <div class="col-md-3">
-                              <input type="text" name="target_quarter[]" placeholder="Enter Target" class="form-control" autocomplete="off" required>
+                              <input type="text" name="target_quarter[]" placeholder="Enter Activity Target" class="form-control" autocomplete="off" required>
                         </div>
                         <div class="col-md-3">
-                              <input type="text" name="target_benefit[]" placeholder="Enter Target" class="form-control" autocomplete="off" required>
+                              <input type="text" name="target_benefit[]" placeholder="Enter Beneficiary Target" class="form-control" autocomplete="off" required>
                         </div>
                         <div class="col-md-3">
                               <button type="button" class="btn btn-danger btn-sm" onclick="removeTargetRow(this)">Remove</button>
