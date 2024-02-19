@@ -100,57 +100,57 @@
    </div>
    <script>
       function addTargetRow() {
-    var quarters = @json($project->quarters);
-    var selectedQuarters = $('select[name="quarter[]"]').map(function(){return $(this).val();}).get(); // Get already selected quarters
-    var quarterCount = $('select[name="quarter[]"]').length;
+         var quarters = @json($project->quarters);
+         var selectedQuarters = $('select[name="quarter[]"]').map(function(){return $(this).val();}).get(); // Get already selected quarters
+         var quarterCount = $('select[name="quarter[]"]').length;
 
-    if (quarterCount < quarters.length) {
-        var lastRow = $('#targetRows .row').last();
-        var isValid = true;
+         if (quarterCount < quarters.length) {
+            var lastRow = $('#targetRows .row').last();
+            var isValid = true;
 
-        // Check if the last row is valid
-        lastRow.find('input[name="target_quarter[]"]').each(function() {
-            if ($(this).val().trim() === '') {
-                isValid = false;
-                toastr.error('Please fill all fields in the previous row before adding a new one.', 'Error');
-                return false; // Exit the loop early
+            // Check if the last row is valid
+            lastRow.find('input[name="target_quarter[]"]').each(function() {
+                  if ($(this).val().trim() === '') {
+                     isValid = false;
+                     toastr.error('Please fill all fields in the previous row before adding a new one.', 'Error');
+                     return false; // Exit the loop early
+                  }
+            });
+
+            if (isValid) {
+                  var html = `
+                     <div class="row mt-3" style="display:none;">
+                        <div class="col-md-3">
+                              <select name="quarter[]" aria-label="Select a Quarter Target" data-control="select2" data-placeholder="Select a Quarter Target" class="form-select select2" data-allow-clear="true">
+                                 <option value=''>Select Quarter Target</option>`;
+                                 quarters.forEach(function(quarter) {
+                                    if (!selectedQuarters.includes(quarter.quarter)) { // Check if quarter is not already selected
+                                          html += `<option value="${quarter.quarter}">${quarter.quarter}</option>`;
+                                    }
+                                 });
+                                 html += `
+                              </select>
+                        </div> 
+                        <div class="col-md-3">
+                              <input type="text" name="target_quarter[]" placeholder="Enter Target" class="form-control" autocomplete="off" required>
+                        </div>
+                        <div class="col-md-3">
+                              <input type="text" name="target_benefit[]" placeholder="Enter Target" class="form-control" autocomplete="off" required>
+                        </div>
+                        <div class="col-md-3">
+                              <button type="button" class="btn btn-danger btn-sm" onclick="removeTargetRow(this)">Remove</button>
+                        </div>
+                     </div>`;
+                  $('#targetRows').append(html);
+                  lastRow.next().slideDown(); // Show the new row with animation
+                  if ($('#targetRows .row').length === 1) {
+                     $('#add_quarter_target').hide();
+                  }
             }
-        });
-
-        if (isValid) {
-            var html = `
-                <div class="row mt-3" style="display:none;">
-                    <div class="col-md-3">
-                        <select name="quarter[]" aria-label="Select a Quarter Target" data-control="select2" data-placeholder="Select a Quarter Target" class="form-select select2" data-allow-clear="true">
-                            <option value=''>Select Quarter Target</option>`;
-                            quarters.forEach(function(quarter) {
-                                if (!selectedQuarters.includes(quarter.quarter)) { // Check if quarter is not already selected
-                                    html += `<option value="${quarter.quarter}">${quarter.quarter}</option>`;
-                                }
-                            });
-                            html += `
-                        </select>
-                    </div> 
-                    <div class="col-md-3">
-                        <input type="text" name="target_quarter[]" placeholder="Enter Target" class="form-control" autocomplete="off" required>
-                    </div>
-                    <div class="col-md-3">
-                        <input type="text" name="target_benefit[]" placeholder="Enter Target" class="form-control" autocomplete="off" required>
-                    </div>
-                    <div class="col-md-3">
-                        <button type="button" class="btn btn-danger btn-sm" onclick="removeTargetRow(this)">Remove</button>
-                    </div>
-                </div>`;
-            $('#targetRows').append(html);
-            lastRow.next().slideDown(); // Show the new row with animation
-            if ($('#targetRows .row').length === 1) {
-                $('#add_quarter_target').hide();
-            }
-        }
-    } else {
-        toastr.error("All Quarters are already shown.", "Error");
-    }
-}
+         } else {
+            toastr.error("All Quarters are already shown.", "Error");
+         }
+      }
       function removeTargetRow(button) {
           $(button).closest('.row').remove();
           $('#add_quarter_target').show();
