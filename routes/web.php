@@ -144,6 +144,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('postprogress/{id}', [DipActivityController::class,'postprogress'])->name('postprogress');
     Route::post('updateprogress', [DipActivityController::class,'updateprogress'])->name('updateprogress');
     Route::post('fetchquartertarget', [DipActivityController::class,'fetchquartertarget'])->name('fetchquartertarget');
+    Route::post('activity_Quarters', [DipActivityController::class,'activityQuarters'])->name('admin.activityQuarters');
+    
     //Master Projects  routes
     Route::resource('/projects', ProjectController::class);
     Route::post('get_projects', [ProjectController::class,'get_projects'])->name('admin.get_projects');

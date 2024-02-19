@@ -27,4 +27,8 @@ class ActivityMonths extends Model
     {
         return $this->belongsTo(SCIQuarter::class,'quarter','id');
     }
+    public function progress()
+    {
+        return $this->hasOne(ActivityProgress::class,'activity_id','id');
+    }
 }

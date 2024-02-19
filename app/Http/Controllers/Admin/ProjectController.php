@@ -132,9 +132,7 @@ class ProjectController extends Controller
                         <a class="btn-icon mx-1" href="'. $show_url.'" target="_blank">
                             <i class="fa fa-eye text-success" aria-hidden="true" ></i>
                         </a>
-                        <a class="btn-icon mx-1" href="'. $view_url.'" target="_blank">
-                            <i class="fa fa-eye text-primary" aria-hidden="true" ></i>
-                        </a>
+                        
                         <a class="btn-icon mx-1" href="'. $edit_url.'" target="_blank">
                             <i class="fa fa-pencil text-warning" aria-hidden="true" ></i>
                         </a>';

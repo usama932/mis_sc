@@ -23,6 +23,7 @@ class DipActivityController extends Controller
     {
         $this->dipactivityRepository = $dipactivityRepository;
     }
+    
     public function index()
     {
        
@@ -85,6 +86,56 @@ class DipActivityController extends Controller
                                             // <i class="fa fa-pencil text-primary" aria-hidden="true" ></i>
                                             // </a>
                                             $nestedData['action'] .= '</td></div>';
+				
+				$data[] = $nestedData;
+			}
+		}
+		
+		$json_data = array(
+			"draw"			=> intval($request->input('draw')),
+			"recordsTotal"	=> intval($totalData),
+			"recordsFiltered" => intval($totalFiltered),
+			"data"			=> $data
+		);
+		
+		echo json_encode($json_data);
+    }
+
+    public function activityQuarters(Request $request){
+        $activity_id = $request->activity_id;
+      
+        $columns = array(
+			1 => 'id',
+			2 => 'project_id',
+            3 => 'activity_detail',  
+		);
+		
+		$totalData = ActivityMonths::where('activity_id',$activity_id)->count();
+		$limit = $request->input('length');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+        $totalFiltered = ActivityMonths::where('activity_id',$activity_id)->count();
+		$start = $request->input('start');
+        $quarters = ActivityMonths::where('activity_id',$activity_id);
+          
+        $quarters =$quarters->limit($limit)->offset($start)
+                                    ->orderBy($order, $dir)->get()->sortByDesc("date_visit");
+		$data = array();
+		if($quarters){
+			foreach($quarters as $r){
+				$nestedData['quarter'] = $r->slug?->slug.'-'.$r->year ?? ''; 
+                $nestedData['activity_target'] = $r->target  ?? ''; 
+                $nestedData['benefit_target'] = $r->beneficiary_target  ?? ''; 
+              
+                $nestedData['women_target'] = $r->progress?->women_target  ?? ''; 
+                $nestedData['men_target'] = $r->beneficiary_target  ?? ''; 
+                $nestedData['girls_target'] = $r->beneficiary_target  ?? ''; 
+                $nestedData['boys_target'] = $r->beneficiary_target  ?? ''; 
+              
+                $nestedData['attachment'] = $r->attachment ?? '';
+                $nestedData['image'] = $r->attachment ?? '';
+                $nestedData['remarks'] = $r->attachment ?? '';
+              
 				
 				$data[] = $nestedData;
 			}
@@ -285,4 +336,6 @@ class DipActivityController extends Controller
 
         return response()->json(['lop_target' => $lopTarget,'benefit_target' => $benefit_target ]);
     }
+
+
 }
