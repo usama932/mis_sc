@@ -8,7 +8,7 @@
             {{-- <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <a href="{{ route('projects.edit',$project->id)}}" class="btn btn-primary me-md-2 btn-sm" target="_blank">Edit project</a>
             </div> --}}
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="card-title  border-0 my-4"">
                     <div class="card-title">
                         <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
@@ -86,7 +86,7 @@
                 </table>
                 
             </div>
-            <div class="col-md-6">
+            {{-- <div class="col-md-6">
                 <div class="card-title  border-0 my-4"">
                     <div class="card-title">
                         <div class="d-flex align-items-center position-relative my-1 " style="background-color: #F1C40F !important; border-radius:25px;">
@@ -196,7 +196,7 @@
                     </tr>
                     
                 </table>
-            </div>
+            </div> --}}
             <div class="col-md-12">
                
                 <table class="table table-striped m-4">

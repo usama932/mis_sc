@@ -4,7 +4,7 @@
             <input type="hidden" id="project_id" value="{{$project->id}}">
             <div class="row">
                 
-                <div class="col-md-6 p-4">
+                <div class="col-md-12 p-4">
                     <table class="table table-striped p-4">
                         
                         <tr>
@@ -55,10 +55,22 @@
                                 </td>
                             </tr>
                         @endif
+                        <tr>
+                            <td><strong>Donor </strong></td>
+                            <td>
+                              {{$project->donor ?? ''}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Focal Person</strong></td>
+                            <td>
+                              {{$project->focalperson?->name ?? ''}}
+                            </td>
+                        </tr>
                     </table>
                 </div>
                
-                <div class="col-md-6">
+                {{-- <div class="col-md-6">
                     <table class="table table-striped m-4">
                         <tr>
                             <td><strong>House Hold Target </strong></td>
@@ -198,15 +210,15 @@
                         <tr>
                             <td><strong>Focal Person</strong></td>
                             <td>
-                              {{$project->focalperson?->name ?? ''}}<br>
-                              {{-- {{$project->focalperson?->email ?? ''}} --}}
+                              {{-$project->focalperson?->name ?? ''}}<br>
+                               {{$project->focalperson?->email ?? ''}} 
                             </td>
                         </tr>
                     
                        
                         
                     </table>
-                </div>
+                </div> --}}
             </div>
             <div class="card">
                 <div class="container-fluid">
