@@ -56,6 +56,22 @@
                             </tr>
                         @endif
                         <tr>
+                            <td><strong>Themes </strong></td>
+                            <td>
+                                @foreach($project->themes as $themes)
+                                {{$themes->theme_name->name ?? ''}},
+                                @endforeach
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Partner </strong></td>
+                            <td>
+                                @foreach($project->partners as $partners)
+                                {{$partners->partner_name->name ?? ''}},
+                                @endforeach
+                            </td>
+                        </tr>
+                        <tr>
                             <td><strong>Donor </strong></td>
                             <td>
                               {{$project->donor ?? ''}}

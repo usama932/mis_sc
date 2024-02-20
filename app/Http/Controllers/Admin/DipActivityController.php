@@ -35,8 +35,6 @@ class DipActivityController extends Controller
 			1 => 'id',
 			2 => 'project_id',
             3 => 'activity_detail',
-           
-            
 		);
 		
 		$totalData = DipActivity::where('project_id',$dip_id)->count();
@@ -64,7 +62,10 @@ class DipActivityController extends Controller
                 $nestedData['lop_target'] = $r->lop_target ?? '';
                 $quarterTarget = '';
                 foreach ($r->months as $month) {
-                    $quarterTarget .= '<span class="fs-9"><br>'.$month->slug?->slug.'-'.$month->year.' = ' . $month->target.',</span>';
+                    if($month->activity_id == $r->id && $month->project_id == $r->project_id) {
+                        $quarterTarget .= '<span class="fs-9"><br>'.$month->slug?->slug.'-'.$month->year.' = ' . $month->target.',</span>';
+                    }
+                    
                 }
                 $nestedData['quarter_target'] = $quarterTarget;
                 $nestedData['created_by'] = $r->user->name ?? '';
@@ -102,8 +103,9 @@ class DipActivityController extends Controller
     }
 
     public function activityQuarters(Request $request){
+        $activity_id    = $request->activity_id;
+        $activity       =     DipActivity::where('id',$activity_id)->first();
         $activity_id = $request->activity_id;
-      
         $columns = array(
 			1 => 'id',
 			2 => 'project_id',
@@ -123,20 +125,22 @@ class DipActivityController extends Controller
 		$data = array();
 		if($quarters){
 			foreach($quarters as $r){
+                if($r->activity_id == $activity_id && $r->project_id == $activity->project_id ){
+                    $nestedData['quarter'] = $r->slug?->slug.'-'.$r->year ?? ''; 
+                    $nestedData['activity_target'] = $r->target  ?? ''; 
+                    $nestedData['benefit_target'] = $r->beneficiary_target  ?? ''; 
+                  
+                    $nestedData['women_target'] = $r->progress?->women_target ?? '0' ; 
+                    $nestedData['men_target'] = $r->progress?->men_target  ?? '0'; 
+                    $nestedData['girls_target'] = $r->progress?->girls_target ?? '0'; 
+                    $nestedData['boys_target'] = $r->progress?->boys_target ?? '0'; 
                 
-				$nestedData['quarter'] = $r->slug?->slug.'-'.$r->year ?? ''; 
-                $nestedData['activity_target'] = $r->target  ?? ''; 
-                $nestedData['benefit_target'] = $r->beneficiary_target  ?? ''; 
-              
-                $nestedData['women_target'] = $r->progress?->women_target ?? '0' ; 
-                $nestedData['men_target'] = $r->progress?->men_target  ?? '0'; 
-                $nestedData['girls_target'] = $r->progress?->girls_target ?? '0'; 
-                $nestedData['boys_target'] = $r->progress?->boys_target ?? '0'; 
-            
-                $nestedData['remarks'] = $r->progress?->remarks ?? '';
-              
-				
-				$data[] = $nestedData;
+                    $nestedData['remarks'] = $r->progress?->remarks ?? '';
+                  
+                    
+                    $data[] = $nestedData;
+                }
+			
 			}
 		}
 		
@@ -270,56 +274,93 @@ class DipActivityController extends Controller
         return view('admin.dip.activity_progress',compact('projects'));
     }
     public function postprogress($id){
+
         $activity = DipActivity::where('id',$id)->first();
-            addJavascriptFile('assets/js/custom/dip/update_progress.js');
+            
+        addJavascriptFile('assets/js/custom/dip/update_progress.js');
        
         return view('admin.dip.update_progress',compact('activity'));
     }
     public function updateprogress(Request $request){
         $quarter = ActivityMonths::where('id',$request->quarter)->first();
-       
+      
+        
         if(!empty($quarter)){
-            if($request->attachment){
+            $quarter_month = ActivityProgress::where('quarter_id',$request->quarter)
+            ->where('project_id',$quarter->project_id)
+            ->where('activity_id',$quarter->activity_id)
+            ->first();
+            if(!empty($quarter_month))
+            {
+                if($request->attachment){
          
-                $path = storage_path("app/public/activity_progress/attachment" .$request->attachment);
-                
-                if(File::exists($path)){
-                    File::delete(storage_path('app/public/activity_progress/attachment'.$request->attachment));
+                    $path = storage_path("app/public/activity_progress/attachment" .$request->attachment);
+                    
+                    if(File::exists($path)){
+                        File::delete(storage_path('app/public/activity_progress/attachment'.$request->attachment));
+                    }
+                    
+                    $file = $request->attachment;
+                    $attachment = $file->getClientOriginalName();
+                    $file->storeAs('public/activity_progress/attachment/',$attachment);
+                   
                 }
-                
-                $file = $request->attachment;
-                $attachment = $file->getClientOriginalName();
-                $file->storeAs('public/activity_progress/attachment/',$attachment);
-               
+                if($request->image){
+             
+                    $path = storage_path("app/public/activity_progress/image" .$request->image);
+                    
+                    if(File::exists($path)){
+                        File::delete(storage_path('app/public/activity_progress/image'.$request->image));
+                    }
+                    
+                    $file = $request->image;
+                    $image = $file->getClientOriginalName();
+                    $file->storeAs('public/activity_progress/image/',$image);
+                   
+                }
+                if(!empty($quarter)){
+                    ActivityProgress::where('quarter_id',$request->quarter)->update([
+                        'quarter_id'    => $request->quarter,
+                        'project_id'    => $quarter->project_id,
+                        'activity_id'   => $quarter->activity_id,
+                        'women_target'  => $request->women_target,
+                        'boys_target'   => $request->boys_target,
+                        'girls_target'  => $request->girls_target,
+                        'men_target'    => $request->men_target,
+                        'remarks'       => $request->remarks,
+                        'attachment'    => $attachment,
+                        'image'         => $image,
+                        'created_by'    => auth()->user()->id
+                    ]);
+                }
             }
-            if($request->image){
+            else{
+                if($request->attachment){
          
-                $path = storage_path("app/public/activity_progress/image" .$request->image);
-                
-                if(File::exists($path)){
-                    File::delete(storage_path('app/public/activity_progress/image'.$request->image));
+                    $path = storage_path("app/public/activity_progress/attachment" .$request->attachment);
+                    
+                    if(File::exists($path)){
+                        File::delete(storage_path('app/public/activity_progress/attachment'.$request->attachment));
+                    }
+                    
+                    $file = $request->attachment;
+                    $attachment = $file->getClientOriginalName();
+                    $file->storeAs('public/activity_progress/attachment/',$attachment);
+                   
                 }
-                
-                $file = $request->image;
-                $image = $file->getClientOriginalName();
-                $file->storeAs('public/activity_progress/image/',$image);
-               
-            }
-            if(!empty($quarter)){
-                ActivityProgress::where('quarter_id',$request->quarter)->update([
-                    'quarter_id'    => $request->quarter,
-                    'project_id'    => $quarter->project_id,
-                    'activity_id'   => $quarter->activity_id,
-                    'women_target'  => $request->women_target,
-                    'boys_target'   => $request->boys_target,
-                    'girls_target'  => $request->girls_target,
-                    'men_target'    => $request->men_target,
-                    'remarks'       => $request->remarks,
-                    'attachment'    => $attachment,
-                    'image'         => $image,
-                    'created_by'    => auth()->user()->id
-                ]);
-            }else{
+                if($request->image){
+             
+                    $path = storage_path("app/public/activity_progress/image" .$request->image);
+                    
+                    if(File::exists($path)){
+                        File::delete(storage_path('app/public/activity_progress/image'.$request->image));
+                    }
+                    
+                    $file = $request->image;
+                    $image = $file->getClientOriginalName();
+                    $file->storeAs('public/activity_progress/image/',$image);
+                   
+                }
                 ActivityProgress::create([
                     'quarter_id'    => $request->quarter,
                     'project_id'    => $quarter->project_id,

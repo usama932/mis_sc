@@ -16,37 +16,54 @@
                             
                         </div> 
                         <div class="fv-row col-md-4 mt-3">
-                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                            <label class="fs-7 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">LOP Quarter</span>
                             </label>
                             <input type="text" name="lop" value="{{$activity->lop_target ?? ''}}" class="form-control form-control-solid" >
                         </div> 
                         <div class="fv-row col-md-4 mt-3">
-                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                            <label class="fs-7 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Quarter</span>
                             </label>
                             <select name="quarter" id="quarter" aria-label="Select a Quarter Target" data-control="select2" data-placeholder="Select a Quarter Target" class="form-select" data-allow-clear="true">
                                 <option value=''>Select Quarter Target</option>
                                 @if(!empty($activity->months))
                                     @foreach($activity->months as $months)
-                                        <option value='{{$months->id}}'>{{$months->slug->slug}} - {{$months->year}}</option>
+                                        @if($months->project_id ==  $activity->project_id)
+                                            <option value='{{$months->id}}'>{{$months->slug->slug}} - {{$months->year}}</option>
+                                        @endif
+                                       
                                     @endforeach
                                 @endif
                             </select>
                         </div> 
-                        <div class="fv-row col-md-4 mt-3">
-                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                        <div class="fv-row col-md-2 mt-3">
+                            <label class="fs-7 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Quarterly target</span>
                             </label>
                             <input type="text" name="lop_target" id="lop_target" class="form-control form-control-solid" >
                             <div id="sofError" class="error-message " ></div>
                         </div> 
-                        <div class="fv-row col-md-4 mt-3">
-                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                        <div class="fv-row col-md-2 mt-3">
+                            <label class="fs-7 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Beneficiaries Target</span>
                             </label>
                             <input type="text" name="benefit_target" id="benefit_target" class="form-control form-control-solid" >
-                            <div id="sofError" class="error-message " ></div>
+                            <div id="benefit_targetError" class="error-message " ></div>
+                        </div> 
+                        <div class="fv-row col-md-2 mt-3">
+                            <label class="fs-7 fw-semibold form-label mb-2 d-flex">
+                                <span class="required">Activity Target</span>
+                            </label>
+                            <input type="text" name="activity_target" id="activity_target" class="form-control form-control-solid" >
+                            <div id="activity_targetError" class="error-message " ></div>
+                        </div> 
+                        <div class="fv-row col-md-2 mt-3">
+                            <label class="fs-7 fw-semibold form-label mb-2 d-flex">
+                                <span class="required">PWD Target</span>
+                            </label>
+                            <input type="text" name="pwd_target" id="pwd_target" class="form-control form-control-solid" >
+                            <div id="pwd_targetError" class="error-message " ></div>
                         </div> 
                         <div class="fv-row col-md-3 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">

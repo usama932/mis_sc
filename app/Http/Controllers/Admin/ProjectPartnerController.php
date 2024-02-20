@@ -48,12 +48,11 @@ class ProjectPartnerController extends Controller
 
 		if($projects){
 			foreach($projects as $r){
-			
                 $edit_url = route('projects.edit',$r->id);
                 $show_url = route('projects.show',$r->id);
 				$nestedData['id'] = $r->id;
                 $nestedData['project'] = $r->project?->name ?? '';
-                $nestedData['themes'] = $r->theme_name?->name ?? '';
+                $nestedData['themes'] = $r->scitheme_name?->name ?? '';
                 $nestedData['partner'] = $r->partner_name?->slug ?? '';
                 $nestedData['email'] = $r->email ?? '';
                 $nestedData['province'] = $r->provinces->province_name ?? '';

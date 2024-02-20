@@ -163,6 +163,7 @@ class ProjectRepository implements ProjectRepositoryInterface
     public function storeprojecttheme($data){
         return ProjectTheme::create([
             'theme_id'              => $data['theme'],
+            'sub_theme_id'          => $data['sub_theme'],
             'project_id'            => $data['project'],
             'girls_target'          => $data['girls_target'],
             'boys_target'           => $data['boys_target'],

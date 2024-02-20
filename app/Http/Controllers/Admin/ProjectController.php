@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\District;
 use App\Models\Province;
 use App\Models\Partner;
+use App\Models\SCITheme;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
 
 class ProjectController extends Controller
@@ -264,7 +265,7 @@ class ProjectController extends Controller
         $project    = Project::where('id',$id)->with('detail')->orderBy('name')->first();
         $partners   = Partner::orderBy('slug')->get();  
         $themes     =  $project->themes;
-        $ths        = Theme::orderBy('name')->get();
+        $ths        = SCITheme::orderBy('name')->get();
         $ps         = Province::orderBy('province_name')->get();
       
         if($project->detail?->province != null) {

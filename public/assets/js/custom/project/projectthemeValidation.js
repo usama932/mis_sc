@@ -38,6 +38,11 @@ var project_theme = $('#project_themes').DataTable({
             "orderable": false
         },
         {
+            "data": "sub_theme",
+            "searchable": false,
+            "orderable": false
+        },
+        {
             "data": "project",
             "searchable": false,
             "orderable": false
@@ -118,6 +123,14 @@ var KTprojectthemeValidate = function() {
                                 message: 'Theme is required'
                             },
 
+                        }
+                    },
+                    'sub_theme':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Sub-Theme  is required'
+                            },
+                           
                         }
                     },
                     'house_hold_target': {

@@ -19,6 +19,14 @@ class ProjectTheme extends Model
     {
         return $this->belongsTo(Theme::class,'theme_id','id');
     }
+    public function scitheme_name()
+    {
+        return $this->belongsTo(SCITheme::class,'theme_id','id');
+    }
+    public function scisubtheme_name()
+    {
+        return $this->belongsTo(SciSubTheme::class,'sub_theme_id','id');
+    }
     public function user()
     {
         return $this->belongsTo(User::class,'created_by','id');

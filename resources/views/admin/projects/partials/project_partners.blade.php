@@ -42,7 +42,7 @@
                     <select name="theme" class="form-control m-input" data-control="select2" data-placeholder="Select Theme" class="form-select" data-allow-clear="true">
                         <option  value=''>Select Theme</option>
                         @foreach($themes as $theme)
-                            <option value="{{$theme->id}}">{{$theme->theme_name?->name}}</option>
+                            <option value="{{$theme->scitheme_name?->id}}">{{$theme->scitheme_name?->name}} - {{$theme->scisubtheme_name?->name}}</option>
                         @endforeach
                     </select> 
                 </div>

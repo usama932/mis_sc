@@ -13,55 +13,64 @@
         <div class="px-5">
         
             <div class="row ">
-                <div class="fv-row col-md-3">
+                <div class="fv-row col-md-4">
                     <label class="fs-8 fw-semibold form-label 2">
                         <span class="required">Project Theme</span>
                     </label>
-                    <select name="theme" class="form-control m-input" data-control="select2" data-placeholder="Select Theme" class="form-select" data-allow-clear="true">
+                    <select name="theme" id="theme_id" class="form-control m-input" data-control="select2" data-placeholder="Select Theme" class="form-select" data-allow-clear="true">
                         <option  value=''>Select Theme</option>
                         @foreach($ths as $theme)
                             <option value="{{$theme->id}}">{{$theme->name}}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="fv-row col-md-3">
-                    <label class="fs-8 fw-semibold form-label ">
+                <div class="fv-row col-md-4 col-lg-4 col-sm-12">
+                    <label class="fs-8 fw-semibold form-label">
+                    <span class="required">Sub-Thematic Area</span>
+                    <span class="spinner-border spinner-border-sm align-middle ms-2" id="themeloader" style="display="none !important;"></span>
+                    </label> 
+                    <select   name="sub_theme" id="sub_theme_id" aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme" class="form-select "  data-allow-clear="true" > 
+                    </select>
+                    <div id="sub_themeError" class="error-message "></div>
+                 </div>
+                <div class="fv-row col-md-4">
+                    <label class="fs-9 fw-semibold form-label ">
                         <span class="required"> House Hold target</span>
                     </label>
                     <input type="text" name="house_hold_target" class="form-control  mx-1" placeholder="Enter House Hold Target" autocomplete="off">
                 </div>
-                <div class="fv-row col-md-3">
-                    <label class="fs-8 fw-semibold form-label">
-                        <span class="required">Expected Beneficiaries Target</span>
+                <div class="fv-row col-md-2">
+                    <label class="fs-9 fw-se9mibold form-label">
+                        <span class="required"> Beneficiaries Target</span>
                     </label>
                     <input type="text" name="individual_target" id="individual_target" class="form-control  mx-1" placeholder="Enter Individual Target" autocomplete="off">
                 </div>
-                <div class="fv-row col-md-3">
-                    <label class="fs-8 fw-semibold form-label">
+                <div class="fv-row col-md-2">
+                    <label class="fs-9 fw-semibold form-label">
                         <span class="required">PWD Target</span>
                     </label>
                     <input type="text" name="pwd_target" id="pwd_target" class="form-control" placeholder="Enter PWD target" autocomplete="off" value="">
                 </div>
-                <div class="fv-row col-md-3">
-                    <label class="fs-8 fw-semibold form-label ">
+                <div class="fv-row col-md-2">
+                    <label class="fs-9 fw-semibold form-label ">
                         <span class="required">Women Target</span>
                     </label>
                     <input type="text" name="women_target" id="women_target" class="form-control  mx-1" placeholder="Enter Women Target" autocomplete="off">
                 </div>
-                <div class="fv-row col-md-3">
-                    <label class="fs-8 fw-semibold form-label ">
+                <div class="fv-row col-md-2">
+                    <label class="fs-9 fw-semibold form-label ">
                         <span class="required">Men Target</span>
                     </label>
                     <input type="text" name="men_target" id="men_target" class="form-control" placeholder="Enter Men target" autocomplete="off">
                 </div>
-                <div class="fv-row col-md-3">
-                    <label class="fs-8 fw-semibold form-label ">
+                <div class="fv-row col-md-2">
+                    <label class="fs-9 fw-semibold form-label ">
                         <span class="required">Girls Target</span>
                     </label>
                     <input type="text" name="girls_target" id="girls_target" class="form-control" placeholder="Enter Girls target" autocomplete="off">
                 </div>
-                <div class="fv-row col-md-3">
-                    <label class="fs-8 fw-semibold form-label">
+                <div class="fv-row col-md-2">
+                    <label class="fs-9 fw-semibold form-label">
                         <span class="required">Boys Target</span>
                     </label>
                     <input type="text" name="boys_target" id="boys_target" class="form-control" placeholder="Enter Boys target" autocomplete="off">
@@ -86,6 +95,7 @@
                     <tr>
                         <th>#S.No</th>
                         <th>Theme</th>
+                        <th>Sub Theme</th>
                         <th>Project</th>
                         <th>House-Hold Target</th>
                         <th>Individual Target</th>

@@ -89,6 +89,30 @@
     </div>
    
     @push("scripts")
+    <script>
+        document.getElementById('themeloader').style.display = 'none';
+        $("#theme_id").change(function () {
+           document.getElementById('themeloader').style.display = 'block';
+           var value = $(this).val();
+           csrf_token = $('[name="_token"]').val();
+           $.ajax({
+              type: 'POST',
+              url: '/getSubTheme',
+              data: {'theme_id': value, _token: csrf_token },
+              dataType: 'json',
+              success: function (data) {
+                    document.getElementById('themeloader').style.display = 'none';
+                    $("#sub_theme_id").find('option').remove();
+                    $("#sub_theme_id").prepend("<option value='' >Select Sub-Theme</option>");
+                    var selected='';
+                    $.each(data, function (i, item) {
+                       $("#sub_theme_id").append("<option value='" + item.id + "' "+selected+" >" +
+                       item.name.replace(/_/g, ' ') + "</option>");
+                    });
+              }
+           });
+        });
+     </script>
     @endpush
 
 

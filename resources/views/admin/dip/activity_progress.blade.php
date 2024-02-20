@@ -25,7 +25,7 @@
                             <tr>
                                 <th>Activity</th>
                                 <th>LOP Target</th>
-                                <th>Quarter </th>
+                                <th>Quarter</th>
                                 <th>Update Progress</th>
                                 <th>Created By</th>
                                 <th>Created At</th>

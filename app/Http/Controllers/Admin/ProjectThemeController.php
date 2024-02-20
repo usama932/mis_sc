@@ -56,7 +56,8 @@ class ProjectThemeController extends Controller
                 $edit_url = route('projects.edit',$r->id);
                 $show_url = route('projects.show',$r->id);
 				$nestedData['id'] = $r->id;
-                $nestedData['theme'] = $r->theme_name?->name ?? '';
+                $nestedData['theme'] = $r->scitheme_name?->name ?? '';
+                $nestedData['sub_theme'] = $r->scisubtheme_name?->name ?? '';
                 $nestedData['project'] = $r->project?->name ?? '';
                 $nestedData['house_hold_target'] = $r->house_hold_target ?? '';
                 $nestedData['individual_target'] = $r->individual_target ?? '';

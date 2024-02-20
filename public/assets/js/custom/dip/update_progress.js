@@ -4,7 +4,7 @@ var KTupdateProgressValidate = function () {
     var form;
     var submitButton;
 
-
+    
     // Handle form ajax
     var handleFormAjax = function (e) {
         // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
@@ -22,32 +22,69 @@ var KTupdateProgressValidate = function () {
                             }
                         }
                     },
+                    'pwd_target': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Pwd Target is required'
+                            },
+                            numeric: {
+                                message: 'Pwd Target must be a number'
+                            },
+                        }
+                    },
+                    'activity_target':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Activity Target  is required'
+                            },
+                            numeric:{
+                                message: 'Activity Target  is must number'
+                            },
+                          
+                        }
+                    },
                     'women_target':{
                         validators: {
                             notEmpty: {
                                 message: 'Women Target  is required'
-                            }
+                            },
+                            numeric:{
+                                message: 'Women Target  is must number'
+                            },
+                        
                         }
                     },
                     'men_target':{
                         validators: {
                             notEmpty: {
                                 message: 'Men Target is required'
-                            }
+                            },
+                            numeric:{
+                                message: 'Men Target  is must number'
+                            },
+                            
                         }
                     },
                     'girls_target':{
                         validators: {
                             notEmpty: {
                                 message: 'Girls Target is required'
-                            }
+                            },
+                            numeric:{
+                                message: 'Girls Target  is must number'
+                            },
+                           
                         }
                     },
                     'boys_target':{
                         validators: {
                             notEmpty: {
                                 message: 'Boys Target is required'
-                            }
+                            },
+                            numeric:{
+                                message: 'Boys Target  is must number'
+                            },
+                            
                         }
                     },
                     'attachment':{
