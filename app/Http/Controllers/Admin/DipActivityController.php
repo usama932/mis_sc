@@ -110,31 +110,30 @@ class DipActivityController extends Controller
             3 => 'activity_detail',  
 		);
 		
-		$totalData = ActivityMonths::where('activity_id',$activity_id)->count();
+		$totalData = ActivityMonths::with('progress')->where('activity_id',$activity_id)->count();
 		$limit = $request->input('length');
         $order = $columns[$request->input('order.0.column')];
         $dir = $request->input('order.0.dir');
-        $totalFiltered = ActivityMonths::where('activity_id',$activity_id)->count();
+        $totalFiltered = ActivityMonths::with('progress')->where('activity_id',$activity_id)->count();
 		$start = $request->input('start');
-        $quarters = ActivityMonths::where('activity_id',$activity_id);
+        $quarters = ActivityMonths::with('progress')->where('activity_id',$activity_id);
           
         $quarters =$quarters->limit($limit)->offset($start)
                                     ->orderBy($order, $dir)->get()->sortByDesc("date_visit");
 		$data = array();
 		if($quarters){
 			foreach($quarters as $r){
+                
 				$nestedData['quarter'] = $r->slug?->slug.'-'.$r->year ?? ''; 
                 $nestedData['activity_target'] = $r->target  ?? ''; 
                 $nestedData['benefit_target'] = $r->beneficiary_target  ?? ''; 
               
-                $nestedData['women_target'] = $r->progress?->women_target  ?? ''; 
-                $nestedData['men_target'] = $r->beneficiary_target  ?? ''; 
-                $nestedData['girls_target'] = $r->beneficiary_target  ?? ''; 
-                $nestedData['boys_target'] = $r->beneficiary_target  ?? ''; 
-              
-                $nestedData['attachment'] = $r->attachment ?? '';
-                $nestedData['image'] = $r->attachment ?? '';
-                $nestedData['remarks'] = $r->attachment ?? '';
+                $nestedData['women_target'] = $r->progress?->women_target ?? '0' ; 
+                $nestedData['men_target'] = $r->progress?->men_target  ?? '0'; 
+                $nestedData['girls_target'] = $r->progress?->girls_target ?? '0'; 
+                $nestedData['boys_target'] = $r->progress?->boys_target ?? '0'; 
+            
+                $nestedData['remarks'] = $r->progress?->remarks ?? '';
               
 				
 				$data[] = $nestedData;
@@ -306,19 +305,36 @@ class DipActivityController extends Controller
                 $file->storeAs('public/activity_progress/image/',$image);
                
             }
-            ActivityProgress::create([
-                'quarter_id'    => $request->quarter,
-                'project_id'    => $quarter->project_id,
-                'activity_id'   => $quarter->activity_id,
-                'women_target'  => $request->women_target,
-                'boys_target'   => $request->women_target,
-                'girls_target'  => $request->women_target,
-                'men_target'    => $request->women_target,
-                'remarks'       => $request->remarks,
-                'attachment'    => $attachment,
-                'image'         => $image,
-                'created_by'    => auth()->user()->id
-            ]);
+            if(!empty($quarter)){
+                ActivityProgress::where('quarter_id',$request->quarter)->update([
+                    'quarter_id'    => $request->quarter,
+                    'project_id'    => $quarter->project_id,
+                    'activity_id'   => $quarter->activity_id,
+                    'women_target'  => $request->women_target,
+                    'boys_target'   => $request->boys_target,
+                    'girls_target'  => $request->girls_target,
+                    'men_target'    => $request->men_target,
+                    'remarks'       => $request->remarks,
+                    'attachment'    => $attachment,
+                    'image'         => $image,
+                    'created_by'    => auth()->user()->id
+                ]);
+            }else{
+                ActivityProgress::create([
+                    'quarter_id'    => $request->quarter,
+                    'project_id'    => $quarter->project_id,
+                    'activity_id'   => $quarter->activity_id,
+                    'women_target'  => $request->women_target,
+                    'boys_target'   => $request->boys_target,
+                    'girls_target'  => $request->girls_target,
+                    'men_target'    => $request->men_target,
+                    'remarks'       => $request->remarks,
+                    'attachment'    => $attachment,
+                    'image'         => $image,
+                    'created_by'    => auth()->user()->id
+                ]);
+            }
+            
             $editUrl = route('activity_dips.progress');
             return response()->json([
                 'editUrl' => $editUrl

@@ -10,8 +10,9 @@ class ActivityProgress extends Model
     use HasFactory;
     protected $table = 'dip_activity_progress';
     protected $guarded = [];
+    
     public function activity()
     {
-        return $this->belongsTo(ActivityMonths::class,'activity_id','id');
+        return $this->belongsTo(ActivityMonths::class,'quarter_id','id');
     }
 }

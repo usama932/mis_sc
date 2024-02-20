@@ -29,6 +29,6 @@ class ActivityMonths extends Model
     }
     public function progress()
     {
-        return $this->hasOne(ActivityProgress::class,'activity_id','id');
+        return $this->hasOne(ActivityProgress::class,'quarter_id','id');
     }
 }
