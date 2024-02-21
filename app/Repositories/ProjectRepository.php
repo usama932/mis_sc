@@ -114,6 +114,12 @@ class ProjectRepository implements ProjectRepositoryInterface
         }else{
             $active = 0;
         }
+        if(!empty($data['nce']) &&  $data['nce'] == 'on'){
+
+            $nce = 1;
+        }else{
+            $nce = 0;
+        }
         $start_date = Carbon::parse($data['start_date']);
         $end_date = Carbon::parse($data['end_date']);
 
@@ -142,6 +148,7 @@ class ProjectRepository implements ProjectRepositoryInterface
             'start_date'            => $data['start_date'],
             'end_date'              => $data['end_date'],
             'active'                => $active,
+            'nce'                   => $nce,
             'updated_by'            => auth()->user()->id,
         ]); 
        

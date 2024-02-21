@@ -14,7 +14,10 @@
                         <td><strong>Project</strong></td>
                         <td>{{$project->name ?? ''}}</td>
                     </tr>
-                     
+                    <tr>
+                        <td><strong>SOF.#</strong></td>
+                        <td>{{$project->sof ?? ''}}</td>
+                    </tr>
                     <tr>
                         <td><strong>Type</strong></td>
                         <td>{{$project->type ?? ''}}</td>
@@ -35,7 +38,12 @@
                     <tr>
                         <td><strong>Project Status </strong></td>
                         <td>
-                          {{$project->status ?? ''}}
+                            @if($project->active == 1)
+                                Active
+                            @else
+                                InActive
+                            @endif
+                          {{$project->atic ?? ''}}
                         </td>
                     </tr>
                 </table>
@@ -71,11 +79,17 @@
                     <tr>
                         <td><strong>Focal Person</strong></td>
                         <td>
-                          {{$project->focalperson?->name ?? ''}}<br>
+                          {{$project->focalperson?->name ?? ''}} -  {{$project->focalperson?->desig?->designation_name ?? ''}}<br>
                           {{-- {{$project->focalperson?->email ?? ''}} --}}
                         </td>
                     </tr>
-                
+                    <tr>
+                        <td><strong>Donor</strong></td>
+                        <td>
+                          {{$project->donor ?? ''}} <br>
+                         
+                        </td>
+                    </tr>
                     <tr>
                         <td><strong>Project Extended </strong></td>
                         <td>
@@ -117,6 +131,7 @@
                                     <tr>
                                         <th>#S.No</th>
                                         <th>Theme</th>
+                                        <th>Sub Theme</th>
                                         <th>Project</th>
                                         <th>House-Hold Target</th>
                                         <th>Individual Target</th>
@@ -145,6 +160,7 @@
                                         <th>#S.No</th>
                                         <th>Project</th>
                                         <th>Themes</th>
+                                       
                                         <th>Partner</th>
                                         <th>Email</th>
                                         <th>Province</th>

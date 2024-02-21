@@ -45,7 +45,7 @@
                             </label>
                             <select   name="donor" id="donor" aria-label="Select a Donor" data-control="select2" data-placeholder="Select a Donor" class="form-select "  data-allow-clear="true" > 
                                 <option  value=''>Select Donor</option>
-                                <option  value='SC Japan'>SC Japan</option>
+                                <option  value='SC Japan' @if($project->donor =='SC Japan') selected @endif >SC Japan</option>
                             </select>
                             <div id="donorError" class="error-message"></div>
                         </div>  
@@ -57,21 +57,21 @@
                             <div id="sofError" class="error-message "></div>
                         </div> 
                       
-                        <div class="fv-row col-md-3 mt-3">
+                        <div class="fv-row col-md-3">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Project Start Date</span>
                             </label>
                             <input type="text" name="start_date"    placeholder="Select date"  class="form-control"  value="{{$project->start_date}}" readonly>
                             <div id="start_dateError" class="error-message "></div>
                         </div>
-                        <div class="fv-row col-md-3 mt-3">
+                        <div class="fv-row col-md-3">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Project End Date</span>
                             </label>
                             <input type="text" name="end_date" id="end_date" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="{{$project->end_date}}">
                             <div id="end_dateError" class="error-message "></div>
                         </div>
-                        <div class="fv-row col-md-3 mt-5">
+                        <div class="fv-row col-md-3">
                             <div class="form-check form-switch   mt-5">
                                 <input class="form-check-input" type="checkbox" id="active" name="active" {{$project->active ? 'checked' : ''}}>
                                 <label class="form-check-label" for="active">Activate Project</label>
@@ -81,6 +81,12 @@
                             <div class="form-check form-switch mt-5">
                                 <input class="form-check-input" type="checkbox" id="project_extended" name="project_extended" {{$project->is_active ? 'checked' : ''}}>
                                 <label class="form-check-label" for="project_extended">Project Extended</label>
+                            </div>
+                        </div>
+                        <div class="fv-row col-md-3 mt-5" id="nce_cost_extent_container" style="display: none;">
+                            <div class="form-check form-switch mt-5">
+                                <input class="form-check-input" type="checkbox" id="nce_cost_extent" name="nce"  {{$project->nce ? 'checked' : ''}}>
+                                <label class="form-check-label" for="nce">NCE</label>
                             </div>
                         </div>
                     </div>
@@ -95,5 +101,22 @@
         </div>
     </div>
     @push("scripts")
+    <script>
+        // Select the "Project Extended" checkbox
+        const projectExtendedCheckbox = document.getElementById('project_extended');
+    
+        // Select the container of the "NCE cost extent" checkbox
+        const nceCostExtentContainer = document.getElementById('nce_cost_extent_container');
+    
+        // Add an event listener to the "Project Extended" checkbox
+        projectExtendedCheckbox.addEventListener('change', function() {
+            // If the "Project Extended" checkbox is checked, show the "NCE cost extent" checkbox; otherwise, hide it
+            if (projectExtendedCheckbox.checked) {
+                nceCostExtentContainer.style.display = 'block';
+            } else {
+                nceCostExtentContainer.style.display = 'none';
+            }
+        });
+    </script>
     @endpush
 </x-nform-layout>

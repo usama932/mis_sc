@@ -225,13 +225,14 @@
                         'project_id': project_id
                     }
                 },
-                "columns": [{
-                        "data": "id",
+                "columns": [
+                    {
+                        "data": "theme",
                         "searchable": false,
                         "orderable": false
                     },
                     {
-                        "data": "theme",
+                        "data": "sub_theme",
                         "searchable": false,
                         "orderable": false
                     },

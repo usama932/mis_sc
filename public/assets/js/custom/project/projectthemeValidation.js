@@ -150,6 +150,10 @@ var KTprojectthemeValidate = function() {
                             },
                             numeric: {
                                 message: 'Individual Target must be a number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Individual Target must be a positive number'
                             }
                         }
                     },
@@ -161,6 +165,10 @@ var KTprojectthemeValidate = function() {
                             numeric: {
                                 message: 'Men Target must be a number'
                             },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Individual Target must be a positive number'
+                            }
 
                         }
                     },
@@ -171,6 +179,10 @@ var KTprojectthemeValidate = function() {
                             },
                             numeric: {
                                 message: 'Men Target must be a number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Individual Target must be a positive number'
                             }
                         }
                     },
@@ -181,6 +193,10 @@ var KTprojectthemeValidate = function() {
                             },
                             numeric: {
                                 message: 'Girls Target must be a number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Individual Target must be a positive number'
                             }
                         }
                     },
@@ -191,6 +207,10 @@ var KTprojectthemeValidate = function() {
                             },
                             numeric: {
                                 message: 'Boys Target must be a number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Individual Target must be a positive number'
                             }
                         }
                     },
@@ -199,6 +219,10 @@ var KTprojectthemeValidate = function() {
 
                             numeric: {
                                 message: 'PWD Target must be a number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Individual Target must be a positive number'
                             }
                         }
                     },
@@ -271,7 +295,7 @@ var KTprojectthemeValidate = function() {
                                 };
                                 toastr.success("Theme Added Successfully", "Success");
                                 form.reset();
-
+                                window.location.assign(response.data.editUrl);
                                 project_theme.ajax.reload(null, false).draw(false);
                                 $("#create_projecttheme").slideToggle();
                                 $("#project_theme_table").slideToggle();

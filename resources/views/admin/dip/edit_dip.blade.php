@@ -16,11 +16,6 @@
                             <td><strong>Type</strong></td>
                             <td>{{$project->type ?? ''}}</td>
                         </tr>
-                          
-                        <tr>
-                            <td><strong>Status</strong></td>
-                            <td>{{$project->status ?? ''}}</td>
-                        </tr>
                         <tr>
                             <td><strong>Project Tenure</strong></td>
                             <td>
@@ -41,7 +36,7 @@
                                 <td><strong>Provinces</strong></td>
                                 <td>
                                     @foreach($provinces as $province)
-                                        {{ $province->province_name}}  @if(! $loop->last) , @endif
+                                        {{ $province->province_name}}@if(! $loop->last),@endif
                                     @endforeach
                                 </td>
                             </tr>
@@ -50,7 +45,7 @@
                             <tr>
                                 <td><strong>Disticts</strong></td>
                                 <td>  @foreach($districts as $district)
-                                    {{ $district->district_name}}  @if(! $loop->last) , @endif
+                                    {{ $district->district_name}}@if(! $loop->last),@endif
                                     @endforeach
                                 </td>
                             </tr>
@@ -59,7 +54,7 @@
                             <td><strong>Themes </strong></td>
                             <td>
                                 @foreach($project->themes as $themes)
-                                {{$themes->theme_name->name ?? ''}},
+                                {{$themes->scitheme_name->name ?? ''}}@if(! $loop->last),@endif
                                 @endforeach
                             </td>
                         </tr>
@@ -67,7 +62,7 @@
                             <td><strong>Partner </strong></td>
                             <td>
                                 @foreach($project->partners as $partners)
-                                {{$partners->partner_name->name ?? ''}},
+                                {{$partners->partner_name->slug ?? ''}}@if(! $loop->last),@endif
                                 @endforeach
                             </td>
                         </tr>
@@ -80,7 +75,7 @@
                         <tr>
                             <td><strong>Focal Person</strong></td>
                             <td>
-                              {{$project->focalperson?->name ?? ''}}
+                              {{$project->focalperson?->name ?? ''}} - {{$project->focalperson?->design?->designation_name ?? ''}}
                             </td>
                         </tr>
                     </table>
@@ -259,8 +254,9 @@
                                     <table class="table table-striped table-bordered nowrap" id="project_themes" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>#S.No</th>
+                                           
                                             <th>Theme</th>
+                                            <th>Sub Theme</th>
                                             <th>Project</th>
                                             <th>House-Hold Target</th>
                                             <th>Individual Target</th>

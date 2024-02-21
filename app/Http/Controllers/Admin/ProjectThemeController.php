@@ -105,7 +105,9 @@ class ProjectThemeController extends Controller
     public function store(Request $request)
     {
       
-        $project_theme = ProjectTheme::where('project_id' ,$request->project)->where('theme_id' ,$request->theme)->first();
+        $project_theme = ProjectTheme::where('project_id' ,$request->project)
+                                        ->where('theme_id' ,$request->theme)
+                                        ->where('sub_theme_id' ,$request->sub_theme)->first();
         if(!empty($project_theme)){
           
             return response()->json([
@@ -126,10 +128,11 @@ class ProjectThemeController extends Controller
             $projecttheme = $this->projectRepository->storeprojecttheme($data);
             
             $active = 'thematic';
-            session(['active' => $active]);
-
+            session(['project' => $active]);
+            $editUrl = route('project.detail',$projecttheme->project_id);
             return response()->json([
                 'message' => "Theme Added",
+                'editUrl' => $editUrl,
                 'error' => "false"
             ]);
         }

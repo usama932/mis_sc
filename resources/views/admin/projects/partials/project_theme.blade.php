@@ -15,7 +15,7 @@
             <div class="row ">
                 <div class="fv-row col-md-4">
                     <label class="fs-8 fw-semibold form-label 2">
-                        <span class="required">Project Theme</span>
+                        <span class="required">Thematic Area</span>
                     </label>
                     <select name="theme" id="theme_id" class="form-control m-input" data-control="select2" data-placeholder="Select Theme" class="form-select" data-allow-clear="true">
                         <option  value=''>Select Theme</option>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="fv-row col-md-2">
                     <label class="fs-9 fw-semibold form-label">
-                        <span class="required">PWD Target</span>
+                        <span class="">PWD Target</span>
                     </label>
                     <input type="text" name="pwd_target" id="pwd_target" class="form-control" placeholder="Enter PWD target" autocomplete="off" value="">
                 </div>
@@ -104,8 +104,6 @@
                         <th>Girls Target</th>
                         <th>Boys Target</th>
                         <th>PWD Target</th>
-                        {{-- <th>Created At</th>
-                        <th>Created By</th> --}}
                         <th>Actions</th>
                     </tr>
                 </thead>

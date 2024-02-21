@@ -84,7 +84,7 @@ class DipController extends Controller
                 $show_url = route('dips.show',$r->id);
                 $nestedData['dip_add'] = '<div>
                                         <td>
-                                            <a class="btn btn-info btn-sm " title="Add Activity" href="'.  $edit_url.'" target="_blank">
+                                            <a class="btn btn-info btn-sm " title="Add Activity" href="'.  $edit_url.'">
                                             <i class="fa fa-plus" aria-hidden="true" ></i>
                                             </a>
                                         </a>

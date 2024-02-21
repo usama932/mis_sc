@@ -11,12 +11,12 @@
                     
                     <tr>
                         <td><strong>Project</strong></td>
-                        <td>{{$project->name ?? ''}}</td>
+                        <td>{{$project->name ?? ''}} ({{$project->type}})</td>
                     </tr>
                      
                     <tr>
-                        <td><strong>Type</strong></td>
-                        <td>{{$project->type ?? ''}}</td>
+                        <td><strong>Donor</strong></td>
+                        <td>{{$project->donor ?? ''}}</td>
                     </tr>
                       
               

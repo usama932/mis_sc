@@ -10,85 +10,85 @@
                     <div class="row">
                         <div class="fv-row col-md-8 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                <span class="required">Activity</span>
+                                <span>Activity Name: </span>
+                                <p>{{$activity->activity_number ?? ''}}</p>
                             </label>
-                            <p>{{$activity->activity_number ?? ''}}</p>
-                            
                         </div> 
                         <div class="fv-row col-md-4 mt-3">
                             <label class="fs-7 fw-semibold form-label mb-2 d-flex">
-                                <span class="required">LOP Quarter</span>
+                                <span class="required">Activity LOP Target</span>
                             </label>
-                            <input type="text" name="lop" value="{{$activity->lop_target ?? ''}}" class="form-control form-control-solid" >
+                            <input type="text" name="lop" value="{{$activity->lop_target ?? ''}}" class="form-control form-control-solid" readonly>
                         </div> 
                         <div class="fv-row col-md-4 mt-3">
                             <label class="fs-7 fw-semibold form-label mb-2 d-flex">
-                                <span class="required">Quarter</span>
+                                <span>Select Quarter</span>
                             </label>
                             <select name="quarter" id="quarter" aria-label="Select a Quarter Target" data-control="select2" data-placeholder="Select a Quarter Target" class="form-select" data-allow-clear="true">
-                                <option value=''>Select Quarter Target</option>
+                                <option value=''>Choose Quarter</option>
                                 @if(!empty($activity->months))
                                     @foreach($activity->months as $months)
                                         @if($months->project_id ==  $activity->project_id)
                                             <option value='{{$months->id}}'>{{$months->slug->slug}} - {{$months->year}}</option>
                                         @endif
-                                       
                                     @endforeach
                                 @endif
                             </select>
                         </div> 
-                        <div class="fv-row col-md-2 mt-3">
+                        <div class="fv-row col-md-4 mt-3">
                             <label class="fs-7 fw-semibold form-label mb-2 d-flex">
-                                <span class="required">Quarterly target</span>
+                                <span class="required">Quarterly Target</span>
                             </label>
-                            <input type="text" name="lop_target" id="lop_target" class="form-control form-control-solid" >
+                            <input type="text" name="lop_target" id="lop_target" class="form-control form-control-solid" readonly>
                             <div id="sofError" class="error-message " ></div>
                         </div> 
+                        <div class="fv-row col-md-4 mt-3">
+                            <label class="fs-7 fw-semibold form-label mb-2 d-flex">
+                                <span class="required">Enter Quarterly Progress</span>
+                            </label>
+                            <input type="text" name="activity_target" id="activity_target" class="form-control" >
+                            <div id="activity_targetError" class="error-message " ></div>
+                        </div> 
+                    </div>
+                    <div class="row">
                         <div class="fv-row col-md-2 mt-3">
                             <label class="fs-7 fw-semibold form-label mb-2 d-flex">
-                                <span class="required">Beneficiaries Target</span>
+                                <span>Beneficiaries Target</span>
                             </label>
-                            <input type="text" name="benefit_target" id="benefit_target" class="form-control form-control-solid" >
+                            <input type="text" name="benefit_target" id="benefit_target" class="form-control form-control-solid" readonly>
                             <div id="benefit_targetError" class="error-message " ></div>
                         </div> 
                         <div class="fv-row col-md-2 mt-3">
-                            <label class="fs-7 fw-semibold form-label mb-2 d-flex">
-                                <span class="required">Activity Target</span>
+                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                                <span class="required">Women</span>
                             </label>
-                            <input type="text" name="activity_target" id="activity_target" class="form-control form-control-solid" >
-                            <div id="activity_targetError" class="error-message " ></div>
+                            <input type="text" name="women_target" value="" class="form-control"  placeholder="Women">
+                        </div> 
+                        <div class="fv-row col-md-2 mt-3">
+                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                                <span class="required">Men</span>
+                            </label>
+                            <input type="text" name="men_target" value="" class="form-control"  placeholder="Men">
+                        </div> 
+                        <div class="fv-row col-md-2 mt-3">
+                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                                <span class="required">Girls</span>
+                            </label>
+                            <input type="text" name="girls_target" value="" class="form-control"  placeholder="Girls">
+                        </div> 
+                        <div class="fv-row col-md-2 mt-3">
+                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                                <span class="required">Boys</span>
+                            </label>
+                            <input type="text" name="boys_target" value="" class="form-control" placeholder="Boys" >
                         </div> 
                         <div class="fv-row col-md-2 mt-3">
                             <label class="fs-7 fw-semibold form-label mb-2 d-flex">
-                                <span class="required">PWD Target</span>
+                                <span>PWD</span>
                             </label>
-                            <input type="text" name="pwd_target" id="pwd_target" class="form-control form-control-solid" >
+                            <input type="text" name="pwd_target" id="pwd_target" class="form-control" >
                             <div id="pwd_targetError" class="error-message " ></div>
-                        </div> 
-                        <div class="fv-row col-md-3 mt-3">
-                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                <span class="required">Women Achieve Target</span>
-                            </label>
-                            <input type="text" name="women_target" value="" class="form-control"  placeholder="Enter Women Achieve Target">
-                        </div> 
-                        <div class="fv-row col-md-3 mt-3">
-                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                <span class="required">Men Achieve Target</span>
-                            </label>
-                            <input type="text" name="men_target" value="" class="form-control"  placeholder="Enter Men Achieve Target">
-                        </div> 
-                        <div class="fv-row col-md-3 mt-3">
-                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                <span class="required">Girls Achieve Target</span>
-                            </label>
-                            <input type="text" name="girls_target" value="" class="form-control"  placeholder="Enter Girls Achieve Target">
-                        </div> 
-                        <div class="fv-row col-md-3 mt-3">
-                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                <span class="required">Boys Achieve Target</span>
-                            </label>
-                            <input type="text" name="boys_target" value="" class="form-control" placeholder="Enter Boys Achieve Target" >
-                        </div> 
+                        </div>
                         <div class="fv-row col-md-12 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="">Remarks</span>
@@ -100,14 +100,14 @@
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Attachemnt</span>
                             </label>
-                            <input type="file" name="attachment" id="attachment" class="form-control" value="">
+                            <input type="file" name="attachment" id="attachment" accept=".pdf, .docx, .doc" class="form-control" value="">
                             <div id="attachmentError" class="error-message "></div>
                         </div> 
                         <div class="fv-row col-md-6 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Image</span>
                             </label>
-                            <input type="file" name="image" id="image"  class="form-control" value="">
+                            <input type="file" name="image" id="image"   accept=".jpg, .jpeg, .png" class="form-control" value="">
                             <div id="imageError" class="error-message "></div>
                         </div> 
                     </div>

@@ -146,8 +146,8 @@ var KTprojectupdateValidate = function() {
                                     "showMethod": "fadeIn",
                                     "hideMethod": "fadeOut"
                                 };
-                                toastr.success(response.data.message, "Error");
-                                window.location.href = response.data.editUrl;
+                                toastr.success(response.data.message, "Success");
+                                window.location.assign(response.data.editUrl);
                             } else {
                                 toastr.options = {
                                     "closeButton": true,
@@ -169,7 +169,7 @@ var KTprojectupdateValidate = function() {
                                 toastr.success("Theme Added Successfully", "Success");
                                 form.reset();
 
-                                window.location.href = response.data.editUrl;
+                                window.location.assign(response.data.editUrl);
                             }
 
 

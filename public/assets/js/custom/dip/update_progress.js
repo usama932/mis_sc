@@ -30,7 +30,10 @@ var KTupdateProgressValidate = function () {
                             numeric: {
                                 message: 'Pwd Target must be a number'
                             },
-                        }
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Individual Target must be a positive number'
+                            }
                     },
                     'activity_target':{
                         validators: {
@@ -40,7 +43,10 @@ var KTupdateProgressValidate = function () {
                             numeric:{
                                 message: 'Activity Target  is must number'
                             },
-                          
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Individual Target must be a positive number'
+                            }
                         }
                     },
                     'women_target':{
@@ -51,7 +57,10 @@ var KTupdateProgressValidate = function () {
                             numeric:{
                                 message: 'Women Target  is must number'
                             },
-                        
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Individual Target must be a positive number'
+                            }
                         }
                     },
                     'men_target':{
@@ -62,7 +71,10 @@ var KTupdateProgressValidate = function () {
                             numeric:{
                                 message: 'Men Target  is must number'
                             },
-                            
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Individual Target must be a positive number'
+                            }
                         }
                     },
                     'girls_target':{
@@ -73,7 +85,10 @@ var KTupdateProgressValidate = function () {
                             numeric:{
                                 message: 'Girls Target  is must number'
                             },
-                           
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Individual Target must be a positive number'
+                            }
                         }
                     },
                     'boys_target':{
@@ -84,13 +99,41 @@ var KTupdateProgressValidate = function () {
                             numeric:{
                                 message: 'Boys Target  is must number'
                             },
-                            
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Individual Target must be a positive number'
+                            }
                         }
                     },
                     'attachment':{
                         validators: {
                             notEmpty: {
                                 message: 'Attachment is required'
+                            }
+                        },
+                        callback: {
+                            message: 'Only PDF or Word documents are allowed',
+                            callback: function(value, validator, $field) {
+                                // Check if a file is selected
+                                if ($field[0].files.length === 0) {
+                                    return true;  // No file is selected, skip validation
+                                }
+                                
+                                // Get the file extension
+                                var extension = value.split('.').pop().toLowerCase();
+                
+                                // Check if the file extension matches pdf, doc, or docx
+                                if (['pdf', 'doc', 'docx'].indexOf(extension) === -1) {
+                                    return false; // Invalid file type
+                                }
+                
+                                // Check if the file MIME type matches pdf or doc
+                                var fileType = $field[0].files[0].type;
+                                if (fileType !== 'application/pdf' && fileType !== 'application/msword' && fileType !== 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+                                    return false; // Invalid MIME type
+                                }
+                
+                                return true; // Valid file type
                             }
                         }
                     },

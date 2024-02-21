@@ -103,13 +103,14 @@ class ProjectPartnerController extends Controller
         }
         else{
             $data = $request->except('_token');
-            $projecttheme = $this->projectRepository->storeprojectpartner($data);
+            $projectpartner = $this->projectRepository->storeprojectpartner($data);
             
             $active = 'partner';
-            session(['active' => $active]);
-
+            session(['project' => $active]);
+            $editUrl = route('project.detail',$projectpartner->project_id);
             return response()->json([
-                'message' => "Theme Added",
+                'message' => "Partner Added",
+                'editUrl' => $editUrl,
                 'error' => "false"
             ]);
         }

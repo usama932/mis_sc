@@ -266,7 +266,9 @@ class DipActivityController extends Controller
     public function activity_progress(){
         
         if(auth()->user()->user_type != 'admin'){
-            $projects = Project::where('focal_person',auth()->user()->id)->orderBy('name')->get();
+            $projects = Project::orWhere('focal_person',auth()->user()->id)->orWhereHas('partners', function ($query) {
+                                    $query->where('email', auth()->user()->email);
+                                })->orderBy('name')->get();
         }else{
             $projects = Project::orderBy('name')->get();
         }
@@ -383,7 +385,7 @@ class DipActivityController extends Controller
         }
        
     }
-   public function fetchquartertarget(Request $request)
+    public function fetchquartertarget(Request $request)
     {
        
         $quarterId = $request->quarter_id;

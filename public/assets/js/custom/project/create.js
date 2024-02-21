@@ -193,7 +193,7 @@ var KTdipValidate = function () {
                                     "hideMethod": "fadeOut"
                                 };
                                 toastr.success("Project Created", "Success");
-                         
+                                window.location.assign(response.data.editUrl);
                             }
                           
                             

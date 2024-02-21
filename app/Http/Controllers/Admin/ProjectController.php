@@ -194,7 +194,20 @@ class ProjectController extends Controller
 
             $project->where('id',$request->project);
         }
-        
+      
+        if ($request->startdate != null) {
+            $project->where('start_date', '>=', $request->startdate);
+            if ($request->enddate != null) {
+                $project->where('start_date', '<=', $request->enddate);
+            }
+        }
+       
+        if ($request->enddate != null) {
+            $project->where('end_date', '<=', $request->enddate);
+            if ($request->startdate != null) {
+                $project->where('end_date', '>=', $request->startdate);
+            }
+        }
         $projects =$project->offset($start)
                             ->limit($limit)->orderBy($order, $dir)->get();
 		$data = array();
@@ -264,7 +277,7 @@ class ProjectController extends Controller
 
         $project    = Project::where('id',$id)->with('detail')->orderBy('name')->first();
         $partners   = Partner::orderBy('slug')->get();  
-        $themes     =  $project->themes;
+        $themes     =  $project->themes ?? '';
         $ths        = SCITheme::orderBy('name')->get();
         $ps         = Province::orderBy('province_name')->get();
       
@@ -280,8 +293,11 @@ class ProjectController extends Controller
         else{
             $districts   = [];
         }
-        $active = 'detail';    
-        session(['project' => $active]);
+        if(session('active') == ''){
+            $active = 'detail';    
+            session(['project' => $active]);
+        }
+      
 
         addJavascriptFile('assets/js/custom/dip/create.js');
         addJavascriptFile('assets/js/custom/project/projectthemeValidation.js');
@@ -348,6 +364,7 @@ class ProjectController extends Controller
 
     public function show(string $id)
     {
+    
         $project = Project::with('detail')->find($id);
 
         $provinces = [];

@@ -7,14 +7,14 @@
             </i>Add Project Partner</button>
         </div>
     </div>
-    <form id="create_projectpartner" action="{{route('projectpartners.store')}}" method="post">   
+    <form id="create_projectpartner" action="{{route('projectpartners.store')}}" method="post" autocomplete="off">   
         @csrf
         <input type="hidden" name="project" value="{{$project->id}}">
         <div class="px-5">
             <h3>Add Project Partner</h3>
             <div class="row ">
                 <div class="fv-row col-md-6">
-                    <select name="partner" class="form-control m-input" data-control="select2" data-placeholder="Select Partner" class="form-select" data-allow-clear="true">
+                    <select name="partner" id="partner" class="form-control m-input" data-control="select2" data-placeholder="Select Partner" class="form-select" data-allow-clear="true">
                         <option  value=''>Select Partner</option>
                         @foreach($partners as $partner)
                             <option value="{{$partner->id}}">{{$partner->slug}}</option>
@@ -39,7 +39,7 @@
                     </select>
                 </div>
                 <div class="fv-row col-md-4 mt-4">
-                    <select name="theme" class="form-control m-input" data-control="select2" data-placeholder="Select Theme" class="form-select" data-allow-clear="true">
+                    <select name="theme" id="theme" class="form-control m-input" data-control="select2" data-placeholder="Select Theme" class="form-select" data-allow-clear="true">
                         <option  value=''>Select Theme</option>
                         @foreach($themes as $theme)
                             <option value="{{$theme->scitheme_name?->id}}">{{$theme->scitheme_name?->name}} - {{$theme->scisubtheme_name?->name}}</option>

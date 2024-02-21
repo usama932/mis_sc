@@ -97,6 +97,8 @@ var KTprojectpartnerValidate = function() {
                                     "showMethod": "fadeIn",
                                     "hideMethod": "fadeOut"
                                 };
+                                var form = document.getElementById('create_projectpartner');
+                                form.reset();
                                 toastr.error(response.data.message, "Error");
                             } else {
                                 toastr.options = {
@@ -116,13 +118,16 @@ var KTprojectpartnerValidate = function() {
                                     "showMethod": "fadeIn",
                                     "hideMethod": "fadeOut"
                                 };
-                                toastr.success("Theme Added Successfully", "Success");
+                                var form = document.getElementById('create_projectpartner');
                                 form.reset();
-
-                                project_partners.ajax.reload(null, false).draw(false);
-                                $("#create_projectpartner").slideToggle();
-                                $("#project_partner_table").slideToggle();
-                                $("#addprojectpartnerBtn").show();
+                                
+                                toastr.success("Partner Added Successfully", "Success");
+                                window.location.assign(response.data.editUrl);
+                               
+                                // project_partners.ajax.reload(null, false).draw(false);
+                                // $("#create_projectpartner").slideToggle();
+                                // $("#project_partner_table").slideToggle();
+                                // $("#addprojectpartnerBtn").show();
                             }
 
 
@@ -144,7 +149,7 @@ var KTprojectpartnerValidate = function() {
                                 "showMethod": "fadeIn",
                                 "hideMethod": "fadeOut"
                             };
-
+                            
                             toastr.error(error);
                         }
                     }).catch(function(error) {

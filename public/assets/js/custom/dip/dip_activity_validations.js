@@ -49,7 +49,11 @@ var KTdipActivityValidate = function() {
                                 numeric: {
                                     message: 'LOP Targets must be a number'
                                 },
-                              
+                                regexp: {
+                                    regexp: /^\d+$/,
+                                    message: 'Individual Target must be a positive number'
+                                }
+                                
                         }
                     },
 
