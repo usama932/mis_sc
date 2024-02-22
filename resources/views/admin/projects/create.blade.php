@@ -33,7 +33,9 @@
                             </label>
                             <select   name="donor" id="donor" aria-label="Select a Donor" data-control="select2" data-placeholder="Select a Donor" class="form-select "  data-allow-clear="true" > 
                                 <option  value=''>Select Donor</option>
-                                <option  value='SC Japan'>SC Japan</option>
+                                @foreach($donors as $donor)
+                                <option  value='{{$donor->id}}'>{{$donor->name}}</option>
+                                @endforeach
                             </select>
                             <div id="donorError" class="error-message"></div>
                         </div>  

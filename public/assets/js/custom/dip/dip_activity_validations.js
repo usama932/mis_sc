@@ -149,7 +149,7 @@ var KTdipActivityValidate = function() {
                                     "showMethod": "fadeIn",
                                     "hideMethod": "fadeOut"
                                 };
-                                toastr.success("Theme Added Successfully", "Success");
+                                toastr.success("Activity Quarter Added Successfully ", "Success");
                                 form.reset();
 
                                 window.location.href = response.data.editUrl;

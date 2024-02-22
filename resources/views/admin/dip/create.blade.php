@@ -28,8 +28,8 @@
                         </label> 
                         <select   name="theme" id="theme_id" aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme" class="form-select "  data-allow-clear="true" >
                            <option  value=''>Select Thematic Area</option>
-                           @foreach($themes as $theme )
-                           <option  value='{{ $theme->id }}'>{{ $theme->name }}</option>
+                           @foreach($project->themes as $theme )
+                           <option  value='{{ $theme->scitheme_name->id }}'>{{ $theme->scitheme_name->name }}</option>
                            @endforeach
                         </select>
                         <div id="themeError" class="error-message "></div>
@@ -91,6 +91,7 @@
                </div>
             </div>
             <div class="card-footer justify-content-end d-flex">
+               <a href="route('dip.edit',)" class="btn btn-primary btn-sm>Cancel</a>
                <button type="submit" id="kt_create_dip_activity" class="btn btn-success btn-sm">        
                @include('partials/general/_button-indicator', ['label' => 'Submit'])
                </button>

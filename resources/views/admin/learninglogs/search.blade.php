@@ -32,7 +32,7 @@
                 <div class="card-footer">
                   
                     <div class="d-flex justify-content-between">
-                        <div>{{ $log->projects->name}} ({{$log->project_type}})</div>
+                        <div>{{ $log->projects?->name ?? ''}} ({{$log->project_type}})</div>
                         <div>{{ $log->created_at->format('d/m/Y')}}</div>
                       
                     </div>

@@ -66,13 +66,13 @@ class ProjectThemeController extends Controller
                 $nestedData['girls_target'] = $r->girls_target ?? '';
                 $nestedData['boys_target'] = $r->boys_target ?? '';
                 $nestedData['pwd_target'] = $r->pwd_target ?? '';
-               
-                // $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at))  ?? '';
-                // $nestedData['created_by'] = $r->user?->created_by ?? '';
+             
 
                 $nestedData['action'] = '<div>
                                         <td>
-                                          
+                                            <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();edittheme('.$r->id.');" title="Edit Thematic Area" href="javascript:void(0)">
+                                                <i class="fa fa-pencil text-info" aria-hidden="true"></i>
+                                            </a>
                                             <a class="btn-icon mx-1" onclick="event.preventDefault();project_themedel('.$r->id.');" title="Delete project theme" href="javascript:void(0)">
                                                 <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                                             </a>
@@ -95,7 +95,12 @@ class ProjectThemeController extends Controller
 		
 		echo json_encode($json_data);
     }
-    
+    public function edit_project_theme(Request $request){
+        $id  =    $request->id;
+        $theme =  ProjectTheme::find($id);
+       
+        return view('admin.projects.partials.edit_theme',compact('theme'));
+    }
     public function create()
     {
         //

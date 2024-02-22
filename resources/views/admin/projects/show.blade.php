@@ -23,10 +23,10 @@
                         <td>{{$project->type ?? ''}}</td>
                     </tr>
                       
-                    <tr>
+                    {{-- <tr>
                         <td><strong>Status</strong></td>
                         <td>{{$project->status ?? ''}}</td>
-                    </tr>
+                    </tr> --}}
                     <tr>
                         <td><strong>Project Tenure</strong></td>
                         <td>
@@ -35,7 +35,7 @@
                             @endif
                         </td>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                         <td><strong>Project Status </strong></td>
                         <td>
                             @if($project->active == 1)
@@ -45,7 +45,7 @@
                             @endif
                           {{$project->atic ?? ''}}
                         </td>
-                    </tr>
+                    </tr> --}}
                 </table>
             </div>
             <div class="col-md-6">
@@ -86,11 +86,10 @@
                     <tr>
                         <td><strong>Donor</strong></td>
                         <td>
-                          {{$project->donor ?? ''}} <br>
-                         
+                          {{$project->donors?->name ?? ''}} 
                         </td>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                         <td><strong>Project Extended </strong></td>
                         <td>
                             @if($project->project_extended == "0")  
@@ -99,7 +98,7 @@
                                Yes 
                             @endif
                         </td>
-                    </tr>
+                    </tr> --}}
                     
                 </table>
             </div>
@@ -129,10 +128,8 @@
                                 <table class="table table-striped table-bordered nowrap" id="project_themes" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>#S.No</th>
                                         <th>Theme</th>
                                         <th>Sub Theme</th>
-                                        <th>Project</th>
                                         <th>House-Hold Target</th>
                                         <th>Individual Target</th>
                                         <th>Women Target</th>
@@ -157,10 +154,7 @@
                                 <table class="table table-striped table-bordered nowrap" id="project_partners" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>#S.No</th>
-                                        <th>Project</th>
                                         <th>Themes</th>
-                                       
                                         <th>Partner</th>
                                         <th>Email</th>
                                         <th>Province</th>
@@ -183,6 +177,8 @@
                                     <thead>
                                         <tr>
                                             <th>Activity</th>
+                                           
+                                            <th>Sub Theme</th>
                                             <th>LOP Target</th>
                                             <th>Quarter  Target</th>
                                             <th>Created By</th>
@@ -227,6 +223,7 @@
             "columns":[
                 
                             {"data":"activity_number","searchable":false,"orderable":false},
+                            {"data":"sub_theme","searchable":false,"orderable":false},
                             {"data":"lop_target","searchable":false,"orderable":false},
                             {"data":"quarter_target","searchable":false,"orderable":false},
                             {"data":"created_by","searchable":false,"orderable":false},

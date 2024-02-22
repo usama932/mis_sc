@@ -18,6 +18,8 @@
                                 <th>Manage Activites/Targets</th>
                                 <th>Project Title</th>
                                 <th>Sof</th>
+                                <th>Thematic Areas</th>
+                                <th>Partner</th>
                                 <th>Provinces</th>
                                 <th>Disticts</th>
                                 {{-- <th>Partners</th>
@@ -70,6 +72,8 @@
                     {"data":"dip_add","searchable":false,"orderable":false},
                                 {"data":"project","searchable":false,"orderable":false},
                                 {"data":"sof","searchable":false,"orderable":false},
+                                {"data": "themes","searchable": false,"orderable": false},
+                                {"data": "partners","searchable": false,"orderable": false},
                                 {"data":"province","searchable":false,"orderable":false},
                                 {"data":"district","searchable":false,"orderable":false},
                                 {"data":"project_tenure","searchable":false,"orderable":false},

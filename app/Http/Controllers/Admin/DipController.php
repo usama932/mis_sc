@@ -85,7 +85,7 @@ class DipController extends Controller
                 $nestedData['dip_add'] = '<div>
                                         <td>
                                             <a class="btn btn-info btn-sm " title="Add Activity" href="'.  $edit_url.'">
-                                            <i class="fa fa-plus" aria-hidden="true" ></i>
+                                                Manage Activity Target
                                             </a>
                                         </a>
                                         </td>
@@ -93,6 +93,7 @@ class DipController extends Controller
                                         ';
 				$nestedData['id'] = $r->id;
                 $nestedData['project'] = $r->name ?? '';
+                
                 $nestedData['sof'] = $r->sof ?? '';
                 if(!empty($r->detail->province )){
                     $province_dip = json_decode($r->detail->province , true);
@@ -102,6 +103,27 @@ class DipController extends Controller
                     $provinces = '';
                 }
                 $nestedData['province'] = $provinces ?? '';
+                $themes = [];
+                if (!empty($r->themes)) {
+                    foreach ($r->themes as $theme) {
+                        $themes[] = $theme->scitheme_name->name;
+                    }
+                    $themes = implode(', ', $themes); // Combining themes with commas
+                } else {
+                    $themes = ''; // If themes array is empty
+                }
+                $partners = [];
+                if (!empty($r->partners)) {
+                    foreach ($r->partners as $partner) {
+                        $partners[] = $partner->partner_name->slug;
+                    }
+                    $partners = implode(', ', $partners); // Combining themes with commas
+                } else {
+                    $partners = ''; // If themes array is empty
+                }
+               
+                $nestedData['partners'] =  $partners  ?? '';
+                $nestedData['themes'] =$themes ?? '';
                 if(!empty($r->detail->district )){
                     $district_dip = json_decode($r->detail->district , true);
                     $districts = District::whereIn('district_id', $district_dip)->pluck('district_name');

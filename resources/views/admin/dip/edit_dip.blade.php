@@ -69,7 +69,7 @@
                         <tr>
                             <td><strong>Donor </strong></td>
                             <td>
-                              {{$project->donor ?? ''}}
+                                {{$project->donors?->name ?? ''}}
                             </td>
                         </tr>
                         <tr>

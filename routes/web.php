@@ -160,12 +160,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
  
     //Project Theme Routes
     Route::post('project_themes', [ProjectThemeController::class,'project_themes'])->name('admin.project_themes');
+    Route::post('edit_project_theme', [ProjectThemeController::class,'edit_project_theme'])->name('edit_project_theme');
     Route::resource('/projectthemes', ProjectThemeController::class);
     Route::get('/project_theme/delete/{id}', [ProjectThemeController::class,'destroy'])->name('project_theme.delete');
 
     //Project Partner
     Route::resource('/projectpartners', ProjectPartnerController::class);
     Route::post('project_partners', [ProjectPartnerController::class,'project_partners'])->name('admin.project_partners');
+    Route::post('edit_project_partner', [ProjectThemeController::class,'edit_project_partner'])->name('edit_project_partner');
     Route::get('/project_partner/delete/{id}', [ProjectPartnerController::class,'destroy'])->name('project_partner.delete');
 
 });

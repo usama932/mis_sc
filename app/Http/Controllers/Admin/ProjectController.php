@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\District;
 use App\Models\Province;
 use App\Models\Partner;
+use App\Models\Donor;
 use App\Models\SCITheme;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
 
@@ -300,6 +301,7 @@ class ProjectController extends Controller
       
 
         addJavascriptFile('assets/js/custom/dip/create.js');
+        addJavascriptFile('assets/js/custom/project/projectupdatetheme.js');
         addJavascriptFile('assets/js/custom/project/projectthemeValidation.js');
         addJavascriptFile('assets/js/custom/project/projectpartnerValidation.js');
         addVendors(['datatables']);
@@ -319,7 +321,8 @@ class ProjectController extends Controller
         addJavascriptFile('assets/js/custom/project/create.js');
         $themes = Theme::orderBy('name')->get();
         $persons = User::role('focal person')->get();
-        return view('admin.projects.create',compact('themes','persons'));
+        $donors = Donor::orderBy('name')->get();
+        return view('admin.projects.create',compact('themes','persons','donors'));
     }
 
     public function store(Request $request)
@@ -389,11 +392,11 @@ class ProjectController extends Controller
     {
         $project = Project::find($id);
         $persons = User::role('focal person')->get();
-
+        $donors = Donor::orderBy('name')->get();
         addJavascriptFile('assets/js/custom/project/create.js');
   
        
-        return view('admin.projects.edit',compact('project','persons'));
+        return view('admin.projects.edit',compact('project','persons','donors'));
     }
 
     public function update(Request $request, string $id)

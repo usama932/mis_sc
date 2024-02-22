@@ -2,7 +2,6 @@
  
     @section('title')
         Edit Detail Implementation Plan
-        
     @endsection
     <div class="card">
         @if ($errors->any())
@@ -23,20 +22,21 @@
         <div class="container-fluid">
             <ul class="nav nav-tabs nav-line-tabs m-5 fs-6">
                 <li class="nav-item">
-                    <a class="nav-link @if(session('dip') != 'dip_activity') active @endif " data-bs-toggle="tab" href="#kt_tab_pane_1">Project Information</a>
+                    <a class="nav-link @if(session('dip_edit') != 'dip_activity') active @endif " data-bs-toggle="tab" href="#kt_tab_pane_1">Project Information</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link @if(session('active') == 'dip_activity') active @endif " data-bs-toggle="tab" href="#kt_tab_pane_2"> Activities</a>
+                    
+                    <a class="nav-link @if(session('dip_edit') == 'dip_activity') active @endif " data-bs-toggle="tab" href="#kt_tab_pane_2"> Activities</a>
                 </li>
                
             </ul>
             
             <div class="tab-content" id="myTabContent">
              
-                <div class="tab-pane fade   @if(session('dip') != 'dip_activity') show active   @endif" id="kt_tab_pane_1" role="tabpanel">
+                <div class="tab-pane fade   @if(session('dip_edit') != 'dip_activity') show active   @endif" id="kt_tab_pane_1" role="tabpanel">
                    @include('admin.dip.edit_dip')
                 </div>
-                <div class="tab-pane fade @if(session('dip') == 'dip_activity') show active @endif" id="kt_tab_pane_2" role="tabpanel">
+                <div class="tab-pane fade @if(session('dip_edit') == 'dip_activity') show active @endif" id="kt_tab_pane_2" role="tabpanel">
                     @include('admin.dip.dip_activity')
                 </div>   
             </div>

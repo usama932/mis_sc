@@ -97,13 +97,13 @@
                         <th>Theme</th>
                         <th>Sub Theme</th>
                         <th>Project</th>
-                        <th>House-Hold Target</th>
-                        <th>Individual Target</th>
-                        <th>Women Target</th>
-                        <th>Men Target</th>
-                        <th>Girls Target</th>
-                        <th>Boys Target</th>
-                        <th>PWD Target</th>
+                        <th contenteditable="true">House-Hold Target</th>
+                        <th contenteditable="true">Individual Target</th>
+                        <th contenteditable="true">Women Target</th>
+                        <th contenteditable="true">Men Target</th>
+                        <th contenteditable="true">Girls Target</th>
+                        <th contenteditable="true">Boys Target</th>
+                        <th contenteditable="true">PWD Target</th>
                         <th>Actions</th>
                     </tr>
                 </thead>

@@ -58,14 +58,13 @@ class DipActivityController extends Controller
                 $edit_url = route('activity_dips.edit',$r->id);
                 $progress_url = route('postprogress',$r->id);
 				$nestedData['activity_number'] = $r->activity_title ?? ''; 
-              
+                $nestedData['sub_theme'] = $r->scisubtheme_name->name ?? ''; 
                 $nestedData['lop_target'] = $r->lop_target ?? '';
                 $quarterTarget = '';
                 foreach ($r->months as $month) {
                     if($month->activity_id == $r->id && $month->project_id == $r->project_id) {
                         $quarterTarget .= '<span class="fs-9"><br>'.$month->slug?->slug.'-'.$month->year.' = ' . $month->target.',</span>';
                     }
-                    
                 }
                 $nestedData['quarter_target'] = $quarterTarget;
                 $nestedData['created_by'] = $r->user->name ?? '';
@@ -104,7 +103,7 @@ class DipActivityController extends Controller
 
     public function activityQuarters(Request $request){
         $activity_id    = $request->activity_id;
-        $activity       =     DipActivity::where('id',$activity_id)->first();
+        $activity       =  DipActivity::where('id',$activity_id)->first();
         $activity_id = $request->activity_id;
         $columns = array(
 			1 => 'id',
@@ -156,6 +155,7 @@ class DipActivityController extends Controller
     public function edit_activity_dips(Request $request){
         
         $dip = DipActivity::where('id',$request->id)->first();
+        addJavascriptFile('assets/js/custom/project/projectupdatetheme.js');
         return view('admin.dip.edit_dip_activity',compact('dip'));
     }
    
@@ -170,10 +170,10 @@ class DipActivityController extends Controller
         $data = $request->except('_token');
        
         $dip_activity = $this->dipactivityRepository->storedipactivity($data);
-        $active = 'basic_project';
+        $active = 'dip_activity';
         session(['dip' => $active]);
         $editUrl = route('dips.edit',$dip_activity->project_id);
-        
+     
         return response()->json([
             'editUrl' => $editUrl
         ]);
@@ -228,7 +228,7 @@ class DipActivityController extends Controller
        
         $dip_activity = $this->dipactivityRepository->updatedipactivity($data ,$id);
         $active = 'dip_activity';
-        session(['dip' => $active]);
+        session(['dip_edit' => $active]);
         $editUrl = route('dips.edit',$dip_activity->project_id);
         
         return response()->json([
@@ -254,12 +254,14 @@ class DipActivityController extends Controller
     {
         
         $dip = DipActivity::find($id);
+        $project_id =  $dip->project_id;
         $active = 'dip_activity';
-        session(['dip' => $active]);
+        session()->put(['dip_edit' => $active]);
+       
         if(!empty($dip)){  
             $dip->delete();
-           
-            return redirect()->back();
+            
+            return redirect()->route('dips.edit',$project_id);
         }
         return redirect()->back();
     }
@@ -335,6 +337,7 @@ class DipActivityController extends Controller
                         'created_by'    => auth()->user()->id
                     ]);
                 }
+              
             }
             else{
                 if($request->attachment){
@@ -376,9 +379,16 @@ class DipActivityController extends Controller
                     'image'         => $image,
                     'created_by'    => auth()->user()->id
                 ]);
+               
             }
-            
-            $editUrl = route('activity_dips.progress');
+            $editUrl = route('activity_dips.show',$quarter->activity_id);
+            return response()->json([
+                'editUrl' => $editUrl
+            ]);
+           
+        }
+        else{
+            $editUrl = redirect()->back();
             return response()->json([
                 'editUrl' => $editUrl
             ]);

@@ -27,11 +27,7 @@ var project_theme = $('#project_themes').DataTable({
             'project_id': project_id
         }
     },
-    "columns": [{
-            "data": "id",
-            "searchable": false,
-            "orderable": false
-        },
+    "columns": [
         {
             "data": "theme",
             "searchable": false,
@@ -39,11 +35,6 @@ var project_theme = $('#project_themes').DataTable({
         },
         {
             "data": "sub_theme",
-            "searchable": false,
-            "orderable": false
-        },
-        {
-            "data": "project",
             "searchable": false,
             "orderable": false
         },
@@ -103,7 +94,7 @@ var project_theme = $('#project_themes').DataTable({
 
 
 
-//project theme Form Validations
+//project Create theme Form Validations
 
 var KTprojectthemeValidate = function() {
     // Elements
@@ -395,7 +386,6 @@ KTUtil.onDOMContentLoaded(function() {
 
     KTprojectthemeValidate.init();
 });
-
 
 
 //delete project theme

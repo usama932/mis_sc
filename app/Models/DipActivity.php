@@ -27,5 +27,8 @@ class DipActivity extends Model
     {
         return $this->belongsTo(Project::class,'project_id','id');
     }
-   
+    public function scisubtheme_name()
+    {
+        return $this->belongsTo(SciSubTheme::class,'subtheme_id','id');
+    }
 }

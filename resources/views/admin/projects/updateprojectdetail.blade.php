@@ -16,7 +16,7 @@
                      
                     <tr>
                         <td><strong>Donor</strong></td>
-                        <td>{{$project->donor ?? ''}}</td>
+                        <td> {{$project->donors?->name ?? ''}}</td>
                     </tr>
                       
               
@@ -74,7 +74,6 @@
             <div class="tab-content" id="myTabContent">
                 
                 <div class="tab-pane fade show @if(session('project') == 'detail') active @else  @endif" id="detail" role="tabpanel">
-                   
                         @include('admin.projects.partials.detail_form')
                 </div>
                 <div class="tab-pane fade show @if(session('project') == 'thematic') active @else  @endif" id="thematic" role="tabpanel" @if(empty($project->detail)) disabled @endif >
@@ -83,7 +82,25 @@
                 <div class="tab-pane fade show @if(session('project') == 'partner') active @else  @endif" id="partner" role="tabpanel" @if(empty($project->detail)) disabled @endif >
                     @include('admin.projects.partials.project_partners')
                 </div>
+              
                 
+                <div class="modal fade" tabindex="-1" id="edittheme">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title">Edit Thematic Area</h3>
+                                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                                </div>
+                                <!--end::Close-->
+                            </div>
+                
+                            <div class="modal-body">
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -112,6 +129,19 @@
               }
            });
         });
+       
+        function edittheme(id) {
+
+            var CSRF_TOKEN = '{{ csrf_token() }}';
+            $.post("{{ route('edit_project_theme') }}", {
+                _token: CSRF_TOKEN,
+                id: id
+            }).done(function(response) {
+                $('.modal-body').html(response);
+                $('#edittheme').modal('show');
+
+            });
+        }
      </script>
     @endpush
 

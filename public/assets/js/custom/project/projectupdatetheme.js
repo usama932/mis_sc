@@ -1,43 +1,38 @@
-var KTupdateProgressValidate = function () {
+
+
+
+
+//project update theme Form Validations
+
+var KTprojectupdateValidate = function() {
     // Elements
     var form;
     var submitButton;
 
+
     // Handle form ajax
-    var handleFormAjax = function (e) {
+    var handleFormAjax = function(e) {
         // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
         var validator = FormValidation.formValidation(
-            form,
-            {
+            form, {
                 fields: {
-                    'quarter': {
+                    'house_hold_target': {
                         validators: {
                             notEmpty: {
-                                message: 'Quarter  is required'
+                                message: 'House Hold Targets is required'
+                            },
+                            numeric: {
+                                message: 'House Hold Targets must be a number'
                             }
                         }
                     },
-                    'pwd_target': {
+                    'individual_target': {
                         validators: {
                             notEmpty: {
-                                message: 'Pwd Target is required'
+                                message: 'Individual Target is required'
                             },
                             numeric: {
-                                message: 'Pwd Target must be a number'
-                            },
-                            regexp: {
-                                regexp: /^\d+$/,
-                                message: 'Individual Target must be a positive number'
-                            }
-                        }
-                    },
-                    'activity_target': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Activity Target  is required'
-                            },
-                            numeric: {
-                                message: 'Activity Target  is must number'
+                                message: 'Individual Target must be a number'
                             },
                             regexp: {
                                 regexp: /^\d+$/,
@@ -48,15 +43,16 @@ var KTupdateProgressValidate = function () {
                     'women_target': {
                         validators: {
                             notEmpty: {
-                                message: 'Women Target  is required'
+                                message: 'Men Target is required'
                             },
                             numeric: {
-                                message: 'Women Target  is must number'
+                                message: 'Men Target must be a number'
                             },
                             regexp: {
                                 regexp: /^\d+$/,
                                 message: 'Individual Target must be a positive number'
                             }
+
                         }
                     },
                     'men_target': {
@@ -65,7 +61,7 @@ var KTupdateProgressValidate = function () {
                                 message: 'Men Target is required'
                             },
                             numeric: {
-                                message: 'Men Target  is must number'
+                                message: 'Men Target must be a number'
                             },
                             regexp: {
                                 regexp: /^\d+$/,
@@ -79,7 +75,7 @@ var KTupdateProgressValidate = function () {
                                 message: 'Girls Target is required'
                             },
                             numeric: {
-                                message: 'Girls Target  is must number'
+                                message: 'Girls Target must be a number'
                             },
                             regexp: {
                                 regexp: /^\d+$/,
@@ -93,7 +89,7 @@ var KTupdateProgressValidate = function () {
                                 message: 'Boys Target is required'
                             },
                             numeric: {
-                                message: 'Boys Target  is must number'
+                                message: 'Boys Target must be a number'
                             },
                             regexp: {
                                 regexp: /^\d+$/,
@@ -101,39 +97,37 @@ var KTupdateProgressValidate = function () {
                             }
                         }
                     },
-                    'attachment': {
+                    'pwd_target': {
                         validators: {
-                            notEmpty: {
-                                message: 'Attachment is required'
-                            }
-                        },
-                       
-                    },
-                    'image': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Image is required'
+
+                            numeric: {
+                                message: 'PWD Target must be a number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Individual Target must be a positive number'
                             }
                         }
                     },
-                    
+
                 },
-              
+
                 plugins: {
                     trigger: new FormValidation.plugins.Trigger(),
                     bootstrap: new FormValidation.plugins.Bootstrap5({
                         rowSelector: '.fv-row',
-                        eleInvalidClass: '',  // comment to enable invalid state icons
+                        eleInvalidClass: '', // comment to enable invalid state icons
                         eleValidClass: '' // comment to enable valid state icons
                     })
                 }
             }
         );
-            
+
         // Handle form submit
-        submitButton.addEventListener('click', function (e) {
+        submitButton.addEventListener('click', function(e) {
             e.preventDefault();
-            validator.validate().then(function (status) {
+            validator.validate().then(function(status) {
+
                 if (status == 'Valid') {
                     // Show loading indication
                     submitButton.setAttribute('data-kt-indicator', 'on');
@@ -143,30 +137,55 @@ var KTupdateProgressValidate = function () {
 
 
                     // Check axios library docs: https://axios-http.com/docs/intro
-                    axios.post(submitButton.closest('form').getAttribute('action'), new FormData(form)).then(function (response) {
+                    axios.post(submitButton.closest('form').getAttribute('action'), new FormData(form)).then(function(response) {
                         if (response) {
-                           
-                            form.reset();
-                            toastr.options = {
-                                "closeButton": true,
-                                "debug": false,
-                                "newestOnTop": false,
-                                "progressBar": false,
-                                "positionClass": "toastr-top-right",
-                                "preventDuplicates": false,
-                                "onclick": null,
-                                "showDuration": "300",
-                                "hideDuration": "1000",
-                                "timeOut": "5000",
-                                "extendedTimeOut": "1000",
-                                "showEasing": "swing",
-                                "hideEasing": "linear",
-                                "showMethod": "fadeIn",
-                                "hideMethod": "fadeOut"
-                            };
-                            toastr.success("Account Created", "success");
-                            window.location.href = response.data.editUrl;
-                            
+                            if (response.data.error == 'true') {
+                                toastr.options = {
+                                    "closeButton": true,
+                                    "debug": false,
+                                    "newestOnTop": false,
+                                    "progressBar": false,
+                                    "positionClass": "toastr-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                };
+                                toastr.error(response.data.message, "Error");
+                            } else {
+                                toastr.options = {
+                                    "closeButton": true,
+                                    "debug": false,
+                                    "newestOnTop": false,
+                                    "progressBar": false,
+                                    "positionClass": "toastr-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                };
+                                toastr.success("Theme Added Successfully", "Success");
+                                form.reset();
+                                window.location.assign(response.data.editUrl);
+                                project_theme.ajax.reload(null, false).draw(false);
+                                $("#create_projecttheme").slideToggle();
+                                $("#project_theme_table").slideToggle();
+                                $("#addprojectthemeBtn").show();
+                            }
+
+
                         } else {
                             toastr.options = {
                                 "closeButton": false,
@@ -184,11 +203,11 @@ var KTupdateProgressValidate = function () {
                                 "hideEasing": "linear",
                                 "showMethod": "fadeIn",
                                 "hideMethod": "fadeOut"
-                              };
-                              
-                              toastr.error("Some thing Went Wrong", "Error");
+                            };
+
+                            toastr.error(error);
                         }
-                    }).catch(function (error) {
+                    }).catch(function(error) {
                         toastr.options = {
                             "closeButton": false,
                             "debug": true,
@@ -205,9 +224,9 @@ var KTupdateProgressValidate = function () {
                             "hideEasing": "linear",
                             "showMethod": "fadeIn",
                             "hideMethod": "fadeOut"
-                          };
-                          
-                          toastr.error("Some thing Went Wrong", "Error");   
+                        };
+
+                        toastr.error(error, "Some  Error");
                     }).then(() => {
                         // Hide loading indication
                         submitButton.removeAttribute('data-kt-indicator');
@@ -234,9 +253,9 @@ var KTupdateProgressValidate = function () {
                         "hideEasing": "linear",
                         "showMethod": "fadeIn",
                         "hideMethod": "fadeOut"
-                      };
-                      
-                      toastr.error("Some thing Went Wrong", "Error");
+                    };
+
+                    toastr.error("Some thing Went Wrong", "Error");
                 }
             });
         });
@@ -246,16 +265,18 @@ var KTupdateProgressValidate = function () {
     // Public functions
     return {
         // Initialization
-        init: function () {
+        init: function() {
             // Elements
-            form = document.querySelector('#update_progress');
-            submitButton = document.querySelector('#kt_update_progress');
-            handleFormAjax(); // You need to call the function to handle form ajax
+            form = document.querySelector('#update_projecttheme');
+            submitButton = document.querySelector('#kt_update_projecttheme');
+            handleFormAjax();
         }
     };
 }();
-
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-    KTupdateProgressValidate.init(); // Call the initialization function
+KTUtil.onDOMContentLoaded(function() {
+
+    KTprojectupdateValidate.init();
 });
+
+

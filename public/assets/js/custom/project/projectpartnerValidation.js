@@ -254,16 +254,7 @@ var project_partners = $('#project_partners').DataTable({
             'project_id': project_id
         }
     },
-    "columns": [{
-            "data": "id",
-            "searchable": false,
-            "orderable": false
-        },
-        {
-            "data": "project",
-            "searchable": false,
-            "orderable": false
-        },
+    "columns": [
         {
             "data": "themes",
             "searchable": false,

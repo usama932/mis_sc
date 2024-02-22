@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SciSubTheme extends Model
+class Donor extends Model
 {
     use HasFactory;
-    protected $table = 'tbl_sci_sub_theme';
+    protected $table = 'donors';
     protected $guarded = [];
-
-    public function activity()
+    public function project()
     {
-        return $this->hasOne(DipActivity::class,'subtheme_id','id');
+        return $this->hasOne(Project::class,'donor','id');
     }
 }
