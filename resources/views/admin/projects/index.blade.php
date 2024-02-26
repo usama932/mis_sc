@@ -77,8 +77,7 @@
                                 <th>Project</th>
                                 <th>Type</th>
                                 <th>SOF</th>
-                                <th>Thematic Areas</th>
-                                <th>Partner</th>
+                            
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Created By</th>
@@ -138,16 +137,7 @@
                         "searchable": false,
                         "orderable": false
                     },
-                    {
-                        "data": "themes",
-                        "searchable": false,
-                        "orderable": false
-                    },
-                    {
-                        "data": "partners",
-                        "searchable": false,
-                        "orderable": false
-                    },
+                
                     {
                         "data": "start_date",
                         "searchable": false,

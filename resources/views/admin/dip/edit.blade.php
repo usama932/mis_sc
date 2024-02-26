@@ -26,7 +26,7 @@
                 </li>
                 <li class="nav-item">
                     
-                    <a class="nav-link @if(session('dip_edit') == 'dip_activity') active @endif " data-bs-toggle="tab" href="#kt_tab_pane_2"> Activities</a>
+                    <a class="nav-link @if(session('dip_edit') == ' ') active @endif " data-bs-toggle="tab" href="#kt_tab_pane_2"> Activities</a>
                 </li>
                
             </ul>
