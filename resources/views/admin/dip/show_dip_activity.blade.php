@@ -22,10 +22,12 @@
                         <th>Quarter</th>
                         <th>Activity Target</th>
                         <th>Beneficiary Target</th>
-                        <th>Women Achieve Target</th>
-                        <th>Men Achieve Target</th>
-                        <th>Girls Achieve Target</th>
-                        <th>Boys Achieve Target</th>
+                        <th>Activity Achieve</th>
+                        <th>Women Achieve</th>
+                        <th>Men Achieve</th>
+                        <th>Girls Achieve</th>
+                        <th>Boys Achieve</th>
+                        <th>PWD Achieve</th>
                         <th>Remarks</th>
                     </tr>
                 </thead>
@@ -76,10 +78,12 @@
                     {"data":"quarter","searchable":false,"orderable":false},
                     {"data":"activity_target","searchable":false,"orderable":false},
                     {"data":"benefit_target","searchable":false,"orderable":false},
+                    {"data":"activity_acheive","searchable":false,"orderable":false},
                     {"data":"women_target","searchable":false,"orderable":false},
                     {"data":"men_target","searchable":false,"orderable":false},
                     {"data":"girls_target","searchable":false,"orderable":false},
                     {"data":"boys_target","searchable":false,"orderable":false},
+                    {"data":"pwd_target","searchable":false,"orderable":false},
                     {"data":"remarks","searchable":false,"orderable":false},
                 ]
             });

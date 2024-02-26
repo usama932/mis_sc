@@ -171,10 +171,11 @@ class DipController extends Controller
     }
     public function dip_create($id)
     {
+     
         $project = Project::with(['quarters' => function ($query) {
             $query->orderBy('id', 'asc');
         }])->where('id',$id)->first();
-        $themes = SCITheme::orderBy('name')->get();
+        $themes =  $project->themes ?? '';
         addJavascriptFile('assets/js/custom/dip/dip_activity_validations.js');
         return view('admin.dip.create',compact('project','themes'));
     }

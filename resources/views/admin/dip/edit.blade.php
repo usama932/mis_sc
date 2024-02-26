@@ -88,6 +88,7 @@
                 "columns":[
                     
                                 {"data":"activity_number","searchable":false,"orderable":false},
+                                {"data":"sub_theme","searchable":false,"orderable":false},
                                 {"data":"lop_target","searchable":false,"orderable":false},
                                 {"data":"quarter_target","searchable":false,"orderable":false},
                                 {"data":"created_by","searchable":false,"orderable":false},
@@ -145,16 +146,7 @@
                         'project_id': project_id
                     }
                 },
-                "columns": [{
-                        "data": "id",
-                        "searchable": false,
-                        "orderable": false
-                    },
-                    {
-                        "data": "project",
-                        "searchable": false,
-                        "orderable": false
-                    },
+                "columns": [
                     {
                         "data": "themes",
                         "searchable": false,
@@ -236,11 +228,7 @@
                         "searchable": false,
                         "orderable": false
                     },
-                    {
-                        "data": "project",
-                        "searchable": false,
-                        "orderable": false
-                    },
+                
                     {
                         "data": "house_hold_target",
                         "searchable": false,

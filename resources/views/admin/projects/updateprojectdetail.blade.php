@@ -82,7 +82,6 @@
                 <div class="tab-pane fade show @if(session('project') == 'partner') active @else  @endif" id="partner" role="tabpanel" @if(empty($project->detail)) disabled @endif >
                     @include('admin.projects.partials.project_partners')
                 </div>
-              
                 
                 <div class="modal fade" tabindex="-1" id="edittheme">
                     <div class="modal-dialog modal-lg">
@@ -101,35 +100,29 @@
                         </div>
                     </div>
                 </div>
+                <div class="modal fade" tabindex="-1" id="editpartner">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title">Edit Implementing Partner</h3>
+                                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                                </div>
+                               
+                            </div>
+                            <div class="modal-body">
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
    
     @push("scripts")
     <script>
-        document.getElementById('themeloader').style.display = 'none';
-        $("#theme_id").change(function () {
-           document.getElementById('themeloader').style.display = 'block';
-           var value = $(this).val();
-           csrf_token = $('[name="_token"]').val();
-           $.ajax({
-              type: 'POST',
-              url: '/getSubTheme',
-              data: {'theme_id': value, _token: csrf_token },
-              dataType: 'json',
-              success: function (data) {
-                    document.getElementById('themeloader').style.display = 'none';
-                    $("#sub_theme_id").find('option').remove();
-                    $("#sub_theme_id").prepend("<option value='' >Select Sub-Theme</option>");
-                    var selected='';
-                    $.each(data, function (i, item) {
-                       $("#sub_theme_id").append("<option value='" + item.id + "' "+selected+" >" +
-                       item.name.replace(/_/g, ' ') + "</option>");
-                    });
-              }
-           });
-        });
-       
+    
         function edittheme(id) {
 
             var CSRF_TOKEN = '{{ csrf_token() }}';
@@ -142,7 +135,20 @@
 
             });
         }
-     </script>
+        function editpartner(id) {
+
+            var CSRF_TOKEN = '{{ csrf_token() }}';
+            $.post("{{ route('edit_project_partner') }}", {
+                _token: CSRF_TOKEN,
+                id: id
+            }).done(function(response) {
+                $('.modal-body').html(response);
+                $('#editpartner').modal('show');
+
+            });
+        }
+    </script>
+  
     @endpush
 
 

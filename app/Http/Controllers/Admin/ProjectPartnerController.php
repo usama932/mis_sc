@@ -5,6 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ProjectPartner;
+use App\Models\ProjectTheme;
+use App\Models\Project;
+use App\Models\Province;
+use App\Models\Partner;
+use App\Models\District;
+use App\Models\SCITheme;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
 
 class ProjectPartnerController extends Controller
@@ -62,6 +68,9 @@ class ProjectPartnerController extends Controller
 
                 $nestedData['action'] = '<div>
                                         <td>
+                                            <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();editpartner('.$r->id.');" title="Edit Implementing Partner" href="javascript:void(0)">
+                                                <i class="fa fa-pencil text-info" aria-hidden="true"></i>
+                                            </a>
                                             <a class="btn-icon mx-1" onclick="event.preventDefault();project_parnterdel('.$r->id.');" title="Delete project theme" href="javascript:void(0)">
                                                 <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                                             </a>
@@ -83,7 +92,26 @@ class ProjectPartnerController extends Controller
 		);
         echo json_encode($json_data);
     }
- 
+    public function edit_project_partner(Request $request){
+        $id  =    $request->id;
+        $partner =  ProjectPartner::find($id);
+        $partners   = Partner::orderBy('slug')->get(); 
+        $project    = Project::where('id',$partner->project_id)->with('detail')->orderBy('name')->first();
+        if($project->detail?->province != null) {
+            $province_project = json_decode($project->detail->province , true);
+            $provinces = Province::whereIn('province_id', $province_project)->get();
+        }else{
+            $provinces   = [];
+        }
+        if(!empty($project->detail?->district)){
+            $districts   = District::whereIn('district_id', json_decode($project->detail->district))->orderBy('district_name')->get();
+        }
+        else{
+            $districts   = [];
+        }
+        $themes     =  $project->themes ?? '';
+        return view('admin.projects.partials.edit_partner',compact('partner','themes','provinces','districts','partners'));
+    }
     public function create()
     {
         //

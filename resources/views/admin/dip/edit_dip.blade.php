@@ -257,7 +257,6 @@
                                            
                                             <th>Theme</th>
                                             <th>Sub Theme</th>
-                                            <th>Project</th>
                                             <th>House-Hold Target</th>
                                             <th>Individual Target</th>
                                             <th>Women Target</th>
@@ -282,8 +281,7 @@
                                     <table class="table table-striped table-bordered nowrap" id="project_partners" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>#S.No</th>
-                                            <th>Project</th>
+                                          
                                             <th>Themes</th>
                                             <th>Partner</th>
                                             <th>Email</th>

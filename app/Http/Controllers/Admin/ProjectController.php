@@ -301,7 +301,6 @@ class ProjectController extends Controller
       
 
         addJavascriptFile('assets/js/custom/dip/create.js');
-        addJavascriptFile('assets/js/custom/project/projectupdatetheme.js');
         addJavascriptFile('assets/js/custom/project/projectthemeValidation.js');
         addJavascriptFile('assets/js/custom/project/projectpartnerValidation.js');
         addVendors(['datatables']);

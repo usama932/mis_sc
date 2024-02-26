@@ -133,6 +133,8 @@ class DipActivityController extends Controller
                     $nestedData['men_target'] = $r->progress?->men_target  ?? '0'; 
                     $nestedData['girls_target'] = $r->progress?->girls_target ?? '0'; 
                     $nestedData['boys_target'] = $r->progress?->boys_target ?? '0'; 
+                    $nestedData['pwd_target'] = $r->progress?->pwd_target ?? '0'; 
+                    $nestedData['activity_acheive'] = $r->progress?->activity_target ?? '0'; 
                 
                     $nestedData['remarks'] = $r->progress?->remarks ?? '';
                   
@@ -188,7 +190,6 @@ class DipActivityController extends Controller
   
         if(!empty($dip_activity->project->detail->province )){
             $province_dip = json_decode($dip_activity->project->detail->province , true);
-            
             $provinces = Province::whereIn('province_id', $province_dip)->pluck('province_name');
             
         }

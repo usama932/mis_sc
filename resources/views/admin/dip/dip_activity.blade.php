@@ -20,6 +20,7 @@
                 <thead>
                     <tr>
                         <th>Activity</th>
+                        <th>Sub Theme</th>
                         <th>LOP Target</th>
                         <th>Quarter Target</th>
                         <th>Created By</th>

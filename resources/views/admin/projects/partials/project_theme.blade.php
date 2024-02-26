@@ -32,7 +32,7 @@
                     <select   name="sub_theme" id="sub_theme_id" aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme" class="form-select "  data-allow-clear="true" > 
                     </select>
                     <div id="sub_themeError" class="error-message "></div>
-                 </div>
+                </div>
                 <div class="fv-row col-md-4">
                     <label class="fs-9 fw-semibold form-label ">
                         <span class="required"> House Hold target</span>
@@ -93,10 +93,9 @@
                 <table class="table table-striped table-bordered nowrap" id="project_themes" style="width:100%">
                 <thead>
                     <tr>
-                        <th>#S.No</th>
+                      
                         <th>Theme</th>
                         <th>Sub Theme</th>
-                        <th>Project</th>
                         <th contenteditable="true">House-Hold Target</th>
                         <th contenteditable="true">Individual Target</th>
                         <th contenteditable="true">Women Target</th>

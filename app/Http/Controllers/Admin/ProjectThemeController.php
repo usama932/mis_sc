@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ProjectTheme;
+use App\Models\Project;
+use App\Models\SCITheme;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
 
 class ProjectThemeController extends Controller
@@ -98,8 +100,11 @@ class ProjectThemeController extends Controller
     public function edit_project_theme(Request $request){
         $id  =    $request->id;
         $theme =  ProjectTheme::find($id);
-       
-        return view('admin.projects.partials.edit_theme',compact('theme'));
+        $project    = Project::where('id',$theme->project_id)->with('detail')->orderBy('name')->first();
+        $themes     =  $project->themes ?? '';
+        $ths        = SCITheme::orderBy('name')->get();
+        addJavascriptFile('assets/js/custom/project/projectthemeValidation.js');
+        return view('admin.projects.partials.edit_theme',compact('theme','ths','themes'));
     }
     public function create()
     {
@@ -156,8 +161,47 @@ class ProjectThemeController extends Controller
 
 
     public function update(Request $request, string $id)
-    {
-        //
+    {   
+       
+        $theme =  ProjectTheme::find($id);
+        $ind_target = $request->women_target + $request->men_target + $request->girls_target + $request->boys_target;
+      
+        if($ind_target == $request->individual_target){
+
+            if(!empty($theme)){
+                $editUrl = route('project.detail',$theme->project_id);
+
+                ProjectTheme::where('id',$id)->update([
+                    'house_hold_target' => $request->house_hold_target,
+                    'individual_target' => $request->individual_target,
+                    'pwd_target'        => $request->pwd_target,
+                    'women_target'      => $request->women_target,
+                    'men_target'        => $request->men_target,
+                    'girls_target'      => $request->girls_target,
+                    'boys_target'       => $request->boys_target,
+                    
+                ]);
+                return response()->json([
+                    'message' => 'Theme Updated Successfully',
+                    'editUrl' => $editUrl,
+                    'error'   => true,
+                ]);
+            }
+            else{
+                return response()->json([
+                    'message' => 'Theme not found',
+                    'error'   => false,
+                ]);
+            }
+        }
+        else{
+            return response()->json([
+                'message' => 'Beneficiaries Target Not Correct',
+                'error'   => false,
+            ]);
+        }
+            
+       
     }
 
     public function destroy(string $id)

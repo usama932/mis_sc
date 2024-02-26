@@ -167,7 +167,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //Project Partner
     Route::resource('/projectpartners', ProjectPartnerController::class);
     Route::post('project_partners', [ProjectPartnerController::class,'project_partners'])->name('admin.project_partners');
-    Route::post('edit_project_partner', [ProjectThemeController::class,'edit_project_partner'])->name('edit_project_partner');
+    Route::post('edit_project_partner', [ProjectPartnerController::class,'edit_project_partner'])->name('edit_project_partner');
     Route::get('/project_partner/delete/{id}', [ProjectPartnerController::class,'destroy'])->name('project_partner.delete');
 
 });

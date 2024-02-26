@@ -10,6 +10,7 @@ use App\Models\District;
 use App\Models\Project;
 use App\Models\UnionCounsil;
 use App\Models\SciSubTheme; 
+use App\Models\ProjectTheme; 
 
 class FBAjaxController extends Controller
 {
@@ -100,11 +101,24 @@ class FBAjaxController extends Controller
     }
 
     public function getSubTheme(Request $request){
-    
+        
         $themeId = $request->input('theme_id');
 
-        $themes = SciSubTheme::where('sci_theme_id',$themeId)->get();
-       
-        return response()->json($themes);
+        // Instead of using pluck() directly, you can use ->pluck()->toArray() to get an array of values.
+        $themess = ProjectTheme::where('project_id', $request->project_id)
+            ->where('theme_id', $request->theme_id)
+            ->pluck('sub_theme_id')
+            ->toArray();
+        
+      
+        if (!empty($themess)) {
+            $themes = SciSubTheme::whereIn('id', $themess)->get();
+           
+            return response()->json($themes);
+        } else {
+            // Handle the case where no sub themes are found.
+            return response()->json(['message' => 'No sub themes found for the given project and theme.']);
+        }
+      
     }
 }

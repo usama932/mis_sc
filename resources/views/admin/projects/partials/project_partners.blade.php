@@ -63,15 +63,12 @@
                 <table class="table table-striped table-bordered nowrap" id="project_partners" style="width:100%">
                 <thead>
                     <tr>
-                        <th>#S.No</th>
-                        <th>Project</th>
+                    
                         <th>Themes</th>
                         <th>Partner</th>
                         <th>Email</th>
                         <th>Province</th>
                         <th>District</th>
-                        {{-- <th>Created At</th>
-                        <th>Created By</th> --}}
                         <th>Actions</th>
                     </tr>
                 </thead>

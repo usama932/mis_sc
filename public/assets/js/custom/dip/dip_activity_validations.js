@@ -1,59 +1,55 @@
-//Datatables
+// Datatables
 var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-
-
-//project theme Form Validations
-
-var KTdipActivityValidate = function() {
+// Project theme Form Validations
+var KTdipActivityValidate = function () {
     // Elements
     var form;
     var submitButton;
 
-
     // Handle form ajax
-    var handleFormAjax = function(e) {
+    var handleFormAjax = function (e) {
         // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
         var validator = FormValidation.formValidation(
             form, {
                 fields: {
-                    'activity':{
+                    'activity': {
                         validators: {
                             notEmpty: {
-                                message: 'Activity  is required'
+                                message: 'Activity is required'
                             },
-                           
+
                         }
                     },
-                    'theme':{
+                    'theme': {
                         validators: {
                             notEmpty: {
-                                message: 'Theme  is required'
+                                message: 'Theme is required'
                             },
-                           
+
                         }
                     },
-                    'sub_theme':{
+                    'sub_theme': {
                         validators: {
                             notEmpty: {
-                                message: 'Sub-Theme  is required'
+                                message: 'Sub-Theme is required'
                             },
-                           
+
                         }
                     },
                     'lop_target': {
                         validators: {
-                                notEmpty: {
-                                    message: 'LOP Target is required'
-                                },
-                                numeric: {
-                                    message: 'LOP Targets must be a number'
-                                },
-                                regexp: {
-                                    regexp: /^\d+$/,
-                                    message: 'Individual Target must be a positive number'
-                                }
-                                
+                            notEmpty: {
+                                message: 'LOP Target is required'
+                            },
+                            numeric: {
+                                message: 'LOP Targets must be a number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Individual Target must be a positive number'
+                            }
+
                         }
                     },
 
@@ -70,22 +66,15 @@ var KTdipActivityValidate = function() {
             }
         );
 
-        // Handle form submitac
-        submitButton.addEventListener('click', function(e) {
+        // Handle form submit
+        submitButton.addEventListener('click', function (e) {
             e.preventDefault();
-              
+
             var status = 'Valid';
 
             // Check if any quarter field is empty
-            var quarters = document.querySelectorAll('input[name="quarter[]"]');
-            quarters.forEach(function(quarter) {
-                if (quarter.value.trim() === '') {
-                    status = false;
-                    toastr.error('Quarter is required', 'Error');
-                }
-            });
             var targetQuarters = document.querySelectorAll('input[name="target_quarter[]"]');
-            targetQuarters.forEach(function(targetQuarter) {
+            targetQuarters.forEach(function (targetQuarter) {
                 if (targetQuarter.value.trim() === '') {
                     status = false;
                     toastr.error('Activity Quarter is required', 'Error');
@@ -94,12 +83,12 @@ var KTdipActivityValidate = function() {
                 }
             });
 
-            
-
             // If any field is empty, prevent form submission and display errors
-          
+            if (status !== 'Valid') {
+                return;
+            }
 
-            validator.validate().then(function(status) {
+            validator.validate().then(function (status) {
 
                 if (status == 'Valid') {
                     // Show loading indication
@@ -108,9 +97,8 @@ var KTdipActivityValidate = function() {
                     // Disable button to avoid multiple click
                     submitButton.disabled = true;
 
-
                     // Check axios library docs: https://axios-http.com/docs/intro
-                    axios.post(submitButton.closest('form').getAttribute('action'), new FormData(form)).then(function(response) {
+                    axios.post(submitButton.closest('form').getAttribute('action'), new FormData(form)).then(function (response) {
                         if (response) {
                             if (response.data.error == 'true') {
                                 toastr.options = {
@@ -177,7 +165,7 @@ var KTdipActivityValidate = function() {
 
                             toastr.error(error);
                         }
-                    }).catch(function(error) {
+                    }).catch(function (error) {
                         toastr.options = {
                             "closeButton": false,
                             "debug": true,
@@ -235,7 +223,7 @@ var KTdipActivityValidate = function() {
     // Public functions
     return {
         // Initialization
-        init: function() {
+        init: function () {
             // Elements
             form = document.querySelector('#create_dip_activity');
             submitButton = document.querySelector('#kt_create_dip_activity');
@@ -243,11 +231,8 @@ var KTdipActivityValidate = function() {
         }
     };
 }();
-// On document ready
-KTUtil.onDOMContentLoaded(function() {
 
+// On document ready
+KTUtil.onDOMContentLoaded(function () {
     KTdipActivityValidate.init();
 });
-
-
-
