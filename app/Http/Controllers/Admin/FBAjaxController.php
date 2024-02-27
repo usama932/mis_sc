@@ -126,4 +126,22 @@ class FBAjaxController extends Controller
 
       
     }
+    public function getactivitySubTheme(Request $request){
+            
+        $themeId = $request->input('theme_id');
+        $themess = ProjectTheme::where('project_id', $request->project_id)
+            ->where('theme_id', $request->theme_id)
+            ->pluck('sub_theme_id')
+            ->toArray();
+        
+            $themes = '';
+        if (!empty($themess)) {
+            $themes = SciSubTheme::whereIn('id', $themess)->get();
+           
+            return response()->json($themes);
+        } else {
+            // Handle the case where no sub themes are found.
+            return response()->json($themes);
+        }
+    }   
 }

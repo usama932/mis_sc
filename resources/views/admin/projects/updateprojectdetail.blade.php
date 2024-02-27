@@ -96,7 +96,7 @@
             </div>
         </div>
     </div>
-        {{-- @foreach($project_partners as $part)
+        @foreach($project_partners as $part)
             <div class="modal fade" id="editpartner_{{$part->id}}" tabindex="-1" role="dialog" aria-labelledby="editpartner_{{$part->id}}" aria-hidden="true">
                 <div class="modal-dialog  modal-lg" role="document">
                     <div class="modal-content">
@@ -107,7 +107,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form id="update_projectpartner" method="post" autocomplete="off">   
+                            <form id="update_projectpartner" method="post" autocomplete="off" action="{{route('projectpartners.update',$part->id)}}">   
                                 @csrf
                                 <input type="hidden" name="partner_id" value="{{$part->id}}">
                                 <div class="px-5">
@@ -162,7 +162,7 @@
                     </div>
                 </div>
             </div>
-        @endforeach --}}
+        @endforeach
     @push("scripts")
       
       
@@ -190,7 +190,7 @@
                     // AJAX request
                     $.ajax({
                         url: '/',
-                        method: 'POST',
+                        method: 'PUT',
                         data: formData, // Pass serialized form data
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token

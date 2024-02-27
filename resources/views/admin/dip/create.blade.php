@@ -190,7 +190,7 @@
                 project_id = $('#project_id').val();
                 $.ajax({
                     type: 'POST',
-                    url: '/getSubTheme',
+                    url: '/getactivitySubTheme',
                     data: {'theme_id': value, _token: csrf_token, 'project_id':project_id},
                     dataType: 'json',
                     success: function (data) {
