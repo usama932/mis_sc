@@ -53,35 +53,31 @@ class ProjectPartnerController extends Controller
 		$data = array();
 
 		if($projects){
-			foreach($projects as $r){
-                $edit_url = route('projects.edit',$r->id);
-                $show_url = route('projects.show',$r->id);
-				$nestedData['id'] = $r->id;
+			foreach($projects as $r) {
+                $edit_url = route('projects.edit', $r->id);
+                $show_url = route('projects.show', $r->id);
+                $nestedData['id'] = $r->id;
                 $nestedData['project'] = $r->project?->name ?? '';
                 $nestedData['themes'] = $r->scitheme_name?->name ?? '';
                 $nestedData['partner'] = $r->partner_name?->slug ?? '';
                 $nestedData['email'] = $r->email ?? '';
                 $nestedData['province'] = $r->provinces->province_name ?? '';
                 $nestedData['district'] = $r->districts?->district_name ?? '';
-                // $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at))  ?? '';
-                // $nestedData['created_by'] = $r->user?->created_by ?? '';
-
+            
                 $nestedData['action'] = '<div>
-                                        <td>
-                                            <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();editpartner('.$r->id.');" title="Edit Implementing Partner" href="javascript:void(0)">
-                                                <i class="fa fa-pencil text-info" aria-hidden="true"></i>
-                                            </a>
-                                            <a class="btn-icon mx-1" onclick="event.preventDefault();project_parnterdel('.$r->id.');" title="Delete project theme" href="javascript:void(0)">
-                                                <i class="fa fa-trash text-danger" aria-hidden="true"></i>
-                                            </a>
-                                        </a>
-                                        </td>
-                                        </div>
-                                        ';
-               
-				
-				$data[] = $nestedData;
-			}
+                    <td>
+                        <a class="btn btn-sm btn-clean btn-icon" title="Edit Implementing Partner" data-toggle="modal" data-target="#editpartner_'.$r->id.'">
+                            <i class="fa fa-pencil text-info" aria-hidden="true"></i>
+                        </a>
+                        <a class="btn-icon mx-1" onclick="event.preventDefault(); project_partnerdel('.$r->id.');" title="Delete project theme" href="javascript:void(0)">
+                            <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </div>';
+            
+                $data[] = $nestedData;
+            }
+			
 		}
 		
 		$json_data = array(
@@ -159,7 +155,7 @@ class ProjectPartnerController extends Controller
   
     public function update(Request $request, string $id)
     {
-        //
+        dd($request->all());
     }
 
    

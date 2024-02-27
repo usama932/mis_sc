@@ -4,8 +4,8 @@ $("#create_projectpartner").hide();
 document.getElementById('districtloader').style.display = 'none';
 document.getElementById('districtload').style.display = 'none';
 var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
 $("#kt_select2_province").change(function () {
-   
     var value = $(this).val();
     csrf_token = $('[name="_token"]').val();
     document.getElementById('districtloader').style.display = 'block';
@@ -13,57 +13,73 @@ $("#kt_select2_province").change(function () {
     $.ajax({
         type: 'POST',
         url: '/getlearningDistrict',
-        data: {'province': value,
-                 _token: csrf_token },
+        data: {'province': value, _token: csrf_token },
         dataType: 'json',
         success: function (data) {
             document.getElementById('districtloader').style.display = 'none';
-            $("#kt_select2_district").find('option').remove();
-            $("#kt_select2_district").prepend("<option value='' >Select District</option>");
-            var selected='';
+            $("#kt_select2_district").empty();
+            $("#kt_select2_district").prepend("<option value=''>Select District</option>");
             $.each(data, function (i, item) {
-
-                $("#kt_select2_district").append("<option value='" + item.district_id + "' "+selected+" >" +
-                item.district_name.replace(/_/g, ' ') + "</option>");
+                $("#kt_select2_district").append("<option value='" + item.district_id + "'>" +
+                    item.district_name.replace(/_/g, ' ') + "</option>");
             });
-           
-
         }
-
     });
-
 });
+
+// Handle change event for select element with class .project_province
+$(".project_province").change(function () {
+    var value = $(this).val();
+    var csrf_token = $('[name="_token"]').val();
+    var project = document.getElementById('project_id').value || '';
+    
+    $.ajax({
+        type: 'POST',
+        url: '/getprojectDistrict',
+        data: {
+            'province': value,
+            'project': project,
+            '_token': csrf_token
+        },
+        dataType: 'json',
+        success: function (data) {
+            $(".partner_district").find('option').remove();
+              
+            $.each(data, function (i, item) {
+                $(".partner_district").append("<option value='" + item.district_id + "'>" + item.district_name + "</option>");
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error(xhr.responseText);
+            // Handle error
+        }
+    });
+});
+
+// Handle change event for select element with ID #project_province
 $("#project_province").change(function () {
-    document.getElementById('districtload').style.display = 'block';
     var value = $(this).val();
     csrf_token = $('[name="_token"]').val();
    
     var project = document.getElementById('project_id').value || '';
+    
     $.ajax({
         type: 'POST',
         url: '/getprojectDistrict',
-        data: {'province': value,
-                'project': project,
-                 _token: csrf_token },
+        data: {'province': value, 'project': project, _token: csrf_token },
         dataType: 'json',
         success: function (data) {
-            document.getElementById('districtload').style.display = 'none';
-            
-            $("#project_district").find('option').remove();
-            $("#project_district").prepend("<option value='' >Select District</option>");
-            var selected='';
+         
+            $("#project_district").empty();
+            $("#project_district").prepend("<option value=''>Select District</option>");
             $.each(data, function (i, item) {
-              
-                $("#project_district").append("<option value='" + item.district_id + "' "+selected+" >" +
-                item.district_name.replace(/_/g, ' ') + "</option>");
+                $("#project_district").append("<option value='" + item.district_id + "'>" +
+                    item.district_name.replace(/_/g, ' ') + "</option>");
             });
-           
-
         }
-
     });
-
 });
+
 var KTprojectupdateValidate = function() {
     // Elements
     var form;

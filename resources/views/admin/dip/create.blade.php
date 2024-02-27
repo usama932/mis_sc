@@ -61,10 +61,7 @@
                     </div>
                     <div class="card-body">
                         <div id="targetRows">
-                            <div class="card-toolbar justify-content-end d-flex">
-                                <button type="button" class="btn btn-info btn-sm" onclick="addTargetRow()"
-                                    id="add_quarter_target">Add New Quarter</button>
-                            </div>
+                           
                             <div class="row">
                                 <div class="col-md-3">
                                     <label class="fs-6 fw-semibold form-label mb-2">
@@ -92,6 +89,10 @@
                                     </label>
                                     <input type="text" name="target_benefit[]" placeholder="Enter Beneficiary Target"
                                         class="form-control" autocomplete="off" required>
+                                </div>
+                                <div class="col-md-3 mt-5 text-end">
+                                    <button type="button" class="btn btn-info btn-sm mt-4" onclick="addTargetRow()"
+                                        id="add_quarter_target">Add New Quarter</button>
                                 </div>
                             </div>
                         </div>

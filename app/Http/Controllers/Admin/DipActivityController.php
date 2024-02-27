@@ -126,7 +126,7 @@ class DipActivityController extends Controller
 			foreach($quarters as $r){
                 if($r->activity_id == $activity_id && $r->project_id == $activity->project_id ){
                     $nestedData['quarter'] = $r->slug?->slug.'-'.$r->year ?? ''; 
-                    $nestedData['activity_target'] = $r->target  ?? ''; 
+                    $nestedData['activity_target'] = '<span style="style="background-color: grey"">'.$r->target  ?? ''.'</span>'; 
                     $nestedData['benefit_target'] = $r->beneficiary_target  ?? ''; 
                   
                     $nestedData['women_target'] = $r->progress?->women_target ?? '0' ; 
@@ -134,7 +134,7 @@ class DipActivityController extends Controller
                     $nestedData['girls_target'] = $r->progress?->girls_target ?? '0'; 
                     $nestedData['boys_target'] = $r->progress?->boys_target ?? '0'; 
                     $nestedData['pwd_target'] = $r->progress?->pwd_target ?? '0'; 
-                    $nestedData['activity_acheive'] = $r->progress?->activity_target ?? '0'; 
+                    $nestedData['activity_acheive'] = '<span style="style="background-color: grey"">'.$r->progress?->activity_target ?? '0'.'</span>'; 
                 
                     $nestedData['remarks'] = $r->progress?->remarks ?? '';
                   

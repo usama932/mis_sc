@@ -146,6 +146,7 @@
                 });
             });
         });
+        
     </script>
     @endpush
 </x-nform-layout>

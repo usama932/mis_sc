@@ -1,12 +1,12 @@
 <x-default-layout>
  
     @section('title')
-    {{ucfirst($dip_activity->project->name ?? '')}} =>  {{ucfirst($dip_activity->activity_title ?? '')}} Quarter
+     
     @endsection
 
     <div class="container p-3">
         <input type="hidden" id="dip_activity" value="{{$dip_activity->id}}">
-        <div class="table-responsive overflow-* p-5" style="background-color: #F5F5DC;">
+        <div class="table-responsive overflow-* p-5" >
             <table class="table table-striped table-bordered nowrap table-responsive" id="activityQuarters">
                 <thead>
                     <tr>
@@ -20,14 +20,14 @@
                     </tr>
                     <tr>
                         <th>Quarter</th>
-                        <th>Activity Target</th>
-                        <th>Beneficiary Target</th>
-                        <th>Activity Achieve</th>
-                        <th>Women Achieve</th>
-                        <th>Men Achieve</th>
-                        <th>Girls Achieve</th>
-                        <th>Boys Achieve</th>
-                        <th>PWD Achieve</th>
+                        <th style="background-color: grey">Activity Target</th>
+                        <th >Activity Achievement</th>
+                        <th style="background-color: grey">Beneficiary Target</th>
+                        <th>Women Achievement</th>
+                        <th>Men Achievement</th>
+                        <th>Girls Achievement</th>
+                        <th>Boys Achievement</th>
+                        <th>PWD Achievement</th>
                         <th>Remarks</th>
                     </tr>
                 </thead>
@@ -77,8 +77,8 @@
                 "columns":[
                     {"data":"quarter","searchable":false,"orderable":false},
                     {"data":"activity_target","searchable":false,"orderable":false},
-                    {"data":"benefit_target","searchable":false,"orderable":false},
                     {"data":"activity_acheive","searchable":false,"orderable":false},
+                    {"data":"benefit_target","searchable":false,"orderable":false},
                     {"data":"women_target","searchable":false,"orderable":false},
                     {"data":"men_target","searchable":false,"orderable":false},
                     {"data":"girls_target","searchable":false,"orderable":false},
