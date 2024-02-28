@@ -30,22 +30,35 @@ class DipActivityController extends Controller
       
     }
     public function get_activity_dips(Request $request){
+       
         $dip_id = $request->dip_id;
         $columns = array(
 			1 => 'id',
 			2 => 'project_id',
             3 => 'activity_detail',
 		);
-		
-		$totalData = DipActivity::where('project_id',$dip_id)->count();
+		if(!empty($dip_id)){
+            $totalData = DipActivity::where('project_id',$dip_id)->count();
+        }
+		else{
+            $totalData = DipActivity::count();
+        }
 		$limit = $request->input('length');
         $order = $columns[$request->input('order.0.column')];
         $dir = $request->input('order.0.dir');
+        if(!empty($dip_id)){
         $totalFiltered = DipActivity::where('project_id',$dip_id)->count();
+        }
+        else{
+            $totalFiltered = DipActivity::count();
+        }
 		$start = $request->input('start');
-		
+		if(!empty($dip_id)){
         $dips = DipActivity::where('project_id',$dip_id);
-  
+        }
+        else{
+            $dips = DipActivity::query();
+        }
 
         
         $dips =$dips->limit($limit)->offset($start)

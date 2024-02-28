@@ -67,21 +67,57 @@
                         "data":{"_token":"<?php echo csrf_token() ?>",
                                 "dip_id":dip_id}
                     },
-                        "columns":[
-                            
-                                        {"data":"activity_number","searchable":false,"orderable":false},
-                                        {"data":"lop_target","searchable":false,"orderable":false},
-                                        {"data":"quarter_target","searchable":false,"orderable":false},
-                                        {"data":"update_progress","searchable":false,"orderable":false},
-                                        {"data":"created_by","searchable":false,"orderable":false},
-                                        {"data":"created_at","searchable":false,"orderable":false},
-                                           ]
+                    "columns":
+                        [
+                            {"data":"activity_number","searchable":false,"orderable":false},
+                            {"data":"lop_target","searchable":false,"orderable":false},
+                            {"data":"quarter_target","searchable":false,"orderable":false},
+                            {"data":"update_progress","searchable":false,"orderable":false},
+                            {"data":"created_by","searchable":false,"orderable":false},
+                            {"data":"created_at","searchable":false,"orderable":false},
+                        ]
                     });
+            });
+        });
+        $(document).ready(function () {
+          
+            var table = $('#dip_activity').DataTable();
+            table.destroy();
+            var dip_id =  $(this).val();;
+                var dip_activity = $('#dip_activity').DataTable( {
+                    "order": [
+                    [1, 'desc']
+                ],
+                "dom": 'lfBrtip',
+                buttons: [
+                    'csv', 'excel'
+                ],
+                "responsive": true, // Enable responsive mode
+                "processing": true,
+                "serverSide": true,
+                "searching": false,
+                "bLengthChange": false,
+                "bInfo" : false,
+                "responsive": false,
+                "info": true,   
+                "ajax": {
+                    "url":"{{route('admin.get_activity_dips')}}",
+                    "dataType":"json",
+                    "type":"POST",
+                    "data":{"_token":"<?php echo csrf_token() ?>",
+                            "dip_id":dip_id}
+                },
+                "columns":
+                    [
+                        {"data":"activity_number","searchable":false,"orderable":false},
+                        {"data":"lop_target","searchable":false,"orderable":false},
+                        {"data":"quarter_target","searchable":false,"orderable":false},
+                        {"data":"update_progress","searchable":false,"orderable":false},
+                        {"data":"created_by","searchable":false,"orderable":false},
+                        {"data":"created_at","searchable":false,"orderable":false},
+                    ]
                 });
-
            
-
-         
         });
     </script>
     @endpush
