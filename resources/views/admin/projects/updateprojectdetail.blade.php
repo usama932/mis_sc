@@ -1,4 +1,5 @@
 <x-nform-layout>
+    
     @section('title')
        Update Project Details
     @endsection
@@ -93,19 +94,24 @@
         </div>
     </div>
     @foreach($project_partners as $part)
-        <div class="modal fade" id="editpartner_{{$part->id}}" tabindex="-1" role="dialog" aria-labelledby="editpartner_{{$part->id}}" aria-hidden="true">
-            <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal fade partner_modal" tabindex="-1" id="editpartner_{{$part->id}}">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Edit Implementing Partner </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <h3 class="modal-title">Edit Implementing Partner</h3>
+        
+                        <!--begin::Close-->
+                        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                        </div>
+                        <!--end::Close-->
                     </div>
+        
                     <div class="modal-body">
-                        <form id="update_projectpartner" method="post" autocomplete="off">   
+                        <form id="update_projectpartner" class="update_projectpartner_form" method="post" autocomplete="off" action="{{route('projectpartners.update',$part->id)}}">   
                             @csrf
-                            <input type="hidden" name="partner_id" value="{{$part->id}}">
+                            <input type="hidden" name="project_id" value="{{$project->id}}">
+                            <input type="hidden" name="partner_id" value="{{$part->partner_id}}">
                             <div class="px-5">
                                 
                                 <div class="row ">
@@ -143,65 +149,20 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelprojectpartnerBtn" class="btn btn-primary btn-sm mx-3 ">
-                                    Cancel
-                                    </button>
-                                    <button type="submit" id="submits" class="btn btn-success btn-sm mx-3">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" id="kt_update_project_partner" class="btn btn-success btn-sm  m-5">
                                         @include('partials/general/_button-indicator', ['label' => 'Submit'])
                                     </button>
+                                    <div id="loadingSpinner" style="display: none;">Loading...</div>
                                 </div>      
                             </div>
                         </form>
                     </div>
-                    
-                    
                 </div>
             </div>
         </div>
     @endforeach
     @push("scripts")
-      
-      
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-        <script>
-            function edittheme(id) {
-            var CSRF_TOKEN = '{{ csrf_token() }}';
-            $.post("{{ route('edit_project_theme') }}", {
-                _token: CSRF_TOKEN,
-                id: id
-                }).done(function(response) {
-                $('.modal-body').html(response);
-                $('#edittheme').modal('show');
-                });
-            }
-            $(document).ready(function() {
-                $('#update_projectpartner').submit(function(event) {
-                console.log('sad');
-                    event.preventDefault(); // Prevent default form submission
-
-                    // Serialize form data
-                    var formData = $(this).serialize();
-
-                    // AJAX request
-                    $.ajax({
-                        url: '/',
-                        method: 'POST',
-                        data: formData, // Pass serialized form data
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Include CSRF token
-                        },
-                        success: function(response) {
-                            // Handle success response
-                            console.log(response);
-                        },
-                        error: function(xhr, status, error) {
-                            // Handle error response
-                            console.error(xhr.responseText);
-                        }
-                    });
-                });
-            });
-        </script>
+        
     @endpush
 </x-nform-layout>

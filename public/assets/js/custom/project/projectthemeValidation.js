@@ -478,7 +478,16 @@ function project_themedel(id) {
         }
     });
 }
-
+function edittheme(id) {
+    var CSRF_TOKEN = '{{ csrf_token() }}';
+    $.post("{{ route('edit_project_theme') }}", {
+    _token: CSRF_TOKEN,
+    id: id
+    }).done(function(response) {
+    $('.modal-body').html(response);
+    $('#edittheme').modal('show');
+    });
+}
 
 /// toggle project theme
 $("#addprojectthemeBtn").click(function() {

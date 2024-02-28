@@ -9,4 +9,5 @@ Interface ProjectRepositoryInterface{
     public function updatebasicproject($data,$id);
     public function storeprojecttheme($data);
     public function storeprojectpartner($data);
+    public function updateprojectpartner($data,$id);
 }

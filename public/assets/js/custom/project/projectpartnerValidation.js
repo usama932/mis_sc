@@ -345,7 +345,90 @@ function project_parnterdel(id) {
 }
 
 
+//project Partner Updated
+$(document).ready(function() {
+    $(document).on('submit', '.update_projectpartner_form', function(event) {
+        event.preventDefault(); // Prevent default form submission
+        $('#kt_update_project_partner').prop('disabled', true);
+        $('#loadingSpinner').show();
 
+        $.ajax({
+            url: $(this).attr('action'),
+            method: 'PUT',
+            data: $(this).serialize(), 
+            success: function(response) {
+                
+                if (response) {
+                    $('#update_project_partner').prop('disabled', false);
+                    // Hide loading spinner
+                    $('#loadingSpinner').hide();
+                    if (response.error == true) {
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toastr-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+                        toastr.error(response.message, "Error");
+                    } else {
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toastr-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+                        toastr.success(response.message, "Success");
+                        project_partners.ajax.reload(null, false).draw(false);
+                        $('.partner_modal').modal('hide');
+                    }
+
+                }
+            },
+            error: function(xhr, status, error) {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toastr-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                };
+                toastr.error(error, "Error");
+            }
+        });
+    });
+});
 /// toggle project theme
 $("#addprojectpartnerBtn").click(function() {
 

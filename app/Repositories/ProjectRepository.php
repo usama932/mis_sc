@@ -221,4 +221,43 @@ class ProjectRepository implements ProjectRepositoryInterface
             'created_by'        => auth()->user()->id,
         ]); 
     }
+    public function updateprojectpartner($data ,$id){
+        
+        $project = Project::where('id',$data['project_id'])->first();
+        $partner = Partner::where('id' ,$data['partner_id'])->first();
+        
+        $details = [
+            'title' => 'Save the children',
+            "password" => "12345678",
+            'email' => $data['email'],
+            'project' => $project->name,
+            'partner' => $partner->name
+           
+        ];
+        Mail::to($data['email'])->send(new \App\Mail\partnerMail($details));
+    
+        $user = User::where('email' ,$data['email'])->first();
+        if(empty($user)){
+            $user = User::create([
+                'name'              => $partner->name,
+                'email'             => $data['email'],
+                'password'          => Hash::make('12345678'),
+                'permissions_level' => 'nation-wide',
+                'designation'       => '48',
+                'province'          => $data['province'],
+                'district'          => $data['partner_district'],
+                'status'            => '1',
+                'user_type'         => 'R1',
+              
+            ]);
+            $user->assignRole('partner');
+        }
+        return ProjectPartner::where('id',$id)->update([
+            'email'             => $data['email'],
+            'district'          => $data['partner_district'],
+            'themes'            => $data['partner_theme'],
+            'province'          => $data['province'],
+            'updated_by'        => auth()->user()->id,
+        ]); 
+    }
 }

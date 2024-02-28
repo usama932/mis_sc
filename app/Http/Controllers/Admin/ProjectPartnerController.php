@@ -66,9 +66,9 @@ class ProjectPartnerController extends Controller
             
                 $nestedData['action'] = '<div>
                     <td>
-                        <a class="btn btn-sm btn-clean btn-icon" title="Edit Implementing Partner" data-toggle="modal" data-target="#editpartner_'.$r->id.'">
+                        <button type="button" class="btn btn-icon"  title="Edit Implementing Partner" data-bs-toggle="modal" data-bs-target="#editpartner_'.$r->id.'">
                             <i class="fa fa-pencil text-info" aria-hidden="true"></i>
-                        </a>
+                        </button>
                         <a class="btn-icon mx-1" onclick="event.preventDefault(); project_partnerdel('.$r->id.');" title="Delete project theme" href="javascript:void(0)">
                             <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                         </a>
@@ -155,7 +155,27 @@ class ProjectPartnerController extends Controller
   
     public function update(Request $request, string $id)
     {
-        dd($request->all());
+      
+        $project_partner = ProjectPartner::where('project_id' ,$request->project)->where('partner_id' ,$id)->first();
+        if(!empty($project_partner)){
+            return response()->json([
+                'message' => "Duplicate Partner Entry",
+                'error' => "true"
+            ]);
+        }else{
+           
+            $data = $request->except('_token');
+            $projectpartner = $this->projectRepository->updateprojectpartner($data,$id);
+            $active = 'partner';
+            session(['project' => $active]);
+            $editUrl = route('project.detail',$request->project_id);
+            return response()->json([
+                'message' => "Implementing Partner Updated",
+                'editUrl' => $editUrl,
+                'error' => "false"
+            ]);
+        }
+       
     }
 
    
