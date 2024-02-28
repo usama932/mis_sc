@@ -122,12 +122,12 @@ var KTprojectpartnerValidate = function() {
                                 form.reset();
                                 
                                 toastr.success("Partner Added Successfully", "Success");
-                                window.location.assign(response.data.editUrl);
+                              
                                
-                                // project_partners.ajax.reload(null, false).draw(false);
-                                // $("#create_projectpartner").slideToggle();
-                                // $("#project_partner_table").slideToggle();
-                                // $("#addprojectpartnerBtn").show();
+                                project_partners.ajax.reload(null, false).draw(false);
+                                $("#create_projectpartner").slideToggle();
+                                $("#project_partner_table").slideToggle();
+                                $("#addprojectpartnerBtn").show();
                             }
 
 

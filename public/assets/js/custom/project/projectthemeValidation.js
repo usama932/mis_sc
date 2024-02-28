@@ -286,7 +286,7 @@ var KTprojectthemeValidate = function() {
                                 };
                                 toastr.success("Theme Added Successfully", "Success");
                                 form.reset();
-                                window.location.assign(response.data.editUrl);
+                                // window.location.assign(response.data.editUrl);
                                 project_theme.ajax.reload(null, false).draw(false);
                                 $("#create_projecttheme").slideToggle();
                                 $("#project_theme_table").slideToggle();
