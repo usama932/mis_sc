@@ -72,6 +72,7 @@ class DipActivityController extends Controller
                 $progress_url = route('postprogress',$r->id);
 				$nestedData['activity_number'] = $r->activity_title ?? ''; 
                 $nestedData['sub_theme'] = $r->scisubtheme_name->name ?? ''; 
+                $nestedData['project'] = $r->project->name ?? ''; 
                 $nestedData['lop_target'] = $r->lop_target ?? '';
                 $quarterTarget = '';
                 foreach ($r->months as $month) {
@@ -81,11 +82,12 @@ class DipActivityController extends Controller
                 }
                 $nestedData['quarter_target'] = $quarterTarget;
                 $nestedData['created_by'] = $r->user->name ?? '';
-                $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
-                $nestedData['update_progress'] = '<a  href="'.$progress_url.'" target="_blank"  ><span class="badge badge-success">Update Progress</span> </a>';
+                $nestedData['created_at'] = date('d-M-Y H:i:s', strtotime($r->created_at)) ?? '';
+                $nestedData['update_progress'] = '';
                 $nestedData['action'] = '<div>
                                         <td>
-                                            <a class="btn-icon mx-1" href="'.$show_url.'" target="_blank"  >
+                                            <a  href="'.$progress_url.'"   ><span class="badge badge-success">Update Progress</span> </a>
+                                            <a class="btn-icon mx-1" href="'.$show_url.'" >
                                                 <i class="fa fa-eye text-warning" aria-hidden="true" ></i>
                                             </a>
                                             ';
@@ -186,7 +188,7 @@ class DipActivityController extends Controller
        
         $dip_activity = $this->dipactivityRepository->storedipactivity($data);
         $active = 'dip_activity';
-        session(['dip' => $active]);
+        session(['dip_edit' => $active]);
         $editUrl = route('dips.edit',$dip_activity->project_id);
      
         return response()->json([

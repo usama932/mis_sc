@@ -24,11 +24,13 @@
                         <thead>
                             <tr>
                                 <th>Activity</th>
+                                <th>Sub Theme</th>
+                                <th>Project</th>
                                 <th>LOP Target</th>
                                 <th>Quarter</th>
-                                <th>Update Progress</th>
                                 <th>Created By</th>
                                 <th>Created At</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                     </table>
@@ -70,11 +72,13 @@
                     "columns":
                         [
                             {"data":"activity_number","searchable":false,"orderable":false},
+                            {"data":"sub_theme","searchable":false,"orderable":false},
+                            {"data":"project","searchable":false,"orderable":false},
                             {"data":"lop_target","searchable":false,"orderable":false},
                             {"data":"quarter_target","searchable":false,"orderable":false},
-                            {"data":"update_progress","searchable":false,"orderable":false},
                             {"data":"created_by","searchable":false,"orderable":false},
                             {"data":"created_at","searchable":false,"orderable":false},
+                            {"data":"action","searchable":false,"orderable":false},
                         ]
                     });
             });
@@ -110,11 +114,14 @@
                 "columns":
                     [
                         {"data":"activity_number","searchable":false,"orderable":false},
+                        {"data":"sub_theme","searchable":false,"orderable":false},
+                            {"data":"project","searchable":false,"orderable":false},
                         {"data":"lop_target","searchable":false,"orderable":false},
                         {"data":"quarter_target","searchable":false,"orderable":false},
-                        {"data":"update_progress","searchable":false,"orderable":false},
+                        
                         {"data":"created_by","searchable":false,"orderable":false},
                         {"data":"created_at","searchable":false,"orderable":false},
+                        {"data":"action","searchable":false,"orderable":false},
                     ]
                 });
            

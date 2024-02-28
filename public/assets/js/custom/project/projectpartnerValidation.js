@@ -349,7 +349,7 @@ function project_parnterdel(id) {
 $(document).ready(function() {
     $(document).on('submit', '.update_projectpartner_form', function(event) {
         event.preventDefault(); // Prevent default form submission
-        $('#kt_update_project_partner').prop('disabled', true);
+        $('#kt_update_project_partner').hide();
         $('#loadingSpinner').show();
 
         $.ajax({
@@ -359,7 +359,7 @@ $(document).ready(function() {
             success: function(response) {
                 
                 if (response) {
-                    $('#update_project_partner').prop('disabled', false);
+                    $('#kt_update_project_partner').show();
                     // Hide loading spinner
                     $('#loadingSpinner').hide();
                     if (response.error == true) {

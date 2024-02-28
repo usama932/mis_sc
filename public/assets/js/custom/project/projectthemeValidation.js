@@ -285,8 +285,7 @@ var KTprojectthemeValidate = function() {
                                     "hideMethod": "fadeOut"
                                 };
                                 toastr.success("Theme Added Successfully", "Success");
-                                form.reset();
-                                // window.location.assign(response.data.editUrl);
+                               
                                 project_theme.ajax.reload(null, false).draw(false);
                                 $("#create_projecttheme").slideToggle();
                                 $("#project_theme_table").slideToggle();
@@ -480,12 +479,12 @@ function project_themedel(id) {
 }
 function edittheme(id) {
     var CSRF_TOKEN = '{{ csrf_token() }}';
-    $.post("{{ route('edit_project_theme') }}", {
-    _token: CSRF_TOKEN,
-    id: id
+    $.post("/edit_project_theme", {
+        _token: csrfToken,
+        id: id
     }).done(function(response) {
-    $('.modal-body').html(response);
-    $('#edittheme').modal('show');
+        $('.modal-body').html(response);
+        $('#edittheme').modal('show');
     });
 }
 
