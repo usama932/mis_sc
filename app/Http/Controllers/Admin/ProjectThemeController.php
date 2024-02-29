@@ -72,9 +72,7 @@ class ProjectThemeController extends Controller
 
                 $nestedData['action'] = '<div>
                                         <td>
-                                            <a class="btn btn-sm btn-clean btn-icon" onclick="event.preventDefault();edittheme('.$r->id.');" title="Edit Thematic Area" href="javascript:void(0)">
-                                                <i class="fa fa-pencil text-info" aria-hidden="true"></i>
-                                            </a>
+                                            
                                             <a class="btn-icon mx-1" onclick="event.preventDefault();project_themedel('.$r->id.');" title="Delete project theme" href="javascript:void(0)">
                                                 <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                                             </a>
