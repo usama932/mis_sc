@@ -17,7 +17,7 @@
                     <label class="fs-8 fw-semibold form-label 2">
                         <span class="required">Thematic Area</span>
                     </label>
-                    <select name="theme" id="theme_id" class="form-control" data-control="select2" data-placeholder="Select Theme" class="form-select" data-allow-clear="true">
+                    <select name="theme" id="theme_id" aria-label="Select a Theme" data-control="select2" data-placeholder="Select Theme" class="form-select" data-allow-clear="true">
                         <option  value=''>Select Theme</option>
                         @foreach($ths as $theme)
                             <option value="{{$theme->id}}">{{$theme->name}}</option>
@@ -29,7 +29,7 @@
                     <span class="required">Sub-Thematic Area</span>
                     <span class="spinner-border spinner-border-sm align-middle ms-2" id="themeloader" style="display="none !important;"></span>
                     </label> 
-                    <select   name="sub_theme" id="sub_theme_id" aria-label="Select a Theme" data-control="select2" data-placeholder="Select Sub-Theme" class="form-select "  data-allow-clear="true" > 
+                    <select   name="sub_theme" id="sub_theme_id" aria-label="Select a Sub Theme" data-control="select2" data-placeholder="Select Sub-Theme" class="form-select"  data-allow-clear="true" > 
                     </select>
                     <div id="sub_themeError" class="error-message "></div>
                 </div>

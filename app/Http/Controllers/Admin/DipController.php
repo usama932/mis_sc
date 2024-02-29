@@ -108,7 +108,7 @@ class DipController extends Controller
                     foreach ($r->themes as $theme) {
                         $themes[] = $theme->scitheme_name->name;
                     }
-                    $themes = implode(', ', $themes); // Combining themes with commas
+                    $themes = implode(', ', array_unique($themes)); // Combining themes with commas
                 } else {
                     $themes = ''; // If themes array is empty
                 }
