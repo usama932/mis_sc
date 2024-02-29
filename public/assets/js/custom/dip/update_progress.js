@@ -17,20 +17,7 @@ var KTupdateProgressValidate = function () {
                             }
                         }
                     },
-                    'pwd_target': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Pwd Target is required'
-                            },
-                            numeric: {
-                                message: 'Pwd Target must be a number'
-                            },
-                            regexp: {
-                                regexp: /^\d+$/,
-                                message: 'Individual Target must be a positive number'
-                            }
-                        }
-                    },
+                    
                     'activity_target': {
                         validators: {
                             notEmpty: {
@@ -164,7 +151,7 @@ var KTupdateProgressValidate = function () {
                                 "showMethod": "fadeIn",
                                 "hideMethod": "fadeOut"
                             };
-                            toastr.success("Account Created", "success");
+                            toastr.success("Quarterly achievement updated succesfully", "Success");
                             window.location.href = response.data.editUrl;
                             
                         } else {
@@ -186,7 +173,7 @@ var KTupdateProgressValidate = function () {
                                 "hideMethod": "fadeOut"
                               };
                               
-                              toastr.error("Some thing Went Wrong", "Error");
+                              toastr.error("Please address the highlighted errors", "Error");
                         }
                     }).catch(function (error) {
                         toastr.options = {
@@ -207,7 +194,7 @@ var KTupdateProgressValidate = function () {
                             "hideMethod": "fadeOut"
                           };
                           
-                          toastr.error("Some thing Went Wrong", "Error");   
+                          toastr.error("Please address the highlighted errors", "Error");   
                     }).then(() => {
                         // Hide loading indication
                         submitButton.removeAttribute('data-kt-indicator');
@@ -236,7 +223,7 @@ var KTupdateProgressValidate = function () {
                         "hideMethod": "fadeOut"
                       };
                       
-                      toastr.error("Some thing Went Wrong", "Error");
+                      toastr.error("Please address the highlighted errors", "Error");
                 }
             });
         });

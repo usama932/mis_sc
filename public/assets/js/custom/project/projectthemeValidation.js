@@ -265,7 +265,7 @@ var KTprojectthemeValidate = function() {
                                     "showMethod": "fadeIn",
                                     "hideMethod": "fadeOut"
                                 };
-                                toastr.error(response.data.message, "Error");
+                                toastr.error(response.data.message, "Duplicate Entry");
                             } else {
                                 toastr.options = {
                                     "closeButton": true,
@@ -284,7 +284,7 @@ var KTprojectthemeValidate = function() {
                                     "showMethod": "fadeIn",
                                     "hideMethod": "fadeOut"
                                 };
-                                toastr.success("Theme Added Successfully", "Success");
+                                toastr.success("Project theme targets added successfully", "Success");
                                
                                 project_theme.ajax.reload(null, false).draw(false);
                                 $("#create_projecttheme").slideToggle();
@@ -362,7 +362,7 @@ var KTprojectthemeValidate = function() {
                         "hideMethod": "fadeOut"
                     };
 
-                    toastr.error("Some thing Went Wrong", "Error");
+                    toastr.error("Please address the highlighted errors", "Error");
                 }
             });
         });

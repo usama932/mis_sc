@@ -7,34 +7,39 @@
         <input type="hidden" id="project_id" value="{{$project->id}}">
         <div class="row">
             
-            <div class="col-md-6 p-4">
-                <table class="table table-striped p-4">
+            <div class="col-md-6">
+                <table class="table table-striped m-4 p-4">
                     
                     <tr>
-                        <td><strong>Project</strong></td>
+                        <td><strong>Project Name</strong></td>
                         <td>{{$project->name ?? ''}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Donor</strong></td>
+                        <td>
+                          {{$project->donors?->name ?? ''}} 
+                        </td>
                     </tr>
                     <tr>
                         <td><strong>SOF.#</strong></td>
                         <td>{{$project->sof ?? ''}}</td>
                     </tr>
-                    <tr>
-                        <td><strong>Type</strong></td>
-                        <td>{{$project->type ?? ''}}</td>
-                    </tr>
-                      
+                   
+                    @if(!empty($provinces))
+                        <tr>
+                            <td><strong>Provinces</strong></td>
+                            <td>
+                                @foreach($provinces as $province)
+                                    {{ $province->province_name}}  @if(! $loop->last)<br> @endif
+                                @endforeach
+                            </td>
+                        </tr>
+                    @endif
                     {{-- <tr>
                         <td><strong>Status</strong></td>
                         <td>{{$project->status ?? ''}}</td>
                     </tr> --}}
-                    <tr>
-                        <td><strong>Project Tenure</strong></td>
-                        <td>
-                            @if(!empty($project->start_date) && $project->start_date != null)
-                                {{ date('d-M-Y', strtotime($project->start_date))}} -To- {{date('d-M-Y', strtotime($project->end_date));}}
-                            @endif
-                        </td>
-                    </tr>
+                    
                     {{-- <tr>
                         <td><strong>Project Status </strong></td>
                         <td>
@@ -49,33 +54,11 @@
                 </table>
             </div>
             <div class="col-md-6">
-                <table class="table table-striped m-4">
-                    
+                <table class="table table-striped m-4 p-4">
                     <tr>
-                        <td><strong>Project Description</strong></td>
-                        <td> {{$project->detail?->project_description ?? 'No Detail'}}
-                        </td>
+                        <td><strong>Type</strong></td>
+                        <td>{{$project->type ?? ''}}</td>
                     </tr>
-                    
-                    @if(!empty($provinces))
-                        <tr>
-                            <td><strong>Provinces</strong></td>
-                            <td>
-                                @foreach($provinces as $province)
-                                    {{ $province->province_name}}  @if(! $loop->last) , @endif
-                                @endforeach
-                            </td>
-                        </tr>
-                    @endif
-                    @if(!empty($districts))
-                    <tr>
-                        <td><strong>Disticts</strong></td>
-                        <td>  @foreach($districts as $district)
-                            {{ $district->district_name}}  @if(! $loop->last) , @endif
-                            @endforeach
-                        </td>
-                    </tr>
-                    @endif
                     <tr>
                         <td><strong>Focal Person</strong></td>
                         <td>
@@ -84,11 +67,27 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><strong>Donor</strong></td>
+                        <td><strong>Project Tenure</strong></td>
                         <td>
-                          {{$project->donors?->name ?? ''}} 
+                            @if(!empty($project->start_date) && $project->start_date != null)
+                                {{ date('d-M-Y', strtotime($project->start_date))}} -To- {{date('d-M-Y', strtotime($project->end_date));}}
+                            @endif
                         </td>
                     </tr>
+                   
+                    
+                 
+                    @if(!empty($districts))
+                    <tr>
+                        <td><strong>Disticts</strong></td>
+                        <td>  @foreach($districts as $district)
+                            {{ $district->district_name}}  @if(! $loop->last)<br> @endif
+                            @endforeach
+                        </td>
+                    </tr>
+                    @endif
+                   
+                   
                     {{-- <tr>
                         <td><strong>Project Extended </strong></td>
                         <td>
@@ -100,6 +99,14 @@
                         </td>
                     </tr> --}}
                     
+                </table>
+            </div>
+            <div class="col-md-12"> 
+                <table class="table table-striped px-4 mx-4">
+                    <tr>
+                        <td><strong>Project Description</strong></td>
+                        <td>{{$project->detail?->project_description ??  ''}}</td>
+                    </tr>
                 </table>
             </div>
         </div>

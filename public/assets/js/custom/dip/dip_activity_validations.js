@@ -137,7 +137,7 @@ var KTdipActivityValidate = function () {
                                     "showMethod": "fadeIn",
                                     "hideMethod": "fadeOut"
                                 };
-                                toastr.success("Activity Quarter Added Successfully ", "Success");
+                                toastr.success("Activity & quarterly targets added successfully", "Success");
                                 form.reset();
 
                                 window.location.href = response.data.editUrl;
@@ -213,7 +213,7 @@ var KTdipActivityValidate = function () {
                         "hideMethod": "fadeOut"
                     };
 
-                    toastr.error("Some thing Went Wrong", "Error");
+                    toastr.error("Please address the highlighted Errors", "Error");
                 }
             });
         });

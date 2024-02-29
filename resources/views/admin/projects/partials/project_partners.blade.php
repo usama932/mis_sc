@@ -1,7 +1,7 @@
 <div>
     <div class="">
         <div class="d-flex justify-content-end hover-elevate-up my-3 mx-5">
-            <button class="btn btn-sm btn-primary mx-5" id="addprojectpartnerBtn"> <i class="ki-duotone ki-abstract-10">
+            <button class="btn btn-sm btn-success mx-5" id="addprojectpartnerBtn"> <i class="ki-duotone ki-abstract-10">
             <span class="path1"></span>
             <span class="path2"></span>
             </i>Add Project Partner</button>

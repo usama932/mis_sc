@@ -8,26 +8,34 @@
         <input type="hidden" id="dip_activity" value="{{$dip_activity->id}}">
         <div class="table-responsive overflow-* p-5" >
             <table class="table table-striped table-bordered nowrap table-responsive" id="activityQuarters">
+                
                 <thead>
                     <tr>
-                        <th colspan="8" class="text-center"><h1>{{ucfirst($dip_activity->project->name ?? '')}}</h1></th>
+                        <th colspan="10" class="text-center"><h1>{{ucfirst($dip_activity->project->name ?? '')}}</h1></th>
                     </tr>
                     <tr>
-                        <th colspan="8" class="text-center"><h3>{{ucfirst($dip_activity->activity_title ?? '')}}</h3></th>
+                        <th colspan="10" class="text-center"><h3>{{ucfirst($dip_activity->activity_title ?? '')}}</h3></th>
                     </tr>
                     <tr>
-                        <th colspan="8" class="text-center"><h4>@foreach($provinces as $province) {{ucfirst($province) }},  @endforeach<h4></th>
+                        <th colspan="10" class="text-center"><h4>@foreach($provinces as $province) {{ucfirst($province) }},  @endforeach<h4></th>
                     </tr>
+                
+                    <tr>
+                        <th></th>
+                        <th colspan="2"  class="text-center" >Activity</th>
+                        <th colspan="7" class="text-center" >Beneficiary Target vs Achievement</th>
+                    </tr>
+                
                     <tr>
                         <th>Quarter</th>
-                        <th style="background-color: grey">Activity Target</th>
-                        <th >Activity Achievement</th>
-                        <th style="background-color: grey">Beneficiary Target</th>
-                        <th>Women Achievement</th>
-                        <th>Men Achievement</th>
-                        <th>Girls Achievement</th>
-                        <th>Boys Achievement</th>
-                        <th>PWD Achievement</th>
+                        <th style="background-color: grey"> Target</th>
+                        <th > Achievement</th>
+                        <th style="background-color: grey">Target</th>
+                        <th>Women </th>
+                        <th>Men </th>
+                        <th>Girls </th>
+                        <th>Boys </th>
+                        <th>PWD </th>
                         <th>Remarks</th>
                     </tr>
                 </thead>

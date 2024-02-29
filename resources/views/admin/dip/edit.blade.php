@@ -1,7 +1,7 @@
 <x-nform-layout>
  
     @section('title')
-        Edit Detail Implementation Plan
+      Add Project Activities & Targets
     @endsection
     <div class="card">
         @if ($errors->any())
@@ -182,11 +182,7 @@
                     //     "searchable": false,
                     //     "orderable": false
                     // },
-                    {
-                        "data": "action",
-                        "searchable": false,
-                        "orderable": false
-                    },
+                  
                 ]
             });
             var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -274,11 +270,7 @@
                     //     "searchable": false,
                     //     "orderable": false
                     // },
-                    {
-                        "data": "action",
-                        "searchable": false,
-                        "orderable": false
-                    },
+                   
                 ]
             });
         </script>

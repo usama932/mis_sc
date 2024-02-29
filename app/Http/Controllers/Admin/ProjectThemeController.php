@@ -121,7 +121,7 @@ class ProjectThemeController extends Controller
         if(!empty($project_theme)){
           
             return response()->json([
-                'message' => "Duplicate Theme Enter",
+                'message' => "Sub Theme aleady exists",
                 'error' => "true"
             ]);
         }

@@ -258,7 +258,7 @@ var KTprojectupdateValidate = function() {
                         "hideMethod": "fadeOut"
                     };
 
-                    toastr.error("Some thing Went Wrong", "Error");
+                    toastr.error("Please address the highlighted Errors", "Error");
                 }
             });
         });

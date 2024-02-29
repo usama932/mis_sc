@@ -9,9 +9,12 @@
                 <div class="card-body py-4">
                     <div class="row">
                         <div class="fv-row col-md-8 mt-3">
-                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                            <label class="fs-6 fw-semibold form-label">
                                 <span>Activity Name: </span>
-                                <p>{{$activity->activity_number ?? ''}}</p>
+                            </label>
+                            <br>
+                            <label class="fs-5 fw-semibold form-label">
+                                {{$activity->activity_number ?? ''}}
                             </label>
                         </div> 
                         <div class="fv-row col-md-4 mt-3">

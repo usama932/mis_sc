@@ -16,8 +16,8 @@
                         <thead>
                             <tr>
                                 <th>Manage Activites/Targets</th>
-                                <th>Project Title</th>
-                                <th>Sof</th>
+                                <th>Project Name</th>
+                                <th>SOF.#</th>
                                 <th>Thematic Areas</th>
                                 <th>Partner</th>
                                 <th>Provinces</th>
@@ -26,8 +26,7 @@
                                 <th>Theme</th> --}}
                                 <th>Project Tenure</th>
                                 {{-- <th>attachment</th> --}}
-                               
-                                <th>Actions</th>
+                            
                             </tr>
                         </thead>
                         </table>
@@ -77,7 +76,7 @@
                                 {"data":"province","searchable":false,"orderable":false},
                                 {"data":"district","searchable":false,"orderable":false},
                                 {"data":"project_tenure","searchable":false,"orderable":false},
-                                {"data":"action","searchable":false,"orderable":false},
+                               
                             ]
             });[]
 

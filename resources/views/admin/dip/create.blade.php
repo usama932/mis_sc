@@ -1,5 +1,5 @@
 <x-nform-layout>
-    @section('title', 'Add Activity')
+    @section('title', 'Add New Activity')
     <style>
         .highlight-field {
             border-color: red;
@@ -13,14 +13,7 @@
                 <input type="hidden" name="project_id" id="project_id" value="{{ $project->id }}">
                 <div class="card-body">
                     <div class="row">
-                        <div class="fv-row col-md-4 col-lg-4 col-sm-12">
-                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                <span class="required">Activity Title</span>
-                            </label>
-                            <textarea name="activity" id="activity" rows="1" class="form-control"></textarea>
-                            <div id="activityError" class="error-message"></div>
-                        </div>
-                        <div class="fv-row col-md-3 col-lg-3 col-sm-12">
+                        <div class="fv-row col-md-6 col-lg-6 col-sm-12">
                             <label class="fs-6 fw-semibold form-label">
                                 <span class="required">Thematic Area</span>
                             </label>
@@ -33,7 +26,7 @@
                             </select>
                             <div id="themeError" class="error-message"></div>
                         </div>
-                        <div class="fv-row col-md-3 col-lg-3 col-sm-12">
+                        <div class="fv-row col-md-6 col-lg-6 col-sm-12">
                             <label class="fs-6 fw-semibold form-label">
                                 <span class="required">Sub-Thematic Area</span>
                                 <span class="spinner-border spinner-border-sm align-middle ms-2" id="themeloader"
@@ -45,6 +38,15 @@
                             </select>
                             <div id="sub_themeError" class="error-message"></div>
                         </div>
+                        <div class="fv-row col-md-10 col-lg-10 col-sm-12">
+                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                                <span class="required">Activity Title</span>
+                            </label>
+                            <textarea name="activity" id="activity" rows="1" class="form-control"></textarea>
+                            <div id="activityError" class="error-message"></div>
+                        </div>
+                   
+                       
                         <div class="fv-row col-md-2 col-lg-2 col-sm-12">
                             <label class="fs-6 fw-semibold form-label">
                                 <span class="required">LOP Target</span>
@@ -53,51 +55,45 @@
                             <div id="lop_targetError" class="error-message"></div>
                         </div>
                     </div>
-                </div>
-                <div class="card mt-5">
-                    <div class="card-header">
-                        <div class="card-title"> Quarterly Targets</div>
-                        
-                    </div>
-                    <div class="card-body">
-                        <div id="targetRows">
-                           
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <label class="fs-6 fw-semibold form-label mb-2">
-                                        <span class="">Quarter</span>
-                                    </label>
-                                    <select name="quarter[]" aria-label="Select a Quarter Target"
-                                        data-placeholder="Select a Quarter Target" class="form-select"
-                                        data-allow-clear="true">
-                                        <option value=" ">Select Quarter Target</option>
-                                        @foreach($project->quarters as $quarter)
-                                            <option value='{{ $quarter->quarter }}'>{{ $quarter->quarter }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="fs-6 fw-semibold form-label mb-2">
-                                        <span class="">Activity Target</span>
-                                    </label>
-                                    <input type="text" name="target_quarter[]" placeholder="Enter Activity Target"
-                                        class="form-control" autocomplete="off" required>
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="fs-6 fw-semibold form-label mb-2">
-                                        <span class="">Beneficiaries Target</span>
-                                    </label>
-                                    <input type="text" name="target_benefit[]" placeholder="Enter Beneficiary Target"
-                                        class="form-control" autocomplete="off" required>
-                                </div>
-                                <div class="col-md-3 mt-5 text-end">
-                                    <button type="button" class="btn btn-info btn-sm mt-4" onclick="addTargetRow()"
-                                        id="add_quarter_target">Add New Quarter</button>
-                                </div>
+                    <div class="separator my-3"></div>
+                    <div id="targetRows">
+                               
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="fs-6 fw-semibold form-label mb-2">
+                                    <span class="required">Quarter</span>
+                                </label>
+                                <select name="quarter[]" aria-label="Select a Quarter Target"
+                                    data-placeholder="Select a Quarter Target" class="form-select"
+                                    data-allow-clear="true">
+                                    <option value=" ">Select Quarter Target</option>
+                                    @foreach($project->quarters as $quarter)
+                                        <option value='{{ $quarter->quarter }}'>{{ $quarter->quarter }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="fs-6 fw-semibold form-label mb-2">
+                                    <span class="required">Activity Target</span>
+                                </label>
+                                <input type="text" name="target_quarter[]" placeholder="Enter Activity Target"
+                                    class="form-control" autocomplete="off" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="fs-6 fw-semibold form-label mb-2">
+                                    <span class="">Beneficiaries Target</span>
+                                </label>
+                                <input type="text" name="target_benefit[]" placeholder="Enter Beneficiary Target"
+                                    class="form-control" autocomplete="off" required>
+                            </div>
+                            <div class="col-md-3 mt-5 text-end">
+                                <button type="button" class="btn btn-info btn-sm mt-4" onclick="addTargetRow()"
+                                    id="add_quarter_target">Add New Quarter</button>
                             </div>
                         </div>
                     </div>
                 </div>
+              
                 <div class="card-footer justify-content-end d-flex">
                    <a href="{{ route('dips.edit',$project->id) }}" class="btn btn-primary btn-sm mx-3">Cancel</a>
                     <button type="submit" id="kt_create_dip_activity" class="btn btn-success btn-sm">
@@ -131,7 +127,7 @@
                
                 if (isValid) {
                     var html = `
-                        <div class="row mt-3" style="display:none;">
+                        <div class="row mt-3 required" style="display:none;">
                             <div class="col-md-3">
                                 <select name="quarter[]" aria-label="Select a Quarter Target"
                                     data-placeholder="Select a Quarter Target" class="form-select"
@@ -145,7 +141,7 @@
                     html += `
                                 </select>
                             </div> 
-                            <div class="col-md-3">
+                            <div class="col-md-3 required">
                                 <input type="text" name="target_quarter[]" placeholder="Enter Activity Target"
                                     class="form-control" autocomplete="off" required>
                             </div>

@@ -16,20 +16,8 @@
                             <td><strong>Type</strong></td>
                             <td>{{$project->type ?? ''}}</td>
                         </tr>
-                        <tr>
-                            <td><strong>Project Tenure</strong></td>
-                            <td>
-                                @if(!empty($project->start_date) && $project->start_date != null)
-                                    {{ date('d-M-Y', strtotime($project->start_date))}} -To- {{date('d-M-Y', strtotime($project->end_date));}}
-                                @endif
-                            </td>
-                        </tr>
-                       
-                        <tr>
-                            <td><strong>Project Description</strong></td>
-                            <td> {{$project->detail?->project_description ?? 'No Detail'}}
-                            </td>
-                        </tr>
+                      
+                      
                         
                         @if(!empty($provinces))
                             <tr>
@@ -54,7 +42,7 @@
                             <td><strong>Themes </strong></td>
                             <td>
                                 @foreach($project->themes as $themes)
-                                {{$themes->scitheme_name->name ?? ''}}@if(! $loop->last),@endif
+                                {{$themes->scitheme_name->name ?? ''}} @if(!empty($themes->scisubtheme_name)) ({{$themes->scisubtheme_name?->name ?? ''}} )@endif @if(! $loop->last),@endif
                                 @endforeach
                             </td>
                         </tr>
@@ -75,168 +63,33 @@
                         <tr>
                             <td><strong>Focal Person</strong></td>
                             <td>
-                              {{$project->focalperson?->name ?? ''}} - {{$project->focalperson?->design?->designation_name ?? ''}}
+                              {{$project->focalperson?->name ?? ''}} - {{$project->focalperson?->desig?->designation_name ?? ''}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Project Tenure</strong></td>
+                            <td>
+                                @if(!empty($project->start_date) && $project->start_date != null)
+                                    {{ date('d-M-Y', strtotime($project->start_date))}} -To- {{date('d-M-Y', strtotime($project->end_date));}}
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Project Description</strong></td>
+                            <td> {{$project->detail?->project_description ?? 'No Detail'}}
                             </td>
                         </tr>
                     </table>
                 </div>
                
-                {{-- <div class="col-md-6">
-                    <table class="table table-striped m-4">
-                        <tr>
-                            <td><strong>House Hold Target </strong></td>
-                            <td>  
-                                @if(!empty($project->themes))
-                                @php
-                                    $hh_hold = 0;
-                                @endphp
-                                @foreach($project->themes as $theme)
-                                    @php
-                                        $hh_hold += $theme->house_hold_target;
-                                    @endphp
-                                @endforeach
-                                {{ $hh_hold }}
-                            @else
-                                0
-                            @endif
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Individual Target </strong></td>
-                            <td> 
-                                @if(!empty($project->themes))
-                                @php
-                                    $individual_target = 0;
-                                @endphp
-                                @foreach($project->themes as $theme)
-                                    @php
-                                        $individual_target += $theme->individual_target;
-                                        
-                                    @endphp
-                                @endforeach
-                                {{ $individual_target }}
-                            @else
-                                0
-                            @endif
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Women Target </strong></td>
-                            <td> 
-                                @if(!empty($project->themes))
-                                @php
-                                    $women_target = 0;
-                                @endphp
-                                @foreach($project->themes  as $theme)
-                                    @php
-                                        $women_target += $theme->women_target ;
-                                    @endphp
-                                    @endforeach
-                                {{  $women_target }}
-                                @else
-                                    0
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Men Target </strong></td>
-                            <td>
-                                @if(!empty($project->themes))
-                                    @php
-                                        $men_target = 0;
-                                    @endphp
-                                    @foreach($project->themes  as $theme)
-
-                                    @php
-                                        $men_target =$men_target + $theme->men_target ;
-                                    
-                                    @endphp
-                                    @endforeach
-                                    {{ $men_target}}
-                                @else
-                                    0
-                                @endif
-                            </td>
-                        </tr>
-                        
-                        <tr>
-                            <td><strong>Girls Target </strong></td>
-                            <td> 
-                                @if(!empty($project->themes))
-                                    @php
-                                        $girls_target = 0;
-                                    @endphp
-                                    @foreach($project->themes  as $theme)
-                                        @php
-                                            $girls_target = $girls_target + $theme->girls_target ;
-                                        @endphp
-                                    @endforeach
-                                    {{ $girls_target}}
-                                @else
-                                    0
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Boys Target </strong></td>
-                            <td> 
-                                @if(!empty($project->themes))
-                                    @php
-                                        $boys_target = 0;
-                                    @endphp
-                                    @foreach($project->themes  as $theme)
-                                        @php
-                                            $boys_target = 0;
-                                            $boys_target =$boys_target + $theme->boys_target ;
-                                            
-                                        @endphp
-                                    @endforeach
-                                    {{$boys_target}}
-                                @else
-                                    0
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>PWD Target </strong></td>
-                            <td> 
-                                @if(!empty($project->themes))
-                                @php
-                                        $pwd_target = 0;
-                                    @endphp
-                                    @foreach($project->themes  as $theme)
-                                        @php
-                                            
-                                            $pwd_target +=$theme->pwd_target ;
-                                            
-                                        @endphp
-                                    @endforeach
-                                    {{$pwd_target}}
-                                @else
-                                    0
-                                @endif
-                            </td>
-                        </tr>
-                        
-                        <tr>
-                            <td><strong>Focal Person</strong></td>
-                            <td>
-                              {{-$project->focalperson?->name ?? ''}}<br>
-                               {{$project->focalperson?->email ?? ''}} 
-                            </td>
-                        </tr>
-                    
-                       
-                        
-                    </table>
-                </div> --}}
+          
             </div>
             <div class="card">
                 <div class="container-fluid">
                     <ul class="nav nav-tabs mt-1 fs-6">
                        
                         <li class="nav-item">
-                            <a class="nav-link  active " data-bs-toggle="tab" href="#thematic" >Thematic area</a>
+                            <a class="nav-link  active " data-bs-toggle="tab" href="#thematic" >Thematic Area & Targets</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link  " data-bs-toggle="tab" href="#partner">Implementing Partner</a>
@@ -254,19 +107,15 @@
                                     <table class="table table-striped table-bordered nowrap" id="project_themes" style="width:100%">
                                     <thead>
                                         <tr>
-                                           
                                             <th>Theme</th>
-                                            <th>Sub Theme</th>
-                                            <th>House-Hold Target</th>
-                                            <th>Individual Target</th>
-                                            <th>Women Target</th>
-                                            <th>Men Target</th>
-                                            <th>Girls Target</th>
-                                            <th>Boys Target</th>
-                                            <th>PWD Target</th>
-                                            {{-- <th>Created At</th>
-                                            <th>Created By</th> --}}
-                                            <th>Actions</th>
+                                            <th>Sub-Theme</th>
+                                            <th>HH</th>
+                                            <th>Beneficiary </th>
+                                            <th>Women </th>
+                                            <th>Men </th>
+                                            <th>Girls </th>
+                                            <th>Boys </th>
+                                            <th>PWD </th>
                                         </tr>
                                     </thead>
                                     </table>
@@ -287,9 +136,6 @@
                                             <th>Email</th>
                                             <th>Province</th>
                                             <th>District</th>
-                                            {{-- <th>Created At</th>
-                                            <th>Created By</th> --}}
-                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     </table>

@@ -6,26 +6,7 @@
         <input type="hidden" name="project" value="{{$theme->id}}">
         <div class="px-5">
             <div class="row ">
-                {{-- <div class="fv-row col-md-3">
-                    <label class="fs-8 fw-semibold form-label 2">
-                        <span class="required">Thematic Area </span>
-                    </label>
-                    <select name="theme" id="theme_change" class="form-control m-input" data-control="select2" data-placeholder="Select Theme" class="form-select" data-allow-clear="true">
-                        <option  value=''>Select Theme</option>
-                        @foreach($ths as $them)
-                            <option value="{{$them->id}}">{{$them->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="fv-row col-md-3">
-                    <label class="fs-8 fw-semibold form-label">
-                    <span class="required">Sub-Thematic Area</span>
-                    <span class="spinner-border spinner-border-sm align-middle ms-2" id="themeloader" style="display="none !important;"></span>
-                    </label> 
-                    <select   name="sub_theme" id="sub_theme_id" aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme" class="form-select "  data-allow-clear="true" > 
-                    </select>
-                    <div id="sub_themeError" class="error-message "></div>
-                </div> --}}
+             
                 <div class="fv-row col-md-4">
                     <label class="fs-9 fw-semibold form-label">
                         <span class="required">House Hold target</span>
@@ -78,11 +59,11 @@
             
             </div>
             <div class="d-flex justify-content-end my-3">
-                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2  mx-3" data-bs-dismiss="modal" aria-label="Close">
+                {{-- <div class="btn btn-icon btn-sm btn-active-light-primary ms-2  mx-3" data-bs-dismiss="modal" aria-label="Close">
                     <button  type="button" class="btn btn-info  btn-sm  ">Close</button>
-                </div>
+                </div> --}}
                 <button type="submit" id="update_projecttheme" class="btn btn-success btn-sm mx-3 " >
-                    @include('partials/general/_button-indicator', ['label' => 'Submit'])
+                    @include('partials/general/_button-indicator', ['label' => 'Update'])
                 </button>
             </div>      
         </div>
@@ -100,6 +81,7 @@
                     isValid = false;
                 }
             });
+            
             $.ajax({
                 type: 'POST', // Corrected to POST since we are spoofing the method
                 url: $(this).attr('action'),

@@ -124,7 +124,7 @@ class ProjectController extends Controller
                 if(empty($r->detail)){
                 $nestedData['action'] = '<div>
                                                 <td>
-                                                <a class="btn btn-primary btn-sm" href="'. $edit_url .'" target="_blank" style="font-size: 0.8em; font-weight: bold; padding: 6px 10px;">
+                                                <a class="btn btn-primary btn-sm" href="'. $edit_url .'"  style="font-size: 0.8em; font-weight: bold; padding: 6px 10px;">
                                                     <i class="fa fa-plus" aria-hidden="true"></i> Add Detail
                                                 </a>
                                                 </td>
@@ -136,7 +136,7 @@ class ProjectController extends Controller
                             <i class="fa fa-eye text-success" aria-hidden="true" ></i>
                         </a>
                         
-                        <a class="btn-icon mx-1" href="'. $edit_url.'" target="_blank">
+                        <a class="btn-icon mx-1" href="'. $edit_url.'">
                             <i class="fa fa-pencil text-warning" aria-hidden="true" ></i>
                         </a>';
                 
@@ -243,7 +243,7 @@ class ProjectController extends Controller
              
                 $nestedData['action'] = '<div>
                                         <td>
-                                            <a class="btn-icon mx-1" href="'. $show_url.'" target="_blank">
+                                            <a class="btn-icon mx-1" href="'. $show_url.'" >
                                             <i class="fa fa-eye text-success" aria-hidden="true" ></i>
                                             </a>
                                             <a class="btn-icon mx-1" href="'. $edit_url.'" target="_blank">
