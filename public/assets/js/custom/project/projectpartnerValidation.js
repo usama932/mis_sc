@@ -82,6 +82,18 @@ var KTprojectpartnerValidate = function() {
                     // Check axios library docs: https://axios-http.com/docs/intro
                     axios.post(submitButton.closest('form').getAttribute('action'), new FormData(form)).then(function(response) {
                         if (response) {
+                            form.reset();
+                            var project_province = $('#project_province');
+                            project_province.val(null).trigger('change');
+                    
+                            var project_district = $('#project_district');
+                            project_district.val(null).trigger('change');
+                    
+                            var theme = $('#theme');
+                            theme.val(null).trigger('change');
+                    
+                            var partner = $('#partner');
+                            partner.val(null).trigger('change');
                             if (response.data.error == 'true') {
                                 toastr.options = {
                                     "closeButton": true,
@@ -100,8 +112,7 @@ var KTprojectpartnerValidate = function() {
                                     "showMethod": "fadeIn",
                                     "hideMethod": "fadeOut"
                                 };
-                                var form = document.getElementById('create_projectpartner');
-                                form.reset();
+                                
                                 toastr.error(response.data.message, "Error");
                             } else {
                                 toastr.options = {
@@ -122,8 +133,9 @@ var KTprojectpartnerValidate = function() {
                                     "hideMethod": "fadeOut"
                                 };
                                 
-                                form.reset();
+                        
                               
+                        
                                 toastr.success("Partner Added Successfully", "Success");
                               
                                
