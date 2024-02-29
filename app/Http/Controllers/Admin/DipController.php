@@ -172,10 +172,14 @@ class DipController extends Controller
     public function dip_create($id)
     {
      
-        $project = Project::with(['quarters' => function ($query) {
+        $project = Project::with(['themes', 'quarters' => function ($query) {
             $query->orderBy('id', 'asc');
-        }])->where('id',$id)->first();
-        $themes =  $project->themes ?? '';
+        }])->where('id', $id)->first();
+        $themes = $project->themes->groupBy('theme_id')->map(function ($themes) {
+            return $themes->first();
+        })->values()->all();
+      
+     
         addJavascriptFile('assets/js/custom/dip/dip_activity_validations.js');
         return view('admin.dip.create',compact('project','themes'));
     }
@@ -187,7 +191,7 @@ class DipController extends Controller
 
     public function store(Request $request)
     {
-     
+        
         $data = $request->except('_token');
         $dip = $this->dipRepository->storedip( $data);
         $dip = 'basic_info';

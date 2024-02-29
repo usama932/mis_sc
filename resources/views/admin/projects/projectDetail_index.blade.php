@@ -1,12 +1,12 @@
 <x-default-layout>
 
     @section('title')
-       Manage Project List    {{ auth()->user()->rolehas}}
+    Add/Edit Project Details 
     @endsection
 
         <div id="kt_app_content" class="app-content flex-column-fluid">
             
-            <div class="card">
+            <div class="card"> 
                 @role('administrator')
                     <div class="accordion" id="accordionExample">
                         <div class="accordion-item">

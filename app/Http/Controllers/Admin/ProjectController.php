@@ -223,6 +223,7 @@ class ProjectController extends Controller
                 $nestedData['project'] = $r->name ?? '';
                 $nestedData['type'] = $r->type ?? '';
                 $nestedData['sof'] = $r->sof ?? '';
+                $nestedData['donor'] = $r->donors?->name ?? '';
                 if(!empty($r->start_date)){
                     $nestedData['start_date'] = date('d-M-Y', strtotime($r->start_date)) ?? '';
                 }
@@ -239,7 +240,7 @@ class ProjectController extends Controller
                 $nestedData['status'] = $r->status ?? '';
            
                 $nestedData['created_by'] = $r->user->name ?? '';
-                $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
+                $nestedData['created_at'] = date('d-M-Y H:i:s', strtotime($r->created_at)) ?? '';
              
                 $nestedData['action'] = '<div>
                                         <td>

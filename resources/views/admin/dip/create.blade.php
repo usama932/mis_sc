@@ -18,10 +18,11 @@
                                 <span class="required">Thematic Area</span>
                             </label>
                             <select name="theme" id="theme_id" aria-label="Select a Theme" data-control="select2"
-                                data-placeholder="Select a Theme" class="form-select" data-allow-clear="true">
+                                    data-placeholder="Select a Theme" class="form-select" data-allow-clear="true">
                                 <option value=''>Select Thematic Area</option>
-                                @foreach($project->themes as $theme)
-                                    <option value='{{ $theme->scitheme_name->id }}'>{{ $theme->scitheme_name->name }}</option>
+                                @foreach($themes as $theme)
+                               
+                                    <option value='{{ $theme->theme_id}}'>{{ $theme->scitheme_name->name }}</option>
                                 @endforeach
                             </select>
                             <div id="themeError" class="error-message"></div>

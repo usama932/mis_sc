@@ -284,6 +284,14 @@ var KTprojectthemeValidate = function() {
                                     "showMethod": "fadeIn",
                                     "hideMethod": "fadeOut"
                                 };
+                                form.reset();
+                                
+                                var themeSelect = $('#theme_id');
+                                themeSelect.val(null).trigger('change');
+                                
+                                var subThemeSelect = $('#sub_theme_id');
+                                subThemeSelect.empty().trigger('change');
+                                
                                 toastr.success("Project theme targets added successfully", "Success");
                                
                                 project_theme.ajax.reload(null, false).draw(false);

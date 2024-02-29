@@ -4,21 +4,13 @@
             <input type="hidden" id="project_id" value="{{$project->id}}">
             <div class="row">
                 
-                <div class="col-md-12 p-4">
+                <div class="col-md-6 p-4">
                     <table class="table table-striped p-4">
                         
                         <tr>
                             <td><strong>Project Title</strong></td>
                             <td>{{$project->name ?? ''}}</td>
                         </tr>
-                         
-                        <tr>
-                            <td><strong>Type</strong></td>
-                            <td>{{$project->type ?? ''}}</td>
-                        </tr>
-                      
-                      
-                        
                         @if(!empty($provinces))
                             <tr>
                                 <td><strong>Provinces</strong></td>
@@ -29,6 +21,46 @@
                                 </td>
                             </tr>
                         @endif
+                       
+                        <tr>
+                            <td><strong>Themes</strong></td>
+                            <td>
+                                @php
+                                    $groupedThemes = [];
+                                    foreach($project->themes as $themes) {
+                                        $mainThemeName = $themes->scisubtheme_name->maintheme->name ?? '';
+                                        $subThemeName = $themes->scisubtheme_name->name ?? '';
+                                        $groupedThemes[$mainThemeName][] = $subThemeName;
+                                    }
+                                @endphp
+                        
+                                @foreach($groupedThemes as $mainThemeName => $subThemes)
+                                    {{$mainThemeName}}(@foreach($subThemes as $index => $subTheme)
+                                    <u>{{$subTheme}}</u>@unless($loop->last),@endunless
+                                    @endforeach)@unless($loop->last),@endunless
+                                @endforeach
+                            </td>
+                        </tr>
+                      
+                        <tr>
+                            <td><strong>Donor </strong></td>
+                            <td>
+                                {{$project->donors?->name ?? ''}}
+                            </td>
+                        </tr>
+                      
+                        
+                    </table>
+                </div>
+                <div class="col-md-6 p-4">
+                    <table class="table table-striped p-4">
+                        
+                  
+                        <tr>
+                            <td><strong>Type</strong></td>
+                            <td>{{$project->type ?? ''}}</td>
+                        </tr>
+                     
                         @if(!empty($districts))
                             <tr>
                                 <td><strong>Disticts</strong></td>
@@ -38,26 +70,12 @@
                                 </td>
                             </tr>
                         @endif
-                        <tr>
-                            <td><strong>Themes </strong></td>
-                            <td>
-                                @foreach($project->themes as $themes)
-                                {{$themes->scitheme_name->name ?? ''}} @if(!empty($themes->scisubtheme_name)) ({{$themes->scisubtheme_name?->name ?? ''}} )@endif @if(! $loop->last),@endif
-                                @endforeach
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Partner </strong></td>
+                       
+                        <td><strong>Partner </strong></td>
                             <td>
                                 @foreach($project->partners as $partners)
                                 {{$partners->partner_name->slug ?? ''}}@if(! $loop->last),@endif
                                 @endforeach
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Donor </strong></td>
-                            <td>
-                                {{$project->donors?->name ?? ''}}
                             </td>
                         </tr>
                         <tr>
@@ -74,15 +92,18 @@
                                 @endif
                             </td>
                         </tr>
+                       
+                    </table>
+                </div>
+                <div class="col-md-12 p-4">
+                    <table class="table table-striped p-4">
                         <tr>
                             <td><strong>Project Description</strong></td>
-                            <td> {{$project->detail?->project_description ?? 'No Detail'}}
+                            <td> {{$project->detail?->project_description ?? ''}}
                             </td>
                         </tr>
                     </table>
-                </div>
-               
-          
+                </div>  
             </div>
             <div class="card">
                 <div class="container-fluid">

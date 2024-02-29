@@ -77,11 +77,11 @@
                                 <th>Project</th>
                                 <th>Type</th>
                                 <th>SOF</th>
-                            
+                                <th>Donor</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Created By</th>
-                                <th>Created At</th>
+                                <th>Creation Date/Time</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -137,7 +137,11 @@
                         "searchable": false,
                         "orderable": false
                     },
-                
+                    {
+                        "data": "donor",
+                        "searchable": false,
+                        "orderable": false
+                    },
                     {
                         "data": "start_date",
                         "searchable": false,
@@ -224,6 +228,7 @@
                             {"data":"project","searchable":false,"orderable":false},
                             {"data":"type","searchable":false,"orderable":false},
                             {"data":"sof","searchable":false,"orderable":false},
+                            {"data":"donor","searchable":false,"orderable":false},
                             {"data":"start_date","searchable":false,"orderable":false},
                             {"data":"end_date","searchable":false,"orderable":false},
                             {"data":"created_by","searchable":false,"orderable":false},

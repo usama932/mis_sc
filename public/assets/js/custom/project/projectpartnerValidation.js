@@ -24,6 +24,9 @@ var KTprojectpartnerValidate = function() {
                             notEmpty: {
                                 message: 'Email is required'
                             },
+                            emailAddress: {
+                                message: 'Please enter a valid email address'
+                            }
                           
                         }
                     },
@@ -118,9 +121,9 @@ var KTprojectpartnerValidate = function() {
                                     "showMethod": "fadeIn",
                                     "hideMethod": "fadeOut"
                                 };
-                                var form = document.getElementById('create_projectpartner');
-                                form.reset();
                                 
+                                form.reset();
+                              
                                 toastr.success("Partner Added Successfully", "Success");
                               
                                
@@ -345,90 +348,51 @@ function project_parnterdel(id) {
 }
 
 
-//project Partner Updated
-$(document).ready(function() {
-    $(document).on('submit', '.update_projectpartner_form', function(event) {
-        event.preventDefault(); // Prevent default form submission
-        $('#kt_update_project_partner').hide();
-        $('#loadingSpinner').show();
+//delete project theme
+function project_partnerdel(id) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!"
+    }).then(function(result) {
 
-        $.ajax({
-            url: $(this).attr('action'),
-            method: 'PUT',
-            data: $(this).serialize(), 
-            success: function(response) {
-                
-                if (response) {
-                    $('#kt_update_project_partner').show();
-                    // Hide loading spinner
-                    $('#loadingSpinner').hide();
-                    if (response.error == true) {
-                        toastr.options = {
-                            "closeButton": true,
-                            "debug": false,
-                            "newestOnTop": false,
-                            "progressBar": false,
-                            "positionClass": "toastr-top-right",
-                            "preventDuplicates": false,
-                            "onclick": null,
-                            "showDuration": "300",
-                            "hideDuration": "1000",
-                            "timeOut": "5000",
-                            "extendedTimeOut": "1000",
-                            "showEasing": "swing",
-                            "hideEasing": "linear",
-                            "showMethod": "fadeIn",
-                            "hideMethod": "fadeOut"
-                        };
-                        toastr.error(response.message, "Error");
-                    } else {
-                        toastr.options = {
-                            "closeButton": true,
-                            "debug": false,
-                            "newestOnTop": false,
-                            "progressBar": false,
-                            "positionClass": "toastr-top-right",
-                            "preventDuplicates": false,
-                            "onclick": null,
-                            "showDuration": "300",
-                            "hideDuration": "1000",
-                            "timeOut": "5000",
-                            "extendedTimeOut": "1000",
-                            "showEasing": "swing",
-                            "hideEasing": "linear",
-                            "showMethod": "fadeIn",
-                            "hideMethod": "fadeOut"
-                        };
-                        toastr.success(response.message, "Success");
-                        project_partners.ajax.reload(null, false).draw(false);
-                        $('.partner_modal').modal('hide');
-                    }
+        if (result.value) {
+            Swal.fire(
+                "Deleted!",
+                "Your Project Partner  has been deleted.",
+                "success"
+            );
+            var segments = window.location.href.split('/');
+            var url = segments[1];
+            var APP_URL = url + "/project_partner/delete/" + id;
+            var apiUrl = APP_URL;
+            fetch(apiUrl, {
+                    method: 'GET', // You can use 'GET', 'POST', 'PUT', 'DELETE', etc.
+                    headers: {
+                        'Content-Type': 'application/json', // Set the content type based on your API requirements
+                        // Add any other headers if needed
+                    },
+                    // Add any additional options such as body, credentials, etc.
+                })
+                .then(response => {
+                    // Handle the response as needed
+                    console.log(response);
+                })
+                .catch(error => {
+                    // Handle errors
+                    console.error('Error:', error);
+                });
 
-                }
-            },
-            error: function(xhr, status, error) {
-                toastr.options = {
-                    "closeButton": true,
-                    "debug": false,
-                    "newestOnTop": false,
-                    "progressBar": false,
-                    "positionClass": "toastr-top-right",
-                    "preventDuplicates": false,
-                    "onclick": null,
-                    "showDuration": "300",
-                    "hideDuration": "1000",
-                    "timeOut": "5000",
-                    "extendedTimeOut": "1000",
-                    "showEasing": "swing",
-                    "hideEasing": "linear",
-                    "showMethod": "fadeIn",
-                    "hideMethod": "fadeOut"
-                };
-                toastr.error(error, "Error");
-            }
-        });
+
+                project_partners.ajax.reload(null, false).draw(false);
+            // $("#create_projecttheme").slideToggle();
+            // $("#project_theme_table").slideToggle();
+            // $("#addprojectthemeBtn").show();
+        }
     });
-});
+}
 /// toggle project theme
 $("#addprojectpartnerBtn").click(function() {
 

@@ -15,4 +15,8 @@ class SciSubTheme extends Model
     {
         return $this->hasOne(DipActivity::class,'subtheme_id','id');
     }
+    public function maintheme()
+    {
+        return $this->belongsTo(SciTheme::class,'sci_theme_id','id');
+    }
 }

@@ -38,7 +38,7 @@
                     <tr>
                         <td><strong>Focal Person</strong></td>
                         <td>
-                          {{$project->focalperson?->name ?? ''}}<br>
+                          {{ucfirst($project->focalperson?->name ?? '')}} -  {{$project->focalperson?->desig?->designation_name ?? ''}}<br>
                        
                         </td>
                     </tr>
