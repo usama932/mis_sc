@@ -25,7 +25,7 @@ class ProjectPartner extends Model
     }
     public function scisubtheme_name()
     {
-        return $this->belongsTo(SciSubTheme::class,'sub_theme_id','id');
+        return $this->belongsTo(SciSubTheme::class,'themes','id');
     }
     public function theme_name()
     {
