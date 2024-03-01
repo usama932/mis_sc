@@ -128,21 +128,21 @@
                
                 if (isValid) {
                     var html = `
-                        <div class="row mt-3 required" style="display:none;">
+                        <div class="row mt-3" style="display:none;">
                             <div class="col-md-3">
                                 <select name="quarter[]" aria-label="Select a Quarter Target"
                                     data-placeholder="Select a Quarter Target" class="form-select"
                                     data-allow-clear="true">
                                     <option value=''>Select Quarter Target</option>`;
-                    quarters.forEach(function (quarter) {
-                        if (!selectedQuarters.includes(quarter.quarter)) { // Check if quarter is not already selected
-                            html += `<option value="${quarter.quarter}">${quarter.quarter}</option>`;
-                        }
-                    });
-                    html += `
+                                    quarters.forEach(function (quarter) {
+                                        if (!selectedQuarters.includes(quarter.quarter)) { // Check if quarter is not already selected
+                                            html += `<option value="${quarter.quarter}">${quarter.quarter}</option>`;
+                                        }
+                                    });
+                                    html += `
                                 </select>
                             </div> 
-                            <div class="col-md-3 required">
+                            <div class="col-md-3">
                                 <input type="text" name="target_quarter[]" placeholder="Enter Activity Target"
                                     class="form-control" autocomplete="off" required>
                             </div>

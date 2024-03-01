@@ -96,6 +96,6 @@
     @include('admin.projects.partials.edit_partner')
     @include('admin.projects.partials.edit_theme')
     @push("scripts")
-        
+   
     @endpush
 </x-nform-layout>

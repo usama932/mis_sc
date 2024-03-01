@@ -88,7 +88,9 @@ class DipActivityController extends Controller
                 $nestedData['update_progress'] = '<a  href="'.$progress_url.'"   ><span class="badge badge-success">Update Progress</span> </a>';
                 $nestedData['action'] = '<div>
                                         <td>
-                                            
+                                            <a class="btn-icon mx-1" href="'.$edit_url.'" target="_blank"  >
+                                            <i class="fa fa-pencil text-primary" aria-hidden="true" ></i>
+                                            </a>
                                             <a class="btn-icon mx-1" href="'.$show_url.'" >
                                                 <i class="fa fa-eye text-warning" aria-hidden="true" ></i>
                                             </a>
@@ -99,9 +101,7 @@ class DipActivityController extends Controller
                                                     <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                                                 </a>';
                                             }
-                                            // <a class="btn-icon mx-1" href="'.$edit_url.'" target="_blank"  >
-                                            // <i class="fa fa-pencil text-primary" aria-hidden="true" ></i>
-                                            // </a>
+                                           
                                             $nestedData['action'] .= '</td></div>';
 				
 				$data[] = $nestedData;
@@ -214,7 +214,6 @@ class DipActivityController extends Controller
     }
     public function show(string $id)
     {
-     dd('sa');
         $dip_activity = DipActivity::where('id',$id)->with('months','project','user','user1')->first();
   
         if(!empty($dip_activity->project->detail->province )){

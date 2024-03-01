@@ -387,13 +387,13 @@ class QBActionPointController extends Controller
         return view('admin.quality_bench.action_point.update_actionpoint',compact('action_point'));
     }
     public function postupdate_actionpoint(Request $request,$id){
-        
+       
         $validator = Validator::make($request->all(), [ 
             'status'  => 'required',
             'completion_date'  => 'required',
         ]);
         if ($validator->fails()) {
-            return back()->withErrors($validator);;    
+            return back()->withErrors($validator);   
         }
         $actionachieve = ActionAcheive::create([
             'monitor_action_points_id' => $request->quality_bench_id,
@@ -401,14 +401,10 @@ class QBActionPointController extends Controller
             'comments' => $request->comments,
             'status' => $request->status,
         ]);
-        $actionachieve = ActionAcheive::create([
-            'monitor_action_points_id' => $request->quality_bench_id,
-            'completion_date' => $request->completion_date,
-            'comments' => $request->comments,
-            'status' => $request->status,
-        ]);
+       
         $monitor_visits = ActionPoint::where('id',$id)->update([
-            'status' => $request->status
+            'status' => $request->status,
+            'completion_date' => $request->completion_date,
         ]);
         $actionpoint = QualityBench::where('id',$request->quality_bench_id)->first();
         $actionpoint->submit = '1';

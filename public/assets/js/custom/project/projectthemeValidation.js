@@ -486,7 +486,7 @@ function project_themedel(id) {
     });
 }
 function edittheme(id) {
-    var CSRF_TOKEN = '{{ csrf_token() }}';
+   
     $.post("/edit_project_theme", {
         _token: csrfToken,
         id: id
@@ -509,4 +509,96 @@ $("#cancelprojectthemeBtn").click(function() {
     $("#create_projecttheme").slideToggle();
     $("#addprojectthemeBtn").show(); // Show the other buttons
     $(this).hide(); // Hide the cancel button
+});
+
+
+//Edit PRoject Theme 
+$(document).ready(function() {
+    $(document).on('submit', '.update_projecttheme_form', function(event) {
+        event.preventDefault(); // Prevent default form submission
+       
+
+        // Serialize form data
+        var formData = $(this).serialize();
+        var csrfToken = '{{ csrf_token() }}'; // Define CSRF token here
+        var url =$(this).attr('action');
+        $('.error-message').remove();
+
+        // Check if any field is empty
+        var anyFieldInvalid = false;
+        $(this).find('input[type="text"], textarea').each(function() {
+            var fieldValue = parseFloat($(this).val().trim());
+            if ($(this).val().trim() === '' || isNaN(fieldValue) || fieldValue < 0) {
+                anyFieldInvalid = true;
+                if (!$(this).next('.error-message').length) {
+                    $(this).after('<span class="error-message text-danger">Please enter a valid number greater than or equal to -1.</span>');
+                }
+            }
+        });
+
+        if (anyFieldInvalid) {
+            console.error('Please fill in all fields with valid numbers greater than or equal to -1.');
+            return; // Exit the function if any field is empty or invalid
+        }
+        if (anyFieldInvalid == false) {
+            $.ajax({
+                url : url,
+                method: 'PUT',
+                data: {
+                    _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    formData: formData
+                },
+                success: function(response) {
+                    if(response.error == false){
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": true,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toastr-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+                        toastr.error(response.error, "Error");
+                    }
+                    else{
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": true,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toastr-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+                       
+                        $('.project_theme_modal').modal('hide');
+                       
+                        project_theme.ajax.reload(null, false).draw(false);
+                        toastr.success("Project theme targets updated successfully", "Success");
+                        
+                    }
+                },
+                error: function(xhr, status, error) {
+                  console.log(error);
+                }
+            });
+        }
+    });
 });

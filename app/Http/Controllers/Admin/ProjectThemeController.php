@@ -72,7 +72,7 @@ class ProjectThemeController extends Controller
 
                 $nestedData['action'] = '<div>
                                             <td>
-                                                <a class="btn-icon mx-1" title="Edit project theme" data-bs-toggle="modal" data-bs-target="#edittheme_'"$r->id"'.">
+                                                <a class="btn-icon mx-1" title="Edit project theme" data-bs-toggle="modal" data-bs-target="#edittheme_'.$r->id.'">
                                                     <i class="fa fa-pencil text-secondary" aria-hidden="true"></i>
                                                 </a>
                                                 <a class="btn-icon mx-1" onclick="event.preventDefault(); project_themedel({{ $r->id }});" title="Delete project theme" href="javascript:void(0)">
@@ -163,26 +163,28 @@ class ProjectThemeController extends Controller
     {   
        
         $theme =  ProjectTheme::find($id);
-        $ind_target = $request->women_target + $request->men_target + $request->girls_target + $request->boys_target;
-      
-        if($ind_target == $request->individual_target){
+        $formData = $request->input('formData');
 
+        parse_str($formData, $parsedData);
+        
+        $ind_target =$parsedData['women_target'] + $parsedData['men_target'] + $parsedData['girls_target'] + $parsedData['boys_target'];
+        
+        if($ind_target == $parsedData['individual_target']){
+           
             if(!empty($theme)){
-                $editUrl = route('project.detail',$theme->project_id);
 
                 ProjectTheme::where('id',$id)->update([
-                    'house_hold_target' => $request->house_hold_target,
-                    'individual_target' => $request->individual_target,
-                    'pwd_target'        => $request->pwd_target,
-                    'women_target'      => $request->women_target,
-                    'men_target'        => $request->men_target,
-                    'girls_target'      => $request->girls_target,
-                    'boys_target'       => $request->boys_target,
+                    'house_hold_target' => $parsedData['house_hold_target'],
+                    'individual_target' => $parsedData['individual_target'],
+                    'pwd_target'        => $parsedData['pwd_target'],
+                    'women_target'      => $parsedData['women_target'],
+                    'men_target'        => $parsedData['men_target'],
+                    'girls_target'      => $parsedData['girls_target'],
+                    'boys_target'       => $parsedData['boys_target'],
                     
                 ]);
                 return response()->json([
                     'message' => 'Theme Updated Successfully',
-                    'editUrl' => $editUrl,
                     'error'   => true,
                 ]);
             }
