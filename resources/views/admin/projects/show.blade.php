@@ -161,7 +161,8 @@
                                 <table class="table table-striped table-bordered nowrap" id="project_partners" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Themes</th>
+                                        <th>Theme</th>
+                                        <th>Sub Theme</th>
                                         <th>Partner</th>
                                         <th>Email</th>
                                         <th>Province</th>
@@ -184,7 +185,6 @@
                                     <thead>
                                         <tr>
                                             <th>Activity</th>
-                                           
                                             <th>Sub Theme</th>
                                             <th>LOP Target</th>
                                             <th>Quarter  Target</th>

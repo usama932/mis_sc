@@ -63,8 +63,8 @@
                 <table class="table table-striped table-bordered nowrap" id="project_partners" style="width:100%">
                 <thead>
                     <tr>
-                    
-                        <th>Sub Themes</th>
+                        <th>Theme</th>
+                        <th>Sub Theme</th>
                         <th>Partner</th>
                         <th>Email</th>
                         <th>Province</th>

@@ -71,6 +71,7 @@ class DipActivityController extends Controller
                 $edit_url = route('activity_dips.edit',$r->id);
                 $progress_url = route('postprogress',$r->id);
 				$nestedData['activity_number'] = $r->activity_title ?? ''; 
+                $nestedData['theme'] = $r->scitheme_name->name ?? ''; 
                 $nestedData['sub_theme'] = $r->scisubtheme_name->name ?? ''; 
                 $nestedData['project'] = $r->project->name ?? ''; 
                 $nestedData['lop_target'] = $r->lop_target ?? '';
@@ -213,7 +214,7 @@ class DipActivityController extends Controller
     }
     public function show(string $id)
     {
-     
+     dd('sa');
         $dip_activity = DipActivity::where('id',$id)->with('months','project','user','user1')->first();
   
         if(!empty($dip_activity->project->detail->province )){

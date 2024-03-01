@@ -59,6 +59,7 @@ class ProjectPartnerController extends Controller
                 $nestedData['id'] = $r->id;
                 $nestedData['project'] = $r->project?->name ?? '';
                 $nestedData['themes'] = $r->scisubtheme_name?->name ?? '';
+                $nestedData['sub_themes'] = $r->scitheme_name?->name ?? '';
                 $nestedData['partner'] = $r->partner_name?->slug ?? '';
                 $nestedData['email'] = $r->email ?? '';
                 $nestedData['province'] = $r->provinces->province_name ?? '';

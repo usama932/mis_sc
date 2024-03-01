@@ -270,8 +270,14 @@ var project_partners = $('#project_partners').DataTable({
         }
     },
     "columns": [
+        
         {
             "data": "themes",
+            "searchable": false,
+            "orderable": false
+        },
+        {
+            "data": "sub_themes",
             "searchable": false,
             "orderable": false
         },

@@ -13,6 +13,7 @@ use App\Models\Partner;
 use App\Models\Donor;
 use App\Models\SCITheme;
 use App\Models\ProjectPartner;
+use App\Models\ProjectTheme;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
 
 class ProjectController extends Controller
@@ -301,13 +302,13 @@ class ProjectController extends Controller
             session(['project' => $active]);
         }
         $project_partners   = ProjectPartner::where('project_id',$id)->get();  
-
+        $project_themes   = ProjectTheme::where('project_id',$id)->get();  
         addJavascriptFile('assets/js/custom/dip/create.js');
         addJavascriptFile('assets/js/custom/project/projectthemeValidation.js');
         addJavascriptFile('assets/js/custom/project/projectpartnerValidation.js');
         addVendors(['datatables']);
        
-        return view('admin.projects.updateprojectdetail',compact('project','project_partners','partners','themes','provinces','districts','ps','ths'));
+        return view('admin.projects.updateprojectdetail',compact('project_themes','project','project_partners','partners','themes','provinces','districts','ps','ths'));
     }
     public function project_view($id){
 
