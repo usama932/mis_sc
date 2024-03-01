@@ -45,7 +45,7 @@
                    
                     <tr>
                         <td><strong>Created At</strong></td>
-                        <td>   {{ date('M d, Y', strtotime($project->created_at))}} </td>
+                        <td>   {{ date('M d, Y H:i:s', strtotime($project->created_at))}} </td>
                     </tr>
                 </table>
             </div>
