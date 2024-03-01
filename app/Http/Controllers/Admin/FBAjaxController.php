@@ -10,7 +10,9 @@ use App\Models\District;
 use App\Models\Project;
 use App\Models\UnionCounsil;
 use App\Models\SciSubTheme; 
+use App\Models\SciTheme; 
 use App\Models\ProjectTheme; 
+use App\Models\ProjectQuarter;
 
 class FBAjaxController extends Controller
 {
@@ -144,4 +146,14 @@ class FBAjaxController extends Controller
             return response()->json($themes);
         }
     }   
+    public function getprojecttheme(Request $request){
+        
+        $projectThemes = ProjectTheme::where('project_id', $request->project_id)->pluck('theme_id');
+        
+        $quarters = ProjectQuarter::where('project_id' , $request->project_id)->orderBy('id', 'asc')->get();
+
+        $themes = SciTheme::whereIn('id', $projectThemes)->get();
+      
+        return response()->json(['themes'=>$themes,'quarters',$quarters]);
+    }
 }

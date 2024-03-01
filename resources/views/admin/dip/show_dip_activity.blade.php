@@ -36,6 +36,7 @@
                         <th>Girls </th>
                         <th>Boys </th>
                         <th>PWD </th>
+                        <th>Status</th>
                         <th>Remarks</th>
                     </tr>
                 </thead>
@@ -92,6 +93,7 @@
                     {"data":"girls_target","searchable":false,"orderable":false},
                     {"data":"boys_target","searchable":false,"orderable":false},
                     {"data":"pwd_target","searchable":false,"orderable":false},
+                    {"data":"status","searchable":false,"orderable":false},
                     {"data":"remarks","searchable":false,"orderable":false},
                 ]
             });

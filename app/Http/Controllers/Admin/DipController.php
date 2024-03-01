@@ -179,7 +179,7 @@ class DipController extends Controller
             return $themes->first();
         })->values()->all();
       
-     
+        
         addJavascriptFile('assets/js/custom/dip/dip_activity_validations.js');
         return view('admin.dip.create',compact('project','themes'));
     }

@@ -72,6 +72,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('get-project', [FBAjaxController::class,'getproject'])->name('get-project');
     Route::post('getSubTheme', [FBAjaxController::class,'getSubTheme'])->name('getSubTheme');
     Route::post('getactivitySubTheme', [FBAjaxController::class,'getactivitySubTheme'])->name('getactivitySubTheme');
+    Route::post('getprojecttheme', [FBAjaxController::class,'getprojecttheme'])->name('getprojecttheme');
     //Quality Bench Routes
     Route::resource('/quality-benchs', QbController::class);
     Route::post('get_qbs', [QbController::class,'get_qbs'])->name('admin.get_qbs');
@@ -145,7 +146,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('updateprogress', [DipActivityController::class,'updateprogress'])->name('updateprogress');
     Route::post('fetchquartertarget', [DipActivityController::class,'fetchquartertarget'])->name('fetchquartertarget');
     Route::post('activity_Quarters', [DipActivityController::class,'activityQuarters'])->name('admin.activityQuarters');
-    
+    Route::get('/activity/create', [DipActivityController::class,'create'])->name('create_activity');
     //Master Projects  routes
     Route::resource('/projects', ProjectController::class);
     Route::post('get_projects', [ProjectController::class,'get_projects'])->name('admin.get_projects');

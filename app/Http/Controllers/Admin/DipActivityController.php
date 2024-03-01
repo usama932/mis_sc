@@ -82,11 +82,12 @@ class DipActivityController extends Controller
                 }
                 $nestedData['quarter_target'] = $quarterTarget;
                 $nestedData['created_by'] = $r->user->name ?? '';
+           
                 $nestedData['created_at'] = date('d-M-Y H:i:s', strtotime($r->created_at)) ?? '';
-                $nestedData['update_progress'] = '';
+                $nestedData['update_progress'] = '<a  href="'.$progress_url.'"   ><span class="badge badge-success">Update Progress</span> </a>';
                 $nestedData['action'] = '<div>
                                         <td>
-                                            <a  href="'.$progress_url.'"   ><span class="badge badge-success">Update Progress</span> </a>
+                                            
                                             <a class="btn-icon mx-1" href="'.$show_url.'" >
                                                 <i class="fa fa-eye text-warning" aria-hidden="true" ></i>
                                             </a>
@@ -150,7 +151,7 @@ class DipActivityController extends Controller
                     $nestedData['boys_target'] = $r->progress?->boys_target ?? '0'; 
                     $nestedData['pwd_target'] = $r->progress?->pwd_target ?? '0'; 
                     $nestedData['activity_acheive'] = '<span style="style="background-color: grey"">'.$r->progress?->activity_target ?? '0'.'</span>'; 
-                
+                    $nestedData['status'] = 'To Be Reviewed';
                     $nestedData['remarks'] = $r->progress?->remarks ?? '';
                   
                     
@@ -178,12 +179,22 @@ class DipActivityController extends Controller
    
     public function create()
     {
-        //
+        if(auth()->user()->user_type != 'admin'){
+            $projects = Project::orWhere('focal_person' ,auth()->user()->id)->orWhereHas('partners', function ($query) {
+                $query->where('email', auth()->user()->email);
+            })->orderBy('name')->get();
+        }else{
+            $projects= Project::orderBy('name')->get();
+        }
+        
+      
+        addJavascriptFile('assets/js/custom/dip/dip_activity_validations.js');
+        return view('admin.dip.activity.create',compact('projects'));
     }
 
     public function store(Request $request)
     {
-        dd($request->all());
+        
         $data = $request->except('_token');
        
         $dip_activity = $this->dipactivityRepository->storedipactivity($data);
@@ -197,7 +208,9 @@ class DipActivityController extends Controller
 
     }
 
+    public function create_activity(){
 
+    }
     public function show(string $id)
     {
      

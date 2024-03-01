@@ -14,4 +14,5 @@ class SCITheme extends Model
     {
         return $this->hasMany(SciSubTheme::class,'sci_theme_id','id');
     }
+    
 }
