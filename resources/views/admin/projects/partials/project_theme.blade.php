@@ -93,7 +93,6 @@
                 <table class="table table-striped table-bordered nowrap" id="project_themes" style="width:100%">
                 <thead>
                     <tr>
-                      
                         <th>Theme</th>
                         <th>Sub Theme</th>
                         <th contenteditable="true">House-Hold Target</th>

@@ -78,9 +78,77 @@
             </div>
         </div>
     </div>
-    @include('admin.projects.partials.edit_partner')
-    @include('admin.projects.partials.edit_theme')
+    <div class="modal fade" id="edittheme" tabindex="-1" aria-labelledby="editThemeModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Edit Thematic Area</h3>
+                    <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                   
+                </div>
+            </div>
+        </div>
+    </div>
     @push("scripts")
+    <script>
+        function project_themedel(id) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!"
+    }).then(function(result) {
+
+        if (result.value) {
+            Swal.fire(
+                "Deleted!",
+                "Your Project Theme  has been deleted.",
+                "success"
+            );
+            var segments = window.location.href.split('/');
+            var url = segments[1];
+            var APP_URL = url + "/project_theme/delete/" + id;
+            var apiUrl = APP_URL;
+            fetch(apiUrl, {
+                    method: 'GET', // You can use 'GET', 'POST', 'PUT', 'DELETE', etc.
+                    headers: {
+                        'Content-Type': 'application/json', // Set the content type based on your API requirements
+                        // Add any other headers if needed
+                    },
+                    // Add any additional options such as body, credentials, etc.
+                })
+                .then(response => {
+                    // Handle the response as needed
+                    console.log(response);
+                })
+                .catch(error => {
+                    // Handle errors
+                    console.error('Error:', error);
+                });
+
+
+            project_theme.ajax.reload(null, false).draw(false);
+            // $("#create_projecttheme").slideToggle();
+            // $("#project_theme_table").slideToggle();
+            // $("#addprojectthemeBtn").show();
+        }
+    });
+}
+function edittheme(id) {
    
+    $.post("/edit_project_theme", {
+        _token: csrfToken,
+        id: id
+    }).done(function(response) {
+        $('.modal-body').html(response);
+        $('#edittheme').modal('show');
+    });
+}
+        </script>
     @endpush
 </x-nform-layout>

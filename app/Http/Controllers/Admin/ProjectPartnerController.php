@@ -67,7 +67,6 @@ class ProjectPartnerController extends Controller
             
                 $nestedData['action'] = '<div>
                     <td>
-                       
                         <a class="btn-icon mx-1" onclick="event.preventDefault(); project_partnerdel('.$r->id.');" title="Delete project theme" href="javascript:void(0)">
                             <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                         </a>
@@ -115,12 +114,10 @@ class ProjectPartnerController extends Controller
     
     public function store(Request $request)
     {
-      
         $project_partner = ProjectPartner::where('project_id' ,$request->project)->where('partner_id' ,$request->partner)->first();
         if(!empty($project_partner)){
-          
             return response()->json([
-                'message' => "Duplicate Partner ",
+                'message' => " Partner already exist",
                 'error' => "true"
             ]);
         }

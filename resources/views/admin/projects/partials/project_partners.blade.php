@@ -14,8 +14,8 @@
             <h3>Add Project Partner</h3>
             <div class="row ">
                 <div class="fv-row col-md-6">
-                    <select name="partner" id="partner" class="form-control m-input" data-control="select2" data-placeholder="Select Partner" class="form-select" data-allow-clear="true">
-                        <option  value=''>Select Partner</option>
+                    <select name="partner" id="partner" class="form-control partner" data-control="select2" data-placeholder="Select Partner" class="form-select" data-allow-clear="true">
+                        <option  value="">Select Partner</option>
                         @foreach($partners as $partner)
                             <option value="{{$partner->id}}">{{$partner->slug}}</option>
                         @endforeach

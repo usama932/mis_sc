@@ -13,7 +13,23 @@
                         <tr>
                             <td class="fs-1 text-center"> <strong>{{$dip_activity->project->name ?? ''}}</strong></td>
                         </tr>
-                       
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <table class="table table-striped">
+                        <tr>
+                            <th class="fs-4 text-center"> <strong>Activity Title</strong></th>
+                            <td class="fs-4 text-center"> <strong>{{$dip_activity->activity_title ?? ''}}</strong></td>
+                        </tr>
+                      
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <table class="table table-striped">
+                        <tr>
+                            <th class="fs-4 text-center"> <strong>LOP Target</strong></th>
+                            <td class="fs-4 text-center"> <strong>{{$dip_activity->lop_target ?? ''}}</strong></td>
+                        </tr>
                     </table>
                 </div>
                 <div class="col-md-4">
@@ -51,7 +67,6 @@
                             <td class="fs-9">
                                 {{$dip_activity->project->sof ?? ''}}
                             </td>
-                          
                         </tr>
                     </table>
                 </div>
@@ -70,9 +85,6 @@
                                 {{ date('M d, Y', strtotime($dip_activity->project->start_date))}} - {{date('M d, Y', strtotime($dip_activity->project->end_date))}}
                                 @endif
                             </td>
-                            
-                             
-                           
                         </tr>
                         
                     </table>
@@ -80,21 +92,17 @@
                 
             </div>
             <table class="table table-bordered nowrap table-responsive" id="activityQuarters">
-                
                 <thead>
-                  
-                
-                    <tr >
+                    <tr>
                         <th></th>
                         <th colspan="2"  class="text-center" >Activity</th>
                         <th colspan="7" class="text-center" >Beneficiary Target vs Achievement</th>
-                        <th class="fs-8"><strong>LOP Target.#: </strong> {{$dip_activity->lop_target ?? ''}}</th>
+                        <th class="fs-8"></th>
                     </tr>
-                
-                    <tr >  
+                    <tr>  
                         <th>Quarter</th>
                         <th style="background-color: grey"> Target</th>
-                        <th > Achievement</th>
+                        <th> Achievement</th>
                         <th style="background-color: grey">Target</th>
                         <th>Women </th>
                         <th>Men </th>

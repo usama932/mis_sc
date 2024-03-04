@@ -194,30 +194,10 @@
                 document.getElementById('projectloader').style.display = 'block';
                 var value = $(this).val();
                 csrf_token = $('[name="_token"]').val();
-                $.ajax({
-                    type: 'POST',
-                    url: '/getprojecttheme',
-                    data: {'project_id': value, _token: csrf_token},
-                    dataType: 'json',
-                    success: function (data) {
-                        alert( data.quarters);
-                        document.getElementById('projectloader').style.display = 'none';
-                        $("#theme_id").find('option').remove();
-                        $("#theme_id").prepend("<option value=''>Select Sub-Theme</option>");
-                        $(".quarter").find('option').remove();
-                        $(".quarter").prepend("<option value=''>Select Quarters</option>");
-                        var selected = '';
-                        $.each(data.themes, function (i, item) {
-                            $("#theme_id").append("<option value='" + item.id + "' " + selected + " >" +
-                                item.name.replace(/_/g, ' ') + "</option>");
-                        });
-                        $.each(data.quarters, function (i, item) {
-                            alert('item');
-                            $("#quarter").append("<option value='" + item.id + "' " + selected + " >" +
-                                item.quarter.replace(/_/g, ' ') + "</option>");
-                        });
-                    }
-                });
+                var baseUrl = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+                var newUrl = baseUrl + '/dip/create/' + value;
+            // Redirect to the new URL
+            window.location.assign(newUrl);
             });
             document.getElementById('themeloader').style.display = 'none';
             $("#theme_id").change(function () {
