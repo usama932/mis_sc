@@ -31,4 +31,8 @@ class ActivityMonths extends Model
     {
         return $this->hasOne(ActivityProgress::class,'quarter_id','id');
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class,'created_by','id');
+    }
 }

@@ -58,13 +58,14 @@ var project_theme = $('#project_themes').DataTable({
             "searchable": false,
             "orderable": false
         },
+       
         {
-            "data": "boys_target",
+            "data": "girls_target",
             "searchable": false,
             "orderable": false
         },
         {
-            "data": "girls_target",
+            "data": "boys_target",
             "searchable": false,
             "orderable": false
         },
@@ -515,10 +516,7 @@ $("#cancelprojectthemeBtn").click(function() {
 //Edit PRoject Theme 
 $(document).ready(function() {
     $(document).on('submit', '.update_projecttheme_form', function(event) {
-        event.preventDefault(); // Prevent default form submission
-       
-
-        // Serialize form data
+        event.preventDefault(); 
         var formData = $(this).serialize();
         var csrfToken = '{{ csrf_token() }}'; // Define CSRF token here
         var url =$(this).attr('action');
@@ -549,6 +547,7 @@ $(document).ready(function() {
                     formData: formData
                 },
                 success: function(response) {
+                   
                     if(response.error == false){
                         toastr.options = {
                             "closeButton": false,

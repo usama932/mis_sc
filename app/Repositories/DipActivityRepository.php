@@ -38,6 +38,7 @@ class DipActivityRepository implements DipActivityInterface
                                 'beneficiary_target' => $b,
                                 'year'               => $year,
                                 'target'             => $t,
+                                'status'             => "To be Reviewed",
                                 'created_by'         => auth()->user()->id,
                             ]);
                         }
@@ -50,24 +51,13 @@ class DipActivityRepository implements DipActivityInterface
 
     public function updatedipactivity($data, $id)
     {
-        $q = ActivityMonths::where('activity_id',$id)->delete();
+        $activity =  DipActivity::where('id',$id)->update([
+            'activity_number'      => $data['activity'],
+            'activity_title'      => $data['activity'],
+            'lop_target'           => $data['lop_target'],
+            'updated_by'           => auth()->user()->id,
+        ]);
      
-        foreach($data['quarter']  as $key => $q){
-            foreach($data['target_quarter']  as $k => $t){
-                if($k == $key){
-                    if($t != null && $q != null){
-                      
-                        $activity = ActivityMonths::create([
-                            'project_id'     => $data['project_id'],
-                            'activity_id'    => $data['activity_id'],
-                            'year'          => $q,
-                            'target'         => $t,
-                            'created_by'     => auth()->user()->id,
-                        ]);
-                    }
-                }
-            }
-        }
         return $activity;
     }
 

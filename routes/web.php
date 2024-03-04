@@ -138,6 +138,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/activity_dips', DipActivityController::class);
     Route::post('edit_activity_dips', [DipActivityController::class,'edit_activity_dips'])->name('admin.edit_activity_dips');
     Route::post('get_activity_dips', [DipActivityController::class,'get_activity_dips'])->name('admin.get_activity_dips');
+    Route::post('get_activity_quarters', [DipActivityController::class,'get_activity_quarters'])->name('admin.get_activity_quarters');
     Route::post('view_activity_dips', [DipActivityController::class,'view_activity_dips'])->name('admin.view_activity_dips');
     Route::get('/activity_dips/delete/{id}', [DipActivityController::class,'destroy'])->name('activity_dips.delete');
     Route::get('/activity/progress', [DipActivityController::class,'activity_progress'])->name('activity_dips.progress');
@@ -147,6 +148,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('fetchquartertarget', [DipActivityController::class,'fetchquartertarget'])->name('fetchquartertarget');
     Route::post('activity_Quarters', [DipActivityController::class,'activityQuarters'])->name('admin.activityQuarters');
     Route::get('/activity/create', [DipActivityController::class,'create'])->name('create_activity');
+    Route::post('activtyquarter_update/{id}', [DipActivityController::class,'activtyquarter_update'])->name('activtyquarter.update');
+    
+    Route::post('quarterstatus.update/{id}', [DipActivityController::class,'quarterstatus_update'])->name('quarterstatus.update');
     //Master Projects  routes
     Route::resource('/projects', ProjectController::class);
     Route::post('get_projects', [ProjectController::class,'get_projects'])->name('admin.get_projects');
