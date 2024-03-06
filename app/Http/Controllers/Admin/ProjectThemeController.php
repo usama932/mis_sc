@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ProjectTheme;
 use App\Models\Project;
+use App\Models\ProjectPartner;
 use App\Models\SCITheme;
+use App\Models\User;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
 
 class ProjectThemeController extends Controller
@@ -210,7 +212,21 @@ class ProjectThemeController extends Controller
     {
         
         $project_theme = ProjectTheme::where('id' ,$id)->first();
-        $project_theme->delete();
+        if(!empty($project_theme)){
+            $partner = ProjectPartner::where('project_id' ,$project_theme->project_id)->
+                                where('themes' ,$project_theme->sub_theme_id)->first();
+            if(!empty($partner)){
+                $user = User::where('email',$partner->email)->first();
+                if(!empty($user)){
+                    $user->delete();
+                }
+              
+                $partner->delete();
+            }
+           
+            $project_theme->delete();
+        
+        }
         
         $active = 'thematic';
         session(['active' => $active]);

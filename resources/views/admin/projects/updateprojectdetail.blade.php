@@ -96,49 +96,49 @@
     @push("scripts")
     <script>
         function project_themedel(id) {
-    Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, delete it!"
-    }).then(function(result) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!"
+            }).then(function(result) {
+                if (result.value) {
+                    Swal.fire(
+                        "Deleted!",
+                        "Your Project Theme  has been deleted.",
+                        "success"
+                    );
+                    var segments = window.location.href.split('/');
+                    var url = segments[1];
+                    var APP_URL = url + "/project_theme/delete/" + id;
+                    var apiUrl = APP_URL;
+                    fetch(apiUrl, {
+                            method: 'GET', // You can use 'GET', 'POST', 'PUT', 'DELETE', etc.
+                            headers: {
+                                'Content-Type': 'application/json', // Set the content type based on your API requirements
+                                // Add any other headers if needed
+                            },
+                            // Add any additional options such as body, credentials, etc.
+                        })
+                        .then(response => {
+                            // Handle the response as needed
+                            console.log(response);
+                        })
+                        .catch(error => {
+                            // Handle errors
+                            console.error('Error:', error);
+                        });
 
-        if (result.value) {
-            Swal.fire(
-                "Deleted!",
-                "Your Project Theme  has been deleted.",
-                "success"
-            );
-            var segments = window.location.href.split('/');
-            var url = segments[1];
-            var APP_URL = url + "/project_theme/delete/" + id;
-            var apiUrl = APP_URL;
-            fetch(apiUrl, {
-                    method: 'GET', // You can use 'GET', 'POST', 'PUT', 'DELETE', etc.
-                    headers: {
-                        'Content-Type': 'application/json', // Set the content type based on your API requirements
-                        // Add any other headers if needed
-                    },
-                    // Add any additional options such as body, credentials, etc.
-                })
-                .then(response => {
-                    // Handle the response as needed
-                    console.log(response);
-                })
-                .catch(error => {
-                    // Handle errors
-                    console.error('Error:', error);
+
+                    project_theme.ajax.reload(null, false).draw(false);
+                    project_partners.ajax.reload(null, false).draw(false);
+                    // $("#create_projecttheme").slideToggle();
+                    // $("#project_theme_table").slideToggle();
+                    // $("#addprojectthemeBtn").show();
+                }
                 });
-
-
-            project_theme.ajax.reload(null, false).draw(false);
-            // $("#create_projecttheme").slideToggle();
-            // $("#project_theme_table").slideToggle();
-            // $("#addprojectthemeBtn").show();
         }
-    });
-}
 function edittheme(id) {
    
     $.post("/edit_project_theme", {

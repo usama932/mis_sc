@@ -93,8 +93,6 @@ var project_theme = $('#project_themes').DataTable({
 });
 
 
-
-
 //project Create theme Form Validations
 
 var KTprojectthemeValidate = function() {
