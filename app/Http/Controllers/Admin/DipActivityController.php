@@ -209,9 +209,17 @@ class DipActivityController extends Controller
                     $nestedData['status'] = $r->status ?? '';
                     $nestedData['remarks'] = $r->progress?->remarks ?? '';
                     if(!empty($r->progress)){
-                        $nestedData['action'] = '<a class="btn btn-icon" title="Update status" data-bs-toggle="modal" data-bs-target="#update_status_'.$r->progress->quarter_id.'">
-                        <span class="badge bg-primary text-dark">Update status</span>
-                        </a>';
+                        if($r->status != 'Posted'){
+                            $nestedData['action'] = '<a class="btn btn-icon" title="Update status" data-bs-toggle="modal" data-bs-target="#update_status_'.$r->progress->quarter_id.'">
+                            <span class="badge bg-primary text-dark">Update status</span>
+                            </a>';
+                        }
+                          
+                        else{
+                            $nestedData['action'] = '<a class="btn btn-icon" title="Update status" >
+                            <span class="badge bg-success text-dark">Status Updated</span>
+                            </a>';
+                        }
                     }   
                     else{
                         $nestedData['action'] ='';
@@ -280,6 +288,7 @@ class DipActivityController extends Controller
     }
     public function show(string $id)
     {
+        
         $dip_activity = DipActivity::where('id',$id)->with('months','project','project.themes','user','user1')->first();
   
         if(!empty($dip_activity->project->detail->province )){
@@ -297,7 +306,7 @@ class DipActivityController extends Controller
         else{
             $districts = '';
         }
-        
+        addVendors(['datatables']);
         addJavascriptFile('assets/js/custom/dip/dipquarteroupdateValidation.js');
         $months = ActivityProgress::where('activity_id',$id)->where('project_id',$dip_activity->project_id)->get();
         return view('admin.dip.show_dip_activity',compact('dip_activity','districts','provinces','months'));
