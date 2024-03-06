@@ -167,23 +167,27 @@ class ProjectThemeController extends Controller
        
         $theme =  ProjectTheme::find($id);
         $formData = $request->input('formData');
-
+       
         parse_str($formData, $parsedData);
         
         $ind_target =$parsedData['women_target'] + $parsedData['men_target'] + $parsedData['girls_target'] + $parsedData['boys_target'];
         
         if($ind_target == $parsedData['individual_target']){
-           
+            if(!empty($parsedData['pwd_target']) && $parsedData['pwd_target'] > -1 || $parsedData['pwd_target'] == 0){
+                $pwdtarget  = $parsedData['pwd_target'];
+            }else{
+                $pwdtarget  = $theme->pwd_target;
+            }
             if(!empty($theme)){
 
                 ProjectTheme::where('id',$id)->update([
-                    'house_hold_target' => $parsedData['house_hold_target'],
-                    'individual_target' => $parsedData['individual_target'],
-                    'pwd_target'        => $parsedData['pwd_target'],
-                    'women_target'      => $parsedData['women_target'],
-                    'men_target'        => $parsedData['men_target'],
-                    'girls_target'      => $parsedData['girls_target'],
-                    'boys_target'       => $parsedData['boys_target'],
+                    'house_hold_target' => $parsedData['house_hold_target'] ??  $theme->house_hold_target,
+                    'individual_target' => $parsedData['individual_target'] ??  $theme->individual_target,
+                    'pwd_target'        => $pwdtarget,
+                    'women_target'      => $parsedData['women_target'] ??  $theme->women_target,
+                    'men_target'        => $parsedData['men_target'] ??  $theme->men_target,
+                    'girls_target'      => $parsedData['girls_target'] ??  $theme->girls_target,
+                    'boys_target'       => $parsedData['boys_target'] ??  $theme->boys_target,
                     
                 ]);
                 return response()->json([
@@ -200,7 +204,7 @@ class ProjectThemeController extends Controller
         }
         else{
             return response()->json([
-                'message' => 'Beneficiaries Target Not Correct',
+                'message' => 'Beneficiaries target distrubed not correctly',
                 'error'   => false,
             ]);
         }

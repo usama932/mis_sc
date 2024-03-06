@@ -464,20 +464,31 @@ $(document).ready(function() {
         event.preventDefault(); 
         var formData = $(this).serialize();
         var csrfToken = '{{ csrf_token() }}'; // Define CSRF token here
-        var url =$(this).attr('action');
+        var url = $(this).attr('action');
         $('.error-message').remove();
-
+    
         // Check if any field is empty
         var anyFieldInvalid = false;
         $(this).find('input[type="text"], textarea').each(function() {
             var fieldValue = parseFloat($(this).val().trim());
-            if ($(this).val().trim() === '' || isNaN(fieldValue) || fieldValue < 0) {
-                anyFieldInvalid = true;
-                if (!$(this).next('.error-message').length) {
-                    $(this).after('<span class="error-message text-danger">Please enter a valid number greater than or equal to -1.</span>');
+            if ($(this).attr('name') !== 'pwd_target') { // Skip validation for pwd_target field
+                if ($(this).val().trim() === '' || isNaN(fieldValue) || fieldValue < 0) {
+                    anyFieldInvalid = true;
+                    if (!$(this).next('.error-message').length) {
+                        $(this).after('<span class="error-message text-danger">Please enter a valid number greater than or equal to -1.</span>');
+                    }
                 }
             }
         });
+    
+        // Validate PWD Target field separately for positive numbers
+        var pwdFieldValue = parseFloat($('input[name="pwd_target"]').val().trim());
+        if ($('input[name="pwd_target"]').val().trim() !== '' && (isNaN(pwdFieldValue) || pwdFieldValue < 0)) {
+            anyFieldInvalid = true;
+            if (!$('input[name="pwd_target"]').next('.error-message').length) {
+                $('input[name="pwd_target"]').after('<span class="error-message text-danger">Please enter a valid positive number.</span>');
+            }
+        }
 
         if (anyFieldInvalid) {
             console.error('Please fill in all fields with valid numbers greater than or equal to -1.');
@@ -511,7 +522,7 @@ $(document).ready(function() {
                             "showMethod": "fadeIn",
                             "hideMethod": "fadeOut"
                         };
-                        toastr.error(response.error, "Error");
+                        toastr.error(response.message, "Error");
                     }
                     else{
                         toastr.options = {

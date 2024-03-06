@@ -139,16 +139,15 @@
                 }
                 });
         }
-function edittheme(id) {
-   
-    $.post("/edit_project_theme", {
-        _token: csrfToken,
-        id: id
-    }).done(function(response) {
-        $('.modal-body').html(response);
-        $('#edittheme').modal('show');
-    });
-}
-        </script>
+        function edittheme(id) {
+            $.post("/edit_project_theme", {
+                _token: csrfToken,
+                id: id
+            }).done(function(response) {
+                $('.modal-body').html(response);
+                $('#edittheme').modal('show');
+            });
+        }
+    </script>
     @endpush
 </x-nform-layout>
