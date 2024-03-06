@@ -8,7 +8,7 @@
     </style>
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div class="card">
-            <form action="{{ route('activity_dips.store') }}" method="post" id="create_dip_activity">
+            <form action="{{ route('activity_dips.store') }}" class="create_dip_activity" method="post" id="create_dip_activity">
                 @csrf
                 <input type="hidden" name="project_id" id="project_id" value="{{ $project->id }}">
                 <div class="card-body">
@@ -64,7 +64,7 @@
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Quarter</span>
                                 </label>
-                                <select name="activities[0]['quarter']" aria-label="Select a Quarter Target"
+                                <select name="activities[0][quarter]" aria-label="Select a Quarter Target"
                                     data-placeholder="Select a Quarter Target" class="form-select"
                                     data-allow-clear="true">
                                     <option value=" ">Select Quarter Target</option>
@@ -77,14 +77,14 @@
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Activity Target</span>
                                 </label>
-                                <input type="text" name="activities[0]['target_quarter']" placeholder="Enter Activity Target"
+                                <input type="text" name="activities[0][target_quarter]" placeholder="Enter Activity Target"
                                     class="form-control" autocomplete="off" required>
                             </div>
                             <div class="col-md-3">
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="">Beneficiaries Target</span>
                                 </label>
-                                <input type="text" name="activities[0]['target_benefit']" placeholder="Enter Beneficiary Target"
+                                <input type="text" name="activities[0][target_benefit]" placeholder="Enter Beneficiary Target"
                                     class="form-control" autocomplete="off" required>
                             </div>
                             <div class="col-md-3 mt-5 text-end">
@@ -107,79 +107,83 @@
     <script>
         var i = 0;
         function addTargetRow() {
-    ++i;
-    var quarters = @json($project->quarters);
-    var selectedQuarters = $('select[name^="activities["]').map(function () {
-        return $(this).val();
-    }).get(); // Get all selected quarters
-    
-    var quarterCount = $('select[name^="activities["]').length;
-    
-    var availableQuarters = quarters.filter(function(quarter) {
-        return !selectedQuarters.includes(quarter.quarter);
-    });
+            var isValid = true;
+            $('#targetRows .row').each(function () {
+                $(this).find('input, select').each(function () {
+                    if ($(this).val().trim() === '') {
+                        isValid = false;
+                        $(this).addClass('highlight-field');
+                        toastr.error('Please fill all fields in all existing rows before submitting the form.', 'Error');
+                        event.preventDefault(); // Prevent form submission
+                        return false; // Exit the loop early
+                    } else {
+                        $(this).removeClass('highlight-field');
+                    }
+                });
+            });
 
-    if (quarterCount < quarters.length) {
-        var lastRow = $('#targetRows .row').last();
-        var isValid = true;
-
-        // Check if the last row is valid
-        lastRow.find('input[name^="activities["]').each(function () {
-            if ($(this).val().trim() === '') {
-                isValid = false;
-
-                toastr.error('Please fill all fields in the previous row before adding a new one.', 'Error');
-                return false; // Exit the loop early
+            if (!isValid) {
+                return;
             }
-        });
+            ++i;
+            var quarters = @json($project->quarters);
+            var selectedQuarters = $('select[name^="activities["]').map(function () {
+                return $(this).val();
+            }).get(); // Get all selected quarters
+            
+            var quarterCount = $('select[name^="activities["]').length;
+            
+            var availableQuarters = quarters.filter(function(quarter) {
+                return !selectedQuarters.includes(quarter.quarter);
+            });
 
-        if (isValid) {
-            var html = `
-                <div class="row mt-3" style="display:none;">
-                    <div class="col-md-3">
-                        <select name="activities[${i}]['quarter']" aria-label="Select a Quarter Target"
-                            data-placeholder="Select a Quarter Target" class="form-select"
-                            data-allow-clear="true">
-                            <option value=''>Select Quarter Target</option>`;
-                            availableQuarters.forEach(function (quarter) {
-                                html += `<option value="${quarter.quarter}">${quarter.quarter}</option>`;
-                            });
-                            html += `
-                        </select>
-                    </div> 
-                    <div class="col-md-3">
-                        <input type="text" name="activities[${i}]['target_quarter']" placeholder="Enter Activity Target"
-                            class="form-control" autocomplete="off" required>
-                    </div>
-                    <div class="col-md-3">
-                        <input type="text" name="activities[${i}]['target_benefit']" placeholder="Enter Beneficiary Target"
-                            class="form-control" autocomplete="off" required>
-                    </div>
-                    <div class="col-md-3">
-                        <button type="button" class="btn btn-danger btn-sm" onclick="removeTargetRow(this)">Remove</button>
-                    </div>
-                </div>`;
-            $('#targetRows').append(html);
-            lastRow.next().slideDown(); // Show the new row with animation
-            if ($('#targetRows .row').length === 1) {
-                $('#add_quarter_target').hide();
+            if (quarterCount < quarters.length) {
+                var html = `
+                    <div class="row mt-3" style="display:none;">
+                        <div class="col-md-3">
+                            <select name="activities[${i}][quarter]" aria-label="Select a Quarter Target"
+                                data-placeholder="Select a Quarter Target" class="form-select"
+                                data-allow-clear="true">
+                                <option value=''>Select Quarter Target</option>`;
+                                availableQuarters.forEach(function (quarter) {
+                                    html += `<option value="${quarter.quarter}">${quarter.quarter}</option>`;
+                                });
+                                html += `
+                            </select>
+                        </div> 
+                        <div class="col-md-3">
+                            <input type="text" name="activities[${i}][target_quarter]" placeholder="Enter Activity Target"
+                                class="form-control" autocomplete="off" required>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" name="activities[${i}][target_benefit]" placeholder="Enter Beneficiary Target"
+                                class="form-control" autocomplete="off" required>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-danger btn-sm" onclick="removeTargetRow(this)">Remove</button>
+                        </div>
+                    </div>`;
+                $('#targetRows').append(html);
+                $('#targetRows .row').last().slideDown(); // Show the new row with animation
+                if ($('#targetRows .row').length === 1) {
+                    $('#add_quarter_target').hide();
+                }
+            } else {
+                toastr.error("All Quarters are already shown.", "Error");
             }
         }
-    } else {
-        toastr.error("All Quarters are already shown.", "Error");
-    }
-}
-
-    
         function removeTargetRow(button) {
             $(button).closest('.row').remove();
             $('#add_quarter_target').show();
         }
+        
     </script>
-    
     
     @push('scripts')
         <script>
+
+            
+
             document.getElementById('themeloader').style.display = 'none';
             $("#theme_id").change(function () {
                 document.getElementById('themeloader').style.display = 'block';

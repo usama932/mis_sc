@@ -52,6 +52,26 @@ var KTdipActivityValidate = function () {
 
                         }
                     },
+                    'activities[][quarter]': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Activity Target is required'
+                            },
+                            numeric: {
+                                message: 'Activity Target must be a number'
+                            }
+                        }
+                    },
+                    'activities[][target_benefit]': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Beneficiaries Target is required'
+                            },
+                            numeric: {
+                                message: 'Beneficiaries Target must be a number'
+                            }
+                        }
+                    },
 
                 },
 
@@ -70,21 +90,28 @@ var KTdipActivityValidate = function () {
         submitButton.addEventListener('click', function (e) {
             e.preventDefault();
 
-            var status = 'Valid';
+            var emptyFields = [];
+            var isValid = true;
 
-            // Check if any quarter field is empty
-            var targetQuarters = document.querySelectorAll('input[name="target_quarter[]"]');
-            targetQuarters.forEach(function (targetQuarter) {
-                if (targetQuarter.value.trim() === '') {
-                    status = false;
-                    toastr.error('Activity Quarter is required', 'Error');
-                    // Add a CSS class to highlight the empty field
-                    targetQuarter.classList.add('highlight-field');
+            // Check array fields for validation
+            var arrayFields = form.querySelectorAll('input[name^="activities["]');
+            arrayFields.forEach(function (field) {
+                var fieldValue = field.value.trim();
+                if (fieldValue === '') {
+                    isValid = false;
+                    emptyFields.push(field);
                 }
             });
 
             // If any field is empty, prevent form submission and display errors
-            if (status !== 'Valid') {
+            if (!isValid) {
+                toastr.error('All array fields are required', 'Error');
+                
+                // Highlight all empty fields
+                emptyFields.forEach(function (field) {
+                    field.classList.add('highlight-field');
+                });
+                
                 return;
             }
 
