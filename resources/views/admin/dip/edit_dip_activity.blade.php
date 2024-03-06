@@ -69,14 +69,14 @@
                                         <label class="fs-6 fw-semibold form-label mb-2">
                                             <span class="required">Activity Target</span>
                                         </label>
-                                        <input type="text" name="target_quarter[]" placeholder="Enter Activity Target"
+                                        <input type="text" name="activities[]['target_quarter']" placeholder="Enter Activity Target"
                                             class="form-control" autocomplete="off" value="{{$month->target}}">
                                     </div>
                                     <div class="col-md-3">
                                         <label class="fs-6 fw-semibold form-label mb-2">
                                             <span class="">Beneficiaries Target</span>
                                         </label>
-                                        <input type="text" name="target_benefit[]" placeholder="Enter Beneficiary Target"
+                                        <input type="text" name="activities[]['target_benefit']" placeholder="Enter Beneficiary Target"
                                             class="form-control" autocomplete="off"  value="{{$month->beneficiary_target}}">
                                     </div>
                                     <div class="col-md-3 mt-4">  

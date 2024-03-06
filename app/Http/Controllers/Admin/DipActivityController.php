@@ -269,7 +269,7 @@ class DipActivityController extends Controller
 
     public function store(Request $request)
     {
-        
+        dd($request->all());
         $data = $request->except('_token');
        
         $dip_activity = $this->dipactivityRepository->storedipactivity($data);
