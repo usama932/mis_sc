@@ -18,22 +18,23 @@ class DipActivityRepository implements DipActivityInterface
             'lop_target'            => $data['lop_target'],
             'project_id'            => $data['project_id'],
             'created_by'            => auth()->user()->id,
-        'subtheme_id'               =>  $data['sub_theme']
+            'subtheme_id'               =>  $data['sub_theme']
         ]);
      
         foreach($data['activities']  as $key => $q){
             $parts = explode("-", $q['quarter']);
             $quarter = $parts[0]; // Q1
             $year = $parts[1]; 
-           
+            $target_benefit = $q['target_benefit'];
+            $target_quarter = $q['target_quarter'];
             $q = SCIQuarter::where('slug', $quarter)->first();
             ActivityMonths::create([
                 'project_id'         => $data['project_id'],
                 'activity_id'        => $activity->id,
                 'quarter'            => $q->id,
-                'beneficiary_target' => $q['target_benefit'],
+                'beneficiary_target' => $target_benefit,
                 'year'               => $year,
-                'target'             => $q['target_quarter'],
+                'target'             => $target_quarter,
                 'status'             => "To be Reviewed",
                 'created_by'         => auth()->user()->id,
             ]);

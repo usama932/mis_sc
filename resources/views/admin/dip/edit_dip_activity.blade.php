@@ -1,5 +1,5 @@
 <x-nform-layout>
-    @section('title', 'Edit  Activity')
+    @section('title', 'Edit Activity')
     <style>
         .highlight-field {
             border-color: red;
@@ -55,7 +55,12 @@
                     <div class="separator my-3"></div>
                     <div id="targetRows">
                         <div class="row">
+                           
                             @foreach($dip->months as $month)
+                          
+                          
+                            <input type="hidden" name="activities[{{$loop->iteration -1}}][id]" placeholder="Enter Activity Target"
+                            class="form-control" autocomplete="off" value="{{$month->id}}">
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-3">
@@ -63,34 +68,50 @@
                                             <span class="required">Quarter</span>
                                         </label>
                                         <br>
-                                       <span class="mt-4"> <strong>{{$month->slug?->slug}}-{{$month->year}}</strong></span>
+                                       <span class="mt-4"> <strong class="mt-4">{{$month->slug?->slug}}-{{$month->year}}</strong></span>
                                     </div>
                                     <div class="col-md-3">
                                         <label class="fs-6 fw-semibold form-label mb-2">
                                             <span class="required">Activity Target</span>
                                         </label>
-                                        <input type="text" name="activities[]['target_quarter']" placeholder="Enter Activity Target"
+                                        <input type="text" name="activities[{{$loop->iteration -1}}][target_quarter]" placeholder="Enter Activity Target"
                                             class="form-control" autocomplete="off" value="{{$month->target}}">
                                     </div>
                                     <div class="col-md-3">
                                         <label class="fs-6 fw-semibold form-label mb-2">
                                             <span class="">Beneficiaries Target</span>
                                         </label>
-                                        <input type="text" name="activities[]['target_benefit']" placeholder="Enter Beneficiary Target"
+                                        <input type="text" name="activities[{{$loop->iteration -1}}][target_benefit]" placeholder="Enter Beneficiary Target"
                                             class="form-control" autocomplete="off"  value="{{$month->beneficiary_target}}">
                                     </div>
                                     <div class="col-md-3 mt-4">  
-                                        <a class="btn btn-sm btn-danger mt-5" title="Delete " onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
+                                        <a class="btn btn-sm btn-danger mt-5" title="Delete " onclick="event.preventDefault();del({{$month->id}});" title="Delete Monitor Visit" href="javascript:void(0)">
                                             Delete
                                         </a>
                                     </div>
                                 </div>
                             </div>
-                            @endforeach     
-                        </div>
-                                            <!-- Add New Quarter button -->
+                            @endforeach   
+                           
+                            @php
+                            // Construct quarters array
+                            $quarters = [];
+                            $projectquarters = []; // Remove unnecessary initialization
+                            foreach ($dip->months as $month) {
+                                $quarters[] = $month->slug?->slug . '-' . $month->year;
+                            }
+                            foreach ($project->quarters as $quarter) {
+                                $projectquarters[] = $quarter->quarter;
+                            }
+                            $complementQuarters = array_diff( $projectquarters,$quarters);
+                        @endphp
+                        
+                       
+                            
+                        </div>{{ print_r($complementQuarters, true) }}
+                        <!-- Add New Quarter button -->
                         <div class="row">
-                            <div class=" d-flex justify-content-end">
+                            <div class="d-flex justify-content-end">
                                 <button type="button" class="btn btn-info btn-sm mt-4" onclick="addTargetRow()" id="add_quarter_target">Add New Quarter</button>
                             </div>
                         </div>
@@ -112,85 +133,103 @@
             </div>  
         </div>
     </div>
-  
+    
+   
     @push('scripts')
-        <script>
-          
-          
-            // function addTargetRow() {
-            //     var quarters = @json($project->quarters);
-            //     var slugs = @json($slugs);
-            //     var selectedQuarters = $('select[name="quarter[]"]').map(function () {
-            //         return $(this).val();
-            //     }).get(); // Get already selected quarters
-            //     var quarterCount = $('select[name="quarter[]"]').length;
-
-            //     if (quarterCount < quarters.length) {
-            //         var lastRow = $('#targetRows .row').last();
-            //         var html = `
-            //             <div class="row mt-3" style="display:none;">
-            //                 <div class="col-md-3">
-            //                     <select name="quarter[]" aria-label="Select a Quarter Target"
-            //                         data-placeholder="Select a Quarter Target" class="form-select"
-            //                         data-allow-clear="true">
-            //                         <option value=''>Select Quarter Target</option>`;
-            //                         quarters.forEach(function (quarter) {
-            //                             if (!selectedQuarters.includes(quarter.quarter) && !slugs.includes(quarter.quarter)) {
-            //                                 html += `<option value="${quarter.quarter}">${quarter.quarter}</option>`;
-            //                             }
-            //                         });
-            //                         html += `
-            //                     </select>
-            //                 </div> 
-            //                 <div class="col-md-3">
-            //                     <input type="text" name="target_quarter[]" placeholder="Enter Activity Target"
-            //                         class="form-control" autocomplete="off" required>
-            //                 </div>
-            //                 <div class="col-md-3">
-            //                     <input type="text" name="target_benefit[]" placeholder="Enter Beneficiary Target"
-            //                         class="form-control" autocomplete="off" required>
-            //                 </div>
-            //                 <div class="col-md-3">
-            //                     <button type="button" class="btn btn-danger btn-sm" onclick="removeTargetRow(this)">Remove</button>
-            //                 </div>
-            //             </div>`;
-            //         $('#targetRows').append(html);
-            //         lastRow.next().slideDown(); // Show the new row with animation
-            //     } else {
-            //         toastr.error("All Quarters are already shown.", "Error");
-            //     }
-            //     // Check quarters validity to enable/disable submit button
-            //     checkQuartersValidity();
-            // }
-            // function removeTargetRow(button) {
-            //     $(button).closest('.row').remove();
-            //     $('#add_quarter_target').show();
-            //     // Check quarters validity to enable/disable submit button
-            //     checkQuartersValidity();
-            // }
-
-        </script>
-        <script>
-            function del(id) {
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won't be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "Yes, delete it!"
-                }).then(function(result) {
-                    if (result.value) {
-                        Swal.fire(
-                            "Deleted!",
-                            "Your Activity has been deleted.",
-                            "success"
-                        );
-                        var APP_URL = {!! json_encode(url('/')) !!}
-                        window.location.href = APP_URL + "/delete_month/delete/" + id;
+    <script>
+        function addTargetRow() {
+            var isValid = true;
+            $('#targetRows .row').each(function () {
+                $(this).find('input, select').each(function () {
+                    if ($(this).val().trim() === '') {
+                        isValid = false;
+                        $(this).addClass('highlight-field');
+                        toastr.error('Please fill all fields in all existing rows before submitting the form.', 'Error');
+                        return false; // Exit the loop early
+                    } else {
+                        $(this).removeClass('highlight-field');
                     }
                 });
+                if (!isValid) {
+                    return false; // Exit the loop early
+                }
+            });
+
+            if (!isValid) {
+                return;
             }
-        </script>
+            var i = {{ $dip->months->count() }};
+            var quarters = @json($complementQuarters);
+            var selectedQuarters = $('select[name^="activities["]').map(function () {
+                return $(this).val();
+            }).get();
+            var quarterCount = $('select[name^="activities["]').length;
+            
+            var availableQuarters = quarters.filter(function(quarter) {
+                return !selectedQuarters.includes(quarter.quarter);
+            });
+
+            if (quarterCount < quarters.length) {
+                var html = `
+                    <div class="row mt-3" style="display:none;">
+                        <div class="col-md-3">
+                            <select name="activities[${i}][quarter]" aria-label="Select a Quarter Target"
+                                data-placeholder="Select a Quarter Target" class="form-select"
+                                data-allow-clear="true">
+                                <option value=''>Select Quarter Target</option>`;
+                                availableQuarters.forEach(function (quarter) {
+                                    html += `<option value="${quarter.quarter}">${quarter.quarter}</option>`;
+                                });
+                                html += `
+                            </select>
+                        </div> 
+                        <div class="col-md-3">
+                            <input type="text" name="activities[${i}][target_quarter]" placeholder="Enter Activity Target"
+                                class="form-control" autocomplete="off" required>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" name="activities[${i}][target_benefit]" placeholder="Enter Beneficiary Target"
+                                class="form-control" autocomplete="off" required>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-danger btn-sm" onclick="removeTargetRow(this)">Remove</button>
+                        </div>
+                    </div>`;
+                $('#targetRows').append(html);
+                $('#targetRows .row').last().slideDown(); // Show the new row with animation
+                if ($('#targetRows .row').length === 1) {
+                    $('#add_quarter_target').hide();
+                }
+            } else {
+                toastr.error("All Quarters are already shown.", "Error");
+            }
+        }
+    
+        function removeTargetRow(button) {
+            $(button).closest('.row').remove();
+            $('#add_quarter_target').show();
+        }
+    </script>
+    <script>
+        function del(id) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!"
+            }).then(function(result) {
+                if (result.value) {
+                    Swal.fire(
+                        "Deleted!",
+                        "Your Activity has been deleted.",
+                        "success"
+                    );
+                    var APP_URL = {!! json_encode(url('/')) !!}
+                    window.location.href = APP_URL + "/delete_month/delete/" + id;
+                }
+            });
+        }
+    </script>
     @endpush
 </x-nform-layout>
-    

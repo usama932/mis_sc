@@ -327,14 +327,13 @@ class DipActivityController extends Controller
         }
     
         addJavascriptFile('assets/js/custom/dip/dip_activity_validations.js');
-        addJavascriptFile('assets/js/custom/dip/dipquarteroupdateValidation.js');
         return view('admin.dip.edit_dip_activity',compact('dip' ,'project','activty_quarters','slugs'));
     }
 
 
     public function update(Request $request, string $id)
     {
-       
+       dd($request->all());
         $data = $request->except('_token');
         $dip = DipActivity::where('id',$id)->first();
         $dip_activity = $this->dipactivityRepository->updatedipactivity($data ,$id);
