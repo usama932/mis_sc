@@ -107,66 +107,69 @@
     <script>
         var i = 0;
         function addTargetRow() {
-            ++i;
-            var quarters = @json($project->quarters);
-            var selectedQuarters = $('select[name="activities['+i+'][quarter]"]').map(function () {
-                return $(this).val();
-            }).get(); // Get already selected quarters
+    ++i;
+    var quarters = @json($project->quarters);
+    var selectedQuarters = $('select[name^="activities["]').map(function () {
+        return $(this).val();
+    }).get(); // Get all selected quarters
     
-            var quarterCount = $('select[name="activities['+i+'][quarter]"]').length;
+    var quarterCount = $('select[name^="activities["]').length;
     
-            if (quarterCount < quarters.length) {
-                var lastRow = $('#targetRows .row').last();
-                var isValid = true;
-    
-                // Check if the last row is valid
-                lastRow.find('input[name="activities['+i+'][target_quarter]"]').each(function () {
-                    if ($(this).val().trim() === '') {
-                        isValid = false;
-    
-                        toastr.error('Please fill all fields in the previous row before adding a new one.', 'Error');
-                        return false; // Exit the loop early
-                    }
-                });
-    
-                if (isValid) {
-                    var html = `
-                        <div class="row mt-3" style="display:none;">
-                            <div class="col-md-3">
-                                <select name="activities[${i}]['quarter']" aria-label="Select a Quarter Target"
-                                    data-placeholder="Select a Quarter Target" class="form-select"
-                                    data-allow-clear="true">
-                                    <option value=''>Select Quarter Target</option>`;
-                                    quarters.forEach(function (quarter) {
-                                        if (!selectedQuarters.includes(quarter.quarter)) { // Check if quarter is not already selected
-                                            html += `<option value="${quarter.quarter}">${quarter.quarter}</option>`;
-                                        }
-                                    });
-                                    html += `
-                                </select>
-                            </div> 
-                            <div class="col-md-3">
-                                <input type="text" name="activities[${i}]['target_quarter']" placeholder="Enter Activity Target"
-                                    class="form-control" autocomplete="off" required>
-                            </div>
-                            <div class="col-md-3">
-                                <input type="text" name="activities[${i}]['target_benefit']" placeholder="Enter Beneficiary Target"
-                                    class="form-control" autocomplete="off" required>
-                            </div>
-                            <div class="col-md-3">
-                                <button type="button" class="btn btn-danger btn-sm" onclick="removeTargetRow(this)">Remove</button>
-                            </div>
-                        </div>`;
-                    $('#targetRows').append(html);
-                    lastRow.next().slideDown(); // Show the new row with animation
-                    if ($('#targetRows .row').length === 1) {
-                        $('#add_quarter_target').hide();
-                    }
-                }
-            } else {
-                toastr.error("All Quarters are already shown.", "Error");
+    var availableQuarters = quarters.filter(function(quarter) {
+        return !selectedQuarters.includes(quarter.quarter);
+    });
+
+    if (quarterCount < quarters.length) {
+        var lastRow = $('#targetRows .row').last();
+        var isValid = true;
+
+        // Check if the last row is valid
+        lastRow.find('input[name^="activities["]').each(function () {
+            if ($(this).val().trim() === '') {
+                isValid = false;
+
+                toastr.error('Please fill all fields in the previous row before adding a new one.', 'Error');
+                return false; // Exit the loop early
+            }
+        });
+
+        if (isValid) {
+            var html = `
+                <div class="row mt-3" style="display:none;">
+                    <div class="col-md-3">
+                        <select name="activities[${i}]['quarter']" aria-label="Select a Quarter Target"
+                            data-placeholder="Select a Quarter Target" class="form-select"
+                            data-allow-clear="true">
+                            <option value=''>Select Quarter Target</option>`;
+                            availableQuarters.forEach(function (quarter) {
+                                html += `<option value="${quarter.quarter}">${quarter.quarter}</option>`;
+                            });
+                            html += `
+                        </select>
+                    </div> 
+                    <div class="col-md-3">
+                        <input type="text" name="activities[${i}]['target_quarter']" placeholder="Enter Activity Target"
+                            class="form-control" autocomplete="off" required>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" name="activities[${i}]['target_benefit']" placeholder="Enter Beneficiary Target"
+                            class="form-control" autocomplete="off" required>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removeTargetRow(this)">Remove</button>
+                    </div>
+                </div>`;
+            $('#targetRows').append(html);
+            lastRow.next().slideDown(); // Show the new row with animation
+            if ($('#targetRows .row').length === 1) {
+                $('#add_quarter_target').hide();
             }
         }
+    } else {
+        toastr.error("All Quarters are already shown.", "Error");
+    }
+}
+
     
         function removeTargetRow(button) {
             $(button).closest('.row').remove();
