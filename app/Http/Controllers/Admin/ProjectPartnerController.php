@@ -11,6 +11,7 @@ use App\Models\Province;
 use App\Models\Partner;
 use App\Models\District;
 use App\Models\SCITheme;
+use App\Models\User;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
 
 class ProjectPartnerController extends Controller
@@ -154,6 +155,7 @@ class ProjectPartnerController extends Controller
       
         $project_partner = ProjectPartner::where('project_id' ,$request->project)->where('partner_id' ,$id)->first();
         if(!empty($project_partner)){
+            
             return response()->json([
                 'message' => "Duplicate Partner Entry",
                 'error' => "true"
@@ -178,7 +180,14 @@ class ProjectPartnerController extends Controller
     public function destroy(string $id)
     {
         $project_partner = ProjectPartner::where('id' ,$id)->first();
-        $project_partner->delete();
+        if(!empty($project_partner)){
+            $user = User::where('email',$project_partner->email)->first();
+            if(!empty($user)){
+                $user->delete();
+            }
+          
+            $project_partner->delete();
+        }
         
         $active = 'partner';
         session(['active' => $active]);
