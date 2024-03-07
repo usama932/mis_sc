@@ -31,7 +31,7 @@
                                 <option value=''>Choose Quarter</option>
                                 @if(!empty($activity->months))
                                     @foreach($activity->months as $months)
-                                        @if($months->project_id ==  $activity->project_id)
+                                        @if($months->project_id ==  $activity->project_id && !in_array($months->id, $quarters))
                                             <option value='{{$months->id}}'>{{$months->slug->slug}} - {{$months->year}}</option>
                                         @endif
                                     @endforeach
@@ -115,7 +115,9 @@
                         </div> 
                     </div>
                 </div>
+             
                 <div class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-primary btn-sm  my-5" onclick="window.history.back()">Cancel</button>
                     <button type="submit" id="kt_update_progress" class="btn btn-success btn-sm  m-5">
                         @include('partials/general/_button-indicator', ['label' => 'Submit'])
                     </button>
@@ -149,7 +151,7 @@
                 });
             });
         });
-        
+       
     </script>
     @endpush
 </x-nform-layout>

@@ -144,7 +144,7 @@
                     if ($(this).val().trim() === '') {
                         isValid = false;
                         $(this).addClass('highlight-field');
-                        toastr.error('Please fill all highlighted fields in all existing rows before submitting the form.', 'Error');
+                        toastr.error('Please address the highlighted Errors.', 'Error');
                         return false; // Exit the loop early
                     } else {
                         $(this).removeClass('highlight-field');
@@ -226,7 +226,7 @@
                 if (result.value) {
                     Swal.fire(
                         "Deleted!",
-                        "Your Activity has been deleted.",
+                        "Your Activity Quarter has been deleted.",
                         "success"
                     );
                     var APP_URL = {!! json_encode(url('/')) !!}

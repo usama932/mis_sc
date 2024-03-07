@@ -30,7 +30,7 @@
                         <div class="accordion-body">
                             <div class="card-header border-0 pt-6">
                                 <div class="row mb-5">
-                                    <div class="col-md-4 mt-3">
+                                    <div class="col-md-3 mt-3">
                                         <label class="fs-6 fw-semibold form-label mb-2">
                                             <span class="">Project</span>
                                         </label>
@@ -41,28 +41,28 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col-md-4 mt-3">
+                                    <div class="col-md-3 mt-3">
                                         <label class="fs-6 fw-semibold form-label mb-2 ">
                                             <span class="required"> Start Date</span>
                                         </label>
                                         <div class="input-group ">
                                             <input type="text" name="startdate" id="start_date" placeholder="Select date" class="form-control" data-provide="datepicker" value="">
-                                            <div class="input-group-append">
-                                                <button class="input-button btn btn-outline-secondary clearTenureDate" title="Clear" id="clearStartDate">Clear</button>
-                                            </div>
+                                           
                                         </div>
                                     </div>
-                                    <div class="col-md-4 mt-3">
+                                    <div class="col-md-3 mt-3">
                                         <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                             <span class="required"> End Date</span>
                                         </label>
                                         <div class="input-group ">
                                             <input type="text" name="enddate" id="end_date" placeholder="Select date" class="form-control" data-provide="datepicker" value="">
-                                            <div class="input-group-append">
-                                                <button class="input-button btn btn-outline-secondary clearTenureDate" title="Clear" id="clearEndDate">Clear</button>
-                                            </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-3 mt-5">
+                                        <button id="reset-date" class="btn btn-primary btn-sm mt-5">Reset</button>
+
+                                    </div>
+                                   
                                 </div>
                             </div>
                         </div>
@@ -97,7 +97,7 @@
         <!--end::Page Vendors-->
 
         <script>
-            var project = $('#projects').DataTable({
+            var projects = $('#projects').DataTable({
                 "order": [
                     [1, 'desc']
                 ],
@@ -169,7 +169,7 @@
                     },
                 ]
             });
-
+          
             flatpickr("#start_date", {
                 dateFormat: "Y-m-d",
                 maxDate: "today",
@@ -258,6 +258,16 @@
                     }
                 });
             }
+            $("#reset-date").click(function(){
+                $('#project_name').val(null).trigger('change'),
+                $('#start_date').val("");
+                $('#end_date').val("").trigger('change');
+                if (typeof projects !== 'undefined' && $.fn.DataTable.isDataTable(projects)) {
+                    projects.ajax.reload(null, false).draw(false);
+                } else {
+                    console.error('Error: DataTables instance "projects" is either not defined or not properly initialized.');
+                }
+            })
         </script>
         <!--end::Vendors Javascript-->
     @endpush

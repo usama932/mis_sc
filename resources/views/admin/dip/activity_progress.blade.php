@@ -128,6 +128,25 @@
                 });
            
         });
+        function del(id) {
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, delete it!"
+                }).then(function(result) {
+                    if (result.value) {
+                        Swal.fire(
+                            "Deleted!",
+                            "Your DIP has been deleted.",
+                            "success"
+                        );
+                        var APP_URL = {!! json_encode(url('/')) !!}
+                        window.location.href = APP_URL + "/activity_dips/delete/" + id;
+                    }
+                });
+            }
     </script>
     @endpush
 </x-nform-layout>

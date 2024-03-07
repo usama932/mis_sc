@@ -152,7 +152,8 @@
                                     <thead>
                                         <tr>
                                           
-                                            <th>Themes</th>
+                                            <th>Theme</th>
+                                            <th>Sub Theme</th>
                                             <th>Partner</th>
                                             <th>Email</th>
                                             <th>Province</th>

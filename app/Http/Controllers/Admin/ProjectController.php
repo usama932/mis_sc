@@ -420,6 +420,8 @@ class ProjectController extends Controller
             $project->partners?->each?->delete();
             $project->detail?->each?->delete();
             $project->quarters?->each?->delete();
+            $project->activities?->each?->delete();
+            
             $project->delete();
             return redirect()->route('projects.index');
         }else{

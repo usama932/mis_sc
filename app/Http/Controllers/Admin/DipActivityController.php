@@ -85,9 +85,7 @@ class DipActivityController extends Controller
                 $nestedData['update_progress'] = '<a  href="'.$progress_url.'"><span class="badge badge-success">Update Progress</span></a>';
                 $nestedData['action'] = '<div>
                                         <td>
-                                            <a class="btn-icon mx-1" href="'.$edit_url.'" target="_blank">
-                                            <i class="fa fa-pencil text-primary" aria-hidden="true" ></i>
-                                            </a>
+                                            
                                             <a class="btn-icon mx-1" href="'.$show_url.'" >
                                                 <i class="fa fa-eye text-warning" aria-hidden="true" ></i>
                                             </a>
@@ -210,15 +208,19 @@ class DipActivityController extends Controller
                     $nestedData['remarks'] = $r->progress?->remarks ?? '';
                     if(!empty($r->progress)){
                         if($r->status != 'Posted'){
-                            $nestedData['action'] = '<a class="btn btn-icon" title="Update status" data-bs-toggle="modal" data-bs-target="#update_status_'.$r->progress->quarter_id.'">
+                            $nestedData['action'] = '<div>
+                            <td><a class="btn btn-icon" title="Update status" data-bs-toggle="modal" data-bs-target="#update_status_'.$r->progress->quarter_id.'">
                             <span class="badge bg-primary text-dark">Update status</span>
-                            </a>';
+                            </a></div>
+                            </td>';
                         }
                           
                         else{
-                            $nestedData['action'] = '<a class="btn btn-icon" title="Update status" >
+                            $nestedData['action'] = '<div>
+                            <td><a class="btn btn-icon" title="Update status" >
                             <span class="badge bg-success text-dark">Status Updated</span>
-                            </a>';
+                            </a></div>
+                            </td>';
                         }
                     }   
                     else{
@@ -365,14 +367,36 @@ class DipActivityController extends Controller
     {
         
         $dip = DipActivity::find($id);
+        
         $project_id =  $dip->project_id;
         $active = 'dip_activity';
         session()->put(['dip_edit' => $active]);
        
         if(!empty($dip)){  
+           
+            if(!empty($dip->months)){
+                $dip->months->each(function ($month) {
+                    $month->progress?->delete();
+                });
+            }
+            $dip->months->each?->delete();
+            
             $dip->delete();
             
-            return redirect()->route('dips.edit',$project_id);
+            return redirect()->back();
+        }
+        return redirect()->back();
+    }
+    public function delete_progress( $id)
+    {
+       
+        $activity_progress = ActivityProgress::find($id);
+      
+      
+        if(!empty($activity_progress)){  
+            $activity_progress->delete();
+            
+            return redirect()->back();
         }
         return redirect()->back();
     }
@@ -391,10 +415,16 @@ class DipActivityController extends Controller
     public function postprogress($id){
 
         $activity = DipActivity::where('id',$id)->first();
-            
+        $progressMonths = $activity->months()->pluck('id')->toArray();
+        
+        $quarters = ActivityProgress::whereIn('quarter_id', $progressMonths)
+                                    ->pluck('quarter_id')->toArray();
+       
+
+       
         addJavascriptFile('assets/js/custom/dip/update_progress.js');
        
-        return view('admin.dip.update_progress',compact('activity'));
+        return view('admin.dip.update_progress',compact('activity','quarters'));
     }
     public function updateprogress(Request $request){
         $quarter = ActivityMonths::where('id',$request->quarter)->first();

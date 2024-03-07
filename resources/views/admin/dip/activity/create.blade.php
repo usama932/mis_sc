@@ -131,7 +131,7 @@
                     if ($(this).val().trim() === '') {
                         isValid = false;
                         
-                        toastr.error('Please fill all fields in the previous row before adding a new one.', 'Error');
+                        toastr.error('Please address the highlighted Errors.', 'Error');
                         return false; // Exit the loop early
                     }
                 });

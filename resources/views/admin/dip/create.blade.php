@@ -113,7 +113,7 @@
                     if ($(this).val().trim() === '') {
                         isValid = false;
                         $(this).addClass('highlight-field');
-                        toastr.error('Please fill all fields in all existing rows before submitting the form.', 'Error');
+                        toastr.error('Please address the highlighted Errors.', 'Error');
                         event.preventDefault(); // Prevent form submission
                         return false; // Exit the loop early
                     } else {

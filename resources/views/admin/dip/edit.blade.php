@@ -153,6 +153,11 @@
                         "orderable": false
                     },
                     {
+                        "data": "sub_themes",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                    {
                         "data": "partner",
                         "searchable": false,
                         "orderable": false
