@@ -105,7 +105,7 @@ var KTdipActivityValidate = function () {
 
             // If any field is empty, prevent form submission and display errors
             if (!isValid) {
-                toastr.error('All array fields are required', 'Error');
+                toastr.error('Please update all highlighted fields', 'Error');
                 
                 // Highlight all empty fields
                 emptyFields.forEach(function (field) {

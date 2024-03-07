@@ -12,7 +12,7 @@
                 <form action="{{ route('activity_dips.update',$dip->id) }}" method="post" id="create_dip_activity">
                     @csrf
                     @method('put')
-                    <input type="hidden" name="project_id" id="project_id" value="{{ $dip->project_id }}">
+                    <input type="hidden" name="project_id" id="project_id" value="{{$dip->project_id}}">
                     <input type="hidden" name="activity_id" id="activity_id" value="{{ $dip->id }}">
                     
                     <div class="row">
@@ -105,10 +105,9 @@
                             }
                             $complementQuarters = array_diff( $projectquarters,$quarters);
                         @endphp
-                        
-                       
+                      
                             
-                        </div>{{ print_r($complementQuarters, true) }}
+                        </div>
                         <!-- Add New Quarter button -->
                         <div class="row">
                             <div class="d-flex justify-content-end">
@@ -137,6 +136,7 @@
    
     @push('scripts')
     <script>
+        var i = {{ $dip->months->count() }};
         function addTargetRow() {
             var isValid = true;
             $('#targetRows .row').each(function () {
@@ -144,32 +144,36 @@
                     if ($(this).val().trim() === '') {
                         isValid = false;
                         $(this).addClass('highlight-field');
-                        toastr.error('Please fill all fields in all existing rows before submitting the form.', 'Error');
+                        toastr.error('Please fill all highlighted fields in all existing rows before submitting the form.', 'Error');
                         return false; // Exit the loop early
                     } else {
                         $(this).removeClass('highlight-field');
                     }
                 });
-                if (!isValid) {
-                    return false; // Exit the loop early
-                }
+            if (!isValid) {
+                return false; // Exit the loop early
+            }
             });
 
             if (!isValid) {
                 return;
             }
-            var i = {{ $dip->months->count() }};
-            var quarters = @json($complementQuarters);
+            ++i;
+            var quarters = {!! json_encode(array_values($complementQuarters)) !!};
             var selectedQuarters = $('select[name^="activities["]').map(function () {
                 return $(this).val();
             }).get();
             var quarterCount = $('select[name^="activities["]').length;
-            
+          
+            var selectedQuarters = $('select[name^="activities["]').map(function () {
+                return $(this).val();
+            }).get();
+
             var availableQuarters = quarters.filter(function(quarter) {
-                return !selectedQuarters.includes(quarter.quarter);
+                return !selectedQuarters.includes(quarter);
             });
 
-            if (quarterCount < quarters.length) {
+            if ( quarters.length > quarterCount) {
                 var html = `
                     <div class="row mt-3" style="display:none;">
                         <div class="col-md-3">
@@ -178,7 +182,7 @@
                                 data-allow-clear="true">
                                 <option value=''>Select Quarter Target</option>`;
                                 availableQuarters.forEach(function (quarter) {
-                                    html += `<option value="${quarter.quarter}">${quarter.quarter}</option>`;
+                                    html += `<option value="${quarter}">${quarter}</option>`;
                                 });
                                 html += `
                             </select>

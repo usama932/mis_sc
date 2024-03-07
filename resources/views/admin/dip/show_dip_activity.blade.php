@@ -15,7 +15,7 @@
                         </tr>
                     </table>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <table class="table table-striped">
                         <tr>
                             <th class="fs-4 text-center"> <strong>Activity Title</strong></th>
@@ -24,7 +24,7 @@
                       
                     </table>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <table class="table table-striped">
                         <tr>
                             <th class="fs-4 text-center"> <strong>LOP Target</strong></th>

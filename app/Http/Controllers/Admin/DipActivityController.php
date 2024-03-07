@@ -333,7 +333,7 @@ class DipActivityController extends Controller
 
     public function update(Request $request, string $id)
     {
-       dd($request->all());
+      
         $data = $request->except('_token');
         $dip = DipActivity::where('id',$id)->first();
         $dip_activity = $this->dipactivityRepository->updatedipactivity($data ,$id);

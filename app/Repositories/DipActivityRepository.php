@@ -44,13 +44,45 @@ class DipActivityRepository implements DipActivityInterface
 
     public function updatedipactivity($data, $id)
     {
+   
         $activity =  DipActivity::where('id',$id)->update([
             'activity_number'      => $data['activity'],
             'activity_title'      => $data['activity'],
             'lop_target'           => $data['lop_target'],
             'updated_by'           => auth()->user()->id,
         ]);
-     
+        foreach($data['activities']  as $key => $q){
+        
+            $target_benefit = $q['target_benefit'];
+            $target_quarter = $q['target_quarter'];
+           
+            
+            if(empty($q['id'])){
+                
+                $parts = explode("-", $q['quarter']);
+                $quarter = $parts[0]; // Q1
+                $year = $parts[1]; 
+                $q = SCIQuarter::where('slug', $quarter)->first();
+                ActivityMonths::create([
+                    'project_id'         => $data['project_id'],
+                    'activity_id'        => $id,
+                    'quarter'            => $q->id,
+                    'beneficiary_target' => $target_benefit,
+                    'year'               => $year,
+                    'target'             => $target_quarter,
+                    'status'             => "To be Reviewed",
+                    'created_by'         => auth()->user()->id,
+                ]);
+            }else{
+                $q_id = $q['id'];
+                ActivityMonths::where('id',$q_id)->update([
+                    'beneficiary_target' => $target_benefit,
+                    'target'             => $target_quarter,
+                    'updated_by'         => auth()->user()->id,
+                ]);
+            }
+            
+        }
         return $activity;
     }
 
