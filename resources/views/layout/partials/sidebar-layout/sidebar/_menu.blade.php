@@ -335,7 +335,7 @@
                                     <!--end:Menu link-->
                                 </div>
                                 @endcan
-                                @can('read project detail')
+                                @can('create dip')
                                     <div class="menu-item">
                                         <!--begin:Menu link-->
                                     

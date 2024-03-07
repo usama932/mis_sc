@@ -418,10 +418,11 @@ class ProjectController extends Controller
         if(!empty($project)){
             $project->themes->each?->delete();
             $project->partners?->each?->delete();
-            $project->detail?->each?->delete();
+            $project->detail?->delete();
             $project->quarters?->each?->delete();
             $project->activities?->each?->delete();
-            
+            $project->activity_months?->each?->delete();
+            $project->progress?->each?->delete();
             $project->delete();
             return redirect()->route('projects.index');
         }else{

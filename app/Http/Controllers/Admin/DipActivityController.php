@@ -85,9 +85,11 @@ class DipActivityController extends Controller
                 $nestedData['update_progress'] = '<a  href="'.$progress_url.'"><span class="badge badge-success">Update Progress</span></a>';
                 $nestedData['action'] = '<div>
                                         <td>
-                                            
                                             <a class="btn-icon mx-1" href="'.$show_url.'" >
                                                 <i class="fa fa-eye text-warning" aria-hidden="true" ></i>
+                                            </a>
+                                            <a class="btn-icon mx-1" href="'.$edit_url.'" >
+                                                <i class="fa fa-pencil text-info" aria-hidden="true" ></i>
                                             </a>
                                             ';
                                             if (auth()->user()->user_type == 'admin') {

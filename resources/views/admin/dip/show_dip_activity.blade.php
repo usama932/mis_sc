@@ -137,7 +137,7 @@
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Status</span>
                                 </label> 
-                                <select   name="status" class="form-select form-control donor" id="donor" aria-label="Select Status" data-control="select2" data-placeholder="Select a Donor" class="form-select "  data-allow-clear="true" > 
+                                <select   name="status" class="form-select form-control donor" id="donor" aria-label="Select Status" data-control="select2" data-placeholder="Select a Status" class="form-select "  data-allow-clear="true" > 
                                     <option  value=''>Select Donor</option>
                                     <option  value='Posted'>Posted</option>
                                     <option  value='Returned'>Returned</option>

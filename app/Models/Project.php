@@ -30,6 +30,10 @@ class Project extends Model
     {
         return $this->hasMany(ActivityMonths::class,'project_id','id');
     }
+    public function progress()
+    {
+        return $this->hasMany(ActivityProgress::class,'project_id','id');
+    }
     public function partners()
     {
         return $this->hasMany(ProjectPartner::class,'project_id','id');
