@@ -101,6 +101,7 @@
                                     <option value="" selected>Select Province</option>
                                     <option  value="None" >All</option>
                                     <option value='4'>Sindh</option>
+                                    <option value='3'>Balochistan/option>
                                     <option value='2'>KPK</option>
                                 </select>
 
