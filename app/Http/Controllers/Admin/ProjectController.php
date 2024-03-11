@@ -297,7 +297,7 @@ class ProjectController extends Controller
         else{
             $districts   = [];
         }
-        if(session('active') == ''){
+        if(session('project') == ''){
             $active = 'detail';    
             session(['project' => $active]);
         }
@@ -355,9 +355,10 @@ class ProjectController extends Controller
         $data = $request->except('_token');
         
         $project = $this->projectRepository->updateproject($data);
-
-        $project = 'detail';
+       
+        $project = 'thematic';
         session(['project' => $project]);
+       
         $editUrl = route('project.detail',$request->project);
      
         return response()->json([

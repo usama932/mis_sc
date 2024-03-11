@@ -57,6 +57,7 @@
                         <a class="nav-link @if(session('project') == 'detail')  active @endif" data-bs-toggle="tab" href="#detail">Project Detail</a>
                     </li>
                     <li class="nav-item">
+                      
                         <a class="nav-link @if(session('project') == 'thematic') active @else  @endif" data-bs-toggle="tab" href="#thematic" @if(empty($project->detail)) disabled @endif >Thematic area</a>
                     </li>
                     <li class="nav-item">
@@ -68,6 +69,7 @@
                 <div class="tab-pane fade show @if(session('project') == 'detail') active @else  @endif" id="detail" role="tabpanel">
                     @include('admin.projects.partials.detail_form')
                 </div>
+                
                 <div class="tab-pane fade show @if(session('project') == 'thematic') active @else  @endif" id="thematic" role="tabpanel" @if(empty($project->detail)) disabled @endif >
                     @include('admin.projects.partials.project_theme')
                 </div>

@@ -111,7 +111,8 @@
                     "dataType":"json",
                     "type":"POST",
                     "data":{"_token":"<?php echo csrf_token() ?>",
-                            "dip_id":dip_id}
+                            "dip_id":dip_id,
+                            "url":"quarter_progress"}
                 },
                 "columns":
                     [

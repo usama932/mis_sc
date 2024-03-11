@@ -163,6 +163,8 @@ var KTprojectupdateValidate = function() {
                                     "hideMethod": "fadeOut"
                                 };
                                 toastr.success(response.data.message, "Success");
+                                sessionStorage.removeItem('project');
+                                sessionStorage.setItem('project', 'thematic');
                                 window.location.assign(response.data.editUrl);
                             } else {
                                 toastr.options = {
@@ -182,7 +184,9 @@ var KTprojectupdateValidate = function() {
                                     "showMethod": "fadeIn",
                                     "hideMethod": "fadeOut"
                                 };
-                                toastr.success("Theme Added Successfully", "Success");
+                                toastr.success("Project detail Added Successfully", "Success");
+                                sessionStorage.removeItem('project');
+                                sessionStorage.setItem('project', 'thematic');
                                 form.reset();
 
                                 window.location.assign(response.data.editUrl);

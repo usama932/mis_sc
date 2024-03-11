@@ -62,12 +62,19 @@ class DipActivityController extends Controller
         $dips =$dips->limit($limit)->offset($start)
                                     ->orderBy($order, $dir)->get()->sortByDesc("date_visit");
 		$data = array();
+       
 		if($dips){
 			foreach($dips as $r){
                 $show_url = route('activity_dips.show',$r->id);
                 $edit_url = route('activity_dips.edit',$r->id);
                 $progress_url = route('postprogress',$r->id);
-				$nestedData['activity_number'] = $r->activity_title ?? ''; 
+                $text = $r->activity_title ?? "";
+                $words = str_word_count($text, 1);
+                $lines = array_chunk($words, 10);
+                $finalText = implode("<br>", array_map(function ($line) {
+                    return implode(" ", $line);
+                }, $lines));
+                $nestedData['activity_number'] =  $finalText ?? '';
                 $nestedData['theme'] = $r->scitheme_name->name ?? ''; 
                 $nestedData['sub_theme'] = $r->scisubtheme_name->name ?? ''; 
                 $nestedData['project'] = $r->project->name ?? ''; 
@@ -85,16 +92,18 @@ class DipActivityController extends Controller
                 $nestedData['update_progress'] = '<a  href="'.$progress_url.'"><span class="badge badge-success">Update Progress</span></a>';
                 $nestedData['action'] = '<div>
                                         <td>
-                                            <a class="btn-icon mx-1" href="'.$show_url.'" >
+                                            <a class="btn-icon mx-1" href="'.$show_url.'" title="Show Activity" href="javascript:void(0)">
                                                 <i class="fa fa-eye text-warning" aria-hidden="true" ></i>
-                                            </a>
-                                            <a class="btn-icon mx-1" href="'.$edit_url.'" >
+                                            </a>';
+                                            if (empty($request->url)) {
+                                                $nestedData['action'] .= '
+                                                <a class="btn-icon mx-1" href="'.$edit_url.'" title="Edit Activity" href="javascript:void(0)">
                                                 <i class="fa fa-pencil text-info" aria-hidden="true" ></i>
-                                            </a>
-                                            ';
+                                                </a>';
+                                            }
                                             if (auth()->user()->user_type == 'admin') {
                                                 $nestedData['action'] .= '
-                                                <a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
+                                                <a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Activity" href="javascript:void(0)">
                                                     <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                                                 </a>';
                                             }
@@ -149,12 +158,12 @@ class DipActivityController extends Controller
                 $nestedData['created_by'] = $r->user?->name  ?? ''; 
                 $nestedData['action'] = '<div>
                                         <td>
-                                            <a class="btn-icon mx-1" title="Edit Activity Quarter" data-bs-toggle="modal" data-bs-target="#editquarter_'.$r->id.'">
+                                            <a class="btn-icon mx-1" title="Edit Activity Quarter" data-bs-toggle="modal" data-bs-target="#editquarter_'.$r->id.'" href="javascript:void(0)">
                                                 <i class="fa fa-pencil text-info" aria-hidden="true"></i>
                                             </a>';
                                             if (auth()->user()->user_type == 'admin') {
                                                 $nestedData['action'] .= '
-                                                <a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
+                                                <a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Ac" href="javascript:void(0)">
                                                     <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                                                 </a>';
                                             }

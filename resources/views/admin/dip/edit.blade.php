@@ -1,6 +1,6 @@
 <x-nform-layout>
  
-    @section('title')
+    @section('title ')
       Add Project Activities & Targets
     @endsection
     <div class="card">
@@ -70,13 +70,13 @@
             buttons: [
                 'csv', 'excel'
             ],
-            "responsive": true, // Enable responsive mode
+            
+            "responsive": false, // Enable responsive mode
             "processing": true,
             "serverSide": true,
             "searching": false,
             "bLengthChange": false,
             "bInfo" : false,
-            "responsive": false,
             "info": true,   
             "ajax": {
                 "url":"{{route('admin.get_activity_dips')}}",
@@ -87,7 +87,7 @@
             },
                 "columns":[
                     
-                                {"data":"activity_number","searchable":false,"orderable":false},
+                                {"data":"activity_number","searchable":false,"orderable":false,"width": "10%",},
                                 {"data":"sub_theme","searchable":false,"orderable":false},
                                 {"data":"lop_target","searchable":false,"orderable":false},
                                 {"data":"quarter_target","searchable":false,"orderable":false},

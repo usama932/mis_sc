@@ -1,3 +1,4 @@
+
 <div>
     <div class="card-toolbar  d-flex justify-content-end">   
         @can('create dip')
@@ -19,7 +20,7 @@
             <table class="table table-striped table-bordered nowrap" id="dip_activity" style="width:100%">
                 <thead>
                     <tr>
-                        <th>Activity</th>
+                        <th width="10%">Activity</th>
                         <th>Sub Theme</th>
                         <th>LOP Target</th>
                         <th>Quarter Target</th>
