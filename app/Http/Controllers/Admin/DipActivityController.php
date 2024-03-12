@@ -218,18 +218,20 @@ class DipActivityController extends Controller
                     $nestedData['status'] = $r->status ?? '';
                     $nestedData['remarks'] = $r->progress?->remarks ?? '';
                     if(!empty($r->progress)){
-                        if($r->status != 'Posted'){
+                        if($r->status == 'Posted'){
+                            $nestedData['action'] = '';
+                        }
+                        elseif($r->status == 'Returned'){
                             $nestedData['action'] = '<div>
-                            <td><a class="btn btn-icon" title="Update status" data-bs-toggle="modal" data-bs-target="#update_status_'.$r->progress->quarter_id.'">
-                            <span class="badge bg-primary text-dark">Update status</span>
+                            <td><a class="btn btn-icon" title="Update status" data-bs-toggle="modal" data-bs-target="#edit_status_'.$r->progress->quarter_id.'" >
+                                <span class="badge bg-success text-dark">Edit</span>
                             </a></div>
                             </td>';
                         }
-                          
                         else{
                             $nestedData['action'] = '<div>
-                            <td><a class="btn btn-icon" title="Update status" >
-                            <span class="badge bg-success text-dark">Status Updated</span>
+                            <td><a class="btn btn-icon" title="Update status" data-bs-toggle="modal" data-bs-target="#update_status_'.$r->progress->quarter_id.'">
+                            <span class="badge bg-primary text-dark">Update status</span>
                             </a></div>
                             </td>';
                         }
@@ -284,15 +286,27 @@ class DipActivityController extends Controller
     {
         
         $data = $request->except('_token');
-       
-        $dip_activity = $this->dipactivityRepository->storedipactivity($data);
-        $active = 'dip_activity';
-        session(['dip_edit' => $active]);
+        $dip = DipActivity::where('activity_title',$request->activity)->first();
         $editUrl = route('dips.edit',$request->project_id);
+        if(!empty($dip)){
+            return response()->json([
+                'editUrl' => $editUrl,
+                'error' => true
+            ]);
+        }
+        else{
+            $dip_activity = $this->dipactivityRepository->storedipactivity($data);
+            $active = 'dip_activity';
+            session(['dip_edit' => $active]);
+            return response()->json([
+                'editUrl' => $editUrl,
+                'error'    => false
+            ]);
+        }   
+      
+        
      
-        return response()->json([
-            'editUrl' => $editUrl
-        ]);
+       
 
     }
 
@@ -321,6 +335,7 @@ class DipActivityController extends Controller
         }
         addVendors(['datatables']);
         addJavascriptFile('assets/js/custom/dip/dipquarteroupdateValidation.js');
+        addJavascriptFile('assets/js/custom/dip/dipquartereditValidation.js');
         $months = ActivityProgress::where('activity_id',$id)->where('project_id',$dip_activity->project_id)->get();
         return view('admin.dip.show_dip_activity',compact('dip_activity','districts','provinces','months'));
     }
@@ -552,6 +567,19 @@ class DipActivityController extends Controller
         $quarter = ActivityMonths::where('id',$id)->update([
             'status' => $request->status,
           
+        ]);
+        return response()->json(['error' => true,'quarter' => $quarter ]);
+    }
+    public function quarterstatus_edit(Request $request,$id){
+        
+        $quarter = ActivityProgress::where('id',$id)->update([
+                'activity_target'   => $request->activity_target,
+                'women_target'      => $request->women_target,
+                'men_target'        => $request->men_target,
+                'girls_target'      => $request->girls_target,
+                'boys_target'       => $request->boys_target,
+                'pwd_target'        => $request->pwd_target,
+                'remarks'           => $request->remarks,
         ]);
         return response()->json(['error' => true,'quarter' => $quarter ]);
     }

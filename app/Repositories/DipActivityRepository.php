@@ -13,7 +13,7 @@ class DipActivityRepository implements DipActivityInterface
     { 
        
         $activity =  DipActivity::create([
-            'activity_number'     => $data['activity'],
+            'activity_number'       => $data['activity'],
             'activity_title'        => $data['activity'],
             'lop_target'            => $data['lop_target'],
             'project_id'            => $data['project_id'],

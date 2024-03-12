@@ -28,27 +28,20 @@ class User extends Authenticatable
         'user_type',
         'district',
         'province',
+        'status',
         'permissions_level',
         'last_login_at',
         'last_login_ip',
         'profile_photo_path',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+  
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
+
     protected $casts = [
         'email_verified_at' => 'datetime',
         'last_login_at' => 'datetime',

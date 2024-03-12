@@ -32,9 +32,11 @@ class UserManagementController extends Controller
             'email'             => $request->email,
             'permissions_level' => $request->permissions_level,
             'designation'       => $request->designation,
+            'province'          => $request->province,
+            'district'          => $request->district,
             'user_type'         => $request->user_type,
             'password'          => Hash::make($request->password),
-            'status'            => '1',
+            'status'            =>  $request->status,
         ]);
         $user->assignRole($request->role);
         return redirect()->back()->with("success", "User Created successfully!");
