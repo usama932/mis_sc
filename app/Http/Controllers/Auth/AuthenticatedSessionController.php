@@ -37,11 +37,11 @@ class AuthenticatedSessionController extends Controller
                 'last_login_at' => Carbon::now()->toDateTimeString(),
                 'last_login_ip' => $request->getClientIp()
             ]);
-            // LoginLog::create([
-            //     'user_id' =>auth()->user()->id,
-            //     'login_ip' =>  $request->getClientIp(),
+            LoginLog::create([
+                'user_id' =>auth()->user()->id,
+                'login_ip' =>  $request->getClientIp(),
                 
-            // ]);
+            ]);
             return redirect()->intended(RouteServiceProvider::HOME);
         }else{
             return response()->json([

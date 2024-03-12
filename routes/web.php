@@ -152,6 +152,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('activtyquarter_update/{id}', [DipActivityController::class,'activtyquarter_update'])->name('activtyquarter.update');
     
     Route::post('quarterstatus.update/{id}', [DipActivityController::class,'quarterstatus_update'])->name('quarterstatus.update');
+    Route::post('quarterstatus.edit/{id}', [DipActivityController::class,'quarterstatus_edit'])->name('quarterstatus.edit');
     //Master Projects  routes
     Route::resource('/projects', ProjectController::class);
     Route::post('get_projects', [ProjectController::class,'get_projects'])->name('admin.get_projects');

@@ -316,7 +316,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Products List & Activities </span>
+                                <span class="menu-title">Project List & Activities </span>
                                 <span class="menu-arrow"></span>
                             </a>
                             <!--end::Menu link-->
