@@ -225,6 +225,7 @@ class DipActivityController extends Controller
                             $nestedData['action'] = '';
                         }
                         elseif($r->status == 'Returned' || $r->status == 'To be Reviewed'){
+
                             $nestedData['action'] = '<div>
                             <td><a class="btn btn-icon" title="Update status" data-bs-toggle="modal" data-bs-target="#edit_status_'.$r->progress->quarter_id.'" >
                                 <span class="badge bg-success text-dark">Edit</span>
@@ -289,15 +290,27 @@ class DipActivityController extends Controller
     {
         
         $data = $request->except('_token');
-       
-        $dip_activity = $this->dipactivityRepository->storedipactivity($data);
-        $active = 'dip_activity';
-        session(['dip_edit' => $active]);
+        $dip = DipActivity::where('activity_title',$request->activity)->first();
         $editUrl = route('dips.edit',$request->project_id);
+        if(!empty($dip)){
+            return response()->json([
+                'editUrl' => $editUrl,
+                'error' => true
+            ]);
+        }
+        else{
+            $dip_activity = $this->dipactivityRepository->storedipactivity($data);
+            $active = 'dip_activity';
+            session(['dip_edit' => $active]);
+            return response()->json([
+                'editUrl' => $editUrl,
+                'error'    => false
+            ]);
+        }   
+      
+        
      
-        return response()->json([
-            'editUrl' => $editUrl
-        ]);
+       
 
     }
 

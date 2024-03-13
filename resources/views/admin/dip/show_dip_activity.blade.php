@@ -170,7 +170,10 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
+
                         <h3 class="modal-title">Update Progress ({{$month->activity?->slug?->slug}}-{{$month->activity?->year}})</h3>
+
+                
                         <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
                             <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
                         </button>
@@ -182,13 +185,13 @@
                             <input type="hidden" name="project_id" value="{{ $month->project_id }}">
                             <input type="hidden" name="activity_id" value="{{ $month->activity_id }}">
                             <div class="row">
-                                
                                 <div class="fv-row col-md-4 ">
                                     <label class="fs-7 fw-semibold form-label mb-2 d-flex">
                                         <span>Activity Target</span>
                                     </label>
                                     <input type="text" name="benefit_target" id="benefit_target" class="form-control form-control-solid" value="{{$month->activity?->target ?? '0'}}" readonly>
                                     <div id="benefit_targetError" class="error-message " ></div>
+
                                 </div> 
                                 <div class="fv-row col-md-4 ">
                                     <label class="fs-7 fw-semibold form-label mb-2 d-flex">
