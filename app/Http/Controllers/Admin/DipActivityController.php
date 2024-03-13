@@ -69,6 +69,7 @@ class DipActivityController extends Controller
                 $edit_url = route('activity_dips.edit',$r->id);
                 $progress_url = route('postprogress',$r->id);
                 $text = $r->activity_title ?? "";
+               
                 $words = str_word_count($text, 1);
                 $lines = array_chunk($words, 10);
                 $finalText = implode("<br>", array_map(function ($line) {
@@ -95,7 +96,9 @@ class DipActivityController extends Controller
                                             <a class="btn-icon mx-1" href="'.$show_url.'" title="Show Activity" href="javascript:void(0)">
                                                 <i class="fa fa-eye text-warning" aria-hidden="true" ></i>
                                             </a>';
-                                            if (empty($request->url)) {
+                                            if (!empty($request->url) && $request->url == 'quarter_progress') {
+                                                $nestedData['action'] .= ' ';
+                                            }else{
                                                 $nestedData['action'] .= '
                                                 <a class="btn-icon mx-1" href="'.$edit_url.'" title="Edit Activity" href="javascript:void(0)">
                                                 <i class="fa fa-pencil text-info" aria-hidden="true" ></i>
@@ -183,7 +186,7 @@ class DipActivityController extends Controller
 		echo json_encode($json_data);
     }
     public function activityQuarters(Request $request){
-        $activity_id    = $request->activity_id;
+        $activity_id    =   $request->activity_id;
         $activity       =  DipActivity::where('id',$activity_id)->first();
         $activity_id = $request->activity_id;
         $columns = array(
@@ -221,7 +224,7 @@ class DipActivityController extends Controller
                         if($r->status == 'Posted'){
                             $nestedData['action'] = '';
                         }
-                        elseif($r->status == 'Returned'){
+                        elseif($r->status == 'Returned' || $r->status == 'To be Reviewed'){
                             $nestedData['action'] = '<div>
                             <td><a class="btn btn-icon" title="Update status" data-bs-toggle="modal" data-bs-target="#edit_status_'.$r->progress->quarter_id.'" >
                                 <span class="badge bg-success text-dark">Edit</span>

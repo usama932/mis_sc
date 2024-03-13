@@ -22,6 +22,7 @@ class UserManagementController extends Controller
     {
         $designations = Designation::all();
         $roles = Role::all();
+        addJavascriptFile('assets/js/custom/users/create.js');
         return view('pages.apps.user-management.users.create',compact('designations','roles'));
     }
 
