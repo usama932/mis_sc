@@ -157,28 +157,29 @@
         }, false);
       
         function fetchThemes(project_id) {
-          
-                fetch('/getprojecttheme', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({_token: csrfToken,project_id: project_id }),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    // Clear existing options
-                    document.getElementById('theme').innerHTML = '<option value="">Select Theme</option>';
-                    
-                    // Add fetched themes to the select element
-                    data.forEach(themes => {
-                        const option = document.createElement('option');
-                        option.value = themes.id;
-                        option.textContent = themes.name; // Adjust this according to your data structure
-                        document.getElementById('themes').appendChild(option);
+            $.ajax({
+                url : '/getprojecttheme',
+                method: 'POST',
+                data: {_token: csrfToken,project_id: project_id },
+                success: function(response) {
+                    $("#partner_themes").find('option').remove();
+                    $("#partner_themes").prepend("<option value='' >Select District</option>");
+                    var selected='';
+                  
+                    $.each(response.partnerThemes, function (i, item) {
+                        console.log(item.scisubtheme_name.name);
+                        $("#partner_themes").append("<option value='" + item.scisubtheme_name.id + "' "+selected+" >"+
+                            item.scitheme_name.name.replace(/_/g, ' ') +  " - " +
+                            item.scisubtheme_name.name.replace(/_/g, ' ') + " </option>");
                     });
-                })
-                .catch(error => console.error('Error fetching themes:', error));
+                },
+                error: function(xhr, status, error) {
+                  console.log(xhr);
+                  console.log(status);
+                  
+                }
+            });
+            
         }
     </script>
     @endpush

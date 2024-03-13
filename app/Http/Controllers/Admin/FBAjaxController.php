@@ -153,7 +153,8 @@ class FBAjaxController extends Controller
         $quarters = ProjectQuarter::where('project_id' , $request->project_id)->orderBy('id', 'asc')->get();
 
         $themes = SciTheme::whereIn('id', $projectThemes)->get();
-      
-        return response()->json(['themes'=>$themes,'quarters',$quarters]);
+        $partnerThemes = ProjectTheme::where('project_id', $request->project_id)->with('scisubtheme_name','scitheme_name')->get();
+       
+        return response()->json(['themes'=>$themes,'quarters',$quarters ,'partnerThemes'=>$partnerThemes]);
     }
 }
