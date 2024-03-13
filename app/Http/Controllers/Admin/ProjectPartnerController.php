@@ -88,22 +88,25 @@ class ProjectPartnerController extends Controller
         echo json_encode($json_data);
     }
     public function edit_project_partner(Request $request){
-        $id  =    $request->id;
-        $partner =  ProjectPartner::find($id);
+        $id         = $request->id;
+        $partner    = ProjectPartner::find($id);
         $partners   = Partner::orderBy('slug')->get(); 
         $project    = Project::where('id',$partner->project_id)->with('detail')->orderBy('name')->first();
+
         if($project->detail?->province != null) {
             $province_project = json_decode($project->detail->province , true);
             $provinces = Province::whereIn('province_id', $province_project)->get();
         }else{
             $provinces   = [];
         }
+
         if(!empty($project->detail?->district)){
             $districts   = District::whereIn('district_id', json_decode($project->detail->district))->orderBy('district_name')->get();
         }
         else{
             $districts   = [];
         }
+        
         $themes     =  $project->themes ?? '';
         return view('admin.projects.partials.edit_partner',compact('partner','themes','provinces','districts','partners'));
     }

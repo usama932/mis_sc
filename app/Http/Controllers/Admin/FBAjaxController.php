@@ -35,7 +35,7 @@ class FBAjaxController extends Controller
         
         if(auth()->user()->permissions_level == 'district-wide'){
            
-            $data = District::whereIn('provinces_id',$province_id)->where('district_id',auth()->user())->orderBy('provinces_id')->get();
+            $data = District::whereIn('provinces_id',$province_id)->orderBy('provinces_id')->get();
         }
         else{
          
@@ -50,7 +50,7 @@ class FBAjaxController extends Controller
         $project   = Project::where('id', $request->project)->with('detail')->first();
         
         if(!empty($project->detail?->district)){
-            $data   = District::where('provinces_id',$province_id)->whereIn('district_id', json_decode($project->detail->district))->select('district_id', 'district_name')->get();
+            $data   = District::whereIn('provinces_id',$province_id)->whereIn('district_id', json_decode($project->detail->district))->select('district_id', 'district_name')->get();
            
         }
         else{

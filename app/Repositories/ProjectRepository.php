@@ -203,8 +203,8 @@ class ProjectRepository implements ProjectRepositoryInterface
                 'password'          => Hash::make('12345678'),
                 'permissions_level' => 'nation-wide',
                 'designation'       => '48',
-                'province'          => $data['province'],
-                'district'          => $data['district'],
+                'province'          => '7',
+                'district'          => '38',
                 'status'            => '1',
                 'user_type'         => 'R1',
               
@@ -215,9 +215,9 @@ class ProjectRepository implements ProjectRepositoryInterface
             'partner_id'        => $data['partner'],
             'project_id'        => $data['project'],
             'email'             => $data['email'],
-            'district'          => $data['district'],
+            'district'          => json_encode($data['district']),
             'themes'            => $data['theme'],
-            'province'          => $data['province'],
+            'province'          => json_encode($data['province']),
             'created_by'        => auth()->user()->id,
         ]); 
     }

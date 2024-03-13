@@ -95,7 +95,5 @@
             </div>
         </div>
     </div>
-    @push("scripts")
-    
-    @endpush
+
 </x-nform-layout>
