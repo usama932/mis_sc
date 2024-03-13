@@ -65,40 +65,36 @@
             var dip_activity = $('#dip_activity').DataTable( {
                 "order": [
                 [1, 'desc']
-            ],
-            "dom": 'lfBrtip',
-            buttons: [
-                'csv', 'excel'
-            ],
+                ],
+                "dom": 'lfBrtip',
+                buttons: [
+                    'csv', 'excel'
+                ],
             
-            "responsive": false, // Enable responsive mode
-            "processing": true,
-            "serverSide": true,
-            "searching": false,
-            "bLengthChange": false,
-            "bInfo" : false,
-            "info": true,   
-            "ajax": {
+                "responsive": false, // Enable responsive mode
+                "processing": true,
+                "serverSide": true,
+                "searching": false,
+                "bLengthChange": false,
+                "bInfo" : false,
+                "info": true,   
+                "ajax": {
                 "url":"{{route('admin.get_activity_dips')}}",
                 "dataType":"json",
                 "type":"POST",
                 "data":{"_token":"<?php echo csrf_token() ?>",
                         "dip_id":dip_id}
-            },
+                },
                 "columns":[
-                    
-                                {"data":"activity_number","searchable":false,"orderable":false,"width": "10%",},
-                                {"data":"sub_theme","searchable":false,"orderable":false},
-                                {"data":"lop_target","searchable":false,"orderable":false},
-                                {"data":"quarter_target","searchable":false,"orderable":false},
-                                {"data":"created_by","searchable":false,"orderable":false},
-                                {"data":"created_at","searchable":false,"orderable":false},
-                                {"data":"action","searchable":false,"orderable":false},
-                            ]
+                    {"data":"activity_number","searchable":false,"orderable":false,"width": "10%",},
+                    {"data":"sub_theme","searchable":false,"orderable":false},
+                    {"data":"lop_target","searchable":false,"orderable":false},
+                    {"data":"quarter_target","searchable":false,"orderable":false},
+                    {"data":"created_by","searchable":false,"orderable":false},
+                    {"data":"created_at","searchable":false,"orderable":false},
+                    {"data":"action","searchable":false,"orderable":false},
+                ]
             });
-
-            
-         
         
             function del(id) {
                 Swal.fire({
@@ -111,7 +107,7 @@
                     if (result.value) {
                         Swal.fire(
                             "Deleted!",
-                            "Your DIP has been deleted.",
+                            "Your Activity has been deleted.",
                             "success"
                         );
                         var APP_URL = {!! json_encode(url('/')) !!}

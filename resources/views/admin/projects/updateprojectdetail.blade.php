@@ -53,8 +53,8 @@
         <div class="card">
             <div class="container-fluid">
                 <ul class="nav nav-tabs mt-1 fs-6">
-                    <li class="nav-item">
-                        <a class="nav-link @if(session('project') == 'detail')  active @endif" data-bs-toggle="tab" href="#detail">Project Detail</a>
+                    <li class="nav-item" >
+                        <a  class="nav-link @if(session('project') == 'detail')  active @endif" data-bs-toggle="tab" href="#detail">Project Detail</a>
                     </li>
                     <li class="nav-item">
                       
@@ -149,6 +149,36 @@
                 $('.modal-body').html(response);
                 $('#edittheme').modal('show');
             });
+        }
+        document.getElementById('addprojectpartnerBtn').addEventListener('click', function() {
+            console.log('Implementing Partner tab clicked');
+            const project_id = $('#project_id').val(); // Get the project ID from the hidden input
+            fetchThemes(project_id);
+        }, false);
+      
+        function fetchThemes(project_id) {
+          
+                fetch('/getprojecttheme', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({_token: csrfToken,project_id: project_id }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Clear existing options
+                    document.getElementById('theme').innerHTML = '<option value="">Select Theme</option>';
+                    
+                    // Add fetched themes to the select element
+                    data.forEach(themes => {
+                        const option = document.createElement('option');
+                        option.value = themes.id;
+                        option.textContent = themes.name; // Adjust this according to your data structure
+                        document.getElementById('themes').appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching themes:', error));
         }
     </script>
     @endpush

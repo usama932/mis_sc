@@ -147,7 +147,7 @@ class FBAjaxController extends Controller
         }
     }   
     public function getprojecttheme(Request $request){
-        
+      
         $projectThemes = ProjectTheme::where('project_id', $request->project_id)->pluck('theme_id');
         
         $quarters = ProjectQuarter::where('project_id' , $request->project_id)->orderBy('id', 'asc')->get();

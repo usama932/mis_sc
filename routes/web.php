@@ -73,6 +73,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('getSubTheme', [FBAjaxController::class,'getSubTheme'])->name('getSubTheme');
     Route::post('getactivitySubTheme', [FBAjaxController::class,'getactivitySubTheme'])->name('getactivitySubTheme');
     Route::post('getprojecttheme', [FBAjaxController::class,'getprojecttheme'])->name('getprojecttheme');
+   
     //Quality Bench Routes
     Route::resource('/quality-benchs', QbController::class);
     Route::post('get_qbs', [QbController::class,'get_qbs'])->name('admin.get_qbs');
