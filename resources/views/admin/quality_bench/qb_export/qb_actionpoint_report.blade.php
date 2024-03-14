@@ -54,8 +54,16 @@
                 <td>{{$qb->activity_description}}</td>
                 <td>{{$qb->village}}</td>
                 <td>{{$qb->date_visit ?? ''}}</td>
-                <td>{{$action_point->monitor_visit?->activity_number ?? ''}}</td>
-                <td>{{$action_point->monitor_visit?->gap_issue ?? ''}}</td>
+                <td>
+                    @if($action_point->monitor_visit?->activity_type == "act")
+                        {{$action_point->monitor_visit?->activity_number ?? ''}}
+                    @else
+                        General Observation
+                    @endif
+                </td>
+                <td>
+                    {{$action_point->monitor_visit?->gap_issue ?? ''}}
+                </td>
                 <td>{{$action_point->qb_recommendation ?? ''}}</td>
                 <td>{{$action_point->responsible_person ?? ''}}</td>
                 <td>{{$action_point->deadline ?? ''}}</td>
