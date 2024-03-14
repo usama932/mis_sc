@@ -69,7 +69,7 @@
                 <td>{{$action_point->deadline ?? ''}}</td>
                 <td>{{$action_point->status ?? ''}}</td>
                 <td>{{$action_point->completion_date ?? ''}}</td>
-                <td>{{$qb->qbattachement?->comments ?? ''}}</td>
+                <td>@if($action_point->action_achiev?->comments != 'N/A' &&  !empty($action_point->action_achiev?->comments)){{$action_point->action_achiev?->comments ?? ''}}@else  @endif</td>
             </tr>
         @endforeach
     @endforeach

@@ -51,14 +51,6 @@ class QbController extends Controller
             8 => 'created_at',
 
 		);
-		
-		$totalData = QualityBench::count();
-		$limit = $request->input('length');
-        $order = $columns[$request->input('order.0.column')];
-        $dir = $request->input('order.0.dir');
-        $totalFiltered = QualityBench::count();
-		$start = $request->input('start');
-		
         $qualit_benchs = QualityBench::where('id','!=',-1);
   
         if($request->kt_select2_district != null && $request->kt_select2_district != 'None'){
@@ -78,7 +70,6 @@ class QbController extends Controller
             $enddate = $dateParts[1] ?? '';
         }
       
-       
         if($request->date_visit != null){
 
             $qualit_benchs->whereBetween('date_visit',[$startdate ,$enddate]);
@@ -95,6 +86,14 @@ class QbController extends Controller
 
             $qualit_benchs->where('project_type',$request->project_type);
         }
+        if($request->partner != null){
+
+            $qualit_benchs->where('staff_organization',$request->partner);
+        }
+        if($request->visit_staff != null){
+
+            $qualit_benchs->where('qb_filledby',$request->visit_staff);
+        }
         if($request->project_name != null){
 
             $qualit_benchs->where('project_name',$request->project_name);
@@ -107,9 +106,15 @@ class QbController extends Controller
         {
             $qualit_benchs->where('district',auth()->user()->district);
         }
-        $qualit_bench =$qualit_benchs->offset($start)
-                                    ->limit($limit)
-                                    ->orderBy($order, $dir)->get()->sortByDesc("id");
+        $totalData      =   $qualit_benchs->count();
+		$limit          =   $request->input('length');
+        $order          =   $columns[$request->input('order.0.column')];
+        $dir            =   $request->input('order.0.dir');
+        $totalFiltered  =   $qualit_benchs->count();
+		$start          =   $request->input('start');
+        $qualit_bench   =   $qualit_benchs->offset($start)
+                            ->limit($limit)
+                            ->orderBy($order, $dir)->get()->sortByDesc("id");
                                     
 		$data = array();
 		if($qualit_bench){
@@ -122,23 +127,22 @@ class QbController extends Controller
                 else{
                     $attachment_url = '#';
                 }
-               
 				$nestedData['id'] = $r->id;
-                $nestedData['assement_code'] = $r->assement_code ?? '';
-                $nestedData['project_name'] = $r->project?->name ?? '';
-                $nestedData['partner'] = $r->partner ?? '';
-                $nestedData['province'] = $r->provinces?->province_name ?? '';
-                $nestedData['district'] = $r->districts?->district_name ?? '';
-                $nestedData['theme'] = $r->theme_name?->name ?? '';
+                $nestedData['assement_code']        = $r->assement_code ?? '';
+                $nestedData['project_name']         = $r->project?->name ?? '';
+                $nestedData['partner']              = $r->partner ?? '';
+                $nestedData['province']             = $r->provinces?->province_name ?? '';
+                $nestedData['district']             = $r->districts?->district_name ?? '';
+                $nestedData['theme']                = $r->theme_name?->name ?? '';
                 $nestedData['activity_description'] = $r->activity_description ?? '';
-                $nestedData['village'] = $r->village ?? '';
-                $nestedData['date_visit'] =date('d-M-Y', strtotime($r->date_visit)) ?? '';
-                $nestedData['total_qbs'] = $r->total_qbs ?? '';
-                $nestedData['qbs_not_fully_met'] = $r->qbs_not_fully_met ?? '';
-                $nestedData['qbs_fully_met'] = $r->qbs_fully_met ?? '';
-                $nestedData['qb_not_applicable'] = $r->qb_not_applicable ?? '';
-                
-                $nestedData['score_out'] = $r->score_out.'%' ?? '';
+                $nestedData['village']              = $r->village ?? '';
+                $nestedData['date_visit']           = date('d-M-Y', strtotime($r->date_visit)) ?? '';
+                $nestedData['total_qbs']            = $r->total_qbs ?? '';
+                $nestedData['qbs_not_fully_met']    = $r->qbs_not_fully_met ?? '';
+                $nestedData['qbs_fully_met']        = $r->qbs_fully_met ?? '';
+                $nestedData['qb_not_applicable']    = $r->qb_not_applicable ?? '';
+                $nestedData['staff_organization']   = $r->staff_organization ?? '';
+                $nestedData['score_out']            = $r->score_out.'%' ?? '';
                 if($r->qb_status == "Poor"){
                     $qb_status = '<span class="badge bg-danger">'.$r->qb_status.'</span>';
                 }

@@ -41,13 +41,13 @@
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class="required" >Date Visit</span>
                                     </label>
-                                    <input class="form-control form-control-solid" aria-label="Pick date range"  placeholder="Pick date range" id="date_visit" name="date_visit" value=" ">
+                                    <input class="form-control" aria-label="Pick date range"  placeholder="Pick date range" id="date_visit" name="date_visit" value=" ">
                                 </div>
                                 <div class="col-md-3 my-3">
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class="required"> Name of Staff</span>
                                     </label>
-                                    <select name="visit_staff" id="visit_staff" aria-label="Select a Visit Staff" data-control="select2" data-placeholder="Select a  Visit Staff..." class="form-select form-select-solid" data-allow-clear="true" >
+                                    <select name="visit_staff" id="visit_staff" aria-label="Select a Visit Staff" data-control="select2" data-placeholder="Select a  Visit Staff..." class="form-select  " data-allow-clear="true" >
                                         <option  value="" selected>Select a  Visit Staff</option>
                                         <option  value="None" >All</option>
                                         @foreach($users as $user)
@@ -66,7 +66,7 @@
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class="required">Accompanied By</span>
                                     </label>
-                                    <select   name="accompanied_by" id="accompanied_by" aria-label="Select a Accompanied By" data-control="select2" data-placeholder="Select a Accompanied By" class="form-select form-select-solid" data-allow-clear="true" >
+                                    <select   name="accompanied_by" id="accompanied_by" aria-label="Select a Accompanied By" data-control="select2" data-placeholder="Select a Accompanied By" class="form-select  " data-allow-clear="true" >
                                         <option value="" selected>Select Accompanied By</option>
                                         <option  value="None" >All</option>
                                         <option  value="Project Staff">Project Staff</option>
@@ -81,7 +81,7 @@
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class="required">Type of Visit</span>
                                     </label>
-                                    <select name="visit_type" id="visit_type" aria-label="Select a Visit Type" data-control="select2" data-placeholder="Select a Visit Type..." class="form-select form-select-solid" data-allow-clear="true" >
+                                    <select name="visit_type" id="visit_type" aria-label="Select a Visit Type" data-control="select2" data-placeholder="Select a Visit Type..." class="form-select  " data-allow-clear="true" >
                                         <option value="" selected>Select Visit Type</option>
                                         <option value="None">All</option>
                                         <option value="Independent">Independent</option>
@@ -92,7 +92,7 @@
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class="required">Province</span>
                                     </label>
-                                    <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select form-select-solid" data-allow-clear="true" >
+                                    <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select  " data-allow-clear="true" >
                                         <option value="" selected>Select Province</option>
                                         <option  value="None" >All</option>
                                         <option value='4'>Sindh</option>
@@ -105,7 +105,7 @@
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class="required">District</span>
                                     </label>
-                                    <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select form-select-solid" data-allow-clear="true" >
+                                    <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select  " data-allow-clear="true" >
             
                                     </select>
                                 </div>
@@ -113,7 +113,7 @@
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class="required">Project Type</span>
                                     </label>
-                                    <select   name="project_type" id="project_type" aria-label="Select a Project Type" data-control="select2" data-placeholder="Select a Project Type" class="form-select form-select-solid" data-allow-clear="true" >
+                                    <select   name="project_type" id="project_type" aria-label="Select a Project Type" data-control="select2" data-placeholder="Select a Project Type" class="form-select  " data-allow-clear="true" >
                                         <option value="" selected>Select Project Type</option>
                                         <option  value="None" >All</option>
                                         <option value="Humanterian" >Humanterian</option>
@@ -121,11 +121,24 @@
                                         
                                     </select>
                                 </div>
+                                <div class="col-md-3 my-3">
+                                    <label class="fs-6 fw-semibold form-label mb-2">
+                                        <span class="required">Staff Organization</span>
+                                    </label>
+                                    <select   name="partner" id="partner" aria-label="Select a Partner Name" data-control="select2" data-placeholder="Select a Partner" class="form-select" data-allow-clear="true" >
+                                        <option value="">Select Partner Name</option>
+                                        <option  value="LRF">LRF</option>
+                                        <option  value="NRSP">NRSP</option>
+                                        <option  value="PPHI">PPHI</option>
+                                        <option  value="SRSP">SRSP</option>
+                                        <option  value="TKF">TKF</option>
+                                    </select>
+                                </div>
                                 <div class="col-md-3 mt-3">
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class="required">Project</span>
                                     </label>
-                                    <select name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Project Name" class="form-select form-select-solid" data-allow-clear="true" >
+                                    <select name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Project Name" class="form-select  " data-allow-clear="true" >
                                         <option value="" selected>Select Project</option>
                                         <option  value="None" >All</option>
                                         @foreach($projects as $project)
@@ -155,6 +168,7 @@
                             <th>Theme</th>
                             <th>Activity</th>
                             <th>GeoLocations</th>
+                            <th>Staff Organization</th>
                             <th>Date Visit</th>
                             <th>Total QBs</th>
                             <th>QBs Not Fully Met</th>
@@ -197,7 +211,7 @@
     <script src="{{asset("assets/plugins/custom/datatables/datatables.bundle.js")}}"></script>
     <!--end::Page Vendors-->
     <script>
-        var frm = $('#quality_bench').DataTable( {
+        var QBs = $('#quality_bench').DataTable( {
             "order": [
                 [1, 'desc']
             ],
@@ -209,8 +223,8 @@
             "processing": true,
             "serverSide": true,
             "searching": false,
-            "bLengthChange": true,
-            "bInfo" : true,
+            "bLengthChange": false,
+            "bInfo": false,
             "responsive": false,
             "info": true,
            "ajax": {
@@ -229,6 +243,7 @@
                             {"data":"activity_description","searchable":false,"orderable":false},
                           
                             {"data":"village","searchable":false,"orderable":false},
+                            {"data":"staff_organization","searchable":false,"orderable":false},
                             {"data":"date_visit","searchable":false,"orderable":false},
                             {"data":"total_qbs","searchable":false,"orderable":false},
                             {"data":"qbs_not_fully_met","searchable":false,"orderable":false},
@@ -262,7 +277,7 @@
                 }
             });
         }
-        $("#date_visit, #visit_staff, #accompanied_by, #visit_type, #kt_select2_province, #kt_select2_district, #project_type, #project_name").change(function () {
+        $("#date_visit, #visit_staff,#partner, #accompanied_by, #visit_type, #kt_select2_province, #kt_select2_district, #project_type, #project_name").change(function () {
             var table = $('#quality_bench').DataTable();
             table.destroy();
             var date_visit = document.getElementById("date_visit").value ?? '1';
@@ -273,23 +288,19 @@
             var visit_type = document.getElementById("visit_type").value ?? '1';
             var project_type = document.getElementById("project_type").value ?? '1';
             var project_name = document.getElementById("project_name").value ?? '1';
-
-            var clients = $('#quality_bench').DataTable( {
+            var partner = document.getElementById("partner").value ?? '1';
+            var qb = $('#quality_bench').DataTable( {
                 "order": [
                     [1, 'asc']
                 ],
-
-                responsive: true, // Enable responsive mode
-                "info": true,
-
+                "responsive": true, // Enable responsive mode
                 "processing": true,
                 "serverSide": true,
                 "searching": false,
+                "bLengthChange": false,
+                "bInfo": false,
                 "responsive": false,
-                "bLengthChange": true,
-                "bInfo" : true,
-                'info': true,
-                "dom": 'lfBrtip',
+                "info": true,
 
                 buttons: [
                     'csv', 'excel'
@@ -306,7 +317,8 @@
                             'accompanied_by':accompanied_by,
                             'visit_type':visit_type,
                             'project_type':project_type,
-                            'project_name':project_name
+                            'project_name':project_name,
+                            'partner':partner
                             }
                 },
                "columns":[
@@ -317,8 +329,8 @@
                             {"data":"district","searchable":false,"orderable":false},
                             {"data":"theme","searchable":false,"orderable":false},
                             {"data":"activity_description","searchable":false,"orderable":false},
-                           
                             {"data":"village","searchable":false,"orderable":false},
+                            {"data":"staff_organization","searchable":false,"orderable":false},
                             {"data":"date_visit","searchable":false,"orderable":false},
                             {"data":"total_qbs","searchable":false,"orderable":false},
                             {"data":"qbs_not_fully_met","searchable":false,"orderable":false},

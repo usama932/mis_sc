@@ -18,6 +18,10 @@ class ActionPoint extends Model
     {
         return $this->belongsTo(MonitorVisit::class,'monitor_visits_id','id');
     }
+    public function action_achiev()
+    {
+        return $this->hasOne(ActionAcheive::class,'action_point_id','id');
+    }
     public function user()
     {
         return $this->belongsTo(User::class,'created_by','id');

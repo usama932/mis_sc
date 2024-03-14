@@ -35,9 +35,7 @@
         <th>Total QBs Not Fully Met</th>
         <th>Total QBs Fully met</th>
         <th>Total number of QBs not applicable for this visit</th>
-    
         <th>Score Out</th>
-     
         <th>Qb Status</th>
         
     </tr>

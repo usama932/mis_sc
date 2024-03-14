@@ -10,4 +10,8 @@ class ActionAcheive extends Model
     use HasFactory;
     protected $table = 'action_acheives';
     protected $guarded = [];
+    public function action_point()
+    {
+        return $this->belongsTo(ActionPoint::class,'action_point_id','id');
+    }
 }
