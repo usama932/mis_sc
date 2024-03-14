@@ -63,7 +63,13 @@ class ProjectController extends Controller
         }
        
 		$limit = $request->input('length');
-        $order = $columns[$request->input('order.0.column')];
+        $orderIndex = $request->input('order.0.column');
+        if (isset($columns[$orderIndex])) {
+            $order = $columns[$orderIndex];
+        } else {
+            
+            $order = 'id'; // Or any other default column name
+        }
         $dir = $request->input('order.0.dir');
         if(auth()->user()->user_type != 'admin'){
             $totalFiltered = Project::where('focal_person' ,auth()->user()->id)->count();
@@ -96,6 +102,7 @@ class ProjectController extends Controller
 				$nestedData['id'] = $r->id;
                 $nestedData['project'] = $r->name ?? '';
                 $nestedData['sof'] = $r->sof ?? '';
+                $nestedData['type'] = $r->sof ?? '';
                 if(!empty($r->detail->province )){
                     $province_dip = json_decode($r->detail->province , true);
                     $provinces = Province::whereIn('province_id', $province_dip)->pluck('province_name');
@@ -121,7 +128,7 @@ class ProjectController extends Controller
                     $nestedData['project_tenure'] ='' ;
                 }      
                 $nestedData['created_by'] = $r->user->name ?? '';
-                $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
+                $nestedData['created_at'] =date('M d ,Y', strtotime($r->created_at)). '<br>'. date('h:iA', strtotime($r->created_at)) ?? '';
                 if(empty($r->detail)){
                 $nestedData['action'] = '<div>
                                                 <td>
@@ -241,7 +248,7 @@ class ProjectController extends Controller
                 $nestedData['status'] = $r->status ?? '';
            
                 $nestedData['created_by'] = $r->user->name ?? '';
-                $nestedData['created_at'] = date('d-M-Y H:i:s', strtotime($r->created_at)) ?? '';
+                $nestedData['created_at'] = date('M d ,Y', strtotime($r->created_at)). '<br>'. date('h:iA', strtotime($r->created_at)) ?? '';
              
                 $nestedData['action'] = '<div>
                                         <td>

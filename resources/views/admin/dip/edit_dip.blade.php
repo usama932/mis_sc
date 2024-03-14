@@ -88,7 +88,7 @@
                             <td><strong>Project Tenure</strong></td>
                             <td>
                                 @if(!empty($project->start_date) && $project->start_date != null)
-                                    {{ date('d-M-Y', strtotime($project->start_date))}} -To- {{date('d-M-Y', strtotime($project->end_date));}}
+                                    {{ date('M d, Y', strtotime($project->start_date))}} -To- {{date( 'M d, Y', strtotime($project->end_date));}}
                                 @endif
                             </td>
                         </tr>

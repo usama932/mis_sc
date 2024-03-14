@@ -81,7 +81,7 @@
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Created By</th>
-                                <th>Creation Date/Time</th>
+                                <th>Creation At</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>

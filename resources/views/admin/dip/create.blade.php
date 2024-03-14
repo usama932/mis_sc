@@ -21,7 +21,6 @@
                                     data-placeholder="Select a Theme" class="form-select" data-allow-clear="true">
                                 <option value=''>Select Thematic Area</option>
                                 @foreach($themes as $theme)
-                               
                                     <option value='{{ $theme->theme_id}}'>{{ $theme->scitheme_name->name }}</option>
                                 @endforeach
                             </select>
@@ -46,8 +45,6 @@
                             <textarea name="activity" id="activity" rows="1" class="form-control"></textarea>
                             <div id="activityError" class="error-message"></div>
                         </div>
-                   
-                       
                         <div class="fv-row col-md-2 col-lg-2 col-sm-12">
                             <label class="fs-6 fw-semibold form-label">
                                 <span class="required">LOP Target</span>
@@ -58,10 +55,9 @@
                     </div>
                     <div class="separator my-3"></div>
                     <div id="targetRows">
-                               
                         <div class="row">
                             <div class="col-md-3">
-                                <label class="fs-6 fw-semibold form-label mb-2">
+                                <label class="fs-7 fw-semibold form-label mb-2">
                                     <span class="required">Quarter</span>
                                 </label>
                                 <select name="activities[0][quarter]" aria-label="Select a Quarter Target"
@@ -74,18 +70,21 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">Activity Target</span>
+                                <label class="fs-8 fw-semibold form-label mb-2">
+                                    <span class="required">Activity LOP Target(Only Number)</span>
                                 </label>
-                                <input type="text" name="activities[0][target_quarter]" placeholder="Enter Activity Target"
-                                    class="form-control" autocomplete="off" required>
+                                <input type="text"  name="activities[0][target_quarter]" 
+                                pattern="[0-9]*" 
+                                placeholder="Activity Target (only numbers)" 
+                                class="form-control numeric-input" 
+                                autocomplete="off"  required>
                             </div>
                             <div class="col-md-3">
-                                <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="">Beneficiaries Target</span>
+                                <label class="fs-7 fw-semibold form-label mb-2">
+                                    <span class="">Beneficiaries Target(Only Number)</span>
                                 </label>
-                                <input type="text" name="activities[0][target_benefit]" placeholder="Enter Beneficiary Target"
-                                    class="form-control" autocomplete="off" required>
+                                <input type="text" pattern="[0-9]*"  name="activities[0][target_benefit]" placeholder="Beneficiary Target (only numbers)"
+                                class="form-control numeric-input" autocomplete="off" required>
                             </div>
                             <div class="col-md-3 mt-5 text-end">
                                 <button type="button" class="btn btn-info btn-sm mt-4" onclick="addTargetRow()"
@@ -94,9 +93,8 @@
                         </div>
                     </div>
                 </div>
-              
                 <div class="card-footer justify-content-end d-flex">
-                   <a href="{{ route('dips.edit',$project->id) }}" class="btn btn-primary btn-sm mx-3">Cancel</a>
+                    <a href="{{ route('dips.edit',$project->id) }}" class="btn btn-primary btn-sm mx-3">Cancel</a>
                     <button type="submit" id="kt_create_dip_activity" class="btn btn-success btn-sm">
                         @include('partials/general/_button-indicator', ['label' => 'Submit'])
                     </button>
@@ -152,12 +150,12 @@
                             </select>
                         </div> 
                         <div class="col-md-3">
-                            <input type="text" name="activities[${i}][target_quarter]" placeholder="Enter Activity Target"
-                                class="form-control" autocomplete="off" required>
+                            <input type="text"  pattern="[0-9]*"  name="activities[${i}][target_quarter]" placeholder="Enter Activity Target"
+                                class="form-control numeric-input" autocomplete="off" required>
                         </div>
                         <div class="col-md-3">
-                            <input type="text" name="activities[${i}][target_benefit]" placeholder="Enter Beneficiary Target"
-                                class="form-control" autocomplete="off" required>
+                            <input type="text" pattern="[0-9]*"  name="activities[${i}][target_benefit]" placeholder="Enter Beneficiary Target"
+                                class="form-control numeric-input" autocomplete="off">
                         </div>
                         <div class="col-md-3">
                             <button type="button" class="btn btn-danger btn-sm" onclick="removeTargetRow(this)">Remove</button>
@@ -181,9 +179,31 @@
     
     @push('scripts')
         <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var numericInputs = document.querySelectorAll('.numeric-input');
 
-            
-
+                numericInputs.forEach(function(input) {
+                    input.addEventListener('input', function(event) {
+                        // Remove non-numeric characters
+                        this.value = this.value.replace(/[^0-9]/g, '');
+                    });
+                });
+            });
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // Delegate event handling to the parent element
+                document.getElementById('targetRows').addEventListener('input', function(event) {
+                    var target = event.target;
+                    // Check if the input belongs to the numeric-input class
+                    if (target.classList.contains('numeric-input')) {
+                        // Remove non-numeric characters
+                        target.value = target.value.replace(/[^0-9]/g, '');
+                    }
+                });
+            });
+            </script>
+        <script>
             document.getElementById('themeloader').style.display = 'none';
             $("#theme_id").change(function () {
                 document.getElementById('themeloader').style.display = 'block';
@@ -201,7 +221,7 @@
                         $("#sub_theme_id").prepend("<option value=''>Select Sub-Theme</option>");
                         var selected = '';
                         $.each(data, function (i, item) {
-                         
+                        
                             $("#sub_theme_id").append("<option value='" + item.id + "' " + selected + " >" +
                                 item.name.replace(/_/g, ' ') + "</option>");
                         });
@@ -210,5 +230,4 @@
             });
         </script>
     @endpush
- </x-nform-layout>
- 
+</x-nform-layout>

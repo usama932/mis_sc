@@ -1,8 +1,9 @@
 <x-nform-layout>
- 
+
     @section('title ')
-      Add Project Activities & Targets
+        Add Project Activities & Targets
     @endsection
+
     <div class="card">
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -25,52 +26,46 @@
                     <a class="nav-link @if(session('dip_edit') != 'dip_activity') active @endif " data-bs-toggle="tab" href="#kt_tab_pane_1">Project Information</a>
                 </li>
                 <li class="nav-item">
-                    
-                    <a class="nav-link @if(session('dip_edit') == 'dip_activity') active @endif " data-bs-toggle="tab" href="#kt_tab_pane_2"> Activities</a>
+                    <a class="nav-link @if(session('dip_edit') == 'dip_activity') active @endif " data-bs-toggle="tab" href="#kt_tab_pane_2">Activities</a>
                 </li>
-               
             </ul>
-            
             <div class="tab-content" id="myTabContent">
-             
-                <div class="tab-pane fade   @if(session('dip_edit') != 'dip_activity') show active   @endif" id="kt_tab_pane_1" role="tabpanel">
-                   @include('admin.dip.edit_dip')
+                <div class="tab-pane fade @if(session('dip_edit') != 'dip_activity') show active @endif" id="kt_tab_pane_1" role="tabpanel">
+                    @include('admin.dip.edit_dip')
                 </div>
                 <div class="tab-pane fade @if(session('dip_edit') == 'dip_activity') show active @endif" id="kt_tab_pane_2" role="tabpanel">
                     @include('admin.dip.dip_activity')
                 </div>   
             </div>
         </div>
-        <div class="modal fade" id="dip_edit" data-backdrop="static" tabindex="-1" role="dialog"
-            aria-labelledby="staticBackdrop" aria-hidden="true">
-            <div class="modal-dialog  modal-lg modal-dialog-centered" role="document">
+        <div class="modal fade" id="dip_edit" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Edit Dip Activity</h5>
                         <button type="button" class="edit_close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                            <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <input value="{{$project->id}}"id="dip_id" name="dip_id" type="hidden">
+                    <input value="{{$project->id}}" id="dip_id" name="dip_id" type="hidden">
                     <div class="modal-body"></div>
-                 
                 </div>
             </div>
         </div>
     </div>
+
     @push('scripts')
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script>
             var dip_id = document.getElementById("project_id").value ;
             var dip_activity = $('#dip_activity').DataTable( {
                 "order": [
-                [1, 'desc']
+                    [1, 'desc']
                 ],
                 "dom": 'lfBrtip',
                 buttons: [
                     'csv', 'excel'
                 ],
-            
                 "responsive": false, // Enable responsive mode
                 "processing": true,
                 "serverSide": true,
@@ -79,11 +74,11 @@
                 "bInfo" : false,
                 "info": true,   
                 "ajax": {
-                "url":"{{route('admin.get_activity_dips')}}",
-                "dataType":"json",
-                "type":"POST",
-                "data":{"_token":"<?php echo csrf_token() ?>",
-                        "dip_id":dip_id}
+                    "url":"{{route('admin.get_activity_dips')}}",
+                    "dataType":"json",
+                    "type":"POST",
+                    "data":{"_token":"<?php echo csrf_token() ?>",
+                            "dip_id":dip_id}
                 },
                 "columns":[
                     {"data":"activity_number","searchable":false,"orderable":false,"width": "10%",},
@@ -133,7 +128,6 @@
                 "responsive": false,
                 "info": true,
                 "ajax": {
-
                     "url": "/project_partners",
                     "dataType": "json",
                     "type": "POST",
@@ -173,17 +167,6 @@
                         "searchable": false,
                         "orderable": false
                     },
-                    // {
-                    //     "data": "created_at",
-                    //     "searchable": false,
-                    //     "orderable": false
-                    // },
-                    // {
-                    //     "data": "created_by",
-                    //     "searchable": false,
-                    //     "orderable": false
-                    // },
-                  
                 ]
             });
             var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -205,7 +188,6 @@
                 "responsive": false,
                 "info": true,
                 "ajax": {
-
                     "url": "/project_themes",
                     "dataType": "json",
                     "type": "POST",
@@ -225,7 +207,6 @@
                         "searchable": false,
                         "orderable": false
                     },
-                
                     {
                         "data": "house_hold_target",
                         "searchable": false,
@@ -261,17 +242,6 @@
                         "searchable": false,
                         "orderable": false
                     },
-                    // {
-                    //     "data": "created_at",
-                    //     "searchable": false,
-                    //     "orderable": false
-                    // },
-                    // {
-                    //     "data": "created_by",
-                    //     "searchable": false,
-                    //     "orderable": false
-                    // },
-                   
                 ]
             });
         </script>

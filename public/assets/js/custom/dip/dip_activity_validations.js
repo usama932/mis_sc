@@ -9,7 +9,7 @@ var KTdipActivityValidate = function () {
 
     // Handle form ajax
     var handleFormAjax = function (e) {
-        // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
+        // Init form validation rules. For more info check the FormValidation plugin's official documentation: https://formvalidation.io/
         var validator = FormValidation.formValidation(
             form, {
                 fields: {
@@ -17,24 +17,21 @@ var KTdipActivityValidate = function () {
                         validators: {
                             notEmpty: {
                                 message: 'Activity is required'
-                            },
-
+                            }
                         }
                     },
                     'theme': {
                         validators: {
                             notEmpty: {
                                 message: 'Theme is required'
-                            },
-
+                            }
                         }
                     },
                     'sub_theme': {
                         validators: {
                             notEmpty: {
                                 message: 'Sub-Theme is required'
-                            },
-
+                            }
                         }
                     },
                     'lop_target': {
@@ -49,7 +46,6 @@ var KTdipActivityValidate = function () {
                                 regexp: /^\d+$/,
                                 message: 'Individual Target must be a positive number'
                             }
-
                         }
                     },
                     'activities[][quarter]': {
@@ -71,10 +67,8 @@ var KTdipActivityValidate = function () {
                                 message: 'Beneficiaries Target must be a number'
                             }
                         }
-                    },
-
+                    }
                 },
-
                 plugins: {
                     trigger: new FormValidation.plugins.Trigger(),
                     bootstrap: new FormValidation.plugins.Bootstrap5({
@@ -106,12 +100,12 @@ var KTdipActivityValidate = function () {
             // If any field is empty, prevent form submission and display errors
             if (!isValid) {
                 toastr.error('Please update all highlighted fields', 'Error');
-                
+
                 // Highlight all empty fields
                 emptyFields.forEach(function (field) {
                     field.classList.add('highlight-field');
                 });
-                
+
                 return;
             }
 
@@ -127,7 +121,7 @@ var KTdipActivityValidate = function () {
                     // Check axios library docs: https://axios-http.com/docs/intro
                     axios.post(submitButton.closest('form').getAttribute('action'), new FormData(form)).then(function (response) {
                         if (response) {
-                            if (response.data.error == 'true') {
+                            if (response.data.error == true) {
                                 toastr.options = {
                                     "closeButton": true,
                                     "debug": false,
@@ -169,8 +163,6 @@ var KTdipActivityValidate = function () {
 
                                 window.location.href = response.data.editUrl;
                             }
-
-
                         } else {
                             toastr.options = {
                                 "closeButton": false,
@@ -219,7 +211,6 @@ var KTdipActivityValidate = function () {
                         // Enable button
                         submitButton.disabled = false;
                     });
-
                 } else {
                     // Show error popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                     toastr.options = {
@@ -245,7 +236,7 @@ var KTdipActivityValidate = function () {
             });
         });
 
-    }
+    };
 
     // Public functions
     return {

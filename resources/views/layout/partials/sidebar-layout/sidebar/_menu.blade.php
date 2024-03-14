@@ -286,7 +286,7 @@
                         <span class="menu-icon">
                             <i class="ki-duotone ki-chart-simple-2 fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
                         </span>
-                        <span class="menu-title">Digital Implementation Plan</span>
+                        <span class="menu-title">Detail Implementation Plan</span>
                         <span class="menu-arrow"></span>
                     </a>
                     <!--end::Menu link-->

@@ -53,7 +53,13 @@ class DipController extends Controller
 		
        
 		$limit = $request->input('length');
-        $order = $columns[$request->input('order.0.column')];
+        $orderIndex = $request->input('order.0.column');
+        if (isset($columns[$orderIndex])) {
+            $order = $columns[$orderIndex];
+        } else {
+            
+            $order = 'id'; // Or any other default column name
+        }
         $dir = $request->input('order.0.dir');
         if(auth()->user()->user_type != 'admin'){
             $totalFiltered = Project::orWhere('focal_person' ,auth()->user()->id)->orWhereHas('partners', function ($query) {
@@ -93,7 +99,7 @@ class DipController extends Controller
                                         ';
 				$nestedData['id'] = $r->id;
                 $nestedData['project'] = $r->name ?? '';
-                
+                $nestedData['type'] = $r->type ?? '';
                 $nestedData['sof'] = $r->sof ?? '';
                 if(!empty($r->detail->province )){
                     $province_dip = json_decode($r->detail->province , true);
@@ -135,7 +141,7 @@ class DipController extends Controller
               
                
                 if($r->start_date != null && $r->end_date != null){
-                    $nestedData['project_tenure'] = date('d-M-Y', strtotime($r->start_date)) .' To '.date('d-M-Y', strtotime($r->end_date));
+                    $nestedData['project_tenure'] = date('M d ,Y', strtotime($r->start_date)) .' To '.date('M d ,Y', strtotime($r->end_date));
                 }
                 else{
                     $nestedData['project_tenure'] ='' ;
