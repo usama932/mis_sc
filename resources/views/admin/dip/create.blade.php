@@ -27,7 +27,7 @@
                             <div id="themeError" class="error-message"></div>
                         </div>
                         <div class="fv-row col-md-6 col-lg-6 col-sm-12">
-                            <label class="fs-6 fw-semibold form-label">
+                            <label class="fs-6 fw-semibold form-label d-flex">
                                 <span class="required">Sub-Thematic Area</span>
                                 <span class="spinner-border spinner-border-sm align-middle ms-2" id="themeloader"
                                     style="display: none !important;"></span>

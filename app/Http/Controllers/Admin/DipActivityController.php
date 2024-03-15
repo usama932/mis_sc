@@ -186,6 +186,7 @@ class DipActivityController extends Controller
 		echo json_encode($json_data);
     }
     public function activityQuarters(Request $request){
+      
         $activity_id    =   $request->activity_id;
         $activity       =  DipActivity::where('id',$activity_id)->first();
         $activity_id = $request->activity_id;
@@ -218,7 +219,7 @@ class DipActivityController extends Controller
                     $nestedData['boys_target'] = $r->progress?->boys_target ?? '0'; 
                     $nestedData['pwd_target'] = $r->progress?->pwd_target ?? '0'; 
                     $nestedData['activity_acheive'] = $r->progress?->activity_target ?? '0'; 
-                    $nestedData['status'] = $r->status ?? '';
+                    $nestedData['status'] = $r->status;
                     $nestedData['remarks'] = $r->progress?->remarks ?? '';
                     if(!empty($r->progress)){
                         if($r->status == 'Posted'){
@@ -229,6 +230,14 @@ class DipActivityController extends Controller
                             $nestedData['action'] = '<div>
                             <td><a class="btn btn-icon" title="Update status" data-bs-toggle="modal" data-bs-target="#edit_status_'.$r->progress->quarter_id.'" >
                                 <span class="badge bg-success text-dark">Edit</span>
+                            </a></div>
+                            </td>';
+                        }
+                        elseif(empty($r->status)){
+
+                            $nestedData['action'] = '<div>
+                            <td><a class="btn btn-icon" title="Update status" data-bs-toggle="modal" data-bs-target="#edit_status_'.$r->progress->quarter_id.'" >
+                                <span class="badge bg-success text-dark">Add Progress</span>
                             </a></div>
                             </td>';
                         }
