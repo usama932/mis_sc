@@ -202,7 +202,7 @@
                     }
                 });
             });
-            </script>
+        </script>
         <script>
             document.getElementById('themeloader').style.display = 'none';
             $("#theme_id").change(function () {

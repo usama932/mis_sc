@@ -50,72 +50,49 @@
                             <input name="lop_target" class="form-control" id="lop_target" value="{{$dip->lop_target ?? ''}}">
                             <div id="lop_targetError" class="error-message"></div>
                         </div>
-                        
                     </div>
                     <div class="separator my-3"></div>
+                    <div class="row">
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-info btn-sm mt-4" onclick="addTargetRow()" id="add_quarter_target">Add New Quarter</button>
+                        </div>
+                    </div>
                     <div id="targetRows">
+                        @foreach($dip->months as $month)
                         <div class="row">
-                           
-                            @foreach($dip->months as $month)
-                          
-                          
                             <input type="hidden" name="activities[{{$loop->iteration -1}}][id]" placeholder="Enter Activity Target"
                             class="form-control" autocomplete="off" value="{{$month->id}}">
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <label class="fs-6 fw-semibold form-label mb-2">
-                                            <span class="required">Quarter</span>
-                                        </label>
-                                        <br>
-                                       <span class="mt-4"> <strong class="mt-4">{{$month->slug?->slug}}-{{$month->year}}</strong></span>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label class="fs-6 fw-semibold form-label mb-2">
-                                            <span class="required">Activity Target</span>
-                                        </label>
-                                        <input type="text" name="activities[{{$loop->iteration -1}}][target_quarter]" placeholder="Enter Activity Target"
-                                            class="form-control" autocomplete="off" value="{{$month->target}}">
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label class="fs-6 fw-semibold form-label mb-2">
-                                            <span class="">Beneficiaries Target</span>
-                                        </label>
-                                        <input type="text" name="activities[{{$loop->iteration -1}}][target_benefit]" placeholder="Enter Beneficiary Target"
-                                            class="form-control" autocomplete="off"  value="{{$month->beneficiary_target}}">
-                                    </div>
-                                    <div class="col-md-3 mt-4">  
-                                        <a class="btn btn-sm btn-danger mt-5" title="Delete " onclick="event.preventDefault();del({{$month->id}});" title="Delete Monitor Visit" href="javascript:void(0)">
-                                            Delete
-                                        </a>
-                                    </div>
-                                </div>
+                            <div class="col-md-3">
+                                <label class="fs-6 fw-semibold form-label mb-2">
+                                    <span class="required">Quarter</span>
+                                </label>
+                                <br>
+                               <span class="mt-4"> <strong class="mt-4">{{$month->slug?->slug}}-{{$month->year}}</strong></span>
                             </div>
-                            @endforeach   
-                           
-                            @php
-                            // Construct quarters array
-                            $quarters = [];
-                            $projectquarters = []; // Remove unnecessary initialization
-                            foreach ($dip->months as $month) {
-                                $quarters[] = $month->slug?->slug . '-' . $month->year;
-                            }
-                            foreach ($project->quarters as $quarter) {
-                                $projectquarters[] = $quarter->quarter;
-                            }
-                            $complementQuarters = array_diff( $projectquarters,$quarters);
-                        @endphp
-                      
-                            
-                        </div>
-                        <!-- Add New Quarter button -->
-                        <div class="row">
-                            <div class="d-flex justify-content-end">
-                                <button type="button" class="btn btn-info btn-sm mt-4" onclick="addTargetRow()" id="add_quarter_target">Add New Quarter</button>
+                            <div class="col-md-3">
+                                <label class="fs-6 fw-semibold form-label mb-2">
+                                    <span class="required">Activity Target</span>
+                                </label>
+                                <input type="text" name="activities[{{$loop->iteration -1}}][target_quarter]" placeholder="Enter Activity Target"
+                                    class="form-control numeric-input" autocomplete="off" value="{{$month->target}}">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="fs-6 fw-semibold form-label mb-2">
+                                    <span class="">Beneficiaries Target</span>
+                                </label>
+                                <input type="text" name="activities[{{$loop->iteration -1}}][target_benefit]" placeholder="Enter Beneficiary Target"
+                                    class="form-control numeric-input" autocomplete="off"  value="{{$month->beneficiary_target}}">
+                            </div>
+                            <div class="col-md-3 mt-4">  
+                                <a class="btn btn-sm btn-danger mt-5" title="Delete " onclick="event.preventDefault();del({{$month->id}});" title="Delete Monitor Visit" href="javascript:void(0)">
+                                    Delete
+                                </a>
                             </div>
                         </div>
-
+                        @endforeach
                     </div>
+                    <!-- Add New Quarter button -->
+                 
                     <div class="card-footer justify-content-end d-flex">
                         @if(!empty($project->id))
                         <a href="{{ route('dips.edit',$project->id) }}" class="btn btn-primary btn-sm mx-3">Cancel</a>
@@ -125,16 +102,48 @@
                         </button>
                     </div>
                 </form>
-                
                 <div class="separator my-3"></div>
-              
-                
             </div>  
         </div>
     </div>
-    
-   
+    @php
+        // Construct quarters array
+        $quarters = [];
+        $projectquarters = []; // Remove unnecessary initialization
+        foreach ($dip->months as $month) {
+            $quarters[] = $month->slug?->slug . '-' . $month->year;
+        }
+        foreach ($project->quarters as $quarter) {
+            $projectquarters[] = $quarter->quarter;
+        }
+        $complementQuarters = array_diff( $projectquarters,$quarters);
+        @endphp
     @push('scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var numericInputs = document.querySelectorAll('.numeric-input');
+
+            numericInputs.forEach(function(input) {
+                input.addEventListener('input', function(event) {
+                    // Remove non-numeric characters
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                });
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Delegate event handling to the parent element
+            document.getElementById('targetRows').addEventListener('input', function(event) {
+                var target = event.target;
+                // Check if the input belongs to the numeric-input class
+                if (target.classList.contains('numeric-input')) {
+                    // Remove non-numeric characters
+                    target.value = target.value.replace(/[^0-9]/g, '');
+                }
+            });
+        });
+    </script>
     <script>
         var i = {{ $dip->months->count() }};
         function addTargetRow() {
@@ -150,9 +159,9 @@
                         $(this).removeClass('highlight-field');
                     }
                 });
-            if (!isValid) {
-                return false; // Exit the loop early
-            }
+                if (!isValid) {
+                    return false; // Exit the loop early
+                }
             });
 
             if (!isValid) {
@@ -189,11 +198,11 @@
                         </div> 
                         <div class="col-md-3">
                             <input type="text" name="activities[${i}][target_quarter]" placeholder="Enter Activity Target"
-                                class="form-control" autocomplete="off" required>
+                                class="form-control numeric-input" autocomplete="off" required>
                         </div>
                         <div class="col-md-3">
                             <input type="text" name="activities[${i}][target_benefit]" placeholder="Enter Beneficiary Target"
-                                class="form-control" autocomplete="off" required>
+                                class="form-control numeric-input" autocomplete="off" required>
                         </div>
                         <div class="col-md-3">
                             <button type="button" class="btn btn-danger btn-sm" onclick="removeTargetRow(this)">Remove</button>
