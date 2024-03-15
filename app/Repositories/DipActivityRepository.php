@@ -35,7 +35,7 @@ class DipActivityRepository implements DipActivityInterface
                 'beneficiary_target' => $target_benefit,
                 'year'               => $year,
                 'target'             => $target_quarter,
-                'status'             => "",
+                'status'             => Null,
                 'created_by'         => auth()->user()->id,
             ]);
         }

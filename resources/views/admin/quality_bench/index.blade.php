@@ -212,9 +212,7 @@
     <!--end::Page Vendors-->
     <script>
         var QBs = $('#quality_bench').DataTable( {
-            "order": [
-                [1, 'desc']
-            ],
+           
             "dom": 'lfBrtip',
             buttons: [
                 'csv', 'excel'
@@ -223,8 +221,9 @@
             "processing": true,
             "serverSide": true,
             "searching": false,
-            "bLengthChange": false,
-            "bInfo": false,
+            "bLengthChange": true,
+            "aLengthMenu": [[10, 50, 100, -1], [10, 50, 100, "All"]],
+            "bInfo" : true,
             "responsive": false,
             "info": true,
            "ajax": {
@@ -290,21 +289,21 @@
             var project_name = document.getElementById("project_name").value ?? '1';
             var partner = document.getElementById("partner").value ?? '1';
             var qb = $('#quality_bench').DataTable( {
-                "order": [
-                    [1, 'asc']
+                "dom": 'lfBrtip',
+                buttons: [
+                    'csv', 'excel'
                 ],
                 "responsive": true, // Enable responsive mode
                 "processing": true,
                 "serverSide": true,
                 "searching": false,
-                "bLengthChange": false,
-                "bInfo": false,
+                "bLengthChange": true,
+                "aLengthMenu": [[10, 50, 100, -1], [10, 50, 100, "All"]],
+                "bInfo" : false,
                 "responsive": false,
                 "info": true,
 
-                buttons: [
-                    'csv', 'excel'
-                ],
+                
                 "ajax": {
                     "url":"{{ route('admin.get_qbs') }}",
                     "dataType":"json",

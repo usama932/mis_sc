@@ -233,24 +233,22 @@ class DipActivityController extends Controller
                             </a></div>
                             </td>';
                         }
-                        elseif(empty($r->status)){
-
-                            $nestedData['action'] = '<div>
-                            <td><a class="btn btn-icon" title="Update status" data-bs-toggle="modal" data-bs-target="#edit_status_'.$r->progress->quarter_id.'" >
-                                <span class="badge bg-success text-dark">Add Progress</span>
-                            </a></div>
-                            </td>';
-                        }
+                       
                         else{
                             $nestedData['action'] = '<div>
                             <td><a class="btn btn-icon" title="Update status" data-bs-toggle="modal" data-bs-target="#update_status_'.$r->progress->quarter_id.'">
-                            <span class="badge bg-primary text-dark">Update status</span>
+                            <span class="badge bg-primary text-dark">Update Status</span>
                             </a></div>
                             </td>';
                         }
                     }   
                     else{
-                        $nestedData['action'] ='';
+                            $nestedData['action'] = '<div>
+                            <td><a class="btn btn-icon" title="Update status" data-bs-toggle="modal" data-bs-target="#add_progress_'.$r->id.'" >
+                                <span class="badge bg-success text-dark">Add Progress</span>
+                            </a></div>
+                            </td>';
+                        
                     }
                   
                     $data[] = $nestedData;
@@ -352,6 +350,7 @@ class DipActivityController extends Controller
         addJavascriptFile('assets/js/custom/dip/dipquarteroupdateValidation.js');
         addJavascriptFile('assets/js/custom/dip/dipquartereditValidation.js');
         $months = ActivityProgress::where('activity_id',$id)->where('project_id',$dip_activity->project_id)->get();
+        $quarters = ActivityMonths::where('activity_id',$id)->where('project_id',$dip_activity->project_id)->get();
         return view('admin.dip.show_dip_activity',compact('dip_activity','districts','provinces','months'));
     }
 

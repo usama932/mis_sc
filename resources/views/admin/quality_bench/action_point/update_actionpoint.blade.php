@@ -17,7 +17,8 @@
             <form class="form p-5" novalidate="novalidate" id="updateactionpointstatus" action="{{route('postupdate_actionpoint',$action_point->id)}}" method="post">  
                 @csrf
              
-                <input type="hidden" name="quality_bench_id" id="qb_id" value="{{$action_point->monitor_visits_id}}">
+                <input type="hidden" name="action_point_id" value="{{$action_point->id}}">
+                <input type="hidden" name="qb_id" id="qb_id" value="{{$action_point->quality_bench_id}}">
                 <div class="card-body ">
                     <div class="card-title  border-0 my-1"">
                         <div class="card-title">

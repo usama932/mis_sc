@@ -108,13 +108,24 @@ class QbController extends Controller
         }
         $totalData      =   $qualit_benchs->count();
 		$limit          =   $request->input('length');
-        $order          =   $columns[$request->input('order.0.column')];
+        $limit = $request->input('length');
+        $orderIndex = $request->input('order.0.column');
+        if (isset($columns[$orderIndex])) {
+            $order = $columns[$orderIndex];
+        } else {
+            
+            $order = 'id'; // Or any other default column name
+        }
+        $dir = $request->input('order.0.dir');
         $dir            =   $request->input('order.0.dir');
         $totalFiltered  =   $qualit_benchs->count();
 		$start          =   $request->input('start');
-        $qualit_bench   =   $qualit_benchs->offset($start)
-                            ->limit($limit)
-                            ->orderBy($order, $dir)->get()->sortByDesc("id");
+        if ($limit == -1) {
+            $qualit_bench = $qualit_benchs->orderBy($order, $dir)->get()->sortByDesc("id");
+        } else {
+            // Apply pagination as usual
+            $qualit_bench = $qualit_benchs->offset($start)->limit($limit)->orderBy($order, $dir)->get()->sortByDesc("id");
+        }
                                     
 		$data = array();
 		if($qualit_bench){

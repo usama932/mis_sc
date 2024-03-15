@@ -70,15 +70,15 @@
                                <span class="mt-4"> <strong class="mt-4">{{$month->slug?->slug}}-{{$month->year}}</strong></span>
                             </div>
                             <div class="col-md-3">
-                                <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">Activity Target</span>
+                                <label class="fs-8 fw-semibold form-label mb-2">
+                                    <span class="required">Activity LOP Target(Only Number)</span>
                                 </label>
                                 <input type="text" name="activities[{{$loop->iteration -1}}][target_quarter]" placeholder="Enter Activity Target"
                                     class="form-control numeric-input" autocomplete="off" value="{{$month->target}}">
                             </div>
                             <div class="col-md-3">
-                                <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="">Beneficiaries Target</span>
+                                <label class="fs-7 fw-semibold form-label mb-2">
+                                    <span class="">Beneficiaries Target(Only Number)</span>
                                 </label>
                                 <input type="text" name="activities[{{$loop->iteration -1}}][target_benefit]" placeholder="Enter Beneficiary Target"
                                     class="form-control numeric-input" autocomplete="off"  value="{{$month->beneficiary_target}}">
