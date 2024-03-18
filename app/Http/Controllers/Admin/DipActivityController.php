@@ -186,6 +186,7 @@ class DipActivityController extends Controller
 		
 		echo json_encode($json_data);
     }
+
     public function activityQuarters(Request $request){
       
         $activity_id    =   $request->activity_id;
@@ -291,6 +292,7 @@ class DipActivityController extends Controller
 		
 		echo json_encode($json_data);
     }
+
     public function edit_activity_dips(Request $request){
         
         $dip = DipActivity::where('id',$request->id)->first();
@@ -486,8 +488,28 @@ class DipActivityController extends Controller
     }
 
     public function updateprogress(Request $request){
+       
         $quarter = ActivityMonths::where('id',$request->quarter)->first();
-      
+        $editUrl = route('activity_dips.show',$quarter->activity_id);
+
+        if($request->activity_target > $request->lop_target) {
+            $editUrl = redirect()->back();
+            return response()->json([
+                'editUrl' => $editUrl,
+                'error'   => true,
+                'message' => "Quarterly Progress must less than Quarterly target"
+            ]);
+        }
+        $beneficiary_target = $request->women_target + $request->men_target + $request->girls_target + $request->boys_target;
+
+        if($beneficiary_target > intval($request->benefit_target)) {
+            $editUrl = redirect()->back();
+            return response()->json([
+                'editUrl' => $editUrl,
+                'error'   => true,
+                'message' => "Beneficiaries progress must be less than or equal to Beneficiaries Target"
+            ]);
+        }
         
         if(!empty($quarter)){
             $quarter_month = ActivityProgress::where('quarter_id',$request->quarter)
@@ -581,16 +603,20 @@ class DipActivityController extends Controller
                 ]);
                
             }
-            $editUrl = route('activity_dips.show',$quarter->activity_id);
+           
             return response()->json([
-                'editUrl' => $editUrl
+                'editUrl' => $editUrl,
+                'error'   => false,
+                'message' => "Quarter progress submitted successfully"
             ]);
            
         }
         else{
             $editUrl = redirect()->back();
             return response()->json([
-                'editUrl' => $editUrl
+                'editUrl' => $editUrl,
+                'error'   => true,
+                'message' => "Quarter not found"
             ]);
         }
        

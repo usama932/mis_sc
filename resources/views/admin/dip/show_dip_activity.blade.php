@@ -423,7 +423,7 @@
             @endforeach
         </div>
         @push('scripts')
-        {{-- <script>
+        <script>
             function previewImage(image) {
                 // Create a modal overlay
                 var modal = document.createElement("div");
@@ -475,6 +475,6 @@
                     }
                 };
             }
-        </script> --}}
+        </script>
         @endpush
     </x-default-layout>
