@@ -151,7 +151,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('activity_Quarters', [DipActivityController::class,'activityQuarters'])->name('admin.activityQuarters');
     Route::get('/activity/create', [DipActivityController::class,'create'])->name('create_activity');
     Route::post('activtyquarter_update/{id}', [DipActivityController::class,'activtyquarter_update'])->name('activtyquarter.update');
-    
+    //Download activity progress
+    Route::get('/download/{filename}', [DipActivityController::class,'download_progress_attachment'])->name('download_progress_attachment');
     Route::post('quarterstatus.update/{id}', [DipActivityController::class,'quarterstatus_update'])->name('quarterstatus.update');
     Route::post('quarterstatus.edit/{id}', [DipActivityController::class,'quarterstatus_edit'])->name('quarterstatus.edit');
     //Master Projects  routes

@@ -30,7 +30,7 @@
                 border-bottom: none;
             }
         </style>
-    
+        
         @section('title')
         
         @endsection
@@ -111,7 +111,8 @@
                                 <th></th>
                                 <th colspan="2" class="text-center">Activity</th>
                                 <th colspan="7" class="text-center">Beneficiary Target vs Achievement</th>
-                                <th class="fs-8"></th>
+                                <th colspan="5" class="fs-8"></th>
+                               
                             </tr>
                             <tr>
                                 <th>Quarter</th>
@@ -124,6 +125,9 @@
                                 <th>Boys</th>
                                 <th>PWD</th>
                                 <th>Status</th>
+                                <th style="font-size: 10px;">Completion Date</th>
+                                <th>Image</th>
+                                <th>Attachemnt</th>
                                 <th>Remarks</th>
                                 <th>Action</th>
                             </tr>
@@ -131,7 +135,131 @@
                     </table>
                 </div>
             </div>
-        
+            @foreach($quarters as $quarter)
+                <div class="modal fade add_progress_modal" id="add_progress_{{ $quarter->id }}" tabindex="-1" aria-labelledby="editThemeModal" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title">Update Status</h3>
+                                <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="add_progress_status_form" method="post" autocomplete="off" action="{{route('updateprogress')}}" enctype="multipart/form-data">   
+                                    @csrf
+                                    <div class="row">
+                                        <div class="fv-row col-md-8 mt-3">
+                                            <label class="fs-6 fw-semibold form-label">
+                                                <span>Activity Name: </span>
+                                            </label>
+                                            <br>
+                                            <label class="fs-5 fw-semibold form-label">
+                                                {{$dip_activity->activity_number ?? ''}}
+                                            </label>
+                                        </div> 
+                                        <div class="fv-row col-md-4 mt-3">
+                                            <label class="fs-7 fw-semibold form-label mb-2 d-flex">
+                                                <span class="required">Activity LOP Target</span>
+                                            </label>
+                                            <input type="text" name="lop" value="{{$dip_activity->lop_target ?? ''}}" class="form-control form-control-solid" readonly>
+                                        </div> 
+                                        <div class="fv-row col-md-4 mt-3">
+                                            <label class="fs-7 fw-semibold form-label mb-2 d-flex">
+                                                <span> Quarter</span>
+                                            </label>
+                                            <input type="hidden" name="quarter" value="{{$quarter->id}}">
+                                            {{$quarter->slug->slug}}-{{$quarter->year}}
+                                        </div> 
+                                        <div class="fv-row col-md-4 mt-3">
+                                            <label class="fs-7 fw-semibold form-label mb-2 d-flex">
+                                                <span class="required">Quarterly Target</span>
+                                            </label>
+                                            <input type="text" name="lop_target" id="lop_target" class="form-control form-control-solid" value="{{$quarter->target}}" readonly>
+                                            <div id="sofError" class="error-message " ></div>
+                                        </div> 
+                                        <div class="fv-row col-md-4 mt-3">
+                                            <label class="fs-7 fw-semibold form-label mb-2 d-flex">
+                                                <span class="required">Enter Quarterly Progress</span>
+                                            </label>
+                                            <input type="text" name="activity_target" id="activity_target" class="form-control" >
+                                            <div id="activity_targetError" class="error-message " ></div>
+                                        </div> 
+                                    </div>
+                                    <div class="row">
+                                        <div class="fv-row col-md-2 mt-3">
+                                            <label class="fs-8 fw-semibold form-label mb-4 d-flex">
+                                                <span>Beneficiaries Target</span>
+                                            </label>
+                                            <input type="text" name="benefit_target" id="benefit_target" class="form-control form-control-solid"  value="{{$quarter->beneficiary_target}}" readonly>
+                                            <div id="benefit_targetError" class="error-message " ></div>
+                                        </div> 
+                                        <div class="fv-row col-md-2 mt-3">
+                                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                                                <span class="required">Women</span>
+                                            </label>
+                                            <input type="text" name="women_target" value="" class="form-control"  placeholder="Women">
+                                        </div> 
+                                        <div class="fv-row col-md-2 mt-3">
+                                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                                                <span class="required">Men</span>
+                                            </label>
+                                            <input type="text" name="men_target" value="" class="form-control"  placeholder="Men">
+                                        </div> 
+                                        <div class="fv-row col-md-2 mt-3">
+                                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                                                <span class="required">Girls</span>
+                                            </label>
+                                            <input type="text" name="girls_target" value="" class="form-control"  placeholder="Girls">
+                                        </div> 
+                                        <div class="fv-row col-md-2 mt-3">
+                                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                                                <span class="required">Boys</span>
+                                            </label>
+                                            <input type="text" name="boys_target" value="" class="form-control" placeholder="Boys" >
+                                        </div> 
+                                        <div class="fv-row col-md-2 mt-3">
+                                            <label class="fs-7 fw-semibold form-label mb-2 d-flex">
+                                                <span>PWD</span>
+                                            </label>
+                                            <input type="text" name="pwd_target" id="pwd_target" class="form-control" >
+                                            <div id="pwd_targetError" class="error-message " ></div>
+                                        </div>
+                                        <div class="fv-row col-md-12 mt-3">
+                                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                                                <span class="">Remarks</span>
+                                            </label>
+                                            <textarea type="text" name="remarks" rows id="remarks" placeholder="Enter Remarks" class="form-control" value=""></textarea>
+                                            <div id="achieve_targetError" class="error-message "></div>
+                                        </div> 
+                                        <div class="fv-row col-md-6 mt-3">
+                                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                                                <span class="required">Attachemnt</span>
+                                            </label>
+                                            <input type="file" name="attachment" id="attachment" accept=".pdf, .docx, .doc" class="form-control" value="">
+                                            <div id="attachmentError" class="error-message "></div>
+                                        </div> 
+                                        <div class="fv-row col-md-6 mt-3">
+                                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                                                <span class="required">Image</span>
+                                            </label>
+                                            <input type="file" name="image" id="image"   accept=".jpg, .jpeg, .png" class="form-control" value="">
+                                            <div id="imageError" class="error-message "></div>
+                                        </div> 
+                                    </div>  
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary btn-sm m-5 kt_add_progress_status_form">
+                                            @include('partials/general/_button-indicator', ['label' => 'Submit'])
+                                        </button>
+                                        <div id="loadingSpinner" class="loadingSpinner" style="display: none;">Loading...</div>
+                                    </div>      
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
             @foreach($months as $month)
                 <div class="modal fade project_theme_modal" id="update_status_{{ $month->quarter_id }}" tabindex="-1" aria-labelledby="editThemeModal" aria-hidden="true">
                     <div class="modal-dialog">
@@ -294,4 +422,59 @@
                 </div>
             @endforeach
         </div>
+        @push('scripts')
+        {{-- <script>
+            function previewImage(image) {
+                // Create a modal overlay
+                var modal = document.createElement("div");
+                modal.style.position = "fixed";
+                modal.style.top = "0";
+                modal.style.left = "0";
+                modal.style.width = "100%";
+                modal.style.height = "100%";
+                modal.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+                modal.style.display = "flex";
+                modal.style.alignItems = "center";
+                modal.style.justifyContent = "center";
+                modal.style.zIndex = "9999"; // Ensure the modal appears on top
+                
+                // Create a container for the image and download button
+                var content = document.createElement("div");
+                content.style.textAlign = "center";
+                
+                // Create the larger image element
+                var largeImage = document.createElement("img");
+                largeImage.src = image.src; // Use the same source as the clicked image
+                largeImage.style.maxWidth = "80%";
+                largeImage.style.maxHeight = "80%";
+                
+                // Add the image to the container
+                content.appendChild(largeImage);
+                
+                // Create a link to download the image
+                var downloadLink = document.createElement("a");
+                downloadLink.href = image.src; // Set the image source as the download link
+                downloadLink.download = "image"; // Specify the default filename for download
+                downloadLink.textContent = "Download Image";
+                downloadLink.style.display = "block";
+                downloadLink.style.marginTop = "10px"; // Add some margin between image and button
+                
+                // Add the download button to the container
+                content.appendChild(downloadLink);
+                
+                // Add the container to the modal
+                modal.appendChild(content);
+                
+                // Append the modal to the body
+                document.body.appendChild(modal);
+                
+                // Close the modal when clicked outside the image
+                modal.onclick = function(event) {
+                    if (event.target === modal) {
+                        document.body.removeChild(modal);
+                    }
+                };
+            }
+        </script> --}}
+        @endpush
     </x-default-layout>

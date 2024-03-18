@@ -1,48 +1,7 @@
-
-flatpickr("#start_date", {
-   
-    dateFormat: "Y-m-d",
-    maxDate: "today",
-});
-flatpickr("#end_date", {
-  
-    dateFormat: "Y-m-d",
-   
-});
- 
-
-var startDateInput = document.getElementById('start_date');
-var endDateInput = document.getElementById('end_date');
-
-// Check if both start date and end date inputs exist
-if (startDateInput && endDateInput) {
-    endDateInput.addEventListener('change', function () {
-        var startDate = new Date(startDateInput.value);
-        var endDate = new Date(endDateInput.value);
-
-        // Compare start and end dates
-        if (startDate.getTime() >= endDate.getTime()) {
-           
-              
-             
-              endDateInput.value = '';
-              end_dateError.textContent = "End Date must be greater than Start Date";
-              
-              end_dateError.style.color = 'red';
-              end_date.style.borderColor = "red";
-              end_date.style.borderWidth = "2px";
-        }else{
-                end_dateError.textContent = "";
-                end_date.style.borderColor = "#4b5675";
-                end_date.style.borderWidth = "1px";
-        }
-    });
-}
-var KTdipValidate = function () {
+var KTupdateProgressValidate = function () {
     // Elements
     var form;
     var submitButton;
-
 
     // Handle form ajax
     var handleFormAjax = function (e) {
@@ -51,78 +10,100 @@ var KTdipValidate = function () {
             form,
             {
                 fields: {
-
-                  
-                    'name':{
+                    'quarter': {
                         validators: {
                             notEmpty: {
-                                message: 'Project Name is required'
+                                message: 'Quarter  is required'
                             }
                         }
                     },
-                   
-                    'focal_person':{
+                    
+                    'activity_target': {
                         validators: {
                             notEmpty: {
-                                message: 'Focal Person is required'
-                            }
-                        }
-                    },
-                    'donor':{
-                        validators: {
-                            notEmpty: {
-                                message: 'Project Donor is required'
-                            }
-                        }
-                    },
-                    'sof': {
-                        validators: {
-                            notEmpty: {
-                                message: 'SOF Name is required'
+                                message: 'Activity Target  is required'
+                            },
+                            numeric: {
+                                message: 'Activity Target  is must number'
                             },
                             regexp: {
-                                regexp: /^[0-9]{8}$/,
-                                message: 'SOF must be exactly 8 digits'
+                                regexp: /^\d+$/,
+                                message: 'Individual Target must be a positive number'
                             }
                         }
                     },
-                    
-                    
-                    'type': {
+                    'women_target': {
                         validators: {
                             notEmpty: {
-                                message: 'Type is required'
-                            }
-                        }
-                    },
-                    'start_date':{
-                        validators: {
-                            notEmpty: {
-                                message: 'Project Start Date Required'
-                            }
-                        }
-                    },
-                    'end_date':{
-                        validators: {
-                            notEmpty: {
-                                message: 'Project End Date Required'
+                                message: 'Women Target  is required'
                             },
-                            callback: {
-                                message: 'End Date must be greater than Start Date',
-                                callback: function(value, validator, $field) {
-                                    // Retrieve the start date value
-                                    var startDate = validator.getFieldElements('start_date').val();
-                    
-                                    // Compare start and end dates
-                                    if (startDate && value <= startDate) {
-                                        return false;
-                                    }
-                    
-                                    return true;
-                                }
+                            numeric: {
+                                message: 'Women Target  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Individual Target must be a positive number'
                             }
                         }
                     },
+                    'men_target': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Men Target is required'
+                            },
+                            numeric: {
+                                message: 'Men Target  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Individual Target must be a positive number'
+                            }
+                        }
+                    },
+                    'girls_target': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Girls Target is required'
+                            },
+                            numeric: {
+                                message: 'Girls Target  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Individual Target must be a positive number'
+                            }
+                        }
+                    },
+                    'boys_target': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Boys Target is required'
+                            },
+                            numeric: {
+                                message: 'Boys Target  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Individual Target must be a positive number'
+                            }
+                        }
+                    },
+                    'attachment': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Attachment is required'
+                            }
+                        },
+                       
+                    },
+                    'image': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Image is required'
+                            }
+                        }
+                    },
+                    
                 },
               
                 plugins: {
@@ -151,51 +132,27 @@ var KTdipValidate = function () {
                     // Check axios library docs: https://axios-http.com/docs/intro
                     axios.post(submitButton.closest('form').getAttribute('action'), new FormData(form)).then(function (response) {
                         if (response) {
-                            if(response.data.error == true){
-                                form.reset();
-                                toastr.options = {
-                                    "closeButton": true,
-                                    "debug": false,
-                                    "newestOnTop": false,
-                                    "progressBar": false,
-                                    "positionClass": "toastr-top-right",
-                                    "preventDuplicates": false,
-                                    "onclick": null,
-                                    "showDuration": "300",
-                                    "hideDuration": "1000",
-                                    "timeOut": "5000",
-                                    "extendedTimeOut": "1000",
-                                    "showEasing": "swing",
-                                    "hideEasing": "linear",
-                                    "showMethod": "fadeIn",
-                                    "hideMethod": "fadeOut"
-                                };
-                                toastr.error("Project already exist", "Error");
-                         
-                            }
-                            else{
-                                form.reset();
-                                toastr.options = {
-                                    "closeButton": true,
-                                    "debug": false,
-                                    "newestOnTop": false,
-                                    "progressBar": false,
-                                    "positionClass": "toastr-top-right",
-                                    "preventDuplicates": false,
-                                    "onclick": null,
-                                    "showDuration": "300",
-                                    "hideDuration": "1000",
-                                    "timeOut": "5000",
-                                    "extendedTimeOut": "1000",
-                                    "showEasing": "swing",
-                                    "hideEasing": "linear",
-                                    "showMethod": "fadeIn",
-                                    "hideMethod": "fadeOut"
-                                };
-                                toastr.success("Project Created", "Success");
-                                window.location.assign(response.data.editUrl);
-                            }
-                          
+                           
+                            form.reset();
+                            toastr.options = {
+                                "closeButton": true,
+                                "debug": false,
+                                "newestOnTop": false,
+                                "progressBar": false,
+                                "positionClass": "toastr-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            };
+                            toastr.success("Quarterly achievement updated succesfully", "Success");
+                            window.location.href = response.data.editUrl;
                             
                         } else {
                             toastr.options = {
@@ -216,7 +173,7 @@ var KTdipValidate = function () {
                                 "hideMethod": "fadeOut"
                               };
                               
-                              toastr.error("Some thing Went Wrong", "Error");
+                              toastr.error("Please address the highlighted errors", "Error");
                         }
                     }).catch(function (error) {
                         toastr.options = {
@@ -237,7 +194,7 @@ var KTdipValidate = function () {
                             "hideMethod": "fadeOut"
                           };
                           
-                          toastr.error("Some thing Went Wrong", "Error");   
+                          toastr.error("Please address the highlighted errors", "Error");   
                     }).then(() => {
                         // Hide loading indication
                         submitButton.removeAttribute('data-kt-indicator');
@@ -266,7 +223,7 @@ var KTdipValidate = function () {
                         "hideMethod": "fadeOut"
                       };
                       
-                      toastr.error("Some thing Went Wrong", "Error");
+                      toastr.error("Please address the highlighted errors", "Error");
                 }
             });
         });
@@ -278,14 +235,14 @@ var KTdipValidate = function () {
         // Initialization
         init: function () {
             // Elements
-            form = document.querySelector('#create_project');
-            submitButton = document.querySelector('#kt_create_project');
-            handleFormAjax();
+            form = document.querySelector('.add_progress_status_form');
+            submitButton = document.querySelector('.kt_add_progress_status_form');
+            handleFormAjax(); // You need to call the function to handle form ajax
         }
     };
 }();
+
 // On document ready
 KTUtil.onDOMContentLoaded(function () {
-  
-    KTdipValidate.init();
+    KTupdateProgressValidate.init(); // Call the initialization function
 });

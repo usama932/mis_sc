@@ -4,7 +4,7 @@
     @endsection
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div class="card">
-            <form action="{{route('updateprogress')}}" method="post" id="update_progress" method="post" enctype="multipart/form-data">
+            <form action="{{route('updateprogress')}}"  id="update_progress" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body py-4">
                     <div class="row">

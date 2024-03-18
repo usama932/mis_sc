@@ -62,28 +62,34 @@
                         <div class="row">
                             <input type="hidden" name="activities[{{$loop->iteration -1}}][id]" placeholder="Enter Activity Target"
                             class="form-control" autocomplete="off" value="{{$month->id}}">
-                            <div class="col-md-3">
-                                <label class="fs-6 fw-semibold form-label mb-2">
+                            <div class="col-md-2">
+                                <label class="fs-7 fw-semibold form-label mb-2">
                                     <span class="required">Quarter</span>
                                 </label>
                                 <br>
                                <span class="mt-4"> <strong class="mt-4">{{$month->slug?->slug}}-{{$month->year}}</strong></span>
                             </div>
-                            <div class="col-md-3">
-                                <label class="fs-8 fw-semibold form-label mb-2">
-                                    <span class="required">Activity LOP Target(Only Number)</span>
+                            <div class="col-md-2">
+                                <label class="fs-9 fw-semibold form-label mb-2">
+                                    <span class="required">Activity LOP Target</span>
                                 </label>
                                 <input type="text" name="activities[{{$loop->iteration -1}}][target_quarter]" placeholder="Enter Activity Target"
                                     class="form-control numeric-input" autocomplete="off" value="{{$month->target}}">
                             </div>
-                            <div class="col-md-3">
-                                <label class="fs-7 fw-semibold form-label mb-2">
-                                    <span class="">Beneficiaries Target(Only Number)</span>
+                            <div class="col-md-2">
+                                <label class="fs-9 fw-semibold form-label mb-2">
+                                    <span class="">Beneficiaries Target</span>
                                 </label>
                                 <input type="text" name="activities[{{$loop->iteration -1}}][target_benefit]" placeholder="Enter Beneficiary Target"
                                     class="form-control numeric-input" autocomplete="off"  value="{{$month->beneficiary_target}}">
                             </div>
-                            <div class="col-md-3 mt-4">  
+                            <div class="col-md-4">
+                                <label class="fs-7 fw-semibold form-label mb-2">
+                                    <span class="">Completion Date</span>
+                                </label>
+                                <input type="text" name="activities[{{$loop->iteration -1}}][complete_date]" id="start_date" placeholder="Select date"  class="form-control start_date" onkeydown="event.preventDefault()" data-provide="datepicker"  value="{{$month->completion_date}}">
+                            </div>
+                            <div class="col-md-2 mt-4">  
                                 <a class="btn btn-sm btn-danger mt-5" title="Delete " onclick="event.preventDefault();del({{$month->id}});" title="Delete Monitor Visit" href="javascript:void(0)">
                                     Delete
                                 </a>
@@ -185,8 +191,8 @@
             if ( quarters.length > quarterCount) {
                 var html = `
                     <div class="row mt-3" style="display:none;">
-                        <div class="col-md-3">
-                            <select name="activities[${i}][quarter]" aria-label="Select a Quarter Target"
+                        <div class="col-md-2">
+                            <select name="activities[${i}][quarter]" aria-label="Select a Quarter "
                                 data-placeholder="Select a Quarter Target" class="form-select"
                                 data-allow-clear="true">
                                 <option value=''>Select Quarter Target</option>`;
@@ -196,20 +202,26 @@
                                 html += `
                             </select>
                         </div> 
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <input type="text" name="activities[${i}][target_quarter]" placeholder="Enter Activity Target"
                                 class="form-control numeric-input" autocomplete="off" required>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <input type="text" name="activities[${i}][target_benefit]" placeholder="Enter Beneficiary Target"
                                 class="form-control numeric-input" autocomplete="off" required>
                         </div>
-                        <div class="col-md-3">
-                            <button type="button" class="btn btn-danger btn-sm" onclick="removeTargetRow(this)">Remove</button>
+                        <div class="col-md-4">
+                            <input type="text" name="activities[${i}][complete_date]" id="start_date" placeholder="Select date"  class="form-control start_date${i}" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" class="btn btn-danger btn-sm" onclick="removeTargetRow(this)"><i class="fa fa-trash"></i></button>
                         </div>
                     </div>`;
                 $('#targetRows').append(html);
                 $('#targetRows .row').last().slideDown(); // Show the new row with animation
+                flatpickr(".start_date" + i, {
+                    dateFormat: "Y-m-d",
+                });
                 if ($('#targetRows .row').length === 1) {
                     $('#add_quarter_target').hide();
                 }
@@ -224,6 +236,9 @@
         }
     </script>
     <script>
+        flatpickr(".start_date" , {
+            dateFormat: "Y-m-d",
+        });
         function del(id) {
             Swal.fire({
                 title: "Are you sure?",

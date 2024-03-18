@@ -69,9 +69,9 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <label class="fs-8 fw-semibold form-label mb-2">
-                                    <span class="required">Activity LOP Target(Only Number)</span>
+                                    <span class="required">Activity LOP Target</span>
                                 </label>
                                 <input type="text"  name="activities[0][target_quarter]" 
                                 pattern="[0-9]*" 
@@ -79,16 +79,23 @@
                                 class="form-control numeric-input" 
                                 autocomplete="off"  required>
                             </div>
-                            <div class="col-md-3">
-                                <label class="fs-7 fw-semibold form-label mb-2">
-                                    <span class="">Beneficiaries Target(Only Number)</span>
+                            <div class="col-md-2">
+                                <label class="fs-8 fw-semibold form-label mb-2">
+                                    <span class="">Beneficiaries Target</span>
                                 </label>
                                 <input type="text" pattern="[0-9]*"  name="activities[0][target_benefit]" placeholder="Beneficiary Target (only numbers)"
                                 class="form-control numeric-input" autocomplete="off" required>
                             </div>
-                            <div class="col-md-3 mt-5 text-end">
-                                <button type="button" class="btn btn-info btn-sm mt-4" onclick="addTargetRow()"
-                                    id="add_quarter_target">Add New Quarter</button>
+                            <div class="col-md-3">
+                                <label class="fs-7 fw-semibold form-label mb-2">
+                                    <span class=""> Completion Date</span>
+                                </label>
+                                <input type="text" name="activities[0][complete_date]" id="start_date" placeholder="Select date"  class="form-control start_date" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
+                            
+                            </div>
+                            <div class="col-md-2 mt-5 text-end fs-9">
+                                <button type="button" class="btn btn-info btn-sm mx-2 fs-9" onclick="addTargetRow()"
+                                    id="add_quarter_target">Add new Quarter</button>
                             </div>
                         </div>
                     </div>
@@ -134,7 +141,8 @@
             var availableQuarters = quarters.filter(function(quarter) {
                 return !selectedQuarters.includes(quarter.quarter);
             });
-
+                
+          
             if (quarterCount < quarters.length) {
                 var html = `
                     <div class="row mt-3" style="display:none;">
@@ -149,20 +157,26 @@
                                 html += `
                             </select>
                         </div> 
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <input type="text"  pattern="[0-9]*"  name="activities[${i}][target_quarter]" placeholder="Enter Activity Target"
                                 class="form-control numeric-input" autocomplete="off" required>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <input type="text" pattern="[0-9]*"  name="activities[${i}][target_benefit]" placeholder="Enter Beneficiary Target"
                                 class="form-control numeric-input" autocomplete="off">
                         </div>
-                        <div class="col-md-3">
-                            <button type="button" class="btn btn-danger btn-sm" onclick="removeTargetRow(this)">Remove</button>
+                        <div class="col-md-4">
+                            <input type="text" name="activities[${i}][complete_date]" id="start_date" placeholder="Select date"  class="form-control start_date${i}" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" class="btn btn-danger btn-sm" onclick="removeTargetRow(this)"><i class="fa fa-trash"></i></button>
                         </div>
                     </div>`;
                 $('#targetRows').append(html);
                 $('#targetRows .row').last().slideDown(); // Show the new row with animation
+                flatpickr(".start_date" + i, {
+                    dateFormat: "Y-m-d",
+                });
                 if ($('#targetRows .row').length === 1) {
                     $('#add_quarter_target').hide();
                 }
@@ -179,6 +193,10 @@
     
     @push('scripts')
         <script>
+           
+            flatpickr(".start_date" , {
+                dateFormat: "Y-m-d",
+            });
             document.addEventListener("DOMContentLoaded", function() {
                 var numericInputs = document.querySelectorAll('.numeric-input');
 

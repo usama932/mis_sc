@@ -11,6 +11,7 @@ use App\Models\ActivityMonths;
 use App\Models\Province;
 use App\Models\Project;
 use App\Models\ActivityProgress;
+use Illuminate\Support\Facades\Storage;
 use File;
 
 use App\Repositories\Interfaces\DipActivityInterface;
@@ -94,21 +95,21 @@ class DipActivityController extends Controller
                                             <a class="btn-icon mx-1" href="' . $show_url . '" title="Show Activity" href="javascript:void(0)">
                                                 <i class="fa fa-eye text-warning" aria-hidden="true"></i>
                                             </a>';
-                if (!empty($request->url) && $request->url == 'quarter_progress') {
-                    $nestedData['action'] .= ' ';
-                } else {
-                    $nestedData['action'] .= '
-                                            <a class="btn-icon mx-1" href="' . $edit_url . '" title="Edit Activity" href="javascript:void(0)">
-                                                <i class="fa fa-pencil text-info" aria-hidden="true"></i>
-                                            </a>';
-                }
+                                            if (!empty($request->url) && $request->url == 'quarter_progress') {
+                                                $nestedData['action'] .= ' ';
+                                            } else {
+                                                $nestedData['action'] .= '
+                                                <a class="btn-icon mx-1" href="' . $edit_url . '" title="Edit Activity" href="javascript:void(0)">
+                                                    <i class="fa fa-pencil text-info" aria-hidden="true"></i>
+                                                </a>';
+                                            }
     
-                if (auth()->user()->user_type == 'admin') {
-                    $nestedData['action'] .= '
-                                            <a class="btn-icon mx-1" onclick="event.preventDefault();del(' . $r->id . ');" title="Delete Activity" href="javascript:void(0)">
-                                                <i class="fa fa-trash text-danger" aria-hidden="true"></i>
-                                            </a>';
-                }
+                                            if (auth()->user()->user_type == 'admin') {
+                                                $nestedData['action'] .= '
+                                                                        <a class="btn-icon mx-1" onclick="event.preventDefault();del(' . $r->id . ');" title="Delete Activity" href="javascript:void(0)">
+                                                                            <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+                                                                        </a>';
+                                            }
     
                 $nestedData['action'] .= '</td></div>';
     
@@ -218,9 +219,33 @@ class DipActivityController extends Controller
                     $nestedData['girls_target'] = $r->progress?->girls_target ?? '0'; 
                     $nestedData['boys_target'] = $r->progress?->boys_target ?? '0'; 
                     $nestedData['pwd_target'] = $r->progress?->pwd_target ?? '0'; 
-                    $nestedData['activity_acheive'] = $r->progress?->activity_target ?? '0'; 
+                    $nestedData['activity_acheive'] = $r->progress?->activity_target ?? '0';  
                     $nestedData['status'] = $r->status;
                     $nestedData['remarks'] = $r->progress?->remarks ?? '';
+                   
+                    if(!empty($r->completion_date) && $r->completion_date != Null){
+                        $nestedData['completion_date'] ='<span class="fs-9" style="font-size: 9px;">'.date('M d ,Y', strtotime($r->completion_date ?? '')).'</span>';
+                    }else{
+                        $nestedData['completion_date'] ='';
+                    }
+                    
+                    if(!empty($r->progress?->image)){
+                        $imagePathPwd = asset("storage/activity_progress/image/" .$r->progress?->image);                  
+                        $nestedData['image'] = '<img src="' . $imagePathPwd . '" alt="Image"  style="width: 100px ; class="thumbnail " onclick="previewImage(this)">';
+                    }
+                    else{
+                        $nestedData['image'] = '';
+                    }
+
+                   
+                    if(!empty($r->progress?->attachment)){
+                        $download_url =  route('download_progress_attachment',$r->progress?->attachment );
+                        $nestedData['attachment'] = '<a title="Edit" class=""
+                        href="'.$download_url.'" ><span class="badge bg-success text-dark">Download Attachment</span></a>'; 
+                    }else{
+                        $nestedData['attachment'] = 'fdsf'; 
+                    }
+                   
                     if(!empty($r->progress)){
                         if($r->status == 'Posted'){
                             $nestedData['action'] = '';
@@ -228,26 +253,26 @@ class DipActivityController extends Controller
                         elseif($r->status == 'Returned' || $r->status == 'To be Reviewed'){
 
                             $nestedData['action'] = '<div>
-                            <td><a class="btn btn-icon" title="Update status" data-bs-toggle="modal" data-bs-target="#edit_status_'.$r->progress->quarter_id.'" >
+                            <td><a class="" href="javascript:void(0)" title="Update status" data-bs-toggle="modal" data-bs-target="#edit_status_'.$r->progress->quarter_id.'" >
                                 <span class="badge bg-success text-dark">Edit</span>
-                            </a></div>
-                            </td>';
+                            </a></td></div>
+                            ';
                         }
                        
                         else{
                             $nestedData['action'] = '<div>
-                            <td><a class="btn btn-icon" title="Update status" data-bs-toggle="modal" data-bs-target="#update_status_'.$r->progress->quarter_id.'">
-                            <span class="badge bg-primary text-dark">Update Status</span>
-                            </a></div>
-                            </td>';
+                            <td><a class="" href="javascript:void(0)" title="Update status" data-bs-toggle="modal" data-bs-target="#update_status_'.$r->progress->quarter_id.'">
+                            <span class="badge bg-info btn-sm text-dark">Update Status</span>
+                            </a></td></div>
+                            ';
                         }
                     }   
                     else{
                             $nestedData['action'] = '<div>
-                            <td><a class="btn btn-icon" title="Update status" data-bs-toggle="modal" data-bs-target="#add_progress_'.$r->id.'" >
-                                <span class="badge bg-success text-dark">Add Progress</span>
-                            </a></div>
-                            </td>';
+                            <td><a class="" title="Update status"  href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#add_progress_'.$r->id.'" >
+                                <span class="badge bg-primary  text-dark">Add Progress</span>
+                            </a></td></div>
+                            ';
                         
                     }
                   
@@ -349,9 +374,10 @@ class DipActivityController extends Controller
         addVendors(['datatables']);
         addJavascriptFile('assets/js/custom/dip/dipquarteroupdateValidation.js');
         addJavascriptFile('assets/js/custom/dip/dipquartereditValidation.js');
+        addJavascriptFile('assets/js/custom/dip/add_progress.js');
         $months = ActivityProgress::where('activity_id',$id)->where('project_id',$dip_activity->project_id)->get();
         $quarters = ActivityMonths::where('activity_id',$id)->where('project_id',$dip_activity->project_id)->get();
-        return view('admin.dip.show_dip_activity',compact('dip_activity','districts','provinces','months'));
+        return view('admin.dip.show_dip_activity',compact('dip_activity','districts','provinces','months','quarters'));
     }
 
     public function edit(string $id)
@@ -516,7 +542,7 @@ class DipActivityController extends Controller
             else{
                 if($request->attachment){
          
-                    $path = storage_path("app/public/activity_progress/attachment" .$request->attachment);
+                    $path = storage_path("app/public/activity_progress/attachment" . $request->attachment);
                     
                     if(File::exists($path)){
                         File::delete(storage_path('app/public/activity_progress/attachment'.$request->attachment));
@@ -614,4 +640,18 @@ class DipActivityController extends Controller
         return response()->json(['lop_target' => $lopTarget,'benefit_target' => $benefit_target ]);
     }
 
+    public function download_progress_attachment($filename)
+    {
+     
+      
+        $path = public_path("storage/activity_progress/attachment/" . $filename);
+
+        if (!file_exists($path)) {
+            // Output error or log it
+            return response()->json(['error' => 'File not found'], 404);
+        }
+        
+        return response()->download($path, $filename);
+        
+    }
 }

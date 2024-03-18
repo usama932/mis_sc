@@ -122,7 +122,7 @@ class ProjectController extends Controller
                
              
                 if($r->start_date != null && $r->end_date != null){
-                    $nestedData['project_tenure'] = date('d-M-Y', strtotime($r->start_date)) .' To '.date('d-M-Y', strtotime($r->end_date));
+                    $nestedData['project_tenure'] = date('M d, Y', strtotime($r->start_date)) .' To '.date('M d, Y', strtotime($r->end_date));
                 }
                 else{
                     $nestedData['project_tenure'] ='' ;

@@ -11,7 +11,6 @@ class DipActivityRepository implements DipActivityInterface
 {
     public function storedipactivity($data)
     { 
-       
         $activity =  DipActivity::create([
             'activity_number'       => $data['activity'],
             'activity_title'        => $data['activity'],
@@ -27,12 +26,14 @@ class DipActivityRepository implements DipActivityInterface
             $year = $parts[1]; 
             $target_benefit = $q['target_benefit'];
             $target_quarter = $q['target_quarter'];
+            $completion_date = $q['complete_date'];
             $q = SCIQuarter::where('slug', $quarter)->first();
             ActivityMonths::create([
                 'project_id'         => $data['project_id'],
                 'activity_id'        => $activity->id,
                 'quarter'            => $q->id,
                 'beneficiary_target' => $target_benefit,
+                'completion_date'    => $completion_date,
                 'year'               => $year,
                 'target'             => $target_quarter,
                 'status'             => Null,
@@ -53,10 +54,9 @@ class DipActivityRepository implements DipActivityInterface
         ]);
         foreach($data['activities']  as $key => $q){
         
-            $target_benefit = $q['target_benefit'];
-            $target_quarter = $q['target_quarter'];
-           
-            
+            $target_benefit     = $q['target_benefit'];
+            $target_quarter     = $q['target_quarter'];
+            $completion_date    = $q['complete_date'];
             if(empty($q['id'])){
                 
                 $parts = explode("-", $q['quarter']);
@@ -68,6 +68,7 @@ class DipActivityRepository implements DipActivityInterface
                     'activity_id'        => $id,
                     'quarter'            => $q->id,
                     'beneficiary_target' => $target_benefit,
+                    'completion_date'    => $completion_date,
                     'year'               => $year,
                     'target'             => $target_quarter,
                     'status'             => "To be Reviewed",

@@ -47,6 +47,9 @@ var activityQuarters = $('#activityQuarters').DataTable({
         {"data":"boys_target","searchable":false,"orderable":false},
         {"data":"pwd_target","searchable":false,"orderable":false},
         {"data":"status","searchable":false,"orderable":false},
+        {"data":"completion_date","searchable":false,"orderable":false},
+        {"data":"image","searchable":false,"orderable":false},
+        {"data":"attachment","searchable":false,"orderable":false},
         {"data":"remarks","searchable":false,"orderable":false},
         {"data":"action","searchable":false,"orderable":false},
     ]
