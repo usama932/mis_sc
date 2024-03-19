@@ -88,11 +88,11 @@
             <div class="card-body">
                 <!-- Add table-responsive class here -->
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered nowrap" style="width: auto; overflow-x: auto;">
+                    <table class="table table-striped table-bordered nowrap table-bordered" style="width: auto; overflow-x: auto;">
                         <thead>
                             <tr>
-                                <th class="fs-8" style="min-width: 300px;">Activities</th>
-                                <th  class="fs-8" style="min-width: 50px;">LOP Target</th>
+                                <th class="fs-7" style="min-width: 300px;">Activities</th>
+                                <th  class="fs-7" style="min-width: 100px;">LOP Target</th>
                                 @foreach($project->quarters as $tenure)
                                     <?php
                                         $dateString = $tenure->quarter;
@@ -100,9 +100,9 @@
                                         $year = $parts[1];
                                         $quarter = $parts[0]; 
                                     ?>
-                                    <th colspan="6" class=" fs-8 text-center">{{ $quarter }} - {{$year}}</th>
+                                    <th colspan="6" class=" fs-7 text-center">{{ $quarter }} - {{$year}}</th>
                                 @endforeach
-                                <th class="fs-9" style="min-width: 300px;">Remarks</th>
+                                <th class="fs-7" style="min-width: 300px;">Remarks</th>
                             </tr>
                         </thead>
                         <thead>
@@ -138,7 +138,7 @@
                                     
                                     @endif
                                 @endforeach
-                                <th class="fs-9" style="min-width: 300px;"></th>
+                                <th class="fs-8" style="min-width: 300px;"></th>
                             </tr>
                         </thead>
                         <thead>
@@ -165,21 +165,21 @@
 
                                 @endphp
                                 <tr>
-                                    <th colspan="{{$project->quarters->count()}}">{{$subtheme->maintheme?->name}} ({{$subtheme->maintheme?->name}})</th> 
+                                    <th colspan="{{$project->quarters->count()}}" class="fs-6">{{$subtheme->maintheme?->name}} ({{$subtheme->name}})</th> 
                                 </tr>
                                 @foreach($activities as $item)
                                     <tr>
-                                        <td style="min-width: 150px;">{{$item->activity_number ?? ''}}</td>
-                                        <td>{{$item->lop_target ?? ''}}</td>
+                                        <td style="min-width: 150px;" class="fs-8">{{$item->activity_number ?? ''}}</td>
+                                        <td class="fs-8">{{$item->lop_target ?? ''}}</td>
                                         @foreach($project->quarters as $tenure)
-                                            <td colspan="3" class="text-center">
+                                            <td colspan="3" class="text-center fs-8">
                                                 @foreach($item->months as $month)
                                                     @if($tenure->quarter == $month->slug->slug.'-'.$month->year)
                                                         {{$month->target}}
                                                     @endif
                                                 @endforeach
                                             </td>
-                                            <td colspan="3" class="text-center">
+                                            <td colspan="3" class="text-center fs-8">
                                                 @foreach($item->months as $month)
                                                     @if($tenure->quarter == $month->slug->slug.'-'.$month->year)
                                                         {{$month->progress?->activity_target ?? 0}}
