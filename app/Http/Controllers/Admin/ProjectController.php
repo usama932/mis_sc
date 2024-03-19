@@ -143,7 +143,9 @@ class ProjectController extends Controller
                         <a class="btn-icon mx-1" href="'. $show_url.'" target="_blank">
                             <i class="fa fa-eye text-success" aria-hidden="true" ></i>
                         </a>
-                        
+                        <a class="btn-icon mx-1" href="'. $view_url.'" target="_blank">
+                            <i class="fa fa-eye text-primary" aria-hidden="true" ></i>
+                        </a>
                         <a class="btn-icon mx-1" href="'. $edit_url.'">
                             <i class="fa fa-pencil text-warning" aria-hidden="true" ></i>
                         </a>';
@@ -322,8 +324,20 @@ class ProjectController extends Controller
         $project   = Project::with(['quarters' => function ($query) {
             $query->orderBy('id', 'asc');
         }])->where('id',$id)->with('detail','activities')->orderBy('name')->first();
-      
-        return view('admin.projects.projectView',compact('project'));
+        $provinces = [];
+        $districts = "";
+        if($project->detail?->district != null) {
+            $district_project = json_decode($project->detail->district , true);
+            $districts = District::whereIn('district_id', $district_project)->get();
+        }
+       
+        if($project->detail?->province != null) {
+            $province_project = json_decode($project->detail->province , true);
+            $provinces = Province::whereIn('province_id', $province_project)->get();
+        }
+        $project_partners   = ProjectPartner::where('project_id',$id)->get();  
+        $project_themes   = ProjectTheme::where('project_id',$id)->get();  
+        return view('admin.projects.projectView',compact('project','provinces','districts','project_partners','project_themes'));
     }
     public function create()
     {

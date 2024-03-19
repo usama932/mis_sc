@@ -4,51 +4,198 @@
          Project Activity Detail
     @endsection
 
-    <div class="container p-3" style="width: 100%; background-color: beige;">
-       
-    
-        <h1 class="text-center text-capitalize">{{$project->name ?? ''}}</h1>
-        <h6 class="text-center text-capitalize"></h6>
-    
-        <table class="table table-striped table-bordered nowrap table-responsive" style="width: 100%; background-color: beige;">
-            <thead>
-                <tr>
-                    <th class=" fs-7">Activity</th>
-                    <th class=" fs-7">LOP Targets</th>
-                    @foreach($project->quarters as $tenure)
-                        <th class="mx-1 fs-9">{{ $tenure->quarter }}</th>
-                    @endforeach
-                    
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($project->activities as $item)
-                <tr>
-                   
-                        <td>{{$item->activity_number ?? ''}}</td>
-                        <td>{{$item->lop_target ?? ''}}</td>
-                        @foreach($project->quarters->sortbyDesc('id') as $quarter)
+    <div class="container py-3">
+        <div class="card">
+            <div class="card-header bg-light border-bottom">
+                <h5 class="card-title">{{$project->name ?? ''}}</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+            
+                    <div class="col-md-8">
+                        <label class="fw-bold">Thematic Area:</label>
                         @php
-                            $found = false;
+                            $groupedThemes = [];
+                            foreach($project->themes as $themes) {
+                                $mainThemeName = $themes->scisubtheme_name->maintheme->name ?? '';
+                                $subThemeName = $themes->scisubtheme_name->name ?? '';
+                                $groupedThemes[$mainThemeName][] = $subThemeName;
+                            }
                         @endphp
-                        @foreach($project->activity_months as $month)
-                            @if($month->month == $quarter->quarter)
-                                <td>{{ $month->target ?? '' }}</td>
-                                @php
-                                    $found = true;
-                                    break;
-                                @endphp
+                        <p class="fs-6">  @foreach($groupedThemes as $mainThemeName => $subThemes)
+                            {{$mainThemeName}}(@foreach($subThemes as $index => $subTheme)
+                            <u>{{$subTheme}}</u>@unless($loop->last),@endunless
+                            @endforeach)@unless($loop->last),@endunless
+                        @endforeach</p>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="fw-bold">Donor:</label>
+                        <p> @foreach($project->partners as $partners)
+                            {{$partners->partner_name->slug ?? ''}}@if(!$loop->last),@endif
+                        @endforeach</p>
+                    </div>
+                   
+                    <div class="col-md-4">
+                        <label class="fw-bold">Donor:</label>
+                        <p>{{$project->donors->name ?? ''}}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="fw-bold">SOF:</label>
+                        <p>{{$project->sof ?? ''}}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="fw-bold">Provinces:</label>
+                        <p class='fs-6'>
+                            @if(!empty($provinces))
+                                @foreach($provinces as $province)
+                                    {{ $province->province_name}}@if(! $loop->last), @endif
+                                @endforeach
                             @endif
-                        @endforeach
-                        @if(!$found)
-                            <td></td>
-                        @endif
-                    @endforeach
-                  
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="fw-bold">Districts:</label>
+                        <p class='fs-6'>
+                            @if(!empty($districts))
+                                @foreach($districts as $district)
+                                    {{ $district->district_name}}@if(! $loop->last), @endif
+                                @endforeach
+                            @endif
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="fw-bold">Focal Person:</label>
+                        <p class='fs-6'>
+                            {{$project->focalperson?->name}} ({{$project->focalperson?->desig?->designation_name}})
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="fw-bold">Project Tenure:</label>
+                        <p>
+                            @if(!empty($project->start_date) && $project->start_date != null)
+                                {{ date('M d, Y', strtotime($project->start_date))}} - {{date('M d, Y', strtotime($project->end_date))}}
+                            @endif
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header border-bottom">
+                <h5 class="card-title">Activity Progress Detail</h5>
+            </div>
+            <div class="card-body">
+                <!-- Add table-responsive class here -->
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered nowrap" style="width: auto; overflow-x: auto;">
+                        <thead>
+                            <tr>
+                                <th class="fs-8" style="min-width: 300px;">Activities</th>
+                                <th  class="fs-8" style="min-width: 50px;">LOP Target</th>
+                                @foreach($project->quarters as $tenure)
+                                    <?php
+                                        $dateString = $tenure->quarter;
+                                        $parts = explode("-", $dateString);
+                                        $year = $parts[1];
+                                        $quarter = $parts[0]; 
+                                    ?>
+                                    <th colspan="6" class=" fs-8 text-center">{{ $quarter }} - {{$year}}</th>
+                                @endforeach
+                                <th class="fs-9" style="min-width: 300px;">Remarks</th>
+                            </tr>
+                        </thead>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                @foreach($project->quarters as $tenure)
+                                    <?php
+                                        $dateString = $tenure->quarter;
+                                        $parts = explode("-", $dateString);
+                                        $quarter = $parts[0]; // This will give you "Q2"
+                                       
+                                    ?>
+                                    @if($quarter == 'Q1')
+                                        <th colspan="2 class="fs-8 text-center">Jan</th>
+                                        <th   colspan="2 class="fs-8 text-center">Feb</th>
+                                        <th  colspan="2  class="fs-8 text-center">Mar</th>
+                                    @endif
+                                    @if($quarter == 'Q2')
+                                        <th  colspan="2  class="fs-8 text-center">Apr</th>
+                                        <th  colspan="2  class="fs-8 text-center">May</th>
+                                        <th  colspan="2  class="fs-8 text-center">June</th>
+                                    @endif
+                                    @if($quarter == 'Q3')
+                                        <th  colspan="2  class="fs-8 text-center">Jul</th>
+                                        <th   colspan="2  class="fs-8 text-center">Aug</th>
+                                        <th  colspan="2 class="fs-8 text-center">Sep</th>
+                                    @endif
+                                    @if($quarter == 'Q4')
+                                        <th  colspan="2  class="fs-8 text-center">Oct</th>
+                                        <th  colspan="2  class="fs-8 text-center">Nov</th>
+                                        <th   colspan="2 class="fs-8 text-center">Dec</th>
+                                    
+                                    @endif
+                                @endforeach
+                                <th class="fs-9" style="min-width: 300px;"></th>
+                            </tr>
+                        </thead>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                @foreach($project->quarters as $tenure)
+                                    <?php
+                                        $dateString = $tenure->quarter;
+                                        $parts = explode("-", $dateString);
+                                        $quarter = $parts[0]; // This will give you "Q2"
+                                       
+                                    ?>
+                                      <th colspan="3" class="fs-9"> Target</th>
+                                      <th colspan="3"  class="fs-9">Acheive</th>
+                                @endforeach
+                                <th class="fs-9" style="min-width: 300px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($project->activities->groupBy('scisubtheme_name.id') as $theme => $activities)
+                                @php
+                                    $subtheme = \App\Models\SciSubTheme::with('maintheme')->find($theme);
+
+                                @endphp
+                                <tr>
+                                    <th colspan="{{$project->quarters->count()}}">{{$subtheme->maintheme?->name}} ({{$subtheme->maintheme?->name}})</th> 
+                                </tr>
+                                @foreach($activities as $item)
+                                    <tr>
+                                        <td style="min-width: 150px;">{{$item->activity_number ?? ''}}</td>
+                                        <td>{{$item->lop_target ?? ''}}</td>
+                                        @foreach($project->quarters as $tenure)
+                                            <td colspan="3" class="text-center">
+                                                @foreach($item->months as $month)
+                                                    @if($tenure->quarter == $month->slug->slug.'-'.$month->year)
+                                                        {{$month->target}}
+                                                    @endif
+                                                @endforeach
+                                            </td>
+                                            <td colspan="3" class="text-center">
+                                                @foreach($item->months as $month)
+                                                    @if($tenure->quarter == $month->slug->slug.'-'.$month->year)
+                                                        {{$month->progress?->activity_target ?? 0}}
+                                                    @endif
+                                                @endforeach
+                                            </td>
+                                        @endforeach
+                                        <td class="fs-9" style="min-width: 300px;"></td>
+                                    </tr>
+                                @endforeach
+                               
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-    
 </x-default-layout>
