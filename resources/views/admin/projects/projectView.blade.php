@@ -3,7 +3,11 @@
     @section('title')
          Project Activity Detail
     @endsection
-
+    <style>
+        table, th, td ,tr{
+          border: 1px solid black;
+        }
+        </style>
     <div class="container py-3">
         <div class="card">
             <div class="card-header bg-light border-bottom">
@@ -88,7 +92,7 @@
             <div class="card-body">
                 <!-- Add table-responsive class here -->
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered nowrap table-bordered" style="width: auto; overflow-x: auto;">
+                    <table class="table table-sm  table-bordered" style="width: auto; overflow-x: auto;">
                         <thead>
                             <tr>
                                 <th class="fs-7" style="min-width: 300px;">Activities</th>
@@ -105,7 +109,7 @@
                                 <th class="fs-7" style="min-width: 300px;">Remarks</th>
                             </tr>
                         </thead>
-                        <thead>
+                        {{-- <thead>
                             <tr>
                                 <th></th>
                                 <th></th>
@@ -140,7 +144,7 @@
                                 @endforeach
                                 <th class="fs-8" style="min-width: 300px;"></th>
                             </tr>
-                        </thead>
+                        </thead> --}}
                         <thead>
                             <tr>
                                 <th></th>
@@ -152,8 +156,8 @@
                                         $quarter = $parts[0]; // This will give you "Q2"
                                        
                                     ?>
-                                      <th colspan="3" class="fs-9"> Target</th>
-                                      <th colspan="3"  class="fs-9">Acheive</th>
+                                      <th colspan="3" class="fs-9 text-center"> Target</th>
+                                      <th colspan="3"  class="fs-9 text-center">Acheive</th>
                                 @endforeach
                                 <th class="fs-9" style="min-width: 300px;"></th>
                             </tr>
@@ -165,7 +169,7 @@
 
                                 @endphp
                                 <tr>
-                                    <th colspan="{{$project->quarters->count()}}" class="fs-6">{{$subtheme->maintheme?->name}} ({{$subtheme->name}})</th> 
+                                    <th colspan="{{$project->quarters->count() * 90}} " class="fs-6">{{$subtheme->maintheme?->name}} ({{$subtheme->name}})</th> 
                                 </tr>
                                 @foreach($activities as $item)
                                     <tr>
