@@ -23,7 +23,7 @@
             {{ session()->get('danger') }}
         </div>
         @endif
-        <form class="form" action="{{route('frm-managements.update',$frm->id)}}" method="post">
+        <form class="form" action="{{route('frm-managements.update',$frm->id)}}" method="post" id="frm_form" data-kt-redirect-url="{{route('frm-managements.index')}}">
             @csrf
             @method('put')
             <div class="card-body py-4">
@@ -35,14 +35,14 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4 mt-3">
+                    <div class=" fv-row col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Staff Name</span>
                         </label>
                         <br>
                         <strong>{{$frm->name_of_registrar ?? 'NA'}}</strong>
                     </div>
-                    <div class="col-md-4 mt-3">
+                    <div class=" fv-row col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Date Received</span>
                         </label>
@@ -50,7 +50,7 @@
 
                         <strong id="date">{{$frm->date_received ?? 'NA'}}</strong>
                     </div>
-                    <div class="col-md-4 mt-3 mb-2">
+                    <div class=" fv-row col-md-4 mt-3 mb-2">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Feedback Channel</span>
                         </label>
@@ -73,14 +73,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 mt-3">
+                    <div class="fv-row col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Complainant Name</span>
                         </label>
                         <input class="form-control"  @error('name_of_client') is-invalid @enderror placeholder="Enter Client Name" name="name_of_client" value="{{$frm->name_of_client ?? ''}}" required/>
                        
                     </div>
-                    <div class="col-md-3 mt-3">
+                    <div class="fv-row col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Type</span>
                         </label>
@@ -93,7 +93,7 @@
                             <option @if($frm->type_of_client == "Save the Children Staff") selected @else  @endif>Save the Children Staff</option>
                         </select>
                     </div>
-                    <div class="col-md-3 mt-3">
+                    <div class="fv-row col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Gender</span>
                         </label>
@@ -106,7 +106,7 @@
                         </select>
                        
                     </div>
-                    <div class="col-md-3 mt-3">
+                    <div class=" fv-row col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Age</span>
                             <span class="spinner-border spinner-border-sm align-middle ms-2" id="ageloader"></span>
@@ -117,7 +117,7 @@
                             @endif
                         </select>
                     </div>
-                    <div class="col-md-3 mt-3">
+                    <div class="fv-row col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Province</span>
                         </label>
@@ -131,7 +131,7 @@
                          
                         </select>
                     </div>
-                    <div class="col-md-3 mt-3">
+                    <div class="fv-row col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                             <span class="required">District</span>
                             <span class="spinner-border spinner-border-sm align-middle ms-2" id="districtloader" style="display="none !important;"></span>
@@ -140,7 +140,7 @@
                             <option value="{{$frm->district}}">{{$frm->districts?->district_name ?? $frm->district}}</option>
                         </select>
                     </div>
-                    <div class="col-md-3 mt-3">
+                    <div class="fv-row col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                             <span class="required">Tehsil</span>
                             <span class="spinner-border spinner-border-sm align-middle ms-2" id="tehsilloader" style="display="none !important;"></span>
@@ -153,7 +153,7 @@
                        
                     
                     </div>
-                    <div class="col-md-3 mt-3">
+                    <div class="fv-row col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                             <span class="required">Union Council</span>
                             <span class="spinner-border spinner-border-sm align-middle ms-2" id="ucloader"></span>
@@ -164,7 +164,7 @@
                             @endif
                         </select>
                     </div>
-                    <div class="col-md-6 mt-3">
+                    <div class="fv-row col-md-6 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Village</span>
                         </label>
@@ -173,21 +173,21 @@
                         {{-- <br>
                         <strong>{{$frm->village ?? 'NA'}}</strong> --}}
                     </div>
-                    <div class="col-md-3 mt-3">
+                    <div class="fv-row col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">PWD/CLWD</span>
                         </label>
                         <br>
                         <strong>{{$frm->pwd_clwd ?? 'NA'}}</strong>
                     </div>
-                    <div class="col-md-3 mt-3">
+                    <div class="fv-row col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Allow Contact</span>
                         </label>
                         <br>
                         <strong>{{$frm->allow_contact ?? 'NA'}}</strong>
                     </div>
-                    <div class="col-md-3 mt-3">
+                    <div class="fv-row col-md-3 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Contact Number</span>
                         </label>
@@ -195,7 +195,7 @@
                         <input type="tel"  @error('contact_number') is-invalid @enderror class="form-control " placeholder="Enter Contact Number" name="contact_number" value=" {{ intval($frm->client_contact)  }}" />
                       
                     </div>
-                    <div class="col-md-9 mt-3">
+                    <div class="fv-row col-md-9 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Description (Write Brief Narration)</span>
                         </label>
@@ -206,7 +206,7 @@
                             </span>
                         @enderror
                     </div>
-                    <div class="col-md-9 mt-3">
+                    <div class="fv-row col-md-9 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">FeedBack Category </span>
                         </label>
@@ -218,7 +218,7 @@
                             </span>
                         @enderror
                     </div>
-                    <div class="col-md-3 mt-3 "x>
+                    <div class="fv-row col-md-3 mt-3 "x>
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Datix Number</span>
                         </label>
@@ -230,7 +230,7 @@
                             </span>
                         @enderror
                     </div>
-                    <div class="col-md-4 mt-3">
+                    <div class="fv-row col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Theme</span>
                         </label>
@@ -242,7 +242,7 @@
                         </select>
                         
                     </div>
-                    <div class="col-md-4 mt-3">
+                    <div class="fv-row col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Feedback Activity</span>
                         </label>
@@ -250,7 +250,7 @@
                        
                     
                     </div>
-                    <div class="col-md-4 mt-3">
+                    <div class="fv-row col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="">Project</span>
                         </label>
@@ -271,78 +271,52 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 mt-3">
+                    <div class="fv-row col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Feedback Referred or Shared</span>
                         </label>
                         @if($frm->feedback_referredorshared == "Yes")
-                        <select name="feedback_referredorshared"  @error('feedback_referredorshared') is-invalid @enderror aria-label="Select a Option" data-placeholder="Select a Statut..." class="form-select   shareid" disabled>
-                            <option @if($frm->feedback_referredorshared == "") selected  @endif  value="">Select Option</option>
-                            <option  @if($frm->feedback_referredorshared == "Yes") selected  @endif value="Yes">Yes</option>
-                            <option  @if($frm->feedback_referredorshared == "No") selected  @endif value="No">No</option>
-                        </select>
+                            <input type="text" class="form-control" id="date_feedback_referred" name="feedback_referredorshared" value="{{$frm->feedback_referredorshared}}" readonly/>
+
                         @else
-                        <select name="feedback_referredorshared"  @error('feedback_referredorshared') is-invalid @enderror aria-label="Select a Option" data-placeholder="Select a Statut..." class="form-select   shareid" >
+                        <select name="feedback_referredorshared" id="feedback_referredorshared" @error('feedback_referredorshared') is-invalid @enderror aria-label="Select a Option" data-placeholder="Select a Statut..." class="form-select   shareid" >
                             <option @if($frm->feedback_referredorshared == "") selected  @endif  value="">Select Option</option>
                             <option  @if($frm->feedback_referredorshared == "Yes") selected  @endif value="Yes">Yes</option>
                             <option  @if($frm->feedback_referredorshared == "No") selected  @endif value="No">No</option>
                         </select>
                         @endif
-                        <input type="hidden" name="feedback_referredorshared" value="{{$frm->feedback_referredorshared}}" />
-                        @error('feedback_referredorshared')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                       
                     </div>
-                    <div class="col-md-4 mt-3 yes_divs">
+                    <div class="fv-row col-md-4 mt-3 yes_divs">
                         <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required"> Date of feedback Referred </span><br>
-                            
+                            <span class="required"> Date of feedback Referred </span>
                         </label>
-                        <input type="text"  @error('date_feedback_referred') is-invalid @enderror name="date_feedback_referred" id="date_feedback_referred" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()"  data-provide="datepicker" value="{{date('Y-m-d', strtotime($frm->date_ofreferral ?? ''))}}">
-                        
-                        @error('date_feedback_referred')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <input type="text" name="date_feedback_referred" id="date_feedback_referred" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()"  data-provide="datepicker" @if($frm->date_ofreferral != null) value="{{ date('Y-m-d', strtotime($frm->date_ofreferral)) }} " @endif>
+                        <div id="date_feedback_referredError" class="error-message "></div>
                     </div>
-                    <div class="col-md-4 mt-3 yes_divs">
+                    <div class="fv-row col-md-4 mt-3 yes_divs">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Reffered To(Name)</span>
                         </label>
 
-                        <input type="text"  @error('refferal_name') is-invalid @enderror name="refferal_name" placeholder="Enter Reffered To (Name)"  class="form-control " value="{{$frm->referral_name ?? ''}}">
-                        @error('refferal_name')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <input type="text"  @error('refferal_name') is-invalid @enderror name="refferal_name"  id="refferal_name" placeholder="Enter Reffered To (Name)"  class="form-control " @if($frm->referral_name != null) value="{{$frm->referral_name ?? ''}} @else value='' @endif">
+                        <div id="refferal_nameError" class="error-message "></div>
                     </div>
-                    <div class="col-md-4 mt-3 yes_divs">
+                    <div class="fv-row col-md-4 mt-3 yes_divs">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Reffered To(Position)</span>
                         </label>
-                        <input type="text" name="refferal_position"   @error('refferal_position') is-invalid @enderror placeholder="Enter Reffered To (Position)"  class="form-control " value="{{$frm->referral_position ?? ''}}" >
-                        @error('refferal_position')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <input type="text" name="refferal_position" id="refferal_position"   @error('refferal_position') is-invalid @enderror placeholder="Enter Reffered To (Position)"  class="form-control " value="{{$frm->referral_position ?? ''}}" >
+                        <div id="refferal_positionError" class="error-message "></div>
                     </div>
-                    <div class="col-md-8 mt-3 yes_divs">
+                    <div class="fv-row col-md-8 mt-3 yes_divs">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Description of actions undertaken to resolve the feedback</span>
                         </label>
-                        <textarea  name="feedback_summary"   @error('feedback_summary') is-invalid @enderror  class="form-control">{{$frm->feedback_summary ?? ''}}</textarea>
-                        @error('feedback_summary')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <textarea  name="feedback_summary" id="feedback_summary"   @error('feedback_summary') is-invalid @enderror  class="form-control">{{$frm->feedback_summary ?? ''}}</textarea>
+                        <div id="feedback_summaryError" class="error-message "></div>
                     </div>
-                    <div class="col-md-4 mt-3 no_divs">
+                    <div class="fv-row col-md-4 mt-3 no_divs">
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Status</span>
                         </label>
@@ -358,7 +332,7 @@
                         @enderror
                     </div>
                     @if($frm->feedback_referredorshared == "No" )
-                        <div class="col-md-4 mt-3 no_divs actionid " id="actionid">
+                        <div class=" fv-row col-md-4 mt-3 no_divs actionid " id="actionid">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Satisfiction </span>
                             </label>
@@ -377,7 +351,7 @@
                 </div>
                 <div class="text-center pt-15">
                     <button type="reset" class="btn btn-light me-3" >Discard</button>
-                    <button type="submit" class="btn btn-primary" >
+                    <button type="submit" id="kt_btn_submit" class="btn btn-primary" >
                         Submit
                     </button>
                 </div>

@@ -451,7 +451,9 @@ class FRMController extends Controller
 
 
     public function update(UpdatefrmRequest $request, string $id)
-    {
+    { 
+      
+     
         // $frm  = Frm::where('name_of_client', $request->name_of_client)
         //             ->where('date_received', $request->date_received)
         //             ->where('province', $request->province)

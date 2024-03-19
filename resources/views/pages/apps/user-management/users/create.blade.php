@@ -94,7 +94,6 @@
                     <select   name="province"  id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..."  class="form-control form-control-solid mb-3 mb-lg-0"  @error('province') is-invalid @enderror required>
                         <option value="">Select Province</option>
                         <option value='1'>Punjab</option>
-
                         <option value='2'>KPK</option>
                         <option value='3'>Balochistan</option>
                         <option value='4'>Sindh</option>
@@ -121,7 +120,7 @@
                         </span>
                     @enderror
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class=" fw-semibold fs-6 mb-2">
                         <span class="required">Permission Level</span>
                     </label>
@@ -132,7 +131,7 @@
                          <option value='district-wide'>District Wide</option>
                     </select>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class=" fw-semibold fs-6 mb-2">
                         <span class="required">User Type</span>
                     </label>
@@ -142,6 +141,17 @@
                         <option value='R1'>R1</option>
                         <option value='R2'>R2</option>
                         <option value='R3'>R3</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class=" fw-semibold fs-6 mb-2">
+                        <span class="required">Theme (Only for TA's)</span>
+                    </label>
+                    <select   name="theme_id" data-control="select2" data-placeholder="Select a theme"  class="form-control form-control-solid mb-3 mb-lg-0">
+                        <option value="">Select User Type</option>
+                        @foreach($themes as $theme)
+                        <option value="{{$theme->id}}">{{$theme->name}}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="col-md-6">

@@ -419,6 +419,8 @@ var KTFRMValidate = function () {
 KTUtil.onDOMContentLoaded(function () {
     KTFRMValidate.init();
 });
+
+
 $(function () {
     $('[name="date_feedback_referred"]').change(function(){
         var date_recieved_id = $("#date_recieved_id").val();

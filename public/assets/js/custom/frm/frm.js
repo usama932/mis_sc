@@ -125,6 +125,7 @@ $('#date_recieved_id').flatpickr({
     maxDate: "today",
     minDate: new Date().fp_incr(-60), 
 });
+
 //script for province, district,tehisl and uc
 ///get district cascade province
 document.getElementById('districtloader').style.display = 'none';
@@ -156,6 +157,7 @@ $("#kt_select2_province").change(function () {
     });
 
 });
+
 document.getElementById('tehsilloader').style.display = 'none';
 $("#kt_select2_district").change(function () {
     document.getElementById('tehsilloader').style.display = 'block';
@@ -182,6 +184,7 @@ $("#kt_select2_district").change(function () {
     });
 
 });
+
 document.getElementById('ucloader').style.display = 'none';
 $("#kt_select2_tehsil").change(function () {
     document.getElementById('ucloader').style.display = 'block';

@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Apps;
 use App\DataTables\UsersDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Theme;
 use App\Models\Designation;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
+use App\Models\UserTheme;
 
 class UserManagementController extends Controller
 {
@@ -20,10 +22,11 @@ class UserManagementController extends Controller
 
     public function create()
     {
-        $designations = Designation::all();
+        $designations = Designation::orderBy('name')->get();
         $roles = Role::all();
+        $themes = Theme::orderBy('name')->get();
         addJavascriptFile('assets/js/custom/users/create.js');
-        return view('pages.apps.user-management.users.create',compact('designations','roles'));
+        return view('pages.apps.user-management.users.create',compact('designations','roles','themes'));
     }
 
     public function store(Request $request)
@@ -39,6 +42,13 @@ class UserManagementController extends Controller
             'password'          => Hash::make($request->password),
             'status'            =>  $request->status,
         ]);
+        if(!empty($request->theme_id)){
+            UserTheme::create([
+                'user_id'   => $user->id,
+                'theme_id'  => $request->theme_id
+            ]);
+        }
+        
         $user->assignRole($request->role);
         return redirect()->back()->with("success", "User Created successfully!");
     }
