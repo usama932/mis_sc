@@ -2,7 +2,7 @@
     <div class="row">
         @can('edit quality benchmarks')
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <a href="{{ route('action_points.edit',$action_point->id))}}" class="btn btn-primary me-md-2 btn-sm" target="_blank">Edit Monitoring Visit</a>
+            <a href="{{ route('action_points.edit',$action_point->id)}}" class="btn btn-primary me-md-2 btn-sm" target="_blank">Edit Monitoring Visit</a>
         </div>
         @endcan
         <div class="col-md-12">

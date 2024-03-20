@@ -22,7 +22,7 @@ class UserManagementController extends Controller
 
     public function create()
     {
-        $designations = Designation::orderBy('name')->get();
+        $designations = Designation::orderBy('designation_name')->get();
         $roles = Role::all();
         $themes = Theme::orderBy('name')->get();
         addJavascriptFile('assets/js/custom/users/create.js');

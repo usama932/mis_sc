@@ -204,23 +204,27 @@
                                 <td><strong>Deadline  </strong></td>
                                 <td>{{date('d-M-Y', strtotime($action_point->deadline ?? " ")) }}</td>
                             </div>
-
+                            <div class="col-md-3 col-sm-3 mt-5"> 
+                                <td><strong>Completion Date  </strong></td>
+                                <td>{{date('d-M-Y', strtotime($action_point->action_achiev?->completion_date ?? " ")) }}</td>
+                            </div>
+                            <div class="col-md-3 col-sm-3 mt-5"> 
+                                <td><strong>Completion Note  </strong></td>
+                                <td>{{$action_point->action_achiev?->comments ?? " " }}</td>
+                            </div>
                             <div class="col-md-3 col-sm-3 mt-5"> 
                                 <td><strong>Created By  </strong></td>
                                 <td>{{$action_point->user?->name ?? " "}}</td>
                             </div>
-                            <div class="col-md-3 col-sm-3 mt-5"> 
-                                <td><strong>Updated By  </strong></td>
-                                <td>{{$action_point->user1?->name ?? " "}}</td>
-                            </div>
+                           
                             <div class="col-md-3 col-sm-3 mt-5"> 
                                 <td><strong>Created At  </strong></td>
                                 <td>{{date('d-M-Y H:i:s', strtotime($action_point->created_at ?? " ")) }}</td>
                             </div>
-                            <div class="col-md-3 col-sm-3 mt-5"> 
+                            {{-- <div class="col-md-3 col-sm-3 mt-5"> 
                                 <td><strong>Updated At  </strong></td>
                                 <td>{{date('d-M-Y H:i:s', strtotime($action_point->updated_at ?? " ")) }}</td>
-                            </div>
+                            </div> --}}
                             <div class="separator border-2 my-10"></div>
                         @endforeach
                     </div>

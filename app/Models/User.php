@@ -67,4 +67,8 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Designation::class,'designation','id');
     }
+    
+    public function theme(){
+        return $this->hasOne(UserTheme::class,'user_id','id');
+    }
 }

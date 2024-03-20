@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\QBAttachement;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Models\UserTheme;
+use App\Models\QualityBench;
 use File;
 
 class QBAttachmentsController extends Controller
@@ -90,6 +92,7 @@ class QBAttachmentsController extends Controller
 		
 		echo json_encode($json_data);
     }
+
     public function view_qb_attachments(Request $request){
         $qb_attachment = QBAttachement::where('id',$request->id)->first();
         return view('admin.quality_bench.qb_attachment.detail',compact('qb_attachment'));
@@ -136,7 +139,27 @@ class QBAttachmentsController extends Controller
                 'quality_bench_id'          => $request->quality_bench_id,
             ]);
         }
+        $qb         = QualityBench::where('id',$request->quality_bench_id)->first();
         
+        $qb_theme   = UserTheme::where('theme_id',$qb->theme)->first();
+        
+        if(!empty($qb_theme)){
+            
+            $email = $qb_theme->user?->email;
+           
+            // $email = 'usama.qayyum@savethechildren.org';
+            $bccEmails = ['usama.qayyum@savethechildren.org', 'walid.malik@savethechildren.org', 'irfan.majeed@savethechildren.org'];
+            $details = [
+                'id'            => $qb->id,
+                'village'       => $qb->village,
+                'activity'      => $qb->activity_description,
+                'response_id'   => $qb->assement_code,
+                'action_point'  => $qb->action_point,
+                'date_visit'    => $qb->date_visit,
+            ];
+            $subject = "[Quality Benchmark] ". $qb->activity_description ." in ". $qb->village ;
+            Mail::to($email)->bcc($bccEmails)->send(new \App\Mail\QBMail($details,$subject));
+        }
         session(['active' => $active]);
         $editUrl = route('quality-benchs.edit',$request->quality_bench_id);
      
@@ -147,14 +170,10 @@ class QBAttachmentsController extends Controller
 
     public function download_attachment($id){
         $qb_attachment = QBAttachement::find($id);
-        dd($qb_attachment);
+       
 	    if(!empty($qb_attachment)){
-            $path = storage_path("app/public/qbattachment/" . $qb_attachment->document);
-            
-            if(File::exists($path)){
-                dd($path);
-           
-                
+            $path = storage_path("app/public/qbattachment/" . $qb_attachment->document); 
+            if(File::exists($path)){   
             }
             else{
                 Session::flash('success_message', 'Something Went Wrong!');
@@ -162,6 +181,7 @@ class QBAttachmentsController extends Controller
             }
 		   
 	    }
+
 	    return redirect()->back();
     }
     public function show(string $id)

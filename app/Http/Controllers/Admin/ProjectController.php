@@ -140,19 +140,19 @@ class ProjectController extends Controller
                 }else{
                     $nestedData['action'] = '<div>
                     <td>
-                        <a class="btn-icon mx-1" href="'. $show_url.'" target="_blank">
+                        <a class="btn-icon mx-1" href="'. $show_url.'" target="_blank" title="show project">
                             <i class="fa fa-eye text-success" aria-hidden="true" ></i>
                         </a>
-                        <a class="btn-icon mx-1" href="'. $view_url.'" target="_blank">
+                        <a class="btn-icon mx-1" href="'. $view_url.'" target="_blank" title="show project activities">
                             <i class="fa fa-eye text-primary" aria-hidden="true" ></i>
                         </a>
-                        <a class="btn-icon mx-1" href="'. $edit_url.'">
+                        <a class="btn-icon mx-1" href="'. $edit_url.'" title=" project edit">
                             <i class="fa fa-pencil text-warning" aria-hidden="true" ></i>
                         </a>';
                 
                     if (auth()->user()->user_type == 'admin') {
                         $nestedData['action'] .= '
-                            <a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
+                            <a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Project" href="javascript:void(0)">
                                 <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                             </a>';
                     }

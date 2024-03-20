@@ -10,4 +10,8 @@ class UserTheme extends Model
     use HasFactory;
     protected $table = 'user_theme';
     protected $guarded = [];
+
+    public function user(){
+        return $this->belongsTo(User::class,'user_id','id');
+    }
 }

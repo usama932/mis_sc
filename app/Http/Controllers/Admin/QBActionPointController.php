@@ -13,6 +13,7 @@ use App\Models\ActionAcheive;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
+
 class QBActionPointController extends Controller
 {
     public function index()
@@ -22,6 +23,7 @@ class QBActionPointController extends Controller
         addVendors(['datatables']);
         return view('admin.quality_bench.action_point.index',compact('projects','users'));
     }
+
     public function get_action_points(Request $request)
     {
         $id = $request->qb_id;
@@ -112,6 +114,7 @@ class QBActionPointController extends Controller
 		
 		echo json_encode($json_data);
     }
+
     public function get_qbs_actionpoints(Request $request)
     {
         
@@ -268,17 +271,21 @@ class QBActionPointController extends Controller
 		
 		echo json_encode($json_data);
     }
+
     public function view_action_point(Request $request){
        
         $action_point = ActionPoint::where('id',$request->id)->first();
         return view('admin.quality_bench.action_point.detail',compact('action_point'));
     }
+
     public function create()
     {
         //
     }
+
     public function store(Request $request)
     {
+      
         $active = 'action_point';
         
         session(['active' => $active]);
@@ -311,25 +318,19 @@ class QBActionPointController extends Controller
             'status'                => $request->status,
             'created_by'            => auth()->user()->id,
         ]);
-        
+
         return response()->json([
             'editUrl' => $editUrl
         ]);
 
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $action_point =  ActionPoint::where('id',$id)->with('qb','monitor_visit')->first();
         return view('admin.quality_bench.action_point.Qb_detail',compact('action_point'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $action_point =  ActionPoint::where('id',$id)->with('qb','monitor_visit')->first();
@@ -340,9 +341,6 @@ class QBActionPointController extends Controller
         return view('admin.quality_bench.action_point.edit_actionpoint',compact('action_point','qb','monitor_visit'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $active = 'action_point';
@@ -386,6 +384,7 @@ class QBActionPointController extends Controller
         addJavascriptFile('assets/js/custom/quality_benchmark/updateactionpointvalidation.js');
         return view('admin.quality_bench.action_point.update_actionpoint',compact('action_point'));
     }
+
     public function postupdate_actionpoint(Request $request,$id){
       
         $validator = Validator::make($request->all(), [ 
@@ -418,6 +417,7 @@ class QBActionPointController extends Controller
         ]);
         return redirect()->route('action_points.index');
     }
+    
     public function destroy(string $id)
     {
         $action_point = ActionPoint::find($id);
