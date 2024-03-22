@@ -90,7 +90,9 @@
                 <h5 class="card-title">Activity Progress Detail</h5>
             </div>
             <div class="card-body">
-                <!-- Add table-responsive class here -->
+                <div class="justify-content-end d-flex m-5">
+                    <button id="export-btn" class="btn btn-primary btn-sm">Export to Excel</button>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-sm  table-bordered" style="width: auto; overflow-x: auto;">
                         <thead>
@@ -202,4 +204,30 @@
             </div>
         </div>
     </div>
+
+@push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+<script>
+    document.getElementById("export-btn").addEventListener("click", function() {
+        const table = document.querySelector("table");
+        const filename = "project_activity_detail.xlsx";
+        const wb = XLSX.utils.table_to_book(table, { sheet: "Sheet 1" });
+
+        // Write the workbook to binary string
+        const wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: false, type: 'binary' });
+
+        // Convert binary string to ArrayBuffer
+        function s2ab(s) {
+            const buf = new ArrayBuffer(s.length);
+            const view = new Uint8Array(buf);
+            for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+            return buf;
+        }
+
+        // Save the Excel file
+        saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), filename);
+    });
+</script>
+
+@endpush
 </x-default-layout>

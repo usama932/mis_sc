@@ -39,9 +39,9 @@ class ProjectController extends Controller
 
     public function get_project_details(Request $request)
     {
-        $columns = array(
-			1 => 'id',
-			2 => 'project',
+        $columns = [
+            1 => 'id',
+            2 => 'project',
             3 => 'partner',
             4 => 'theme',
             5 => 'province',
@@ -54,44 +54,50 @@ class ProjectController extends Controller
             12 => 'created_at',
             13 => 'updated_by',
             14 => 'updated_at',
-		);
-		if(auth()->user()->user_type != 'admin'){
-		    $totalData = Project::where('focal_person' ,auth()->user()->id)->count();
-        }
-        else{
-            $totalData = Project::count();
-        }
-       
-		$limit = $request->input('length');
+        ];
+        
+    
+        
+        $limit = $request->input('length');
         $orderIndex = $request->input('order.0.column');
-        if (isset($columns[$orderIndex])) {
-            $order = $columns[$orderIndex];
-        } else {
-            
-            $order = 'id'; // Or any other default column name
-        }
+        
+        // Set the order column
+        $order = isset($columns[$orderIndex]) ? $columns[$orderIndex] : 'id'; // Default to 'id' if column not found
+        
+        // Get the order direction ('asc' or 'desc')
         $dir = $request->input('order.0.dir');
-        if(auth()->user()->user_type != 'admin'){
-            $totalFiltered = Project::where('focal_person' ,auth()->user()->id)->count();
-        }
-        else{
-            $totalFiltered = Project::count();
-        }
-		$start = $request->input('start');
-		if(auth()->user()->user_type != 'admin'){
-          $project_details = Project::where('focal_person' ,auth()->user()->id);
-        }
-        else{
+        $dir = strtolower($dir) === 'desc' ? 'desc' : 'asc'; // Default to 'asc' if not 'desc'
+        
+      
+        
+        $start = $request->input('start');
+        
+        // Fetch projects based on user type and filters
+        if (auth()->user()->user_type != 'admin') {
+            $project_details = Project::where('focal_person', auth()->user()->id);
+        } else {
             $project_details = Project::query();
         }
-        if($request->project != null){
-
-            $project_details->where('id',$request->project);
+        
+        // Apply additional filters if project ID is provided
+        if ($request->project != null) {
+            $project_details->where('id', $request->project);
         }
-
-        $project_details =$project_details->limit($limit)->offset($start)->orderBy($order, $dir)->get();
-      
-		$data = array();
+        
+        if (auth()->user()->user_type != 'admin') {
+            $totalData = $project_details->where('focal_person', auth()->user()->id)->count();
+        } else {
+            $totalData =$project_details->count();
+        }
+        
+        if (auth()->user()->user_type != 'admin') {
+            $totalFiltered =$project_details->where('focal_person', auth()->user()->id)->count();
+        } else {
+            $totalFiltered = $project_details->count();
+        }
+        $project_details = $project_details->limit($limit)->offset($start)->orderBy($order, $dir)->get();
+        
+        $data = [];
 		if($project_details){
 			foreach($project_details as $r){
 			
@@ -166,14 +172,14 @@ class ProjectController extends Controller
 			}
 		}
 		
-		$json_data = array(
-			"draw"			=> intval($request->input('draw')),
-			"recordsTotal"	=> intval($totalData),
-			"recordsFiltered" => intval($totalFiltered),
-			"data"			=> $data
-		);
-		
-		echo json_encode($json_data);
+        $json_data = [
+            "draw" => intval($request->input('draw')),
+            "recordsTotal" => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data" => $data
+        ];
+        
+        echo json_encode($json_data);
     }
     public function get_projects(Request $request)
     {

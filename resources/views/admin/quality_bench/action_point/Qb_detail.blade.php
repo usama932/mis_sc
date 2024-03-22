@@ -122,7 +122,7 @@
                         <td>{{$action_point->action_agree ?? ''}}</td>
                     </tr>
                     <tr>
-                        <td ><strong>Actions to make QBs above fully met</strong></td>
+                        <td ><strong>Actions to make QB fully met</strong></td>
                         <td>{{$action_point->qb_recommendation ?? ''}}</td>
                     </tr>
                     <tr>
@@ -143,7 +143,7 @@
                     </tr>
                     <tr class="col-md-3 col-sm-3 mt-5"> 
                         <td><strong>Completion Date </strong></td>
-                        <td>{{date('d-M-Y', strtotime($action_point->action_achiev?->completion_date ?? " ")) }}</td>
+                        <td>@if(!empty($action_point->action_achiev?->completion_date)){{date('d-M-Y', strtotime($action_point->action_achiev?->completion_date ?? " ")) }} @endif</td>
                     </div>
                     <tr class="col-md-3 col-sm-3 mt-5"> 
                         <td><strong>Completion Note </strong></td>

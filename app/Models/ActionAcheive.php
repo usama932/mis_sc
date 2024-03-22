@@ -12,6 +12,6 @@ class ActionAcheive extends Model
     protected $guarded = [];
     public function action_point()
     {
-        return $this->belongsTo(ActionPoint::class,'action_point_id','id');
+        return $this->belongsTo(ActionPoint::class,'action_point_id','monitor_visits_id');
     }
 }

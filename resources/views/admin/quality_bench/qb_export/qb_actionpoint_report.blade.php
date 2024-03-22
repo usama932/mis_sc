@@ -21,7 +21,7 @@
 <table id="customers">
   
     <tr>
-        <th>Assesment Code</th>
+        <th>QB Unique Code</th>
         <th>Project</th>
         <th>Partner</th>
         <th>Province</th>
@@ -31,15 +31,18 @@
         <th>Activity</th>
         <th>Village</th>
         <th>Date Visit</th>
-        <th>Activity Number</th>
+        <th>QB #/Observations</th>
         <th>Issue/gap identified</th>
-        <th>Actions to make QBs fully met based on recommendations</th>
+        <th>Action to make QBs fully met</th>
         <th>Responsible Person</th>
         <th>Deadline</th>
         <th>Status</th>
-        <th>Date of Completion</th>
-        <th>Comments</th>
-        
+        <th>Date Completed</th>
+        <th>Completion Note</th>
+        <th>Created by</th>
+        <th>Created at</th>
+        <th>Updated by</th>
+        <th>Updated at</th>
     </tr>
     @foreach($qbs as $qb)
         @foreach($qb->action_point as $action_point)
@@ -68,8 +71,12 @@
                 <td>{{$action_point->responsible_person ?? ''}}</td>
                 <td>{{$action_point->deadline ?? ''}}</td>
                 <td>{{$action_point->status ?? ''}}</td>
-                <td>{{$action_point->completion_date ?? ''}}</td>
+                <td>@if(!empty($action_point->action_achiev?->completion_date)){{$action_point->action_achiev?->completion_date ?? ''}} @endif</td>
                 <td>@if($action_point->action_achiev?->comments != 'N/A' &&  !empty($action_point->action_achiev?->comments)){{$action_point->action_achiev?->comments ?? ''}}@else  @endif</td>
+                <td>{{$action_point->user?->name ?? ''}}</td>
+                <td>{{$action_point->created_at->format('M d,Y') ?? ''}}</td>
+                <td>{{$action_point->user1?->name ?? ''}}</td>
+                <td>{{$action_point->updated_at->format('M d,Y') ?? ''}</td>
             </tr>
         @endforeach
     @endforeach

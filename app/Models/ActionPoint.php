@@ -20,7 +20,7 @@ class ActionPoint extends Model
     }
     public function action_achiev()
     {
-        return $this->hasOne(ActionAcheive::class,'action_point_id','id');
+        return $this->hasOne(ActionAcheive::class,'action_point_id','monitor_visits_id');
     }
     public function user()
     {

@@ -227,7 +227,7 @@ class QBActionPointController extends Controller
                 $nestedData['created_at'] = date('d-M-Y H:i:s',strtotime($action_point->created_at)) ?? '';
                 if($action_point->status == "Acheived" || $action_point->status == "Not Acheived" || $action_point->status == "Partialy Acheived"){
                     $edit = '';
-                    $update_status = '<a class="btn-icon mx-1"  title=" Status Lock" href=""><i class="fa fa-lock text-warning" aria-hidden="true"></i></a>';
+                    $update_status = '<a class="btn-icon mx-1"  title=" Status Lock" href="javascript:void(0)" ><i class="fa fa-lock text-warning" aria-hidden="true"></i></a>';
                 }else{
                     $edit = '<a class="btn-icon  mx-1" title="Edit Action Point" href="'.$edit_url.'" target="_blank"><i class="fa fa-pencil text-info" aria-hidden="true"></i></a>';
                     $update_status = '<a class="btn-icon mx-1"  title="Update Status" href="'.$update_url.'"><i class="fa fa-lock-open text-warning" aria-hidden="true"></i></a>';
@@ -395,7 +395,6 @@ class QBActionPointController extends Controller
             return back()->withErrors($validator);   
         }
         $actionachieve = ActionAcheive::create([
-            'monitor_action_points_id'  => $request->qb_id,
             'action_point_id'           => $request->action_point_id,
             'completion_date'           => $request->completion_date,
             'comments'                  => $request->comments,
@@ -403,8 +402,9 @@ class QBActionPointController extends Controller
         ]);
        
         $monitor_visits = ActionPoint::where('id',$id)->update([
-            'status' => $request->status,
-            'completion_date' => $request->completion_date,
+            'status'            => $request->status,
+            'completion_date'   => $request->completion_date,
+            'update_by'         => auth()->user()->id,
         ]);
         $actionpoint = QualityBench::where('id',$request->qb_id)->first();
         
