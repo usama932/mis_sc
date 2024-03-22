@@ -158,7 +158,7 @@ class QBAttachmentsController extends Controller
                 'date_visit'    => $qb->date_visit,
             ];
             $subject = "[Quality Benchmark] ". $qb->activity_description ." in ". $qb->village ;
-            Mail::to($email)->bcc($bccEmails)->send(new \App\Mail\QBMail($details,$subject));
+            // Mail::to($email)->bcc($bccEmails)->send(new \App\Mail\QBMail($details,$subject));
         }
         session(['active' => $active]);
         $editUrl = route('quality-benchs.edit',$request->quality_bench_id);

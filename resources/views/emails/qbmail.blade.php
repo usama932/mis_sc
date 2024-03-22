@@ -83,14 +83,16 @@
             
             <thead>
                 <tr>
-                    <th width="40%">QB unique ID: {{$details['response_id']}}</th>
+                    <th colspan="2" width="40%">QB unique ID: {{$details['response_id']}}</th>
                     <th width="40%">Visit Date</th>
-                    <th width="20%"> {{$details['date_visit']}}</th>
+                    <th     colspan="2" width="20%"> {{$details['date_visit']}}</th>
                 </tr>
                 <tr>
-                    <th width="40%">Action Point</th>
-                    <th width="40%">De-brief Notes</th>
+                    <th width="40%">Gap Identified</th>
+                    <th width="40%">Action Decided</th>
                     <th width="20%">Deadline</th>
+                    <th width="20%">Responsible</th>
+                    <th width="20%">View Detail</th>
                 </tr>
             </thead>
             <tbody>
@@ -99,8 +101,10 @@
                         @if($action_point->action_agree == 'Yes')
                             <tr>
                                 <td>{{$action_point->monitor_visit?->gap_issue}}</td>
-                                <td>{{$action_point->db_note}}</td>
-                                <td>{{$action_point->deadline}}</td>
+                                <td>{{$action_point->qb_recommendation}}</td>
+                                <td>{{$action_point->deadline->format(M d, Y)}}</td>
+                                <td>{{$action_point->responsible_person}}</td>
+                                <td><a href="{{route('action_points.show',$action_point->id)}}" >View</a></td>
                             </tr>
                         @endif
                     @endforeach

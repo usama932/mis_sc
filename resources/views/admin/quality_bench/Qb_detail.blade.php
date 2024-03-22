@@ -112,7 +112,7 @@
                 </div>
 
 
-                {{-- Qbs Not Fully Met --}}
+                {{-- Qbs Not Fully Met
                 <div class="separator border-4 my-10"></div>
                 <div class="card-title  border-0 mt-5">
                     <div class="card-title">
@@ -122,43 +122,43 @@
                     </div>
                 </div>
                 @if($qb->monitor_visit->count() > 0)
-                <div class="row"> 
-                    @foreach($qb->monitor_visit as $monitor_visit)
-                        <h4 class="my-5">QB's Not Fully Met.# {{$loop->index +1}}</h4>
-                        <div class="col-md-3 col-sm-3 mt-5"> 
-                            <td><strong>Activity Number  </strong></td>
-                            <td>{{$monitor_visit->activity_number ?? " "}}</td>
-                        </div>
-                        <div class="col-md-12 col-sm-6 mt-5"> 
-                            <td><strong>Quality Benchmark Activity Detail  </strong></td>
-                            <td>{{$monitor_visit->qbs_description ?? " "}}</td>
-                        </div>
-                        <div class="col-md-12 col-sm-6 mt-5"> 
-                            <td><strong>Gap/issue  </strong></td>
-                            <td>{{$monitor_visit->gap_issue ?? " "}}</td>
-                        </div>
-                        <div class="col-md-3 col-sm-3 mt-5"> 
-                            <td><strong>Created By  </strong></td>
-                            <td>{{$monitor_visit->user?->name ?? " "}}</td>
-                        </div>
-                        <div class="col-md-3 col-sm-3 mt-5"> 
-                            <td><strong>Updated By  </strong></td>
-                            <td>{{$monitor_visit->user1?->name ?? " "}}</td>
-                        </div>
-                        <div class="col-md-3 col-sm-3 mt-5"> 
-                            <td><strong>Created At  </strong></td>
-                            <td>{{date('d-M-Y H:i:s', strtotime($monitor_visit->created_at ?? " ")) }}</td>
-                        </div>
-                        <div class="col-md-3 col-sm-3 mt-5"> 
-                            <td><strong>Updated At  </strong></td>
-                            <td>{{date('d-M-Y H:i:s', strtotime($monitor_visit->updated_at ?? " ")) }}</td>
-                        </div>
-                        <div class="separator border-2 my-10"></div>
-                    @endforeach
-                </div>
+                    <div class="row"> 
+                        @foreach($qb->monitor_visit as $monitor_visit)
+                            <h4 class="my-5">QB's Not Fully Met.# {{$loop->index +1}}</h4>
+                            <div class="col-md-3 col-sm-3 mt-5"> 
+                                <td><strong>Activity Number  </strong></td>
+                                <td>{{$monitor_visit->activity_number ?? " "}}</td>
+                            </div>
+                            <div class="col-md-12 col-sm-6 mt-5"> 
+                                <td><strong>Quality Benchmark Activity Detail  </strong></td>
+                                <td>{{$monitor_visit->qbs_description ?? " "}}</td>
+                            </div>
+                            <div class="col-md-12 col-sm-6 mt-5"> 
+                                <td><strong>Gap/issue  </strong></td>
+                                <td>{{$monitor_visit->gap_issue ?? " "}}</td>
+                            </div>
+                            <div class="col-md-3 col-sm-3 mt-5"> 
+                                <td><strong>Created By  </strong></td>
+                                <td>{{$monitor_visit->user?->name ?? " "}}</td>
+                            </div>
+                            <div class="col-md-3 col-sm-3 mt-5"> 
+                                <td><strong>Updated By  </strong></td>
+                                <td>{{$monitor_visit->user1?->name ?? " "}}</td>
+                            </div>
+                            <div class="col-md-3 col-sm-3 mt-5"> 
+                                <td><strong>Created At  </strong></td>
+                                <td>{{date('d-M-Y H:i:s', strtotime($monitor_visit->created_at ?? " ")) }}</td>
+                            </div>
+                            <div class="col-md-3 col-sm-3 mt-5"> 
+                                <td><strong>Updated At  </strong></td>
+                                <td>{{date('d-M-Y H:i:s', strtotime($monitor_visit->updated_at ?? " ")) }}</td>
+                            </div>
+                            <div class="separator border-2 my-10"></div>
+                        @endforeach
+                    </div>
                 @else
-                <h5 class="text-center text-danger mt-3">There's No Qbs data</h5>
-                @endif
+                    <h5 class="text-center text-danger mt-3">There's No Qbs data</h5>
+                @endif --}}
 
                 {{-- Action Points --}}
                 <div class="separator border-4 my-10"></div>

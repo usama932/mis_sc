@@ -404,7 +404,7 @@ class QBActionPointController extends Controller
         $monitor_visits = ActionPoint::where('id',$id)->update([
             'status'            => $request->status,
             'completion_date'   => $request->completion_date,
-            'update_by'         => auth()->user()->id,
+            'updated_by'         => auth()->user()->id,
         ]);
         $actionpoint = QualityBench::where('id',$request->qb_id)->first();
         
