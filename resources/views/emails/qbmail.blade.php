@@ -102,7 +102,7 @@
                             <tr>
                                 <td>{{$action_point->monitor_visit?->gap_issue}}</td>
                                 <td>{{$action_point->qb_recommendation}}</td>
-                                <td>{{$action_point->deadline->format(M d, Y)}}</td>
+                                <td>{{$action_point->deadline}}</td>
                                 <td>{{$action_point->responsible_person}}</td>
                                 <td><a href="{{route('action_points.show',$action_point->id)}}" >View</a></td>
                             </tr>

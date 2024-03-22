@@ -147,8 +147,8 @@ class QBAttachmentsController extends Controller
             
             $email = $qb_theme->user?->email;
            
-            // $email = 'usama.qayyum@savethechildren.org';
-            $bccEmails = ['usama.qayyum@savethechildren.org', 'walid.malik@savethechildren.org', 'irfan.majeed@savethechildren.org'];
+             $email = 'usama.qayyum@savethechildren.org';
+            $bccEmails = [ 'walid.malik@savethechildren.org'];
             $details = [
                 'id'            => $qb->id,
                 'village'       => $qb->village,
@@ -158,7 +158,9 @@ class QBAttachmentsController extends Controller
                 'date_visit'    => $qb->date_visit,
             ];
             $subject = "[Quality Benchmark] ". $qb->activity_description ." in ". $qb->village ;
-            // Mail::to($email)->bcc($bccEmails)->send(new \App\Mail\QBMail($details,$subject));
+            Mail::to($email)
+            // ->bcc($bccEmails)
+            ->send(new \App\Mail\QBMail($details,$subject));
         }
         session(['active' => $active]);
         $editUrl = route('quality-benchs.edit',$request->quality_bench_id);
