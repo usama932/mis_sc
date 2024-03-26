@@ -160,7 +160,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('get_projects', [ProjectController::class,'get_projects'])->name('admin.get_projects');
     Route::post('project/update', [ProjectController::class,'project_update'])->name('project.update');
     Route::get('/project/delete/{id}', [ProjectController::class,'destroy'])->name('project.delete');
-    
+    Route::get('project_activities/export/{id}', [ProjectController::class,'getexport'])->name('project-export');
     //Project detail Routes
     Route::get('/project/detailupdate/{id}', [ProjectController::class,'createProject_details'])->name('project.detail');
     Route::get('/project/detailview/{id}', [ProjectController::class,'project_view'])->name('project.view');

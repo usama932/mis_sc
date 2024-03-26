@@ -91,7 +91,8 @@
             </div>
             <div class="card-body">
                 <div class="justify-content-end d-flex m-5">
-                    <button id="export-btn" class="btn btn-primary btn-sm">Export to Excel</button>
+                    {{-- <button id="export-btn" class="btn btn-primary btn-sm">Export to Excel</button> --}}
+                    <a href="{{route('project-export',$project->id)}}" class="btn btn-primary btn-sm">Export to Excel</a>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-sm  table-bordered" style="width: auto; overflow-x: auto;">

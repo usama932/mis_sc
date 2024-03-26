@@ -9,12 +9,14 @@ use App\Models\Theme;
 use App\Models\User;
 use App\Models\District;
 use App\Models\Province;
+use App\Exports\project\ExportProjectActivities;
 use App\Models\Partner;
 use App\Models\Donor;
 use App\Models\SCITheme;
 use App\Models\ProjectPartner;
 use App\Models\ProjectTheme;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProjectController extends Controller
 {
@@ -181,6 +183,7 @@ class ProjectController extends Controller
         
         echo json_encode($json_data);
     }
+
     public function get_projects(Request $request)
     {
        
@@ -288,10 +291,7 @@ class ProjectController extends Controller
 		
 		echo json_encode($json_data);
     }
-    public function view_get_project(Request $request)
-    {
-        
-    }
+  
     public function createProject_details($id){
 
         $project    = Project::where('id',$id)->with('detail')->orderBy('name')->first();
@@ -325,6 +325,7 @@ class ProjectController extends Controller
        
         return view('admin.projects.updateprojectdetail',compact('project_themes','project','project_partners','partners','themes','provinces','districts','ps','ths'));
     }
+
     public function project_view($id){
 
         $project   = Project::with(['quarters' => function ($query) {
@@ -345,6 +346,7 @@ class ProjectController extends Controller
         $project_themes   = ProjectTheme::where('project_id',$id)->get();  
         return view('admin.projects.projectView',compact('project','provinces','districts','project_partners','project_themes'));
     }
+
     public function create()
     {
         addJavascriptFile('assets/js/custom/project/create.js');
@@ -459,5 +461,12 @@ class ProjectController extends Controller
         
     }
 
-  
+    public function getexport($id){
+
+        $id = $id;
+        $project = Project::find($id);
+        $data =  ['id'=> $id];
+        $fileName = $project->name.'activites'.'.csv';
+        return Excel::download(new ExportProjectActivities($data),  $fileName);
+    }
 }

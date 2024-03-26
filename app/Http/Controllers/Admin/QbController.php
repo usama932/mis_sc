@@ -312,8 +312,8 @@ class QbController extends Controller
     {
         $qb = QualityBench::find($id);
         if(!empty($qb)){
-            $qb->monitor_visit->each->delete();
-            $qb->action_point->each->delete();
+            $qb->monitor_visit?->each->delete();
+            $qb->action_point?->each->delete();
             $qb->delete();
             return redirect()->route('quality-benchs.index');
         }

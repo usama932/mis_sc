@@ -424,6 +424,7 @@ class QBActionPointController extends Controller
    
         $active = 'action_point';
 	    if(!empty($action_point)){
+            $action_point->action_achiev?->delete();
 		    $action_point->delete();
             session(['active' => $active]);
 		    Session::flash('success_message', 'action Point successfully deleted!');
