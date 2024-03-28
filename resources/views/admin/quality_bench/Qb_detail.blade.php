@@ -6,7 +6,7 @@
         /* Custom styles for accordion */
         .accordion-button {
             background-color: #007bff; /* Change to your desired header background color */
-            color: black; /* Change to your desired text color */
+            color: white; /* Change to your desired text color */
             text-emphasis: bold;
             border: none; /* Remove default border */
             border-radius: 0.25rem; /* Add border radius if desired */
@@ -19,17 +19,17 @@
         }
         .accordion-button:not(.collapsed) {
             font-weight: bold; /* Make text bold when accordion is expanded */
-            color: #000; /* Change text color to black when accordion is expanded */
+            color:white; /* Change text color to black when accordion is expanded */
             
         }
         .accordion-item {
         border: 1px solid transparent; /* Add transparent border to accordion item */
         border-radius: 0.25rem; /* Add border radius if desired */
         overflow: hidden; /* Hide overflowing content */
-    }
-    .accordion-item:not(.collapsed) {
-        border-color: #000; /* Change border color when accordion is expanded */
-    }
+        }
+        .accordion-item:not(.collapsed) {
+            border-color: #000; /* Change border color when accordion is expanded */
+        }
         .accordion-button:focus {
             box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.5); /* Add focus effect */
         }
@@ -163,33 +163,44 @@
                                         <h2 class="accordion-header" id="heading{{$loop->index}}" >
                                             <button style="background-color: #F2A900;" class="accordion-button collapsed " type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{$loop->index}}" aria-expanded="false" aria-controls="collapse{{$loop->index}}">
                                              <strong> ({{$loop->iteration }}/{{$loop->count}})&nbsp&nbsp&nbsp {{ $action_point->monitor_visit->gap_issue ?? ''}}
+                                                <div class="justify-content-end d-flex">{{$action_point->status}}</div>
                                             </strong> </button>
                                         </h2>
                                         <div id="collapse{{$loop->index}}" class="accordion-collapse collapse" aria-labelledby="heading{{$loop->index}}" data-bs-parent="#actionPointsAccordion">
                                             <div class="accordion-body">
                                                 <!-- Action Point Detail Content -->
                                                 <div class="row">
-                                                    <!-- Iterate through action point fields -->
+                                                    <div class="col-md-4 mt-3">
+                                                        <td> <strong>Activity:</strong> </td>
+                                                        @if($action_point->monitor_visit->activity_type == "act")
+                                                            <td> Activity #{{$action_point->monitor_visit->activity_number ?? ""}}  </td>
+                                                        @else
+                                                            <td>General Observation     </td>
+                                                        @endif
+                                                    </div>
                                                     <div class="col-md-12 mt-3">
-                                                        <strong>Debrief Note:</strong> {{$cdb_note ?? ""}}
+                                                        <td><strong>QB :</strong> </td>
+                                                        <td>{{$action_point->monitor_visit->qbs_description ?? ""}}</td>
+                                                    </div>
+                                                  
+                                                    <div class="col-md-12 mt-3">
+                                                        <td><strong>Debrief Note:</strong></td>
+                                                            <td> {{$action_point->db_note ?? ""}}</td>
                                                     </div>
                                                     <div class="col-md-12 col-sm-6 mt-5"> 
-                                                        <td><strong>Debrief Notes against identified Gap  </strong></td>
-                                                        <td>{{$action_point->db_note ?? " "}}</td>
+                                                        <td><strong>QB Recommendations  </strong></td>
+                                                        <td>{{$action_point->qb_recommendation ?? " "}}</td>
                                                     </div>
-                                                    <div class="col-md-3 col-sm-3 mt-5"> 
+                                                    <div class="col-md-4 col-sm-3 mt-5"> 
                                                         <td><strong>Action point Agreed (Yes/No)</strong></td>
                                                         <td>{{$action_point->action_agree ?? " "}}</td>
                                                     </div>
-                                                    <div class="col-md-3 col-sm-3 mt-5"> 
+                                                    <div class="col-md-4 col-sm-3 mt-5"> 
                                                         <td><strong>Action Type</strong></td>
                                                         <td>{{$action_point->action_type ?? " "}}</td>
                                                     </div>
-                                                    <div class="col-md-3 col-sm-3 mt-5"> 
-                                                        <td><strong>Status  </strong></td>
-                                                        <td>{{$action_point->status ?? " "}}</td>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-3 mt-5"> 
+                                                   
+                                                    <div class="col-md-4 col-sm-3 mt-5"> 
                                                         <td class="fs-7"><strong>Responsible Person </strong></td>
                                                         <td  class="fs-7">{{$action_point->responsible_person ?? " "}}</td>
                                                     </div>
@@ -218,7 +229,7 @@
                                                    
                                                     <div class="col-md-3 col-sm-3 mt-5"> 
                                                         <td><strong>Created At  </strong></td>
-                                                        <td>{{date('M d, Y', strtotime($action_point->created_at ?? " ")) }}</td>
+                                                        <td class="fs-8">{{date('M d, Y H:i:s', strtotime($action_point->created_at ?? " ")) }}</td>
                                                     </div>
                                                     <div class="col-md-3 col-sm-3 mt-5"> 
                                                         <td><strong>Updated By  </strong></td>
@@ -226,7 +237,7 @@
                                                     </div>
                                                     <div class="col-md-3 col-sm-3 mt-5"> 
                                                         <td><strong>Updated At  </strong></td>
-                                                        <td>{{date('M d, Y', strtotime($action_point->updated_at ?? " ")) }}</td>
+                                                        <td>{{date('M d, Y H:i:s', strtotime($action_point->updated_at ?? " ")) }}</td>
                                                     </div>
                                                 </div>
                                             </div>

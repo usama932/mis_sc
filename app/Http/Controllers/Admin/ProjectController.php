@@ -186,110 +186,103 @@ class ProjectController extends Controller
 
     public function get_projects(Request $request)
     {
-       
         $columns = array(
-			1 => 'id',
-			2 => 'project',
-            3 => 'type',
+            0 => 'project',
+            1 => 'type',
+            2 => 'sof',
+            3 => 'donor',
             4 => 'start_date',
             5 => 'end_date',
-            6 => 'status',
-            7 => 'active',
-            11 => 'created_by',
-            12 => 'created_at',
-            13 => 'updated_by',
-            14 => 'updated_at',
-            
-		);
-		
-		$totalData = Project::count();
-		$limit = $request->input('length');
-        $order = $columns[$request->input('order.0.column')];
-        $dir = $request->input('order.0.dir');
+            6 => 'created_by',
+            7 => 'created_at',
+        );
+        
+        $totalData = Project::count();
+        $limit = $request->input('length');
+        $orderColumn = $request->input('order.0.column');
+        $orderDirection = $request->input('order.0.dir');
+        $order = $columns[$orderColumn];
         $totalFiltered = Project::count();
-		$start = $request->input('start');
-		
-        $project = Project::query();
-
-        if($request->project != null){
-
-            $project->where('id',$request->project);
+        $start = $request->input('start');
+        
+        $projectQuery = Project::latest();
+        
+        if ($request->project != null) {
+            $projectQuery->where('id', $request->project);
         }
-      
+        
         if ($request->startdate != null) {
-            $project->where('start_date', '>=', $request->startdate);
+            $projectQuery->where('start_date', '>=', $request->startdate);
             if ($request->enddate != null) {
-                $project->where('start_date', '<=', $request->enddate);
+                $projectQuery->where('start_date', '<=', $request->enddate);
             }
         }
-       
+        
         if ($request->enddate != null) {
-            $project->where('end_date', '<=', $request->enddate);
+            $projectQuery->where('end_date', '<=', $request->enddate);
             if ($request->startdate != null) {
-                $project->where('end_date', '>=', $request->startdate);
+                $projectQuery->where('end_date', '>=', $request->startdate);
             }
         }
-        $projects =$project->offset($start)
-                            ->limit($limit)->orderBy($order, $dir)->get();
-		$data = array();
-		if($projects){
-			foreach($projects as $r){
-			
-                $edit_url = route('projects.edit',$r->id);
-                $show_url = route('projects.show',$r->id);
-             
-				$nestedData['id'] = $r->id;
+        
+        $projects = $projectQuery->offset($start)
+            ->limit($limit)
+            ->orderBy($order, $orderDirection)
+            ->get();
+        
+        $data = array();
+        if ($projects) {
+            foreach ($projects as $r) {
+                $edit_url = route('projects.edit', $r->id);
+                $show_url = route('projects.show', $r->id);
+        
+                $nestedData['id'] = $r->id;
                 $nestedData['project'] = $r->name ?? '';
                 $nestedData['type'] = $r->type ?? '';
                 $nestedData['sof'] = $r->sof ?? '';
                 $nestedData['donor'] = $r->donors?->name ?? '';
-                if(!empty($r->start_date)){
+                $nestedData['focal_person'] = $r->focalperson?->name ?? '';
+                if (!empty($r->start_date)) {
                     $nestedData['start_date'] = date('d-M-Y', strtotime($r->start_date)) ?? '';
+                } else {
+                    $nestedData['start_date'] = '';
                 }
-                else{
-                    $nestedData['start_date'] =  '';
-                }
-                if(!empty($r->end_date)){
+                if (!empty($r->end_date)) {
                     $nestedData['end_date'] = date('d-M-Y', strtotime($r->end_date)) ?? '';
+                } else {
+                    $nestedData['end_date'] = '';
                 }
-                else{
-                    $nestedData['end_date'] =  '';
-                }
-                
+        
                 $nestedData['status'] = $r->status ?? '';
-           
                 $nestedData['created_by'] = $r->user->name ?? '';
-                $nestedData['created_at'] = date('M d ,Y', strtotime($r->created_at)). '<br>'. date('h:iA', strtotime($r->created_at)) ?? '';
-             
+                $nestedData['created_at'] = date('M d, Y', strtotime($r->created_at)) . '<br>' . date('h:iA', strtotime($r->created_at)) ?? '';
+        
                 $nestedData['action'] = '<div>
-                                        <td>
-                                            <a class="btn-icon mx-1" href="'. $show_url.'" >
-                                            <i class="fa fa-eye text-success" aria-hidden="true" ></i>
-                                            </a>
-                                            <a class="btn-icon mx-1" href="'. $edit_url.'" target="_blank">
-                                                <i class="fa fa-pencil text-warning" aria-hidden="true" ></i>
-                                            </a>
-                                            <a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
-                                                <i class="fa fa-trash text-danger" aria-hidden="true"></i>
-                                            </a>
-                                        </a>
-                                        </td>
-                                        </div>
-                                        ';
-               
-				
-				$data[] = $nestedData;
-			}
-		}
-		
-		$json_data = array(
-			"draw"			=> intval($request->input('draw')),
-			"recordsTotal"	=> intval($totalData),
-			"recordsFiltered" => intval($totalFiltered),
-			"data"			=> $data
-		);
-		
-		echo json_encode($json_data);
+                    <td>
+                        <a class="btn-icon mx-1" href="' . $show_url . '" >
+                            <i class="fa fa-eye text-success" aria-hidden="true"></i>
+                        </a>
+                        <a class="btn-icon mx-1" href="' . $edit_url . '" target="_blank">
+                            <i class="fa fa-pencil text-warning" aria-hidden="true"></i>
+                        </a>
+                        <a class="btn-icon mx-1" onclick="event.preventDefault();del(' . $r->id . ');" title="Delete Monitor Visit" href="javascript:void(0)">
+                            <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </div>';
+        
+                $data[] = $nestedData;
+            }
+        }
+        
+        $json_data = array(
+            "draw"            => intval($request->input('draw')),
+            "recordsTotal"    => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data"            => $data
+        );
+        
+        echo json_encode($json_data);
     }
   
     public function createProject_details($id){

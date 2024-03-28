@@ -2,19 +2,16 @@
 
 namespace App\Exports\project;
 
-use Maatwebsite\Excel\Concerns\FromView;
 use Illuminate\Contracts\View\View;
-use App\Models\ProjectPartner;
-use App\Models\ProjectTheme;
-use App\Models\Project;
-use App\Models\District;
-use App\Models\Province;
+use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use App\Models\Project;
 
-class ExportProjectActivities implements FromView
+class ExportProjectActivities implements FromView, WithStyles
 { 
     protected $data;
 
@@ -35,6 +32,35 @@ class ExportProjectActivities implements FromView
             'project' => $project,
             // Pass other data to the view
         ]);
+    }
+
+    public function styles(Worksheet $sheet)
+    {
+        // Apply border styles to all cells
+        $sheet->getStyle($sheet->calculateWorksheetDimension())->applyFromArray([
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                    'color' => ['rgb' => '000000'],
+                ],
+            ],
+        ]);
+
+        // Apply specific styles to header row
+        $sheet->getStyle('A1:Z1')->applyFromArray([
+            'font' => [
+                'bold' => true,
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+            ],
+        ]);
+
+        // Set column widths
+        $sheet->getColumnDimension('A')->setWidth(30);
+        $sheet->getColumnDimension('B')->setWidth(20);
+        // Adjust column widths for other columns as needed
     }
 
     public function exportToExcel($view)

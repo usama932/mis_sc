@@ -51,7 +51,7 @@ class QbController extends Controller
             8 => 'created_at',
 
 		);
-        $qualit_benchs = QualityBench::where('id','!=',-1);
+        $qualit_benchs = QualityBench::latest();
   
         if($request->kt_select2_district != null && $request->kt_select2_district != 'None'){
             $qualit_benchs->where('district',$request->kt_select2_district);
@@ -69,7 +69,9 @@ class QbController extends Controller
             $startdate = $dateParts[0];
             $enddate = $dateParts[1] ?? '';
         }
-      
+        if ($request->assesment_code != null && $request->assesment_code != 'None') {
+            $qualit_benchs->where('assement_code', $request->assesment_code);
+        }
         if($request->date_visit != null){
 
             $qualit_benchs->whereBetween('date_visit',[$startdate ,$enddate]);

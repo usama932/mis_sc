@@ -78,10 +78,11 @@
                                 <th>Type</th>
                                 <th>SOF</th>
                                 <th>Donor</th>
+                                <th>Focal Person</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Created By</th>
-                                <th>Creation At</th>
+                                <th>Created At</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -134,23 +135,28 @@
                     },
                     {
                         "data": "sof",
-                        "searchable": false,
-                        "orderable": false
+                        "searchable": true,
+                        "orderable": true
                     },
                     {
                         "data": "donor",
+                        "searchable": true,
+                        "orderable": true
+                    },
+                    {
+                        "data": "focal_person",
                         "searchable": false,
                         "orderable": false
                     },
                     {
                         "data": "start_date",
-                        "searchable": false,
-                        "orderable": false
+                        "searchable": true,
+                        "orderable": true
                     },
                     {
                         "data": "end_date",
-                        "searchable": false,
-                        "orderable": false
+                        "searchable": true,
+                        "orderable": true
                     },
                     {
                         "data": "created_by",
@@ -159,8 +165,8 @@
                     },
                     {
                         "data": "created_at",
-                        "searchable": false,
-                        "orderable": false
+                        "searchable": true,
+                        "orderable": true
                     },
                     {
                         "data": "action",
@@ -197,7 +203,7 @@
          
             var projects = $('#projects').DataTable( {
                 "order": [
-                    [1, 'desc']
+                    [8, 'desc']
                 ],
                 "dom": 'lfBrtip',
                 buttons: [
@@ -227,13 +233,14 @@
                "columns":[
                             {"data":"project","searchable":false,"orderable":false},
                             {"data":"type","searchable":false,"orderable":false},
-                            {"data":"sof","searchable":false,"orderable":false},
-                            {"data":"donor","searchable":false,"orderable":false},
-                            {"data":"start_date","searchable":false,"orderable":false},
-                            {"data":"end_date","searchable":false,"orderable":false},
-                            {"data":"created_by","searchable":false,"orderable":false},
-                            {"data":"created_at","searchable":false,"orderable":false},
-                            {"data":"action","searchable":false,"orderable":false},
+                            {"data":"sof","searchable":true,"orderable":true},
+                            {"data":"donor","searchable":true,"orderable":true},
+                            {"data":"focal_person", "searchable": false, "orderable": false  },
+                            {"data":"start_date","searchable":true,"orderable":true},
+                            {"data":"end_date","searchable":true,"orderable":true},
+                            {"data":"created_by","searchable":true,"orderable":true},
+                            {"data":"created_at","searchable":true,"orderable":true},
+                            {"data":"action","searchable":true,"orderable":false},
                         ]
 
             });
