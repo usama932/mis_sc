@@ -76,9 +76,9 @@ class ProjectController extends Controller
         
         // Fetch projects based on user type and filters
         if (auth()->user()->user_type != 'admin') {
-            $project_details = Project::where('focal_person', auth()->user()->id);
+            $project_details = Project::where('focal_person', auth()->user()->id)->latest();
         } else {
-            $project_details = Project::query();
+            $project_details = Project::latest();
         }
         
         // Apply additional filters if project ID is provided
@@ -110,7 +110,7 @@ class ProjectController extends Controller
 				$nestedData['id'] = $r->id;
                 $nestedData['project'] = $r->name ?? '';
                 $nestedData['sof'] = $r->sof ?? '';
-                $nestedData['type'] = $r->sof ?? '';
+                $nestedData['type'] = $r->type ?? '';
                 if(!empty($r->detail->province )){
                     $province_dip = json_decode($r->detail->province , true);
                     $provinces = Province::whereIn('province_id', $province_dip)->pluck('province_name');

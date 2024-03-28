@@ -50,7 +50,7 @@ class FBAjaxController extends Controller
         $project   = Project::where('id', $request->project)->with('detail')->first();
         
         if(!empty($project->detail?->district)){
-            $data   = District::whereIn('provinces_id',$province_id)->whereIn('district_id', json_decode($project->detail->district))->select('district_id', 'district_name')->get();
+            $data   = District::where('provinces_id',$province_id)->whereIn('district_id', json_decode($project->detail->district))->select('district_id', 'district_name')->get();
            
         }
         else{

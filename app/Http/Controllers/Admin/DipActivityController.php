@@ -242,20 +242,20 @@ class DipActivityController extends Controller
                     if(!empty($r->progress?->attachment)){
                         $download_url =  route('download_progress_attachment',$r->progress?->attachment );
                         $nestedData['attachment'] = '<a title="Edit" class=""
-                        href="'.$download_url.'" ><span class="badge bg-success text-dark">Download Attachment</span></a>'; 
+                        href="'.$download_url.'" ><i class="fa fa-download text-dark" aria-hidden="true"></i></a>'; 
                     }else{
-                        $nestedData['attachment'] = 'fdsf'; 
+                        $nestedData['attachment'] = ''; 
                     }
                    
                     if(!empty($r->progress)){
                         if($r->status == 'Posted'){
                             $nestedData['action'] = '';
                         }
-                        elseif($r->status == 'Returned' || $r->status == 'To be Reviewed'){
+                        elseif($r->status == 'Returned'){
 
                             $nestedData['action'] = '<div>
                             <td><a class="" href="javascript:void(0)" title="Update status" data-bs-toggle="modal" data-bs-target="#edit_status_'.$r->progress->quarter_id.'" >
-                                <span class="badge bg-success text-dark">Edit</span>
+                                <span class="badge bg-success text-white">Edit</span>
                             </a></td></div>
                             ';
                         }
@@ -263,7 +263,7 @@ class DipActivityController extends Controller
                         else{
                             $nestedData['action'] = '<div>
                             <td><a class="" href="javascript:void(0)" title="Update status" data-bs-toggle="modal" data-bs-target="#update_status_'.$r->progress->quarter_id.'">
-                            <span class="badge bg-info btn-sm text-dark">Update Status</span>
+                            <span class="badge bg-info btn-sm text-white">Update Status</span>
                             </a></td></div>
                             ';
                         }
@@ -603,7 +603,9 @@ class DipActivityController extends Controller
                 ]);
                
             }
-           
+            ActivityMonths::where('id',$request->quarter)->update([
+                'status'   => "To be Reviewed",
+            ]);
             return response()->json([
                 'editUrl' => $editUrl,
                 'error'   => false,
@@ -632,7 +634,7 @@ class DipActivityController extends Controller
     }
 
     public function quarterstatus_edit(Request $request,$id){
-        
+        $quarters = ActivityProgress::where('id',$id)->first();
         $quarter = ActivityProgress::where('id',$id)->update([
                 'activity_target'   => $request->activity_target,
                 'women_target'      => $request->women_target,
@@ -641,6 +643,9 @@ class DipActivityController extends Controller
                 'boys_target'       => $request->boys_target,
                 'pwd_target'        => $request->pwd_target,
                 'remarks'           => $request->remarks,
+        ]);
+        ActivityMonths::where('id',$quarters->quarter_id)->update([
+            'status'   => "To be Reviewed",
         ]);
         return response()->json(['error' => true,'quarter' => $quarter ]);
     }

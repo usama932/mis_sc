@@ -87,7 +87,7 @@
                                 <label class="fs-7 fw-semibold form-label mb-2">
                                     <span class="">Completion Date</span>
                                 </label>
-                                <input type="text" name="activities[{{$loop->iteration -1}}][complete_date]" id="start_date" placeholder="Select date"  class="form-control start_date" onkeydown="event.preventDefault()" data-provide="datepicker"  value="{{$month->completion_date}}">
+                                <input type="text" name="activities[{{$loop->iteration -1}}][complete_date]" id="start_date" placeholder="Select date"  class="form-control required start_date" onkeydown="event.preventDefault()" data-provide="datepicker"  value="{{$month->completion_date}}">
                             </div>
                             <div class="col-md-2 mt-4">  
                                 <a class="btn btn-sm btn-danger mt-5" title="Delete " onclick="event.preventDefault();del({{$month->id}});" title="Delete Monitor Visit" href="javascript:void(0)">
@@ -211,7 +211,7 @@
                                 class="form-control numeric-input" autocomplete="off" required>
                         </div>
                         <div class="col-md-4">
-                            <input type="text" name="activities[${i}][complete_date]" id="start_date" placeholder="Select date"  class="form-control start_date${i}" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
+                            <input type="text" name="activities[${i}][complete_date]" id="start_date" placeholder="Select date"  class="form-control required start_date${i}" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
                         </div>
                         <div class="col-md-1">
                             <button type="button" class="btn btn-danger btn-sm" onclick="removeTargetRow(this)"><i class="fa fa-trash"></i></button>

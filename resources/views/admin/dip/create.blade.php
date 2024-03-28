@@ -88,7 +88,7 @@
                             </div>
                             <div class="col-md-3">
                                 <label class="fs-7 fw-semibold form-label mb-2">
-                                    <span class=""> Completion Date</span>
+                                    <span class="required"> Completion Date</span>
                                 </label>
                                 <input type="text" name="activities[0][complete_date]" id="start_date" placeholder="Select date"  class="form-control start_date" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
                             
@@ -166,7 +166,7 @@
                                 class="form-control numeric-input" autocomplete="off">
                         </div>
                         <div class="col-md-4">
-                            <input type="text" name="activities[${i}][complete_date]" id="start_date" placeholder="Select date"  class="form-control start_date${i}" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
+                            <input type="text" name="activities[${i}][complete_date]" id="start_date" placeholder="Select date"  class="form-control start_date${i} required" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
                         </div>
                         <div class="col-md-1">
                             <button type="button" class="btn btn-danger btn-sm" onclick="removeTargetRow(this)"><i class="fa fa-trash"></i></button>

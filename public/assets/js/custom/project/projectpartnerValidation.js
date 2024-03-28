@@ -30,14 +30,14 @@ var KTprojectpartnerValidate = function() {
                           
                         }
                     },
-                    'district[]': {
+                    'district': {
                         validators: {
                             notEmpty: {
                                 message: 'District is required'
                             }
                         }
                     },
-                    'province[]': {
+                    'province': {
                         validators: {
                             notEmpty: {
                                 message: 'Province is required'
@@ -364,6 +364,8 @@ $("#addprojectpartnerBtn").click(function() {
     $("#cancelprojectpartnerBtn").show();
     $(this).hide();
 });
+
+
 $("#cancelprojectpartnerBtn").click(function() {
     $("#project_partner_table").slideToggle();
     $("#create_projectpartner").slideToggle();

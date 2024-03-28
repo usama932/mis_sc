@@ -147,8 +147,8 @@ class QBAttachmentsController extends Controller
             
             $email = $qb_theme->user?->email;
            
-             $email = 'usama.qayyum@savethechildren.org';
-            $bccEmails = [ 'walid.malik@savethechildren.org'];
+            //  $email = 'usama.qayyum@savethechildren.org';
+            $bccEmails = [ 'walid.malik@savethechildren.org','usama.qayyum@savethechildren.org','irfan.majeed@savethechildren.org'];
             $details = [
                 'id'            => $qb->id,
                 'village'       => $qb->village,
