@@ -12,7 +12,7 @@ use App\Http\Requests\CreateQbRequest;
 use App\Http\Requests\UpdateQbRequest;
 use Illuminate\Support\Facades\Session;
 use App\Models\MonitorVisit;
-use Carbon\Carbon;
+use App\Models\Partner;
 use App\Models\QBAttachement;
 use App\Exports\QB\ExportQB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -224,9 +224,10 @@ class QbController extends Controller
         $projects = Project::where('active','1')->latest()->get();
         $themes = Theme::latest()->get();
         $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
+        $partners = Partner::orderBy('name')->get();  
         addJavascriptFile('assets/js/custom/quality_benchmark/general.js');
         addJavascriptFile('assets/js/custom/quality_benchmark/qb.js');
-        return view('admin.quality_bench.basic_information.create',compact('projects','themes','users'));
+        return view('admin.quality_bench.basic_information.create',compact('projects','themes','users','partners'));
     }
 
    
@@ -265,6 +266,7 @@ class QbController extends Controller
         $users      = User::where('user_type','R2')->orwhere('user_type','R1')->get();
         $qb         = QualityBench::with('monitor_visit','action_point')->find($id);
 
+        $partners   = Partner::orderBy('name')->get();  
         $count_monitor_visit  = MonitorVisit::where('quality_bench_id',$id)->where('activity_type', 'act')->count();
         $count_action_point   =   $qb->action_point->count();
 
@@ -288,7 +290,7 @@ class QbController extends Controller
         addJavascriptFile('assets/js/custom/quality_benchmark/edit.js');
         addJavascriptFile('assets/js/custom/quality_benchmark/qb.js');
         addVendors(['datatables']);
-        return view('admin.quality_bench.edit',compact('projects','themes','users','qb','monitor_visits','title','qb_attachment','count_monitor_visit','count_action_point'));
+        return view('admin.quality_bench.edit',compact('projects','partners','themes','users','qb','monitor_visits','title','qb_attachment','count_monitor_visit','count_action_point'));
     }
 
   

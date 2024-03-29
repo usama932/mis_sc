@@ -44,11 +44,14 @@
                 </label>
                 <select   name="partner" id="partner" aria-label="Select a Partner Name" data-control="select2" data-placeholder="Select a Partner" class="form-select">
                     <option value="">Select Partner Name</option>
-                    <option  value="LRF"  @if($qb->partner == "LRF") selected @endif>LRF</option>
+                    @foreach($partners as $partner)
+                    <option value="{{$partner->id}}"  @if($qb->partner == $partner->id) selected @endif>{{$partner->slug}}</option>
+                    @endforeach
+                    {{-- <option  value="LRF"  @if($qb->partner == "LRF") selected @endif>LRF</option>
                     <option  value="NRSP" @if($qb->partner == "NRSP") selected @endif>NRSP</option>
                     <option  value="PPHI" @if($qb->partner == "PPHI") selected @endif>PPHI</option>
                     <option  value="SRSP" @if($qb->partner == "SRSP") selected @endif>SRSP</option>
-                    <option  value="TKF"  @if($qb->partner == "TKF") selected @endif>TKF</option>
+                    <option  value="TKF"  @if($qb->partner == "TKF") selected @endif>TKF</option> --}}
                 </select>
                 <div id="partnerError" class="error-message "></div>
             </div>

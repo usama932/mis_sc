@@ -36,8 +36,13 @@
                     <div class="accordion-body">
                         <div class="card-header border-0 pt-6">
                             <div class="row mb-5">
-                               
-                                <div class="col-md-3 my-3">
+                                <div class="col-md-6 my-3">
+                                    <label class="fs-6 fw-semibold form-label mb-2">
+                                        <span class="required">Unique Code</span>
+                                    </label>
+                                    <input class="form-control" placeholder="Enter Assesment Code" id="assesment_code" name="assesment_code" >
+                                </div>
+                                <div class="col-md-6 my-3">
                                     <label class="fs-6 fw-semibold form-label mb-2">
                                         <span class="required" >Date Visit</span>
                                     </label>
@@ -276,7 +281,7 @@
                 }
             });
         }
-        $("#date_visit, #visit_staff,#partner, #accompanied_by, #visit_type, #kt_select2_province, #kt_select2_district, #project_type, #project_name").change(function () {
+        $("#date_visit,#assesment_code, #visit_staff,#partner, #accompanied_by, #visit_type, #kt_select2_province, #kt_select2_district, #project_type, #project_name").change(function () {
             var table = $('#quality_bench').DataTable();
             table.destroy();
             var date_visit = document.getElementById("date_visit").value ?? '1';
@@ -288,6 +293,7 @@
             var project_type = document.getElementById("project_type").value ?? '1';
             var project_name = document.getElementById("project_name").value ?? '1';
             var partner = document.getElementById("partner").value ?? '1';
+            var assesment_code = document.getElementById("assesment_code").value ?? '1';
             var qb = $('#quality_bench').DataTable( {
                 "dom": 'lfBrtip',
                 buttons: [
@@ -317,11 +323,12 @@
                             'visit_type':visit_type,
                             'project_type':project_type,
                             'project_name':project_name,
-                            'partner':partner
+                            'partner':partner,
+                            'assesment_code':assesment_code
                             }
                 },
                "columns":[
-                {"data":"assement_code","searchable":false,"orderable":false},
+                            {"data":"assement_code","searchable":false,"orderable":false},
                             {"data":"project_name","searchable":false,"orderable":false},
                             {"data":"partner","searchable":false,"orderable":false},
                             {"data":"province","searchable":false,"orderable":false},

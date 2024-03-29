@@ -118,7 +118,7 @@
                 <td class="fs-7">{{$qb->accompanied_by ?? ''}}</td>
 
                 <td class="fs-7"><strong>Partner:</strong></td>
-                <td class="fs-7">{{$qb->partner}}</td>
+                <td class="fs-7">{{$qb->partners?->name ?? $qb->partner}}</td>
 
             </tr>
             

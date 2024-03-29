@@ -69,11 +69,9 @@
                                 </label>
                                 <select   name="partner" id="partner" aria-label="Select a Partner Name" data-control="select2" data-placeholder="Select a Partner" class="form-select">
                                     <option value="">Select Partner Name</option>
-                                    <option  value="LRF">LRF</option>
-                                    <option  value="NRSP">NRSP</option>
-                                    <option  value="PPHI">PPHI</option>
-                                    <option  value="SRSP">SRSP</option>
-                                    <option  value="TKF">TKF</option>
+                                    @foreach($partners as $partner)
+                                    <option value="{{$partner->id}}">{{$partner->slug}}</option>
+                                    @endforeach
                                 </select>
                                 
                                 <div id="partnerError" class="error-message "></div>

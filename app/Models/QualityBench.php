@@ -51,8 +51,14 @@ class QualityBench extends Model
     {
         return $this->hasOne(QBAttachement::class,'quality_bench_id','id');
     }
+    
     public function theme_name()
     {
         return $this->belongsTo(Theme::class,'theme','id');
+    }
+
+    public function partners()
+    {
+        return $this->belongsTo(Partner::class,'partner','id');
     }
 }
