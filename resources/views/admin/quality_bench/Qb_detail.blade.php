@@ -185,8 +185,22 @@
                 <div class="accordion-item">
                     <div class="accordion-header" id="heading{{$loop->index}}">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{$loop->index}}" aria-expanded="false" aria-controls="collapse{{$loop->index}}">
-                            ({{$loop->iteration }}/{{$loop->count}})&nbsp;&nbsp;&nbsp;{{ $action_point->monitor_visit->gap_issue ?? ''}}
-                            <div class="text-end">{{$action_point->status}}</div>
+                            <div class="row">
+                                <div class="col-md-9">
+                                    ({{$loop->iteration }}/{{$loop->count}})&nbsp;&nbsp;&nbsp;{{ $action_point->monitor_visit->gap_issue ?? ''}}
+                                </div>
+                                <div class="col-md-3  text-end">
+                                    @if($action_point->status == 'Acheived')
+                                    <span class="text-end badge badge-success">{{$action_point->status}}</span>
+                                    @elseif($action_point->status == 'To be Acheived')
+                                        <span class=" text-end badge badge-primary">{{$action_point->status}}</span>
+                                    @elseif($action_point->status == 'Not Acheived')
+                                        <span class="text-end badge badge-danger">{{$action_point->status}}</span>
+                                    @else
+                                        <span class=" text-end badge badge-secondary">{{$action_point->status}}</span>
+                                    @endif
+                                </div>
+                            </div>
                         </button>
                     </div>
                     <div id="collapse{{$loop->index}}" class="accordion-collapse collapse show" aria-labelledby="heading{{$loop->index}}" data-bs-parent="#actionPointsAccordion">
@@ -194,13 +208,14 @@
                             <!-- Action Point Detail Content -->
                             <div class="row">
                                 <div class="col-md-4 mt-3">
-                                    <td> <strong>Activity:</strong> </td>
+                                    <td><strong>QB No:</strong></td>
                                     @if($action_point->monitor_visit->activity_type == "act")
-                                        <td> Activity #{{$action_point->monitor_visit->activity_number ?? ""}}  </td>
+                                        <td>.# {{$action_point->monitor_visit->activity_number ?? ""}}  </td>
                                     @else
-                                        <td>General Observation     </td>
+                                        <td>General Observation</td>
                                     @endif
                                 </div>
+
                                 <div class="col-md-12 mt-3">
                                     <td><strong>QB :</strong> </td>
                                     <td>{{$action_point->monitor_visit->qbs_description ?? ""}}</td>
@@ -210,39 +225,48 @@
                                     <td><strong>Debrief Note:</strong></td>
                                         <td> {{$action_point->db_note ?? ""}}</td>
                                 </div>
+
                                 <div class="col-md-12 col-sm-6 mt-5"> 
-                                    <td><strong>QB Recommendations  </strong></td>
+                                    <td><strong>Actions to make QBs fully met based on recommendations</strong></td>
                                     <td>{{$action_point->qb_recommendation ?? " "}}</td>
                                 </div>
+
                                 <div class="col-md-4 col-sm-3 mt-5"> 
                                     <td><strong>Action point Agreed (Yes/No)</strong></td>
                                     <td>{{$action_point->action_agree ?? " "}}</td>
                                 </div>
-                                <div class="col-md-4 col-sm-3 mt-5"> 
-                                    <td><strong>Action Type</strong></td>
-                                    <td>{{$action_point->action_type ?? " "}}</td>
-                                </div>
-                                
-                                <div class="col-md-4 col-sm-3 mt-5"> 
-                                    <td class="fs-7"><strong>Responsible Person </strong></td>
-                                    <td  class="fs-7">{{$action_point->responsible_person ?? " "}}</td>
-                                </div>
-                                <div class="col-md-12 col-sm-6 mt-5"> 
-                                    <td><strong>Actions Decided </strong></td>
-                                    <td>{{$action_point->qb_recommendation ?? " "}}</td>
-                                </div>
-                                <div class="col-md-2 col-sm-3 mt-5"> 
-                                    <td class="fs-7"><strong>Deadline  </strong></td>
-                                    <td class="fs-7">{{date('M d, Y', strtotime($action_point->deadline ?? " ")) }}</td>
-                                </div>
-                                <div class="col-md-2 col-sm-3 mt-5"> 
-                                    <td class="fs-7"><strong>Completion Date  </strong></td>
-                                    <td class="fs-7">{{date('M d, Y', strtotime($action_point->action_achiev?->completion_date ?? " ")) }}</td>
-                                </div>
-                                <div class="col-md-6 col-sm-3 mt-5"> 
-                                    <td><strong>Completion Note  </strong></td>
-                                    <td>{{$action_point->action_achiev?->comments ?? " " }}</td>
-                                </div>
+
+                                @if($action_point->action_agree == "Yes")
+                                    <div class="col-md-4 col-sm-3 mt-5"> 
+                                        <td><strong>Action Type</strong></td>
+                                        <td>{{$action_point->action_type ?? " "}}</td>
+                                    </div>
+                                    <div class="col-md-4 col-sm-3 mt-5"> 
+                                        <td class="fs-7"><strong>Responsible Person </strong></td>
+                                        <td  class="fs-7">{{$action_point->responsible_person ?? " "}}</td>
+                                    </div>
+                                    <div class="col-md-12 col-sm-6 mt-5"> 
+                                        <td><strong>Actions Decided </strong></td>
+                                        <td>{{$action_point->qb_recommendation ?? " "}}</td>
+                                    </div>
+                                    <div class="col-md-2 col-sm-3 mt-5"> 
+                                        <td class="fs-7"><strong>Deadline  </strong></td>
+                                        @if(!empty($action_point->deadline) && $action_point->deadline == Null)
+                                        <td class="fs-7">{{date('M d, Y', strtotime($action_point->deadline ?? " ")) }}</td>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-2 col-sm-3 mt-5"> 
+                                        <td class="fs-7"><strong>Completion Date  </strong></td>
+                                        @if(!empty($action_point->action_achiev?->completion_date) && $action_point->action_achiev?->completion_date == Null)
+                                            <td class="fs-7">{{date('M d, Y', strtotime($action_point->action_achiev?->completion_date ?? " ")) }}</td>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-6 col-sm-3 mt-5"> 
+                                        <td><strong>Completion Note  </strong></td>
+                                        <td>{{$action_point->action_achiev?->comments ?? " " }}</td>
+                                    </div>
+                                @endif
+
                                 <div class="separator border-2 "></div>
 
                                 <div class="col-md-3 col-sm-3 mt-5"> 
@@ -254,14 +278,17 @@
                                     <td><strong>Created At  </strong></td>
                                     <td class="fs-8">{{date('M d, Y H:i:s', strtotime($action_point->created_at ?? " ")) }}</td>
                                 </div>
+
                                 <div class="col-md-3 col-sm-3 mt-5"> 
                                     <td><strong>Updated By  </strong></td>
                                     <td>{{$action_point->user1?->name ?? " "}}</td>
                                 </div>
+
                                 <div class="col-md-3 col-sm-3 mt-5"> 
                                     <td><strong>Updated At  </strong></td>
                                     <td>{{date('M d, Y H:i:s', strtotime($action_point->updated_at ?? " ")) }}</td>
                                 </div>
+
                             </div>
                             
                         </div>
@@ -269,6 +296,22 @@
                 </div>
             @endforeach
         </div>
+
+        <div class="card-title m-">
+            <h5 class="fw-bold ">Attachment & Comments</h5>
+        </div>
+        @if(!empty($qb->qbattachement))
+            <table  class="table  table-striped mx-3"   >
+                <tr class="m-2 ">
+                    <td class="fs-7"><strong>Attachement:</strong></td>
+                    <td class="fs-7"><a class="btn btn-primary btn-sm mx-15" href="{{ route('showPDF.qb_attachments', $qb->qbattachement?->id)}}">View Attachment</a></td>
+                </tr>
+                <tr class="mt-4">
+                    <td class="fs-7"><strong>Comments:</strong></td>
+                    <td class="fs-7">{{$qb->qbattachement?->comments ?? ''}}</td>
+                </tr>
+            </table>
+        @endif
     </div>
    
 </x-default-layout>

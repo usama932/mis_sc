@@ -111,9 +111,7 @@ class QBAttachmentsController extends Controller
             $path = storage_path("app/public/qbattachment/" .$request->document);
             
             if(File::exists($path)){
-                
                 File::delete(storage_path('app/public/qbattachment/'.$request->document));
-    
             }
             
             $file = $request->file('document');
@@ -139,15 +137,14 @@ class QBAttachmentsController extends Controller
                 'quality_bench_id'          => $request->quality_bench_id,
             ]);
         }
+
         $qb         = QualityBench::where('id',$request->quality_bench_id)->first();
-        
         $qb_theme   = UserTheme::where('theme_id',$qb->theme)->first();
         
         if(!empty($qb_theme)){
             
             $email = $qb_theme->user?->email;
            
-            //  $email = 'usama.qayyum@savethechildren.org';
             $bccEmails = [ 'walid.malik@savethechildren.org','usama.qayyum@savethechildren.org','irfan.majeed@savethechildren.org'];
             $details = [
                 'id'            => $qb->id,
@@ -159,7 +156,7 @@ class QBAttachmentsController extends Controller
             ];
             $subject = "[Quality Benchmark] ". $qb->activity_description ." in ". $qb->village ;
             Mail::to($email)
-            // ->bcc($bccEmails)
+            ->bcc($bccEmails)
             ->send(new \App\Mail\QBMail($details,$subject));
         }
         session(['active' => $active]);

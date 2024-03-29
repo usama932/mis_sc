@@ -12,7 +12,8 @@ use App\Models\MonitorVisit;
 use App\Models\ActionAcheive;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Mail;
+use App\Models\UserTheme;
 
 class QBActionPointController extends Controller
 {
@@ -117,24 +118,22 @@ class QBActionPointController extends Controller
 
     public function get_qbs_actionpoints(Request $request)
     {
-        
         $id = $request->qb_id;
         $columns = array(
-          
-            0 => 'assement_code',
-            1 => 'id',
-            2 => 'village',
-            3 => 'theme',
-			4 => 'activity',
-			5 => 'issue/gap',
-			6 => 'action_agree',
-			7 => 'db_note',
-			8 => 'action_point',
-            9 => 'responsible_person',
-            10 => 'deadline',
-            11 => 'status',
-            12 => 'created_by',
-            13 => 'created_at',
+            0   => 'assement_code',
+            1   => 'id',
+            2   => 'village',
+            3   => 'theme',
+			4   => 'activity',
+			5   => 'issue/gap',
+			6   => 'action_agree',
+			7   => 'db_note',
+			8   => 'action_point',
+            9   => 'responsible_person',
+            10  => 'deadline',
+            11  => 'status',
+            12  => 'created_by',
+            13  => 'created_at',
           
 
 		);
@@ -207,11 +206,21 @@ class QBActionPointController extends Controller
                 $view_url = route('action_points.show',$action_point->id);
                 $update_url = route('getupdate_actionpoint',$action_point->id);
                 $nestedData['assement_code'] = $action_point->qb->assement_code ?? '';
-                $nestedData['district'] = $action_point->qb->districts?->district_name ?? '';
-                $nestedData['theme'] = $action_point->qb->theme_name?->name ?? '';
-                $nestedData['activity'] = $action_point->qb->activity_description ?? '';
-                $nestedData['village'] = $action_point->qb->village ?? '';
-                $nestedData['date_visit'] =date('d-M-Y', strtotime($action_point->qb->date_visit)) ?? '';
+                $nestedData['district']      = $action_point->qb->districts?->district_name ?? '';
+                $nestedData['theme']         = $action_point->qb->theme_name?->name ?? '';
+                $nestedData['activity']      = $action_point->qb->activity_description ?? '';
+                if($action_point->monitor_visit?->activity_type == 'act'){
+                    $activity = $action_point->monitor_visit?->activity_number ?? '';
+                }
+                elseif($action_point->monitor_visit?->activity_type == 'obs'){
+                    $activity = 'General Observation';
+                }
+                else{
+                    $activity = '';
+                }
+                $nestedData['qb_no']         = $activity ?? '';
+                $nestedData['village']       = $action_point->qb->village ?? '';
+                $nestedData['date_visit']    = date('d-M-Y', strtotime($action_point->qb->date_visit)) ?? '';
                 $nestedData['activity_number'] =$action_point->monitor_visit?->activity_number ?? '';
                 $nestedData['db_note'] = wordwrap($action_point->monitor_visit?->gap_issue, 5, "\n");
                 $nestedData['action_point'] =wordwrap($action_point->db_note, 5, "\n"); 
@@ -318,7 +327,7 @@ class QBActionPointController extends Controller
             'status'                => $request->status,
             'created_by'            => auth()->user()->id,
         ]);
-
+        
         return response()->json([
             'editUrl' => $editUrl
         ]);
@@ -407,8 +416,27 @@ class QBActionPointController extends Controller
             'updated_by'         => auth()->user()->id,
         ]);
         $actionpoint = QualityBench::where('id',$request->qb_id)->first();
-        
-        // $actionpoint->submit = '1';
+        $qb_theme   = UserTheme::where('theme_id',$actionpoint->theme)->first();
+        if(!empty($actionpoint)){
+            $qb_action_point =   ActionPoint::where('id',$id)->first();
+            $email = $qb_theme->user?->email;
+           
+            //  $email = 'usama.qayyum@savethechildren.org';
+            $bccEmails = [ 'walid.malik@savethechildren.org','usama.qayyum@savethechildren.org','irfan.majeed@savethechildren.org'];
+            $details = [
+                'id'            => $actionpoint->id,
+                'village'       => $actionpoint->village,
+                'activity'      => $actionpoint->activity_description,
+                'response_id'   => $actionpoint->assement_code,
+                'action_point'  => $qb_action_point,
+                'date_visit'    => $actionpoint->date_visit,
+            ];
+            $subject = "[Quality Benchmark] ". $actionpoint->activity_description ." in ". $actionpoint->village ;
+            Mail::to($email)
+            ->bcc($bccEmails)
+            ->send(new \App\Mail\QBMail($details,$subject));
+        }
+        $actionpoint->submit = '1';
         $actionpoint->save();
         $editUrl = route('action_points.index');
      

@@ -32,6 +32,7 @@
         <th>Village</th>
         <th>Date Visit</th>
         <th>QB #/Observations</th>
+        <th>Action Type</th>
         <th>Issue/gap identified</th>
         <th>Action to make QBs fully met</th>
         <th>Responsible Person</th>
@@ -60,9 +61,13 @@
                 <td>
                     @if($action_point->monitor_visit?->activity_type == "act")
                         {{$action_point->monitor_visit?->activity_number ?? ''}}
-                    @else
+                    @elseif(action_point->monitor_visit?->activity_type == "obs")
                         General Observation
+                    @else
                     @endif
+                </td>
+                <td>
+                    {{$action_point->monitor_visit?->action_type ?? ''}}
                 </td>
                 <td>
                     {{$action_point->monitor_visit?->gap_issue ?? ''}}
@@ -76,7 +81,7 @@
                 <td>{{$action_point->user?->name ?? ''}}</td>
                 <td>{{$action_point->created_at->format('M d,Y') ?? ''}}</td>
                 <td>{{$action_point->user1?->name ?? ''}}</td>
-                <td>{{$action_point->updated_at->format('M d,Y') ?? ''}</td>
+                <td>{{$action_point->updated_at->format('M d,Y') ?? ''}}</td>
             </tr>
         @endforeach
     @endforeach

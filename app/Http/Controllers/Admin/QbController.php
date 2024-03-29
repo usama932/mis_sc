@@ -143,7 +143,7 @@ class QbController extends Controller
 				$nestedData['id'] = $r->id;
                 $nestedData['assement_code']        = $r->assement_code ?? '';
                 $nestedData['project_name']         = $r->project?->name ?? '';
-                $nestedData['partner']              = $r->partner ?? '';
+                $nestedData['partner']              = $r->partners?->slug ?? '';
                 $nestedData['province']             = $r->provinces?->province_name ?? '';
                 $nestedData['district']             = $r->districts?->district_name ?? '';
                 $nestedData['theme']                = $r->theme_name?->name ?? '';
@@ -258,15 +258,14 @@ class QbController extends Controller
   
     public function edit(string $id)
     {
-        $active     = 'basic_info';
-        $title      = "Add QBs Details and Action Points Details";
+        $active               = 'basic_info';
+        $title                = "Add QBs Details and Action Points Details";
+        $projects             = Project::latest()->get();
+        $themes               = Theme::latest()->get();
+        $users                = User::where('user_type','R2')->orwhere('user_type','R1')->get();
+        $qb                   = QualityBench::with('monitor_visit','action_point')->find($id);
 
-        $projects   = Project::latest()->get();
-        $themes     = Theme::latest()->get();
-        $users      = User::where('user_type','R2')->orwhere('user_type','R1')->get();
-        $qb         = QualityBench::with('monitor_visit','action_point')->find($id);
-
-        $partners   = Partner::orderBy('name')->get();  
+        $partners             = Partner::orderBy('name')->get();  
         $count_monitor_visit  = MonitorVisit::where('quality_bench_id',$id)->where('activity_type', 'act')->count();
         $count_action_point   =   $qb->action_point->count();
 

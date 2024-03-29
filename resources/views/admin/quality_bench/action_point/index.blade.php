@@ -93,6 +93,7 @@
                             <th>Village</th>
                             <th>Theme</th>
                             <th width="10%">Activity</th>
+                            <th width="10%">QB.#</th>
                             <th width="15%">Not Fully Met QB's Identified Issue/Gap</th>
                             <th width="15%">Debrief Note</th>
                             <th width="15%">Action Point</th>
@@ -162,6 +163,7 @@
                             {"data":"village" ,"searchable":false,"orderable":false},
                             {"data":"theme" ,"searchable":false,"orderable":false},
                             {"data":"activity" ,"searchable":false,"orderable":false},
+                            {"data":"qb_no" ,"searchable":false,"orderable":false},
                             {"data":"db_note" ,"searchable":false,"orderable":false,"width": "10%",
                             render: function(data, type, row) {
                                 // 'type' specifies the type of rendering
@@ -274,6 +276,7 @@
                             {"data":"village" ,"searchable":false,"orderable":false},
                             {"data":"theme" ,"searchable":false,"orderable":false},
                             {"data":"activity" ,"searchable":false,"orderable":false},
+                            {"data":"qb_no" ,"searchable":false,"orderable":false},
                             {"data":"db_note" ,"searchable":false,"orderable":false,"width": "10%"},
                             {"data":"action_point" ,"searchable":false,"orderable":false,"width": "10%"},
                             {"data":"qb_recommendation" ,"searchable":false,"orderable":false,"width": "10%"},
