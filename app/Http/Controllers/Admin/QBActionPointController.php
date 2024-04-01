@@ -403,6 +403,7 @@ class QBActionPointController extends Controller
         if ($validator->fails()) {
             return back()->withErrors($validator);   
         }
+
         $actionachieve = ActionAcheive::create([
             'action_point_id'           => $request->action_point_id,
             'completion_date'           => $request->completion_date,
@@ -415,13 +416,13 @@ class QBActionPointController extends Controller
             'completion_date'   => $request->completion_date,
             'updated_by'         => auth()->user()->id,
         ]);
-        $actionpoint = QualityBench::where('id',$request->qb_id)->first();
-        $qb_theme   = UserTheme::where('theme_id',$actionpoint->theme)->first();
+        $actionpoint    = QualityBench::where('id',$request->qb_id)->first();
+        $qb_theme       = UserTheme::where('theme_id',$actionpoint->theme)->first();
         if(!empty($actionpoint)){
             $qb_action_point =   ActionPoint::where('id',$id)->first();
             $email = $qb_theme->user?->email;
            
-            //  $email = 'usama.qayyum@savethechildren.org';
+              //$email = 'usama.qayyum@savethechildren.org';
             $bccEmails = [ 'walid.malik@savethechildren.org','usama.qayyum@savethechildren.org','irfan.majeed@savethechildren.org'];
             $details = [
                 'id'            => $actionpoint->id,
@@ -430,11 +431,17 @@ class QBActionPointController extends Controller
                 'response_id'   => $actionpoint->assement_code,
                 'action_point'  => $qb_action_point,
                 'date_visit'    => $actionpoint->date_visit,
+                'gap'           =>  $qb_action_point->monitor_visit?->gap_issue ?? '',
+                'status'        =>  $qb_action_point->status ?? '',
+                'deadline'      =>  $qb_action_point->deadline ?? '',
+                'comments'      =>  $qb_action_point->action_achiev?->comments ?? '',
+                'completion_date'       =>  $qb_action_point->action_achiev?->completion_date ?? '',
+                'qb_recommendation'     =>  $qb_action_point->qb_recommendation ?? '',
             ];
             $subject = "[Quality Benchmark] ". $actionpoint->activity_description ." in ". $actionpoint->village ;
             Mail::to($email)
-            ->bcc($bccEmails)
-            ->send(new \App\Mail\QBMail($details,$subject));
+           ->bcc($bccEmails)
+            ->send(new \App\Mail\QBstatusMail($details,$subject));
         }
         $actionpoint->submit = '1';
         $actionpoint->save();

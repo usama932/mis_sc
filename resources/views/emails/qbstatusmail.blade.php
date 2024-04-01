@@ -81,31 +81,31 @@
         <table>
             <thead>
                 <tr>
-                    <th colspan="2" width="40%">QB unique ID: {{$details['response_id']}}</th>
-                    <th width="40%">Visit Date</th>
-                    <th     colspan="2" width="20%"> {{$details['date_visit']}}</th>
+                    <th  colspan="2" width="40%">QB unique ID:</th>
+                    <th  colspan="2" width="40%"> {{$details['response_id']}}</th>
+                    <th  colspan="1"  width="40%">Visit Date</th>
+                    <th  colspan="2" width="20%"> {{$details['date_visit']}}</th>
                 </tr>
                 <tr>
-                    <th width="40%">Gap Identified</th>
-                    <th width="40%">Action Decided</th>
-                    <th width="20%">Deadline</th>
-                    <th width="10%">Completion Date</th>
-                    <th width="25%">Completion Note</th>
+                    <th width="30%">Gap Identified</th>
+                    <th width="30%">Action Decided</th>
+                    <th width="5%">Deadline</th>
+                    <th width="5%">Completion Date</th>
+                    <th width="20%">Completion Note</th>
                     <th width="5%">Status</th>
-                    <th width="20%">View Detail</th>
+                    <th width="5%">View Detail</th>
                 </tr>
             </thead>
             <tbody>
-                @if(!empty($details['action_point']))
+                @if(!empty($details))
                     <tr>
-                        <td>{{$action_point->monitor_visit?->gap_issue}}</td>
-                        <td>{{$action_point->qb_recommendation}}</td>
-                        <td>{{$action_point->deadline}}</td>
-                        <td>{{$action_point->action_achiev?->completion_date ?? ''}}</td>
-                        <td>{{$action_point->action_achiev?->comments ?? ''}}</td>
-                        <td>{{$action_point->action_achiev?->status ?? ''}}</td>
-                        <td>{{$action_point->responsible_person}}</td>
-                        <td><a href="{{route('action_points.show',$action_point->id)}}" >View</a></td>
+                        <td>{{$details['gap']}}</td>
+                        <td>{{$details['qb_recommendation']}}</td>
+                        <td>{{$details['deadline']}}</td>
+                        <td>{{$details['completion_date']}}</td>
+                        <td>{{$details['comments']}}</td>
+                        <td>{{$details['status']}}</td>
+                        <td><a href="{{route('action_points.show',$details['id']" >View</a></td>
                     </tr>
                 @else
                     <tr>
