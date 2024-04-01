@@ -41,7 +41,7 @@
                     @csrf
                     <div class="card-body">
                         <div class="row">
-						<div class="fv-row col-sm-3 col-md-6 col-lg-6">
+						    <div class="fv-row col-md-3 ">
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Project</span>
                                 </label>
@@ -76,7 +76,31 @@
                                 
                                 <div id="partnerError" class="error-message "></div>
                             </div>
+                            <div class="fv-row col-md-3">
+                                <label class="fs-6 fw-semibold form-label mb-2">
+                                    <span class="required">QB Monitor Visit</span>                           
+                                </label>
+                                <div class="foallow_contactrm-check form-check-custom form-check-solid mt-4">
+                                    <!--begin::Input-->
+                                    <input class="form-check-input qb_base" name="qb_base" id="allow_qb_base_yes" type="radio" value="Yes"/ checked>
+                                    <!--end::Input-->
+                                    <!--begin::Label-->
+                                    <label class="form-check-label me-5">
+                                        <div class="fw-bold text-gray-800 ">Yes</div>
+                                    </label>
+                                    <input class="form-check-input qb_base" name="qb_base" id="allow_qb_base_no"  id="qb_base" type="radio" value="No"/ required>
+                                    <!--end::Input-->
+                                    <!--begin::Label-->
+                                    <label class="form-check-label me-5">
+                                        <div class="fw-bold text-gray-800">No</div>
+                                    </label>
+                                    <!--end::Label-->
+                                   
+                                </div>
+                                <div id="allow_contactError" class="error-message "></div>
+                            </div>
                         </div>
+                      
                         <div class="row mt-3">
                             <div class="fv-row col-md-3">
                                 <label class="fs-6 fw-semibold form-label mb-2">
@@ -256,12 +280,24 @@
     @push('scripts')
         
     <script>
-         $('#date_visit').flatpickr({
-                altInput: true,
-                dateFormat: "Y-m-d",
-                maxDate: new Date().fp_incr(+0),
-                minDate: new Date("2023-10-01"),
-            });
+        $('#date_visit').flatpickr({
+            altInput: true,
+            dateFormat: "Y-m-d",
+            maxDate: new Date().fp_incr(+0),
+            minDate: new Date("2023-10-01"),
+        });
+        $(document).ready(function(){
+        $('.qb_base').click(function(){
+            
+            var demo = $(this).val();
+            if(demo == "Yes"){
+                $(".qb_base_div").show();
+            }
+            else{
+                $(".qb_base_div").hide();
+            }
+        });
+        });
     </script>
     @endpush
 

@@ -61,7 +61,7 @@
                 <td>
                     @if($action_point->monitor_visit?->activity_type == "act")
                         {{$action_point->monitor_visit?->activity_number ?? ''}}
-                    @elseif(action_point->monitor_visit?->activity_type == "obs")
+                    @elseif($action_point->monitor_visit?->activity_type == "obs")
                         General Observation
                     @else
                     @endif

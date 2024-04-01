@@ -244,11 +244,7 @@
                                     <div class="col-md-4 col-sm-3 mt-5"> 
                                         <td class="fs-7"><strong>Responsible Person </strong></td>
                                         <td  class="fs-7">{{$action_point->responsible_person ?? " "}}</td>
-                                    </div>
-                                    <div class="col-md-12 col-sm-6 mt-5"> 
-                                        <td><strong>Actions Decided </strong></td>
-                                        <td>{{$action_point->qb_recommendation ?? " "}}</td>
-                                    </div>
+                                    </div> 
                                     <div class="col-md-2 col-sm-3 mt-5"> 
                                         <td class="fs-7"><strong>Deadline  </strong></td>
                                         @if(!empty($action_point->deadline) && $action_point->deadline == Null)

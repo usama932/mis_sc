@@ -141,7 +141,7 @@ class QBAttachmentsController extends Controller
         $qb         = QualityBench::where('id',$request->quality_bench_id)->first();
         $qb_theme   = UserTheme::where('theme_id',$qb->theme)->first();
         
-        if(!empty($qb_theme)){
+        if(!empty($qb_theme && !empty($qb->action_point))){
             
             $email = $qb_theme->user?->email;
            
