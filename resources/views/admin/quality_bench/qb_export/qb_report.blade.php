@@ -44,7 +44,7 @@
         <td>{{$qb->assement_code ?? ''}}</td>
         <td>{{$qb->staff_organization ?? ''}}</td>
         <td>{{$qb->project->name ?? ''}}</td>
-        <td>{{$qb->partner ?? ''}}</td>
+        <td>{{$qb->partners?->slug ?? ''}}</td>
         <td>{{$qb->provinces?->province_name ?? ''}}</td>
         <td>{{$qb->districts?->district_name ?? ''}}</td>
         <td>{{$qb->theme_name->name}}</td>

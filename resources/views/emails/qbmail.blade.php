@@ -98,7 +98,7 @@
             <tbody>
                 @if(!empty($details['action_point']))
                     @foreach ($details['action_point'] as $action_point)
-                        @if($action_point->action_agree == 'Yes')
+                        {{-- @if($action_point->action_agree == 'Yes') --}}
                             <tr>
                                 <td>{{$action_point->monitor_visit?->gap_issue}}</td>
                                 <td>{{$action_point->qb_recommendation}}</td>
@@ -106,7 +106,7 @@
                                 <td>{{$action_point->responsible_person}}</td>
                                 <td><a href="{{route('action_points.show',$action_point->id)}}" >View</a></td>
                             </tr>
-                        @endif
+                        {{-- @endif --}}
                     @endforeach
                 @else
                     <tr>

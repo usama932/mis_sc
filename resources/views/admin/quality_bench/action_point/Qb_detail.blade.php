@@ -106,7 +106,7 @@
                 </div>
                 <table class="table table-striped p-3">
                     <tr>
-                        <td><strong>Activity Number</strong></td>
+                        <td><strong>QB.#</strong></td>
                         <td>{{$action_point->monitor_visit?->activity_number ?? " "}}</td>
                     </tr>
                     <tr>
