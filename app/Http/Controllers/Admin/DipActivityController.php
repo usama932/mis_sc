@@ -13,6 +13,9 @@ use App\Models\Project;
 use App\Models\ActivityProgress;
 use Illuminate\Support\Facades\Storage;
 use File;
+use DateTime;
+use DateInterval;
+use DatePeriod;
 
 use App\Repositories\Interfaces\DipActivityInterface;
 
@@ -81,7 +84,7 @@ class DipActivityController extends Controller
                 $quarterTarget = '<ul style="list-style-type: none; padding: 0; margin: 0;">';
                 foreach ($r->months as $month) {
                     if ($month->activity_id == $r->id && $month->project_id == $r->project_id) {
-                        $quarterTarget .= '<li><strong>' . $month->slug?->slug . '-' . $month->year . ':</strong> ' . $month->target . '</li>';
+                        $quarterTarget .= '<li><strong>' . $month->quarter.'-'.$month->year . ':</strong> ' . $month->target . '</li>';
                     }
                 }
                 $quarterTarget .= '</ul>';
@@ -156,7 +159,7 @@ class DipActivityController extends Controller
 		$data = array();
 		if($quarters){
 			foreach($quarters as $r){
-                $nestedData['quarter'] = $r->slug?->slug.'-'.$r->year ?? ''; 
+                $nestedData['quarter'] = $r->quarter.'-'.$r->year ?? ''; 
                 $nestedData['activity_target'] = $r->target  ?? ''; 
                 $nestedData['benefit_target'] = $r->beneficiary_target  ?? ''; 
                 $nestedData['created_by'] = $r->user?->name  ?? ''; 
@@ -212,7 +215,7 @@ class DipActivityController extends Controller
 		if($quarters){
 			foreach($quarters as $r){
                 if($r->activity_id == $activity_id && $r->project_id == $activity->project_id ){
-                    $nestedData['quarter'] = $r->slug?->slug.'-'.$r->year ?? ''; 
+                    $nestedData['quarter'] = $r->quarter.'-'.$r->year ?? ''; 
                     $nestedData['activity_target'] = '<span style="style="background-color: grey"">'.$r->target  ?? ''.'</span>'; 
                     $nestedData['benefit_target'] = $r->beneficiary_target  ?? ''; 
                     $nestedData['women_target'] = $r->progress?->women_target ?? '0' ; 
@@ -301,7 +304,7 @@ class DipActivityController extends Controller
             $query->orderBy('id', 'asc');
         }])->where('id', $dip->project_id)->first();
         addJavascriptFile('assets/js/custom/project/projectupdatetheme.js');
-       
+      
         return view('admin.dip.edit_dip_activity',compact('dip','project'));
     }
    
@@ -395,9 +398,18 @@ class DipActivityController extends Controller
                 $slugs[] = $month->slug->slug . '-' . $month->year;
             }
         }
-    
+        $start = new DateTime($project->start_date);
+        $end = new DateTime($project->end_date);
+        $interval = DateInterval::createFromDateString('1 month');
+        $period = new DatePeriod($start, $interval, $end);
+        
+        $quarters = collect();
+        
+        foreach ($period as $date) {
+            $quarters->push($date->format('M-Y'));
+        }
         addJavascriptFile('assets/js/custom/dip/dip_activity_validations.js');
-        return view('admin.dip.edit_dip_activity',compact('dip' ,'project','activty_quarters','slugs'));
+        return view('admin.dip.edit_dip_activity',compact('dip' ,'project','activty_quarters','slugs','quarters'));
     }
 
 

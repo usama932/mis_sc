@@ -22,16 +22,16 @@ class DipActivityRepository implements DipActivityInterface
      
         foreach($data['activities']  as $key => $q){
             $parts = explode("-", $q['quarter']);
-            $quarter = $parts[0]; // Q1
+            $month = $parts[0]; // Q1
             $year = $parts[1]; 
             $target_benefit = $q['target_benefit'];
             $target_quarter = $q['target_quarter'];
             $completion_date = $q['complete_date'];
-            $q = SCIQuarter::where('slug', $quarter)->first();
+        
             ActivityMonths::create([
                 'project_id'         => $data['project_id'],
                 'activity_id'        => $activity->id,
-                'quarter'            => $q->id,
+                'quarter'            => $month,
                 'beneficiary_target' => $target_benefit,
                 'completion_date'    => $completion_date,
                 'year'               => $year,
@@ -40,7 +40,7 @@ class DipActivityRepository implements DipActivityInterface
                 'created_by'         => auth()->user()->id,
             ]);
         }
-        // return $activity;
+        
     }
 
     public function updatedipactivity($data, $id)
@@ -60,13 +60,13 @@ class DipActivityRepository implements DipActivityInterface
             if(empty($q['id'])){
                 
                 $parts = explode("-", $q['quarter']);
-                $quarter = $parts[0]; // Q1
+                $month = $parts[0]; // Q1
                 $year = $parts[1]; 
-                $q = SCIQuarter::where('slug', $quarter)->first();
+               
                 ActivityMonths::create([
                     'project_id'         => $data['project_id'],
                     'activity_id'        => $id,
-                    'quarter'            => $q->id,
+                    'quarter'            => $month,
                     'beneficiary_target' => $target_benefit,
                     'completion_date'    => $completion_date,
                     'year'               => $year,

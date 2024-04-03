@@ -32,7 +32,7 @@
                                 @if(!empty($activity->months))
                                     @foreach($activity->months as $months)
                                         @if($months->project_id ==  $activity->project_id && !in_array($months->id, $quarters))
-                                            <option value='{{$months->id}}'>{{$months->slug->slug}} - {{$months->year}}</option>
+                                            <option value='{{$months->id}}'>{{$months->quarter}} - {{$months->year}}</option>
                                         @endif
                                     @endforeach
                                 @endif

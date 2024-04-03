@@ -8,6 +8,9 @@ use App\Models\Project;
 use App\Models\District;
 use App\Models\Province;
 use App\Models\SCITheme;
+use DateTime;
+use DateInterval;
+use DatePeriod;
 use App\Repositories\Interfaces\DipRepositoryInterface;
 
 class DipController extends Controller
@@ -178,16 +181,26 @@ class DipController extends Controller
     public function dip_create($id)
     {
      
-        $project = Project::with(['themes', 'quarters' => function ($query) {
-            $query->orderBy('id', 'asc');
-        }])->where('id', $id)->first();
+        $project = Project::with('themes')->where('id', $id)->first();
+      
+        $start = new DateTime($project->start_date);
+        $end = new DateTime($project->end_date);
+        $interval = DateInterval::createFromDateString('1 month');
+        $period = new DatePeriod($start, $interval, $end);
+        
+        $quarters = collect();
+        
+        foreach ($period as $date) {
+            $quarters->push($date->format('M-Y'));
+        }
+        
         $themes = $project->themes->groupBy('theme_id')->map(function ($themes) {
             return $themes->first();
         })->values()->all();
       
         
         addJavascriptFile('assets/js/custom/dip/dip_activity_validations.js');
-        return view('admin.dip.create',compact('project','themes'));
+        return view('admin.dip.create',compact('project','themes','quarters'));
     }
 
     public function create()

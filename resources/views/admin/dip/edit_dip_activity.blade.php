@@ -67,7 +67,7 @@
                                     <span class="required">Quarter</span>
                                 </label>
                                 <br>
-                               <span class="mt-4"> <strong class="mt-4">{{$month->slug?->slug}}-{{$month->year}}</strong></span>
+                               <span class="mt-4"> <strong class="mt-4">{{$month->quarter}}-{{$month->year}}</strong></span>
                             </div>
                             <div class="col-md-2">
                                 <label class="fs-9 fw-semibold form-label mb-2">
@@ -114,16 +114,16 @@
     </div>
     @php
         // Construct quarters array
-        $quarters = [];
+        $qs = [];
         $projectquarters = []; // Remove unnecessary initialization
         foreach ($dip->months as $month) {
-            $quarters[] = $month->slug?->slug . '-' . $month->year;
+            $qs[] = $month->quarter . '-' . $month->year;
         }
-        foreach ($project->quarters as $quarter) {
-            $projectquarters[] = $quarter->quarter;
+        foreach ($quarters as $key =>  $quarter) {
+            $projectquarters[] = $quarter;
         }
-        $complementQuarters = array_diff( $projectquarters,$quarters);
-        @endphp
+        $complementQuarters = array_diff( $projectquarters,$qs);
+    @endphp
     @push('scripts')
     <script>
         document.addEventListener("DOMContentLoaded", function() {

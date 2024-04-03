@@ -1,3 +1,9 @@
+@push('stylesheets')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/themes/dark.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.js"></script>
+@endpush
 <x-nform-layout>
     @section('title', 'Add New Activity')
     <style>
@@ -6,6 +12,7 @@
             /* You can add more styles as needed */
         }
     </style>
+   
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div class="card">
             <form action="{{ route('activity_dips.store') }}" class="create_dip_activity" method="post" id="create_dip_activity">
@@ -60,14 +67,16 @@
                                 <label class="fs-7 fw-semibold form-label mb-2">
                                     <span class="required">Quarter</span>
                                 </label>
-                                <select name="activities[0][quarter]" aria-label="Select a Quarter Target"
+                                <input type="text"  placeholder="Select Month"  class="form-control monthpick">
+
+                                {{-- <select name="activities[0][quarter]" aria-label="Select a Quarter Target"
                                     data-placeholder="Select a Quarter Target" class="form-select"
                                     data-allow-clear="true">
                                     <option value=" ">Select Quarter Target</option>
-                                    @foreach($project->quarters as $quarter)
-                                        <option value='{{ $quarter->quarter }}'>{{ $quarter->quarter }}</option>
+                                    @foreach($quarters as $key => $quarter)
+                                        <option value='{{ $quarter }}'>{{ $quarter }}</option>
                                     @endforeach
-                                </select>
+                                </select> --}}
                             </div>
                             <div class="col-md-2">
                                 <label class="fs-8 fw-semibold form-label mb-2">
@@ -110,6 +119,8 @@
         </div>
     </div>
     <script>
+      
+      
         var i = 0;
         function addTargetRow() {
             var isValid = true;
@@ -131,7 +142,7 @@
                 return;
             }
             ++i;
-            var quarters = @json($project->quarters);
+            var quarters = @json($quarters );
             var selectedQuarters = $('select[name^="activities["]').map(function () {
                 return $(this).val();
             }).get(); // Get all selected quarters
@@ -139,7 +150,7 @@
             var quarterCount = $('select[name^="activities["]').length;
             
             var availableQuarters = quarters.filter(function(quarter) {
-                return !selectedQuarters.includes(quarter.quarter);
+                return !selectedQuarters.includes(quarter);
             });
                 
           
@@ -152,7 +163,7 @@
                                 data-allow-clear="true">
                                 <option value=''>Select Quarter Target</option>`;
                                 availableQuarters.forEach(function (quarter) {
-                                    html += `<option value="${quarter.quarter}">${quarter.quarter}</option>`;
+                                    html += `<option value="${quarter}">${quarter}</option>`;
                                 });
                                 html += `
                             </select>
@@ -192,60 +203,72 @@
     </script>
     
     @push('scripts')
-        <script>
-           
-            flatpickr(".start_date" , {
-                dateFormat: "Y-m-d",
-            });
-            document.addEventListener("DOMContentLoaded", function() {
-                var numericInputs = document.querySelectorAll('.numeric-input');
+    
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/plugins/monthSelect/index.js"></script>
+    <script>
+          
+          flatpickr('.monthpick', {
+          
+            plugins: [new monthSelectPlugin({
+                shorthand: true, //defaults to false
+                dateFormat: "F Y", //defaults to "F Y"
+                altFormat: "F Y", //defaults to "F Y"
+                theme: "dark" ,
+                   mode: "single",
+                parseDate: (str) => { // Custom parsing function to handle the concatenated month names
+                    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                    return monthNames.findIndex(name => str.startsWith(name)); // Find the index of the matching month name
+                },
+            formatDate: (date) => { // Custom formatting function to display concatenated month names
+                const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                return monthNames[date.getMonth()]; // Get the three-letter abbreviation of the month
+            }
+        })],
+            dateFormat: 'Y-m-d', // Date format for the input field
+            altInput: true, // Enable to use an alternate input field for displaying the date
+            altFormat: 'F j, Y', // Format for displaying the selected date in the alternate input field
 
-                numericInputs.forEach(function(input) {
-                    input.addEventListener('input', function(event) {
-                        // Remove non-numeric characters
-                        this.value = this.value.replace(/[^0-9]/g, '');
+            });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Delegate event handling to the parent element
+            document.getElementById('targetRows').addEventListener('input', function(event) {
+                var target = event.target;
+                // Check if the input belongs to the numeric-input class
+                if (target.classList.contains('numeric-input')) {
+                    // Remove non-numeric characters
+                    target.value = target.value.replace(/[^0-9]/g, '');
+                }
+            });
+        });
+    </script>
+    <script>
+        document.getElementById('themeloader').style.display = 'none';
+        $("#theme_id").change(function () {
+            document.getElementById('themeloader').style.display = 'block';
+            var value = $(this).val();
+            csrf_token = $('[name="_token"]').val();
+            project_id = $('#project_id').val();
+            $.ajax({
+                type: 'POST',
+                url: '/getactivitySubTheme',
+                data: {'theme_id': value, _token: csrf_token, 'project_id':project_id},
+                dataType: 'json',
+                success: function (data) {
+                    document.getElementById('themeloader').style.display = 'none';
+                    $("#sub_theme_id").find('option').remove();
+                    $("#sub_theme_id").prepend("<option value=''>Select Sub-Theme</option>");
+                    var selected = '';
+                    $.each(data, function (i, item) {
+                    
+                        $("#sub_theme_id").append("<option value='" + item.id + "' " + selected + " >" +
+                            item.name.replace(/_/g, ' ') + "</option>");
                     });
-                });
+                }
             });
-        </script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                // Delegate event handling to the parent element
-                document.getElementById('targetRows').addEventListener('input', function(event) {
-                    var target = event.target;
-                    // Check if the input belongs to the numeric-input class
-                    if (target.classList.contains('numeric-input')) {
-                        // Remove non-numeric characters
-                        target.value = target.value.replace(/[^0-9]/g, '');
-                    }
-                });
-            });
-        </script>
-        <script>
-            document.getElementById('themeloader').style.display = 'none';
-            $("#theme_id").change(function () {
-                document.getElementById('themeloader').style.display = 'block';
-                var value = $(this).val();
-                csrf_token = $('[name="_token"]').val();
-                project_id = $('#project_id').val();
-                $.ajax({
-                    type: 'POST',
-                    url: '/getactivitySubTheme',
-                    data: {'theme_id': value, _token: csrf_token, 'project_id':project_id},
-                    dataType: 'json',
-                    success: function (data) {
-                        document.getElementById('themeloader').style.display = 'none';
-                        $("#sub_theme_id").find('option').remove();
-                        $("#sub_theme_id").prepend("<option value=''>Select Sub-Theme</option>");
-                        var selected = '';
-                        $.each(data, function (i, item) {
-                        
-                            $("#sub_theme_id").append("<option value='" + item.id + "' " + selected + " >" +
-                                item.name.replace(/_/g, ' ') + "</option>");
-                        });
-                    }
-                });
-            });
-        </script>
+        });
+    </script>
     @endpush
 </x-nform-layout>

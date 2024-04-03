@@ -169,7 +169,7 @@
                                                 <span> Quarter</span>
                                             </label>
                                             <input type="hidden" name="quarter" value="{{$quarter->id}}">
-                                            {{$quarter->slug->slug}}-{{$quarter->year}}
+                                            {{$quarter->quarter}}-{{$quarter->year}}
                                         </div> 
                                         <div class="fv-row col-md-4 mt-3">
                                             <label class="fs-7 fw-semibold form-label mb-2 d-flex">
@@ -314,7 +314,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
 
-                                <h3 class="modal-title">Update Progress ({{$month->activity?->slug?->slug}}-{{$month->activity?->year}})</h3>
+                                <h3 class="modal-title">Update Progress ({{$month->activity->quarter}}-{{$month->activity?->year}})</h3>
 
                         
                                 <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
