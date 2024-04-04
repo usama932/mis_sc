@@ -76,7 +76,7 @@
                                 
                                 <div id="partnerError" class="error-message "></div>
                             </div>
-                            <div class="fv-row col-md-3">
+                            {{-- <div class="fv-row col-md-3">
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">QB Monitor Visit</span>                           
                                 </label>
@@ -98,7 +98,7 @@
                                    
                                 </div>
                                 <div id="allow_contactError" class="error-message "></div>
-                            </div>
+                            </div> --}}
                         </div>
                       
                         <div class="row mt-3">

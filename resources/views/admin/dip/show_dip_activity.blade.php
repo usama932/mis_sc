@@ -45,14 +45,19 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-8">
-                            <label class="fw-bold">Activity Title</label>
-                            <p>{{$dip_activity->activity_title ?? ''}}</p>
+                        <div class="col-md-6">
+                            <label class="fw-bold">Activity Number.#</label>
+                            <p>{{$dip_activity->activity_number ?? ''}}</p>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label class="fw-bold">LOP Target</label>
                             <p>{{$dip_activity->lop_target ?? ''}}</p>
                         </div>
+                        <div class="col-md-12">
+                            <label class="fw-bold">Activity Title</label>
+                            <p>{{$dip_activity->activity_title ?? ''}}</p>
+                        </div>
+                        
                         <div class="col-md-4">
                             <label class="fw-bold">Thematic Area</label>
                             <p class="fs-8">{{$dip_activity->scisubtheme_name?->maintheme?->name ?? ''}}</p>
@@ -115,7 +120,7 @@
                                
                             </tr>
                             <tr>
-                                <th>Quarter</th>
+                                <th>Month</th>
                                 <th style="background-color: #f8f9fa">Target</th>
                                 <th>Achievement</th>
                                 <th style="background-color: #f8f9fa">Target</th>
@@ -123,7 +128,7 @@
                                 <th>Men</th>
                                 <th>Girls</th>
                                 <th>Boys</th>
-                                <th>PWD</th>
+                                <th>PWD/CLWD</th>
                                 <th>Status</th>
                                 <th style="font-size: 10px;">Completion Date</th>
                                 <th>Image</th>
@@ -166,21 +171,21 @@
                                         </div> 
                                         <div class="fv-row col-md-4 mt-3">
                                             <label class="fs-7 fw-semibold form-label mb-2 d-flex">
-                                                <span> Quarter</span>
+                                                <span> Month</span>
                                             </label>
                                             <input type="hidden" name="quarter" value="{{$quarter->id}}">
                                             {{$quarter->quarter}}-{{$quarter->year}}
                                         </div> 
                                         <div class="fv-row col-md-4 mt-3">
                                             <label class="fs-7 fw-semibold form-label mb-2 d-flex">
-                                                <span class="required">Quarterly Target</span>
+                                                <span class="required">Monthly Target</span>
                                             </label>
                                             <input type="text" name="lop_target" id="lop_target" class="form-control form-control-solid" value="{{$quarter->target}}" readonly>
                                             <div id="sofError" class="error-message " ></div>
                                         </div> 
                                         <div class="fv-row col-md-4 mt-3">
                                             <label class="fs-7 fw-semibold form-label mb-2 d-flex">
-                                                <span class="required">Enter Quarterly Progress</span>
+                                                <span class="required">Enter Monthly Progress</span>
                                             </label>
                                             <input type="text" name="activity_target" id="activity_target" class="form-control" >
                                             <div id="activity_targetError" class="error-message " ></div>
@@ -380,7 +385,7 @@
                                         </div> 
                                         <div class="fv-row col-md-4 ">
                                             <label class="fs-7 fw-semibold form-label mb-2 d-flex">
-                                                <span>PWD</span>
+                                                <span>PWD/CLWD</span>
                                             </label>
                                             <input type="text" name="pwd_target" id="pwd_target"  value="{{$month->pwd_target ?? '0'}}"  class="form-control pwd_target" >
                                             

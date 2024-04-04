@@ -24,10 +24,11 @@
                         <thead>
                             <tr>
                                 <th>Activity</th>
+                                <th>Activity Title</th>
                                 <th>Sub Theme</th>
                                 <th>Project</th>
                                 <th>LOP Target</th>
-                                <th>Quarter</th>
+                                <th>Month</th>
                                 <th>Created By</th>
                                 <th>Created At</th>
                                 <th>Update Progress</th>
@@ -73,6 +74,7 @@
                     },
                     "columns":
                         [
+                            {"data":"activity","searchable":false,"orderable":false},
                             {"data":"activity_number","searchable":false,"orderable":false},
                             {"data":"sub_theme","searchable":false,"orderable":false},
                             {"data":"project","searchable":false,"orderable":false},
@@ -117,6 +119,7 @@
                 },
                 "columns":
                     [
+                        {"data":"activity","searchable":false,"orderable":false},
                         {"data":"activity_number","searchable":false,"orderable":false},
                         {"data":"sub_theme","searchable":false,"orderable":false},
                         {"data":"project","searchable":false,"orderable":false},

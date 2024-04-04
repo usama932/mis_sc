@@ -59,7 +59,7 @@
         </div>
         <div class="fv-row col-md-2">
             <label class="fs-9 fw-semibold form-label">
-                <span class="">PWD Target</span>
+                <span class="">PWD/CLWD Target</span>
             </label>
             <input type="text" name="pwd_target" id="pwd_target" class="form-control" placeholder="# of PWD" value="{{$theme->pwd_target ?? ''}}" autocomplete="off" value="">
         </div>

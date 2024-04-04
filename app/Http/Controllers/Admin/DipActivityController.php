@@ -68,7 +68,6 @@ class DipActivityController extends Controller
                 $show_url = route('activity_dips.show', $r->id);
                 $edit_url = route('activity_dips.edit', $r->id);
                 $progress_url = route('postprogress', $r->id);
-    
                 $text = $r->activity_title ?? "";
                 $words = str_word_count($text, 1);
                 $lines = array_chunk($words, 10);
@@ -77,6 +76,7 @@ class DipActivityController extends Controller
                 }, $lines));
     
                 $nestedData['activity_number'] = $finalText ?? '';
+                $nestedData['activity'] = $r->activity_number ?? '';
                 $nestedData['theme'] = $r->scitheme_name->name ?? '';
                 $nestedData['sub_theme'] = $r->scisubtheme_name?->maintheme?->name .' - '.$r->scisubtheme_name?->name ?? '';
                 $nestedData['project'] = $r->project->name ?? '';
@@ -325,22 +325,39 @@ class DipActivityController extends Controller
 
     public function store(Request $request)
     {
+        
+        $collection = collect($request->activities);
+
      
+        $duplicates = $collection->duplicates('quarter')->groupBy('quarter')->map(function ($items) {
+            return $items->all();
+        })->toArray();
+
+      
+        
         $data = $request->except('_token');
         $dip = DipActivity::where('activity_title',$request->activity)->where('subtheme_id',$request->sub_theme)->first();
         $editUrl = route('dips.edit',$request->project_id);
        
         if(empty($dip)){
-            
-            $dip_activity = $this->dipactivityRepository->storedipactivity($data);
-            $active = 'dip_activity';
-            session(['dip_edit' => $active]);
-            return response()->json([
-                'editUrl' => $editUrl,
-                'error'    => false,
-                'message' => "Activity Submitted",
-            ]);
-           
+            if($duplicates == []){
+                dd('ass');
+                $dip_activity = $this->dipactivityRepository->storedipactivity($data);
+                $active = 'dip_activity';
+                session(['dip_edit' => $active]);
+                return response()->json([
+                    'editUrl' => $editUrl,
+                    'error'    => false,
+                    'message' => "Activity Submitted",
+                ]);
+            }
+            else{
+                return response()->json([
+                    'editUrl' => $editUrl,
+                    'error' => true,
+                    'message' => "Duplicate target enter",
+                ]);
+            }
         }
         else{
             return response()->json([

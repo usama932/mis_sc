@@ -25,10 +25,10 @@
                         </div> 
                         <div class="fv-row col-md-4 mt-3">
                             <label class="fs-7 fw-semibold form-label mb-2 d-flex">
-                                <span>Select Quarter</span>
+                                <span>Select Month</span>
                             </label>
                             <select name="quarter" id="quarter" aria-label="Select a Quarter Target" data-control="select2" data-placeholder="Select a Quarter Target" class="form-select" data-allow-clear="true">
-                                <option value=''>Choose Quarter</option>
+                                <option value=''>Choose Month</option>
                                 @if(!empty($activity->months))
                                     @foreach($activity->months as $months)
                                         @if($months->project_id ==  $activity->project_id && !in_array($months->id, $quarters))
@@ -40,14 +40,14 @@
                         </div> 
                         <div class="fv-row col-md-4 mt-3">
                             <label class="fs-7 fw-semibold form-label mb-2 d-flex">
-                                <span class="required">Quarterly Target</span>
+                                <span class="required">Monthly Target</span>
                             </label>
                             <input type="text" name="lop_target" id="lop_target" class="form-control form-control-solid" readonly>
                             <div id="sofError" class="error-message " ></div>
                         </div> 
                         <div class="fv-row col-md-4 mt-3">
                             <label class="fs-7 fw-semibold form-label mb-2 d-flex">
-                                <span class="required">Enter Quarterly Progress</span>
+                                <span class="required">Enter Monthly Progress</span>
                             </label>
                             <input type="text" name="activity_target" id="activity_target" class="form-control" >
                             <div id="activity_targetError" class="error-message " ></div>
@@ -87,7 +87,7 @@
                         </div> 
                         <div class="fv-row col-md-2 mt-3">
                             <label class="fs-7 fw-semibold form-label mb-2 d-flex">
-                                <span>PWD</span>
+                                <span>PWD/CLWD</span>
                             </label>
                             <input type="text" name="pwd_target" id="pwd_target" class="form-control" >
                             <div id="pwd_targetError" class="error-message " ></div>

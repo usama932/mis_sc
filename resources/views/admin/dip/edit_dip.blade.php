@@ -100,7 +100,7 @@
                                     <th>Men</th>
                                     <th>Girls</th>
                                     <th>Boys</th>
-                                    <th>PWD</th>
+                                    <th>PWD/CLWD</th>
                                 </tr>
                             </thead>
                         </table>

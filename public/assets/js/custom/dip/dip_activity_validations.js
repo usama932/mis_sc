@@ -13,6 +13,17 @@ var KTdipActivityValidate = function () {
         var validator = FormValidation.formValidation(
             form, {
                 fields: {
+                    'activity_number': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Activity is required'
+                            },
+                            regexp: {
+                                regexp: /^(?:(?:[1-9]\.\d+)|(?:[1-9](?:\.\d+)+))$/,
+                                message: 'Enter decimal like 1.1, 1.2, etc.'
+                            }
+                        }
+                    },
                     'activity': {
                         validators: {
                             notEmpty: {

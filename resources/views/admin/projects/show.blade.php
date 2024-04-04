@@ -143,7 +143,7 @@
                                         <th>Men Target</th>
                                         <th>Girls Target</th>
                                         <th>Boys Target</th>
-                                        <th>PWD Target</th>
+                                        <th>PWD/CLWD Target</th>
                                         {{-- <th>Created At</th>
                                         <th>Created By</th> --}}
                                         <th>Actions</th>

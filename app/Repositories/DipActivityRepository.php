@@ -12,12 +12,12 @@ class DipActivityRepository implements DipActivityInterface
     public function storedipactivity($data)
     { 
         $activity =  DipActivity::create([
-            'activity_number'       => $data['activity'],
+            'activity_number'       => $data['activity_number'],
             'activity_title'        => $data['activity'],
             'lop_target'            => $data['lop_target'],
             'project_id'            => $data['project_id'],
             'created_by'            => auth()->user()->id,
-            'subtheme_id'               =>  $data['sub_theme']
+            'subtheme_id'           =>  $data['sub_theme']
         ]);
      
         foreach($data['activities']  as $key => $q){
@@ -47,7 +47,7 @@ class DipActivityRepository implements DipActivityInterface
     {
    
         $activity =  DipActivity::where('id',$id)->update([
-            'activity_number'      => $data['activity'],
+            'activity_number'      => $data['activity_number'],
             'activity_title'      => $data['activity'],
             'lop_target'           => $data['lop_target'],
             'updated_by'           => auth()->user()->id,

@@ -81,6 +81,7 @@
                             "dip_id":dip_id}
                 },
                 "columns":[
+                    {"data":"activity","searchable":false,"orderable":false,"width": "10%",},
                     {"data":"activity_number","searchable":false,"orderable":false,"width": "10%",},
                     {"data":"sub_theme","searchable":false,"orderable":false},
                     {"data":"lop_target","searchable":false,"orderable":false},

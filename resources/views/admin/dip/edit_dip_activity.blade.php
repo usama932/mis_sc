@@ -36,7 +36,14 @@
                             </label>
                             <div id="sub_themeError" class="error-message"></div>
                         </div>
-                        <div class="fv-row col-md-10 col-lg-10 col-sm-12">
+                        <div class="fv-row col-md-2 col-lg-2 col-sm-12">
+                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                                <span class="required">Activity Number</span>
+                            </label>
+                            <input class="form-control" id="activity_number" name="activity_number" id="activity_number" value="{{$dip->activity_number}}">
+                            <div id="activity_numberError" class="error-message"></div>
+                        </div>
+                        <div class="fv-row col-md-8 col-lg-8 col-sm-12">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Activity Title</span>
                             </label>
@@ -54,7 +61,7 @@
                     <div class="separator my-3"></div>
                     <div class="row">
                         <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-info btn-sm mt-4" onclick="addTargetRow()" id="add_quarter_target">Add New Quarter</button>
+                            <button type="button" class="btn btn-info btn-sm mt-4" onclick="addTargetRow()" id="add_quarter_target">Add New Monthly Target</button>
                         </div>
                     </div>
                     <div id="targetRows">
@@ -64,7 +71,7 @@
                             class="form-control" autocomplete="off" value="{{$month->id}}">
                             <div class="col-md-2">
                                 <label class="fs-7 fw-semibold form-label mb-2">
-                                    <span class="required">Quarter</span>
+                                    <span class="required">Monthly Target</span>
                                 </label>
                                 <br>
                                <span class="mt-4"> <strong class="mt-4">{{$month->quarter}}-{{$month->year}}</strong></span>
@@ -85,7 +92,7 @@
                             </div>
                             <div class="col-md-4">
                                 <label class="fs-7 fw-semibold form-label mb-2">
-                                    <span class="">Completion Date</span>
+                                    <span class="">Expected Completion Date</span>
                                 </label>
                                 <input type="text" name="activities[{{$loop->iteration -1}}][complete_date]" id="start_date" placeholder="Select date"  class="form-control required start_date" onkeydown="event.preventDefault()" data-provide="datepicker"  value="{{$month->completion_date}}">
                             </div>
@@ -104,7 +111,7 @@
                         <a href="{{ route('dips.edit',$project->id) }}" class="btn btn-primary btn-sm mx-3">Cancel</a>
                         @endif
                         <button type="submit" id="kt_create_dip_activity" class="btn btn-success btn-sm">
-                            @include('partials/general/_button-indicator', ['label' => 'Submit'])
+                            @include('partials/general/_button-indicator', ['label' => 'Update Activity'])
                         </button>
                     </div>
                 </form>
@@ -226,7 +233,7 @@
                     $('#add_quarter_target').hide();
                 }
             } else {
-                toastr.error("All Quarters are already shown.", "Error");
+                toastr.error("All Month are already shown.", "Error");
             }
         }
     

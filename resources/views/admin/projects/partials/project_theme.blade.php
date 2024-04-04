@@ -72,7 +72,7 @@
                 </div>
                 <div class="fv-row col-md-2">
                     <label class="fs-9 fw-semibold form-label">
-                        <span class="">PWD Target</span>
+                        <span class="">PWD/CLWD Target</span>
                     </label>
                     <input type="text" name="pwd_target" id="pwd_target" class="form-control" placeholder="# of PWD" autocomplete="off" value="">
                 </div>
@@ -101,7 +101,7 @@
                         <th contenteditable="true">Men Target</th>
                         <th contenteditable="true">Girls Target</th>
                         <th contenteditable="true">Boys Target</th>
-                        <th contenteditable="true">PWD Target</th>
+                        <th contenteditable="true">PWD/CLWD Target</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
