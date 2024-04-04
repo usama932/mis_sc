@@ -140,7 +140,8 @@
         var minDate = "{{ date('Y-m', strtotime($project->start_date)) }}";
         var maxDate = "{{ date('Y-m', strtotime($project->end_date)) }}";
         var selectedMonths = [];
-        // Initialize Flatpickr with monthSelectPlugin
+
+        
         function initFlatpickr() {
             $(".monthpick").flatpickr({
                 plugins: [
@@ -156,7 +157,7 @@
             });
         }
         
-        // Initialize Flatpickr on document load
+       
         flatpickr(".start_date", {
             dateFormat: "Y-m-d",
         });
