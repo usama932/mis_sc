@@ -82,7 +82,20 @@
                             {{$project->focalperson?->email ?? ''}}
                         </td>
                     </tr>
-                    
+                    <tr>
+                        <td><strong>Awards FP</strong></td>
+                        <td>
+                            {{$project->awardfp?->name ?? ''}}<br>
+                            {{$project->awardfp?->email ?? ''}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Budget holder FP</strong></td>
+                        <td>
+                            {{$project->budgetholder?->name ?? ''}}<br>
+                            {{$project->budgetholder?->email ?? ''}}
+                        </td>
+                    </tr>
                 </table>
                 
             </div>

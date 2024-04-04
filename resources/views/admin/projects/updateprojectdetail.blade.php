@@ -18,6 +18,12 @@
                         <td> {{$project->donors?->name ?? ''}}</td>
                     </tr>
                     <tr>
+                        <td class="fs-8"><strong>Awards FP</strong></td>
+                        <td>
+                          {{ucfirst($project->awardfp?->name ?? '')}} -  {{$project->awardfp?->desig?->designation_name ?? ''}}
+                        </td>
+                    </tr>
+                    <tr>
                         <td><strong>Project Tenure</strong></td>
                         <td>
                             @if(!empty($project->start_date) && $project->start_date != null)
@@ -36,13 +42,19 @@
                     </tr>
                    
                     <tr>
-                        <td><strong>Focal Person</strong></td>
+                        <td class="fs-8"><strong>Operational Focal Person</strong></td>
                         <td>
                           {{ucfirst($project->focalperson?->name ?? '')}} -  {{$project->focalperson?->desig?->designation_name ?? ''}}<br>
                        
                         </td>
                     </tr>
-                   
+                    <tr>
+                        <td class="fs-8"><strong>Budget holder FP</strong></td>
+                        <td>
+                          {{ucfirst($project->budgetholder?->name ?? '')}} -  {{$project->budgetholder?->desig?->designation_name ?? ''}}<br>
+                       
+                        </td>
+                    </tr>
                     <tr>
                         <td><strong>Created At</strong></td>
                         <td>   {{ date('M d, Y H:i:s', strtotime($project->created_at))}} </td>

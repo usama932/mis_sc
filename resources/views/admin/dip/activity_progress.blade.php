@@ -11,7 +11,7 @@
                             <span class="required">Project</span>
                         </label>
                         <select name="project" id="project" aria-label="Select a Project" data-control="select2" data-placeholder="Select a Project..." class="form-select" data-allow-clear="true">
-                            <option value=''>Select Focal Person</option>
+                            <option value=''>Select Project</option>
                             @foreach($projects as $project)
                                 <option value='{{$project->id}}'>{{ucfirst($project->name)}}</option>
                             @endforeach

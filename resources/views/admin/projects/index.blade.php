@@ -78,7 +78,9 @@
                                 <th>Type</th>
                                 <th>SOF</th>
                                 <th>Donor</th>
-                                <th>Focal Person</th>
+                                <th class="fs-8">Operational FP</th>
+                                <th class="fs-8">Budget Holder FP</th>
+                                <th class="fs-8">Awards FP</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Created By</th>
@@ -145,6 +147,16 @@
                     },
                     {
                         "data": "focal_person",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                    {
+                        "data": "budgetholder",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                    {
+                        "data": "awardsfp",
                         "searchable": false,
                         "orderable": false
                     },
@@ -236,6 +248,8 @@
                             {"data":"sof","searchable":true,"orderable":true},
                             {"data":"donor","searchable":true,"orderable":true},
                             {"data":"focal_person", "searchable": false, "orderable": false  },
+                            {"data": "budgetholder","searchable": false,"orderable": false},
+                            {"data": "awardsfp",  "searchable": false,  "orderable": false},
                             {"data":"start_date","searchable":true,"orderable":true},
                             {"data":"end_date","searchable":true,"orderable":true},
                             {"data":"created_by","searchable":true,"orderable":true},

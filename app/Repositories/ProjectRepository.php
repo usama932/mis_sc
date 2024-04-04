@@ -51,7 +51,9 @@ class ProjectRepository implements ProjectRepositoryInterface
             'status'                => 'Initiative',
             'active'                => 1,
             'focal_person'          => $data['focal_person'],
-            'donor'          => $data['donor'],
+            'budget_holder'         => $data['budget_holder'],
+            'award_person'          => $data['award_person'],
+            'donor'                 => $data['donor'],
             'start_date'            => $data['start_date'],
             'end_date'              => $data['end_date'],
             'active'                =>  '1',
@@ -144,6 +146,8 @@ class ProjectRepository implements ProjectRepositoryInterface
             'type'                  => $data['type'],
             'sof'                   => $data['sof'],
             'focal_person'          => $data['focal_person'],
+            'budget_holder'         => $data['budget_holder'],
+            'award_person'          => $data['award_person'],
             'donor'                 => $data['donor'],
             'start_date'            => $data['start_date'],
             'end_date'              => $data['end_date'],
@@ -167,6 +171,7 @@ class ProjectRepository implements ProjectRepositoryInterface
         return $project;
        
     }
+
     public function storeprojecttheme($data){
         return ProjectTheme::create([
             'theme_id'              => $data['theme'],
@@ -177,11 +182,14 @@ class ProjectRepository implements ProjectRepositoryInterface
             'men_target'            => $data['men_target'],
             'women_target'          => $data['women_target'],
             'pwd_target'            => $data['pwd_target'],
+            'plw_target'            => $data['plw_target'],
+            'other'                 => $data['other'],
             'house_hold_target'     => $data['house_hold_target'],
             'individual_target'     => $data['individual_target'],
             'created_by'            => auth()->user()->id,
         ]); 
     }
+
     public function storeprojectpartner($data){
         $project = Project::where('id',$data['project'])->first();
         $partner = Partner::where('id' ,$data['partner'])->first();
@@ -221,6 +229,7 @@ class ProjectRepository implements ProjectRepositoryInterface
             'created_by'        => auth()->user()->id,
         ]); 
     }
+
     public function updateprojectpartner($data ,$id){
         
         $project = Project::where('id',$data['project_id'])->first();

@@ -243,6 +243,16 @@
                         "searchable": false,
                         "orderable": false
                     },
+                    {
+                        "data": "plw_target",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                    {
+                        "data": "other",
+                        "searchable": false,
+                        "orderable": false
+                    },
                 ]
             });
         </script>

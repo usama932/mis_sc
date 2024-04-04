@@ -21,6 +21,13 @@
                         </td>
                     </tr>
                     <tr>
+                        <td><strong>Awards  FP</strong></td>
+                        <td>
+                          {{$project->awardfp?->name ?? ''}} -  {{$project->awardfp?->desig?->designation_name ?? ''}}<br>
+                       
+                        </td>
+                    </tr>
+                    <tr>
                         <td><strong>SOF.#</strong></td>
                         <td>{{$project->sof ?? ''}}</td>
                     </tr>
@@ -60,14 +67,21 @@
                         <td>{{$project->type ?? ''}}</td>
                     </tr>
                     <tr>
-                        <td><strong>Focal Person</strong></td>
+                        <td class="fs-8"><strong>Operational Focal Person</strong></td>
                         <td>
                           {{$project->focalperson?->name ?? ''}} -  {{$project->focalperson?->desig?->designation_name ?? ''}}<br>
                           {{-- {{$project->focalperson?->email ?? ''}} --}}
                         </td>
                     </tr>
                     <tr>
-                        <td><strong>Project Tenure</strong></td>
+                        <td><strong>Budget Holder FP</strong></td>
+                        <td>
+                          {{$project->budgetholder?->name ?? ''}} -  {{$project->budgetholder?->desig?->designation_name ?? ''}}<br>
+                       
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="fs-8"><strong>Project Tenure</strong></td>
                         <td>
                             @if(!empty($project->start_date) && $project->start_date != null)
                                 {{ date('d-M-Y', strtotime($project->start_date))}} -To- {{date('d-M-Y', strtotime($project->end_date));}}
@@ -144,6 +158,8 @@
                                         <th>Girls Target</th>
                                         <th>Boys Target</th>
                                         <th>PWD/CLWD Target</th>
+                                        <th>PLW Target</th>
+                                        <th>Other Target</th>
                                         {{-- <th>Created At</th>
                                         <th>Created By</th> --}}
                                         <th>Actions</th>

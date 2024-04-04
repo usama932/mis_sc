@@ -34,11 +34,13 @@ class ProjectThemeController extends Controller
             6  => 'men_target',
             7  => 'women_target',
             11 => 'pwd_target',
-            11 => 'house_hold_target',
-            11 => 'individual_target',
-            12 => 'created_at',
-            13 => 'updated_by',
-            14 => 'updated_at',
+            12 => 'plw_target',
+            13 => 'other',
+            14 => 'house_hold_target',
+            15 => 'individual_target',
+            16 => 'created_at',
+            17 => 'updated_by',
+            18 => 'updated_at',
             
 		);
 		
@@ -59,17 +61,19 @@ class ProjectThemeController extends Controller
 			
                 $edit_url = route('projects.edit',$r->id);
                 $show_url = route('projects.show',$r->id);
-				$nestedData['id'] = $r->id;
-                $nestedData['theme'] = $r->scitheme_name?->name ?? '';
-                $nestedData['sub_theme'] = $r->scisubtheme_name?->name ?? '';
-                $nestedData['project'] = $r->project?->name ?? '';
+				$nestedData['id']                = $r->id;
+                $nestedData['theme']             = $r->scitheme_name?->name ?? '';
+                $nestedData['sub_theme']         = $r->scisubtheme_name?->name ?? '';
+                $nestedData['project']           = $r->project?->name ?? '';
                 $nestedData['house_hold_target'] = $r->house_hold_target ?? '';
                 $nestedData['individual_target'] = $r->individual_target ?? '';
-                $nestedData['women_target'] = $r->women_target ?? '';
-                $nestedData['men_target'] = $r->men_target ?? '';
-                $nestedData['girls_target'] = $r->girls_target ?? '';
-                $nestedData['boys_target'] = $r->boys_target ?? '';
-                $nestedData['pwd_target'] = $r->pwd_target ?? '';
+                $nestedData['women_target']      = $r->women_target ?? '';
+                $nestedData['men_target']        = $r->men_target ?? '';
+                $nestedData['girls_target']      = $r->girls_target ?? '';
+                $nestedData['boys_target']       = $r->boys_target ?? '';
+                $nestedData['pwd_target']        = $r->pwd_target ?? '';
+                $nestedData['plw_target']        = $r->plw_target ?? '';
+                $nestedData['other']             = $r->other ?? '';
              
 
                 $nestedData['action'] = '<div>
@@ -178,12 +182,24 @@ class ProjectThemeController extends Controller
             }else{
                 $pwdtarget  = $theme->pwd_target;
             }
+            if(!empty($parsedData['plw_target']) && $parsedData['plw_target'] > -1 || $parsedData['plw_target'] == 0){
+                $plw_target  = $parsedData['plw_target'];
+            }else{
+                $plw_target  = $theme->plw_target;
+            }
+            if(!empty($parsedData['other']) && $parsedData['other'] > -1 || $parsedData['other'] == 0){
+                $other  = $parsedData['other'];
+            }else{
+                $other  = $theme->other;
+            }
             if(!empty($theme)){
 
                 ProjectTheme::where('id',$id)->update([
                     'house_hold_target' => $parsedData['house_hold_target'] ??  $theme->house_hold_target,
                     'individual_target' => $parsedData['individual_target'] ??  $theme->individual_target,
                     'pwd_target'        => $pwdtarget,
+                    'plw_target'        => $plw_target,
+                    'other'             => $other,
                     'women_target'      => $parsedData['women_target'] ??  $theme->women_target,
                     'men_target'        => $parsedData['men_target'] ??  $theme->men_target,
                     'girls_target'      => $parsedData['girls_target'] ??  $theme->girls_target,

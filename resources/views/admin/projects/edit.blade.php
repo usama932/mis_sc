@@ -28,8 +28,8 @@
                             <div id="typeError" class="error-message"></div>
                         </div> 
                         <div class="fv-row col-md-3 ">
-                            <label class="fs-6 fw-semibold form-label mb-2">
-                                <span class="required">Focal Person</span>
+                            <label class="fs-8 fw-semibold form-label mb-2">
+                                <span class="required">Operational Focal Person</span>
                             </label>
                             <select   name="focal_person" id="focal_person" aria-label="Select a Focal Person" data-control="select2" data-placeholder="Select a Focal Person..." class="form-select "  data-allow-clear="true" > 
                                 <option  value=''>Select Focal Person</option>
@@ -39,6 +39,30 @@
                             </select>
                             <div id="focal_personError" class="error-message"></div>
                         </div>   
+                        <div class="fv-row col-md-3  ">
+                            <label class="fs-8 fw-semibold form-label mb-2">
+                                <span class="required">Awards Focal Person</span>
+                            </label>
+                            <select   name="award_person" id="award_person" aria-label="Select a Award FP" data-control="select2" data-placeholder="Select a Focal Person..." class="form-select "  data-allow-clear="true" > 
+                                <option  value=''>Select Award  FP</option>
+                                @foreach($awards as $award)
+                                    <option  value='{{$award->id}}'  @if($award->id == $project->award_person) selected @endif>{{ucfirst($award->name)}} - {{$award->desig?->designation_name  ?? ''}}</option>
+                                @endforeach
+                            </select>
+                            <div id="focal_personError" class="error-message"></div>
+                        </div>  
+                        <div class="fv-row col-md-3  ">
+                            <label class="fs-7 fw-semibold form-label mb-2">
+                                <span class="required">Budget Holder FP</span>
+                            </label>
+                            <select   name="budget_holder" id="budget_holder" aria-label="Select a Focal Person" data-control="select2" data-placeholder="Select a Focal Person..." class="form-select "  data-allow-clear="true" > 
+                                <option  value=''>Select Focal Person</option>
+                                @foreach($budget_holders as $budget_holder)
+                                    <option  value='{{$budget_holder->id}}' @if($budget_holder->id == $project->budget_holder) selected @endif>{{ucfirst($budget_holder->name)}} - {{$budget_holder->desig?->designation_name  ?? ''}}</option>
+                                @endforeach
+                            </select>
+                            <div id="budget_holderError" class="error-message"></div>
+                        </div> 
                         <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Donor</span>
@@ -73,7 +97,7 @@
                             <input type="text" name="end_date" id="end_date" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="{{$project->end_date}}">
                             <div id="end_dateError" class="error-message "></div>
                         </div>
-                        <div class="fv-row col-md-3">
+                        <div class="fv-row col-md-3 mt-5">
                             <div class="form-check form-switch   mt-5">
                                 <input class="form-check-input" type="checkbox" id="active" name="active" {{$project->active ? 'checked' : ''}}>
                                 <label class="form-check-label" for="active">Activate Project</label>

@@ -74,6 +74,19 @@
                         </p>
                     </div>
                     <div class="col-md-4">
+                        <label class="fw-bold">Budget Holder FP:</label>
+                        <p class='fs-6'>
+                            {{$project->budgetholder?->name ?? ''}} -  {{$project->budgetholder?->desig?->designation_name ?? ''}}
+                       
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="fw-bold">Awards FP:</label>
+                        <p class='fs-6'>
+                            {{$project->awardfp?->name ?? ''}} -  {{$project->awardfp?->desig?->designation_name ?? ''}}
+                        </p>
+                    </div>
+                    <div class="col-md-4">
                         <label class="fw-bold">Project Tenure:</label>
                         <p>
                             @if(!empty($project->start_date) && $project->start_date != null)

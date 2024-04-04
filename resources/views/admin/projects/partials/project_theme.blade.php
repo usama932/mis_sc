@@ -39,8 +39,8 @@
                     </label>
                     <input type="text" name="house_hold_target" class="form-control  mx-1" placeholder="# of HH Target" autocomplete="off">
                 </div>
-                <div class="fv-row col-md-2">
-                    <label class="fs-9 fw-se9mibold form-label">
+                <div class="fv-row col-md-4">
+                    <label class="fs-9 fw-semibold form-label">
                         <span class="required"> Beneficiaries Target</span>
                     </label>
                     <input type="text" name="individual_target" id="individual_target" class="form-control  mx-1" placeholder="# of Beneficiaries" autocomplete="off">
@@ -70,11 +70,23 @@
                     </label>
                     <input type="text" name="boys_target" id="boys_target" class="form-control" placeholder="# of Boys" autocomplete="off">
                 </div>
-                <div class="fv-row col-md-2">
+                <div class="fv-row col-md-3">
                     <label class="fs-9 fw-semibold form-label">
                         <span class="">PWD/CLWD Target</span>
                     </label>
                     <input type="text" name="pwd_target" id="pwd_target" class="form-control" placeholder="# of PWD" autocomplete="off" value="">
+                </div>
+                <div class="fv-row col-md-3">
+                    <label class="fs-9 fw-semibold form-label">
+                        <span class="">PLW Target</span>
+                    </label>
+                    <input type="text" name="plw_target" id="plw_target" class="form-control" placeholder="# of PLW target" autocomplete="off" value="">
+                </div>
+                <div class="fv-row col-md-3">
+                    <label class="fs-9 fw-semibold form-label">
+                        <span class="">Other Target</span>
+                    </label>
+                    <input type="text" name="other" id="other" class="form-control" placeholder="# of other" autocomplete="off" value="">
                 </div>
             </div>
             <div class="d-flex justify-content-end my-3">
@@ -95,13 +107,15 @@
                     <tr>
                         <th>Theme</th>
                         <th>Sub Theme</th>
-                        <th contenteditable="true">House-Hold Target</th>
-                        <th contenteditable="true">Individual Target</th>
-                        <th contenteditable="true">Women Target</th>
-                        <th contenteditable="true">Men Target</th>
-                        <th contenteditable="true">Girls Target</th>
-                        <th contenteditable="true">Boys Target</th>
-                        <th contenteditable="true">PWD/CLWD Target</th>
+                        <th>House-Hold Target</th>
+                        <th>Individual Target</th>
+                        <th>Women Target</th>
+                        <th>Men Target</th>
+                        <th>Girls Target</th>
+                        <th>Boys Target</th>
+                        <th>PWD/CLWD Target</th>
+                        <th>PLW Target</th>
+                        <th>Other Target</th>
                         <th>Actions</th>
                     </tr>
                 </thead>

@@ -68,6 +68,22 @@ var KTdipValidate = function () {
                             }
                         }
                     },
+                     
+                    'award_person':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Award Person is required'
+                            }
+                        }
+                    },
+                     
+                    'budget_holder':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Budget holder Person is required'
+                            }
+                        }
+                    },
                     'donor':{
                         validators: {
                             notEmpty: {

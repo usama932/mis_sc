@@ -191,10 +191,13 @@ class ProjectController extends Controller
             1 => 'type',
             2 => 'sof',
             3 => 'donor',
-            4 => 'start_date',
-            5 => 'end_date',
-            6 => 'created_by',
-            7 => 'created_at',
+            4 => 'focal_person',
+            5 => 'budget_holder',
+            6 => 'award_person',
+            7 => 'start_date',
+            8 => 'end_date',
+            9 => 'created_by',
+            10 => 'created_at',
         );
         
         $totalData = Project::count();
@@ -242,6 +245,8 @@ class ProjectController extends Controller
                 $nestedData['sof'] = $r->sof ?? '';
                 $nestedData['donor'] = $r->donors?->name ?? '';
                 $nestedData['focal_person'] = $r->focalperson?->name ?? '';
+                $nestedData['budgetholder'] = $r->budgetholder?->name ?? '';
+                $nestedData['awardsfp'] = $r->awardsfp?->name ?? '';
                 if (!empty($r->start_date)) {
                     $nestedData['start_date'] = date('d-M-Y', strtotime($r->start_date)) ?? '';
                 } else {
@@ -346,7 +351,11 @@ class ProjectController extends Controller
         $themes = Theme::orderBy('name')->get();
         $persons = User::role('focal person')->get();
         $donors = Donor::orderBy('name')->get();
-        return view('admin.projects.create',compact('themes','persons','donors'));
+        $budget_holders = User::role('budget holder')->get();
+        $awards = User::with('desig')->whereHas('desig', function ($query) {
+            $query->whereIn('designation_name', ['Head of Awards','Sub-Grants Coordinator', 'Manager Awards']);
+        })->get();
+        return view('admin.projects.create',compact('themes','persons','donors','awards','budget_holders'));
     }
 
     public function store(Request $request)
@@ -418,10 +427,15 @@ class ProjectController extends Controller
         $project = Project::find($id);
         $persons = User::role('focal person')->get();
         $donors = Donor::orderBy('name')->get();
+        $budget_holders = User::role('budget holder')->get();
+        $awards = User::with('desig')->whereHas('desig', function ($query) {
+            $query->whereIn('designation_name', ['Head of Awards','Sub-Grants Coordinator', 'Manager Awards']);
+        })->get(); 
+
         addJavascriptFile('assets/js/custom/project/create.js');
   
        
-        return view('admin.projects.edit',compact('project','persons','donors'));
+        return view('admin.projects.edit',compact('project','persons','donors','budget_holders','awards'));
     }
 
     public function update(Request $request, string $id)

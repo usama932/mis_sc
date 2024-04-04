@@ -341,7 +341,7 @@ class DipActivityController extends Controller
        
         if(empty($dip)){
             if($duplicates == []){
-                dd('ass');
+               
                 $dip_activity = $this->dipactivityRepository->storedipactivity($data);
                 $active = 'dip_activity';
                 session(['dip_edit' => $active]);

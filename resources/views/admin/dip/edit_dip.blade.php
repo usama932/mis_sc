@@ -29,6 +29,9 @@
                                 @endforeach)@unless($loop->last),@endunless
                             @endforeach
                         </li>
+                        <li><strong>Budget holder FP:</strong> 
+                            {{$project->budget_holder?->name ?? ''}} - {{$project->budget_holder?->desig?->designation_name ?? ''}}
+                        </li>
                         <li><strong>Donor:</strong> {{$project->donors?->name ?? ''}}</li>
                     </ul>
                 </div>
@@ -54,6 +57,9 @@
                         </li>
                         <li><strong>Focal Person:</strong> 
                             {{$project->focalperson?->name ?? ''}} - {{$project->focalperson?->desig?->designation_name ?? ''}}
+                        </li>
+                        <li><strong>Award FP:</strong> 
+                            {{$project->awardfp?->name ?? ''}} - {{$project->awardfp?->desig?->designation_name ?? ''}}
                         </li>
                         <li><strong>Project Tenure:</strong> 
                             @if(!empty($project->start_date) && $project->start_date != null)
@@ -101,6 +107,8 @@
                                     <th>Girls</th>
                                     <th>Boys</th>
                                     <th>PWD/CLWD</th>
+                                    <th>PLW</th> 
+                                    <th>Other</th>
                                 </tr>
                             </thead>
                         </table>

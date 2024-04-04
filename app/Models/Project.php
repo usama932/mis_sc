@@ -54,6 +54,14 @@ class Project extends Model
     {
         return $this->belongsTo(User::class,'focal_person','id');
     }
+    public function budgetholder()
+    {
+        return $this->belongsTo(User::class,'budget_holder','id');
+    }
+    public function awardfp()
+    {
+        return $this->belongsTo(User::class,'award_person','id');
+    }
     public function donors()
     {
         return $this->belongsTo(Donor::class,'donor','id');

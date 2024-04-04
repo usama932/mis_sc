@@ -74,6 +74,16 @@ var project_theme = $('#project_themes').DataTable({
             "searchable": false,
             "orderable": false
         },
+        {
+            "data": "plw_target",
+            "searchable": false,
+            "orderable": false
+        },
+        {
+            "data": "other",
+            "searchable": false,
+            "orderable": false
+        },
         // {
         //     "data": "created_at",
         //     "searchable": false,
@@ -216,6 +226,31 @@ var KTprojectthemeValidate = function() {
                             }
                         }
                     },
+                    'plw_target': {
+                        validators: {
+
+                            numeric: {
+                                message: 'PLW Target must be a number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Individual Target must be a positive number'
+                            }
+                        }
+                    },
+                    'other': {
+                        validators: {
+
+                            numeric: {
+                                message: 'Other Target must be a number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Individual Target must be a positive number'
+                            }
+                        }
+                    },
+
 
                 },
 
@@ -471,7 +506,23 @@ $(document).ready(function() {
         var anyFieldInvalid = false;
         $(this).find('input[type="text"], textarea').each(function() {
             var fieldValue = parseFloat($(this).val().trim());
-            if ($(this).attr('name') !== 'pwd_target') { // Skip validation for pwd_target field
+            if ($(this).attr('name') !== 'pwd_target') {
+                if ($(this).val().trim() === '' || isNaN(fieldValue) || fieldValue < 0) {
+                    anyFieldInvalid = true;
+                    if (!$(this).next('.error-message').length) {
+                        $(this).after('<span class="error-message text-danger">Please enter a valid number greater than or equal to -1.</span>');
+                    }
+                }
+            }
+            if ($(this).attr('name') !== 'plw_target') {
+                if ($(this).val().trim() === '' || isNaN(fieldValue) || fieldValue < 0) {
+                    anyFieldInvalid = true;
+                    if (!$(this).next('.error-message').length) {
+                        $(this).after('<span class="error-message text-danger">Please enter a valid number greater than or equal to -1.</span>');
+                    }
+                }
+            }
+            if ($(this).attr('name') !== 'other') {
                 if ($(this).val().trim() === '' || isNaN(fieldValue) || fieldValue < 0) {
                     anyFieldInvalid = true;
                     if (!$(this).next('.error-message').length) {
@@ -483,9 +534,23 @@ $(document).ready(function() {
     
         // Validate PWD Target field separately for positive numbers
         var pwdFieldValue = parseFloat($('input[name="pwd_target"]').val().trim());
+        var plwFieldValue = parseFloat($('input[name="plw_target"]').val().trim());
+        var otherFieldValue = parseFloat($('input[name="other"]').val().trim());
         if ($('input[name="pwd_target"]').val().trim() !== '' && (isNaN(pwdFieldValue) || pwdFieldValue < 0)) {
             anyFieldInvalid = true;
             if (!$('input[name="pwd_target"]').next('.error-message').length) {
+                $('input[name="pwd_target"]').after('<span class="error-message text-danger">Please enter a valid positive number.</span>');
+            }
+        }
+        if ($('input[name="plw_target"]').val().trim() !== '' && (isNaN(plwFieldValue) || plwFieldValue < 0)) {
+            anyFieldInvalid = true;
+            if (!$('input[name="plw_target"]').next('.error-message').length) {
+                $('input[name="plw_target"]').after('<span class="error-message text-danger">Please enter a valid positive number.</span>');
+            }
+        }
+        if ($('input[name="other"]').val().trim() !== '' && (isNaN(otherFieldValue) || otherFieldValue < 0)) {
+            anyFieldInvalid = true;
+            if (!$('input[name="other"]').next('.error-message').length) {
                 $('input[name="pwd_target"]').after('<span class="error-message text-danger">Please enter a valid positive number.</span>');
             }
         }

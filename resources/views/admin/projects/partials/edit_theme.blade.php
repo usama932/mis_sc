@@ -26,7 +26,7 @@
             </label>
             <input type="text" name="house_hold_target" class="form-control  mx-1" placeholder="# of HH Target" autocomplete="off" value="{{$theme->house_hold_target ?? ''}}">
         </div>
-        <div class="fv-row col-md-2">
+        <div class="fv-row col-md-4">
             <label class="fs-9 fw-se9mibold form-label">
                 <span class="required"> Beneficiaries Target</span>
             </label>
@@ -57,11 +57,23 @@
             </label>
             <input type="text" name="boys_target" id="boys_target" class="form-control" placeholder="# of Boys" value="{{$theme->boys_target ?? ''}}" autocomplete="off">
         </div>
-        <div class="fv-row col-md-2">
+        <div class="fv-row col-md-3 mb-3">
             <label class="fs-9 fw-semibold form-label">
                 <span class="">PWD/CLWD Target</span>
             </label>
             <input type="text" name="pwd_target" id="pwd_target" class="form-control" placeholder="# of PWD" value="{{$theme->pwd_target ?? ''}}" autocomplete="off" value="">
+        </div>
+        <div class="fv-row col-md-3 mb-3 ">
+            <label class="fs-9 fw-semibold form-label">
+                <span class="">PLW Target</span>
+            </label>
+            <input type="text" name="plw_target" id="plw_target" class="form-control" placeholder="# of PLW target" autocomplete="off" value="">
+        </div>
+        <div class="fv-row col-md-3 mb-3">
+            <label class="fs-9 fw-semibold form-label">
+                <span class="">Other Target</span>
+            </label>
+            <input type="text" name="other" id="other" class="form-control" placeholder="# of other" autocomplete="off" value="">
         </div>
     </div>
     <div class="modal-footer">
