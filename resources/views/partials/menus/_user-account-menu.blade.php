@@ -5,20 +5,14 @@
         <div class="menu-content d-flex align-items-center px-3">
             <!--begin::Avatar-->
             <div class="symbol symbol-50px me-5">
-                @if(Auth::user()->profile_photo_url)
-                    <img alt="Logo" src="{{ Auth::user()->profile_photo_url }}"/>
-                @else
-                    <div class="symbol-label fs-3 {{ app(\App\Actions\GetThemeType::class)->handle('bg-light-? text-?', Auth::user()->name) }}">
-                        @if(auth()->user()->name != "Guest User")  {{ substr(Auth::user()->name, 0, 1) }} @else  {{ substr(session('user_name'), 0, 1) }}  @endif
-                    </div>
-                @endif
+            
             </div>
             <!--end::Avatar-->
             <!--begin::Username-->
             <div class="d-flex flex-column">
-                <div class="fw-bold d-flex align-items-center fs-5">  @if(auth()->user()->name != "Guest User") {{ Auth::user()->name}} @else  {{session('user_name')}} @endif
+                <div class="fw-bold d-flex align-items-center fs-5">  @if(auth()->user()?->name != "Guest User") {{ Auth::user()?->name ?? ''}} @else  {{session('user_name')}} @endif
                 </div>
-                <a href="#" class="fw-semibold text-muted text-hover-primary fs-7">@if(auth()->user()->name != "Guest User") {{ Auth::user()->desig->designation_name }} @else {{session('user_email')}} @endif</a>
+                <a href="#" class="fw-semibold text-muted text-hover-primary fs-7">@if(auth()->user()?->name != "Guest User") {{ Auth::user()?->desig?->designation_name ?? ''}} @else {{session('user_email')}} @endif</a>
             </div>
             <!--end::Username-->
         </div>
@@ -28,7 +22,7 @@
     <div class="separator my-2"></div>
     <!--end::Menu separator-->
     <!--begin::Menu item-->
-    @if(auth()->user()->name != "Guest User")
+    @if(auth()->user()?->name != "Guest User")
         <div class="menu-item px-5">
             <a href="{{route('reset_password')}}" class="menu-link px-5">Update Password</a>
         </div>

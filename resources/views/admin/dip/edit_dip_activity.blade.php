@@ -251,7 +251,14 @@
                     var startDate = new Date(selectedYear, monthNames.indexOf(selectedMonth), 1);
                     var endDate = new Date(selectedYear, monthNames.indexOf(selectedMonth) + 1, 0);
 
-                    var flatpickrInstance = flatpickr("#start_date" + i);
+                    var flatpickrInstance = flatpickr("#start_date" + i,{
+                        disable: [
+                            function(date) {
+                                // Disable Saturdays and Sundays
+                                return (date.getDay() === 6 || date.getDay() === 0); // 6 is Saturday, 0 is Sunday
+                            }
+                        ]
+                    });
 
                     flatpickrInstance.setDate(startDate);
                     flatpickrInstance.set("minDate", startDate);

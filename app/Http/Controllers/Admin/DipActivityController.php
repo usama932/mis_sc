@@ -232,6 +232,11 @@ class DipActivityController extends Controller
                     }else{
                         $nestedData['completion_date'] ='';
                     }
+                    if(!empty($r->progress?->complete_date) && $r->progress?->complete_date != Null){
+                        $nestedData['completed_date'] ='<span class="fs-9" style="font-size: 9px;">'.date('M d ,Y', strtotime($r->progress?->complete_date ?? '')).'</span>';
+                    }else{
+                        $nestedData['completed_date'] ='';
+                    }
                     
                     if(!empty($r->progress?->image)){
                         $imagePathPwd = asset("storage/activity_progress/image/" .$r->progress?->image);                  
@@ -649,6 +654,7 @@ class DipActivityController extends Controller
                     'men_target'    => $request->men_target,
                     'remarks'       => $request->remarks,
                     'attachment'    => $attachment,
+                    'complete_date' => $request->complete_date,
                     'image'         => $image,
                     'created_by'    => auth()->user()->id
                 ]);
@@ -718,8 +724,9 @@ class DipActivityController extends Controller
         $quarter = ActivityMonths::find($quarterId);
         $lopTarget = $quarter->target;
         $benefit_target = $quarter->beneficiary_target;
-
-        return response()->json(['lop_target' => $lopTarget,'benefit_target' => $benefit_target ]);
+        $complete_date = $quarter->completion_date;
+    
+        return response()->json(['lop_target' => $lopTarget,'benefit_target' => $benefit_target ,'complete_date' => $complete_date]);
     }
 
     public function download_progress_attachment($filename)

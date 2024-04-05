@@ -120,22 +120,22 @@
                                
                             </tr>
                             <tr>
-                                <th>Month</th>
-                                <th style="background-color: #f8f9fa">Target</th>
-                                <th>Achievement</th>
-                                <th style="background-color: #f8f9fa">Target</th>
-                                <th>Women</th>
-                                <th>Men</th>
-                                <th>Girls</th>
-                                <th>Boys</th>
-                                <th>PWD/CLWD</th>
-                                
-                                <th>Status</th>
-                                <th style="font-size: 10px;">Completion Date</th>
-                                <th>Image</th>
-                                <th>Attachemnt</th>
-                                <th>Remarks</th>
-                                <th>Action</th>
+                                <th class="fs-9">Month</th>
+                                <th class="fs-9" style="background-color: #f8f9fa">Target</th>
+                                <th class="fs-9" >Achievement</th>
+                                <th class="fs-9"  style="background-color: #f8f9fa">Target</th>
+                                <th class="fs-9" >Women</th>
+                                <th class="fs-9">Men</th>
+                                <th class="fs-9">Girls</th>
+                                <th class="fs-9">Boys</th>
+                                <th class="fs-9">PWD/CLWD</th>
+                                <th class="fs-9">Status</th>
+                                <th class="fs-9">Expected Completion Date</th>
+                                <th class="fs-9">Completed Date</th>
+                                <th class="fs-9">Image</th>
+                                <th class="fs-9">Attachemnt</th>
+                                <th class="fs-9">Remarks</th>
+                                <th class="fs-9">Action</th>
                             </tr>
                         </thead>
                     </table>

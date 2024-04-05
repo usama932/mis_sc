@@ -1,4 +1,4 @@
-<x-default-layout>
+<x-auth-layout>
     @if (session('success'))
         <div class="alert alert-success" role="alert">
             {{ session('success') }}

@@ -48,6 +48,7 @@ var activityQuarters = $('#activityQuarters').DataTable({
         {"data":"pwd_target","searchable":false,"orderable":false},
         {"data":"status","searchable":false,"orderable":false},
         {"data":"completion_date","searchable":false,"orderable":false},
+        {"data":"completed_date","searchable":false,"orderable":false},
         {"data":"image","searchable":false,"orderable":false},
         {"data":"attachment","searchable":false,"orderable":false},
         {"data":"remarks","searchable":false,"orderable":false},

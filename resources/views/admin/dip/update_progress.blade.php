@@ -32,24 +32,31 @@
                                 @if(!empty($activity->months))
                                     @foreach($activity->months as $months)
                                         @if($months->project_id ==  $activity->project_id && !in_array($months->id, $quarters))
-                                            <option value='{{$months->id}}'>{{$months->quarter}} - {{$months->year}}</option>
+                                            <option value='{{$months->id}}'>{{$months->quarter}}-{{$months->year}}</option>
                                         @endif
                                     @endforeach
                                 @endif
                             </select>
                         </div> 
-                        <div class="fv-row col-md-4 mt-3">
+                        <div class="fv-row col-md-2 mt-3">
                             <label class="fs-7 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Monthly Target</span>
                             </label>
                             <input type="text" name="lop_target" id="lop_target" class="form-control form-control-solid" readonly>
                             <div id="sofError" class="error-message " ></div>
                         </div> 
-                        <div class="fv-row col-md-4 mt-3">
-                            <label class="fs-7 fw-semibold form-label mb-2 d-flex">
+                        <div class="fv-row col-md-3 mt-3">
+                            <label class="fs-8 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Enter Monthly Progress</span>
                             </label>
                             <input type="text" name="activity_target" id="activity_target" class="form-control" >
+                            <div id="activity_targetError" class="error-message " ></div>
+                        </div> 
+                        <div class="fv-row col-md-3 mt-3">
+                            <label class="fs-7 fw-semibold form-label mb-2 d-flex">
+                                <span class="required">Completion Date</span>
+                            </label>
+                            <input type="text" name="complete_date" id="start_date" placeholder="Select date"  class="form-control " onkeydown="event.preventDefault()" data-provide="datepicker" value="">
                             <div id="activity_targetError" class="error-message " ></div>
                         </div> 
                     </div>
@@ -144,14 +151,37 @@
                     success: function(response) {
                         $('#benefit_target').val(response.benefit_target); 
                         $('#lop_target').val(response.lop_target); 
+
+                        var givenDate = new Date(response.complete_date);
+                   
+                        var oneWeekBefore = new Date(givenDate.getTime() - 14 * 24 * 60 * 60 * 1000);
+                        var twoWeeksAfter = new Date(givenDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+                        var flatpickrInstance = flatpickr("#start_date", {
+                            minDate: oneWeekBefore,
+                            maxDate: twoWeeksAfter,
+                            disable: [
+                                function(date) {
+                                    // Disable Saturdays and Sundays
+                                    return (date.getDay() === 6 || date.getDay() === 0); // 6 is Saturday, 0 is Sunday
+                                }
+                            ]
+                        });
+
+                        // Set the date
+                        flatpickrInstance.setDate(givenDate);
                     },
                     error: function(xhr) {
-                        console.log(xhr.responseText); // Log any errors to the console
+                        console.log(xhr.responseText);
                     }
                 });
             });
+
+           
+           
+            
+      
         });
-       
     </script>
     @endpush
 </x-nform-layout>
