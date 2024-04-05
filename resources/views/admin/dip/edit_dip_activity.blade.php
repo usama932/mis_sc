@@ -1,3 +1,9 @@
+@push('stylesheets')
+
+
+<link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css" rel="stylesheet" type="text/css"/>
+
+@endpush
 <x-nform-layout>
     @section('title', 'Edit Activity')
     <style>
@@ -66,7 +72,7 @@
                     </div>
                     <div id="targetRows">
                         @foreach($dip->months as $month)
-                        <div class="row">
+                        <div class="row mb-3">
                             <input type="hidden" name="activities[{{$loop->iteration -1}}][id]" placeholder="Enter Activity Target"
                             class="form-control" autocomplete="off" value="{{$month->id}}">
                             <div class="col-md-2">
@@ -74,6 +80,7 @@
                                     <span class="required">Monthly Target</span>
                                 </label>
                                 <br>
+                                <input type="hidden"  name="activities[{{$loop->iteration -1}}][quarter]" value="{{$month->quarter}}-{{$month->year}}" >                         
                                <span class="mt-4"> <strong class="mt-4">{{$month->quarter}}-{{$month->year}}</strong></span>
                             </div>
                             <div class="col-md-2">
@@ -94,7 +101,9 @@
                                 <label class="fs-7 fw-semibold form-label mb-2">
                                     <span class="">Expected Completion Date</span>
                                 </label>
-                                <input type="text" name="activities[{{$loop->iteration -1}}][complete_date]" id="start_date" placeholder="Select date"  class="form-control required start_date" onkeydown="event.preventDefault()" data-provide="datepicker"  value="{{$month->completion_date}}">
+                                <br>
+                                <strong class="mt-4">{{date('M d,Y', strtotime($month->completion_date))}}</strong>
+                                <input type="hidden" name="activities[{{$loop->iteration -1}}][complete_date]" id="start_date" placeholder="Select date"  class="form-control required start_date" onkeydown="event.preventDefault()" data-provide="datepicker"  value="{{$month->completion_date}}">
                             </div>
                             <div class="col-md-2 mt-4">  
                                 <a class="btn btn-sm btn-danger mt-5" title="Delete " onclick="event.preventDefault();del({{$month->id}});" title="Delete Monitor Visit" href="javascript:void(0)">
@@ -124,7 +133,7 @@
         $qs = [];
         $projectquarters = []; // Remove unnecessary initialization
         foreach ($dip->months as $month) {
-            $qs[] = $month->quarter . '-' . $month->year;
+            $qs[] = $month->quarter;
         }
         foreach ($quarters as $key =>  $quarter) {
             $projectquarters[] = $quarter;
@@ -132,33 +141,33 @@
         $complementQuarters = array_diff( $projectquarters,$qs);
     @endphp
     @push('scripts')
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var numericInputs = document.querySelectorAll('.numeric-input');
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
+    <script src="https://flatpickr.js.org/themer.js"></script>
 
-            numericInputs.forEach(function(input) {
-                input.addEventListener('input', function(event) {
-                    // Remove non-numeric characters
-                    this.value = this.value.replace(/[^0-9]/g, '');
+    //Add Target Row
+    <script>
+        var minDate = "{{ date('Y-m', strtotime($project->start_date)) }}";
+        var maxDate = "{{ date('Y-m', strtotime($project->end_date)) }}";
+        var selectedMonths = [];
+        function initFlatpickr() {
+                $(".monthpick").flatpickr({
+                    plugins: [
+                        new monthSelectPlugin({
+                            dateFormat: "M-Y",
+                            altFormat: "M-Y"
+                        })
+                    ],
+                    defaultDate: minDate,
+                    minDate: minDate,
+                    maxDate: maxDate,
                 });
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Delegate event handling to the parent element
-            document.getElementById('targetRows').addEventListener('input', function(event) {
-                var target = event.target;
-                // Check if the input belongs to the numeric-input class
-                if (target.classList.contains('numeric-input')) {
-                    // Remove non-numeric characters
-                    target.value = target.value.replace(/[^0-9]/g, '');
-                }
-            });
-        });
-    </script>
-    <script>
+            }
+
+        initFlatpickr();
+
         var i = {{ $dip->months->count() }};
+
         function addTargetRow() {
             var isValid = true;
             $('#targetRows .row').each(function () {
@@ -186,7 +195,7 @@
                 return $(this).val();
             }).get();
             var quarterCount = $('select[name^="activities["]').length;
-          
+
             var selectedQuarters = $('select[name^="activities["]').map(function () {
                 return $(this).val();
             }).get();
@@ -199,15 +208,7 @@
                 var html = `
                     <div class="row mt-3" style="display:none;">
                         <div class="col-md-2">
-                            <select name="activities[${i}][quarter]" aria-label="Select a Quarter "
-                                data-placeholder="Select a Quarter Target" class="form-select"
-                                data-allow-clear="true">
-                                <option value=''>Select Quarter Target</option>`;
-                                availableQuarters.forEach(function (quarter) {
-                                    html += `<option value="${quarter}">${quarter}</option>`;
-                                });
-                                html += `
-                            </select>
+                            <input type="text" name="activities[${i}][quarter]" placeholder="Select Month" class="form-control monthpick" id="monthpick${i}">
                         </div> 
                         <div class="col-md-2">
                             <input type="text" name="activities[${i}][target_quarter]" placeholder="Enter Activity Target"
@@ -218,7 +219,7 @@
                                 class="form-control numeric-input" autocomplete="off" required>
                         </div>
                         <div class="col-md-4">
-                            <input type="text" name="activities[${i}][complete_date]" id="start_date" placeholder="Select date"  class="form-control required start_date${i}" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
+                            <input type="text" name="activities[${i}][complete_date]" id="start_date${i}" placeholder="Select date" class="form-control required" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
                         </div>
                         <div class="col-md-1">
                             <button type="button" class="btn btn-danger btn-sm" onclick="removeTargetRow(this)"><i class="fa fa-trash"></i></button>
@@ -226,26 +227,75 @@
                     </div>`;
                 $('#targetRows').append(html);
                 $('#targetRows .row').last().slideDown(); // Show the new row with animation
-                flatpickr(".start_date" + i, {
-                    dateFormat: "Y-m-d",
-                });
+                initFlatpickr();
                 if ($('#targetRows .row').length === 1) {
                     $('#add_quarter_target').hide();
                 }
             } else {
                 toastr.error("All Month are already shown.", "Error");
             }
+
+            // Update inputElement assignment here after new elements are added to the DOM
+            var inputElement = document.getElementById(`monthpick${i}`);
+
+            if (inputElement) {
+                inputElement.addEventListener("change", function() {
+                    var inputValue = inputElement.value;
+                
+                    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+                    var selectedMonthYear = inputValue.split("-");
+                    var selectedMonth = selectedMonthYear[0];
+                    var selectedYear = parseInt(selectedMonthYear[1]);
+
+                    var startDate = new Date(selectedYear, monthNames.indexOf(selectedMonth), 1);
+                    var endDate = new Date(selectedYear, monthNames.indexOf(selectedMonth) + 1, 0);
+
+                    var flatpickrInstance = flatpickr("#start_date" + i);
+
+                    flatpickrInstance.setDate(startDate);
+                    flatpickrInstance.set("minDate", startDate);
+                    flatpickrInstance.set("maxDate", endDate);
+                });
+            }
         }
-    
         function removeTargetRow(button) {
             $(button).closest('.row').remove();
             $('#add_quarter_target').show();
         }
+        
     </script>
+
+    // add numerice input
     <script>
-        flatpickr(".start_date" , {
-            dateFormat: "Y-m-d",
+        document.addEventListener("DOMContentLoaded", function() {
+            var numericInputs = document.querySelectorAll('.numeric-input');
+
+            numericInputs.forEach(function(input) {
+                input.addEventListener('input', function(event) {
+                    // Remove non-numeric characters
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                });
+            });
         });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Delegate event handling to the parent element
+            document.getElementById('targetRows').addEventListener('input', function(event) {
+                var target = event.target;
+                // Check if the input belongs to the numeric-input class
+                if (target.classList.contains('numeric-input')) {
+                    // Remove non-numeric characters
+                    target.value = target.value.replace(/[^0-9]/g, '');
+                }
+            });
+        });
+    </script>
+
+    //del target
+    <script>
         function del(id) {
             Swal.fire({
                 title: "Are you sure?",

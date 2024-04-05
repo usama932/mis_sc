@@ -14,7 +14,7 @@
         .selected-month {
         background-color: #f0f0f0; /* Grey color */
         color: #333; /* Dark text color for better contrast */
-    }
+        }
     </style>
    
     <div id="kt_app_content" class="app-content flex-column-fluid">
@@ -78,16 +78,7 @@
                                 <label class="fs-7 fw-semibold form-label mb-2">
                                     <span class="required">Month</span>
                                 </label>
-                                <input type="text"  name="activities[0][quarter]" placeholder="Select Month"  class="form-control monthpick" >
-
-                                {{-- <select name="activities[0][quarter]" aria-label="Select a Month Target"
-                                    data-placeholder="Select a Month Target" class="form-select"
-                                    data-allow-clear="true">
-                                    <option value=" ">Select Quarter Target</option>
-                                    @foreach($quarters as $key => $quarter)
-                                        <option value='{{ $quarter }}'>{{ $quarter }}</option>
-                                    @endforeach
-                                </select> --}}
+                                <input type="text"  name="activities[0][quarter]" placeholder="Select Month"  class="form-control monthpick" id="monthpick{{0}}">                          
                             </div>
                             <div class="col-md-2">
                                 <label class="fs-8 fw-semibold form-label mb-2">
@@ -110,7 +101,7 @@
                                 <label class="fs-9 fw-semibold form-label mb-2">
                                     <span class="required">Expected Completion Date</span>
                                 </label>
-                                <input type="text" name="activities[0][complete_date]" id="start_date" placeholder="Select date"  class="form-control start_date" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
+                                <input type="text" name="activities[0][complete_date]" id="start_date0" placeholder="Select date"  class="form-control start_date" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
                             
                             </div>
                             <div class="col-md-2 mt-5 text-end fs-9">
@@ -157,11 +148,27 @@
             });
         }
         
-       
-        flatpickr(".start_date", {
-            dateFormat: "Y-m-d",
+        var inputElement = document.getElementById("monthpick0");
+        inputElement.addEventListener("change", function() {
+            var inputValue = inputElement.value;
+         
+            var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+            var selectedMonthYear = inputValue.split("-");
+            var selectedMonth = selectedMonthYear[0];
+            var selectedYear = parseInt(selectedMonthYear[1]);
+
+            var startDate = new Date(selectedYear, monthNames.indexOf(selectedMonth), 1);
+            var endDate = new Date(selectedYear, monthNames.indexOf(selectedMonth) + 1, 0);
+
+            var flatpickrInstance = flatpickr("#start_date0");
+
+            flatpickrInstance.setDate(startDate);
+            flatpickrInstance.set("minDate", startDate);
+            flatpickrInstance.set("maxDate", endDate);
         });
-        initFlatpickr(); // Initialize Flatpickr for existing monthpick inputs
+     
+        initFlatpickr();
     
         // Add new row function
         function addTargetRow() {
@@ -184,6 +191,7 @@
                 return;
             }
             var i = $('#targetRows .row').length;
+           
             var quarters = @json($quarters);
             var selectedQuarters = $('input[name^="activities["][name$="[quarter]"]').map(function() {
                 return $(this).val();
@@ -197,7 +205,7 @@
                 var html = `
                     <div class="row mt-3" style="display:none;">
                         <div class="col-md-3">
-                            <input type="text" name="activities[${i}][quarter]" placeholder="Select Month" class="form-control monthpick">
+                            <input type="text" name="activities[${i}][quarter]" placeholder="Select Month" class="form-control monthpick" id="monthpick${i}">
                         </div>
                         <div class="col-md-2">
                             <input type="text" pattern="[0-9]*" name="activities[${i}][target_quarter]" placeholder="Enter Activity Target" class="form-control numeric-input" autocomplete="off" required>
@@ -206,7 +214,7 @@
                             <input type="text" pattern="[0-9]*" name="activities[${i}][target_benefit]" placeholder="Enter Beneficiary Target" class="form-control numeric-input" autocomplete="off">
                         </div>
                         <div class="col-md-4">
-                            <input type="text" name="activities[${i}][complete_date]" id="start_date" placeholder="Select date" class="form-control start_date${i} required" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
+                            <input type="text" name="activities[${i}][complete_date]" id="start_date${i}" placeholder="Select date" class="form-control required" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
                         </div>
                         <div class="col-md-1">
                             <button type="button" class="btn btn-danger btn-sm" onclick="removeTargetRow(this)"><i class="fa fa-trash"></i></button>
@@ -214,17 +222,37 @@
                     </div>`;
                 $('#targetRows').append(html);
                 $('#targetRows .row').last().slideDown(); // Show the new row with animation
-                flatpickr(".start_date" + i, {
-                    dateFormat: "Y-m-d",
-                });
+             
                 if ($('#targetRows .row').length === 1) {
                     $('#add_quarter_target').hide();
                 }
-                initFlatpickr(); // Re-initialize Flatpickr for new monthpick input
+                initFlatpickr();
+               
             } else {
                 toastr.error("All Month are already shown.", "Error");
             }
-        }
+            var inputElement = document.querySelectorAll(".monthpick")[i];
+                
+                inputElement.addEventListener("change", function() {
+                    var inputValue = inputElement.value;
+                   
+                 
+                    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+                    var selectedMonthYear = inputValue.split("-");
+                    var selectedMonth = selectedMonthYear[0];
+                    var selectedYear = parseInt(selectedMonthYear[1]);
+
+                    var startDate = new Date(selectedYear, monthNames.indexOf(selectedMonth), 1);
+                    var endDate = new Date(selectedYear, monthNames.indexOf(selectedMonth) + 1, 0);
+
+                    var flatpickrInstance = flatpickr("#start_date" + i);
+
+                    flatpickrInstance.setDate(startDate);
+                    flatpickrInstance.set("minDate", startDate);
+                    flatpickrInstance.set("maxDate", endDate);
+                });
+            }
     
         // Remove row function
         function removeTargetRow(button) {

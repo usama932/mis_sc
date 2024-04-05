@@ -327,8 +327,6 @@ class DipActivityController extends Controller
     {
         
         $collection = collect($request->activities);
-
-     
         $duplicates = $collection->duplicates('quarter')->groupBy('quarter')->map(function ($items) {
             return $items->all();
         })->toArray();
@@ -336,7 +334,7 @@ class DipActivityController extends Controller
       
         
         $data = $request->except('_token');
-        $dip = DipActivity::where('activity_title',$request->activity)->where('subtheme_id',$request->sub_theme)->first();
+        $dip = DipActivity::orWhere('activity_title',$request->activity)->orWhere('activity_number',$request->activity_number)->where('subtheme_id',$request->sub_theme)->first();
         $editUrl = route('dips.edit',$request->project_id);
        
         if(empty($dip)){
@@ -371,12 +369,8 @@ class DipActivityController extends Controller
 
     }
 
-    public function create_activity(){
-
-    }
     public function show(string $id)
     {
-        
         $dip_activity = DipActivity::where('id',$id)->with('months','project','project.themes','user','user1')->first();
   
         if(!empty($dip_activity->project->detail->province )){
@@ -432,18 +426,46 @@ class DipActivityController extends Controller
 
     public function update(Request $request, string $id)
     {
+        $collection = collect($request->activities);
+        $filteredCollection = $collection->reject(function ($item) {
+            return !isset($item['quarter']) || $item['quarter'] === null;
+        });
+        
+        $duplicates = $filteredCollection
+            ->duplicates('quarter')
+            ->groupBy('quarter')
+            ->map(function ($items) {
+                return $items->all();
+            })
+            ->toArray();
+        
       
         $data = $request->except('_token');
-        $dip = DipActivity::where('id',$id)->first();
-        $dip_activity = $this->dipactivityRepository->updatedipactivity($data ,$id);
-        $active = 'dip_activity';
-        session(['dip_edit' => $active]);
+        $editUrl = route('dips.edit',$request->project_id);
        
-        $editUrl = route('dips.edit',$dip->project_id);
-        
-        return response()->json([
-            'editUrl' => $editUrl
-        ]);
+            if($duplicates == []){
+               
+                $data = $request->except('_token');
+                $dip = DipActivity::where('id',$id)->first();
+                $dip_activity = $this->dipactivityRepository->updatedipactivity($data ,$id);
+                $active = 'dip_activity';
+                session(['dip_edit' => $active]);
+                return response()->json([
+                    'editUrl' => $editUrl,
+                    'error'    => false,
+                    'message' => "Activity Updated",
+                ]);
+            }
+            else{
+                return response()->json([
+                    'editUrl' => $editUrl,
+                    'error' => true,
+                    'message' => "Duplicate target enter",
+                ]);
+            }
+            return response()->json([
+                'editUrl' => $editUrl
+            ]);
     }
 
     public function delete_month(string $id)
