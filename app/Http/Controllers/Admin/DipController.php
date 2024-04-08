@@ -88,84 +88,86 @@ class DipController extends Controller
 		$data = array();
 		if($dips){
 			foreach($dips as $r){
-                
-                $edit_url = route('dips.edit',$r->id);
-                $show_url = route('dips.show',$r->id);
-                $nestedData['dip_add'] = '<div>
-                                        <td>
-                                            <a class="btn btn-info btn-sm " title="Add Activity" href="'.  $edit_url.'">
-                                                Manage Activity Target
+                if($r->detail?->count() > 0 && $r->themes?->count() > 0){
+                    $edit_url = route('dips.edit',$r->id);
+                    $show_url = route('dips.show',$r->id);
+                    $nestedData['dip_add'] = '<div>
+                                            <td>
+                                                <a class="btn btn-info btn-sm " title="Add Activity" href="'.  $edit_url.'">
+                                                    Manage Activity Target
+                                                </a>
                                             </a>
-                                        </a>
-                                        </td>
-                                        </div>
-                                        ';
-				$nestedData['id'] = $r->id;
-                $nestedData['project'] = $r->name ?? '';
-                $nestedData['type'] = $r->type ?? '';
-                $nestedData['sof'] = $r->sof ?? '';
-                if(!empty($r->detail->province )){
-                    $province_dip = json_decode($r->detail->province , true);
-                    $provinces = Province::whereIn('province_id', $province_dip)->pluck('province_name');
-                }
-                else{
-                    $provinces = '';
-                }
-                $nestedData['province'] = $provinces ?? '';
-                $themes = [];
-                if (!empty($r->themes)) {
-                    foreach ($r->themes as $theme) {
-                        $themes[] = $theme->scitheme_name->name;
+                                            </td>
+                                            </div>
+                                            ';
+                    $nestedData['id'] = $r->id;
+                    $nestedData['project'] = $r->name ?? '';
+                    $nestedData['type'] = $r->type ?? '';
+                    $nestedData['sof'] = $r->sof ?? '';
+                    if(!empty($r->detail->province )){
+                        $province_dip = json_decode($r->detail->province , true);
+                        $provinces = Province::whereIn('province_id', $province_dip)->pluck('province_name');
                     }
-                    $themes = implode(', ', array_unique($themes)); // Combining themes with commas
-                } else {
-                    $themes = ''; // If themes array is empty
-                }
-                $partners = [];
-                if (!empty($r->partners)) {
-                    foreach ($r->partners as $partner) {
-                        $partners[] = $partner->partner_name->slug;
+                    else{
+                        $provinces = '';
                     }
-                    $partners = implode(', ', $partners); // Combining themes with commas
-                } else {
-                    $partners = ''; // If themes array is empty
+                    $nestedData['province'] = $provinces ?? '';
+                    $themes = [];
+                    if (!empty($r->themes)) {
+                        foreach ($r->themes as $theme) {
+                            $themes[] = $theme->scitheme_name->name;
+                        }
+                        $themes = implode(', ', array_unique($themes)); // Combining themes with commas
+                    } else {
+                        $themes = ''; // If themes array is empty
+                    }
+                    $partners = [];
+                    if (!empty($r->partners)) {
+                        foreach ($r->partners as $partner) {
+                            $partners[] = $partner->partner_name->slug;
+                        }
+                        $partners = implode(', ', $partners); // Combining themes with commas
+                    } else {
+                        $partners = ''; // If themes array is empty
+                    }
+                   
+                    $nestedData['partners'] =  $partners  ?? '';
+                    $nestedData['themes'] =$themes ?? '';
+                    if(!empty($r->detail->district )){
+                        $district_dip = json_decode($r->detail->district , true);
+                        $districts = District::whereIn('district_id', $district_dip)->pluck('district_name');
+                    }
+                    else{
+                        $districts = '';
+                    }
+                    $nestedData['district'] = $districts ?? '';
+                  
+                   
+                    if($r->start_date != null && $r->end_date != null){
+                        $nestedData['project_tenure'] = date('M d ,Y', strtotime($r->start_date)) .' To '.date('M d ,Y', strtotime($r->end_date));
+                    }
+                    else{
+                        $nestedData['project_tenure'] ='' ;
+                    }      
+                    $nestedData['attachment'] = $r->detail->attachment ?? '';
+                    $nestedData['created_by'] = $r->user->name ?? '';
+                    $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
+                           
+                    $nestedData['action'] = '<div>
+                                            <td>
+                                               ';
+                                            if (auth()->user()->user_type == 'admin') {
+                                                $nestedData['action'] .= '
+                                                <a class="btn-icon mx-1" title="Delete " onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
+                                                <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+                                                </a>';
+                                            }
+                                            $nestedData['action'] .= '</td></div>';
+                            
+                    
+                    $data[] = $nestedData;
                 }
-               
-                $nestedData['partners'] =  $partners  ?? '';
-                $nestedData['themes'] =$themes ?? '';
-                if(!empty($r->detail->district )){
-                    $district_dip = json_decode($r->detail->district , true);
-                    $districts = District::whereIn('district_id', $district_dip)->pluck('district_name');
-                }
-                else{
-                    $districts = '';
-                }
-                $nestedData['district'] = $districts ?? '';
-              
-               
-                if($r->start_date != null && $r->end_date != null){
-                    $nestedData['project_tenure'] = date('M d ,Y', strtotime($r->start_date)) .' To '.date('M d ,Y', strtotime($r->end_date));
-                }
-                else{
-                    $nestedData['project_tenure'] ='' ;
-                }      
-                $nestedData['attachment'] = $r->detail->attachment ?? '';
-                $nestedData['created_by'] = $r->user->name ?? '';
-                $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
-                       
-                $nestedData['action'] = '<div>
-                                        <td>
-                                           ';
-                                        if (auth()->user()->user_type == 'admin') {
-                                            $nestedData['action'] .= '
-                                            <a class="btn-icon mx-1" title="Delete " onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
-                                            <i class="fa fa-trash text-danger" aria-hidden="true"></i>
-                                            </a>';
-                                        }
-                                        $nestedData['action'] .= '</td></div>';
-                        
-				
-				$data[] = $nestedData;
+             
 			}
 		}
 		

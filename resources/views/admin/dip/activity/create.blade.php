@@ -21,7 +21,9 @@
                                 data-placeholder="Select a Project" class="form-select" data-allow-clear="true">
                                 <option value="">Select a Project</option>
                                 @foreach($projects as $project)
-                                    <option value="{{$project->id}}">{{$project->name}}</option>
+                                    @if($project->detail?->count() > 0 && $project->themes?->count() > 0)
+                                        <option value="{{$project->id}}">{{$project->name}}</option>
+                                    @endif
                                 @endforeach
                             </select>
                             <div id="project_idError" class="error-message"></div>

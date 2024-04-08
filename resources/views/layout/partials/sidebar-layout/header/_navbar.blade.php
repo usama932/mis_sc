@@ -24,7 +24,7 @@
             </div>
         </div> --}}
 		<div class="cursor-pointer symbol symbol-35px" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-            {{-- @unless(Auth::check())
+           
                 @if(Auth::user()?->profile_photo_url)
                     <img src="{{ \Auth::user()?->profile_photo_url }}" class="rounded-3" alt="user" />
                 @else
@@ -32,7 +32,7 @@
                         {{ substr(Auth::user()?->name, 0, 1) }}
                     </div>
                 @endif
-            @endunless --}}
+          
         </div>
         
         @include('partials/menus/_user-account-menu')

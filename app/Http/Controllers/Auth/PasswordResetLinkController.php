@@ -8,13 +8,10 @@ use Illuminate\Support\Facades\Password;
 
 class PasswordResetLinkController extends Controller
 {
-    /**
-     * Display the password reset link request view.
-     *
-     * @return \Illuminate\View\View
-     */
+    
     public function create()
     {
+        
         addJavascriptFile('assets/js/custom/authentication/reset-password/reset-password.js');
 
         return view('pages.auth.forgot-password');

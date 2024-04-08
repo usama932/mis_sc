@@ -70,10 +70,10 @@
                     </li>
                     <li class="nav-item">
                       
-                        <a class="nav-link @if(session('project') == 'thematic') active @else  @endif" data-bs-toggle="tab" href="#thematic" @if(empty($project->detail)) disabled @endif >Thematic area</a>
+                        <a class="nav-link @if(session('project') == 'thematic') active @else  @endif" data-bs-toggle="tab" href="#thematic" @if(empty($project->detail) ) disabled @endif >Thematic area</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @if(session('project') == 'partner') active @else  @endif" data-bs-toggle="tab" href="#partner" @if(empty($project->detail)) disabled @endif >Implementing Partner</a>
+                        <a class="nav-link @if(session('project') == 'partner') active @else  @endif" data-bs-toggle="tab" href="#partner" @if(empty($project->detail)  || empty($project->themes)) disabled @endif >Implementing Partner</a>
                     </li>
                 </ul>
             </div>
@@ -82,10 +82,10 @@
                     @include('admin.projects.partials.detail_form')
                 </div>
                 
-                <div class="tab-pane fade show @if(session('project') == 'thematic') active @else  @endif" id="thematic" role="tabpanel" @if(empty($project->detail)) disabled @endif >
-                    @include('admin.projects.partials.project_theme')
+                <div class="tab-pane fade show @if(session('project') == 'thematic') active @else  @endif" id="thematic" role="tabpanel" @if(empty($project->detail) ) disabled @endif >
+                    @include('admin.projects.partials.project_theme') 
                 </div>
-                <div class="tab-pane fade show @if(session('project') == 'partner') active @else  @endif" id="partner" role="tabpanel" @if(empty($project->detail)) disabled @endif >
+                <div class="tab-pane fade show @if(session('project') == 'partner') active @else  @endif" id="partner" role="tabpanel" @if(empty($project->detail)  || empty($project->themes)) disabled @endif >
                     @include('admin.projects.partials.project_partners')
                 </div>
                

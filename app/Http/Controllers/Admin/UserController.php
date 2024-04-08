@@ -55,7 +55,7 @@ class UserController extends Controller
 
     public function reset_password()
     {
-        return view('pages.auth.reset-password');
+        return view('pages.auth.resetpasswordfromadmin');
     }
 
     public function password_update(Request $request)

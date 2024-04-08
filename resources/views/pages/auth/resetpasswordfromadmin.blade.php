@@ -1,9 +1,4 @@
-
-<x-auth-layout>
-    <div class="text-center fw-bold">
-        <img src="https://opmis.savethechildren.org.np/login//assets/images/Save1.png" height="50px" class="mb-3">
-        <h2>MANAGEMENT INFORMATION SYSTEM (MIS) </h2>
-    </div>
+<x-default-layout>
     @if (session('success'))
         <div class="alert alert-success" role="alert">
             {{ session('success') }}
@@ -13,99 +8,92 @@
             {{ session('error') }}
         </div>
     @endif
-    <div class="border border-5 p-5 border-danger">
-        <form class="w-75 mx-auto"   action="{{ route('update_password') }}" method="post" id="myForm"> 
-            @csrf
+  
+    <form class="w-50 mx-auto"   action="{{ route('update_password') }}" method="post" id="myForm">
+        @csrf
 
-            <!-- Password Reset Token -->
-            <input type="hidden" name="token" value="{{ $request->token }}">
-            <input type="hidden" name="email" value="{{ old('email', $request->email) }}">
+        <!-- Password Reset Token -->
+        {{-- <input type="hidden" name="token" value="{{ $request->token }}">
+        <input type="hidden" name="email" value="{{ old('email', $request->email) }}"> --}}
 
-            <!--begin::Heading-->
-            <div class="text-center mb-10">
-                <!--begin::Title-->
-                <h1 class="text-dark fw-bolder mb-3">
-                    New Password
-                </h1>
-                <!--end::Title-->
+        <!--begin::Heading-->
+        <div class="text-center mb-10">
+            <!--begin::Title-->
+            <h1 class="text-dark fw-bolder mb-3">
+                New Password
+            </h1>
+            <!--end::Title-->
 
-                <!--begin::Link-->
-                <h3 class="text-black fw-semibold fs-6">
-                    Enter your new password.
-                </h3>
-                <!--end::Link-->
+            <!--begin::Link-->
+            <div class="text-gray-500 fw-semibold fs-6">
+                Enter your new password.
             </div>
-            <!--begin::Heading-->
+            <!--end::Link-->
+        </div>
+        <!--begin::Heading-->
 
-            <div id="errorList" class=" p-3" style="display: none; color: white;">
-                <ul id="errors"></ul>
-            </div>
-            <div class="fv-row mb-8" data-kt-password-meter="true">
-                <!--begin::Wrapper-->
-               
-                   
-                        <input class="form-control bg-white" type="old_password" placeholder="Old Password" name="old_password" autocomplete="off"/>
-                        @error('old_password')
-                            <div class="error text-danger">{{ $message }}</div>
-                        @enderror
-                        
-                   
-            </div>
-            <div class="fv-row mb-8">
+        <div id="errorList" class=" p-3" style="display: none; color: red;">
+            <ul id="errors"></ul>
+        </div>
+        <div class="fv-row mb-8" data-kt-password-meter="true">
+            <!--begin::Wrapper-->
+            <div class="mb-1">
                 <!--begin::Input wrapper-->
-                
+                <div class="position-relative mb-3">
+                    <input class="form-control bg-transparent" type="old_password" placeholder="Old Password" name="old_password" autocomplete="off"/>
+                    @error('old_password')
+                        <div class="error text-danger">{{ $message }}</div>
+                    @enderror
+                    
+                </div>
+                <!--end::Input wrapper-->
+
+              
+            </div>
+            <div class="mb-1">
+                <!--begin::Input wrapper-->
+                <div class="position-relative mb-3">
                     <div class="input-group mb-3">
-                        <input class="form-control bg-white" type="password" id="password" placeholder="Password" name="password" autocomplete="off"/>
-                        <div class="btn btn-light text-dark"  id="togglePassword"><i class="fas fa-eye" id="eye"></i></div>
+                        <input class="form-control bg-transparent" type="password" id="password" placeholder="Password" name="password" autocomplete="off"/>
+                        <button class="btn btn-outline-secondary" type="button" id="togglePassword"><i class="fas fa-eye" id="eye"></i></button>
                     </div>
                     @error('password')
                         <div class="error text-danger">{{ $message }}</div>
                     @enderror
-                
-                
+                   
+                </div>
                 <!--end::Input wrapper-->
                 <div id="passwordMatchError" style="display: none; color: red;">Passwords do not match</div>
                 <div id="passwordFormatError" style="display: none; color: red;">Password Must between 6 to 20 characters  & At least one numeric digit, one uppercase and one lowercase letter</div>
-            
-            </div>
-            
-            
-            <!--end::Input group--->
-
-            <!--end::Input group--->
-            <div class="fv-row mb-8">
-                <div class="input-group mb-3">
-                    <input placeholder="Repeat Password" id="repeatPassword" name="password_confirmation" type="password" autocomplete="off" class="form-control bg-white"/>
-                    <div class="btn btn-light text-dark" id="toggleConfirmPassword"><i class="fas fa-eye" id="confirmEye"></i></div>
-                </div>
-            </div>
-        
-
-            <!--begin::Actions-->
-            <div class="d-flex flex-wrap justify-content-center pb-lg-0">
-                <button type="submit" id="kt_sign_in_submit" class="btn btn-primary btn-sm">
-                    @include('partials/general/_button-indicator', ['label' => 'Submit'])
-                </button>
               
-
-                <a href="{{ route('login') }}" class="btn btn-light btn-sm">Cancel</a>
             </div>
-            <!--end::Actions-->
-        </form>
-    </div>
+           
+        </div>
+        <!--end::Input group--->
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-    <script>
-          // Clear old password field on page load
-            window.addEventListener('load', function() {
-                document.getElementById('old_password').value = '';
-            });
+        <!--end::Input group--->
+        <div class="fv-row mb-8">
+            <div class="input-group mb-3">
+                <input placeholder="Repeat Password" id="repeatPassword" name="password_confirmation" type="password" autocomplete="off" class="form-control bg-transparent"/>
+                <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword"><i class="fas fa-eye" id="confirmEye"></i></button>
+            </div>
+        </div>
+      
 
-            // Clear old password field when the input field gains focus
-            document.getElementById('old_password').addEventListener('focus', function() {
-                this.value = '';
-            });
-    </script>
+        <!--begin::Actions-->
+        <div class="d-flex flex-wrap justify-content-center pb-lg-0">
+            <button type="submit" class="btn btn-primary btn-sm me-4">
+              Submit
+            </button>
+
+            <a href="{{ route('login') }}" class="btn btn-light btn-sm">Cancel</a>
+        </div>
+        <!--end::Actions-->
+    </form>
+    <!--end::Form-->
+
+
+
     <script>
         document.getElementById('myForm').addEventListener('submit', function(event) {
             const passwordInput = document.getElementById('password');
@@ -195,4 +183,4 @@
             }
         });
     </script>
-</x-auth-layout>
+</x-default-layout>
