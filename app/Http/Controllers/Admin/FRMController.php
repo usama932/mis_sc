@@ -16,6 +16,7 @@ use App\Models\FeedbackCategory;
 use App\Models\Project;
 use App\Models\Theme;
 use App\Models\User;
+use App\Models\ClosingRecord;
 use App\Repositories\Interfaces\FrmRepositoryInterface;
 use Carbon\Carbon;
 
@@ -375,10 +376,11 @@ class FRMController extends Controller
         $projects = Project::where('active','1')->latest()->get();
         $themes = Theme::latest()->get();
         $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
-        
+        $record = ClosingRecord::latest()->first(); 
+
         addJavascriptFile('assets/js/custom/frm/general.js');
         addJavascriptFile('assets/js/custom/frm/frm.js');
-        return view('admin.frm.create',compact('feedbackchannels','feedbackcategories','projects','themes','response_id','users'));
+        return view('admin.frm.create',compact('record','feedbackchannels','feedbackcategories','projects','themes','response_id','users'));
     }
     public function getUpdate_response($id)
     {

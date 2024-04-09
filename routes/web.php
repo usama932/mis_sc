@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\ProjectThemeController;
 use App\Http\Controllers\Admin\ProjectPartnerController;
 use App\Http\Controllers\Auth\StaffLoginController;
+use App\Http\Controllers\Admin\CloseRecordController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -173,18 +174,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/projectthemes', ProjectThemeController::class);
     Route::get('/project_theme/delete/{id}', [ProjectThemeController::class,'destroy'])->name('project_theme.delete');
 
-    //Project Partner
+    //Project Partner routes
     Route::resource('/projectpartners', ProjectPartnerController::class);
     Route::post('project_partners', [ProjectPartnerController::class,'project_partners'])->name('admin.project_partners');
     Route::post('edit_project_partner', [ProjectPartnerController::class,'edit_project_partner'])->name('edit_project_partner');
     Route::get('/project_partner/delete/{id}', [ProjectPartnerController::class,'destroy'])->name('project_partner.delete');
 
+
+    //close Records routes
+    Route::resource('/close_records', CloseRecordController::class);
 });
 
 Route::get('/error', function () {
     abort(500);
 });
-// Route::get('send-mail', function () {
 
 Route::get('/auth/redirect/{provider}', [SocialiteController::class, 'redirect']);
 Route::get('otp/form/{email}', [StaffLoginController::class,'otp_form'])->name('otp.form');
@@ -194,13 +197,3 @@ require __DIR__ . '/auth.php';
 
 
    
-//     $details = [
-//         'title' => 'Save the Children',
-//         'body' => 'Please use the verification code below to sign in.',
-//         'otp' => '2121'
-//     ];
-   
-//     \Mail::to('usama1517a@gmail.com')->send(new \App\Mail\sendMail($details));
-   
-//     dd("Email is Sent.");
-// });

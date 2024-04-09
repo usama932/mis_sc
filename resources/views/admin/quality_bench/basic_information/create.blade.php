@@ -236,7 +236,7 @@
                         <div class="row mt-3">
                             <div class="fv-row col-md-3">
                                 <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">Date of monitoring visit </span>
+                                    <span class="required">Date of monitoring visit  </span>
                                 </label>
                                 <input type="text" name="date_visit" id="date_visit" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="" required>
                                 <div id="date_visitError" class="error-message"></div>
@@ -280,11 +280,13 @@
     @push('scripts')
         
     <script>
+        var mindate ={{$record->qb_close_upto}};
+
         $('#date_visit').flatpickr({
             altInput: true,
             dateFormat: "Y-m-d",
             maxDate: new Date().fp_incr(+0),
-            minDate: new Date("2023-10-01"),
+            minDate: new Date("2024-04-01"),
         });
         $(document).ready(function(){
         $('.qb_base').click(function(){

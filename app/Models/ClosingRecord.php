@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ClosingRecord extends Model
 {
     use HasFactory;
-    protected $table = 'tbl_fbreg';
+    protected $table = 'closing_records';
     protected $guarded = [];
 
 }

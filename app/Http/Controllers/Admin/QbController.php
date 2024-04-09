@@ -15,6 +15,7 @@ use App\Models\MonitorVisit;
 use App\Models\Partner;
 use App\Models\QBAttachement;
 use App\Exports\QB\ExportQB;
+use App\Models\ClosingRecord;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\QB\ActionPoint;
 use App\Repositories\Interfaces\QbRepositoryInterface;
@@ -225,9 +226,11 @@ class QbController extends Controller
         $themes = Theme::latest()->get();
         $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
         $partners = Partner::orderBy('name')->get();  
+        $record = ClosingRecord::latest()->first(); 
+
         addJavascriptFile('assets/js/custom/quality_benchmark/general.js');
         addJavascriptFile('assets/js/custom/quality_benchmark/qb.js');
-        return view('admin.quality_bench.basic_information.create',compact('projects','themes','users','partners'));
+        return view('admin.quality_bench.basic_information.create',compact('record','projects','themes','users','partners'));
     }
 
    

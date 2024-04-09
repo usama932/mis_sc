@@ -123,7 +123,7 @@ $('#date_recieved_id').flatpickr({
     altInput: true,
     dateFormat: "Y-m-d",
     maxDate: "today",
-    minDate: new Date().fp_incr(-60), 
+    minDate: new Date("2024-04-01"), 
 });
 
 //script for province, district,tehisl and uc
