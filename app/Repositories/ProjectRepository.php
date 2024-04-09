@@ -7,12 +7,16 @@ use App\Models\ProjectDetail;
 use App\Models\ProjectPartner;
 use App\Models\ProjectTheme;
 use App\Models\Partner;
+use App\Models\UserTheme;
+use App\Models\UserProvinceDistricts;
 use App\Models\User;
+use App\Models\District;
 use Carbon\Carbon; 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Models\ProjectQuarter;
-
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ProjectRepository implements ProjectRepositoryInterface
 {
@@ -191,43 +195,72 @@ class ProjectRepository implements ProjectRepositoryInterface
     }
 
     public function storeprojectpartner($data){
-        $project = Project::where('id',$data['project'])->first();
-        $partner = Partner::where('id' ,$data['partner'])->first();
-        $details = [
-            'title' => 'Save the children',
-            "password" => "12345678",
-            'email' => $data['email'],
-            'project' => $project->name,
-            'partner' => $partner->name
+        
+        try {
+            $project = Project::where('id', $data['project'])->firstOrFail();
+            $partner = Partner::where('id', $data['partner'])->firstOrFail();
+        
+            $details = [
+                'title' => 'Save the children',
+                "password" => "12345678",
+                'email' => $data['email'],
+                'project' => $project->name,
+                'partner' => $partner->name
+            ];
+        
+            Mail::to($data['email'])->send(new \App\Mail\partnerMail($details));
+            // Create or retrieve user
+            $user = User::firstOrNew(['email' => $data['email']]);
+            if (!$user->exists) {
+                $user->fill([
+                    'name' => $partner->name,
+                    'password' => Hash::make('12345678'),
+                    'permissions_level' => 'nation-wide',
+                    'designation' => '48',
+                    'status' => '1',
+                    'user_type' => 'R1',
+                ])->save();
+                $user->assignRole('partner');
+            }
            
-        ];
-        Mail::to($data['email'])->send(new \App\Mail\partnerMail($details));
-    
-        $user = User::where('email' ,$data['email'])->first();
-        if(empty($user)){
-            $user = User::create([
-                'name'              => $partner->name,
-                'email'             => $data['email'],
-                'password'          => Hash::make('12345678'),
-                'permissions_level' => 'nation-wide',
-                'designation'       => '48',
-                'province'          => $data['province'],
-                'district'          => $data['district'],
-                'status'            => '1',
-                'user_type'         => 'R1',
-              
+            // Insert districts
+            foreach ($data['district'] as $districtId) {
+                $district = District::where('district_id',$districtId)->first();
+                if ($district) {
+                    UserProvinceDistricts::firstOrCreate([
+                        'province_id' => $district->provinces_id,
+                        'district_id' => $districtId,
+                        'user_id' => $user->id,
+                    ]);
+                }
+            }
+            // Insert themes
+            foreach ($data['theme'] as $themeId) {
+                UserTheme::firstOrCreate([
+                    'theme_id' => $themeId,
+                    'user_id' => $user->id,
+                ]);
+            }
+        
+        
+            // Create Project Partner
+            $projectPartner = ProjectPartner::create([
+                'partner_id' => $data['partner'],
+                'project_id' => $data['project'],
+                'email' => $data['email'],
+                'created_by' => auth()->user()->id,
             ]);
-            $user->assignRole('partner');
+            DB::commit();
+            return 1;
+        } 
+        catch (\Exception $e) {
+            $error =  $e->getMessage();
+          
+            DB::rollback();
+                DB::rollback(); // Rollback any transactions if necessary
+                return $error ;
+            
         }
-        return ProjectPartner::create([
-            'partner_id'        => $data['partner'],
-            'project_id'        => $data['project'],
-            'email'             => $data['email'],
-            'district'          => $data['district'],
-            'themes'            => $data['theme'],
-            'province'          => $data['province'],
-            'created_by'        => auth()->user()->id,
-        ]); 
     }
 
     public function updateprojectpartner($data ,$id){

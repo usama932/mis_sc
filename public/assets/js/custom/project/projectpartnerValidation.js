@@ -12,7 +12,7 @@ var KTprojectpartnerValidate = function() {
         var validator = FormValidation.formValidation(
             form, {
                 fields: {
-                    'theme': {
+                    'theme[]': {
                         validators: {
                             notEmpty: {
                                 message: 'Theme is required'
@@ -30,14 +30,14 @@ var KTprojectpartnerValidate = function() {
                           
                         }
                     },
-                    'district': {
+                    'district[]': {
                         validators: {
                             notEmpty: {
                                 message: 'District is required'
                             }
                         }
                     },
-                    'province': {
+                    'province[]': {
                         validators: {
                             notEmpty: {
                                 message: 'Province is required'

@@ -118,6 +118,7 @@ class ProjectPartnerController extends Controller
     
     public function store(Request $request)
     {
+        
         $project_partner = ProjectPartner::where('project_id' ,$request->project)->where('partner_id' ,$request->partner)->first();
         if(!empty($project_partner)){
             return response()->json([
@@ -129,14 +130,27 @@ class ProjectPartnerController extends Controller
             $data = $request->except('_token');
             $projectpartner = $this->projectRepository->storeprojectpartner($data);
             
-            $active = 'partner';
-            session(['project' => $active]);
-            $editUrl = route('project.detail',$projectpartner->project_id);
-            return response()->json([
-                'message' => "Partner Added",
-                'editUrl' => $editUrl,
-                'error' => "false"
-            ]);
+            if($projectpartner == 1){
+                $active = 'partner';
+                session(['project' => $active]);
+                $editUrl = route('project.detail',$projectpartner->project_id);
+                return response()->json([
+                    'message' => "Partner Added",
+                    'editUrl' => $editUrl,
+                    'error' => "false"
+                ]);
+            }
+            else{
+                $active = 'partner';
+                session(['project' => $active]);
+                $editUrl = route('project.detail',$projectpartner->project_id);
+                return response()->json([
+                    'message' => "Error occurred while processing data",
+                    'editUrl' => $editUrl,
+                    'error' => "true"
+                ]);
+            }
+          
         }
     }
 

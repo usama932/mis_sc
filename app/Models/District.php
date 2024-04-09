@@ -10,4 +10,8 @@ class District extends Model
     use HasFactory;
     protected $table = 'district';
     protected $guarded = [];
+    public function province()
+    {
+        return $this->belongsTo(Province::class,'provinces_id','province_id');
+    }
 }

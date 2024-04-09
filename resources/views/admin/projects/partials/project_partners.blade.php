@@ -25,7 +25,7 @@
                     <input type="email" name="email" class="form-control  mx-1" placeholder="Enter Partner Email" autocomplete="off">
                 </div>
                 <div class="fv-row col-md-4 mt-4">
-                    <select   name="province"   id="project_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select Partner Province" class="form-select "  data-allow-clear="true" >
+                    <select name="province[]" multiple id="project_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select Partner Province" class="form-select "  data-allow-clear="true" >
                         <option value="">Select Partner Province</option>
                         @foreach($provinces as $province)
                             <option value="{{ $province->province_id }}" >{{ $province->province_name }}                          </option>
@@ -35,11 +35,11 @@
                 </div>
                 <div class="fv-row col-md-4 mt-4">
                     <span class="spinner-border spinner-border-sm align-middle ms-2" id="districtload"></span>
-                    <select id="project_district" name="district"  aria-label="Select a district" data-control="select2" data-placeholder="Select Partner District" class="form-select "  data-allow-clear="true">    
+                    <select id="project_district" name="district[]" multiple  aria-label="Select a district" data-control="select2" data-placeholder="Select Partner District" class="form-select "  data-allow-clear="true">    
                     </select>
                 </div>
                 <div class="fv-row col-md-4 mt-4">
-                    <select name="theme" id="partner_themes" class="form-control m-input" data-control="select2" data-placeholder="Select Theme" class="form-select" data-allow-clear="true">
+                    <select name="theme[]" multiple id="partner_themes" class="form-control m-input" data-control="select2" data-placeholder="Select Theme" class="form-select" data-allow-clear="true">
                       
                     </select> 
                 </div>
