@@ -119,18 +119,21 @@ var KTQBValidate = function () {
                             }
                         }
                     },
-                    'total_qbs':{
+                    'total_qbs': {
                         validators: {
-                            notEmpty: {
-                                message: 'Required'
-                            },
-                            numeric: {
-                                message: 'only digits allowed'
-                            },
-							greaterThan:{
-								message: 'Must be greater than 0',
-								min: 1
-							}
+                            callback: {
+                                
+                                message: 'Total Qbs  is required',
+                                callback: function(value, validator) {
+                                   
+                                    var qb_base = document.querySelector('[name="qb_base"]').value;
+                                 
+                                    if (qb_base === 'Yes' ) {
+                                        return false;
+                                    }
+                                    
+                                }
+                            }
                         }
                     },
                     'qbs_fully_met': {

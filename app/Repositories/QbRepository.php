@@ -9,6 +9,7 @@ class QbRepository implements QbRepositoryInterface
 {
     public function storeQb($data)
     {
+       dd($data);
         $qb_not_met =  $data['total_qbs'] - ($data['qbs_fully_met'] + $data['qb_not_applicable']) ;   
         $score = $data['qbs_fully_met'] /($data['total_qbs']- $data['qb_not_applicable']);
         

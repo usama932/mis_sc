@@ -58,8 +58,6 @@ class ProjectController extends Controller
             14 => 'updated_at',
         ];
         
-    
-        
         $limit = $request->input('length');
         $orderIndex = $request->input('order.0.column');
         
@@ -106,7 +104,7 @@ class ProjectController extends Controller
                 $edit_url = route('project.detail',$r->id);
                 $view_url = route('project.view',$r->id);
                 $show_url = route('projects.show',$r->id);
-             
+                $projectreviews_url = route('projectreviews.show',$r->id);
 				$nestedData['id'] = $r->id;
                 $nestedData['project'] = $r->name ?? '';
                 $nestedData['sof'] = $r->sof ?? '';
@@ -151,8 +149,11 @@ class ProjectController extends Controller
                         <a class="btn-icon mx-1" href="'. $show_url.'" target="_blank" title="show project">
                             <i class="fa fa-eye text-success" aria-hidden="true" ></i>
                         </a>
-                        <a class="btn-icon mx-1" href="'. $view_url.'" target="_blank" title="show project activities">
-                            <i class="fa fa-eye text-primary" aria-hidden="true" ></i>
+                        <a class="btn-icon mx-1" href="'. $view_url.'" target="_blank" title="Show Project Activities">
+                            <i class="fa fa-file text-primary" aria-hidden="true" ></i>
+                        </a>
+                        <a class="btn-icon mx-1" href="'. $projectreviews_url.'" title="Show Project Review">
+                            <i class="fa fa-star text-info" aria-hidden="true" ></i>
                         </a>
                         <a class="btn-icon mx-1" href="'. $edit_url.'" title=" project edit">
                             <i class="fa fa-pencil text-warning" aria-hidden="true" ></i>

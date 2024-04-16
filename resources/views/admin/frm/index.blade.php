@@ -231,7 +231,7 @@
                             <th>Date of Reffered</th>
                             <th>Refferal Name</th>
                             <th>Refferal Position</th>
-                            <th>Satisfiction</th>
+                            <th>Satisfaction</th>
                             <th>Status</th>
                             {{-- <th>Feedback Summary</th> --}}
                             <th>Update Response</th>
