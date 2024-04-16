@@ -67,13 +67,13 @@
             <label class="fs-9 fw-semibold form-label">
                 <span class="">PLW Target</span>
             </label>
-            <input type="text" name="plw_target" id="plw_target" class="form-control" placeholder="# of PLW target" autocomplete="off" value="">
+            <input type="text" name="plw_target" id="plw_target" class="form-control" placeholder="# of PLW target" autocomplete="off" value="{{$theme->plw_target ?? ''}}">
         </div>
         <div class="fv-row col-md-3 mb-3">
             <label class="fs-9 fw-semibold form-label">
                 <span class="">Other Target</span>
             </label>
-            <input type="text" name="other" id="other" class="form-control" placeholder="# of other" autocomplete="off" value="">
+            <input type="text" name="other" id="other" class="form-control" placeholder="# of other" autocomplete="off" value="{{$theme->other ?? ''}}">
         </div>
     </div>
     <div class="modal-footer">

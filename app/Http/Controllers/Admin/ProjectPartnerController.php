@@ -11,6 +11,7 @@ use App\Models\Province;
 use App\Models\Partner;
 use App\Models\District;
 use App\Models\SCITheme;
+use App\Models\SciSubTheme;
 use App\Models\User;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
 
@@ -59,12 +60,30 @@ class ProjectPartnerController extends Controller
                 $show_url = route('projects.show', $r->id);
                 $nestedData['id'] = $r->id;
                 $nestedData['project'] = $r->project?->name ?? '';
-                $nestedData['themes'] = $r->scisubtheme_name?->maintheme?->name ?? '';
-                $nestedData['sub_themes'] = $r->scisubtheme_name?->name ?? '';
+                $subth = [];
+                $mainth = [];
+                foreach($r->partnertheme as $theme){
+                    $th = SciSubTheme::where('id',$theme->theme_id)->first();
+                    $subth[] = $th->name;
+                    $mainth[] = $th->maintheme?->name;
+                }
+                $nestedData['themes'] = $mainth ?? '';
+
+                $nestedData['sub_themes'] = $subth ?? '';
                 $nestedData['partner'] = $r->partner_name?->slug ?? '';
                 $nestedData['email'] = $r->email ?? '';
-                $nestedData['province'] = $r->provinces->province_name ?? '';
-                $nestedData['district'] = $r->districts?->district_name ?? '';
+                $province = []; 
+                foreach($r->provincedistrict as $p){
+                    $pro = Province::where('province_id',$p->province_id)->first();
+                    $province[] = $pro->province_name;
+                }
+                $district = [];
+                foreach($r->provincedistrict as $d){
+                    $dis = District::where('district_id',$d->district_id)->first();
+                    $district[] = $dis->district_name;
+                }
+                $nestedData['province'] =  $province ?? '';
+                $nestedData['district'] =  $district ?? '';
             
                 $nestedData['action'] = '<div>
                     <td>
@@ -122,12 +141,13 @@ class ProjectPartnerController extends Controller
         $project_partner = ProjectPartner::where('project_id' ,$request->project)->where('partner_id' ,$request->partner)->first();
         if(!empty($project_partner)){
             return response()->json([
-                'message' => " Partner already exist",
+                'message' => "Partner already exist",
                 'error' => "true"
             ]);
         }
         else{
             $data = $request->except('_token');
+          
             $projectpartner = $this->projectRepository->storeprojectpartner($data);
             
             if($projectpartner == 1){

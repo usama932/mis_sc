@@ -43,8 +43,8 @@
                                 <span class="spinner-border spinner-border-sm align-middle ms-2" id="themeloader"
                                     style="display: none !important;"></span>
                             </label>
-                            <select name="sub_theme" id="sub_theme_id" aria-label="Select a Theme"
-                                data-control="select2" data-placeholder="Select a Theme" class="form-select"
+                            <select name="sub_theme" id="sub_theme_id" aria-label="Select a Sub-Theme"
+                                data-control="select2" data-placeholder="Select a Sub-Theme" class="form-select"
                                 data-allow-clear="true">
                             </select>
                             <div id="sub_themeError" class="error-message"></div>

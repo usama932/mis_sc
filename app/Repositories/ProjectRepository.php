@@ -195,7 +195,7 @@ class ProjectRepository implements ProjectRepositoryInterface
     }
 
     public function storeprojectpartner($data){
-        
+      
         try {
             $project = Project::where('id', $data['project'])->firstOrFail();
             $partner = Partner::where('id', $data['partner'])->firstOrFail();
@@ -208,22 +208,39 @@ class ProjectRepository implements ProjectRepositoryInterface
                 'partner' => $partner->name
             ];
         
-            Mail::to($data['email'])->send(new \App\Mail\partnerMail($details));
-            // Create or retrieve user
+           
             $user = User::firstOrNew(['email' => $data['email']]);
             if (!$user->exists) {
-                $user->fill([
-                    'name' => $partner->name,
+                $user = User::create([
+                    'email' => $data['email'],
+                    'name'  => $partner->name,
                     'password' => Hash::make('12345678'),
                     'permissions_level' => 'nation-wide',
                     'designation' => '48',
                     'status' => '1',
                     'user_type' => 'R1',
-                ])->save();
+                ]);
                 $user->assignRole('partner');
             }
            
-            // Insert districts
+            // Create Project Partner
+            $projectPartner = ProjectPartner::create([
+                'partner_id' => $data['partner'],
+                'project_id' => $data['project'],
+                'email'     => $data['email'],
+                'created_by' => auth()->user()->id,
+            ]);
+            
+            //Insert themes
+            foreach ($data['theme'] as $themeId) {
+                
+                UserTheme::firstOrCreate([
+                    'theme_id' => $themeId,
+                    'user_id' => $user->id,
+                    'partner_id' => $projectPartner->id
+                ]);
+            }
+            //Insert districts
             foreach ($data['district'] as $districtId) {
                 $district = District::where('district_id',$districtId)->first();
                 if ($district) {
@@ -231,31 +248,18 @@ class ProjectRepository implements ProjectRepositoryInterface
                         'province_id' => $district->provinces_id,
                         'district_id' => $districtId,
                         'user_id' => $user->id,
+                        'partner_id' => $projectPartner->id
                     ]);
                 }
             }
-            // Insert themes
-            foreach ($data['theme'] as $themeId) {
-                UserTheme::firstOrCreate([
-                    'theme_id' => $themeId,
-                    'user_id' => $user->id,
-                ]);
-            }
-        
-        
-            // Create Project Partner
-            $projectPartner = ProjectPartner::create([
-                'partner_id' => $data['partner'],
-                'project_id' => $data['project'],
-                'email' => $data['email'],
-                'created_by' => auth()->user()->id,
-            ]);
+            
+            Mail::to($data['email'])->send(new \App\Mail\partnerMail($details));
             DB::commit();
             return 1;
         } 
         catch (\Exception $e) {
             $error =  $e->getMessage();
-          
+          dd($error);
             DB::rollback();
                 DB::rollback(); // Rollback any transactions if necessary
                 return $error ;

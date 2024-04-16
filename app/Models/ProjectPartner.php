@@ -31,16 +31,15 @@ class ProjectPartner extends Model
     {
         return $this->belongsTo(Theme::class,'themes','id');
     }
-    public function provinces()
-    {
-        return $this->belongsTo(Province::class,'province','province_id');
+    public function provincedistrict(){
+        return $this->hasMany(UserProvinceDistricts::class,'partner_id','id');
     }
-    public function districts()
-    {
-        return $this->belongsTo(District::class,'district','district_id');
+    public function partnertheme(){
+        return $this->hasMany(UserTheme::class,'partner_id','id');
     }
     public function user()
     {
         return $this->belongsTo(User::class,'created_by','id');
     }
+
 }

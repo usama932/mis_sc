@@ -59,6 +59,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(ProjectTheme::class,'created_by','id');
     }
+    public function districtprovince()
+    {
+        return $this->hasMany(UserProvinceDistricts::class,'user_id','id');
+    }
     public function desig()
     {
         return $this->belongsTo(Designation::class,'designation','id');

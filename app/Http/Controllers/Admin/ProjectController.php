@@ -247,7 +247,7 @@ class ProjectController extends Controller
                 $nestedData['donor'] = $r->donors?->name ?? '';
                 $nestedData['focal_person'] = $r->focalperson?->name ?? '';
                 $nestedData['budgetholder'] = $r->budgetholder?->name ?? '';
-                $nestedData['awardsfp'] = $r->awardsfp?->name ?? '';
+                $nestedData['awardsfp'] = $r->awardfp?->name ?? '';
                 if (!empty($r->start_date)) {
                     $nestedData['start_date'] = date('d-M-Y', strtotime($r->start_date)) ?? '';
                 } else {
