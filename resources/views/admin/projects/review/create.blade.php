@@ -22,7 +22,7 @@
             <div class="card">
                 <form action="{{route('projectreviews.store')}}" method="post" id="create_projectreview" method="post" enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="project_id" value="{{$id}}">
+                    <input type="hidden" name="project_id" value="{{$id}}" id="project_id">
                     <div class="card-body py-4">
                         <div class="row">
                             <div class="col-md-6">

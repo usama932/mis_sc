@@ -278,7 +278,7 @@ class DipActivityController extends Controller
                     }   
                     else{
                             $nestedData['action'] = '<div>
-                            <td><a class="" title="Update status"  href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#add_progress_'.$r->id.'" >
+                            <td><a class="" title="Update status"  href="javascript:void('.$r->id.')" data-bs-toggle="modal" data-bs-target="#add_progress_'.$r->id.'" >
                                 <span class="badge bg-primary  text-dark">Add Progress</span>
                             </a></td></div>
                             ';

@@ -19,7 +19,7 @@ class ProjectReviewController extends Controller
     {
         $persons = User::role('focal person')->get();
         $id  = $id;
-       
+        addVendors(['datatables']);
         addJavascriptFile('assets/js/custom/project/reviewmeeting.js');
         return view('admin.projects.review.create',compact('persons','id'));
     }

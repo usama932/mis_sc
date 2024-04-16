@@ -8,7 +8,7 @@
                 @csrf
                 <div class="card-body py-4">
                     <div class="row">
-                       
+                        
                         <div class="fv-row col-md-3 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Project Title</span>

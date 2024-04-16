@@ -133,7 +133,7 @@ class ProjectPartnerController extends Controller
             if($projectpartner == 1){
                 $active = 'partner';
                 session(['project' => $active]);
-                $editUrl = route('project.detail',$projectpartner->project_id);
+                $editUrl = route('project.detail',$request->project);
                 return response()->json([
                     'message' => "Partner Added",
                     'editUrl' => $editUrl,
@@ -143,7 +143,7 @@ class ProjectPartnerController extends Controller
             else{
                 $active = 'partner';
                 session(['project' => $active]);
-                $editUrl = route('project.detail',$projectpartner->project_id);
+                $editUrl = route('project.detail',$request->project);
                 return response()->json([
                     'message' => "Error occurred while processing data",
                     'editUrl' => $editUrl,
