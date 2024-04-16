@@ -8,16 +8,22 @@
                 @csrf
                 <div class="card-body py-4">
                     <div class="row">
-                        <div class="fv-row col-md-8 mt-3">
+                        <div class="fv-row col-md-6 mt-3">
                             <label class="fs-6 fw-semibold form-label">
-                                <span>Activity Name: </span>
+                                <span>Activity Title: </span>
                             </label>
                             <br>
                             <label class="fs-5 fw-semibold form-label">
-                                {{$activity->activity_number ?? ''}}
+                                {{$activity->activity_title ?? ''}}
                             </label>
                         </div> 
-                        <div class="fv-row col-md-4 mt-3">
+                        <div class="fv-row col-md-3 mt-3">
+                            <label class="fs-7 fw-semibold form-label mb-2 d-flex">
+                                <span class="required">Activity Number</span>
+                            </label>
+                            <input type="text" name="activity_number" value="{{$activity->activity_number ?? ''}}" class="form-control form-control-solid" readonly>
+                        </div> 
+                        <div class="fv-row col-md-3 mt-3">
                             <label class="fs-7 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Activity LOP Target</span>
                             </label>

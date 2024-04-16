@@ -257,8 +257,8 @@ var KTupdateProgressValidate = function () {
         // Initialization
         init: function () {
             // Elements
-            form = document.querySelector('.add_progress_status_form');
-            submitButton = document.querySelector('.kt_add_progress_status_form');
+            form = document.querySelector('#add_progress_status_form');
+            submitButton = document.querySelector('#kt_add_progress_status_form');
             handleFormAjax(); // You need to call the function to handle form ajax
         }
     };

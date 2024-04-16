@@ -27,16 +27,8 @@ use App\Http\Controllers\Admin\CloseRecordController;
 use App\Http\Controllers\Admin\ProjectReviewController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+
+
 Route::post('getuserDistrict', [FBAjaxController::class,'getuserDistrict'])->name('getuserDistrict');
 Route::middleware(['auth', 'verified'])->group(function () {
 
@@ -144,11 +136,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('get_activity_quarters', [DipActivityController::class,'get_activity_quarters'])->name('admin.get_activity_quarters');
     Route::post('view_activity_dips', [DipActivityController::class,'view_activity_dips'])->name('admin.view_activity_dips');
     Route::get('/activity_dips/delete/{id}', [DipActivityController::class,'destroy'])->name('activity_dips.delete');
+
+    //progress routes
     Route::get('/activity_progress/delete/{id}', [DipActivityController::class,'delete_progress'])->name('delete_progress.delete');
     Route::get('/activity/progress', [DipActivityController::class,'activity_progress'])->name('activity_dips.progress');
     Route::get('/delete_month/delete/{id}', [DipActivityController::class,'delete_month'])->name('delete_month.delete');
     Route::get('postprogress/{id}', [DipActivityController::class,'postprogress'])->name('postprogress');
     Route::post('updateprogress', [DipActivityController::class,'updateprogress'])->name('updateprogress');
+    Route::post('add_progress', [DipActivityController::class,'add_progress'])->name('add_progress'); 
+
     Route::post('fetchquartertarget', [DipActivityController::class,'fetchquartertarget'])->name('fetchquartertarget');
     Route::post('activity_Quarters', [DipActivityController::class,'activityQuarters'])->name('admin.activityQuarters');
     Route::get('/activity/create', [DipActivityController::class,'create'])->name('create_activity');

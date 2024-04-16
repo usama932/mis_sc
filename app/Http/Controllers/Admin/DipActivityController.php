@@ -278,7 +278,7 @@ class DipActivityController extends Controller
                     }   
                     else{
                             $nestedData['action'] = '<div>
-                            <td><a class="" title="Update status"  href="javascript:void('.$r->id.')" data-bs-toggle="modal" data-bs-target="#add_progress_'.$r->id.'" >
+                            <td><a class="" title="Update status" onclick="event.preventDefault();add_progress('.$r->id.');"   href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#add_progress_'.$r->id.'" >
                                 <span class="badge bg-primary  text-dark">Add Progress</span>
                             </a></td></div>
                             ';
@@ -395,7 +395,7 @@ class DipActivityController extends Controller
         addVendors(['datatables']);
         addJavascriptFile('assets/js/custom/dip/dipquarteroupdateValidation.js');
         addJavascriptFile('assets/js/custom/dip/dipquartereditValidation.js');
-        addJavascriptFile('assets/js/custom/dip/add_progress.js');
+      //addJavascriptFile('assets/js/custom/dip/add_progress.js');
         $months = ActivityProgress::where('activity_id',$id)->where('project_id',$dip_activity->project_id)->get();
         $quarters = ActivityMonths::where('activity_id',$id)->where('project_id',$dip_activity->project_id)->get();
         return view('admin.dip.show_dip_activity',compact('dip_activity','districts','provinces','months','quarters'));
@@ -742,5 +742,14 @@ class DipActivityController extends Controller
         
         return response()->download($path, $filename);
         
+    }
+
+
+    public function add_progress(Request $request){
+        
+
+        $quarter = ActivityMonths::where('id',$request->id)->first();
+        addJavascriptFile('assets/js/custom/dip/add_progress.js');
+        return view('admin.dip.activity.add_progress',compact('quarter'));
     }
 }

@@ -141,131 +141,23 @@
                     </table>
                 </div>
             </div>
-            @foreach($quarters as $quarter)
-                <div class="modal fade add_progress_modal" id="add_progress_{{ $quarter->id }}" tabindex="-1" aria-labelledby="editThemeModal" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h3 class="modal-title">Update Status</h3>
-                                <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
-                                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form class="add_progress_status_form" method="post" autocomplete="off" action="{{route('updateprogress')}}" enctype="multipart/form-data">   
-                                    @csrf
-                                    <div class="row">
-                                        <div class="fv-row col-md-8 mt-3">
-                                            <label class="fs-6 fw-semibold form-label">
-                                                <span>Activity Name: </span>
-                                            </label>
-                                            <br>
-                                            <label class="fs-5 fw-semibold form-label">
-                                                {{$dip_activity->activity_number ?? ''}}
-                                            </label>
-                                        </div> 
-                                        <div class="fv-row col-md-4 mt-3">
-                                            <label class="fs-7 fw-semibold form-label mb-2 d-flex">
-                                                <span class="required">Activity LOP Target</span>
-                                            </label>
-                                            <input type="text" name="lop" value="{{$dip_activity->lop_target ?? ''}}" class="form-control form-control-solid" readonly>
-                                        </div> 
-                                        <div class="fv-row col-md-4 mt-3">
-                                            <label class="fs-7 fw-semibold form-label mb-2 d-flex">
-                                                <span> Month</span>
-                                            </label>
-                                            <input type="hidden" name="quarter" value="{{$quarter->id}}">
-                                            {{$quarter->quarter}}-{{$quarter->year}}
-                                        </div> 
-                                        <div class="fv-row col-md-4 mt-3">
-                                            <label class="fs-7 fw-semibold form-label mb-2 d-flex">
-                                                <span class="required">Monthly Target</span>
-                                            </label>
-                                            <input type="text" name="lop_target" id="lop_target" class="form-control form-control-solid" value="{{$quarter->target}}" readonly>
-                                            <div id="sofError" class="error-message " ></div>
-                                        </div> 
-                                        <div class="fv-row col-md-4 mt-3">
-                                            <label class="fs-7 fw-semibold form-label mb-2 d-flex">
-                                                <span class="required">Enter Monthly Progress</span>
-                                            </label>
-                                            <input type="text" name="activity_target" id="activity_target" class="form-control" >
-                                            <div id="activity_targetError" class="error-message " ></div>
-                                        </div> 
-                                    </div>
-                                    <div class="row">
-                                        <div class="fv-row col-md-2 mt-3">
-                                            <label class="fs-8 fw-semibold form-label mb-4 d-flex">
-                                                <span>Beneficiaries Target</span>
-                                            </label>
-                                            <input type="text" name="benefit_target" id="benefit_target" class="form-control form-control-solid"  value="{{$quarter->beneficiary_target}}" readonly>
-                                            <div id="benefit_targetError" class="error-message " ></div>
-                                        </div> 
-                                        <div class="fv-row col-md-2 mt-3">
-                                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                                <span class="required">Women</span>
-                                            </label>
-                                            <input type="text" name="women_target" value="" class="form-control"  placeholder="Women">
-                                        </div> 
-                                        <div class="fv-row col-md-2 mt-3">
-                                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                                <span class="required">Men</span>
-                                            </label>
-                                            <input type="text" name="men_target" value="" class="form-control"  placeholder="Men">
-                                        </div> 
-                                        <div class="fv-row col-md-2 mt-3">
-                                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                                <span class="required">Girls</span>
-                                            </label>
-                                            <input type="text" name="girls_target" value="" class="form-control"  placeholder="Girls">
-                                        </div> 
-                                        <div class="fv-row col-md-2 mt-3">
-                                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                                <span class="required">Boys</span>
-                                            </label>
-                                            <input type="text" name="boys_target" value="" class="form-control" placeholder="Boys" >
-                                        </div> 
-                                        <div class="fv-row col-md-2 mt-3">
-                                            <label class="fs-7 fw-semibold form-label mb-2 d-flex">
-                                                <span>PWD</span>
-                                            </label>
-                                            <input type="text" name="pwd_target" id="pwd_target" class="form-control" >
-                                            <div id="pwd_targetError" class="error-message " ></div>
-                                        </div>
-                                        <div class="fv-row col-md-12 mt-3">
-                                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                                <span class="">Remarks</span>
-                                            </label>
-                                            <textarea type="text" name="remarks" rows id="remarks" placeholder="Enter Remarks" class="form-control" value=""></textarea>
-                                            <div id="achieve_targetError" class="error-message "></div>
-                                        </div> 
-                                        <div class="fv-row col-md-6 mt-3">
-                                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                                <span class="required">Attachemnt</span>
-                                            </label>
-                                            <input type="file" name="attachment" id="attachment" accept=".pdf, .docx, .doc" class="form-control" value="">
-                                            <div id="attachmentError" class="error-message "></div>
-                                        </div> 
-                                        <div class="fv-row col-md-6 mt-3">
-                                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                                <span class="required">Image</span>
-                                            </label>
-                                            <input type="file" name="image" id="image"   accept=".jpg, .jpeg, .png" class="form-control" value="">
-                                            <div id="imageError" class="error-message "></div>
-                                        </div> 
-                                    </div>  
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary btn-sm m-5 kt_add_progress_status_form">
-                                            @include('partials/general/_button-indicator', ['label' => 'Submit'])
-                                        </button>
-                                        <div id="loadingSpinner" class="loadingSpinner" style="display: none;">Loading...</div>
-                                    </div>      
-                                </form>
-                            </div>
+    
+            <div class="modal fade add_progress_modal" id="add_progress" tabindex="-1" aria-labelledby="editThemeModal" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Update Status</h3>
+                            <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                                <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                          
                         </div>
                     </div>
                 </div>
-            @endforeach
+            </div>
+        
             @foreach($months as $month)
                 <div class="modal fade project_theme_modal" id="update_status_{{ $month->quarter_id }}" tabindex="-1" aria-labelledby="editThemeModal" aria-hidden="true">
                     <div class="modal-dialog">
@@ -481,6 +373,22 @@
                     }
                 };
             }
+
+            function add_progress(id) {
+                var baseURL = window.location.origin;
+                var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                $.post(baseURL + '/add_progress', {
+                _token: csrfToken,
+                id: id
+                }).done(function(response) {
+                $('.modal-body').html(response);
+                $('#add_progress').modal('show');
+
+                });
+            }
+
+
+           
         </script>
         @endpush
     </x-default-layout>
