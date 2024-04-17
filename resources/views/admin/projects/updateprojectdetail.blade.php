@@ -75,6 +75,9 @@
                     <li class="nav-item">
                         <a class="nav-link @if(session('project') == 'partner') active @else  @endif" data-bs-toggle="tab" href="#partner" @if(empty($project->detail)  || empty($project->themes)) disabled @endif >Implementing Partner</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link @if(session('project') == 'profiling') active @else  @endif" data-bs-toggle="tab" href="#profiling" @if(empty($project->detail)  || empty($project->themes)) disabled @endif >Project Profile</a>
+                    </li>
                 </ul>
             </div>
             <div class="tab-content" id="myTabContent">
@@ -88,7 +91,9 @@
                 <div class="tab-pane fade show @if(session('project') == 'partner') active @else  @endif" id="partner" role="tabpanel" @if(empty($project->detail)  || empty($project->themes)) disabled @endif >
                     @include('admin.projects.partials.project_partners')
                 </div>
-               
+                <div class="tab-pane fade show @if(session('project') == 'profiling') active @else  @endif" id="profiling" role="tabpanel" @if(empty($project->detail)  || empty($project->themes)) disabled @endif >
+                    @include('admin.projects.partials.project_profile')
+                </div>
             </div>
         </div>
     </div>

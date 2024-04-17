@@ -144,6 +144,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('postprogress/{id}', [DipActivityController::class,'postprogress'])->name('postprogress');
     Route::post('updateprogress', [DipActivityController::class,'updateprogress'])->name('updateprogress');
     Route::post('add_progress', [DipActivityController::class,'add_progress'])->name('add_progress'); 
+    Route::post('update_status', [DipActivityController::class,'update_status'])->name('update_status'); 
+    Route::post('edit_progress', [DipActivityController::class,'edit_progress'])->name('edit_progress'); 
 
     Route::post('fetchquartertarget', [DipActivityController::class,'fetchquartertarget'])->name('fetchquartertarget');
     Route::post('activity_Quarters', [DipActivityController::class,'activityQuarters'])->name('admin.activityQuarters');

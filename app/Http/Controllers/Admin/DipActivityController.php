@@ -262,7 +262,7 @@ class DipActivityController extends Controller
                         elseif($r->status == 'Returned'){
 
                             $nestedData['action'] = '<div>
-                            <td><a class="" href="javascript:void(0)" title="Update status" data-bs-toggle="modal" data-bs-target="#edit_status_'.$r->progress->quarter_id.'" >
+                            <td><a class="" href="javascript:void(0)" title="Edit status"  onclick="event.preventDefault();edit_status('.$r->progress->quarter_id.');">
                                 <span class="badge bg-success text-white">Edit</span>
                             </a></td></div>
                             ';
@@ -270,15 +270,15 @@ class DipActivityController extends Controller
                        
                         else{
                             $nestedData['action'] = '<div>
-                            <td><a class="" href="javascript:void(0)" title="Update status" data-bs-toggle="modal" data-bs-target="#update_status_'.$r->progress->quarter_id.'">
-                            <span class="badge bg-info btn-sm text-white">Update Status</span>
+                            <td><a class="" href="javascript:void(0)" title="Update status" onclick="event.preventDefault();update_status('.$r->progress->quarter_id.');">
+                                <span class="badge bg-info btn-sm text-white">Update Status</span>
                             </a></td></div>
                             ';
                         }
                     }   
                     else{
                             $nestedData['action'] = '<div>
-                            <td><a class="" title="Update status" onclick="event.preventDefault();add_progress('.$r->id.');"   href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#add_progress_'.$r->id.'" >
+                            <td><a class="" title="Add Progress" onclick="event.preventDefault();add_progress('.$r->id.');"   href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#add_progress_'.$r->id.'" >
                                 <span class="badge bg-primary  text-dark">Add Progress</span>
                             </a></td></div>
                             ';
@@ -687,10 +687,11 @@ class DipActivityController extends Controller
             'status' => $request->status,
           
         ]);
-        return response()->json(['error' => true,'quarter' => $quarter ]);
+        return redirect()->back();
     }
 
     public function quarterstatus_edit(Request $request,$id){
+      
         $quarters = ActivityProgress::where('id',$id)->first();
         $quarter = ActivityProgress::where('id',$id)->update([
                 'activity_target'   => $request->activity_target,
@@ -751,5 +752,21 @@ class DipActivityController extends Controller
         $quarter = ActivityMonths::where('id',$request->id)->first();
         addJavascriptFile('assets/js/custom/dip/add_progress.js');
         return view('admin.dip.activity.add_progress',compact('quarter'));
+    }
+
+
+    public function update_status(Request $request)
+    {
+        
+       $activity =  ActivityMonths::where('id',$request->id)->first();
+       $progress =  $activity->progress ?? '';
+       return view('admin.dip.activity.update_progress',compact('progress'));
+    }
+
+    public function edit_progress(Request $request)
+    {
+        $activity =  ActivityMonths::where('id',$request->id)->first();
+        $progress =  $activity->progress ?? '';
+        return view('admin.dip.activity.edit_progress',compact('progress'));
     }
 }
