@@ -1,4 +1,4 @@
-<form class="mx-4" action="{{route('project.update')}}" method="post"id="create_projectprofile" method="post" enctype="multipart/form-data">   
+<form class="mx-4" action="{{route('projectprofiles.store')}}" method="post" id="create_projectprofile" method="post" enctype="multipart/form-data">   
     @csrf
     <div class="p-5">
         <div class="row ">
@@ -8,8 +8,7 @@
                 <label class="fs-8 fw-semibold form-label 2">
                     <span class="required">Thematic Area</span>
                 </label>
-                <select name="theme" multiple id="profile_themes" class="form-control m-input" data-control="select2" data-placeholder="Select Theme" class="form-select" data-allow-clear="true">
-                    
+                <select name="ptheme" id="profile_th" class="form-control" data-control="select2" data-placeholder="Select Theme" class="form-select" data-allow-clear="true">
                 </select> 
             </div>
             <div class="fv-row col-md-4">
@@ -59,10 +58,8 @@
                 <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                     <span class="required">Detail</span>
                 </label>
-                <textarea class="form-control" rows="1" id="kt_docs_ckeditor_classic" name="project_description"></textarea>
-                <div id="project_descriptionError" class="error-message"></div>
-
-               
+                <textarea  rows="3" id="kt_docs_ckeditor_classic" name="detail"></textarea>
+                <div id="detailError" class="error-message"></div>
             </div>
         </div>
         <div class="d-flex justify-content-end my-3">
@@ -91,9 +88,9 @@
                 <tr>
                     <th>Theme</th>
                     <th>Districts</th>
+                    <th>Tehsil</th>
                     <th>UC</th>
-                    <th>Village</th>
-                    <th>Detail</th> 
+                    <th>Village</th> 
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -101,3 +98,16 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+  
+
+        // Initialize CKEditor
+        ClassicEditor.create( document.querySelector( '#kt_docs_ckeditor_classic' ) )
+            .catch( error => {
+                console.error( error );
+            });
+   
+    });
+</script>
+x

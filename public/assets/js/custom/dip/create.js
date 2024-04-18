@@ -393,10 +393,10 @@ document.getElementById('addprojectpartnerBtn').addEventListener('click', functi
 }, false);
 
 //Fetch project Partner Theme
-document.getElementById('profiling').addEventListener('click', function() {
+document.getElementById('addprojectprofileBtn').addEventListener('click', function() {
     console.log('Implementing Partner tab clicked');
     const project_id = $('#project_id').val(); // Get the project ID from the hidden input
-    fetchThemes(project_id);
+    fetchTheme(project_id);
 }, false);
 
 function fetchThemes(project_id) {
@@ -408,15 +408,35 @@ function fetchThemes(project_id) {
             $("#partner_themes").find('option').remove();
             $("#partner_themes").prepend("<option value='' >Select Themes</option>");
 
-            $("#profile_themes").find('option').remove();
-            $("#profile_themes").prepend("<option value='' >Select Theme</option>");
+    
 
             $.each(response.partnerThemes, function (i, item) {
-                console.log(item.scisubtheme_name.name);
                 $("#partner_themes").append("<option value='" + item.scisubtheme_name.id + "' >"+
                     item.scitheme_name.name.replace(/_/g, ' ') +  " - " +
                     item.scisubtheme_name.name.replace(/_/g, ' ') + " </option>");
-                $("#profile_themes").append("<option value='" + item.scitheme_name.id + "' >"+
+             
+            });
+        },
+        error: function(xhr, status, error) {
+            console.log(xhr);
+            console.log(status); 
+        }
+    });
+}
+
+function fetchTheme(project_id) {
+    $.ajax({
+        url : '/getprojecttheme',
+        method: 'POST',
+        data: {_token: csrfToken, project_id: project_id },
+        success: function(response) {
+          
+            $("#profile_th").find('option').remove();
+            $("#profile_th").prepend("<option value='' >Select Theme</option>");
+
+            $.each(response.partnerThemes, function (i, item) {
+                
+                $("#profile_th").append("<option value='" + item.scitheme_name.id + "' >"+
                     item.scitheme_name.name.replace(/_/g, ' ') +  " </option>");
             });
         },

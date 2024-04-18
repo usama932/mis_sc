@@ -11,4 +11,12 @@ class ProjectProfile extends Model
     protected $table = 'project_profile';
     protected $guarded = [];
     
+    public function project()
+    {
+        return $this->belongsTo(Project::class,'project_id','id');
+    }
+    public function theme()
+    {
+        return $this->belongsTo(SCITheme::class,'theme_id','id');
+    }
 }

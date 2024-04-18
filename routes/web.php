@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\ProjectPartnerController;
 use App\Http\Controllers\Auth\StaffLoginController;
 use App\Http\Controllers\Admin\CloseRecordController;
 use App\Http\Controllers\Admin\ProjectReviewController;
+use App\Http\Controllers\Admin\ProjectProfileController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -189,6 +190,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/project_review/delete/{id}', [ProjectReviewController::class,'destroy'])->name('project_review.delete');
     //close Records routes
     Route::resource('/close_records', CloseRecordController::class);
+
+     //Project Profile Route
+    Route::resource('/projectprofiles', ProjectProfileController::class);
+    Route::post('project_profile', [ProjectProfileController::class,'project_profile'])->name('admin.project_profile');
 });
 
 Route::get('/error', function () {
