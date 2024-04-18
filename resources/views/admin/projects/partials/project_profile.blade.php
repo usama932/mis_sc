@@ -1,4 +1,4 @@
-<form class="mx-4" action="{{route('project.update')}}" method="post" id="create_dip" method="post" enctype="multipart/form-data">   
+<form class="mx-4" action="{{route('project.update')}}" method="post"id="create_projectprofile" method="post" enctype="multipart/form-data">   
     @csrf
     <div class="p-5">
         <div class="row ">
@@ -8,24 +8,20 @@
                 <label class="fs-8 fw-semibold form-label 2">
                     <span class="required">Thematic Area</span>
                 </label>
-                <select name="profile_theme" id="profile_theme" aria-label="Select a Theme" data-control="select2" data-placeholder="Select Theme" class="form-select" data-allow-clear="true">
-                    <option  value=''>Select Theme</option>
-                    @foreach($ths as $theme)
-                        <option value="{{$theme->id}}">{{$theme->name}}</option>
-                    @endforeach
-                </select>
+                <select name="theme" multiple id="profile_themes" class="form-control m-input" data-control="select2" data-placeholder="Select Theme" class="form-select" data-allow-clear="true">
+                    
+                </select> 
             </div>
             <div class="fv-row col-md-4">
                 <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                     <span class="required">District</span>
                 </label>
-                <select id="select2_district" multiple name="district[]" aria-label="Select Multiple District" data-control="select2" data-placeholder="Select Multiple District" class="form-select">
+                <select id="select2_profile_district" multiple name="district[]" aria-label="Select Multiple District" data-control="select2" data-placeholder="Select Multiple District" class="form-select">
                         @if(!empty($project->detail?->district))
                             @foreach($districts as $district)
-                                <option value="{{ $district->district_id }}" selected>
-                                    {{ $district->district_name }}
+                                <option value="{{$district->district_id}}">
+                                    {{$district->district_name}}
                                 </option>
-                            
                             @endforeach
                         @endif
                 </select>
@@ -37,36 +33,71 @@
                     <span class="spinner-border spinner-border-sm align-middle ms-2" id="tehsilloader"></span>
                 </label>
                 <select id="kt_select2_tehsil" multiple name="tehsil[]" aria-label="Select Multiple Tehsil" data-control="select2" data-placeholder="Select Multiple Tehsil" class="form-select">
-                        @if(!empty($project->detail?->district))
-                            @foreach($districts as $district)
-                                <option value="{{ $district->district_id }}" selected>
-                                    {{ $district->district_name }}
-                                </option>
-                            
-                            @endforeach
-                        @endif
+                       
                 </select>
                 <span id="districtError" class="error-message"></span>
             </div> 
             <div class="fv-row col-md-4 mt-3">
                 <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                    <span class="required">UC/Village</span>
+                    <span class="required">UC</span>
+                    <span class="spinner-border spinner-border-sm align-middle ms-2" id="ucloader"></span>
                 </label>
-                <input class="form-control" rows="2" name="uc_village" id="uc_village" />
+                <select id="kt_select2_uc" multiple name="uc[]" aria-label="Select UC " data-control="select2" data-placeholder="Select Multiple Tehsil" class="form-select">
+                       
+                </select>
                 <div id="uc_villageError" class="error-message "></div>
             </div>
             <div class="fv-row col-md-8 mt-3">
                 <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                    <span class="required">Detail</span>
+                    <span class="required">Villages</span>
                 </label>
-                <textarea class="form-control" rows="1" name="project_description" id="project_description">{{$project->detail?->project_description ?? ''}}</textarea>
+                
+                <input class="form-control" name="village" id="village" id="village" />
                 <div id="project_descriptionError" class="error-message "></div>
             </div>
+            <div class="fv-row col-md-12 mt-3">
+                <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                    <span class="required">Detail</span>
+                </label>
+                <textarea class="form-control" rows="1" id="kt_docs_ckeditor_classic" name="project_description"></textarea>
+                <div id="project_descriptionError" class="error-message"></div>
+
+               
+            </div>
         </div>
-        <div class="d-flex justify-content-end">
-            <button type="submit" id="kt_create_dip" class="btn btn-success btn-sm  m-5">
+        <div class="d-flex justify-content-end my-3">
+            <button type="button" id="cancelprojectprofileBtn" class="btn btn-primary btn-sm m-3">
+                Cancel
+            </button>
+            <button type="submit" id="kt_create_profile" class="btn btn-success btn-sm  m-5">
                 @include('partials/general/_button-indicator', ['label' => 'Update'])
             </button>
         </div>      
     </div>
 </form>
+<div class="card"  id="project_profile_table">
+    <div class="">
+        <div class="d-flex justify-content-end hover-elevate-up my-3 mx-5">
+            <button class="btn btn-sm btn-success mx-5" id="addprojectprofileBtn"> <i class="ki-duotone ki-abstract-10">
+            <span class="path1"></span>
+            <span class="path2"></span>
+            </i>Add Project Profile</button>
+        </div>
+    </div>
+    <div class="card-body overflow-*">
+        <div class="table-responsive overflow-*">
+            <table class="table table-striped table-bordered nowrap" id="project_profile" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Theme</th>
+                    <th>Districts</th>
+                    <th>UC</th>
+                    <th>Village</th>
+                    <th>Detail</th> 
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            </table>
+        </div>
+    </div>
+</div>

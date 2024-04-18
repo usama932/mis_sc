@@ -320,6 +320,7 @@ class ProjectController extends Controller
         addJavascriptFile('assets/js/custom/dip/create.js');
         addJavascriptFile('assets/js/custom/project/projectthemeValidation.js');
         addJavascriptFile('assets/js/custom/project/projectpartnerValidation.js');
+        addJavascriptFile('assets/js/custom/project/projectprofilingValidation.js');
         addVendors(['datatables']);
        
         return view('admin.projects.updateprojectdetail',compact('project_themes','project','project_partners','partners','themes','provinces','districts','ps','ths'));

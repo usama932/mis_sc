@@ -1,5 +1,12 @@
+@push('stylesheets')
+<script src="https://cdn.ckeditor.com/ckeditor5/38.0.0/classic/ckeditor.js"></script>
+@endpush
 <x-nform-layout>
-    
+    <style>
+          #kt_docs_ckeditor_classic {
+        height: 150px; /* Adjust the height as needed */
+    }
+        </style>
     @section('title')
        Update Project Details
     @endsection
@@ -75,7 +82,7 @@
                     <li class="nav-item">
                         <a class="nav-link @if(session('project') == 'partner') active @else  @endif" data-bs-toggle="tab" href="#partner" @if(empty($project->detail)  || empty($project->themes)) disabled @endif >Implementing Partner</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" >
                         <a class="nav-link @if(session('project') == 'profiling') active @else  @endif" data-bs-toggle="tab" href="#profiling" @if(empty($project->detail)  || empty($project->themes)) disabled @endif >Project Profile</a>
                     </li>
                 </ul>
@@ -114,3 +121,14 @@
     </div>
 
 </x-nform-layout>
+@push('scripts')
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        ClassicEditor.create(document.querySelector('#kt_docs_ckeditor_classic'))
+            .catch(error => {
+                console.error(error);
+            });
+    });
+</script> 
+@endpush

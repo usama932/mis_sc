@@ -30,6 +30,7 @@ class FBAjaxController extends Controller
         
         return ($data);
     }
+
     public function getlearningDistrict(Request $request) {
         $province_id = $request->province;
         
@@ -44,15 +45,29 @@ class FBAjaxController extends Controller
         
         return ($data);
     }
+
+    public function getprofiletehsil(Request $request){
+        $district = $request->district;
+        
+        $data     = Tehsil::whereIn('district_id',$district)
+                            ->get();
+       
+        return ($data);
+    }
+    public function getprofile_uc(Request $request){
+        $tehsil   = $request->tehsil;
+        $data     = UnionCounsil::whereIn('tehsil_id',$tehsil)->get();
+ 
+        return ($data);
+    }
+
     public function getprojectDistrict(Request $request) {
       
-        $province_id = $request->province;
-       
+        $province_id = $request->province_id;
         $project   = Project::where('id', $request->project)->with('detail')->first();
         
         if(!empty($project->detail?->district)){
             $data   = District::whereIn('provinces_id',$province_id)->whereIn('district_id', json_decode($project->detail->district))->select('district_id', 'district_name')->get();
-       
         }
         else{
             $data   = [];
@@ -61,11 +76,13 @@ class FBAjaxController extends Controller
         
         return ($data);
     }
+
     public function getuserDistrict(Request $request) {
         $province_id = $request->province;
         $data = District::where('provinces_id',$province_id)->select('district_id', 'district_name')->get();
         return ($data);
     }
+
     // ajax tehsil data
     public function getTehsil(Request $request) {
 
@@ -85,6 +102,7 @@ class FBAjaxController extends Controller
 
         return ($data);
     }
+
     public function update_province(Request $request){
         $id = auth()->user()->id;
         $user = User::find( $id);
@@ -92,6 +110,7 @@ class FBAjaxController extends Controller
         $user->save();
         return response()->json(['message' => 'Province updated successfully']);
     }
+
     public function getproject(Request $request){
         $projectId = $request->input('projectId');
         // Fetch project details based on $projectId
@@ -129,6 +148,7 @@ class FBAjaxController extends Controller
 
       
     }
+
     public function getactivitySubTheme(Request $request){
             
         $themeId = $request->input('theme_id');
@@ -147,6 +167,7 @@ class FBAjaxController extends Controller
             return response()->json($themes);
         }
     }   
+
     public function getprojecttheme(Request $request){
       
         $projectThemes = ProjectTheme::where('project_id', $request->project_id)->pluck('theme_id');
