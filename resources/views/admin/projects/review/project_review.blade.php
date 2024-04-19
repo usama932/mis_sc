@@ -5,17 +5,60 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <div class="card-toolbar m-5 d-flex justify-content-end">
                 @can('create projects_review')
-                    <a href="{{ route('project_review.create',$id) }}" class="btn btn-primary btn-sm font-weight-bolder">
-                        <span class="svg-icon svg-icon-primary svg-icon-1x mx-1">
-                            <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Navigation/Plus.svg-->
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                    <rect fill="#FFFFFF" x="4" y="11" width="16" height="2" rx="1"/>
-                                    <rect fill="#FFFFFF" opacity="0.3" transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000)" x="4" y="11" width="16" height="2" rx="1"/>
-                                </g>
-                            </svg>
-                        </span>Add Review Meeting
-                    </a>
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#kt_modal_1">
+                        Add Review Meeting
+                    </button>
+                    <div class="modal fade" tabindex="-1" id="kt_modal_1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title">Add Review Meeting</h3>
+                    
+                                    <!--begin::Close-->
+                                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                                    </div>
+                                    <!--end::Close-->
+                                </div>
+                                <form action="{{route('projectreviews.store')}}" method="post" id="create_projectreview" method="post" enctype="multipart/form-data">
+                                    <div class="modal-body">
+                                    
+                                            @csrf
+                                            <input type="hidden" name="project_id" value="{{$id}}" id="project_id">
+                                            <div class="card-body py-4">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="fv-row form-group">
+                                                            <label class="fs-6 fw-semibold form-label mb-2">
+                                                                <span class="required">Review Meeting Title</span></label>
+                                                            <input type="text" class="form-control" id="title" name="title">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="fv-row form-group">
+                                                            <label class="fs-6 fw-semibold form-label mb-2">
+                                                                <span class="required">Review Date</span>
+                                                            </label>
+                                                            <input type="text" class="form-control" id="review_date" name="review_date">
+                                                        </div>
+                                                    </div>
+                                                
+                                                </div>
+                                            
+                                            </div>
+                                    
+                                    </div>
+                        
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" id="kt_create_projectreview" class="btn btn-success btn-sm  m-3">
+                                            @include('partials/general/_button-indicator', ['label' => 'Submit'])
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 @endcan
             </div>
             <div class="card-body pt-0 overflow-*">
@@ -27,10 +70,7 @@
                             <th>#S.No</th>
                             <th>Meeting Title</th>
                             <th>Review Date</th>
-                            <th>Responsible Person</th>
-                            <th>Action Agreed</th>
-                            <th>Deadline</th>
-                            <th>Status</th> 
+                            <th>Project</th> 
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -39,27 +79,6 @@
 
             </div>
         </div>
-        <div class="modal fade" id="view_review" data-backdrop="static" tabindex="-1" role="dialog"
-        aria-labelledby="staticBackdrop" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="view_monitor_visit">Review Meeting Details</h4>
-                </div>
-                <div class="modal-body"></div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light-primary font-weight-bold close"
-                        data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-        @push("scripts")
+
        
-            
-        <script>
-           
-        </script>
-       
-        @endpush
     </x-nform-layout>

@@ -1,3 +1,5 @@
+var baseURL = window.location.origin;
+var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 $("#create_projectprofile").hide();
 $("#addprojectprofileBtn").click(function() {
 
@@ -360,3 +362,18 @@ KTUtil.onDOMContentLoaded(function() {
     KTprojectprofileValidate.init();
 });
 
+//Project profile
+function view(id) {
+    
+    $.post(baseURL + '/profile_detail', {
+    _token: csrfToken,
+    id: id
+    }).done(function(response) {
+    $('#profilemodal_body').html(response);
+    $('#view_profile').modal('show');
+
+    });
+}
+$('.close').click(function() {
+    $('#view_profile').modal('hide');
+});

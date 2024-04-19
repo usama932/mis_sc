@@ -3,10 +3,10 @@
 @endpush
 <x-nform-layout>
     <style>
-          #kt_docs_ckeditor_classic {
-        height: 150px; /* Adjust the height as needed */
-    }
-        </style>
+        #kt_docs_ckeditor_classic {
+            height: 150px; /* Adjust the height as needed */
+        }
+    </style>
     @section('title')
        Update Project Details
     @endsection
@@ -104,7 +104,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="edittheme" tabindex="-1" aria-labelledby="editThemeModal" aria-hidden="true">
+    <div class="modal fade close" id="edittheme" tabindex="-1" aria-labelledby="editThemeModal" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -113,22 +113,28 @@
                         <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" >
                    
                 </div>
             </div>
         </div>
     </div>
-
+    <div class="modal fade close" id="view_profile" data-backdrop="static" tabindex="-1" role="dialog"
+    aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="view_monitor_visit">Project Profile Details</h4>
+            </div>
+            <div class="modal-body" id="profilemodal_body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light-primary font-weight-bold close"
+                    data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+    @push('scripts')
+    
+    @endpush
 </x-nform-layout>
-@push('scripts')
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        ClassicEditor.create(document.querySelector('#kt_docs_ckeditor_classic'))
-            .catch(error => {
-                console.error(error);
-            });
-    });
-</script> 
-@endpush

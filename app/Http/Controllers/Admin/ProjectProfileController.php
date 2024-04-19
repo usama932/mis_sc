@@ -18,7 +18,23 @@ class ProjectProfileController extends Controller
         //
     }
 
+    public function profile_detail(Request $request){
+        $id = $request->id;
+        $profile = ProjectProfile::find($id);
 
+        $district_logs = json_decode($profile->districts , true);
+        $tehsil_logs       = json_decode($profile->tehsils , true);
+        $uc_logs       = json_decode($profile->ucs , true);
+
+     
+        $districts  = District::whereIn('district_id', $district_logs)
+                                    ->pluck('district_name')
+                                    ->toArray();
+        $tehsils    = Tehsil::whereIn('id', $tehsil_logs)->pluck('tehsil_name')->toArray();
+        $ucs        = UnionCounsil::whereIn('union_id', $uc_logs)->pluck('uc_name')->toArray();
+      
+        return view('admin.projects.partials.view_profile_detail',compact('profile','districts','tehsils','ucs'));
+    }
     public function project_profile(Request $request){
         $columns = array(
 			1  => 'id',
@@ -64,7 +80,7 @@ class ProjectProfileController extends Controller
                                             ->pluck('district_name')
                                             ->toArray();
                 $tehsils    = Tehsil::whereIn('id', $tehsil_logs)->pluck('tehsil_name')->toArray();;
-                $ucs        = UnionCounsil::whereIn('union_id', $uc_logs)->pluck('uc_name')->toArray();;
+                $ucs        = UnionCounsil::whereIn('union_id', $uc_logs)->pluck('uc_name')->toArray();
             
                 $nestedData['district'] =  $districts ?? '';
                 $nestedData['tehsil'] =  $tehsils  ?? '';
@@ -72,6 +88,9 @@ class ProjectProfileController extends Controller
                 $nestedData['village'] = $r->village ?? '';
                 $nestedData['action'] = '<div>
                     <td>
+                        <a class="btn   btn-clean btn-icon" onclick="event.preventDefault();view('.$r->id.');" title="View Project Profile Detail" href="javascript:void(0)">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                        </a>
                         <a class="btn-icon mx-1" onclick="event.preventDefault(); project_partnerdel('.$r->id.');" title="Delete project theme" href="javascript:void(0)">
                             <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                         </a>
@@ -100,7 +119,7 @@ class ProjectProfileController extends Controller
 
     public function store(Request $request)
     {
-        
+       
         $project_profile = ProjectProfile::where('project_id' ,$request->project)->where('theme_id' ,$request->ptheme)->first();
         if(!empty($project_profile)){
             return response()->json([

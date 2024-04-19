@@ -55,12 +55,10 @@ class ProjectReviewController extends Controller
 		if($reviews){
 			foreach($reviews as $r){
                 $download_url = route('download.qb_attachments',$r->id);
+                $show_url = 
 				$nestedData['meeting_title'] = $r->meeting_title;
                 $nestedData['review_date'] = date('M d ,Y', strtotime($r->created_at));
-                $nestedData['responsible_person'] = $r->rp->name;
-                $nestedData['action_agreed'] = $r->action_agreed;
-                $nestedData['deadline'] = date('M d ,Y', strtotime($r->created_at)); 
-                $nestedData['status'] = $r->status;
+                $nestedData['project'] = $r->project?->name ?? '';
                 $nestedData['id'] = $r->id;
 				$nestedData['action'] = '
                                 <div>
@@ -100,11 +98,6 @@ class ProjectReviewController extends Controller
         $reviews = ProjectReview::create([
             'meeting_title'         => $request->title,
             'review_date'           => $request->review_date,
-            'responsible_person'    => $request->responsible_person,
-            'action_agreed'         => $request->action_agreed,
-            'deadline'              => $request->deadline,
-            'status'                => $request->status,
-            'dip_identified'        => $request->dip_identified,
             'project_id'            => $request->project_id,
         ]);
         $editUrl = route('projectreviews.show',$request->project_id);

@@ -27,10 +27,7 @@ var reviews = $('#project_reviews').DataTable( {
                     {"data":"id","searchable":false,"orderable":false},
                     {"data":"meeting_title","searchable":false,"orderable":false},
                     {"data":"review_date","searchable":false,"orderable":false},
-                    {"data":"responsible_person","searchable":false,"orderable":false},
-                    {"data":"action_agreed","searchable":false,"orderable":false},
-                   {"data":"deadline" ,"searchable":false,"orderable":false},
-                    {"data":"status" ,"searchable":false,"orderable":false},
+                    {"data":"project" ,"searchable":false,"orderable":false},
                     {"data":"action","searchable":false,"orderable":false},
                 ]
 });
@@ -110,30 +107,6 @@ var KTreviewValidate = function () {
                             }
                         }
                     },
-                    'responsible_person':{
-                        validators: {
-                            notEmpty: {
-                                message: 'Responsible Person is required'
-                            }
-                        }
-                    },
-                    'action_agreed':{
-                        validators: {
-                            notEmpty: {
-                                message: 'Action Agree is required'
-                            }
-                        }
-                    },
-                    'deadline': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Deadline is required'
-                            },
-                        
-                        }
-                    },
-                    
-                    
                 
                 },
             

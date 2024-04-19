@@ -100,14 +100,22 @@
 </div>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-  
-
         // Initialize CKEditor
-        ClassicEditor.create( document.querySelector( '#kt_docs_ckeditor_classic' ) )
-            .catch( error => {
-                console.error( error );
+        ClassicEditor
+            .create(document.querySelector('#kt_docs_ckeditor_classic'))
+            .then(editor => {
+                console.log('Editor initialized:', editor);
+
+                // Add event listener to form submission inside CKEditor initialization promise
+                document.getElementById('kt_create_profile').addEventListener('click', function(event) {
+                    event.preventDefault(); // Prevent default form submission
+                    var editorData = editor.getData(); // Get CKEditor content
+                    document.getElementById('kt_docs_ckeditor_classic').value = editorData; // Update textarea with CKEditor content
+                    document.getElementById('create_projectprofile').submit();
+                });
+            })
+            .catch(error => {
+                console.error('Error initializing CKEditor:', error);
             });
-   
     });
 </script>
-x
