@@ -40,22 +40,18 @@ class ProjectReviewController extends Controller
 		$start = $request->input('start');
 		$order = $columns[$request->input('order.0.column')];
 		$dir = $request->input('order.0.dir');
-		
 	
         $reviews = ProjectReview::where('project_id',$request->project_id)->offset($start)
                             ->limit($limit)
                             ->orderBy($order,$dir)
                             ->get();
-        $totalFiltered = ProjectReview::where('project_id',$request->project_id)->count();
-    
-		
-		
+        $totalFiltered = ProjectReview::where('project_id',$request->project_id)->count();	
 		$data = array();
 		
 		if($reviews){
 			foreach($reviews as $r){
                 $download_url = route('download.qb_attachments',$r->id);
-                $show_url = 
+                $show_url =  route('projectreviews.edit',$r->id);
 				$nestedData['meeting_title'] = $r->meeting_title;
                 $nestedData['review_date'] = date('M d ,Y', strtotime($r->created_at));
                 $nestedData['project'] = $r->project?->name ?? '';
@@ -64,7 +60,7 @@ class ProjectReviewController extends Controller
                                 <div>
                                 <td>
                                    
-                                    <a class="btn   btn-clean btn-icon" onclick="event.preventDefault();view('.$r->id.');" title="View Monitor Visit" href="javascript:void(0)">
+                                    <a class="btn   btn-clean btn-icon" title="View Monitor Visit" href="'.$show_url.'">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                     </a>
                                     <a class="btn   btn-clean btn-icon" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
@@ -124,7 +120,10 @@ class ProjectReviewController extends Controller
     }
     public function edit(string $id)
     {
-        //
+        $id  = $id;
+        addVendors(['datatables']);
+        addJavascriptFile('assets/js/custom/project/reviewmeeting.js');
+        return view('admin.projects.review.project_review_action_point',compact('id'));
     }
 
 
