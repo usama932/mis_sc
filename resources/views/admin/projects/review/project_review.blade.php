@@ -5,9 +5,9 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <div class="card-toolbar m-5 d-flex justify-content-end">
                 @can('create projects_review')
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#kt_modal_1">
+                    <a href="{{route('project_review.create',$id)}}" class="btn btn-primary btn-sm" ">
                         Add Review Meeting
-                    </button>
+                    </a>
                     <div class="modal fade" tabindex="-1" id="kt_modal_1">
                         <div class="modal-dialog">
                             <div class="modal-content">

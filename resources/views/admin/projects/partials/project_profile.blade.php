@@ -87,10 +87,11 @@
             <thead>
                 <tr>
                     <th>Theme</th>
+                    <th>Province</th>
                     <th>Districts</th>
-                    <th>Tehsil</th>
+                    {{-- <th>Tehsil</th>
                     <th>UC</th>
-                    <th>Village</th> 
+                    <th>Village</th>  --}}
                     <th>Actions</th>
                 </tr>
             </thead>

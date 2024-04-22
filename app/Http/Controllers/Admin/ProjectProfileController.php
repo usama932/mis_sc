@@ -68,9 +68,7 @@ class ProjectProfileController extends Controller
                 $show_url = route('projects.show', $r->id);
                 $nestedData['id'] = $r->id;
                 $nestedData['project'] = $r->project?->name ?? '';
-                
                 $nestedData['theme']  = $r->theme?->name ?? '';
-
                 $district_logs = json_decode($r->districts , true);
                 $tehsil_logs       = json_decode($r->tehsils , true);
                 $uc_logs       = json_decode($r->ucs , true);
@@ -79,24 +77,39 @@ class ProjectProfileController extends Controller
                 $districts  = District::whereIn('district_id', $district_logs)
                                             ->pluck('district_name')
                                             ->toArray();
+                $provinceIds = District::whereIn('district_id', $district_logs)
+                ->pluck('provinces_id')
+                ->unique()
+                ->toArray();
+                $province = Province::whereIn('province_id',$provinceIds)->pluck('province_name')->toArray();
                 $tehsils    = Tehsil::whereIn('id', $tehsil_logs)->pluck('tehsil_name')->toArray();;
                 $ucs        = UnionCounsil::whereIn('union_id', $uc_logs)->pluck('uc_name')->toArray();
-            
-                $nestedData['district'] =  $districts ?? '';
-                $nestedData['tehsil'] =  $tehsils  ?? '';
-                $nestedData['uc'] =  $ucs ?? '';
-                $nestedData['village'] = $r->village ?? '';
+                $districtsString = implode(', ', $districts);
+                $tehsilsString = implode(', ', $tehsils);
+                $ucsString = implode(', ', $ucs);
+                $provinceString = implode(', ', $province);
+                $nestedData['province'] = '<li><strong>'.$provinceString.'</strong>';
+                $nestedData['district'] = '<li><strong>'.'District'.':</strong> '.($districtsString ?? ''). 
+                '</li><li><strong>'.'Tehsils'.':</strong> '.($tehsilsString ?? ''). '</li>
+                <li><strong>'.'UC'.':</strong> '.($ucsString ?? '') . '</li>
+                <li><strong>'.'Villages'.':</strong> '.($r->village ?? '') . '</li>
+                </li>
+                <li><strong>'.'Detail'.':</strong> '.($r->detail ?? '') . '</li><br>';
+
+                // $nestedData['tehsil'] =  $tehsils  ?? '';
+                // $nestedData['uc'] =  $ucs ?? '';
+                // $nestedData['village'] = $r->village ?? '';
                 $nestedData['action'] = '<div>
                     <td>
-                        <a class="btn   btn-clean btn-icon" onclick="event.preventDefault();view('.$r->id.');" title="View Project Profile Detail" href="javascript:void(0)">
-                            <i class="fa fa-eye" aria-hidden="true"></i>
-                        </a>
+
                         <a class="btn-icon mx-1" onclick="event.preventDefault(); project_partnerdel('.$r->id.');" title="Delete project theme" href="javascript:void(0)">
                             <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                         </a>
                     </td>
                 </div>';
-            
+                                    // <a class="btn   btn-clean btn-icon" onclick="event.preventDefault();view('.$r->id.');" title="View Project Profile Detail" href="javascript:void(0)">
+                        //     <i class="fa fa-eye" aria-hidden="true"></i>
+                        // </a>
                 $data[] = $nestedData;
             }
 			

@@ -45,25 +45,30 @@ var project_profiles = $('#project_profile').DataTable({
             "orderable": false
         },
         {
+            "data": "province",
+            "searchable": false,
+            "orderable": false
+        },
+        {
             "data": "district",
             "searchable": false,
             "orderable": false
         },
-        {
-            "data": "tehsil",
-            "searchable": false,
-            "orderable": false
-        },
-        {
-            "data": "uc",
-            "searchable": false,
-            "orderable": false
-        },
-        {
-            "data": "village",
-            "searchable": false,
-            "orderable": false
-        },
+        // {
+        //     "data": "tehsil",
+        //     "searchable": false,
+        //     "orderable": false
+        // },
+        // {
+        //     "data": "uc",
+        //     "searchable": false,
+        //     "orderable": false
+        // },
+        // {
+        //     "data": "village",
+        //     "searchable": false,
+        //     "orderable": false
+        // },
         
         {
             "data": "action",

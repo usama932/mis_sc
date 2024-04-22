@@ -1,104 +1,139 @@
-    <x-nform-layout>
-        @section('title')
-        Review Meetings
-        @endsection
-        <div id="kt_app_content" class="app-content flex-column-fluid">
-            <div class="card-toolbar d-flex justify-content-end">
-                {{-- @can('create projects_review')
-                    <a href="{{ route('projectreviews.create') }}" class="btn btn-primary btn-sm font-weight-bolder">
-                        <span class="svg-icon svg-icon-primary svg-icon-1x mx-1">
-                            <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Navigation/Plus.svg-->
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                    <rect fill="#FFFFFF" x="4" y="11" width="16" height="2" rx="1"/>
-                                    <rect fill="#FFFFFF" opacity="0.3" transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000)" x="4" y="11" width="16" height="2" rx="1"/>
-                                </g>
-                            </svg>
-                        </span>Add Review Meeting
-                    </a>
-                @endcan --}}
+<x-nform-layout>
+    @section('title')
+    Review Meetings
+    @endsection
+    <div id="kt_app_content" class="app-content flex-column-fluid">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Create Review Meeting</h3>
             </div>
-        
-            <div class="card">
-                <form action="{{route('projectreviews.store')}}" method="post" id="create_projectreview" method="post" enctype="multipart/form-data">
+            <div class="card-body">
+                <form action="{{route('projectreviews.store')}}" method="post" id="create_projectreview" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="project_id" value="{{$id}}" id="project_id">
-                    <div class="card-body py-4">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="fv-row form-group">
-                                    <label class="fs-6 fw-semibold form-label mb-2">
-                                        <span class="required">Review Meeting Title</span></label>
-                                    <input type="text" class="form-control" id="title" name="title">
-                                </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Review Meeting Title</label>
+                                <input type="text" class="form-control" id="title" name="title">
                             </div>
-                            <div class="col-md-6">
-                                <div class="fv-row form-group">
-                                    <label class="fs-6 fw-semibold form-label mb-2">
-                                        <span class="required">Review Date</span>
-                                    </label>
-                                    <input type="text" class="form-control" id="review_date" name="review_date">
-                                </div>
-                            </div>
-                            {{-- <div class="col-md-6">
-                                <div class="fv-row form-group">
-                                    <label class="fs-6 fw-semibold form-label mb-2">
-                                        <span class="required">Responsible Person</span></label>
-                                        <select class="form-select form-control" id="responsible_person" name="responsible_person" aria-label="Select a Responsible person" data-control="select2" data-placeholder="Select a  Responsible person..." class="form-select form-control"  data-allow-clear="true" >
-                                            <option value="">Select Responsible</option>
-                                            @foreach($persons as $person)
-                                                <option value="{{$person->id}}">{{$person->name}}</option>
-                                            @endforeach
-                                        </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="fv-row form-group">
-                                    <label class="fs-6 fw-semibold form-label mb-2">
-                                        <span class="required">Action Agreed</span></label>
-                                        <select class="form-select form-control" id="action_agreed" name="action_agreed"  aria-label="Select a Action agreed" data-control="select2" data-placeholder="Select Action Agree..." class="form-select form-control"  data-allow-clear="true" >
-                                            <option value="">Select Action</option>
-                                            <option value="Yes">Yes</option>
-                                            <option value="No">No</option>
-                                        </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="fv-row form-group">
-                                    <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">Deadline</span></label>
-                                    <input type="text" class="form-control" id="deadline" name="deadline">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="fv-row form-group">
-                                    <label class="fs-6 fw-semibold form-label mb-2">
-                                        <span class="required">Status</span></label>
-                                        <select class="form-select form-control" id="status" name="status" aria-label="Select a Status" data-control="select2" data-placeholder="Select Status..." class="form-select form-control"  data-allow-clear="true" >
-                                            <option value="">Select Status</option>
-                                            <option value="Initiated">Initiated</option>
-                                            <option value="Completed">Completed</option>
-                                            <option value="In Process">In Process</option>
-                                        </select>
-                                </div>
-                            </div>
-                            <div class="col-md-12 ">
-                                <div class="fv-row form-group">
-                                    <label class="fs-6 fw-semibold form-label mb-2">
-                                        <span class="required">DIP Identified</span></label>
-                                    <textarea class="form-control" rows="1" id="dip_identified" name="dip_identified" rows="3"></textarea>
-                                </div>
-                            </div> --}}
-                        
                         </div>
-                        <div class="d-flex justify-content-end">
-                            <button type="submit" id="kt_create_projectreview" class="btn btn-success btn-sm  m-3">
-                                @include('partials/general/_button-indicator', ['label' => 'Submit'])
-                            </button>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="review_date" class="form-label">Review Date</label>
+                                <input type="text" class="form-control" id="review_date" name="review_date">
+                            </div>
                         </div>
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label">Review Details</label>
+                    </div>
+                    <div id="dynamic_field">
+                        <div class="row review-row">
+                            <div class="col-md-3">
+                                <select class="form-select mb-3" name="addmore[0][responsible_person]" aria-label="Select a Responsible person" data-control="select2" data-placeholder="Select a Responsible person..." data-allow-clear="true">
+                                    <option value="">Select Responsible</option>
+                                    @foreach($persons as $person)
+                                    <option value="{{$person->id}}">{{$person->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select mb-3" name="addmore[0][action_agreed]" aria-label="Select a Action agreed" data-control="select2" data-placeholder="Select Action Agree..." data-allow-clear="true">
+                                    <option value="">Select Action</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select mb-3" name="addmore[0][status]" aria-label="Select a Status" data-control="select2" data-placeholder="Select Status..." data-allow-clear="true">
+                                    <option value="">Select Status</option>
+                                    <option value="Initiated">Initiated</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="In Process">In Process</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" name="addmore[0][deadline]" placeholder="Enter Deadline" class="form-control mb-3" id="deadline" />
+                            </div>
+                            <div class="col-md-10">
+                                <textarea class="form-control mb-3" rows="1" name="addmore[0][action_point]" placeholder="Enter Action Point"></textarea>
+                            </div>
+                          
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+              
+                        <button type="button" name="add" id="add" class="btn btn-success btn-sm">Add More</button>
+                        
+                    </div>
+                    <div class="text-end mt-3">
+                        <button type="submit" id="kt_create_projectreview" class="btn btn-primary">Submit</button>
+                    </div>
                 </form>
+             
             </div>
-            
         </div>
-    </x-nform-layout>
+    </div>
+    @push('scripts')
+    <script>
+        $(document).ready(function() {
+            var i = 0;
+        
+            $('#add').click(function() {
+                i++;
+                $('#dynamic_field').append(`
+                    <div class="row review-row mt-3" id="row${i}">
+                        <div class="col-md-3">
+                            <select class="form-select mb-3" name="addmore[${i}][responsible_person]" aria-label="Select a Responsible person" data-control="select2" data-placeholder="Select a Responsible person..." data-allow-clear="true">
+                                <option value="">Select Responsible</option>
+                                @foreach($persons as $person)
+                                <option value="{{$person->id}}">{{$person->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select form-control mb-3" name="addmore[${i}][action_agreed]" aria-label="Select a Action agreed${i}" data-control="select2" data-placeholder="Select Action Agree ${i}" data-allow-clear="true">
+                                <option value="">Select Action</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select form-control mb-3" name="addmore[${i}][status]" aria-label="Select a Status${i}" data-control="select2 " data-placeholder="Select Status ${i}" data-allow-clear="true">
+                                <option value="">Select Status</option>
+                                <option value="Initiated">Initiated</option>
+                                <option value="Completed">Completed</option>
+                                <option value="In Process">In Process</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" name="addmore[${i}][deadline]" placeholder="Enter Deadline" class="form-control mb-3 " id="deadline${i}" />
+                        </div>
+                        <div class="col-md-10">
+                            <textarea class="form-control mb-3" rows="1" name="addmore[${i}][action_point]" placeholder="Enter Action Point"></textarea>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" name="remove" id="${i}" class="btn btn-sm btn-danger btn_remove">Remove</button>
+                        </div>
+                    </div>
+                `);
+        
+                // Initialize flatpickr for the new deadline input field
+                flatpickr("#deadline" + i, {
+                    dateFormat: "Y-m-d",
+                    minDate: "today"
+                });
+            });
+        
+            $(document).on('click', '.btn_remove', function() {
+                var button_id = $(this).attr("id");
+                $('#row' + button_id).remove();
+                // Move the "Add More" button to the end of the new last row
+                $('#add').appendTo($('#dynamic_field .row:last-child .col-md-4'));
+            });
+        });
+        </script>
+        
+    @endpush
+</x-nform-layout>

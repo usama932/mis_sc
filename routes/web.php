@@ -186,6 +186,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/projectreviews', ProjectReviewController::class);
     Route::get('/project_partner/create/{id}', [ProjectReviewController::class,'createreview'])->name('project_review.create');
     Route::post('project_reviews', [ProjectReviewController::class,'project_reviews'])->name('admin.project_reviews');
+    Route::post('project_reviews_actionpoint', [ProjectReviewController::class,'project_reviews_actionpoint'])->name('admin.project_reviews_actionpoint');
     Route::post('view_review', [ProjectReviewController::class,'view_review'])->name('view_review');
     Route::get('/project_review/delete/{id}', [ProjectReviewController::class,'destroy'])->name('project_review.delete');
     //close Records routes

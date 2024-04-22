@@ -107,6 +107,13 @@ var KTreviewValidate = function () {
                             }
                         }
                     },
+                    'review_date':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Review Date is required'
+                            }
+                        }
+                    },
                 
                 },
             
