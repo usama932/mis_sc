@@ -33,6 +33,7 @@ var reviews = $('#project_reviews').DataTable( {
 });
 
 function del(id) {
+    
     Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -43,11 +44,32 @@ function del(id) {
         if (result.value) {
             Swal.fire(
                 "Deleted!",
-                "Your Quality BenchMark` has been deleted.",
+                "Your Review has been deleted.",
                 "success"
             );
-            var APP_URL =  json_encode(url('/'))
-            window.location.href = APP_URL + "/qb/delete/" + id;
+            var segments = window.location.href.split('/');
+            var url = segments[1];
+            var APP_URL = url + "/project_review/delete/" + id;
+            var apiUrl = APP_URL;
+            fetch(apiUrl, {
+                method: 'GET', // You can use 'GET', 'POST', 'PUT', 'DELETE', etc.
+                headers: {
+                    'Content-Type': 'application/json', // Set the content type based on your API requirements
+                    // Add any other headers if needed
+                },
+                
+            })
+            .then(response => {
+                // Handle the response as needed
+                console.log(response);
+            })
+            .catch(error => {
+                // Handle errors
+                console.error('Error:', error);
+            });
+
+
+            reviews.ajax.reload(null, false).draw(false);
         }
     });
 }
@@ -107,14 +129,41 @@ var KTreviewValidate = function () {
                             }
                         }
                     },
-                    'review_date':{
+                    'addmore[0][action_point]':{
                         validators: {
                             notEmpty: {
-                                message: 'Review Date is required'
+                                message: 'Action Point is required'
                             }
                         }
                     },
-                
+                    'addmore[0][action_agreed]':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Action  is required'
+                            }
+                        }
+                    },
+                    'addmore[0][deadline]':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Deadline is required'
+                            }
+                        }
+                    },
+                    'addmore[0][status]':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Status is required'
+                            }
+                        }
+                    },
+                    'addmore[0][responsible_person][]':{
+                        validators: {
+                            notEmpty: {
+                                message: 'Responsible Person is required'
+                            }
+                        }
+                    }
                 },
             
                 plugins: {
@@ -162,7 +211,7 @@ var KTreviewValidate = function () {
                                     "showMethod": "fadeIn",
                                     "hideMethod": "fadeOut"
                                 };
-                                toastr.error("Project already exist", "Error");
+                                toastr.error("Review has some error", "Please address the empty fields");
                         
                             }
                             else{
@@ -184,7 +233,7 @@ var KTreviewValidate = function () {
                                     "showMethod": "fadeIn",
                                     "hideMethod": "fadeOut"
                                 };
-                                toastr.success("Project Created", "Success");
+                                toastr.success("Review Submitted",response.data.message);
                                 window.location.assign(response.data.editUrl);
                             }
                         

@@ -38,6 +38,10 @@ class Project extends Model
     {
         return $this->hasMany(ProjectPartner::class,'project_id','id');
     }
+    public function reviews()
+    {
+        return $this->hasMany(ProjectReview::class,'review_id','id');
+    }
     public function detail()
     {
         return $this->hasOne(ProjectDetail::class,'project_id','id');

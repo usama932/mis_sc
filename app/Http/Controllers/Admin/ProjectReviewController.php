@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\ProjectReview;
 use App\Models\Review_ActionPoint;
+use Illuminate\Support\Facades\Validator;
 
 class ProjectReviewController extends Controller
 {
@@ -18,7 +19,9 @@ class ProjectReviewController extends Controller
 
     public function createreview($id)
     {
-        $persons = User::role('focal person')->get();
+        $persons = User::whereHas('roles', function ($query) {
+            $query->whereIn('name', ['focal person', 'budget holder','awards','partner','']);
+        })->get();
         $id  = $id;
         addVendors(['datatables']);
         addJavascriptFile('assets/js/custom/project/reviewmeeting.js');
@@ -54,7 +57,12 @@ class ProjectReviewController extends Controller
              
                 $show_url =  route('projectreviews.edit',$r->id);
 				$nestedData['action_point'] = $r->action_point;
-                $nestedData['responsible_person'] = date('M d ,Y', strtotime($r->created_at));
+                $responsible_person_logs = json_decode($r->responsible_person , true);
+                $responsible_person  = User::whereIn('id', $responsible_person_logs)
+                ->pluck('name')
+                ->toArray();
+                $persons = implode(', ', $responsible_person);
+                $nestedData['responsible_person'] = $persons ?? '';
                 $nestedData['agreed_action'] = $r->agreed_action ?? '';
                 $nestedData['deadline'] = $r->deadline;
                 $nestedData['status'] = $r->status;
@@ -148,6 +156,25 @@ class ProjectReviewController extends Controller
 
     public function store(Request $request)
     {
+       
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:255',
+            'review_date' => 'required|date',
+            'addmore.*.action_point' => 'required|string|max:255',
+            'addmore.*.responsible_person' => 'required',
+            'addmore.*.action_agreed' => 'required',
+            'addmore.*.deadline' => 'required',
+            'addmore.*.status' => 'required',
+        ]);
+    
+        $editUrl = route('projectreviews.show',$request->project_id);
+        if ($validator->fails()) {
+            return response()->json([
+                'editUrl' => $editUrl,
+                'message' => $validator,
+                'error'   => true
+            ]);
+        }
         $reviews = ProjectReview::create([
             'meeting_title'         => $request->title,
             'review_date'           => $request->review_date,
@@ -155,7 +182,7 @@ class ProjectReviewController extends Controller
         ]);
         foreach($request->input('addmore') as $key => $value) {       
             Review_ActionPoint::create([
-                'responsible_person' =>  $value['responsible_person'],
+                'responsible_person' =>  json_encode($value['responsible_person']),
                 'agreed_action' =>$value['action_agreed'],
                 'deadline' =>$value['deadline'],
                 'status'=>$value['status'],
@@ -165,7 +192,13 @@ class ProjectReviewController extends Controller
             ]);
           
         }
-        $editUrl = route('projectreviews.show',$request->project_id);
+       
+        
+        return response()->json([
+            'editUrl' => $editUrl,
+            'message' => 'Review Submitted',
+            'error'   => false
+        ]);
         return redirect()->route('projectreviews.show',$request->project_id);
     }
 
@@ -202,6 +235,9 @@ class ProjectReviewController extends Controller
 
     public function destroy(string $id)
     {
-        //
+        $review = ProjectReview::find($id);
+        $review->action_point?->each?->delete();
+        $review->delete();
+        return redirect()->back();
     }
 }

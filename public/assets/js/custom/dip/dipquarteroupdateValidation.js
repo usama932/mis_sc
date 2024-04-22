@@ -52,6 +52,8 @@ var activityQuarters = $('#activityQuarters').DataTable({
         {"data":"image","searchable":false,"orderable":false},
         {"data":"attachment","searchable":false,"orderable":false},
         {"data":"remarks","searchable":false,"orderable":false},
+        {"data":"created_at","searchable":false,"orderable":false},
+        {"data":"created_by","searchable":false,"orderable":false},
         {"data":"action","searchable":false,"orderable":false},
     ]
 });

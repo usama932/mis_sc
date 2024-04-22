@@ -19,4 +19,8 @@ class ProjectReview extends Model
     {
         return $this->belongsTo(Project::class,'project_id','id');
     }
+    public function action_point()
+    {
+        return $this->belongsTo(Review_ActionPoint::class,'review_id','id');
+    }
 }

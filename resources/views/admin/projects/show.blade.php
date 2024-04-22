@@ -137,6 +137,9 @@
                     <li class="nav-item">
                         <a class="nav-link  " data-bs-toggle="tab" href="#activities">Project Activities</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link  " data-bs-toggle="tab" href="#profile">Project Profile</a>
+                    </li>
                 </ul>
             </div>
             <div class="tab-content" id="myTabContent">
@@ -206,6 +209,27 @@
                                             <th>Quarter  Target</th>
                                             <th>Created By</th>
                                             <th>Created At</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade show" id="profile" role="tabpanel">
+                    <div class="card m-4"  id="project_partner_table">
+                        <div class="card-body overflow-*">
+                            <div class="table-responsive overflow-*">
+                                <table class="table table-striped table-bordered nowrap" id="project_profile" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Theme</th>
+                                            <th>Province</th>
+                                            <th>Districts</th>
+                                            {{-- <th>Tehsil</th>
+                                            <th>UC</th>
+                                            <th>Village</th>  --}}
                                             <th>Actions</th>
                                         </tr>
                                     </thead>

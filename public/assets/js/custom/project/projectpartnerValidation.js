@@ -334,7 +334,7 @@ function project_parnterdel(id) {
                         'Content-Type': 'application/json', // Set the content type based on your API requirements
                         // Add any other headers if needed
                     },
-                    // Add any additional options such as body, credentials, etc.
+                    
                 })
                 .then(response => {
                     // Handle the response as needed

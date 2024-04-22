@@ -226,7 +226,8 @@ class DipActivityController extends Controller
                     $nestedData['activity_acheive'] = $r->progress?->activity_target ?? '0';  
                     $nestedData['status'] = $r->status;
                     $nestedData['remarks'] = $r->progress?->remarks ?? '';
-                   
+                    $nestedData['created_at'] = date('M d ,Y', strtotime($r->created_at )) ?? '';
+                    $nestedData['created_by'] = $r->user?->remarks ?? '';
                     if(!empty($r->completion_date) && $r->completion_date != Null){
                         $nestedData['completion_date'] ='<span class="fs-9" style="font-size: 9px;">'.date('M d ,Y', strtotime($r->completion_date ?? '')).'</span>';
                     }else{
@@ -392,10 +393,11 @@ class DipActivityController extends Controller
         else{
             $districts = '';
         }
+
         addVendors(['datatables']);
         addJavascriptFile('assets/js/custom/dip/dipquarteroupdateValidation.js');
         addJavascriptFile('assets/js/custom/dip/dipquartereditValidation.js');
-      //addJavascriptFile('assets/js/custom/dip/add_progress.js');
+        //addJavascriptFile('assets/js/custom/dip/add_progress.js');
         $months = ActivityProgress::where('activity_id',$id)->where('project_id',$dip_activity->project_id)->get();
         $quarters = ActivityMonths::where('activity_id',$id)->where('project_id',$dip_activity->project_id)->get();
         return view('admin.dip.show_dip_activity',compact('dip_activity','districts','provinces','months','quarters'));
