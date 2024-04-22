@@ -196,7 +196,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/projectprofiles', ProjectProfileController::class);
     Route::post('project_profile', [ProjectProfileController::class,'project_profile'])->name('admin.project_profile');
     Route::post('profile_detail', [ProjectProfileController::class,'profile_detail'])->name('admin.profile_detail');
-});``
+    Route::get('/project_profile/delete/{id}', [ProjectProfileController::class,'destroy'])->name('project_profile.delete');
+});
 
 Route::get('/error', function () {
     abort(500);

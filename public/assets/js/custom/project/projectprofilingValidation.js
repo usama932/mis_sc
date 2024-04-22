@@ -379,6 +379,52 @@ function view(id) {
 
     });
 }
+
+//delete project partner
+function project_profiledel(id) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!"
+    }).then(function(result) {
+
+        if (result.value) {
+            Swal.fire(
+                "Deleted!",
+                "Your Project Profile  has been deleted.",
+                "success"
+            );
+            var segments = window.location.href.split('/');
+            var url = segments[1];
+            var APP_URL = url + "/project_profile/delete/" + id;
+            var apiUrl = APP_URL;
+            fetch(apiUrl, {
+                    method: 'GET', // You can use 'GET', 'POST', 'PUT', 'DELETE', etc.
+                    headers: {
+                        'Content-Type': 'application/json', // Set the content type based on your API requirements
+                        // Add any other headers if needed
+                    },
+                    
+                })
+                .then(response => {
+                    // Handle the response as needed
+                    console.log(response);
+                })
+                .catch(error => {
+                    // Handle errors
+                    console.error('Error:', error);
+                });
+
+
+                project_profiles.ajax.reload(null, false).draw(false);
+            // $("#create_projecttheme").slideToggle();
+            // $("#project_theme_table").slideToggle();
+            // $("#addprojectthemeBtn").show();
+        }
+    });
+}
 $('.close').click(function() {
     $('#view_profile').modal('hide');
 });

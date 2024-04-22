@@ -113,14 +113,8 @@
                             <tr>
                                 <th class="fs-7" style="min-width: 300px;">Activities</th>
                                 <th  class="fs-7" style="min-width: 100px;">LOP Target</th>
-                                @foreach($project->quarters as $tenure)
-                                    <?php
-                                        $dateString = $tenure->quarter;
-                                        $parts = explode("-", $dateString);
-                                        $year = $parts[1];
-                                        $quarter = $parts[0]; 
-                                    ?>
-                                    <th colspan="6" class=" fs-7 text-center">{{ $quarter }} - {{$year}}</th>
+                                @foreach($months as $month)
+                                    <th colspan="6" class=" fs-7 text-center">{{ $month}}</th>
                                 @endforeach
                                 <th class="fs-7" style="min-width: 300px;">Remarks</th>
                             </tr>
@@ -165,13 +159,8 @@
                             <tr>
                                 <th></th>
                                 <th></th>
-                                @foreach($project->quarters as $tenure)
-                                    <?php
-                                        $dateString = $tenure->quarter;
-                                        $parts = explode("-", $dateString);
-                                        $quarter = $parts[0]; // This will give you "Q2"
-                                       
-                                    ?>
+                                @foreach($months as $month)
+                                    
                                       <th colspan="3" class="fs-9 text-center"> Target</th>
                                       <th colspan="3"  class="fs-9 text-center">Acheive</th>
                                 @endforeach
@@ -191,17 +180,17 @@
                                     <tr>
                                         <td style="min-width: 150px;" class="fs-8">{{$item->activity_number ?? ''}}</td>
                                         <td class="fs-8">{{$item->lop_target ?? ''}}</td>
-                                        @foreach($project->quarters as $tenure)
+                                        @foreach($months as $monthed)
                                             <td colspan="3" class="text-center fs-8">
                                                 @foreach($item->months as $month)
-                                                    @if($tenure->quarter == $month->slug->slug.'-'.$month->year)
+                                                    @if($monthed == $month->quarter.' '.$month->year)
                                                         {{$month->target}}
                                                     @endif
-                                                @endforeach
+                                                @endforeach.
                                             </td>
                                             <td colspan="3" class="text-center fs-8">
                                                 @foreach($item->months as $month)
-                                                    @if($tenure->quarter == $month->slug->slug.'-'.$month->year)
+                                                    @if($monthed == $month->quarter.' '.$month->year)
                                                         {{$month->progress?->activity_target ?? 0}}
                                                     @endif
                                                 @endforeach

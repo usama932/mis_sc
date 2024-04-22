@@ -88,7 +88,7 @@
                 <tr>
                     <th>Theme</th>
                     <th>Province</th>
-                    <th>Districts</th>
+                    <th>Details</th>
                     {{-- <th>Tehsil</th>
                     <th>UC</th>
                     <th>Village</th>  --}}
@@ -112,7 +112,7 @@
                     event.preventDefault(); // Prevent default form submission
                     var editorData = editor.getData(); // Get CKEditor content
                     document.getElementById('kt_docs_ckeditor_classic').value = editorData; // Update textarea with CKEditor content
-                    document.getElementById('create_projectprofile').submit();
+                 
                 });
             })
             .catch(error => {

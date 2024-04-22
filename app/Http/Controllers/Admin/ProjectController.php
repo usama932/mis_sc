@@ -17,6 +17,7 @@ use App\Models\ProjectPartner;
 use App\Models\ProjectTheme;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
 use Maatwebsite\Excel\Facades\Excel;
+use DateTime;
 
 class ProjectController extends Controller
 {
@@ -344,7 +345,17 @@ class ProjectController extends Controller
         }
         $project_partners   = ProjectPartner::where('project_id',$id)->get();  
         $project_themes   = ProjectTheme::where('project_id',$id)->get();  
-        return view('admin.projects.projectView',compact('project','provinces','districts','project_partners','project_themes'));
+
+        $start_date = new DateTime($project->start_date);
+        $end_date = new DateTime($project->end_date);
+        
+        $months = array();
+        while ($start_date <= $end_date) {
+            $months[] = $start_date->format('M Y'); // Add month name and year to the array
+            $start_date->modify('+1 month'); // Move to the next month
+        }
+       
+        return view('admin.projects.projectView',compact('project','provinces','districts','project_partners','project_themes','months'));
     }
 
     public function create()
