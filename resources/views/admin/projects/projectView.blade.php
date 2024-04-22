@@ -8,6 +8,11 @@
           border: 1px solid black;
         }
         </style>
+    <ol class="breadcrumb text-muted fs-6 fw-semibold">
+        <li class="breadcrumb-item"><a href="{{route('get_project_index')}}" class="">Project Details</a></li>
+     
+        <li class="breadcrumb-item text-muted">Activities</li>
+    </ol>
     <div class="container py-3">
         <div class="card">
             <div class="card-header bg-light border-bottom">
@@ -186,7 +191,7 @@
                                                     @if($monthed == $month->quarter.' '.$month->year)
                                                         {{$month->target}}
                                                     @endif
-                                                @endforeach.
+                                                @endforeach
                                             </td>
                                             <td colspan="3" class="text-center fs-8">
                                                 @foreach($item->months as $month)

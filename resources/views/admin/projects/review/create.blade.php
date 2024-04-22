@@ -2,6 +2,10 @@
     @section('title')
     Review Meetings
     @endsection
+    <ol class="breadcrumb text-muted fs-6 fw-semibold mb-5">
+        <li class="breadcrumb-item"><a href="{{route('get_project_index')}}" class="">Project Details</a></li>
+        <li class="breadcrumb-item text-muted">Review Meetings</li>
+    </ol>
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div class="card">
             <div class="card-header">

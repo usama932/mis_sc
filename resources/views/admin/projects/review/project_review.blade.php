@@ -1,7 +1,11 @@
     <x-nform-layout>
         @section('title')
-            Review Meetings
+             Review Meetings
         @endsection
+        <ol class="breadcrumb text-muted fs-6 fw-semibold">
+            <li class="breadcrumb-item"><a href="{{route('get_project_index')}}" class="">Project Details</a></li>
+            <li class="breadcrumb-item text-muted">Review Meetings</li>
+        </ol>
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <div class="card-toolbar m-5 d-flex justify-content-end">
                 @can('create projects_review')

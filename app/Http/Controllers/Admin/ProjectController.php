@@ -127,7 +127,14 @@ class ProjectController extends Controller
                 }
                 $nestedData['district'] = $districts ?? '';
                
-             
+                $nestedData['project_activities'] = '<a class="btn btn-info btn-sm mx-auto" href="'. $view_url.'" target="_blank" title="Show Project Activities">
+                                                            Click Here
+                                                        </a>';
+                                                        
+                $nestedData['review_meeting'] ='<a class="btn btn-warning btn-sm mx-auto" href="'. $projectreviews_url.'" title="Show Project Review">
+                                                    Click here
+                                                </a>';
+                $nestedData['district'] = $districts ?? '';
                 if($r->start_date != null && $r->end_date != null){
                     $nestedData['project_tenure'] = date('M d, Y', strtotime($r->start_date)) .' To '.date('M d, Y', strtotime($r->end_date));
                 }
@@ -150,12 +157,8 @@ class ProjectController extends Controller
                         <a class="btn-icon mx-1" href="'. $show_url.'" target="_blank" title="show project">
                             <i class="fa fa-eye text-success" aria-hidden="true" ></i>
                         </a>
-                        <a class="btn-icon mx-1" href="'. $view_url.'" target="_blank" title="Show Project Activities">
-                            <i class="fa fa-file text-primary" aria-hidden="true" ></i>
-                        </a>
-                        <a class="btn-icon mx-1" href="'. $projectreviews_url.'" title="Show Project Review">
-                            <i class="fa fa-star text-info" aria-hidden="true" ></i>
-                        </a>
+                       
+                       
                         <a class="btn-icon mx-1" href="'. $edit_url.'" title=" project edit">
                             <i class="fa fa-pencil text-warning" aria-hidden="true" ></i>
                         </a>';

@@ -50,6 +50,8 @@
                                 <th>Provinces</th>
                                 <th>Districts</th>
                                 <th>Project Tenure</th>
+                                <th>Project Activities</th>
+                                <th>Review Meeting</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -116,7 +118,16 @@
                     "searchable": false,
                     "orderable": false
                 },
-
+                {
+                "data": "project_activities",
+                "searchable": false,
+                "orderable": false
+                },
+                {
+                    "data": "review_meeting",
+                    "searchable": false,
+                    "orderable": false
+                },
                 {
                     "data": "action",
                     "searchable": false,
@@ -183,6 +194,16 @@
                     },
                     {
                         "data": "project_tenure",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                    {
+                        "data": "project_activities",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                    {
+                        "data": "review_meeting",
                         "searchable": false,
                         "orderable": false
                     },

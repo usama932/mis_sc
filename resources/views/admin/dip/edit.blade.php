@@ -255,6 +255,73 @@
                     },
                 ]
             });
+            var project_profiles = $('#project_profile').DataTable({
+    "order": [
+        [1, 'desc']
+    ],
+    "dom": 'lfBrtip',
+    buttons: [
+        'csv', 'excel'
+    ],
+    "responsive": true, // Enable responsive mode
+    "processing": true,
+    "serverSide": true,
+    "searching": false,
+    "bLengthChange": false,
+    "bInfo": false,
+    "responsive": false,
+    "info": true,
+    "ajax": {
+
+        "url": "/project_profile",
+        "dataType": "json",
+        "type": "POST",
+        "data": {
+            _token: csrfToken,
+            'project_id': project_id
+        }
+    },
+    "columns": [
+        
+        {
+            "data": "theme",
+            "searchable": false,
+            "orderable": false
+        },
+        {
+            "data": "province",
+            "searchable": false,
+            "orderable": false
+        },
+        {
+            "data": "district",
+            "searchable": false,
+            "orderable": false
+        },
+        // {
+        //     "data": "tehsil",
+        //     "searchable": false,
+        //     "orderable": false
+        // },
+        // {
+        //     "data": "uc",
+        //     "searchable": false,
+        //     "orderable": false
+        // },
+        // {
+        //     "data": "village",
+        //     "searchable": false,
+        //     "orderable": false
+        // },
+        
+        {
+            "data": "action",
+            "searchable": false,
+            "orderable": false
+        },
+    ]
+});
+
         </script>
     @endpush
 

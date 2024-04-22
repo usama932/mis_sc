@@ -88,6 +88,9 @@
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="tab" href="#partner">Implementing Partner</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#profile">Project Profile</a>
+            </li>
         </ul>
     </div>
     <div class="tab-content" id="myTabContent">
@@ -129,6 +132,27 @@
                                     <th>Email</th>
                                     <th>Province</th>
                                     <th>District</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel">
+            <div class="card m-4" id="project_partner_table">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered nowrap" id="project_profile" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Theme</th>
+                                    <th>Province</th>
+                                    <th>Details</th>
+                                    {{-- <th>Tehsil</th>
+                                    <th>UC</th>
+                                    <th>Village</th>  --}}
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                         </table>

@@ -127,11 +127,11 @@ class ProjectReviewController extends Controller
                                 <div>
                                 <td>
                                    
-                                    <a class="btn   btn-clean btn-icon" title="View Monitor Visit" href="'.$show_url.'">
-                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                    <a class="mx-1" title="View Monitor Visit" href="'.$show_url.'">
+                                    <i class="fa fa-eye text-success" aria-hidden="true"></i>
                                     </a>
-                                    <a class="btn   btn-clean btn-icon" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
-                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    <a class="mx-1 " onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
+                                        <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                                     </a>
                                 </td>
                                 </div>

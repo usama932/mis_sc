@@ -2,12 +2,13 @@
     @section('title')
         {{$review->meeting_title}}/ Review Meetings Action Points
     @endsection
+    <ol class="breadcrumb text-muted fs-6 fw-semibold mb-5">
+        <li class="breadcrumb-item"><a href="{{route('get_project_index')}}" class="">Project Details</a></li>
+        <li class="breadcrumb-item"><a href=" {{route('projectreviews.show',$review->project_id)}}">{{$review->meeting_title}}</a></li>
+        <li class="breadcrumb-item text-muted"> Meetings Action Points</li>
+    </ol>
     <div id="kt_app_content" class="app-content flex-column-fluid">
-        <div class="card-toolbar m-5 d-flex justify-content-start">
-            <a href=" {{route('projectreviews.show',$review->project_id)}}" class="btn btn-primary btn-sm">
-                Back
-            </a>
-        </div>
+        
         <div class="card-body pt-0 overflow-*">
             <input type="hidden"  value="{{$id}}" id="review_id" />
             <div class="table-responsive overflow-*">

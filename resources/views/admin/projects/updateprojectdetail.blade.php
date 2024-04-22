@@ -7,6 +7,11 @@
             height: 150px; /* Adjust the height as needed */
         }
     </style>
+      <ol class="breadcrumb text-muted fs-6 fw-semibold">
+        <li class="breadcrumb-item"><a href="{{route('get_project_index')}}" class="">Project Details</a></li>
+     
+        <li class="breadcrumb-item text-muted">Update Project {{$project->name}}</li>
+    </ol>
     @section('title')
        Update Project Details
     @endsection
@@ -76,7 +81,6 @@
                         <a  class="nav-link @if(session('project') == 'detail')  active @endif" data-bs-toggle="tab" href="#detail">Project Detail</a>
                     </li>
                     <li class="nav-item">
-                      
                         <a class="nav-link @if(session('project') == 'thematic') active @else  @endif" data-bs-toggle="tab" href="#thematic" @if(empty($project->detail) ) disabled @endif >Thematic area</a>
                     </li>
                     <li class="nav-item">
