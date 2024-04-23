@@ -29,50 +29,51 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Review Details</label>
-                    </div>
-                    <div id="dynamic_field">
-                        <div class="row review-row">
-                            <div class="col-md-9 fv-row fv-row">
-                                <textarea class="form-control mb-3" rows="1" name="addmore[0][action_point]" placeholder="Enter Action Point"></textarea>
-                            </div>
-                            <div class="col-md-3 fv-row">
-                                <select class="form-select mb-3" multiple name="addmore[0][responsible_person][]" aria-label="Select a Responsible person" data-control="select2" data-placeholder="Select a Responsible person..." data-allow-clear="true">
-                                    <option value="">Select Responsible</option>
-                                    @foreach($persons as $person)
-                                    <option value="{{$person->id}}">{{$person->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-6 fv-row">
-                             
-                                <textarea class="form-control mb-3" rows="1" name="addmore[0][action_agreed]" placeholder="Enter Agreed Action"></textarea>
-                            </div>
-                            <div class="col-md-3 fv-row">
-                                <input type="text" name="addmore[0][deadline]" placeholder="Enter Deadline" class="form-control mb-3" id="deadline" />
-                            </div>
-                           
-                            <div class="col-md-3 fv-row ">
-                                <select class="form-select mb-3 " name="addmore[0][status]" aria-label="Select a Status" data-control="select2" data-placeholder="Select Status..." data-allow-clear="true">
-                                    <option value="">Select Status</option>
-                                    <option value="Initiated">Initiated</option>
-                                    <option value="Completed">Completed</option>
-                                    <option value="In Process">In Process</option>
-                                </select>
-                            </div>
-                        </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" id="dynamic_field">
+                            <thead>
+                                <tr>
+                                    <th>Identifies Gap</th>
+                                    <th>Responsible Person</th>
+                                    <th>Action Agreed</th>
+                                    <th>Deadline</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><textarea class="form-control mb-3" rows="3" name="addmore[0][action_point]" ></textarea></td>
+                                    <td>
+                                        <select class="form-select mb-3" multiple name="addmore[0][responsible_person][]" aria-label="Select a Responsible person" data-control="select2" data-placeholder="Select a Responsible person..." data-allow-clear="true">
+                                            <option value="">Select Responsible</option>
+                                            @foreach($persons as $person)
+                                            <option value="{{$person->id}}">{{$person->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td><textarea class="form-control mb-3" rows="3" name="addmore[0][action_agreed]" ="Enter Agreed Actionplaceholder"></textarea></td>
+                                    <td><input type="text" name="addmore[0][deadline]" id="deadline" placeholder="Enter Deadline" class="form-control mb-3" /></td>
+                                    <td>
+                                        <select class="form-select mb-3" name="addmore[0][status]" aria-label="Select a Status" data-control="select2" data-placeholder="Select Status..." data-allow-clear="true">
+                                            <option value="">Select Status</option>
+                                            <option value="Initiated">Initiated</option>
+                                            <option value="Completed">Completed</option>
+                                            <option value="In Process">In Process</option>
+                                        </select>
+                                    </td>
+                                     <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <div class="d-flex justify-content-end">
-              
                         <button type="button" name="add" id="add" class="btn btn-success btn-sm">Add More</button>
-                        
                     </div>
                     <div class="text-end mt-3">
                         <button type="submit" id="kt_create_projectreview" class="btn btn-primary">Submit</button>
                     </div>
                 </form>
-             
             </div>
         </div>
     </div>
@@ -83,39 +84,29 @@
         
             $('#add').click(function() {
                 i++;
-                $('#dynamic_field').append(`
-                    <div class="row review-row mt-3" id="row${i}">
-                        <div class="col-md-9">
-                            <textarea class="form-control mb-3" rows="1" name="addmore[${i}][action_point]" placeholder="Enter Action Point ${i}"></textarea>
-                        </div>
-                        <div class="col-md-3">
+                $('#dynamic_field tbody').append(`
+                    <tr id="row${i}">
+                        <td><textarea class="form-control mb-3" rows="1" name="addmore[${i}][action_point]" placeholder="Enter Action Point ${i}"></textarea></td>
+                        <td>
                             <select class="form-select form-control mb-3 smartsearch_keyword" multiple name="addmore[${i}][responsible_person][]" aria-label="Select a Responsible person " data-control="select2" data-placeholder="Select a Responsible person..." data-allow-clear="true">
                                 <option value="">Select Responsible</option>
                                 @foreach($persons as $person)
                                 <option value="{{$person->id}}">{{$person->name}}</option>
                                 @endforeach
                             </select>
-                        </div>
-                        <div class="col-md-6">
-                            <textarea class="form-control mb-3" rows="1" name="addmore[${i}][action_agreed]" placeholder="Enter Agreed Action"></textarea>
-                      
-                        </div>
-                        <div class="col-md-3">
-                            <input type="text" name="addmore[${i}][deadline]" placeholder="Enter Deadline" class="form-control mb-3 " id="deadline${i}" />
-                        </div>
-                        <div class="col-md-3">
+                        </td>
+                        <td><textarea class="form-control mb-3" rows="1" name="addmore[${i}][action_agreed]" placeholder="Enter Agreed Action"></textarea></td>
+                        <td><input type="text" name="addmore[${i}][deadline]" placeholder="Enter Deadline" class="form-control mb-3 " id="deadline${i}" /></td>
+                        <td>
                             <select class="form-select form-control mb-3 select_status" name="addmore[${i}][status]" aria-label="Select a Status${i}" data-control="select2 " data-placeholder="Select Status ${i}" data-allow-clear="true">
                                 <option value="">Select Status</option>
                                 <option value="Initiated">Initiated</option>
                                 <option value="Completed">Completed</option>
                                 <option value="In Process">In Process</option>
                             </select>
-                        </div>
-                      
-                    </div>
-                    <div class="d-flex justify-content-end my-3">
-                        <button type="button" name="remove" id="${i}" class="btn btn-sm btn-danger btn_remove">Remove</button>
-                    </div>
+                        </td>
+                        <td><button type="button" name="remove" id="${i}" class="btn btn-sm btn-danger btn_remove">Remove</button></td>
+                    </tr>
                 `);
         
                 $('.smartsearch_keyword').select2({
@@ -132,7 +123,7 @@
                 var button_id = $(this).attr("id");
                 $('#row' + button_id).remove();
                 // Move the "Add More" button to the end of the new last row
-                $('#add').appendTo($('#dynamic_field .row:last-child .col-md-4'));
+                $('#add').appendTo($('#dynamic_field tbody tr:last-child td:last-child'));
             });
             $(".smartsearch_keyword").select2({
                 multiple: true,
@@ -143,8 +134,6 @@
                 tags: true,
             });
         });
-
-        
     </script>
         
     @endpush

@@ -10,13 +10,13 @@
             <div class="card-toolbar m-5 d-flex justify-content-end">
                 @can('create projects_review')
                     <a href="{{route('project_review.create',$id)}}" class="btn btn-primary btn-sm" ">
-                        Add Review Meeting
+                        <i class="fa fa-plus"></i>  Add Review Meeting Details
                     </a>
                     <div class="modal fade" tabindex="-1" id="kt_modal_1">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h3 class="modal-title">Add Review Meeting</h3>
+                                    <h3 class="modal-title">Review Meeting Details</h3>
                     
                                     <!--begin::Close-->
                                     <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
