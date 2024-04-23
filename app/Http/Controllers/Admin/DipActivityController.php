@@ -546,7 +546,7 @@ class DipActivityController extends Controller
     }
 
     public function updateprogress(Request $request){
-       
+      
         $quarter = ActivityMonths::where('id',$request->quarter)->first();
         $editUrl = route('activity_dips.show',$quarter->activity_id);
 

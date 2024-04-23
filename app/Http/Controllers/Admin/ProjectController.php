@@ -127,12 +127,12 @@ class ProjectController extends Controller
                 }
                 $nestedData['district'] = $districts ?? '';
                
-                $nestedData['project_activities'] = '<a class="btn btn-info btn-sm mx-auto" href="'. $view_url.'" target="_blank" title="Show Project Activities">
-                                                            Click Here
+                $nestedData['project_activities'] = '<a class="" href="'. $view_url.'" target="_blank" title="Show Project Activities">
+                                                        <span class="badge badge-info">Click Here</span>
                                                         </a>';
                                                         
-                $nestedData['review_meeting'] ='<a class="btn btn-warning btn-sm mx-auto" href="'. $projectreviews_url.'" title="Show Project Review">
-                                                    Click here
+                $nestedData['review_meeting'] ='<a class="" href="'. $projectreviews_url.'" title="Show Project Review">
+                                                <span class="badge badge-warning"> Click here</span>
                                                 </a>';
                 $nestedData['district'] = $districts ?? '';
                 if($r->start_date != null && $r->end_date != null){
@@ -146,8 +146,8 @@ class ProjectController extends Controller
                 if(empty($r->detail)){
                 $nestedData['action'] = '<div>
                                                 <td>
-                                                <a class="btn btn-primary btn-sm" href="'. $edit_url .'"  style="font-size: 0.8em; font-weight: bold; padding: 6px 10px;">
-                                                    <i class="fa fa-plus" aria-hidden="true"></i> Add Detail
+                                                <a class="" href="'. $edit_url .'"  style="font-size: 0.8em; font-weight: bold; padding: 6px 10px;">
+                                                <span class="badge badge-primary">Add Detail</span>
                                                 </a>
                                                 </td>
                                             </div>';

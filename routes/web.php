@@ -145,7 +145,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/activity/progress', [DipActivityController::class,'activity_progress'])->name('activity_dips.progress');
     Route::get('/delete_month/delete/{id}', [DipActivityController::class,'delete_month'])->name('delete_month.delete');
     Route::get('postprogress/{id}', [DipActivityController::class,'postprogress'])->name('postprogress');
-    Route::post('updateprogress', [DipActivityController::class,'updateprogress'])->name('updateprogress');
+    Route::post('updateprogress', [DipActivityContoller::class,'updateprogress'])->name('updateprogress');
     Route::post('add_progress', [DipActivityController::class,'add_progress'])->name('add_progress'); 
     Route::post('update_status', [DipActivityController::class,'update_status'])->name('update_status'); 
     Route::post('edit_progress', [DipActivityController::class,'edit_progress'])->name('edit_progress'); 

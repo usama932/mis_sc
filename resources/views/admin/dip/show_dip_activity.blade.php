@@ -264,7 +264,7 @@
                 _token: csrfToken,
                 id: id
                 }).done(function(response) {
-                $('#edit_progress_body').html(response);
+                $('#add_progress_body').html(response);
                 $('#add_progress').modal('show');
 
                 });

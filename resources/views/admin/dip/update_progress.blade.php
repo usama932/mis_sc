@@ -160,7 +160,7 @@
 
                         var givenDate = new Date(response.complete_date);
                    
-                        var oneWeekBefore = new Date(givenDate.getTime() - 1 * 24 * 60 * 60 * 1000);
+                        var oneWeekBefore = new Date(givenDate.getTime() - 0 * 24 * 60 * 60 * 1000);
                         var twoWeeksAfter = new Date(givenDate.getTime() + 7 * 24 * 60 * 60 * 1000);
 
                         var flatpickrInstance = flatpickr("#start_date", {
