@@ -5,23 +5,39 @@
 
     <div id="kt_app_content" class="app-content flex-column-fluid">
 
-        <div class="card">
+        
+        <div class="card mb-4">
             @role('administrator')
             <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
+                    <h3 class="accordion-header" id="headingOne">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            <h2><i class="fa-solid fa-filter mx-4"></i>Filters</h2>
+                            <div class="d-flex align-items-center">
+                                <!--begin::Symbol-->
+                                <div class="symbol symbol-50px me-5">
+                                    <span class="symbol-label bg-light-danger">
+                                        <i class="ki-duotone ki-filter-search fs-2x text-danger">
+                                            <span class="path1"></span>
+                                            <span class="path2"></span>
+                                        </i>
+                                    </span>
+                                </div>
+                                <!--end::Symbol-->
+                                <!--begin::Text-->
+                                <div class="d-flex flex-column">
+                                    <a href="javascript:;" class="text-dark text-hover-primary fs-6 fw-bold">Apply Filters</a>
+                                </div>
+                                <!--end::Text-->
+                            </div>
                         </button>
-                    </h2>
-
-                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    </h3>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                            <div class="card-header border-0 pt-6">
+                            <div class="card-header border-0">
                                 <div class="row mb-5">
                                     <div class="col-md-12 mt-3">
                                         <label class="fs-6 fw-semibold form-label mb-2">
-                                            <span class="required">Project</span>
+                                            <span>Project</span>
                                         </label>
                                         <select name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Project Name" class="form-select form-select-solid">
                                             <option value="">Select Project</option>
@@ -30,15 +46,15 @@
                                             @endforeach
                                         </select>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
             @endrole
+        </div>
+        <div class="card"> 
             <div class="card-body pt-3">
                 <div class="table-responsive overflow-*">
                     <table class="table table-striped table-bordered nowrap" id="project_details" >
@@ -60,7 +76,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    
     </div>
 
     @push("scripts")
@@ -176,15 +192,8 @@
                     "orderable": false
                 },
                 
-            ],
-            columnDefs: [
-                {
-                    targets: 6,
-                            render: function (data, type, full, meta) {
-                                console.log(full.id);
-                    }
-                }
-            ],
+            ]
+                
         });
         project.order([]);
         $("#project_name").change(function() {
