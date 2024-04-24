@@ -66,8 +66,10 @@ class ProjectPartnerController extends Controller
                     $th = SciSubTheme::where('id',$theme->theme_id)->first();
                     $subth[] = $th->name;
                     $mainth[] = $th->maintheme?->name;
+                    $maintheme = array_unique($mainth);
+                   
                 }
-                $nestedData['themes'] = $mainth ?? '';
+                $nestedData['themes'] = $maintheme ?? '';
 
                 $nestedData['sub_themes'] = $subth ?? '';
                 $nestedData['partner'] = $r->partner_name?->slug ?? '';

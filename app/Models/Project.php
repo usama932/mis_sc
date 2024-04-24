@@ -40,7 +40,7 @@ class Project extends Model
     }
     public function reviews()
     {
-        return $this->hasMany(ProjectReview::class,'review_id','id');
+        return $this->hasMany(ProjectReview::class,'project_id','id');
     }
     public function detail()
     {

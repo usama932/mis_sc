@@ -475,7 +475,6 @@ class ProjectController extends Controller
             $project->activities?->each?->delete();
             $project->activity_months?->each?->delete();
             $project->progress?->each?->delete();
-            $project->reviews?->each?->delete();
             $project->reviews()->each(function ($review) {
                 $review->action_points()->each(function ($action_point) {
                     $action_point->delete();

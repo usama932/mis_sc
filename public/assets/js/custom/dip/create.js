@@ -61,7 +61,7 @@ $("#project_province").change(function () {
     var value = $(this).val();
     csrf_token = $('[name="_token"]').val();
     var project = document.getElementById('project_id').value || '';
-    
+  
     $.ajax({
         type: 'POST',
         url: '/getprojectDistrict',
