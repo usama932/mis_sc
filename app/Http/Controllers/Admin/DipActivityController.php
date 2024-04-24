@@ -340,10 +340,11 @@ class DipActivityController extends Controller
       
         
         $data = $request->except('_token');
-        $dip = DipActivity::orWhere('activity_title',$request->activity)->orWhere('activity_number',$request->activity_number)->where('subtheme_id',$request->sub_theme)->first();
+        $dip = DipActivity::where('activity_title',$request->activity)->where('subtheme_id',$request->sub_theme)->first();
+        $dips = DipActivity::where('activity_number',$request->activity_number)->where('subtheme_id',$request->sub_theme)->first();
         $editUrl = route('dips.edit',$request->project_id);
        
-        if(empty($dip)){
+        if(empty($dip) && empty($dips)){
             if($duplicates == []){
                
                 $dip_activity = $this->dipactivityRepository->storedipactivity($data);

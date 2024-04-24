@@ -104,9 +104,9 @@
                                 <input type="text" name="activities[0][complete_date]" id="start_date0" placeholder="Select date"  class="form-control start_date" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
                             
                             </div>
-                            <div class="col-md-2 mt-5 text-end fs-9">
-                                <button type="button" class="btn btn-info btn-sm mx-2 fs-9" onclick="addTargetRow()"
-                                    id="add_quarter_target">Add Month Target</button>
+                            <div class="col-md-2 mt-10 text-end fs-9">
+                                <span class="badge badge-info" onclick="addTargetRow()" id="add_quarter_target">
+                               <i class="fa fa-plus mx-2" aria-hidden="true"></i>Add Monthly Target</span>
                             </div>
                         </div>
                     </div>
@@ -224,7 +224,7 @@
                             <input type="text" name="activities[${i}][complete_date]" id="start_date${i}" placeholder="Select date" class="form-control required" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
                         </div>
                         <div class="col-md-1">
-                            <button type="button" class="btn btn-danger btn-sm" onclick="removeTargetRow(this)"><i class="fa fa-trash"></i></button>
+                            <span type="button" id="bitton" class="badge badge-danger text-white mx-2" onclick="removeTargetRow(this)"><i class="fa fa-trash"></i>Remove</button>
                         </div>
                     </div>`;
                 $('#targetRows').append(html);
