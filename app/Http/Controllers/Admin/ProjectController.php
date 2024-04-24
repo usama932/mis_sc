@@ -68,12 +68,10 @@ class ProjectController extends Controller
         // Get the order direction ('asc' or 'desc')
         $dir = $request->input('order.0.dir');
         $dir = strtolower($dir) === 'desc' ? 'desc' : 'asc'; // Default to 'asc' if not 'desc'
-        
-      
-        
+
         $start = $request->input('start');
         
-        // Fetch projects based on user type and filters
+        
         if (auth()->user()->user_type != 'admin') {
             $project_details = Project::where('focal_person', auth()->user()->id)->latest();
         } else {
@@ -113,6 +111,7 @@ class ProjectController extends Controller
                 if(!empty($r->detail->province )){
                     $province_dip = json_decode($r->detail->province , true);
                     $provinces = Province::whereIn('province_id', $province_dip)->pluck('province_name');
+                    $provinces   = implode("<br>", $provinces->toArray());
                 }
                 else{
                     $provinces = '';
@@ -121,22 +120,22 @@ class ProjectController extends Controller
                 if(!empty($r->detail->district )){
                     $district_dip = json_decode($r->detail->district , true);
                     $districts = District::whereIn('district_id', $district_dip)->pluck('district_name');
+                    $districts = implode("<br>", $districts->toArray());
                 }
                 else{
                     $districts = '';
                 }
                 $nestedData['district'] = $districts ?? '';
                
-                $nestedData['project_activities'] = '<a class="" href="'. $view_url.'" target="_blank" title="Show Project Activities">
-                                                        <span class="badge badge-info">Click Here</span>
-                                                        </a>';
-                                                        
-                $nestedData['review_meeting'] ='<a class="" href="'. $projectreviews_url.'" title="Show Project Review">
-                                                <span class="badge badge-warning"> Click here</span>
+                $nestedData['project_activities'] = '<a class="btn" href="' . $view_url . '" target="_blank" title="Download project DIP">
+                                                    <i class="far fa-caret-square-right text-info"></i>
+                                                    </a>';
+                
+                 $nestedData['review_meeting'] = '<a class="btn" href="' . $projectreviews_url . '" title="Add/Show Review Meeting">
+                                                <i class="far fa-calendar-alt text-info"></i>
                                                 </a>';
-                $nestedData['district'] = $districts ?? '';
                 if($r->start_date != null && $r->end_date != null){
-                    $nestedData['project_tenure'] = date('M d, Y', strtotime($r->start_date)) .' To '.date('M d, Y', strtotime($r->end_date));
+                    $nestedData['project_tenure'] = date('M d, Y', strtotime($r->start_date)) . '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-<br>' . date('M d, Y', strtotime($r->end_date));
                 }
                 else{
                     $nestedData['project_tenure'] ='' ;
@@ -144,7 +143,7 @@ class ProjectController extends Controller
                 $nestedData['created_by'] = $r->user->name ?? '';
                 $nestedData['created_at'] =date('M d ,Y', strtotime($r->created_at)). '<br>'. date('h:iA', strtotime($r->created_at)) ?? '';
                 if(empty($r->detail)){
-                $nestedData['action'] = '<div>
+                $nestedData['action'] = '<div class="text-center mt-5">
                                                 <td>
                                                 <a class="" href="'. $edit_url .'"  style="font-size: 0.8em; font-weight: bold; padding: 6px 10px;">
                                                 <span class="badge badge-primary">Add Detail</span>
@@ -152,21 +151,19 @@ class ProjectController extends Controller
                                                 </td>
                                             </div>';
                 }else{
-                    $nestedData['action'] = '<div>
+                    $nestedData['action'] = '<div class="text-center mt-5">
                     <td>
                         <a class="btn-icon mx-1" href="'. $show_url.'" target="_blank" title="show project">
-                            <i class="fa fa-eye text-success" aria-hidden="true" ></i>
+                            <i class="far fa-eye text-success" ></i>
                         </a>
-                       
-                       
-                        <a class="btn-icon mx-1" href="'. $edit_url.'" title=" project edit">
-                            <i class="fa fa-pencil text-warning" aria-hidden="true" ></i>
+                        <a class="btn-icon mx-1 " href="'. $edit_url.'" title=" project edit">
+                            <i class="fas fa-pencil-alt text-warning"  ></i>
                         </a>';
                 
                     if (auth()->user()->user_type == 'admin') {
                         $nestedData['action'] .= '
-                            <a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Project" href="javascript:void(0)">
-                                <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+                            <a class="btn-icon  mx-1 " onclick="event.preventDefault();del('.$r->id.');" title="Delete Project" href="javascript:void(0)">
+                                <i class="fas fa-trash-alt text-danger" ></i>
                             </a>';
                     }
                 
@@ -270,7 +267,7 @@ class ProjectController extends Controller
                 $nestedData['action'] = '<div>
                     <td>
                         <a class="btn-icon mx-1" href="' . $show_url . '" >
-                            <i class="fa fa-eye text-success" aria-hidden="true"></i>
+                            <i class="fa fa-eye text-success" ></i>
                         </a>
                         <a class="btn-icon mx-1" href="' . $edit_url . '" target="_blank">
                             <i class="fa fa-pencil text-warning" aria-hidden="true"></i>

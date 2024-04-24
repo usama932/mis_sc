@@ -41,18 +41,19 @@
             @endrole
             <div class="card-body pt-3">
                 <div class="table-responsive overflow-*">
-                    <table class="table table-striped table-bordered nowrap" id="project_details" style="width:100%">
+                    <table class="table table-striped table-bordered nowrap" id="project_details" >
                         <thead>
                             <tr>
-                                <th class="">Project</th>
+                                <th>Project</th>
                                 <th>Type</th>
                                 <th>SOF</th>
                                 <th>Provinces</th>
                                 <th>Districts</th>
                                 <th>Project Tenure</th>
-                                <th>Project Activities</th>
-                                <th>Review Meeting</th>
                                 <th>Actions</th>
+                                <th>Extract DIP</th>
+                                <th>Review Meeting</th>
+                               
                             </tr>
                         </thead>
                     </table>
@@ -67,8 +68,49 @@
     <script>
         var project = $('#project_details').DataTable({
             "dom": 'lfBrtip',
+          
             buttons: [
-                'csv', 'excel'
+
+                {
+
+                    extend: 'excelHtml5',
+
+                    filename: 'Identificatoin Data export_',
+
+                    text: '<i class="flaticon2-download"></i> Excel',
+
+                    title: '',
+
+                    className: 'btn btn-outline-success',
+
+                    exportOptions: {
+
+                        columns: [1, 2, 3, 4, 5, 6, 7]
+
+                    }
+
+                },
+
+                {
+
+                    extend: 'csvHtml5',
+
+                    filename: 'Identificatoin Data CSV_',
+
+                    text: '<i class="flaticon2-download"></i> CSV',
+
+                    title: '',
+
+                    className: 'btn btn-outline-success',
+
+                    exportOptions: {
+
+                        columns: [1, 2, 3, 4, 5, 6, 7]
+
+                    }
+
+                }
+
             ],
 
             "processing": true,
@@ -119,6 +161,11 @@
                     "orderable": false
                 },
                 {
+                    "data": "action",
+                    "searchable": false,
+                    "orderable": false
+                },
+                {
                 "data": "project_activities",
                 "searchable": false,
                 "orderable": false
@@ -128,12 +175,16 @@
                     "searchable": false,
                     "orderable": false
                 },
+                
+            ],
+            columnDefs: [
                 {
-                    "data": "action",
-                    "searchable": false,
-                    "orderable": false
-                },
-            ]
+                    targets: 6,
+                            render: function (data, type, full, meta) {
+                                console.log(full.id);
+                    }
+                }
+            ],
         });
         project.order([]);
         $("#project_name").change(function() {
@@ -198,6 +249,11 @@
                         "orderable": false
                     },
                     {
+                        "data": "action",
+                        "searchable": false,
+                        "orderable": false
+                    },
+                    {
                         "data": "project_activities",
                         "searchable": false,
                         "orderable": false
@@ -207,11 +263,7 @@
                         "searchable": false,
                         "orderable": false
                     },
-                    {
-                        "data": "action",
-                        "searchable": false,
-                        "orderable": false
-                    },
+                   
                 ]
 
             });
