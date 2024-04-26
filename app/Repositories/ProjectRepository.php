@@ -22,32 +22,7 @@ class ProjectRepository implements ProjectRepositoryInterface
 {
     public function storeproject($data)
     {
-        $start_date = Carbon::parse($data['start_date']);
-        $end_date = Carbon::parse($data['end_date']);
-
-        $quarters = [];
-
-        $currentQuarterStart = $start_date->copy()->startOfQuarter();
-        while ($currentQuarterStart->lte($end_date)) {
-            $nextQuarterStart = $currentQuarterStart->copy()->addMonths(3);
-            $quarterEnd =$currentQuarterStart->copy()->endOfQuarter();
-            
-            $quarter = [
-                'quarter' => 'Q' . ceil($currentQuarterStart->month / 3) . '-' . $currentQuarterStart->format('Y'),
-                'start_month' => $currentQuarterStart->format('F Y'),
-                'end_month' => $quarterEnd->format('F Y')
-            ];
-            $quarters[] = $quarter;
-            
-            // Move to the start of the next quarter
-            $currentQuarterStart = $nextQuarterStart->startOfQuarter();
-
-            // If the next quarter starts in the next year, update the year
-            if ($nextQuarterStart->year != $currentQuarterStart->year) {
-                $currentQuarterStart->year($nextQuarterStart->year);
-            }
-        }
-
+       
         $project =  Project::create([
             'name'                  => $data['name'],
             'type'                  => $data['type'],
@@ -63,14 +38,7 @@ class ProjectRepository implements ProjectRepositoryInterface
             'active'                =>  '1',
             'created_by'            => auth()->user()->id,
         ]); 
-        foreach($quarters as $key => $quarter){
-            ProjectQuarter::create([
-                'project_id' =>  $project->id,
-                'quarter' => $quarter['quarter'],
-                'quarter_start' =>  $quarter['start_month'],
-                'quarter_end'   =>  $quarter['end_month'],
-            ]);
-        }
+       
         return $project;
 
     }
@@ -126,25 +94,7 @@ class ProjectRepository implements ProjectRepositoryInterface
         }else{
             $nce = 0;
         }
-        $start_date = Carbon::parse($data['start_date']);
-        $end_date = Carbon::parse($data['end_date']);
-
-        $quarters = [];
-
-        $currentQuarterStart = $start_date->copy()->startOfQuarter();
-        while ($currentQuarterStart->lte($end_date)) {
-            $nextQuarterStart = $currentQuarterStart->copy()->addMonths(3);
-            $quarterEnd = $nextQuarterStart->lte($end_date) ? $nextQuarterStart->copy()->subDay() : $end_date;
-        
-            $quarter = [
-                'start_month' => $currentQuarterStart->format('F Y'),
-                'end_month' => $quarterEnd->format('F Y')
-            ];
-            $quarters[] = $quarter;
-        
-            // Move to the start of the next quarter
-            $currentQuarterStart = $nextQuarterStart->startOfQuarter();
-        }
+      
         $project =  Project::where('id',$id)->update([
             'name'                  => $data['name'],
             'type'                  => $data['type'],
@@ -160,18 +110,7 @@ class ProjectRepository implements ProjectRepositoryInterface
             'updated_by'            => auth()->user()->id,
         ]); 
        
-        foreach($quarters as $key => $quarter){
-            $project_quarter = ProjectQuarter::where('quarter_start',$quarter['start_month'])
-                                            ->where('quarter_end',$quarter['end_month'])->first();
-            if(empty($project_quarter))   
-            {
-                ProjectQuarter::create([
-                    'project_id' =>  $project,
-                    'quarter_start' =>  $quarter['start_month'],
-                    'quarter_end'   =>  $quarter['end_month'],
-                ]);
-            }   
-        }
+      
         return $project;
        
     }

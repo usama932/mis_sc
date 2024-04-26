@@ -7,11 +7,9 @@
 			<!--begin:Menu item-->
 
 			<div class="menu-item pt-5">
-				<!--begin:Menu content-->
 				<div class="menu-content">
 					<span class="menu-heading fw-bold text-uppercase fs-7">Apps</span>
 				</div>
-				<!--end:Menu content-->
 			</div>
             
             <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->segment(1) == 'dashboard' || request()->segment(1) == 'qb_dashboard' || request()->segment(1) == 'frm_dashboard' || request()->segment(1) == 'medical_exit_interview') ? 'here show' : '' }}">
@@ -280,7 +278,7 @@
             @can('read dip')
                 <div class="menu menu-rounded menu-column menu-title-gray-700 menu-icon-gray-500 menu-arrow-gray-500 menu-bullet-gray-500 menu-arrow-gray-500 menu-state-bg fw-semibold w-250px" data-kt-menu="true">
                     <!--begin::Menu item-->
-                    <div class="menu-item menu-sub-indention menu-accordion {{ (request()->segment(1) == 'dips' || request()->segment(1) == 'activity_dips.progress' || request()->segment(1) == 'dip' ||   request()->segment(1) == 'get_project_index'|| request()->segment(1) == 'dips.create'|| request()->segment(1) == 'projectreviews' || request()->segment(1) == 'dips.edit' || request()->segment(2) == 'details' || request()->segment(2) == 'detailupdate' ||  request()->segment(1) == 'activity' || request()->segment(1) == 'activity_dips'  ||  request()->segment(1) == 'postprogress' || request()->routeIs('activity_dips.progress')  || request()->routeIs('create_activity')  || request()->segment(1) == 'postprogress')  ? 'here show' : '' }} " data-kt-menu-trigger="click">
+                    <div class="menu-item menu-sub-indention menu-accordion {{ (request()->segment(1) == 'dips' || request()->segment(1) == 'activity_dips.progress' || request()->segment(1) == 'dip' ||   request()->segment(1) == 'get_project_index'|| request()->segment(1) == 'dips.create'|| request()->segment(1) == 'projectreviews' ||  request()->segment(2) == 'detailview' || request()->segment(1) == 'dips.edit' || request()->segment(2) == 'details' || request()->segment(2) == 'detailupdate' ||  request()->segment(1) == 'activity' || request()->segment(1) == 'activity_dips'  ||  request()->segment(1) == 'postprogress' || request()->routeIs('activity_dips.progress')  || request()->routeIs('create_activity')  || request()->segment(1) == 'postprogress')  ? 'here show' : '' }} " data-kt-menu-trigger="click">
                         <!--begin::Menu link-->
                         <a href="#" class="menu-link py-3">
                             <span class="menu-icon">
@@ -298,7 +296,7 @@
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
                                 
-                                    <a class="menu-link {{ (request()->segment(2) == 'details' || request()->segment(2) == 'detailupdate'  || request()->segment(1) ==  'projectreviews') ?  'active' : '' }}" href="{{ route('get_project_index') }}"">
+                                    <a class="menu-link {{ (request()->segment(2) == 'details' || request()->segment(2) == 'detailupdate' || request()->segment(2) == 'detailview' || request()->segment(1) ==  'projectreviews') ?  'active' : '' }}" href="{{ route('get_project_index') }}"">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>

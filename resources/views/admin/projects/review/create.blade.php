@@ -33,6 +33,7 @@
                      <table class="table table-striped table-bordered" id="dynamic_field">
                         <thead>
                             <tr>
+                                <th style="width: 30%">S.No.#</th>
                                 <th style="width: 30%">Identifies Gap</th>
                                 <th style="width: 30%">Responsible Person</th>
                                 <th style="width: 10%">Action Agreed</th>
@@ -43,6 +44,7 @@
                         </thead>
                         <tbody>
                             <tr>
+                                <td class="fv-row">1</td>
                                 <td class="fv-row"><textarea class="form-control mb-3" rows="3" name="addmore[0][action_point]" ></textarea></td>
                                 <td class="fv-row">
                                     <select class="form-select mb-3" multiple name="addmore[0][responsible_person][]" aria-label="Select a Responsible person" data-control="select2" data-placeholder="" data-allow-clear="true">
@@ -58,8 +60,8 @@
                                     <select class="form-select mb-3" name="addmore[0][status]" aria-label="Select a Status" data-control="select2" data-placeholder="Select a Status" data-allow-clear="true" >
                                         <option value="">Select Status</option>
                                         <option value="Initiated">Initiated</option>
-                                        <option value="Completed">Completed</option>
                                         <option value="In Process">In Process</option>
+                                        <option value="Completed">Completed</option>
                                     </select>
                                 </td>
                                     <td></td>
@@ -86,6 +88,7 @@
                 i++;
                 $('#dynamic_field tbody').append(`
                     <tr id="row${i}">
+                        <td>${i+1}</td>
                         <td><textarea class="form-control mb-3" rows="2" name="addmore[${i}][action_point]" placeholder=""></textarea></td>
                         <td>
                             <select class="form-select form-control mb-3 smartsearch_keyword" multiple name="addmore[${i}][responsible_person][]" aria-label="Select a Responsible person " data-control="select2" data-placeholder="" data-allow-clear="true">
@@ -101,8 +104,8 @@
                             <select class="form-select form-control mb-3 select_status" name="addmore[${i}][status]" aria-label="Select a Status${i}" data-control="select2 " data-placeholder="Select Status ${i}" data-allow-clear="true">
                                 <option value="">Select Status</option>
                                 <option value="Initiated">Initiated</option>
-                                <option value="Completed">Completed</option>
                                 <option value="In Process">In Process</option>
+                                <option value="Completed">Completed</option>
                             </select>
                         </td>
                         <td><button type="button" name="remove" id="${i}" class="btn btn-sm btn-danger btn_remove">Remove</button></td>
@@ -124,6 +127,7 @@
                 $('#row' + button_id).remove();
                 // Move the "Add More" button to the end of the new last row
                 $('#add').appendTo($('#dynamic_field tbody tr:last-child td:last-child'));
+                $i--;
             });
             $(".smartsearch_keyword").select2({
                 multiple: true,

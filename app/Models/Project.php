@@ -18,10 +18,7 @@ class Project extends Model
     {
         return $this->hasMany(ProjectTheme::class,'project_id','id');
     }
-    public function quarters()
-    {
-        return $this->hasMany(ProjectQuarter::class,'project_id','id');
-    }
+  
     public function activities()
     {
         return $this->hasMany(DipActivity::class,'project_id','id');
@@ -41,6 +38,10 @@ class Project extends Model
     public function reviews()
     {
         return $this->hasMany(ProjectReview::class,'project_id','id');
+    }
+    public function profile()
+    {
+        return $this->hasMany(ProjectProfile::class,'project_id','id');
     }
     public function detail()
     {

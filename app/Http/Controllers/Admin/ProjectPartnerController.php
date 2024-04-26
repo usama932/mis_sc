@@ -66,7 +66,7 @@ class ProjectPartnerController extends Controller
                     $th = SciSubTheme::where('id',$theme->theme_id)->first();
                     $subth[] = $th->name;
                     $mainth[] = $th->maintheme?->name;
-                    $maintheme = array_values(array_unique($mainth));;
+                    $maintheme = array_values(array_unique($mainth));
                    
                 }
                 $nestedData['themes'] = $maintheme ?? '';
@@ -74,10 +74,11 @@ class ProjectPartnerController extends Controller
                 $nestedData['sub_themes'] = $subth ?? '';
                 $nestedData['partner'] = $r->partner_name?->slug ?? '';
                 $nestedData['email'] = $r->email ?? '';
-                $province = []; 
+                $prov = []; 
                 foreach($r->provincedistrict as $p){
                     $pro = Province::where('province_id',$p->province_id)->first();
-                    $province[] = $pro->province_name;
+                    $prov[] = $pro->province_name;
+                    $province = array_values(array_unique($prov));
                 }
                 $district = [];
                 foreach($r->provincedistrict as $d){

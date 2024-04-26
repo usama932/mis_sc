@@ -28,6 +28,9 @@ var reviews = $('#project_reviews').DataTable( {
                     {"data":"meeting_title","searchable":false,"orderable":false},
                     {"data":"review_date","searchable":false,"orderable":false},
                     {"data":"project" ,"searchable":false,"orderable":false},
+                    {"data":"total_point" ,"searchable":false,"orderable":false},
+                    {"data":"created_by" ,"searchable":false,"orderable":false},
+                    {"data":"created_at" ,"searchable":false,"orderable":false},
                     {"data":"action","searchable":false,"orderable":false},
                 ]
 });

@@ -306,9 +306,7 @@ class DipActivityController extends Controller
         
         $dip = DipActivity::where('id',$request->id)->first();
           
-        $project = Project::where()->with([ 'quarters' => function ($query) {
-            $query->orderBy('id', 'asc');
-        }])->where('id', $dip->project_id)->first();
+        $project = Project::where('id', $dip->project_id)->first();
         addJavascriptFile('assets/js/custom/project/projectupdatetheme.js');
       
         return view('admin.dip.edit_dip_activity',compact('dip','project'));

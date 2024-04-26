@@ -75,6 +75,9 @@
                             <th>Meeting Title</th>
                             <th>Review Date</th>
                             <th>Project</th> 
+                            <th>Action Points</th> 
+                            <th>Created By</th> 
+                            <th>Created At</th> 
                             <th>Actions</th>
                         </tr>
                     </thead>

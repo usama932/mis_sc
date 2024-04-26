@@ -12,6 +12,10 @@
         <td>{{$review->project?->name ?? ""}}</td>
     </tr>
     <tr>
+        <td><strong>Created By</strong></td>
+        <td>{{$review->user?->name ?? ""}}</td>
+    </tr>
+    <tr>
         <td><strong>Created At </strong></td>
         <td>{{date('M d,Y', strtotime($review->created_at)) ?? ""}}</td>
     </tr>

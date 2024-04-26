@@ -101,13 +101,11 @@
 </div>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Initialize CKEditor
+       
         ClassicEditor
             .create(document.querySelector('#kt_docs_ckeditor_classic'))
             .then(editor => {
-                console.log('Editor initialized:', editor);
-
-                // Add event listener to form submission inside CKEditor initialization promise
+               
                 document.getElementById('kt_create_profile').addEventListener('click', function(event) {
                     event.preventDefault(); // Prevent default form submission
                     var editorData = editor.getData(); // Get CKEditor content

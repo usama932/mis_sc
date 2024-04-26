@@ -245,9 +245,7 @@ class DipController extends Controller
     public function edit(string $id)
     {
 
-        $project = Project::with(['quarters' => function ($query) {
-            $query->orderBy('id', 'asc');
-        }])->find($id);
+        $project = Project::find($id);
 
         $dip = 'basic_project';
         session(['dip' => $dip]);
@@ -275,12 +273,30 @@ class DipController extends Controller
 
     public function destroy(string $id)
     {
-        $dip = Project::find($id);
-        
-        if(!empty($dip)){
-            $dip->detail?->delete();
-            return redirect()->route('dips.index');
+        $project = Project::with('themes','partners','detail')->find($id);
+        if(!empty($project)){
+            $project->themes->each?->delete();
+
+            $project->partners?->each?->delete();
+            $project->detail?->delete();
+            $project->activities?->each?->delete();
+            $project->activity_months?->each?->delete();
+            $project->progress?->each?->delete();
+            $project->profile?->each?->delete();
+            $project->reviews()->each(function ($review) {
+                if(!empty( $review->action_points)){
+                    $review->action_points()->each(function ($action_point) {
+                        $action_point->delete();
+                    });
+                }
+                
+            });
+            $project->delete();
+            return redirect()->route('projects.index');
+        }else{
+            return redirect()->route('projects.index');
         }
-          return redirect()->route('dips.index');
+        
+          return redirect()->back();
     }
 }

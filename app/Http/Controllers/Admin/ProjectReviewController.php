@@ -20,7 +20,7 @@ class ProjectReviewController extends Controller
     public function createreview($id)
     {
         $persons = User::whereHas('roles', function ($query) {
-            $query->whereIn('name', ['focal person', 'budget holder','awards','partner','']);
+            $query->whereIn('name', ['focal person','budget holder','awards']);
         })->get();
         $id  = $id;
         addVendors(['datatables']);
@@ -53,8 +53,9 @@ class ProjectReviewController extends Controller
 		$data = array();
 		
 		if($reviews){
+            $iteration = 0;
 			foreach($reviews as $r){
-             
+                $iteration++;
                 $show_url =  route('projectreviews.edit',$r->id);
 				$nestedData['action_point'] = $r->action_point;
                 $responsible_person_logs = json_decode($r->responsible_person , true);
@@ -66,12 +67,15 @@ class ProjectReviewController extends Controller
                 $nestedData['agreed_action'] = $r->agreed_action ?? '';
                 $nestedData['deadline'] = $r->deadline;
                 $nestedData['status'] = $r->status;
-                $nestedData['id'] = $r->id;
+                $nestedData['id'] = $iteration;
+              
+                $nestedData['created_by'] = $r->user?->name;
+                $nestedData['created_at'] = date('M d,Y', strtotime($r->created_at)) ?? '';
 				$nestedData['action'] = '
                                 <div>
                                 <td>
-                                    <a class="btn   btn-clean btn-icon" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
-                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    <a class="btn btn-clean btn-icon" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
+                                        <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                                     </a>
                                 </td>
                                 </div>
@@ -116,19 +120,23 @@ class ProjectReviewController extends Controller
 		$data = array();
 		
 		if($reviews){
+            $iteration = 0;
 			foreach($reviews as $r){
+                $iteration++;
                 $download_url = route('download.qb_attachments',$r->id);
                 $show_url =  route('projectreviews.edit',$r->id);
 				$nestedData['meeting_title'] = $r->meeting_title;
                 $nestedData['review_date'] = date('M d ,Y', strtotime($r->created_at));
                 $nestedData['project'] = $r->project?->name ?? '';
-                $nestedData['id'] = $r->id;
+                $nestedData['id'] = $iteration;
+                $nestedData['total_point'] = $r->action_point()->count();
+                $nestedData['created_by'] = $r->user?->name;
+                $nestedData['created_at'] = date('M d,Y', strtotime($r->created_at)) ?? '';
 				$nestedData['action'] = '
                                 <div>
                                 <td>
-                                   
                                     <a class="mx-1" title="View Monitor Visit" href="'.$show_url.'">
-                                    <i class="fa fa-eye text-success" aria-hidden="true"></i>
+                                        <i class="fa fa-eye text-success" aria-hidden="true"></i>
                                     </a>
                                     <a class="mx-1 " onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
                                         <i class="fa fa-trash text-danger" aria-hidden="true"></i>
@@ -179,16 +187,18 @@ class ProjectReviewController extends Controller
             'meeting_title'         => $request->title,
             'review_date'           => $request->review_date,
             'project_id'            => $request->project_id,
+            'created_by'            => auth()->user()->id,
         ]);
         foreach($request->input('addmore') as $key => $value) {       
             Review_ActionPoint::create([
-                'responsible_person' =>  json_encode($value['responsible_person']),
-                'agreed_action' =>$value['action_agreed'],
-                'deadline' =>$value['deadline'],
-                'status'=>$value['status'],
-                'action_point' =>$value['action_point'],
-                'project_id' =>$request->project_id,
-                'review_id' =>$reviews->id,
+                'responsible_person'        => json_encode($value['responsible_person']),
+                'agreed_action'             => $value['action_agreed'],
+                'deadline'                  => $value['deadline'],
+                'status'                    => $value['status'],
+                'action_point'              => $value['action_point'],
+                'project_id'                => $request->project_id,
+                'review_id'                 => $reviews->id,
+                'created_by'                => auth()->user()->id,
             ]);
           
         }

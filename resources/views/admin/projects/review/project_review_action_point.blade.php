@@ -21,6 +21,8 @@
                         <th>Action Agree</th> 
                         <th>Deadline</th> 
                         <th>Status</th>
+                        <th>Created By</th> 
+                        <th>Created At</th> 
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -63,6 +65,8 @@
                             {"data":"agreed_action" ,"searchable":false,"orderable":false},
                             {"data":"deadline" ,"searchable":false,"orderable":false},
                             {"data":"status" ,"searchable":false,"orderable":false},
+                            {"data":"created_by" ,"searchable":false,"orderable":false},
+                            {"data":"created_at" ,"searchable":false,"orderable":false},
                             {"data":"action","searchable":false,"orderable":false},
                         ]
         });

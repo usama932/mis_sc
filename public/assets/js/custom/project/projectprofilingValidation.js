@@ -2,14 +2,13 @@ var baseURL = window.location.origin;
 var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 $("#create_projectprofile").hide();
 $("#addprojectprofileBtn").click(function() {
-
     $("#create_projectprofile").slideToggle();
     $("#project_profile_table").slideToggle();
     $("#cancelprojectprofileBtn").show();
     $(this).hide();
 });
 
-//DATATABLES
+//Datatable
 var project_id = document.getElementById("project_id").value ?? '1';
 var project_profiles = $('#project_profile').DataTable({
     "order": [
@@ -233,20 +232,20 @@ var KTprojectprofileValidate = function() {
                                 toastr.error(response.data.message, "Duplicate Entry");
                             } else {
                                 form.reset();
-                                var profile_th = $('#profile_th');
-                                profile_th.val(null).trigger('change');
+                               
+                                // var select2_profile_district = $('#select2_profile_district');
+                                // select2_profile_district.val(null).trigger('change');
                         
-                                var select2_profile_district = $('#select2_profile_district');
-                                select2_profile_district.val(null).trigger('change');
                                 var kt_select2_tehsil = $('#kt_select2_tehsil');
                                 kt_select2_tehsil.val(null).trigger('change');
+
                                 var kt_select2_uc = $('#kt_select2_uc');
                                 kt_select2_uc.val(null).trigger('change');
                                 
                                 var village = $('#village');
                                 village.val(null).trigger('change');
                         
-                                var detail = $('#detail');
+                                var detail = $('#kt_docs_ckeditor_classic');
                                 detail.val(null).trigger('change');
                              
                                 toastr.options = {
@@ -269,6 +268,7 @@ var KTprojectprofileValidate = function() {
                                 toastr.success("Profile Added Successfully", "Success");
                                 project_profiles.ajax.reload(null, false).draw(false);
                                 $("#create_projectprofile").slideToggle();
+                                $("#addprojectprofileBtn").show();
                                 $("#project_profile_table").slideToggle();
                                
                             }

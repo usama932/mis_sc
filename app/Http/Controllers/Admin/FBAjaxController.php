@@ -12,7 +12,7 @@ use App\Models\UnionCounsil;
 use App\Models\SciSubTheme; 
 use App\Models\SciTheme; 
 use App\Models\ProjectTheme; 
-use App\Models\ProjectQuarter;
+
 
 class FBAjaxController extends Controller
 {
@@ -173,11 +173,9 @@ class FBAjaxController extends Controller
       
         $projectThemes = ProjectTheme::where('project_id', $request->project_id)->pluck('theme_id');
         
-        $quarters = ProjectQuarter::where('project_id' , $request->project_id)->orderBy('id', 'asc')->get();
-
         $themes = SciTheme::whereIn('id', $projectThemes)->get();
         $partnerThemes = ProjectTheme::where('project_id', $request->project_id)->with('scisubtheme_name','scitheme_name')->get();
        
-        return response()->json(['themes'=>$themes,'quarters',$quarters ,'partnerThemes'=>$partnerThemes]);
+        return response()->json(['themes'=>$themes,'quarters','partnerThemes'=>$partnerThemes]);
     }
 }

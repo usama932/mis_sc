@@ -250,12 +250,12 @@ class ProjectController extends Controller
                 $nestedData['budgetholder'] = $r->budgetholder?->name ?? '';
                 $nestedData['awardsfp'] = $r->awardfp?->name ?? '';
                 if (!empty($r->start_date)) {
-                    $nestedData['start_date'] = date('d-M-Y', strtotime($r->start_date)) ?? '';
+                    $nestedData['start_date'] = date('M d,Y', strtotime($r->start_date)) ?? '';
                 } else {
                     $nestedData['start_date'] = '';
                 }
                 if (!empty($r->end_date)) {
-                    $nestedData['end_date'] = date('d-M-Y', strtotime($r->end_date)) ?? '';
+                    $nestedData['end_date'] = date('M d,Y', strtotime($r->end_date)) ?? '';
                 } else {
                     $nestedData['end_date'] = '';
                 }
@@ -329,9 +329,7 @@ class ProjectController extends Controller
 
     public function project_view($id){
 
-        $project   = Project::with(['quarters' => function ($query) {
-            $query->orderBy('id', 'asc');
-        }])->where('id',$id)->with('detail','activities')->orderBy('name')->first();
+        $project   = Project::where('id',$id)->with('detail','activities')->orderBy('name')->first();
         $provinces = [];
         $districts = "";
         if($project->detail?->district != null) {
@@ -455,7 +453,6 @@ class ProjectController extends Controller
     public function update(Request $request, string $id)
     {
         $data = $request->except('_token');
-    
         $update_project_basic = $this->projectRepository->updatebasicproject($data,$id);
         $editUrl = route('projects.index');
         return response()->json([
@@ -465,20 +462,23 @@ class ProjectController extends Controller
 
     public function destroy(string $id)
     {
-        $project = Project::with('themes','partners','detail','quarters')->find($id);
+        $project = Project::with('themes','partners','detail')->find($id);
         if(!empty($project)){
             $project->themes->each?->delete();
 
             $project->partners?->each?->delete();
             $project->detail?->delete();
-            $project->quarters?->each?->delete();
             $project->activities?->each?->delete();
             $project->activity_months?->each?->delete();
             $project->progress?->each?->delete();
+            $project->profile?->each?->delete();
             $project->reviews()->each(function ($review) {
-                $review->action_points()->each(function ($action_point) {
-                    $action_point->delete();
-                });
+                if(!empty( $review->action_points)){
+                    $review->action_points()->each(function ($action_point) {
+                        $action_point->delete();
+                    });
+                }
+                
             });
             $project->delete();
             return redirect()->route('projects.index');

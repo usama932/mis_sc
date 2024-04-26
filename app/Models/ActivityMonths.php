@@ -15,10 +15,7 @@ class ActivityMonths extends Model
     {
         return $this->belongsTo(DipActivity::class,'activity_id','id');
     }
-    public function tenure()
-    {
-        return $this->belongsTo(ProjectQuarter::class,'month','id');
-    }
+ 
     public function project()
     {
         return $this->belongsTo(Project::class,'project_id','id');

@@ -10,11 +10,11 @@
     <div class="row">
         <div class="fv-row col-md-8 mt-3">
             <label class="fs-6 fw-semibold form-label">
-                <span>Activity Name: </span>
+                <span>Activity Title: </span>
             </label>
             <br>
             <label class="fs-5 fw-semibold form-label">
-                {{$quarter->activity?->activity_number ?? ''}}
+                {{$quarter->activity?->activity_number ?? ''}}-{{$quarter->activity?->activity_title ?? ''}}
             </label>
         </div> 
         <div class="fv-row col-md-3 mt-3">

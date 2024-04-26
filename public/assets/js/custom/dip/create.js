@@ -434,10 +434,17 @@ function fetchTheme(project_id) {
             $("#profile_th").find('option').remove();
             $("#profile_th").prepend("<option value='' >Select Theme</option>");
 
+            var uniqueNames = []; // Array to store unique theme names
+
             $.each(response.partnerThemes, function (i, item) {
-                
-                $("#profile_th").append("<option value='" + item.scitheme_name.id + "' >"+
-                    item.scitheme_name.name.replace(/_/g, ' ') +  " </option>");
+                // Check if the theme name is not already added
+                if (uniqueNames.indexOf(item.scitheme_name.name) === -1) {
+                    $("#profile_th").append("<option value='" + item.scitheme_name.id + "' >"+
+                        item.scitheme_name.name.replace(/_/g, ' ') +  " </option>");
+                    
+                    // Add the theme name to the array
+                    uniqueNames.push(item.scitheme_name.name);
+                }
             });
         },
         error: function(xhr, status, error) {

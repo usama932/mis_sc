@@ -105,15 +105,19 @@
 
         <div class="card mt-3">
             <div class="card-header border-bottom">
-                <h5 class="card-title">Activity Progress Detail</h5>
+                <h5 class="card-title">Activity Progress Detail </h5>
+                <input type="hidden" id="project_id" value="{{$project->name}}" />
+
             </div>
             <div class="card-body">
+
                 <div class="justify-content-end d-flex m-5">
-                    {{-- <button id="export-btn" class="btn btn-primary btn-sm">Export to Excel</button> --}}
-                    <a href="{{route('project-export',$project->id)}}" class="btn btn-primary btn-sm">Export to Excel</a>
+                    <button onclick="exportToExcel()" class="btn btn-primary btn-sm">Export to Excel</button>
+                    {{-- <a href="{{route('project-export',$project->id)}}" class="btn btn-primary btn-sm">Export to Excel</a> --}}
                 </div>
+                
                 <div class="table-responsive">
-                    <table class="table table-sm  table-bordered" style="width: auto; overflow-x: auto;">
+                    <table class="table table-sm  table-bordered"  style="width: auto; overflow-x: auto;">
                         <thead>
                             <tr>
                                 <th class="fs-7" style="min-width: 300px;">Activities</th>
@@ -179,7 +183,7 @@
 
                                 @endphp
                                 <tr>
-                                    <th colspan="{{$project->quarters->count() * 90}} " class="fs-6">{{$subtheme->maintheme?->name}} ({{$subtheme->name}})</th> 
+                                    <th colspan=" 90" class="fs-6">{{$subtheme->maintheme?->name}} ({{$subtheme->name}})</th> 
                                 </tr>
                                 @foreach($activities as $item)
                                     <tr>
@@ -214,28 +218,58 @@
     </div>
 
 @push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
 <script>
-    document.getElementById("export-btn").addEventListener("click", function() {
-        const table = document.querySelector("table");
-        const filename = "project_activity_detail.xlsx";
-        const wb = XLSX.utils.table_to_book(table, { sheet: "Sheet 1" });
 
-        // Write the workbook to binary string
-        const wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: false, type: 'binary' });
+function exportToExcel(project) {
+    // Get the HTML table element
+    var table = document.querySelector('.table');
+    var project = document.getElementById("project_id").value;
+    // Create a new workbook
+    var wb = XLSX.utils.book_new();
 
-        // Convert binary string to ArrayBuffer
-        function s2ab(s) {
-            const buf = new ArrayBuffer(s.length);
-            const view = new Uint8Array(buf);
-            for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
-            return buf;
+    // Convert table to worksheet, considering the first row as headers
+    var ws = XLSX.utils.table_to_sheet(table, { header: 1 });
+
+    // Customize styles for heading rows
+    var headingStyles = [
+        {
+            font: { bold: true }, // Example: make the font bold
+            fill: { fgColor: { rgb: "FFFF00" } } // Example: set background color to yellow
+            // Add more style properties as needed
+        },
+        {
+            font: { bold: true }, // Example: make the font bold
+            fill: { fgColor: { rgb: "FF0000" } } // Example: set background color to red
+            // Add more style properties as needed
         }
+        // Add more styles for alternates as needed
+    ];
 
-        // Save the Excel file
-        saveAs(new Blob([s2ab(wbout)], { type: "application/octet-stream" }), filename);
-    });
+    // Get the range of the worksheet
+    var range = XLSX.utils.decode_range(ws["!ref"]);
+
+    // Iterate over each cell in the first row (header row)
+    for (var col = range.s.c; col <= range.e.c; col++) {
+        var cellAddress = XLSX.utils.encode_cell({ r: range.s.r, c: col });
+        // Check if the cell exists in the worksheet
+        if (ws[cellAddress]) {
+            // Set styles for header cells alternating between styles in headingStyles
+            var styleIndex = col % headingStyles.length;
+            ws[cellAddress].s = headingStyles[styleIndex];
+        }
+    }
+
+    // Add the worksheet to the workbook
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet 1");
+
+    // Save the workbook as an Excel file with dynamic file name
+    XLSX.writeFile(wb, project + '_DIP.xlsx');
+}
+
+
 </script>
+
 
 @endpush
 </x-default-layout>

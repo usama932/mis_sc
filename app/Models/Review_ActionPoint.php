@@ -13,6 +13,10 @@ class Review_ActionPoint extends Model
 
     public function review()
     {
-        return $this->hasMany(ProjectReview::class,'review_id','id');
+        return $this->belongsTo(ProjectReview::class,'review_id','id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class,'created_by','id');
     }
 }
