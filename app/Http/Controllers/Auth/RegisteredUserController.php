@@ -56,7 +56,7 @@ class RegisteredUserController extends Controller
             'last_login_at' => \Illuminate\Support\Carbon::now()->toDateTimeString(),
             'last_login_ip' => $request->getClientIp()
         ]);
-        $user->assignRole('Guest');
+        $user->assignRole($request->role);
         event(new Registered($user));
 
         Auth::login($user);
