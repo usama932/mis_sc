@@ -9,12 +9,12 @@ class QbRepository implements QbRepositoryInterface
 {
     public function storeQb($data)
     {
-       dd($data);
+      
         $qb_not_met =  $data['total_qbs'] - ($data['qbs_fully_met'] + $data['qb_not_applicable']) ;   
         $score = $data['qbs_fully_met'] /($data['total_qbs']- $data['qb_not_applicable']);
         
         $score_out = $score * 100;  
-        //dd($score_out);
+       
         if($score_out > 0 && $score_out < 50){
             $qb_status =  "Poor";
         }
@@ -26,7 +26,7 @@ class QbRepository implements QbRepositoryInterface
         }else{
             $qb_status =  "Excellent";
         }
-        //dd($qb_status);
+       
         $assement_code = $data['district'].'-'.time();
         return QualityBench::create([
             'date_visit'            => $data['date_visit'],

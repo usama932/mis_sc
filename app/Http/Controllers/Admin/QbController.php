@@ -236,6 +236,7 @@ class QbController extends Controller
    
     public function store(CreateQbRequest $request)
     {
+       
         $data = $request->except('_token');
         $Qb = $this->QbRepository->storeQb($data);
     

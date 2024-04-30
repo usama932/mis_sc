@@ -76,7 +76,7 @@
                                 
                                 <div id="partnerError" class="error-message "></div>
                             </div>
-                            <div class="fv-row col-md-3">
+                            {{-- <div class="fv-row col-md-3">
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">QB Monitor Visit</span>                           
                                 </label>
@@ -98,7 +98,7 @@
                                    
                                 </div>
                                 <div id="allow_contactError" class="error-message "></div>
-                            </div>
+                            </div> --}}
                         </div>
                       
                         <div class="row mt-3">
@@ -211,21 +211,21 @@
                                 <textarea  rows="1" class="form-control" id="activity_description"  name="activity_description"></textarea>
                                 <div id="activity_descriptionError" class="error-message"></div>
                             </div>
-							<div class="fv-row col-sm-3 col-md-1 col-lg-1 qb_base_div">
+							<div class="fv-row col-sm-3 col-md-1 col-lg-1 ">
                                 <label class="fs-9 fw-semibold form-label mb-2">
                                     <span class="required">Total QBs</span>
                                 </label>
                                 <input type="text" class="form-control" id="total_qbs"  name="total_qbs" value="">
                                 <div id="total_qbsError" class="error-message"></div>
                             </div>
-                            <div class="fv-row col-md-1 qb_base_div">
+                            <div class="fv-row col-md-1 ">
                                 <label class="fs-9 fw-semibold form-label mb-2">
                                     <span class="required">Fully Met</span>
                                 </label>
                                 <input type="text" class="form-control" id="qbs_fully_met" name="qbs_fully_met" value="">
                                 <div id="qbs_fully_metError" class="error-message"></div>
                             </div>
-                            <div class="fv-row col-md-1 qb_base_div">
+                            <div class="fv-row col-md-1 ">
                                 <label class="fs-9 fw-semibold form-label mb-2">
                                     <span class="required">Not Applicable</span>
                                 </label>
