@@ -8,7 +8,7 @@ use App\Models\QBAttachement;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
-use App\Models\UserTheme;
+use App\Models\User;
 use App\Models\QualityBench;
 use File;
 
@@ -139,11 +139,11 @@ class QBAttachmentsController extends Controller
         }
 
         $qb         = QualityBench::where('id',$request->quality_bench_id)->first();
-        $qb_theme   = UserTheme::where('theme_id',$qb->theme)->first();
+        $qb_theme   = User::where('theme_id',$qb->theme)->first();
         
         if(!empty($qb_theme ) && !empty($qb->action_point)){
             if($qb->action_point->count() >= 1){
-                $email = $qb_theme->user?->email;
+                $email = $qb_theme->email;
            
                 $bccEmails = [ 'walid.malik@savethechildren.org','usama.qayyum@savethechildren.org','irfan.majeed@savethechildren.org'];
                 $details = [

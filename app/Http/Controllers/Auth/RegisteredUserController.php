@@ -15,11 +15,7 @@ use App\Models\Designation;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     *
-     * @return \Illuminate\View\View
-     */
+   
     public function create()
     {
         addJavascriptFile('assets/js/custom/authentication/sign-up/general.js');
@@ -28,21 +24,11 @@ class RegisteredUserController extends Controller
         return view('pages.auth.register',compact('designations'));
     }
 
-    /**
-     * Handle an incoming registration request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
     public function store(Request $request)
     {
         $request->validate([
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-           
         ]);
-
         $user = User::create([
             'name'              => $request->name,
             'email'             => $request->email,
@@ -53,8 +39,8 @@ class RegisteredUserController extends Controller
             'district'          => $request->district,
             'status'            => '1',
             'user_type'         => 'R2',
-            'last_login_at' => \Illuminate\Support\Carbon::now()->toDateTimeString(),
-            'last_login_ip' => $request->getClientIp()
+            'last_login_at'     => \Illuminate\Support\Carbon::now()->toDateTimeString(),
+            'last_login_ip'     => $request->getClientIp()
         ]);
         $user->assignRole($request->role);
         event(new Registered($user));

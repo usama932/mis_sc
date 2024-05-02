@@ -520,7 +520,7 @@ class DipActivityController extends Controller
     }
 
     public function activity_progress(){
-        
+      
         if(auth()->user()->user_type != 'admin'){
             $projects = Project::orWhere('focal_person',auth()->user()->id)->orWhereHas('partners', function ($query) {
                                     $query->where('email', auth()->user()->email);

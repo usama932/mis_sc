@@ -25,6 +25,7 @@ class User extends Authenticatable
         'district',
         'province',
         'status',
+        'theme_id',
         'permissions_level',
         'last_login_at',
         'last_login_ip',
@@ -71,4 +72,6 @@ class User extends Authenticatable
     public function theme(){
         return $this->hasOne(UserTheme::class,'user_id','id');
     }
+
+  
 }

@@ -31,26 +31,55 @@ class UserManagementController extends Controller
 
     public function store(Request $request)
     {
-        $user = User::create([
-            'name'              => $request->name,
-            'email'             => $request->email,
-            'permissions_level' => $request->permissions_level,
-            'designation'       => $request->designation,
-            'province'          => $request->province,
-            'district'          => $request->district,
-            'user_type'         => $request->user_type,
-            'password'          => Hash::make($request->password),
-            'status'            =>  $request->status,
-        ]);
-        if(!empty($request->theme_id)){
-            UserTheme::create([
-                'user_id'   => $user->id,
-                'theme_id'  => $request->theme_id
-            ]);
-        }
-        
-        $user->assignRole($request->role);
-        return redirect()->back()->with("success", "User Created successfully!");
+      
+        if(!empty($request->theme_id) && $request->role == "TA's"){
+            $user = User::where('theme_id',$request->theme_id)->first();   
+            if(empty($user)){
+                $user = User::create([
+                    'name'              => $request->name,
+                    'email'             => $request->email,
+                    'permissions_level' => $request->permissions_level,
+                    'designation'       => $request->designation,
+                    'province'          => $request->province,
+                    'district'          => $request->district,
+                    'theme_id'          => $request->theme_id,
+                    'user_type'         => $request->user_type,
+                    'password'          => Hash::make($request->password),
+                    'status'            =>  $request->status,
+                ]);
+                $user->assignRole($request->role);
+                return redirect()->back()->with("success", "User Created successfully!");
+            }
+            else{
+                return redirect()->back()->with("danger", "User theme already exist!");
+            }
+        }   
+        else{
+          
+            if($request->role != "TA's"){
+                $user = User::create([
+                    'name'              => $request->name,
+                    'email'             => $request->email,
+                    'permissions_level' => $request->permissions_level,
+                    'designation'       => $request->designation,
+                    'province'          => $request->province,
+                    'district'          => $request->district,
+                    'theme_id'          => $request->theme_id,
+                    'user_type'         => $request->user_type,
+                    'password'          => Hash::make($request->password),
+                    'status'            => $request->status,
+                ]);
+                $user->assignRole($request->role);
+                return redirect()->back()->with("success", "User Created successfully!");
+            } 
+            elseif($request->role == "TA's" &&  empty($request->theme_id)){
+                return redirect()->back()->with("danger", "When Role is TA's then theme is necassary!");
+            } 
+            else{
+                return redirect()->back()->with("danger", "Something went Wrong!");
+            }
+        }                                                          
+     
     }
 
     public function show(User $user)
@@ -63,25 +92,61 @@ class UserManagementController extends Controller
         $user = User::find($id);
         $roles = Role::all();
         $designations = Designation::all();
-        return view('pages.apps.user-management.users.edit',compact('roles','designations','user'));
+        $themes = Theme::orderBy('name')->get();
+        return view('pages.apps.user-management.users.edit',compact('roles','designations','user','themes'));
     }
 
     public function update(Request $request,$id)
     {   
-        
-        User::where('id', $id)->update([
-            'name'              => $request->name,
-            'email'             => $request->email,
-            'permissions_level' => $request->permissions_level,
-            'designation'       => $request->designation,
-            'user_type'         => $request->user_type,
-          
-        ]);
-        $user = User::find($id);
-        // $user->assignRole($request->role);
-         $user->syncRoles($request->role);
 
-        return redirect()->route('user-management.users.index')->with("success", "User Created successfully!");
+        if(!empty($request->theme_id) && $request->role == "TA's"){
+          
+            $user = User::where('theme_id',$request->theme_id)->first();   
+            
+            if($user == null ){
+                $user = User::where('id', $id)->first(); 
+                $user->update([
+                    'name'              => $request->name,
+                    'email'             => $request->email,
+                    'permissions_level' => $request->permissions_level,
+                    'designation'       => $request->designation,
+                    'user_type'         => $request->user_type,
+                    'theme_id'          => $request->theme_id,
+                ]);
+                $userr = User::where('id', $id)->first();
+                $d = $userr->syncRoles($request->role); 
+                
+                return redirect()->back()->with("success", "User Created successfully!");
+            }
+            else{
+                return redirect()->back()->with("danger", "User theme already exist!");
+            }
+        }   
+        else{
+            if($request->role != "TA's" ){
+                $user = User::where('id', $id)->first(); // Retrieve the user instance
+                $user->update([
+                    'name'              => $request->name,
+                    'email'             => $request->email,
+                    'permissions_level' => $request->permissions_level,
+                    'designation'       => $request->designation,
+                    'user_type'         => $request->user_type,
+                    'theme_id'          => $request->theme_id,
+                ]);
+                $userr = User::where('id', $id)->first();
+                $userr->syncRoles($request->role); 
+                return redirect()->back()->with("success", "User Updated successfully!");
+            }
+            elseif($request->role == "TA's" &&  empty($request->theme_id)){
+                return redirect()->back()->with("danger", "When Role is TA's then theme is necessary!");
+            }
+            else{
+                return redirect()->back()->with("danger", "Some thing went wrong!");
+
+            }
+        }   
+        
+       
     }
 
     public function destroy(User $user)

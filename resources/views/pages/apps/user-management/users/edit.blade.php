@@ -28,14 +28,16 @@
     @endsection
     <div id="loader" class="loader"></div>
 
-    <div class="card">
-        @if ($errors->any())
+    <div class="card p-4">
+        
+        @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        @endif
+        @if(session('danger'))
             <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+                {{ session('danger') }}
             </div>
         @endif
         <form  class="form" method="post" action="{{route('user-management.users.update',$user->id)}}"  enctype="multipart/form-data">
@@ -106,7 +108,7 @@
                         </span>
                     @enderror
                 </div> --}}
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class=" fw-semibold fs-6 mb-2">
                         <span class="required">Permission Level</span>
                     </label>
@@ -117,7 +119,18 @@
                          <option @if($user->permissions_level == 'district-wide') selected @endif value='district-wide'>District Wide</option>
                     </select>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
+                    <label class=" fw-semibold fs-6 mb-2">
+                        <span class="required">Theme (Only for TA's)</span>
+                    </label>
+                    <select   name="theme_id" data-control="select2" data-placeholder="Select a theme"  class="form-control form-control-solid mb-3 mb-lg-0">
+                        <option value="">Select User Type</option>
+                        @foreach($themes as $theme)
+                        <option value="{{$theme->id}}"  @if($user->theme_id == $theme->id) selected @endif>{{$theme->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-4">
                     <label class=" fw-semibold fs-6 mb-2">
                         <span class="required">User Type</span>
                     </label>
@@ -129,7 +142,7 @@
                         <option  @if($user->user_type == 'R3') selected @endif  value='R3'>R3</option>
                     </select>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class=" fw-semibold fs-6 mb-2">
                         <span class="required">Designation</span>
                     </label>
@@ -142,10 +155,10 @@
                 </div>
                 <div class="col-md-6">
                     <label class=" fw-semibold fs-6 mb-2">
-                        <span class="required">Role  </span>
+                        <span class="required">Role</span>
                     </label>
                     <select   name="role"  data-control="select2" data-placeholder="Select a Permissions level..."  class="form-control form-control-solid mb-3 mb-lg-0"  @error('permissions_level') is-invalid @enderror required>
-                        <option value="">Select Role</option>
+                        <option value="">Select Role </option>
                        
                         @foreach ($roles as $role)
                             <option @if($user->roles->first()?->name == $role->name) selected @endif value="{{$role->name}}">{{$role->name}}</option>

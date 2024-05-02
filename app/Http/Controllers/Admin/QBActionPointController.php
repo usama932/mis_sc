@@ -417,10 +417,10 @@ class QBActionPointController extends Controller
             'updated_by'         => auth()->user()->id,
         ]);
         $actionpoint    = QualityBench::where('id',$request->qb_id)->first();
-        $qb_theme       = UserTheme::where('theme_id',$actionpoint->theme)->first();
+        $qb_theme       = User::where('theme_id',$actionpoint->theme)->first();
         if(!empty($actionpoint)){
             $qb_action_point =   ActionPoint::where('id',$id)->first();
-            $email = $qb_theme->user?->email;
+            $email = $qb_theme->email;
            
               //$email = 'usama.qayyum@savethechildren.org';
             $bccEmails = [ 'walid.malik@savethechildren.org','usama.qayyum@savethechildren.org','irfan.majeed@savethechildren.org'];
