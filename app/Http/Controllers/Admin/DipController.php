@@ -276,27 +276,29 @@ class DipController extends Controller
         $project = Project::with('themes','partners','detail')->find($id);
         if(!empty($project)){
             $project->themes->each?->delete();
-
             $project->partners?->each?->delete();
+            if(!empty($project->partners)){
+                $project->partners->each(function ($partner) {
+                    $partner->partnertheme()->delete();
+                });
+                $project->partners->each(function ($partner) {
+                    $partner->provincedistrict()->delete();
+                });
+            }
             $project->detail?->delete();
             $project->activities?->each?->delete();
             $project->activity_months?->each?->delete();
             $project->progress?->each?->delete();
             $project->profile?->each?->delete();
             $project->reviews()->each(function ($review) {
-                if(!empty( $review->action_points)){
-                    $review->action_points()->each(function ($action_point) {
-                        $action_point->delete();
-                    });
-                }
-                
+                $review->action_point()->delete();
             });
-            $project->delete();
-            return redirect()->route('projects.index');
+            $project->reviews?->each?->delete();
+            return redirect()->route('get_project_index');
         }else{
-            return redirect()->route('projects.index');
+            return redirect()->route('get_project_index');
         }
         
-          return redirect()->back();
+        
     }
 }

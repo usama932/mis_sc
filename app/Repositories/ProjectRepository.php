@@ -138,18 +138,9 @@ class ProjectRepository implements ProjectRepositoryInterface
         try {
             $project = Project::where('id', $data['project'])->firstOrFail();
             $partner = Partner::where('id', $data['partner'])->firstOrFail();
-        
-            $details = [
-                'title' => 'Save the children',
-                "password" => "12345678",
-                'email' => $data['email'],
-                'project' => $project->name,
-                'partner' => $partner->name
-            ];
-        
            
             $user = User::firstOrNew(['email' => $data['email']]);
-            if (!$user->exists) {
+            if (empty($user)) {
                 $user = User::create([
                     'email' => $data['email'],
                     'name'  => $partner->name,
@@ -161,18 +152,15 @@ class ProjectRepository implements ProjectRepositoryInterface
                 ]);
                 $user->assignRole('partner');
             }
-           
             // Create Project Partner
             $projectPartner = ProjectPartner::create([
                 'partner_id' => $data['partner'],
                 'project_id' => $data['project'],
-                'email'     => $data['email'],
+                'email'     => $user->email,
                 'created_by' => auth()->user()->id,
             ]);
-            
             //Insert themes
             foreach ($data['theme'] as $themeId) {
-                
                 UserTheme::firstOrCreate([
                     'theme_id' => $themeId,
                     'user_id' => $user->id,
@@ -191,14 +179,20 @@ class ProjectRepository implements ProjectRepositoryInterface
                     ]);
                 }
             }
-            
+            $details = [
+                'title' => 'Save the children',
+                "password" => "12345678",
+                'email'   => $user->email,
+                'project' => $project->name,
+                'partner' => $partner->name
+            ];
             Mail::to($data['email'])->send(new \App\Mail\partnerMail($details));
             DB::commit();
             return 1;
         } 
         catch (\Exception $e) {
             $error =  $e->getMessage();
-          dd($error);
+            
             DB::rollback();
                 DB::rollback(); // Rollback any transactions if necessary
                 return $error ;

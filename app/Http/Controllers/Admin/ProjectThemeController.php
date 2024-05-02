@@ -9,6 +9,8 @@ use App\Models\Project;
 use App\Models\ProjectPartner;
 use App\Models\SCITheme;
 use App\Models\User;
+use App\Models\DipActivity;
+use App\Models\UserTheme;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
 
 class ProjectThemeController extends Controller
@@ -232,18 +234,25 @@ class ProjectThemeController extends Controller
     {
         
         $project_theme = ProjectTheme::where('id' ,$id)->first();
+        
         if(!empty($project_theme)){
-            $partner = ProjectPartner::where('project_id' ,$project_theme->project_id)->
-                                where('themes' ,$project_theme->sub_theme_id)->first();
-            if(!empty($partner)){
-                $user = User::where('email',$partner->email)->first();
-                if(!empty($user)){
-                    $user->delete();
+           $dip_activities = DipActivity::where('subtheme_id', $project_theme->sub_theme_id)->get();
+
+            if ($dip_activities->isNotEmpty()) {
+                foreach ($dip_activities as $dip_activity) {
+                   
+                    if ($dip_activity->progress()->count() > 0) {
+                        $dip_activity->progress()->delete();
+                    }
+
+                    if ($dip_activity->months()->count() > 0) {
+                        $dip_activity->months()->delete();
+                    }
+
+                    $dip_activity->delete();
                 }
-              
-                $partner->delete();
             }
-           
+
             $project_theme->delete();
         
         }

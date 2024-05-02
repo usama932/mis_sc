@@ -1469,7 +1469,7 @@ $('.close').click(function() {
 $('#deadline').flatpickr({
     altInput: true,
     dateFormat: "Y-m-d",
-    maxDate: new Date().fp_incr(+60), 
+    maxDate: new Date().fp_incr(+120), 
     minDate: new Date("2023-10-01"),
 });
 $("#status").change(function(){

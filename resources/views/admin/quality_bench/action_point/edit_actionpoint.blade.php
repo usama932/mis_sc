@@ -156,7 +156,7 @@
                 altInput: true,
                 dateFormat: "Y-m-d",
                 minDate: new Date().fp_incr(-30),
-                maxDate: new Date().fp_incr(+60), 
+                maxDate: new Date().fp_incr(+120), 
             });
         </script>
 

@@ -19,4 +19,6 @@ class UserTheme extends Model
     {
         return $this->belongsTo(ProjectPartner::class,'partner_id','id');
     }
+    
+    
 }
