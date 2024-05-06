@@ -3,6 +3,7 @@
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css" rel="stylesheet">
 @endpush
+
 <x-nform-layout>
     <style>
         #kt_docs_ckeditor_classic {
@@ -143,24 +144,6 @@
     @push('scripts')
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#tagInput').tagsinput({
-                trimValue: true, // Trim whitespace from the beginning and end of each tag
-                confirmKeys: [13, 32, 44] // Accept Enter, Space, and Comma as confirm keys
-            });
-        
-            $('#tagInput').on('itemAdded', function(event) {
-                var tag = event.item;
-                $('#tagContainer').append('<span class="badge bg-light">' + tag + '<button type="button" class="close badge badge-primary" aria-label="Close"><span aria-hidden="true">&times;</span></button></span>');
-            });
-        
-            $('#tagContainer').on('click', 'button.close', function() {
-                var tag = $(this).parent().text().trim();
-                $('#tagInput').tagsinput('remove', tag);
-                $(this).parent().remove();
-            });
-        });
-        </script>
+  
     @endpush
 </x-nform-layout>

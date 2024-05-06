@@ -21,7 +21,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div id="tagContainer"></div>
+               
                 <div class="fv-row col-md-6">
                     <input type="email" id="tagInput" class="form-control  mx-1"  placeholder="Enter tags" />
                 </div>

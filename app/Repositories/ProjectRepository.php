@@ -142,133 +142,87 @@ class ProjectRepository implements ProjectRepositoryInterface
 
     public function storeprojectpartner($data){
     
-        $project = Project::where('id', $data['project'])->firstOrFail();
-        $partner = Partner::where('id', $data['partner'])->firstOrFail();
-       
-        $user = User::where('email', $data['email'])->first();
-        
-        if (empty($user)) {
-            $user = User::create([
-                'email' => $data['email'],
-                'name'  => $partner->name,
-                'password' => Hash::make('12345678'),
-                'permissions_level' => 'nation-wide',
-                'designation' => '48',
-                'status' => '1',
-                'user_type' => 'R1',
-            ]);
-            $user->assignRole('partner');
-        }
       
-        $projectPartner = ProjectPartner::create([
-            'partner_id' => $data['partner'],
-            'project_id' => $data['project'],
-            'email'     => $user->email,
-            'created_by' => auth()->user()->id,
-        ]);
-        //Insert themes
-        foreach ($data['theme'] as $themeId) {
-            $user_theme = UserTheme::where('theme_id',$themeId)->where('user_id',$user->id)->where('partner_id',$projectPartner->id)->first();
-            if(empty($user_theme)){
-                UserTheme::firstOrCreate([
-                    'theme_id' => $themeId,
-                    'user_id' => $user->id,
-                    'partner_id' => $projectPartner->id
-                ]);
-            }
-        }
-        
-        foreach ($data['district'] as $districtId) {
-            $district = District::where('district_id',$districtId)->first();
-            if ($district) {
-                $user_district = UserProvinceDistricts::where('province_id',$district->provinces_id)
-                ->where('district_id',$districtId)->where('user_id',$user->id)->where('partner_id',$projectPartner->id)->first();
-                if(empty($user_district)){
-                    UserProvinceDistricts::firstOrCreate([
-                        'province_id' => $district->provinces_id,
-                        'district_id' => $districtId,
-                        'user_id' => $user->id,
-                        'partner_id' => $projectPartner->id
+     
+        try {
+            $emailArray = explode(',',$data['emails']);
+            foreach($emailArray as $key => $email) {
+              
+                $project = Project::where('id', $data['project'])->firstOrFail();
+                $partner = Partner::where('id', $data['partner'])->firstOrFail();
+                
+                $user = User::where('email',$email)->first();
+                
+                if (empty($user)) {
+                    $user = User::create([
+                        'email' =>  $email,
+                        'name'  => $partner->name,
+                        'password' => Hash::make('12345678'),
+                        'permissions_level' => 'nation-wide',
+                        'designation' => '48',
+                        'status' => '1',
+                        'user_type' => 'R1',
                     ]);
+                    $user->assignRole("partner");
                 }
+            
+                $projectPartner = ProjectPartner::create([
+                    'partner_id' => $data['partner'],
+                    'project_id' => $data['project'],
+                    'email'     => $user->email,
+                    'created_by' => auth()->user()->id,
+                ]);
+                //Insert themes
+                foreach ($data['theme'] as $themeId) {
+                    $user_theme = UserTheme::where('theme_id',$themeId)->where('user_id',$user->id)->where('partner_id',$projectPartner->id)->first();
+                    if(empty($user_theme)){
+                        UserTheme::firstOrCreate([
+                            'theme_id' => $themeId,
+                            'user_id' => $user->id,
+                            'partner_id' => $projectPartner->id
+                        ]);
+                    }
+                }
+                
+                foreach ($data['district'] as $districtId) {
+                    $district = District::where('district_id',$districtId)->first();
+                    if ($district) {
+                        $user_district = UserProvinceDistricts::where('province_id',$district->provinces_id)
+                        ->where('district_id',$districtId)->where('user_id',$user->id)->where('partner_id',$projectPartner->id)->first();
+                        if(empty($user_district)){
+                            UserProvinceDistricts::firstOrCreate([
+                                'province_id' => $district->provinces_id,
+                                'district_id' => $districtId,
+                                'user_id' => $user->id,
+                                'partner_id' => $projectPartner->id
+                            ]);
+                        }
+                    }
+                }
+                $userCreatedWithinLastHour = User::where('id',$user->id)->where('created_at', '>=', Carbon::now()->subHour())->first();
+                if (empty($userCreatedWithinLastHour)) {
+                    $details = [
+                        'title' => 'Save the children',
+                        "password" => "12345678",
+                        'email'   => $user->email,
+                        'project' => $project->name,
+                        'partner' => $partner->name
+                    ];
+                    Mail::to($email)->send(new \App\Mail\partnerMail($details));
+                }
+              
             }
-        }
-        $userCreatedWithinLastHour = User::where('id',$user->id)->where('created_at', '>=', Carbon::now()->subHour())->first();
-        if (empty($userCreatedWithinLastHour)) {
-            $details = [
-                'title' => 'Save the children',
-                "password" => "12345678",
-                'email'   => $user->email,
-                'project' => $project->name,
-                'partner' => $partner->name
-            ];
-            Mail::to($data['email'])->send(new \App\Mail\partnerMail($details));
-        }
-        DB::commit();
-        return 1;
-        // try {
-        //     $project = Project::where('id', $data['project'])->firstOrFail();
-        //     $partner = Partner::where('id', $data['partner'])->firstOrFail();
-           
-        //     $user = User::firstOrNew(['email' => $data['email']]);
-        //     if (empty($user)) {
-        //         $user = User::create([
-        //             'email' => $data['email'],
-        //             'name'  => $partner->name,
-        //             'password' => Hash::make('12345678'),
-        //             'permissions_level' => 'nation-wide',
-        //             'designation' => '48',
-        //             'status' => '1',
-        //             'user_type' => 'R1',
-        //         ]);
-        //         $user->assignRole('partner');
-        //     }
-        //     // Create Project Partner
-        //     $projectPartner = ProjectPartner::create([
-        //         'partner_id' => $data['partner'],
-        //         'project_id' => $data['project'],
-        //         'email'     => $user->email,
-        //         'created_by' => auth()->user()->id,
-        //     ]);
-        //     //Insert themes
-        //     foreach ($data['theme'] as $themeId) {
-        //         UserTheme::firstOrCreate([
-        //             'theme_id' => $themeId,
-        //             'user_id' => $user->id,
-        //             'partner_id' => $projectPartner->id
-        //         ]);
-        //     }
-        //     //Insert districts
-        //     foreach ($data['district'] as $districtId) {
-        //         $district = District::where('district_id',$districtId)->first();
-        //         if ($district) {
-        //             UserProvinceDistricts::firstOrCreate([
-        //                 'province_id' => $district->provinces_id,
-        //                 'district_id' => $districtId,
-        //                 'user_id' => $user->id,
-        //                 'partner_id' => $projectPartner->id
-        //             ]);
-        //         }
-        //     }
-        //     $details = [
-        //         'title' => 'Save the children',
-        //         "password" => "12345678",
-        //         'email'   => $user->email,
-        //         'project' => $project->name,
-        //         'partner' => $partner->name
-        //     ];
-        //     Mail::to($data['email'])->send(new \App\Mail\partnerMail($details));
-        //     DB::commit();
-        //     return 1;
-        // } 
-        // catch (\Exception $e) {
-        //     $x=  $e->getMessage();
+            DB::commit();
+            return 1;
+        } 
+        catch (\Exception $e) {
+            $x =  $e->getMessage();
             
-        //     DB::rollback();
-        //         DB::rollback(); // Rollback any transactions if necessary
-        //         return $error ;
+            DB::rollback();
+                DB::rollback(); 
+                return $x ;
             
-        // }
+        }
     }
 
     public function updateprojectpartner($data ,$id){

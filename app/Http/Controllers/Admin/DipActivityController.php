@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DipActivity;
-use Carbon\Carbon; 
+use Illuminate\Support\Facades\Auth;
 use App\Models\District;
 use App\Models\ActivityMonths;
 use App\Models\Province;
@@ -54,7 +54,40 @@ class DipActivityController extends Controller
         $dipsQuery = DipActivity::when(!empty($dip_id), function ($query) use ($dip_id) {
             $query->where('project_id', $dip_id);
         });
-    
+        $userType = auth()->user()->user_type;
+        $user_id = auth()->user()->id;
+
+        $userRole =  $role = Auth::user()->getRoleNames()->first();
+     
+        if($userRole == "focal person"){
+            $role = 'f_p';
+        }
+        elseif($userRole == "partner"){
+            $role = 'budget_holder';
+        }else{
+            $role = "all";
+        }
+
+        //projects 
+        if ($role == 'f_p') {
+            $dipsQuery->whereHas('project', function ($query) {
+                $query->where('focal_person', auth()->user()->id);
+            })->latest();
+        }
+        elseif($role == 'partner'){
+            
+            $dipsQuery->where('budget_holder', $user_id)
+                ->whereHas('project', function ($query) {
+                    $query->whereHas('partners', function ($partnersQuery) {
+                        $partnersQuery->where('email', auth()->user()->email);
+                    });
+                })->latest();
+           
+        }
+        else{
+         
+            $dipsQuery->latest();
+        }
         $dips = $dipsQuery->limit($limit)
             ->offset($start)
             ->orderBy($order, $dir)

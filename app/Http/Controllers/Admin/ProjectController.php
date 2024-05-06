@@ -15,6 +15,7 @@ use App\Models\Donor;
 use App\Models\SCITheme;
 use App\Models\ProjectPartner;
 use App\Models\ProjectTheme;
+use Illuminate\Support\Facades\Auth;
 use App\Repositories\Interfaces\ProjectRepositoryInterface;
 use Maatwebsite\Excel\Facades\Excel;
 use DateTime;
@@ -58,42 +59,78 @@ class ProjectController extends Controller
             13 => 'updated_by',
             14 => 'updated_at',
         ];
-        
+        $meal_team =  ['Meal Assistant','Meal Officer','Meal Manager','Meal Coordinator','Accountability Officer','MIS Manager','MIS Officer','Head of Meal','administrator','MIS Officer'];
         $limit = $request->input('length');
         $orderIndex = $request->input('order.0.column');
+        $order = $columns[$orderIndex] ?? 'id';
+        $dir = strtolower($request->input('order.0.dir') ?? 'asc');
         
-        // Set the order column
-        $order = isset($columns[$orderIndex]) ? $columns[$orderIndex] : 'id'; // Default to 'id' if column not found
-        
-        // Get the order direction ('asc' or 'desc')
-        $dir = $request->input('order.0.dir');
-        $dir = strtolower($dir) === 'desc' ? 'desc' : 'asc'; // Default to 'asc' if not 'desc'
-
         $start = $request->input('start');
         
-        
-        if (auth()->user()->user_type != 'admin') {
-            $project_details = Project::where('focal_person', auth()->user()->id)->latest();
-        } else {
+        $userType = auth()->user()->user_type;
+        $user_id = auth()->user()->id;
+
+        $userRole =  $role = Auth::user()->getRoleNames()->first();
+     
+        $role = '';
+        if (in_array($userRole,$meal_team))
+        {
+           $role = 'meal';
+        }elseif($userRole == "focal person"){
+            $role = 'f_p';
+        }
+        elseif($userRole == 'awards'){
+            $role = 'awards';
+        }
+        elseif($userRole == "budget holder"){
+            $role = 'budget_holder';
+        }else{
+            $role = "all";
+        }
+
+        //projects 
+        if ($role == 'f_p') {
+           
+            $project_details = Project::where('focal_person', $user_id)->latest();
+        }
+        elseif($role == 'meal'){
+            if(auth()->user()->user_type == 'admin'){
+                $project_details = Project::latest();
+            }
+            else{
+              
+                $province = auth()->user()->province.'';
+                $district = auth()->user()->district.'';
+                
+                // $project_details = Project::latest()
+                //     ->whereHas('detail', function ($query) use ($province) {
+                //         $query->whereJsonContains('province', $province);
+                //     })
+                //     ->with('detail');
+                $project_details = Project::latest()->whereHas('detail')
+                    ->with('detail')->latest();
+            }
+        }
+        elseif( $role == 'awards'){
+            $project_details = Project::where('award_person', $user_id)->whereHas('detail')
+            ->with('detail')->latest();
+        }
+        elseif($role == 'budget_holder'){
+           
+            $project_details = Project::where('budget_holder', $user_id)->latest()->whereHas('detail')
+            ->with('detail')->latest();
+        }
+        else{
             $project_details = Project::latest();
         }
-        
-        // Apply additional filters if project ID is provided
-        if ($request->project != null) {
+
+        //filter project
+        if ($request->project !== null) {
             $project_details->where('id', $request->project);
         }
+        $totalData = $project_details->count();
+        $totalFiltered =$project_details->count();
         
-        if (auth()->user()->user_type != 'admin') {
-            $totalData = $project_details->where('focal_person', auth()->user()->id)->count();
-        } else {
-            $totalData =$project_details->count();
-        }
-        
-        if (auth()->user()->user_type != 'admin') {
-            $totalFiltered =$project_details->where('focal_person', auth()->user()->id)->count();
-        } else {
-            $totalFiltered = $project_details->count();
-        }
         $project_details = $project_details->limit($limit)->offset($start)->orderBy($order, $dir)->get();
         
         $data = [];
@@ -142,7 +179,7 @@ class ProjectController extends Controller
                 }      
                 $nestedData['created_by'] = $r->user->name ?? '';
                 $nestedData['created_at'] =date('M d ,Y', strtotime($r->created_at)). '<br>'. date('h:iA', strtotime($r->created_at)) ?? '';
-                if(empty($r->detail)){
+                if(empty($r->detail )){
                 $nestedData['action'] = '<div class="text-center mt-5">
                                                 <td>
                                                 <a class="" href="'. $edit_url .'"  style="font-size: 0.8em; font-weight: bold; padding: 6px 10px;">
@@ -155,13 +192,17 @@ class ProjectController extends Controller
                     <td>
                         <a class="btn-icon mx-1" href="'. $show_url.'" target="_blank" title="show project">
                             <i class="far fa-eye text-success" ></i>
-                        </a>
-                        <a class="btn-icon mx-1 " href="'. $edit_url.'" title=" project edit">
+                        </a>';
+                    if (auth()->user()->user_type != 'R3'  && auth()->user()->user_type != 'admin') {
+                        '<a class="btn-icon mx-1 " href="'. $edit_url.'" title=" project edit">
                             <i class="fas fa-pencil-alt text-warning"  ></i>
                         </a>';
-                
+                    }
                     if (auth()->user()->user_type == 'admin') {
                         $nestedData['action'] .= '
+                        <a class="btn-icon mx-1 " href="'. $edit_url.'" title=" project edit">
+                            <i class="fas fa-pencil-alt text-warning"  ></i>
+                        </a>
                             <a class="btn-icon  mx-1 " onclick="event.preventDefault();del('.$r->id.');" title="Delete Project" href="javascript:void(0)">
                                 <i class="fas fa-trash-alt text-danger" ></i>
                             </a>';
