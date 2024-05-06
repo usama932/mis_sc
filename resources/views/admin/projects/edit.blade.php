@@ -98,7 +98,7 @@
                             <div id="end_dateError" class="error-message "></div>
                         </div>
                         <div class="fv-row col-md-3 mt-5">
-                            <div class="form-check form-switch   mt-5">
+                            <div class="form-check form-switch mt-5">
                                 <input class="form-check-input" type="checkbox" id="active" name="active" {{$project->active ? 'checked' : ''}}>
                                 <label class="form-check-label" for="active">Activate Project</label>
                             </div>

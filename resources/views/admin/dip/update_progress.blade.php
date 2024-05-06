@@ -60,7 +60,7 @@
                         </div> 
                         <div class="fv-row col-md-3 mt-3">
                             <label class="fs-7 fw-semibold form-label mb-2 d-flex">
-                                <span class="required">Completion Date</span>
+                                <span class="required">Actual Monthly Completion Date</span>
                             </label>
                             <input type="text" name="complete_date" id="start_date" placeholder="Select date"  class="form-control " onkeydown="event.preventDefault()" data-provide="datepicker" value="">
                             <div id="activity_targetError" class="error-message " ></div>
@@ -114,7 +114,7 @@
                         </div> 
                         <div class="fv-row col-md-6 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                <span class="required">Attachemnt</span>
+                                <span class="required">Attachment</span>
                             </label>
                             <input type="file" name="attachment" id="attachment" accept=".pdf, .docx, .doc" class="form-control" value="">
                             <div id="attachmentError" class="error-message "></div>

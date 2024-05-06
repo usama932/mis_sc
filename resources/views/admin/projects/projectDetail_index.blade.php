@@ -57,7 +57,7 @@
         <div class="card"> 
             <div class="card-body pt-3">
                 <div class="table-responsive overflow-*">
-                    <table class="table table-striped table-bordered nowrap" id="project_details" >
+                    <table class="table table-striped table-bordered nowrap" id="project_details">
                         <thead>
                             <tr>
                                 <th>Project</th>
@@ -69,7 +69,6 @@
                                 <th>Actions</th>
                                 <th>Extract DIP</th>
                                 <th>Review Meeting</th>
-                               
                             </tr>
                         </thead>
                     </table>

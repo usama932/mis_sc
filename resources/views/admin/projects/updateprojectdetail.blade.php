@@ -1,5 +1,7 @@
 @push('stylesheets')
 <script src="https://cdn.ckeditor.com/ckeditor5/38.0.0/classic/ckeditor.js"></script>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css" rel="stylesheet">
 @endpush
 <x-nform-layout>
     <style>
@@ -84,10 +86,10 @@
                         <a class="nav-link @if(session('project') == 'thematic') active @else  @endif" data-bs-toggle="tab" href="#thematic" @if(empty($project->detail) ) disabled @endif >Thematic area</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @if(session('project') == 'partner') active @else  @endif" data-bs-toggle="tab" href="#partner" @if(empty($project->detail)  || empty($project->themes)) disabled @endif >Implementing Partner</a>
+                        <a class="nav-link @if(session('project') == 'partner') active @else  @endif" data-bs-toggle="tab" href="#partner" @if(empty($project->detail)   || $project->detail?->implemented_sc == 1) disabled @endif >Implementing Partner</a>
                     </li>
                     <li class="nav-item" >
-                        <a class="nav-link @if(session('project') == 'profile') active @else  @endif" data-bs-toggle="tab" href="#profile" @if(empty($project->detail)  || empty($project->themes)) disabled @endif >Project Profile</a>
+                        <a class="nav-link @if(session('project') == 'profile') active @else  @endif" data-bs-toggle="tab" href="#profile" @if(empty($project->detail)   || $project->detail?->implemented_sc == 1) disabled @endif >Project Profile</a>
                     </li>
                 </ul>
             </div>
@@ -99,10 +101,10 @@
                 <div class="tab-pane fade show @if(session('project') == 'thematic') active @else  @endif" id="thematic" role="tabpanel" @if(empty($project->detail) ) disabled @endif >
                     @include('admin.projects.partials.project_theme') 
                 </div>
-                <div class="tab-pane fade show @if(session('project') == 'partner') active @else  @endif" id="partner" role="tabpanel" @if(empty($project->detail)  || empty($project->themes)) disabled @endif >
+                <div class="tab-pane fade show @if(session('project') == 'partner') active @else  @endif" id="partner" role="tabpanel" @if(empty($project->detail)  || $project->detail?->implemented_sc == 1)  disabled @endif >
                     @include('admin.projects.partials.project_partners')
                 </div>
-                <div class="tab-pane fade show @if(session('project') == 'profile') active @else  @endif" id="profile" role="tabpanel" @if(empty($project->detail)  || empty($project->themes)) disabled @endif >
+                <div class="tab-pane fade show @if(session('project') == 'profile') active @else  @endif" id="profile" role="tabpanel" @if(empty($project->detail) ) disabled @endif >
                     @include('admin.projects.partials.project_profile')
                 </div>
             </div>
@@ -139,6 +141,26 @@
         </div>
     </div>
     @push('scripts')
-    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#tagInput').tagsinput({
+                trimValue: true, // Trim whitespace from the beginning and end of each tag
+                confirmKeys: [13, 32, 44] // Accept Enter, Space, and Comma as confirm keys
+            });
+        
+            $('#tagInput').on('itemAdded', function(event) {
+                var tag = event.item;
+                $('#tagContainer').append('<span class="badge bg-light">' + tag + '<button type="button" class="close badge badge-primary" aria-label="Close"><span aria-hidden="true">&times;</span></button></span>');
+            });
+        
+            $('#tagContainer').on('click', 'button.close', function() {
+                var tag = $(this).parent().text().trim();
+                $('#tagInput').tagsinput('remove', tag);
+                $(this).parent().remove();
+            });
+        });
+        </script>
     @endpush
 </x-nform-layout>

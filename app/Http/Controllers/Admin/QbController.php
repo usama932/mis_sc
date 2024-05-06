@@ -31,7 +31,7 @@ class QbController extends Controller
     public function index()
     {
         $projects = Project::latest()->get();
-        $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
+        $users = User::where('user_type','R2')->orwhere('user_type','R1')->orwhere('user_type','R3')->get();
 
         return view('admin.quality_bench.index',compact('projects','users'));
     }
@@ -62,20 +62,23 @@ class QbController extends Controller
             $qualit_benchs->where('province',$request->kt_select2_province);
         }
       
-        $dateParts = explode(' to ',$request->date_visit);
+        $dateParts = explode('to',$request->date_visit);
        
+        
+        
         $startdate = '';
         $enddate = '';
         if(!empty($dateParts)){
-            $startdate = $dateParts[0];
+            $startdate = $dateParts[0] ?? '';
             $enddate = $dateParts[1] ?? '';
         }
-        if ($request->assesment_code != null && $request->assesment_code != 'None') {
-            $qualit_benchs->where('assement_code', $request->assesment_code);
-        }
+     
         if($request->date_visit != null){
 
             $qualit_benchs->whereBetween('date_visit',[$startdate ,$enddate]);
+        }
+        if ($request->assesment_code != null && $request->assesment_code != 'None') {
+            $qualit_benchs->where('assement_code', $request->assesment_code);
         }
         if($request->accompanied_by != null && $request->accompanied_by != 'None'){
 
@@ -224,7 +227,7 @@ class QbController extends Controller
     {
         $projects = Project::where('active','1')->latest()->get();
         $themes = Theme::latest()->get();
-        $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
+        $users = User::where('user_type','R2')->orwhere('user_type','R1')->orWhere('user_type','R3')->get();
         $partners = Partner::orderBy('name')->get();  
         $record = ClosingRecord::latest()->first(); 
 
@@ -266,7 +269,7 @@ class QbController extends Controller
         $title                = "Add QBs Details and Action Points Details";
         $projects             = Project::latest()->get();
         $themes               = Theme::latest()->get();
-        $users                = User::where('user_type','R2')->orwhere('user_type','R1')->get();
+        $users                = User::where('user_type','R2')->orwhere('user_type','R1')->orWhere('user_type','R3')->get();
         $qb                   = QualityBench::with('monitor_visit','action_point')->find($id);
 
         $partners             = Partner::orderBy('name')->get();  

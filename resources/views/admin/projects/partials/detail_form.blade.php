@@ -4,7 +4,7 @@
         <div class="row ">
             <input type="hidden" name="project" value="{{$project->id}}">
           
-            <div class="fv-row col-md-6">
+            <div class="fv-row col-md-4">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Province</span>
                 </label>
@@ -34,7 +34,7 @@
                 </select>
                 <div id="provinceError" class="error-message "></div>
             </div>
-            <div class="fv-row col-md-6 ">
+            <div class="fv-row col-md-4">
                 <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                     <span class="required">District</span>
                     <span class="spinner-border spinner-border-sm align-middle ms-2" id="districtloader"></span>
@@ -50,6 +50,16 @@
                         @endif
                 </select>
                 <span id="districtError" class="error-message "></span>
+            </div> 
+            <div class="fv-row col-md-4">
+                <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                    <span class="required">Implemented by SC</span>
+                </label>
+                <div class="form-check form-switch   mt-5">
+                    <input class="form-check-input" type="checkbox" id="implemented_sc" name="implemented_sc"  @if(!empty($project->detail)) @if($project->detail?->implemented_sc == 1) checked @else @endif @endif>
+                   
+                </div>
+                <span id="implemented_sc" class="error-message "></span>
             </div> 
             <div class="fv-row col-md-12 mt-3">
                 <label class="fs-6 fw-semibold form-label mb-2 d-flex">

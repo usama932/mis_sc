@@ -85,9 +85,11 @@
             <li class="nav-item">
                 <a class="nav-link active" data-bs-toggle="tab" href="#thematic">Thematic Area & Targets</a>
             </li>
+            @if($project->detail?->implemented_sc == 0)
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="tab" href="#partner">Implementing Partner</a>
             </li>
+            @endif
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="tab" href="#profile">Project Profile</a>
             </li>
@@ -119,26 +121,28 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade" id="partner" role="tabpanel">
-            <div class="card m-4" id="project_partner_table">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered nowrap" id="project_partners" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>Theme</th>
-                                    <th>Sub Theme</th>
-                                    <th>Partner</th>
-                                    <th>Email</th>
-                                    <th>Province</th>
-                                    <th>District</th>
-                                </tr>
-                            </thead>
-                        </table>
+        @if($project->detail?->implemented_sc == 0)
+            <div class="tab-pane fade" id="partner" role="tabpanel">
+                <div class="card m-4" id="project_partner_table">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered nowrap" id="project_partners" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Theme</th>
+                                        <th>Sub Theme</th>
+                                        <th>Partner</th>
+                                        <th>Email</th>
+                                        <th>Province</th>
+                                        <th>District</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endif
         <div class="tab-pane fade" id="profile" role="tabpanel">
             <div class="card m-4" id="project_partner_table">
                 <div class="card-body">

@@ -135,10 +135,10 @@
                         <a class="nav-link  " data-bs-toggle="tab" href="#partner">Implementing Partner</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link  " data-bs-toggle="tab" href="#activities">Project Activities</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link  " data-bs-toggle="tab" href="#profile">Project Profile</a>
+                    </li>
+                    <li class="nav-item " >
+                        <a class="nav-link text-success " data-bs-toggle="tab" href="#activities">Project Activities</a>
                     </li>
                 </ul>
             </div>
@@ -196,27 +196,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade show" id="activities" role="tabpanel">
-                    <div class="card m-4"  id="project_partner_table">
-                        <div class="card-body overflow-*">
-                            <div class="table-responsive overflow-*">
-                                <table class="table table-striped table-bordered nowrap" id="dip_activity" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Activity</th>
-                                            <th>Sub Theme</th>
-                                            <th>LOP Target</th>
-                                            <th>Quarter  Target</th>
-                                            <th>Created By</th>
-                                            <th>Created At</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+               
                 <div class="tab-pane fade show" id="profile" role="tabpanel">
                     <div class="card m-4"  id="project_partner_table">
                         <div class="card-body overflow-*">
@@ -230,6 +210,27 @@
                                             {{-- <th>Tehsil</th>
                                             <th>UC</th>
                                             <th>Village</th>  --}}
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade show " id="activities" role="tabpanel">
+                    <div class="card m-4 "  id="project_partner_table">
+                        <div class="card-body overflow-*">
+                            <div class="table-responsive overflow-*">
+                                <table class="table table-striped table-bordered nowrap" id="dip_activity" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Activity</th>
+                                            <th>Sub Theme</th>
+                                            <th>LOP Target</th>
+                                            <th>Quarter  Target</th>
+                                            <th>Created By</th>
+                                            <th>Created At</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>

@@ -57,7 +57,7 @@ class FRMController extends Controller
         $feedbackchannels = FeedbackChannel::latest()->get();
         $feedbackcategories = FeedbackCategory::latest()->get()->sortBy('name');
         $projects = Project::where('active','1')->get();
-        $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
+        $users = User::where('user_type','R2')->orWhere('user_type','R1')->orWhere('user_type','R3')->get();
      
         // $themes = Theme::latest()->get();
         return view('admin.frm.index' ,compact('feedbackchannels','feedbackcategories','projects','total_frm','open_frm','close_frm','users'));
@@ -375,7 +375,7 @@ class FRMController extends Controller
         $feedbackcategories = FeedbackCategory::get();
         $projects = Project::where('active','1')->latest()->get();
         $themes = Theme::latest()->get();
-        $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
+        $users = User::where('user_type','R2')->orWhere('user_type','R1')->orWhere('user_type','R3')->get();
         $record = ClosingRecord::latest()->first(); 
 
         addJavascriptFile('assets/js/custom/frm/general.js');
@@ -441,7 +441,7 @@ class FRMController extends Controller
         $feedbackcategories = FeedbackCategory::latest()->get();
         $projects = Project::where('active','1')->latest()->get();
         $themes = Theme::latest()->get();
-        $users = User::where('user_type','R2')->orwhere('user_type','R1')->get();
+        $users = User::where('user_type','R2')->orWhere('user_type','R1')->orWhere('user_type','R3')->get();
         addJavascriptFile('assets/js/custom/frm/edit.js');
         addJavascriptFile('assets/js/custom/frm/frm.js');
         $title =  'Edit Feedback/Complaint #' .$frm->response_id;

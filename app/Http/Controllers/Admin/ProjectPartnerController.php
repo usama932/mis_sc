@@ -142,6 +142,7 @@ class ProjectPartnerController extends Controller
     {
         
         $project_partner = ProjectPartner::where('project_id' ,$request->project)->where('partner_id' ,$request->partner)->first();
+       
         if(!empty($project_partner)){
             return response()->json([
                 'message' => "Partner already exist",

@@ -360,9 +360,9 @@ class ProjectController extends Controller
     {
         addJavascriptFile('assets/js/custom/project/create.js');
         $themes = Theme::orderBy('name')->get();
-        $persons = User::role('focal person')->get();
+        $persons = User::latest()->get();
         $donors = Donor::orderBy('name')->get();
-        $budget_holders = User::role('budget holder')->get();
+        $budget_holders = User::latest()->get();
         $awards = User::with('desig')->whereHas('desig', function ($query) {
             $query->whereIn('designation_name', ['Head of Awards','Sub-Grants Coordinator', 'Manager Awards']);
         })->get();
@@ -437,9 +437,9 @@ class ProjectController extends Controller
     public function edit(string $id)
     {
         $project = Project::find($id);
-        $persons = User::role('focal person')->get();
+        $persons = User::latest()->get();
         $donors = Donor::orderBy('name')->get();
-        $budget_holders = User::role('budget holder')->get();
+        $budget_holders = User::latest()->get();
         $awards = User::with('desig')->whereHas('desig', function ($query) {
             $query->whereIn('designation_name', ['Head of Awards','Sub-Grants Coordinator', 'Manager Awards']);
         })->get(); 

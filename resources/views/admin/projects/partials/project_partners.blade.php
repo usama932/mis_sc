@@ -21,9 +21,12 @@
                         @endforeach
                     </select>
                 </div>
+                <div id="tagContainer"></div>
                 <div class="fv-row col-md-6">
-                    <input type="email" name="email" class="form-control  mx-1" placeholder="Enter Partner Email" autocomplete="off">
+                    <input type="email" id="tagInput" class="form-control  mx-1"  placeholder="Enter tags" />
                 </div>
+                
+               
                 <div class="fv-row col-md-4 mt-4">
                     <select name="province[]" multiple id="project_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select Partner Province" class="form-select "  data-allow-clear="true" >
                         <option value="">Select Partner Province</option>
