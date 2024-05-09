@@ -262,7 +262,7 @@ var KTqbstatusactionpointValidate = function () {
                     'comments':{
                         validators: {
                             notEmpty: {
-                                message: 'Remarks  is required'
+                                message: 'Remarks is required'
                             }
                         }
                     },

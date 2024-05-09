@@ -17,7 +17,7 @@ class ForceHttps
     {
         {
             
-    
+           
             return $next($request);
         }
     }

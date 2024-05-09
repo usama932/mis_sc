@@ -288,15 +288,15 @@ class FRMController extends Controller
                 }
                 if(auth()->user()->permissions_level == 'province-wide')
                 {
-                    if(auth()->user()->user_type == 'R1' && auth()->user()->province == $r->province){
+                    if(auth()->user()->user_type == 'R3' && auth()->user()->province == $r->province){
                         $view   = '<a class="btn   btn-clean btn-icon"" title="View"  target="_blank" href="'.$show_url.'">
                                     <i class="fa fa-eye"></i>
                                     </a>';
                         
                         if($r->status != 'Close'){
-                            $edit   = '<a title="Edit" target="_blank" class="btn   btn-clean btn-icon"
+                            $edit   = '<a title="Edit" target="_blank" class="btn   btn-clean btn-icon text-warning"
                                         href="'.$edit_url.'">
-                                        <i class="fa fa-pencil"></i></a>';
+                                        <i class="fa fa-pencil text-warning"></i></a>';
                         }else{
                             $edit   = '';
                         }
@@ -304,14 +304,14 @@ class FRMController extends Controller
                        
                         $delete = '';
                     }
-                    elseif(auth()->user()->user_type == 'R2' && auth()->user()->province == $r->province){
+                    elseif(auth()->user()->user_type == 'R3' && auth()->user()->province == $r->province){
                         $view   = '<a class="btn   btn-clean btn-icon"" title="View" target="_blank" href="'.$show_url.'">
                                     <i class="fa fa-eye"></i>
                                     </a>';
                         if($r->status != 'Close'){
-                            $edit   ='<a title="Edit" target="_blank" class="btn   btn-clean btn-icon"
+                            $edit   ='<a title="Edit" target="_blank" class="btn   btn-clean btn-icon text-warning"
                             href="'.$edit_url.'">
-                            <i class="fa fa-pencil"></i></a>';
+                            <i class="fa fa-pencil text-warning"></i></a>';
                         }else{
                             $edit = '';
                         }
@@ -327,15 +327,15 @@ class FRMController extends Controller
                 }
                 if(auth()->user()->permissions_level == 'district-wide')
                 {
-                    if(auth()->user()->user_type == 'R1' && auth()->user()->district == $r->district){
+                    if(auth()->user()->user_type == 'R3' && auth()->user()->district == $r->district){
                         $view   = '<a class="btn   btn-clean btn-icon"" title="View" target="_blank" href="'.$show_url.'">
                                     <i class="fa fa-eye"></i>
                                     </a>';
-                        if($r->name_of_registrar == auth()->user()->name && $r->status != 'Close'){
+                        if($r->created_by == auth()->user()->name && $r->status != 'Close'){
                             
-                            $edit   = '<a title="Edit" target="_blank" class="btn   btn-clean btn-icon"
+                            $edit   = '<a title="Edit" target="_blank" class="btn   btn-clean btn-icon text-warning"
                                         href="'.$edit_url.'" >
-                                        <i class="fa fa-pencil"></i></a>';
+                                        <i class="fa fa-pencil text-warning"></i></a>';
                         }
                         else{
                             $edit   = '';

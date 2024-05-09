@@ -417,8 +417,10 @@ class QBActionPointController extends Controller
             'updated_by'         => auth()->user()->id,
         ]);
         $actionpoint    = QualityBench::where('id',$request->qb_id)->first();
+        
         $qb_theme       = User::where('theme_id',$actionpoint->theme)->first();
-        if(!empty($actionpoint)){
+   
+        if(!empty($qb_theme ) && !empty($actionpoint->action_point)){
             $qb_action_point =   ActionPoint::where('id',$id)->first();
             $email = $qb_theme->email;
            
@@ -434,13 +436,13 @@ class QBActionPointController extends Controller
                 'gap'           =>  $qb_action_point->monitor_visit?->gap_issue ?? '',
                 'status'        =>  $qb_action_point->status ?? '',
                 'deadline'      =>  $qb_action_point->deadline ?? '',
-                'comments'      =>  $qb_action_point->action_achiev?->comments ?? '',
-                'completion_date'       =>  $qb_action_point->action_achiev?->completion_date ?? '',
+                'comments'      =>   $actionachieve->comments ?? '',
+                'completion_date'       =>   $actionachieve->completion_date ?? '',
                 'qb_recommendation'     =>  $qb_action_point->qb_recommendation ?? '',
             ];
             $subject = "[Quality Benchmark] ". $actionpoint->activity_description ." in ". $actionpoint->village ;
             Mail::to($email)
-           ->bcc($bccEmails)
+            ->bcc($bccEmails)
             ->send(new \App\Mail\QBstatusMail($details,$subject));
         }
         $actionpoint->submit = '1';

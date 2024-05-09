@@ -54,10 +54,10 @@ var KTSigninGeneral = function () {
             // Validate form
             validator.validate().then(function (status) {
                 if (status == 'Valid') {
-                    // Show loading indication
+                    
                     submitButton.setAttribute('data-kt-indicator', 'on');
 
-                    // Disable button to avoid multiple click
+                    
                     submitButton.disabled = true;
 
 
@@ -137,14 +137,26 @@ var KTSigninGeneral = function () {
                                         confirmButton: "btn btn-primary"
                                     }
                                 });
-                            }else{
-
                             }
-                            const redirectUrl = form.getAttribute('data-kt-redirect-url');
-
-                            if (redirectUrl) {
-                                location.href = redirectUrl;
+                            else if(response.data.message === "Your Credentials are Approved yet"){
+                                Swal.fire({
+                                    text:"Sorry, the email or password is not approved, please try again.",
+                                    icon: "success",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn btn-primary"
+                                    }
+                                });
                             }
+                            else{
+                                const redirectUrl = form.getAttribute('data-kt-redirect-url');
+
+                                if (redirectUrl) {
+                                    location.href = redirectUrl;
+                                }
+                            }
+                           
                         } else {
                             // Show error popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                             Swal.fire({

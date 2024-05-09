@@ -267,7 +267,7 @@ class QbController extends Controller
     {
         $active               = 'basic_info';
         $title                = "Add QBs Details and Action Points Details";
-        $projects             = Project::latest()->get();
+        $projects             = Project::where('active','1')->latest()->get();
         $themes               = Theme::latest()->get();
         $users                = User::where('user_type','R2')->orwhere('user_type','R1')->orWhere('user_type','R3')->get();
         $qb                   = QualityBench::with('monitor_visit','action_point')->find($id);

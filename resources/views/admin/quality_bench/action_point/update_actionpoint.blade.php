@@ -4,16 +4,103 @@
     @endsection
     <style>
         .error-message {
-           color: red;
-           font-size: 12px;
-           margin-top: 5px;
-       }
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        tr {
+            padding-left: 20px; /* Adjust as needed */
+            padding-right:20px; /* Adjust as needed */
+        }
 
    </style>
 
+
     <div class="card">
-    
-        <div class="card">
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <h2><i class="fa-solid fa-info-circle mx-4"></i>QB Detail</h2>
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div class="card-header border-0 pt-6">
+                                <div class="row mb-5">
+                                    <div class="col-md-6">
+                                        <table class="table table-striped m-4 p-4">
+                                            <tr>
+                                                <td class="fs-8"><strong>Unique Code #</strong></td>
+                                                <td  class="fs-8">{{$action_point->qb?->assement_code ?? ''}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td  class="fs-8"><strong>Project</strong></td>
+                                                <td  class="fs-8">{{$action_point->qb?->project?->name ?? ''}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fs-7"><strong>Province:</strong></td>
+                                                <td class="fs-7">{{$action_point->qb?->provinces?->province_name ?? ''}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fs-7"><strong>District:</strong></td>
+                                                <td class="fs-7">{{$action_point->qb?->districts?->district_name ?? ''}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fs-7"><strong>Tehsil:</strong></td>
+                                                <td class="fs-7">{{$action_point->qb?->tehsils?->tehsil_name ?? ''}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td  class="fs-8"><strong>Action Type</strong></td>
+                                                <td  class="fs-8">{{$action_point->action_type ?? ''}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td  class="fs-8"><strong>Responsible Person</strong></td>
+                                                <td  class="fs-8">{{$action_point->responsible_person ?? ''}}</td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td  class="fs-8"><strong>Created By</strong></td>
+                                                <td  class="fs-8">{{$action_point->user->name ?? ''}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td  class="fs-8"><strong>Created At</strong></td>
+                                                <td  class="fs-8">{{date('M d, Y', strtotime($action_point->created_at)) ?? ''}}</td>
+                                            </tr>
+                                        
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <table class="table table-striped m-4 p-4">
+                                            <tr>
+                                                <td class="fs-8"><strong>QB Description</strong></td>
+                                                <td  class="fs-8">{{$action_point->monitor_visit?->qbs_description ?? ''}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td  class="fs-8"><strong>Gap/Issue</strong></td>
+                                                <td  class="fs-8">{{$action_point->monitor_visit?->gap_issue ?? ''}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td  class="fs-8"><strong>Debrief Note</strong></td>
+                                                <td  class="fs-8">{{$action_point->db_note ?? ''}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td  class="fs-8"><strong>Action Point</strong></td>
+                                                <td  class="fs-8">{{$action_point->qb_recommendation ?? ''}}</td>
+                                            </tr>
+                                           
+                                            <tr>
+                                                <td> <strong>Deadline</strong></td>
+                                                <td>{{date('M d, Y', strtotime($action_point->deadline)) ?? ''}}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <form class="form p-5" novalidate="novalidate" id="updateactionpointstatus" action="{{route('postupdate_actionpoint',$action_point->id)}}" method="post">  
                 @csrf
              
@@ -74,7 +161,7 @@
                 </div>
             
             </form>
-        </div>
+        
         
     </div>
     @push('scripts')

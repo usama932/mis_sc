@@ -46,9 +46,14 @@ class DipController extends Controller
             14 => 'updated_at',
             
 		);
+        $user_id = auth()->user()->id;
+        $user = $user_id.'';
 		if(auth()->user()->user_type != 'admin'){
-            $totalData = Project::orWhere('focal_person' ,auth()->user()->id)->orWhereHas('partners', function ($query) {
-                $query->where('email', auth()->user()->email);
+            $totalData = Project::where(function ($query) use ($user) {
+                $query->orWhereJsonContains('focal_person', $user)
+                      ->orWhereHas('partners', function ($query) {
+                          $query->where('email', auth()->user()->email);
+                      });
             })->count();
         }else{
             $totalData = Project::count();
@@ -65,7 +70,8 @@ class DipController extends Controller
         }
         $dir = $request->input('order.0.dir');
         if(auth()->user()->user_type != 'admin'){
-            $totalFiltered = Project::orWhere('focal_person' ,auth()->user()->id)->orWhereHas('partners', function ($query) {
+            
+            $totalFiltered = Project::orWhereJsonContains('focal_person' ,$user)->orWhereHas('partners', function ($query) {
                 $query->where('email', auth()->user()->email);
             })->count();
         }
@@ -75,8 +81,11 @@ class DipController extends Controller
        
 		$start = $request->input('start');
 		if(auth()->user()->user_type != 'admin'){
-            $dips = Project::orWhere('focal_person' ,auth()->user()->id)->orWhereHas('partners', function ($query) {
-                $query->where('email', auth()->user()->email);
+            $dips = Project::where(function ($query) use ($user) {
+                $query->orWhereJsonContains('focal_person', $user)
+                      ->orWhereHas('partners', function ($query) {
+                          $query->where('email', auth()->user()->email);
+                      });
             });
         }
         else{

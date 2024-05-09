@@ -26,23 +26,33 @@ class AuthenticatedSessionController extends Controller
 
     public function store(LoginRequest $request)
     {
+       
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+            if(auth()->user()->status == 1){
+                $request->session()->regenerate();
  
-            $request->user()->update([
-                'last_login_at' => Carbon::now()->toDateTimeString(),
-                'last_login_ip' => $request->getClientIp()
-            ]);
-            LoginLog::create([
-                'user_id' =>auth()->user()->id,
-                'login_ip' =>  $request->getClientIp(),
-                
-            ]);
-            return redirect()->intended(RouteServiceProvider::HOME);
+                $request->user()->update([
+                    'last_login_at' => Carbon::now()->toDateTimeString(),
+                    'last_login_ip' => $request->getClientIp()
+                ]);
+                LoginLog::create([
+                    'user_id' =>auth()->user()->id,
+                    'login_ip' =>  $request->getClientIp(),
+                    
+                ]);
+                return redirect()->intended(RouteServiceProvider::HOME);
+            }
+            else{
+                Auth::logout();
+                return response()->json([
+                    'message' => "Your Credentials are Approved yet"
+                ]);
+            }
+            
         }else{
             return response()->json([
                 'message' => "Your Credentials are incorrect"

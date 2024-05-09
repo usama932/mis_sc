@@ -69,14 +69,16 @@ class DipActivityController extends Controller
         }
 
         //projects 
+        $user_id = auth()->user()->id;
+        $user = $user_id.'';
         if ($role == 'f_p') {
-            $dipsQuery->whereHas('project', function ($query) {
-                $query->where('focal_person', auth()->user()->id);
+            $dipsQuery->whereHas('project', function ($query) use ($user) {
+                $query->whereJsonContains('focal_person', $user);
             })->latest();
         }
         elseif($role == 'partner'){
             
-            $dipsQuery->where('budget_holder', $user_id)
+            $dipsQuery->whereJsonContains('budget_holder', $user)
                 ->whereHas('project', function ($query) {
                     $query->whereHas('partners', function ($partnersQuery) {
                         $partnersQuery->where('email', auth()->user()->email);
@@ -347,10 +349,15 @@ class DipActivityController extends Controller
    
     public function create()
     {
+        $user_id = auth()->user()->id;
+        $user = $user_id.'';
+     
         if(auth()->user()->user_type != 'admin'){
-            $projects = Project::orWhere('focal_person' ,auth()->user()->id)->orWhereHas('partners', function ($query) {
+            
+            $projects = Project::orWhereJsonContains('focal_person' ,$user)->orWhereHas('partners', function ($query) {
                 $query->where('email', auth()->user()->email);
             })->orderBy('name')->get();
+           
         }else{
             $projects= Project::orderBy('name')->get();
         }

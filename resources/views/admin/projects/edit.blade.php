@@ -10,14 +10,14 @@
                 <div class="card-body py-4">
                     <div class="row">
                        
-                        <div class="fv-row col-md-3 ">
+                        <div class="fv-row col-md-4 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Project Title</span>
                             </label>
                             <input type="text" name="name" id="name" placeholder="Project Title"  class="form-control" value="{{$project->name ?? ''}}">
                             <div id="nameError" class="error-message "></div>
                         </div>   
-                        <div class="fv-row col-md-3 ">
+                        <div class="fv-row col-md-4 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Type</span>
                             </label>
@@ -27,43 +27,17 @@
                             </select>
                             <div id="typeError" class="error-message"></div>
                         </div> 
-                        <div class="fv-row col-md-3 ">
-                            <label class="fs-8 fw-semibold form-label mb-2">
-                                <span class="required">Operational Focal Person</span>
+                        <div class="fv-row col-md-4 ">
+                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                                <span class="required">SOF</span>
                             </label>
-                            <select   name="focal_person" id="focal_person" aria-label="Select a Focal Person" data-control="select2" data-placeholder="Select a Focal Person..." class="form-select "  data-allow-clear="true" > 
-                                <option  value=''>Select Focal Person</option>
-                                @foreach($persons as $person)
-                                    <option  value='{{$person->id}}' @if($person->id == $project->focal_person) selected @endif>{{$person->name}}</option>
-                                @endforeach
-                            </select>
-                            <div id="focal_personError" class="error-message"></div>
-                        </div>   
-                        <div class="fv-row col-md-3  ">
-                            <label class="fs-8 fw-semibold form-label mb-2">
-                                <span class="required">Awards Focal Person</span>
-                            </label>
-                            <select   name="award_person" id="award_person" aria-label="Select a Award FP" data-control="select2" data-placeholder="Select a Focal Person..." class="form-select "  data-allow-clear="true" > 
-                                <option  value=''>Select Award  FP</option>
-                                @foreach($awards as $award)
-                                    <option  value='{{$award->id}}'  @if($award->id == $project->award_person) selected @endif>{{ucfirst($award->name)}} - {{$award->desig?->designation_name  ?? ''}}</option>
-                                @endforeach
-                            </select>
-                            <div id="focal_personError" class="error-message"></div>
-                        </div>  
-                        <div class="fv-row col-md-3  ">
-                            <label class="fs-7 fw-semibold form-label mb-2">
-                                <span class="required">Budget Holder FP</span>
-                            </label>
-                            <select   name="budget_holder" id="budget_holder" aria-label="Select a Focal Person" data-control="select2" data-placeholder="Select a Focal Person..." class="form-select "  data-allow-clear="true" > 
-                                <option  value=''>Select Focal Person</option>
-                                @foreach($budget_holders as $budget_holder)
-                                    <option  value='{{$budget_holder->id}}' @if($budget_holder->id == $project->budget_holder) selected @endif>{{ucfirst($budget_holder->name)}} - {{$budget_holder->desig?->designation_name  ?? ''}}</option>
-                                @endforeach
-                            </select>
-                            <div id="budget_holderError" class="error-message"></div>
+                            <input type="text" name="sof" id="sof" placeholder="Enter SOF" class="form-control" value="{{ $project->sof ?? ''}}">
+                            <div id="sofError" class="error-message "></div>
                         </div> 
-                        <div class="fv-row col-md-3 ">
+                      
+                 
+                    
+                        <div class="fv-row col-md-6 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Donor</span>
                             </label>
@@ -75,14 +49,18 @@
                             </select>
                             <div id="donorError" class="error-message"></div>
                         </div>  
-                        <div class="fv-row col-md-3 ">
-                            <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                <span class="required">SOF</span>
+                        <div class="fv-row col-md-6  ">
+                            <label class="fs-8 fw-semibold form-label mb-2">
+                                <span class="required">Awards Focal Person</span>
                             </label>
-                            <input type="text" name="sof" id="sof" placeholder="Enter SOF" class="form-control" value="{{ $project->sof ?? ''}}">
-                            <div id="sofError" class="error-message "></div>
-                        </div> 
-                      
+                            <select   name="award_person" id="award_person" aria-label="Select a Award FP" data-control="select2" data-placeholder="Select a Focal Person..." class="form-select "  data-allow-clear="true" > 
+                                <option  value=''>Select Award  FP</option>
+                                @foreach($awards as $award)
+                                    <option  value='{{$award->id}}'  @if($award->id == $project->award_person) selected @endif>{{ucfirst($award->name)}} - {{$award->desig?->designation_name  ?? ''}}</option>
+                                @endforeach
+                            </select>
+                            <div id="focal_personError" class="error-message"></div>
+                        </div>  
                         <div class="fv-row col-md-3">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Project Start Date</span>
@@ -115,6 +93,43 @@
                                 <label class="form-check-label" for="nce">NCE</label>
                             </div>
                         </div>
+                        <div class="fv-row col-md-6  ">
+                            <label class="fs-6 fw-semibold form-label mb-2">
+                                <span class="required">Budget Holder FP</span>
+                            </label>
+                            <select   name="budget_holder[]" multiple id="budget_holder" aria-label="Select a Focal Person" data-control="select2" data-placeholder="Select a Focal Person..." class="form-select"  data-allow-clear="true" > 
+                                <option  value=''>Select Focal Person</option>
+                                @foreach($budget_holders as $budget_holder)
+                                    @php
+                                        $decoded_budget_holder = json_decode($project->budget_holder);
+                                        $selected = $decoded_budget_holder && in_array($budget_holder->id, (array)$decoded_budget_holder);
+                                    @endphp
+                                    <option value='{{$budget_holder->id}}' @if($selected) 
+                                        selected 
+                                    @endif>{{ucfirst($budget_holder->name)}} - {{$budget_holder->desig?->designation_name  ?? ''}}</option>
+                                @endforeach
+                            </select>
+                            <div id="budget_holderError" class="error-message"></div>
+                        </div> 
+                        <div class="fv-row col-md-6 ">
+                            <label class="fs-8 fw-semibold form-label mb-2">
+                                <span class="required">Operational Focal Person</span>
+                            </label>
+                            <select   name="focal_person[]" id="focal_person" multiple aria-label="Select a Focal Person" data-control="select2" data-placeholder="Select a Focal Person..." class="form-select "  data-allow-clear="true" > 
+                                <option  value=''>Select Focal Person</option>
+                                @foreach($persons as $person)
+                                @php
+                                    $decoded_focal_person = json_decode($project->focal_person);
+                                    $selected = $person && in_array($person->id, (array)$decoded_focal_person);
+                                @endphp
+                                <option value='{{$person->id}}' @if($selected) 
+                                    selected 
+                                @endif>{{ucfirst($person->name)}} - {{$person->desig?->designation_name  ?? ''}}</option>
+                                @endforeach
+                              
+                            </select>
+                            <div id="focal_personError" class="error-message"></div>
+                        </div> 
                     </div>
                 </div>
                 <div class="d-flex justify-content-end">

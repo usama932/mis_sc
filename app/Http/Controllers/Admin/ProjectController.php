@@ -90,8 +90,8 @@ class ProjectController extends Controller
 
         //projects 
         if ($role == 'f_p') {
-           
-            $project_details = Project::where('focal_person', $user_id)->latest();
+            $user = $user_id.'';
+            $project_details = Project::whereJsonContains('focal_person', $user)->latest();
         }
         elseif($role == 'meal'){
             if(auth()->user()->user_type == 'admin'){
@@ -116,8 +116,8 @@ class ProjectController extends Controller
             ->with('detail')->latest();
         }
         elseif($role == 'budget_holder'){
-           
-            $project_details = Project::where('budget_holder', $user_id)->latest()->whereHas('detail')
+            $user = $user_id.'';
+            $project_details = Project::whereJsonContains('budget_holder', $user)->latest()->whereHas('detail')
             ->with('detail')->latest();
         }
         else{
