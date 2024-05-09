@@ -39,19 +39,8 @@
                             </select>
                             <div id="donorError" class="error-message"></div>
                         </div>  
+                     
                         <div class="fv-row col-md-3 ">
-                            <label class="fs-8 fw-semibold form-label mb-2">
-                                <span class="required">Operational Focal Person</span>
-                            </label>
-                            <select   name="focal_person" id="focal_person" aria-label="Select a Focal Person" data-control="select2" data-placeholder="Select a Focal Person..." class="form-select "  data-allow-clear="true" > 
-                                <option  value=''>Select Focal Person</option>
-                                @foreach($persons as $person)
-                                    <option  value='{{$person->id}}'>{{ucfirst($person->name)}} - {{$person->desig?->designation_name  ?? ''}}</option>
-                                @endforeach
-                            </select>
-                            <div id="focal_personError" class="error-message"></div>
-                        </div>  
-                        <div class="fv-row col-md-3  mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Awards Focal Person</span>
                             </label>
@@ -63,39 +52,52 @@
                             </select>
                             <div id="focal_personError" class="error-message"></div>
                         </div>  
-                        <div class="fv-row col-md-3  mt-3">
-                            <label class="fs-6 fw-semibold form-label mb-2">
-                                <span class="required">Budget Holder FP</span>
-                            </label>
-                            <select   name="budget_holder" id="budget_holder" aria-label="Select a Focal Person" data-control="select2" data-placeholder="Select a Focal Person..." class="form-select "  data-allow-clear="true" > 
-                                <option  value=''>Select Focal Person</option>
-                                @foreach($budget_holders as $budget_holder)
-                                    <option  value='{{$budget_holder->id}}'>{{ucfirst($budget_holder->name)}} - {{$budget_holder->desig?->designation_name  ?? ''}}</option>
-                                @endforeach
-                            </select>
-                            <div id="budget_holderError" class="error-message"></div>
-                        </div>  
-                        <div class="fv-row col-md-3 mt-3">
+                        
+                        <div class="fv-row col-md-4">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">SOF</span>
                             </label>
                             <input type="text" name="sof" id="sof" placeholder="Enter SOF" class="form-control" value="">
                             <div id="sofError" class="error-message "></div>
                         </div> 
-                        <div class="fv-row col-md-3 mt-3">
+                        <div class="fv-row col-md-4">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Project Start Date</span>
                             </label>
                             <input type="text" name="start_date" id="start_date" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
                             <div id="start_dateError" class="error-message "></div>
                         </div>
-                        <div class="fv-row col-md-3 mt-3">
+                        <div class="fv-row col-md-4">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Project End Date</span>
                             </label>
                             <input type="text" name="end_date" id="end_date" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
                             <div id="end_dateError" class="error-message "></div>
                         </div>
+                        <div class="fv-row col-md-6  ">
+                            <label class="fs-6 fw-semibold form-label mb-2">
+                                <span class="required">Budget Holder FP</span>
+                            </label>
+                            <select   name="budget_holder[]" multiple id="budget_holder" aria-label="Select a Focal Person" data-control="select2" data-placeholder="Select a Focal Person..." class="form-select"  data-allow-clear="true" > 
+                                <option  value=''>Select Focal Person</option>
+                                @foreach($budget_holders as $budget_holder)
+                                    <option  value='{{$budget_holder->id}}'>{{ucfirst($budget_holder->name)}} - {{$budget_holder->desig?->designation_name  ?? ''}}</option>
+                                @endforeach
+                            </select>
+                            <div id="budget_holderError" class="error-message"></div>
+                        </div> 
+                        <div class="fv-row col-md-6 ">
+                            <label class="fs-8 fw-semibold form-label mb-2">
+                                <span class="required">Operational Focal Person</span>
+                            </label>
+                            <select   name="focal_person[]" id="focal_person" multiple aria-label="Select a Focal Person" data-control="select2" data-placeholder="Select a Focal Person..." class="form-select "  data-allow-clear="true" > 
+                                <option  value=''>Select Focal Person</option>
+                                @foreach($persons as $person)
+                                    <option  value='{{$person->id}}'>{{ucfirst($person->name)}} - {{$person->desig?->designation_name  ?? ''}}</option>
+                                @endforeach
+                            </select>
+                            <div id="focal_personError" class="error-message"></div>
+                        </div> 
                     </div>
                 </div>
                 <div class="d-flex justify-content-end">

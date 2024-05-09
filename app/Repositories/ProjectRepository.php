@@ -29,8 +29,8 @@ class ProjectRepository implements ProjectRepositoryInterface
             'sof'                   => $data['sof'],
             'status'                => 'Initiative',
             'active'                => 1,
-            'focal_person'          => $data['focal_person'],
-            'budget_holder'         => $data['budget_holder'],
+            'focal_person'          => json_encode($data['focal_person']),
+            'budget_holder'         => json_encode($data['budget_holder']),
             'award_person'          => $data['award_person'],
             'donor'                 => $data['donor'],
             'start_date'            => $data['start_date'],
@@ -141,21 +141,19 @@ class ProjectRepository implements ProjectRepositoryInterface
     }
 
     public function storeprojectpartner($data){
-    
       
-     
         try {
-            $emailArray = explode(',',$data['emails']);
-            foreach($emailArray as $key => $email) {
-              
+           
+            foreach($data['addmore'] as $row) {
+               
                 $project = Project::where('id', $data['project'])->firstOrFail();
                 $partner = Partner::where('id', $data['partner'])->firstOrFail();
                 
-                $user = User::where('email',$email)->first();
+                $user = User::where('email',$row['email'])->first();
                 
                 if (empty($user)) {
                     $user = User::create([
-                        'email' =>  $email,
+                        'email' =>  $row['email'],
                         'name'  => $partner->name,
                         'password' => Hash::make('12345678'),
                         'permissions_level' => 'nation-wide',
@@ -167,10 +165,11 @@ class ProjectRepository implements ProjectRepositoryInterface
                 }
             
                 $projectPartner = ProjectPartner::create([
-                    'partner_id' => $data['partner'],
-                    'project_id' => $data['project'],
-                    'email'     => $user->email,
-                    'created_by' => auth()->user()->id,
+                    'partner_id'      => $data['partner'],
+                    'project_id'      => $data['project'],
+                    'email'           => $user->email,
+                    'designation'     => $row['desig'],
+                    'created_by'      => auth()->user()->id,
                 ]);
                 //Insert themes
                 foreach ($data['theme'] as $themeId) {

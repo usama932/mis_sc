@@ -144,6 +144,41 @@
     @push('scripts')
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
-  
+    <script type="text/javascript">
+        $(document).ready(function(){ 
+            var i = 1; 
+            $('#add').click(function(){  
+                if(i < 2) {
+                    i++;  
+                    $('#dynamic_field').append('<tr id="row'+i+'" class="dynamic-added"><td><input type="email" name="addmore['+i+'][email]" placeholder="Enter your Email" class="form-control name_list" required/></td><td><input type="text" name="addmore['+i+'][desig]" placeholder="Enter your Designation" class="form-control name_list" required/></td><td><span type="button" name="remove" id="'+i+'" class="badge badge-danger btn_remove">X</span></td></tr>');  
+                } else {
+                    toastr.options = {
+                                    "closeButton": true,
+                                    "debug": false,
+                                    "newestOnTop": false,
+                                    "progressBar": false,
+                                    "positionClass": "toastr-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                };
+                                toastr.error('You add only two partner', "Oop...");
+                }
+            });  
+    
+            $(document).on('click', '.btn_remove', function(){  
+                var button_id = $(this).attr("id");   
+                $('#row'+button_id+'').remove();  
+                i--; // Decrement the row counter when removing a row
+            });  
+        }); 
+    </script>
     @endpush
 </x-nform-layout>

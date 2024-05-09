@@ -13,7 +13,7 @@
         <div class="px-5">
             <h3>Add Project Partner</h3>
             <div class="row ">
-                <div class="fv-row col-md-6">
+                <div class="fv-row col-md-3">
                     <select name="partner" id="partner" class="form-control partner" data-control="select2" data-placeholder="Select Partner" class="form-select" data-allow-clear="true">
                         <option  value="">Select Partner</option>
                         @foreach($partners as $partner)
@@ -21,13 +21,7 @@
                         @endforeach
                     </select>
                 </div>
-               
-                <div class="fv-row col-md-6">
-                    <input type="email" id="tagInput" class="form-control  mx-1"  placeholder="Enter tags" />
-                </div>
-                
-               
-                <div class="fv-row col-md-4 mt-4">
+                <div class="fv-row col-md-3 ">
                     <select name="province[]" multiple id="project_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select Partner Province" class="form-select "  data-allow-clear="true" >
                         <option value="">Select Partner Province</option>
                         @foreach($provinces as $province)
@@ -36,16 +30,35 @@
                         
                     </select>
                 </div>
-                <div class="fv-row col-md-4 mt-4">
+                <div class="fv-row col-md-3 ">
                     <span class="spinner-border spinner-border-sm align-middle ms-2" id="districtload"></span>
                     <select id="project_district" name="district[]" multiple  aria-label="Select a district" data-control="select2" data-placeholder="Select Partner District" class="form-select "  data-allow-clear="true">    
                     </select>
                 </div>
-                <div class="fv-row col-md-4 mt-4">
+                <div class="fv-row col-md-3 ">
                     <select name="theme[]" multiple id="partner_themes" class="form-control m-input" data-control="select2" data-placeholder="Select Theme" class="form-select" data-allow-clear="true">
                       
                     </select> 
                 </div>
+                <div class="table-responsive">  
+                    <table class="table table-bordered" id="dynamic_field">  
+                        <tr>
+                            <th>Email</th>
+                            <th>Desig.#</th>
+                            <th>Action</th>
+                        </tr>
+                        <tr>  
+                            <td class="fv-row"><input type="email" name="addmore[0][email]" placeholder="Enter your Email" class="form-control name_list" /></td>  
+                            <td class="fv-row"><input type="text" name="addmore[0][desig]" placeholder="Enter your Designation" class="form-control name_list" /></td>  
+                            <td></td>  
+                        </tr>  
+                        
+                    </table>  
+                    <div class="d-flex justify-content-end">
+                        <span type="button" name="add" id="add" class="badge badge-primary">Add More</span>
+                    </div>
+                </div>
+               
             </div>
             <div class="d-flex justify-content-end my-3">
                 <button type="button" id="cancelprojectpartnerBtn" class="btn btn-primary btn-sm mx-3 ">

@@ -19,7 +19,7 @@ var KTprojectpartnerValidate = function() {
                             },
                         }
                     },
-                    'email': {
+                    'addmore[0][email]': {
                         validators: {
                             notEmpty: {
                                 message: 'Email is required'
@@ -27,6 +27,15 @@ var KTprojectpartnerValidate = function() {
                             emailAddress: {
                                 message: 'Please enter a valid email address'
                             }
+                          
+                        }
+                    },
+                    'addmore[0][desig]': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Email is required'
+                            },
+                          
                           
                         }
                     },

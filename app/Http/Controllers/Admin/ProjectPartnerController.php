@@ -140,7 +140,7 @@ class ProjectPartnerController extends Controller
     
     public function store(Request $request)
     {
-        
+      
         $project_partner = ProjectPartner::where('project_id' ,$request->project)->where('partner_id' ,$request->partner)->first();
        
         if(!empty($project_partner)){
@@ -151,9 +151,7 @@ class ProjectPartnerController extends Controller
         }
         else{
             $data = $request->except('_token');
-          
             $projectpartner = $this->projectRepository->storeprojectpartner($data);
-            
             if($projectpartner == 1){
                 $active = 'partner';
                 session(['project' => $active]);
@@ -174,7 +172,6 @@ class ProjectPartnerController extends Controller
                     'error' => "true"
                 ]);
             }
-          
         }
     }
 

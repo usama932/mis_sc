@@ -113,7 +113,7 @@
                     @endif
                     <tr>
                         <td><strong>Theme</strong></td>
-                        <td>{{$frm->theme_name->name ?? "NA"}}</td>
+                        <td>{{$frm->theme_name->name ?? ""}}</td>
                     </tr>
                     <tr>
                         <td><strong>Feedback Activity</strong></td>

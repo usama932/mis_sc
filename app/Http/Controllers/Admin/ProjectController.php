@@ -287,8 +287,24 @@ class ProjectController extends Controller
                 $nestedData['type'] = $r->type ?? '';
                 $nestedData['sof'] = $r->sof ?? '';
                 $nestedData['donor'] = $r->donors?->name ?? '';
-                $nestedData['focal_person'] = $r->focalperson?->name ?? '';
-                $nestedData['budgetholder'] = $r->budgetholder?->name ?? '';
+                if (isset($r->focal_person) && !is_int($r->focal_person) && !is_numeric($r->focal_person)) {
+                    // $r->focal_person is set and not an integer or numeric string
+                    $focalperson = json_decode($r->focal_person, true);
+                    $focal_person = User::whereIn('id', $focalperson)->pluck('name');
+                    $focal_persons = implode("<br>", $focal_person->toArray());
+                } else {
+                    $focal_persons = '';
+                }
+                $nestedData['focal_person'] = $focal_persons ?? '';
+                if (isset($r->budget_holder) && !is_int($r->budget_holder) && !is_numeric($r->budget_holder)) {
+                    // $r->focal_person is set and not an integer or numeric string
+                    $budgetholder = json_decode($r->budget_holder, true);
+                    $budget_holder = User::whereIn('id', $budgetholder)->pluck('name');
+                    $budget_holders = implode("<br>", $budget_holder->toArray());
+                } else {
+                    $budget_holders = '';
+                }
+                $nestedData['budgetholder'] = $budget_holders ?? '';
                 $nestedData['awardsfp'] = $r->awardfp?->name ?? '';
                 if (!empty($r->start_date)) {
                     $nestedData['start_date'] = date('M d,Y', strtotime($r->start_date)) ?? '';
@@ -404,6 +420,7 @@ class ProjectController extends Controller
         $persons = User::latest()->get();
         $donors = Donor::orderBy('name')->get();
         $budget_holders = User::latest()->get();
+     
         $awards = User::with('desig')->whereHas('desig', function ($query) {
             $query->whereIn('designation_name', ['Head of Awards','Sub-Grants Coordinator', 'Manager Awards']);
         })->get();
@@ -485,6 +502,18 @@ class ProjectController extends Controller
             $query->whereIn('designation_name', ['Head of Awards','Sub-Grants Coordinator', 'Manager Awards']);
         })->get(); 
 
+        if($project->focal_person != null) {
+            $focal_person = json_decode($project->focal_person , true);
+            $fpersons = User::whereIn('id', $focal_person)->get();
+        }else{
+            $fpersons   = '';
+        }
+        if($project->focal_person != null) {
+            $focal_person = json_decode($project->focal_person , true);
+            $fpersons = User::whereIn('id', $focal_person)->get();
+        }else{
+            $fpersons   = '';
+        }
         addJavascriptFile('assets/js/custom/project/create.js');
   
        

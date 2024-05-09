@@ -61,7 +61,7 @@ var KTdipValidate = function () {
                         }
                     },
                    
-                    'focal_person':{
+                    'focal_person[]':{
                         validators: {
                             notEmpty: {
                                 message: 'Focal Person is required'
@@ -77,7 +77,7 @@ var KTdipValidate = function () {
                         }
                     },
                      
-                    'budget_holder':{
+                    'budget_holder[]':{
                         validators: {
                             notEmpty: {
                                 message: 'Budget holder Person is required'
