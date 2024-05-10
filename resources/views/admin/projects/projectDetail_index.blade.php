@@ -1,8 +1,12 @@
 <x-default-layout>
     @section('title')
     Add/Edit Project Details
-    @endsection
-
+    @endsection 
+    <style>
+        .spacer::after {
+    content: "\2002"; /* Unicode character for en space */
+}
+        </style>
     <div id="kt_app_content" class="app-content flex-column-fluid">
 
         
@@ -85,7 +89,6 @@
             "dom": 'lfBrtip',
           
             buttons: [
-
                 {
 
                     extend: 'excelHtml5',
@@ -125,7 +128,6 @@
                     }
 
                 }
-
             ],
 
             "processing": true,
@@ -178,19 +180,41 @@
                 {
                     "data": "action",
                     "searchable": false,
-                    "orderable": false
+                    "orderable": false,
+                    "render": function(data, type, row) {
+                        var actionHtml = '';
+
+                        // Conditionally render action buttons based on role or any other criteria
+                        if (row.role === 'f_p') {
+                            actionHtml += '<a class="btn-icon mx-1" href="{{ route('project.detail', ':id') }}" title="Edit Project"><i class="fas fa-pencil-alt text-warning"></i></a>';
+                        }
+
+                        if ('{{ auth()->user()->user_type }}' === 'admin') {
+                            actionHtml += '<a class="btn-icon mx-1" href="{{ route('project.detail', ':id') }}" title="Edit Project"><i class="fas fa-pencil-alt text-warning"></i></a>';
+                            actionHtml += '<a class="btn-icon mx-1" onclick="event.preventDefault(); del(' + row.id + ');" title="Delete Project" href="#"><i class="fas fa-trash-alt text-danger"></i></a>';
+                        }
+
+                        actionHtml += '<a class="btn-icon mx-1" href="{{ route('projects.show', ':id') }}" target="_blank" title="Show Project"><i class="far fa-eye text-success"></i></a>';
+
+                        return actionHtml.replace(/:id/g, row.id);
+                    }
                 },
-                {
-                "data": "project_activities",
-                "searchable": false,
-                "orderable": false
-                },
-                {
+                { 
+                        "data": "project_activities",
+                        "searchable": false,
+                        "orderable": false,
+                        "render": function(data, type, row) {
+                            return '<a class="btn" href="{{ route("project.view",":id") }}" target="_blank" title="Download project DIP"><i class="far fa-caret-square-right text-info"></i></a>'.replace(':id', row.id);
+                        }
+                    },
+                { 
                     "data": "review_meeting",
                     "searchable": false,
-                    "orderable": false
-                },
-                
+                    "orderable": false,
+                    "render": function(data, type, row) {
+                        return '<a class="btn" href="{{ route("projectreviews.show", ":id") }}" title="Add/Show Review Meeting"><i class="far fa-calendar-alt text-info"></i></a>'.replace(':id', row.id);
+                    }
+                }
             ]
                 
         });
@@ -259,17 +283,40 @@
                     {
                         "data": "action",
                         "searchable": false,
-                        "orderable": false
+                        "orderable": false,
+                        "render": function(data, type, row) {
+                            var actionHtml = '';
+
+                            // Conditionally render action buttons based on role or any other criteria
+                            if (row.role === 'f_p') {
+                                actionHtml += '<a class="btn-icon mx-1" href="{{ route('project.detail', ':id') }}" title="Edit Project"><i class="fas fa-pencil-alt text-warning"></i></a>';
+                            }
+
+                            if ('{{ auth()->user()->user_type }}' === 'admin') {
+                                actionHtml += '<a class="btn-icon mx-1" href="{{ route('project.detail', ':id') }}" title="Edit Project"><i class="fas fa-pencil-alt text-warning"></i></a>';
+                                actionHtml += '<a class="btn-icon mx-1" onclick="event.preventDefault(); del(' + row.id + ');" title="Delete Project" href="#"><i class="fas fa-trash-alt text-danger"></i></a>';
+                            }
+
+                            actionHtml += '<a class="btn-icon mx-1" href="{{ route('projects.show', ':id') }}" target="_blank" title="Show Project"><i class="far fa-eye text-success"></i></a>';
+
+                            return actionHtml.replace(/:id/g, row.id);
+                        }
                     },
-                    {
+                    { 
                         "data": "project_activities",
                         "searchable": false,
-                        "orderable": false
+                        "orderable": false,
+                        "render": function(data, type, row) {
+                            return '<a class="btn" href="{{ route("project.view", ":id") }}" target="_blank" title="Download project DIP"><i class="far fa-caret-square-right text-info"></i></a>'.replace(':id', row.id);
+                        }
                     },
-                    {
+                    { 
                         "data": "review_meeting",
                         "searchable": false,
-                        "orderable": false
+                        "orderable": false,
+                        "render": function(data, type, row) {
+                            return '<a class="btn" href="{{ route("projectreviews.show", ":id") }}" title="Add/Show Review Meeting"><i class="far fa-calendar-alt text-info"></i></a>'.replace(':id', row.id);
+                        }
                     },
                    
                 ]

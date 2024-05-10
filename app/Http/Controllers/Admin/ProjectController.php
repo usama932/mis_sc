@@ -43,180 +43,95 @@ class ProjectController extends Controller
 
     public function get_project_details(Request $request)
     {
-        $columns = [
-            1 => 'id',
-            2 => 'project',
-            3 => 'partner',
-            4 => 'theme',
-            5 => 'province',
-            6 => 'district',
-            7 => 'project_start',
-            8 => 'project_end',
-            9 => 'project_submition',
-            10 => 'attachment',
-            11 => 'created_by',
-            12 => 'created_at',
-            13 => 'updated_by',
-            14 => 'updated_at',
-        ];
-        $meal_team =  ['Meal Assistant','Meal Officer','Meal Manager','Meal Coordinator','Accountability Officer','MIS Manager','MIS Officer','Head of Meal','administrator','MIS Officer'];
+
+        $meal_team = ['Meal Assistant', 'Meal Officer', 'Meal Manager', 'Meal Coordinator', 'Accountability Officer', 'MIS Manager', 'MIS Officer', 'Head of Meal', 'administrator', 'MIS Officer'];
+
         $limit = $request->input('length');
         $orderIndex = $request->input('order.0.column');
         $order = $columns[$orderIndex] ?? 'id';
         $dir = strtolower($request->input('order.0.dir') ?? 'asc');
-        
         $start = $request->input('start');
         
-        $userType = auth()->user()->user_type;
+        $userRole = Auth::user()->getRoleNames()->first();
+        
+        $roleMap = [
+            'Meal Assistant' => 'meal',
+            'Meal Officer' => 'meal',
+            'Meal Manager' => 'meal',
+            'Meal Coordinator' => 'meal',
+            'Accountability Officer' => 'meal',
+            'MIS Manager' => 'meal',
+            'MIS Officer' => 'meal',
+            'Head of Meal' => 'meal',
+            'administrator' => 'meal',
+            'focal person' => 'f_p',
+            'awards' => 'awards',
+            'budget holder' => 'budget_holder',
+        ];
+        
+        $role = $roleMap[$userRole] ?? 'all';
+        
         $user_id = auth()->user()->id;
-
-        $userRole =  $role = Auth::user()->getRoleNames()->first();
-     
-        $role = '';
-        if (in_array($userRole,$meal_team))
-        {
-           $role = 'meal';
-        }elseif($userRole == "focal person"){
-            $role = 'f_p';
-        }
-        elseif($userRole == 'awards'){
-            $role = 'awards';
-        }
-        elseif($userRole == "budget holder"){
-            $role = 'budget_holder';
-        }else{
-            $role = "all";
-        }
-
-        //projects 
-        if ($role == 'f_p') {
-            $user = $user_id.'';
-            $project_details = Project::whereJsonContains('focal_person', $user)->latest();
-        }
-        elseif($role == 'meal'){
-            if(auth()->user()->user_type == 'admin'){
-                $project_details = Project::latest();
+        
+        $user = $user_id.'';
+        // Get Projects
+        $project_details = Project::query();
+        
+        if ($role === 'f_p') {
+            $project_details->where(function ($query) use ($user) {
+                $query->orWhereJsonContains('focal_person', $user);    
+            });
+        } elseif ($role === 'meal') {
+            if (auth()->user()->user_type === 'admin') {
+                // No additional filtering for admins
+            } else {
+                // Apply filtering based on province and district
+                $province = auth()->user()->province ?? '';
+                $district = auth()->user()->district ?? '';
+                $project_details->whereHas('detail', function ($query) use ($province, $district) {
+                    $query->whereJsonContains('province', $province)
+                        ->whereJsonContains('district', $district);
+                });
             }
-            else{
-              
-                $province = auth()->user()->province.'';
-                $district = auth()->user()->district.'';
-                
-                // $project_details = Project::latest()
-                //     ->whereHas('detail', function ($query) use ($province) {
-                //         $query->whereJsonContains('province', $province);
-                //     })
-                //     ->with('detail');
-                $project_details = Project::latest()->whereHas('detail')
-                    ->with('detail')->latest();
-            }
+        } elseif ($role === 'awards') {
+            $project_details->where('award_person', $user_id);
+        } elseif ($role === 'budget_holder') {
+            $project_details->where(function ($query) use ($user) {
+                $query->orWhereJsonContains('budget_holder', $user);    
+            });;
         }
-        elseif( $role == 'awards'){
-            $project_details = Project::where('award_person', $user_id)->whereHas('detail')
-            ->with('detail')->latest();
-        }
-        elseif($role == 'budget_holder'){
-            $user = $user_id.'';
-            $project_details = Project::whereJsonContains('budget_holder', $user)->latest()->whereHas('detail')
-            ->with('detail')->latest();
-        }
-        else{
-            $project_details = Project::latest();
-        }
-
-        //filter project
+        
+        // Filter projects if requested
         if ($request->project !== null) {
             $project_details->where('id', $request->project);
         }
-        $totalData = $project_details->count();
-        $totalFiltered =$project_details->count();
         
-        $project_details = $project_details->limit($limit)->offset($start)->orderBy($order, $dir)->get();
+        // Count total records before pagination
+        $totalData = $totalFiltered = $project_details->count();
+        
+        // Apply pagination and ordering
+        $projects = $project_details->with('detail')
+            ->orderBy($order, $dir)
+            ->limit($limit)
+            ->offset($start)
+            ->latest()->get();
         
         $data = [];
-		if($project_details){
-			foreach($project_details as $r){
-			
-                $edit_url = route('project.detail',$r->id);
-                $view_url = route('project.view',$r->id);
-                $show_url = route('projects.show',$r->id);
-                $projectreviews_url = route('projectreviews.show',$r->id);
-				$nestedData['id'] = $r->id;
-                $nestedData['project'] = $r->name ?? '';
-                $nestedData['sof'] = $r->sof ?? '';
-                $nestedData['type'] = $r->type ?? '';
-                if(!empty($r->detail->province )){
-                    $province_dip = json_decode($r->detail->province , true);
-                    $provinces = Province::whereIn('province_id', $province_dip)->pluck('province_name');
-                    $provinces   = implode("<br>", $provinces->toArray());
-                }
-                else{
-                    $provinces = '';
-                }
-                $nestedData['province'] = $provinces ?? '';
-                if(!empty($r->detail->district )){
-                    $district_dip = json_decode($r->detail->district , true);
-                    $districts = District::whereIn('district_id', $district_dip)->pluck('district_name');
-                    $districts = implode("<br>", $districts->toArray());
-                }
-                else{
-                    $districts = '';
-                }
-                $nestedData['district'] = $districts ?? '';
-               
-                $nestedData['project_activities'] = '<a class="btn" href="' . $view_url . '" target="_blank" title="Download project DIP">
-                                                    <i class="far fa-caret-square-right text-info"></i>
-                                                    </a>';
-                
-                 $nestedData['review_meeting'] = '<a class="btn" href="' . $projectreviews_url . '" title="Add/Show Review Meeting">
-                                                <i class="far fa-calendar-alt text-info"></i>
-                                                </a>';
-                if($r->start_date != null && $r->end_date != null){
-                    $nestedData['project_tenure'] = date('M d, Y', strtotime($r->start_date)) . '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-<br>' . date('M d, Y', strtotime($r->end_date));
-                }
-                else{
-                    $nestedData['project_tenure'] ='' ;
-                }      
-                $nestedData['created_by'] = $r->user->name ?? '';
-                $nestedData['created_at'] =date('M d ,Y', strtotime($r->created_at)). '<br>'. date('h:iA', strtotime($r->created_at)) ?? '';
-                if(empty($r->detail )){
-                $nestedData['action'] = '<div class="text-center mt-5">
-                                                <td>
-                                                <a class="" href="'. $edit_url .'"  style="font-size: 0.8em; font-weight: bold; padding: 6px 10px;">
-                                                <span class="badge badge-primary">Add Detail</span>
-                                                </a>
-                                                </td>
-                                            </div>';
-                }else{
-                    $nestedData['action'] = '<div class="text-center mt-5">
-                    <td>
-                        <a class="btn-icon mx-1" href="'. $show_url.'" target="_blank" title="show project">
-                            <i class="far fa-eye text-success" ></i>
-                        </a>';
-                    if (auth()->user()->user_type != 'R3'  && auth()->user()->user_type != 'admin') {
-                        '<a class="btn-icon mx-1 " href="'. $edit_url.'" title=" project edit">
-                            <i class="fas fa-pencil-alt text-warning"  ></i>
-                        </a>';
-                    }
-                    if (auth()->user()->user_type == 'admin') {
-                        $nestedData['action'] .= '
-                        <a class="btn-icon mx-1 " href="'. $edit_url.'" title=" project edit">
-                            <i class="fas fa-pencil-alt text-warning"  ></i>
-                        </a>
-                            <a class="btn-icon  mx-1 " onclick="event.preventDefault();del('.$r->id.');" title="Delete Project" href="javascript:void(0)">
-                                <i class="fas fa-trash-alt text-danger" ></i>
-                            </a>';
-                    }
-                
-                    $nestedData['action'] .= '</td></div>';
-                }
-               
-               
-                
-				$data[] = $nestedData;
-			}
-		}
-		
+        foreach ($projects as $project) {
+           
+            $nestedData['id'] = $project->id;
+            $nestedData['project'] = $project->name ?? '';
+            $nestedData['sof'] = $project->sof ?? '';
+            $nestedData['type'] = $project->type ?? '';
+            $provinces = optional($project->detail)->province;
+            $districts = optional($project->detail)->district;
+            $nestedData['province'] = $provinces ? implode("<br>", Province::whereIn('province_id', json_decode($provinces, true))->pluck('province_name')->toArray()) : '';
+            $nestedData['district'] = $districts ? implode("<br>", District::whereIn('district_id', json_decode($districts, true))->pluck('district_name')->toArray()) : '';
+            $nestedData['project_tenure'] = ($project->start_date && $project->end_date) ? '<span style="font-size: smaller;">' . date('M d, Y', strtotime($project->start_date)) . '<br><span class="spacer">-</span><br>' . date('M d, Y', strtotime($project->end_date)) . '</span>' : '';
+            $nestedData['role'] =  $role;           
+            $data[] = $nestedData;
+        }
+        
         $json_data = [
             "draw" => intval($request->input('draw')),
             "recordsTotal" => intval($totalData),
