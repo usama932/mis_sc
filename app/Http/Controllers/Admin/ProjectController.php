@@ -202,24 +202,8 @@ class ProjectController extends Controller
                 $nestedData['type'] = $r->type ?? '';
                 $nestedData['sof'] = $r->sof ?? '';
                 $nestedData['donor'] = $r->donors?->name ?? '';
-                if (isset($r->focal_person) && !is_int($r->focal_person) && !is_numeric($r->focal_person)) {
-                    // $r->focal_person is set and not an integer or numeric string
-                    $focalperson = json_decode($r->focal_person, true);
-                    $focal_person = User::whereIn('id', $focalperson)->pluck('name');
-                    $focal_persons = implode("<br>", $focal_person->toArray());
-                } else {
-                    $focal_persons = '';
-                }
-                $nestedData['focal_person'] = $focal_persons ?? '';
-                if (isset($r->budget_holder) && !is_int($r->budget_holder) && !is_numeric($r->budget_holder)) {
-                    // $r->focal_person is set and not an integer or numeric string
-                    $budgetholder = json_decode($r->budget_holder, true);
-                    $budget_holder = User::whereIn('id', $budgetholder)->pluck('name');
-                    $budget_holders = implode("<br>", $budget_holder->toArray());
-                } else {
-                    $budget_holders = '';
-                }
-                $nestedData['budgetholder'] = $budget_holders ?? '';
+                $nestedData['focal_person'] = $r->focalperson?->name ?? '';
+                $nestedData['budgetholder'] = $r->budgetholder?->name ?? '';
                 $nestedData['awardsfp'] = $r->awardfp?->name ?? '';
                 if (!empty($r->start_date)) {
                     $nestedData['start_date'] = date('M d,Y', strtotime($r->start_date)) ?? '';
