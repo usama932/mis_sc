@@ -374,14 +374,14 @@ var KTqbmonitorValidate = function () {
             form,
             {
                 fields: {
-                    'activity_number':{
+                    'activity_number': {
                         validators: {
                             notEmpty: {
                                 message: 'Activity Number required'
                             },
                             regexp: {
-                                regexp: /^(?:(?:[1-9]\.\d+))$/,
-                                message: 'Enter  decimal like 1.1, 1.2, etc.'
+                                regexp: /^(?:[1-9][0-9]*\.[0-9]+)$/,
+                                message: 'Enter decimal like 1.1, 12.1, etc.'
                             }
                         }
                     },

@@ -45,7 +45,9 @@
                         <tr>
                             <th>Email</th>
                             <th>Desig.#</th>
-                            <th>Action</th>
+                            <th> <div class="d-flex justify-content-end">
+                                <span type="button" name="add" id="add" class="badge badge-primary">Add More</span>
+                            </div></th>
                         </tr>
                         <tr>  
                             <td class="fv-row"><input type="email" name="addmore[0][email]" placeholder="Enter your Email" class="form-control name_list" /></td>  
@@ -54,9 +56,7 @@
                         </tr>  
                         
                     </table>  
-                    <div class="d-flex justify-content-end">
-                        <span type="button" name="add" id="add" class="badge badge-primary">Add More</span>
-                    </div>
+                   
                 </div>
                
             </div>
