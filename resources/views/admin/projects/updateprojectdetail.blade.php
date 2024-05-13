@@ -180,5 +180,35 @@
             });  
         }); 
     </script>
+    <script>
+        $(document).ready(function() {
+            $('#email-input').on('keyup', function() {
+                var inputText = $(this).val();
+                var parnter = $('.partner-part').val();
+                $.ajax({
+                    url: '/get-email-recommendations',
+                    method: 'GET',
+                    data: {email: inputText, partner:parnter},
+                    success: function(response) {
+                        // Display recommendations
+                        $('#email-recommendations').empty();
+                        response.forEach(function(email) {
+                            $('#email-recommendations').append('<div class="email-option">' + email + '</div>');
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+    
+            // Handle click on email recommendation
+            $(document).on('click', '.email-option', function() {
+                var selectedEmail = $(this).text();
+                $('#email-input').val(selectedEmail);
+                $('#email-recommendations').empty(); // Clear recommendations
+            });
+        });
+    </script>
     @endpush
 </x-nform-layout>

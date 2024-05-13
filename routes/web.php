@@ -69,6 +69,7 @@ use Illuminate\Support\Facades\Route;
         Route::post('getSubTheme', [FBAjaxController::class,'getSubTheme'])->name('getSubTheme');
         Route::post('getactivitySubTheme', [FBAjaxController::class,'getactivitySubTheme'])->name('getactivitySubTheme');
         Route::post('getprojecttheme', [FBAjaxController::class,'getprojecttheme'])->name('getprojecttheme');
+        Route::get('/get-email-recommendations', [FBAjaxController::class,'getEmailRecommendations'])->name('getEmailRecommendations');
 
         //Quality Bench Routes
         Route::resource('/quality-benchs', QbController::class);

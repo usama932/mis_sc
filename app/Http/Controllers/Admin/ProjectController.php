@@ -53,7 +53,7 @@ class ProjectController extends Controller
         $start = $request->input('start');
         
         $userRole = Auth::user()->getRoleNames()->first();
-        
+     
         $roleMap = [
             'Meal Assistant' => 'meal',
             'Meal Officer' => 'meal',
@@ -76,26 +76,30 @@ class ProjectController extends Controller
         $user = $user_id.'';
         // Get Projects
         $project_details = Project::query();
-        
-        if ($role === 'f_p') {
+       
+        if ($role == 'f_p') {
             $project_details->where(function ($query) use ($user) {
                 $query->orWhereJsonContains('focal_person', $user);    
             });
-        } elseif ($role === 'meal') {
-            if (auth()->user()->user_type === 'admin') {
+
+        } elseif ($role == 'meal') {
+           
+            if (auth()->user()->user_type == 'admin') {
                 // No additional filtering for admins
             } else {
+             
                 // Apply filtering based on province and district
-                $province = auth()->user()->province ?? '';
-                $district = auth()->user()->district ?? '';
-                $project_details->whereHas('detail', function ($query) use ($province, $district) {
-                    $query->whereJsonContains('province', $province)
-                        ->whereJsonContains('district', $district);
-                });
+                // $province = auth()->user()->province ?? '';
+                // $district = auth()->user()->district ?? '';
+                // $project_details->whereHas('detail', function ($query) use ($province, $district) {
+                //     $query->whereJsonContains('province', $province)
+                //         ->whereJsonContains('district', $district);
+                // });
+                // $project_details->whereHas('detail')->latest();
             }
-        } elseif ($role === 'awards') {
+        } elseif ($role == 'awards') {
             $project_details->where('award_person', $user_id);
-        } elseif ($role === 'budget_holder') {
+        } elseif ($role == 'budget_holder') {
             $project_details->where(function ($query) use ($user) {
                 $query->orWhereJsonContains('budget_holder', $user);    
             });;
@@ -196,14 +200,17 @@ class ProjectController extends Controller
             foreach ($projects as $r) {
                 $edit_url = route('projects.edit', $r->id);
                 $show_url = route('projects.show', $r->id);
-        
                 $nestedData['id'] = $r->id;
                 $nestedData['project'] = $r->name ?? '';
                 $nestedData['type'] = $r->type ?? '';
                 $nestedData['sof'] = $r->sof ?? '';
                 $nestedData['donor'] = $r->donors?->name ?? '';
-                $nestedData['focal_person'] = $r->focalperson?->name ?? '';
-                $nestedData['budgetholder'] = $r->budgetholder?->name ?? '';
+                
+                $focalperson = $r->focal_person;
+                $budgetholder = $r->budget_holder;
+                $nestedData['focal_person'] = $focalperson ? implode("<br>", User::whereIn('id', json_decode($focalperson, true))->pluck('name')->toArray()) : '';
+                $nestedData['budgetholder'] = $budgetholder ? implode("<br>", User::whereIn('id', json_decode($budgetholder, true))->pluck('name')->toArray()) : '';
+                
                 $nestedData['awardsfp'] = $r->awardfp?->name ?? '';
                 if (!empty($r->start_date)) {
                     $nestedData['start_date'] = date('M d,Y', strtotime($r->start_date)) ?? '';

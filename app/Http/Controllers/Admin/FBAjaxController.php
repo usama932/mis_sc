@@ -12,7 +12,7 @@ use App\Models\UnionCounsil;
 use App\Models\SciSubTheme; 
 use App\Models\SciTheme; 
 use App\Models\ProjectTheme; 
-
+use App\Models\ProjectPartner; 
 
 class FBAjaxController extends Controller
 {
@@ -177,5 +177,14 @@ class FBAjaxController extends Controller
         $partnerThemes = ProjectTheme::where('project_id', $request->project_id)->with('scisubtheme_name','scitheme_name')->get();
        
         return response()->json(['themes'=>$themes,'quarters','partnerThemes'=>$partnerThemes]);
+    }
+
+    public function getEmailRecommendations(Request $request){
+        $input = $request->input('email');
+
+        $recommendations = ProjectPartner::where('partner_id',$request->partner)->where('email', 'LIKE', "%{$input}%")->pluck('email');
+
+        return response()->json($recommendations);
+
     }
 }

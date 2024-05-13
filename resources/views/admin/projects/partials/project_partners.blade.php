@@ -14,7 +14,7 @@
             <h3>Add Project Partner</h3>
             <div class="row ">
                 <div class="fv-row col-md-3">
-                    <select name="partner" id="partner" class="form-control partner" data-control="select2" data-placeholder="Select Partner" class="form-select" data-allow-clear="true">
+                    <select name="partner" id="partner" class="form-control partner partner-part" data-control="select2" data-placeholder="Select Partner" class="form-select" data-allow-clear="true">
                         <option  value="">Select Partner</option>
                         @foreach($partners as $partner)
                             <option value="{{$partner->id}}">{{$partner->slug}}</option>
@@ -50,7 +50,9 @@
                             </div></th>
                         </tr>
                         <tr>  
-                            <td class="fv-row"><input type="email" name="addmore[0][email]" placeholder="Enter your Email" class="form-control name_list" /></td>  
+                            <td class="fv-row"><input type="email" name="addmore[0][email]" placeholder="Enter your Email" class="form-control name_list" id="email-input"/>
+                                <div id="email-recommendations"> </div>
+                            </td>  
                             <td class="fv-row"><input type="text" name="addmore[0][desig]" placeholder="Enter your Designation" class="form-control name_list" /></td>  
                             <td></td>  
                         </tr>  

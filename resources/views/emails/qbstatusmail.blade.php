@@ -105,7 +105,7 @@
                         <td>{{$details['completion_date']}}</td>
                         <td>{{$details['comments']}}</td>
                         <td>{{$details['status']}}</td>
-                        <td><a href="{{route('action_points.show',$details['id']}}">View</a></td>
+                        <td><a href="{{route("action_points.show",$details["id"])}}">View</a></td>
                     </tr>
                 @else
                     <tr>
