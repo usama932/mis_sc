@@ -1,5 +1,4 @@
 <x-default-layout>
-
     @section('title', 'Projects')
 
     <div id="kt_app_content" class="app-content flex-column-fluid">
@@ -7,14 +6,14 @@
             @can('create projects')
                 <a href="{{ route('projects.create') }}" class="btn btn-primary btn-sm font-weight-bolder">
                     <span class="svg-icon svg-icon-primary svg-icon-1x mx-1">
-                        <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Navigation/Plus.svg-->
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <rect fill="#FFFFFF" x="4" y="11" width="16" height="2" rx="1"/>
                                 <rect fill="#FFFFFF" opacity="0.3" transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000)" x="4" y="11" width="16" height="2" rx="1"/>
                             </g>
                         </svg>
-                    </span>Add Project
+                    </span>
+                    Add Project
                 </a>
             @endcan
         </div>
@@ -47,7 +46,6 @@
                                         </label>
                                         <div class="input-group ">
                                             <input type="text" name="startdate" id="start_date" placeholder="Select date" class="form-control" data-provide="datepicker" value="">
-                                           
                                         </div>
                                     </div>
                                     <div class="col-md-3 mt-3">
@@ -60,9 +58,7 @@
                                     </div>
                                     <div class="col-md-3 mt-5">
                                         <button id="reset-date" class="btn btn-primary btn-sm mt-5">Reset</button>
-
                                     </div>
-                                   
                                 </div>
                             </div>
                         </div>
@@ -95,202 +91,120 @@
     </div>
 
     @push("scripts")
-        <!--begin::Vendors Javascript(used for this page only)-->
         <script src="{{asset("assets/plugins/custom/datatables/datatables.bundle.js")}}"></script>
-        <!--end::Page Vendors-->
-
         <script>
-            var projects = $('#projects').DataTable({
-                "order": [
-                    [1, 'desc']
-                ],
-                "dom": 'lfBrtip',
-                buttons: [
-                    'csv', 'excel'
-                ],
-                responsive: true, // Enable responsive mode
-                "processing": true,
-                "serverSide": true,
-                "searching": false,
-                "bLengthChange": false,
-                "paging": true,
-                "bInfo": false,
-                "responsive": false,
-                "info": false,
-                "ajax": {
-                    "url": "{{route('admin.get_projects')}}",
-                    "dataType": "json",
-                    "type": "POST",
-                    "data": {
-                        "_token": "{{ csrf_token() }}"
-                    }
-                },
-                "columns": [{
-                        "data": "project",
-                        "searchable": false,
-                        "orderable": false
+            $(document).ready(function() {
+                var projectsTable = $('#projects').DataTable({
+                    "order": [[1, 'desc']],
+                    "dom": 'lfBrtip',
+                    buttons: ['csv', 'excel'],
+                    responsive: true,
+                    "processing": false,
+                    "serverSide": true,
+                    "searching": false,
+                    "bLengthChange": false,
+                    "paging": true,
+                    "bInfo": false,
+                    "responsive": false,
+                    "info": false,
+                    "ajax": {
+                        "url": "{{route('admin.get_projects')}}",
+                        "dataType": "json",
+                        "type": "POST",
+                        "data": {"_token": "{{ csrf_token() }}"}
                     },
-                    {
-                        "data": "type",
-                        "searchable": false,
-                        "orderable": false
-                    },
-                    {
-                        "data": "sof",
-                        "searchable": true,
-                        "orderable": true
-                    },
-                    {
-                        "data": "donor",
-                        "searchable": true,
-                        "orderable": true
-                    },
-                    {
-                        "data": "focal_person",
-                        "searchable": false,
-                        "orderable": false
-                    },
-                    {
-                        "data": "budgetholder",
-                        "searchable": false,
-                        "orderable": false
-                    },
-                    {
-                        "data": "awardsfp",
-                        "searchable": false,
-                        "orderable": false
-                    },
-                    {
-                        "data": "start_date",
-                        "searchable": true,
-                        "orderable": true
-                    },
-                    {
-                        "data": "end_date",
-                        "searchable": true,
-                        "orderable": true
-                    },
-                    {
-                        "data": "created_by",
-                        "searchable": false,
-                        "orderable": false
-                    },
-                    {
-                        "data": "created_at",
-                        "searchable": true,
-                        "orderable": true
-                    },
-                    {
-                        "data": "action",
-                        "searchable": false,
-                        "orderable": false
-                    },
-                ]
-            });
-          
-            flatpickr("#start_date", {
-                dateFormat: "Y-m-d",
-                maxDate: "today",
-            });
-            flatpickr("#end_date", {
-                dateFormat: "Y-m-d",
-            });
+                    "columns": [
+                        {"data": "project", "searchable": false, "orderable": false},
+                        {"data": "type", "searchable": false, "orderable": false},
+                        {"data": "sof", "searchable": true, "orderable": true},
+                        {"data": "donor", "searchable": true, "orderable": true},
+                        {"data": "focal_person", "searchable": false, "orderable": false},
+                        {"data": "budgetholder", "searchable": false, "orderable": false},
+                        {"data": "awardsfp", "searchable": false, "orderable": false},
+                        {"data": "start_date", "searchable": true, "orderable": true},
+                        {"data": "end_date", "searchable": true, "orderable": true},
+                        {"data": "created_by", "searchable": false, "orderable": false},
+                        {"data": "created_at", "searchable": true, "orderable": true},
+                        {"data": "action", "searchable": false, "orderable": false},
+                    ]
+                });
 
-            $('#clearStartDate').click(function () {
-                $('#start_date').val('');
-            });
+                flatpickr("#start_date, #end_date", {
+                    dateFormat: "Y-m-d",
+                    maxDate: "today",
+                });
 
-            $('#clearEndDate').click(function () {
-                $('#end_date').val('');
-            });
+                $("#project_name,#start_date,#end_date").change(function() {
+                    projectsTable.ajax.reload();
+                });
 
-            $("#project_name,#start_date,#end_date").change(function () {
-            
-            var table = $('#projects').DataTable();
-            table.destroy();
-            
-            var project = document.getElementById("project_name").value ?? '1';
-            var start_date = document.getElementById("start_date").value ?? '1';
-            var end_date = document.getElementById("end_date").value ?? '1';
-         
-            var projects = $('#projects').DataTable( {
-                "order": [
-                    [8, 'desc']
-                ],
-                "dom": 'lfBrtip',
-                buttons: [
-                    'csv', 'excel'
-                ],
-                responsive: true, // Enable responsive mode
-                "processing": true,
-                "serverSide": true,
-                "searching": false,
-                "bLengthChange": false,
-                "paging": true,
-                "bInfo" : false,
-                "responsive": false,
-                "info": false,
-              
-                "ajax": {
-                    "url":"{{ route('admin.get_projects') }}",
-                    "dataType":"json",
-                    "type":"POST",
-                    "data":{"_token":"<?php echo csrf_token() ?>",
-                        
-                            'project':project,
-                            'startdate':start_date,
-                            'enddate':end_date
-                            }
-                },
-               "columns":[
-                            {"data":"project","searchable":false,"orderable":false},
-                            {"data":"type","searchable":false,"orderable":false},
-                            {"data":"sof","searchable":true,"orderable":true},
-                            {"data":"donor","searchable":true,"orderable":true},
-                            {"data":"focal_person", "searchable": false, "orderable": false  },
-                            {"data": "budgetholder","searchable": false,"orderable": false},
-                            {"data": "awardsfp",  "searchable": false,  "orderable": false},
-                            {"data":"start_date","searchable":true,"orderable":true},
-                            {"data":"end_date","searchable":true,"orderable":true},
-                            {"data":"created_by","searchable":true,"orderable":true},
-                            {"data":"created_at","searchable":true,"orderable":true},
-                            {"data":"action","searchable":true,"orderable":false},
-                        ]
-
-            });
-            });
-
-            function del(id) {
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won't be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "Yes, delete it!"
-                }).then(function (result) {
-                    if (result.value) {
-                        Swal.fire(
-                            "Deleted!",
-                            "Your Project has been deleted.",
-                            "success"
-                        );
-                        var APP_URL = {!! json_encode(url('/')) !!}
-                        window.location.href = APP_URL + "/project/delete/" + id;
+                $("#reset-date").click(function() {
+                    $('#project_name').val(null).trigger('change'),
+                    $('#start_date').val("");
+                    $('#end_date').val("").trigger('change');
+                    if (typeof projectsTable !== 'undefined' && $.fn.DataTable.isDataTable(projectsTable)) {
+                        projectsTable.ajax.reload(null, false).draw(false);
+                    } else {
+                        console.error('Error: DataTables instance "projectsTable" is either not defined or not properly initialized.');
                     }
                 });
-            }
-            $("#reset-date").click(function(){
-                $('#project_name').val(null).trigger('change'),
-                $('#start_date').val("");
-                $('#end_date').val("").trigger('change');
-                if (typeof projects !== 'undefined' && $.fn.DataTable.isDataTable(projects)) {
-                    projects.ajax.reload(null, false).draw(false);
-                } else {
-                    console.error('Error: DataTables instance "projects" is either not defined or not properly initialized.');
-                }
-            })
-        </script>
-        <!--end::Vendors Javascript-->
-    @endpush
+            });
+            $("#project_name, #start_date, #end_date").change(function () {
+                var project = $('#project_name').val() || '1';
+                var start_date = $('#start_date').val() || '1';
+                var end_date = $('#end_date').val() || '1';
 
+                var table = $('#projects').DataTable();
+                
+                if ($.fn.DataTable.isDataTable('#projects')) {
+                    table.destroy(); // Destroy existing DataTable instance
+                }
+
+                $('#projects').DataTable({
+                    "order": [
+                        [8, 'desc']
+                    ],
+                    "dom": 'lfBrtip',
+                    buttons: [
+                        'csv', 'excel'
+                    ],
+                    responsive: true,
+                    "processing": false,
+                    "serverSide": true,
+                    "searching": false,
+                    "bLengthChange": false,
+                    "paging": true,
+                    "bInfo": false,
+                    "responsive": false,
+                    "info": false,
+                    "ajax": {
+                        "url": "{{ route('admin.get_projects') }}",
+                        "dataType": "json",
+                        "type": "POST",
+                        "data": {
+                            "_token": "{{ csrf_token() }}",
+                            "project": project,
+                            "startdate": start_date,
+                            "enddate": end_date
+                        }
+                    },
+                    "columns": [
+                        {"data": "project", "searchable": false, "orderable": false},
+                        {"data": "type", "searchable": false, "orderable": false},
+                        {"data": "sof", "searchable": true, "orderable": true},
+                        {"data": "donor", "searchable": true, "orderable": true},
+                        {"data": "focal_person", "searchable": false, "orderable": false},
+                        {"data": "budgetholder", "searchable": false, "orderable": false},
+                        {"data": "awardsfp", "searchable": false, "orderable": false},
+                        {"data": "start_date", "searchable": true, "orderable": true},
+                        {"data": "end_date", "searchable": true, "orderable": true},
+                        {"data": "created_by", "searchable": true, "orderable": true},
+                        {"data": "created_at", "searchable": true, "orderable": true},
+                        {"data": "action", "searchable": true, "orderable": false},
+                    ]
+                });
+            });
+
+        </script>
+    @endpush
 </x-default-layout>

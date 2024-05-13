@@ -173,17 +173,19 @@ class ProjectController extends Controller
         $projectQuery = Project::latest();
         
         if ($request->project != null) {
-            $projectQuery->where('id', $request->project);
+           
+            $projectQuery->where('id',$request->project);
         }
         
-        if ($request->startdate != null) {
+        if ($request->startdate != null && $request->startdate != 1) {
+            
             $projectQuery->where('start_date', '>=', $request->startdate);
             if ($request->enddate != null) {
                 $projectQuery->where('start_date', '<=', $request->enddate);
             }
         }
         
-        if ($request->enddate != null) {
+        if ($request->enddate != null  && $request->enddate != 1) {
             $projectQuery->where('end_date', '<=', $request->enddate);
             if ($request->startdate != null) {
                 $projectQuery->where('end_date', '>=', $request->startdate);

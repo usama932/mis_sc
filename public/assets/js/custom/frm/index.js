@@ -19,7 +19,7 @@ var frm = $('#frm').DataTable( {
     ],
     "processing": true,
     "serverSide": true,
-    "searching": false,
+    "searching": true,
     "responsive": false,
     'info': true,
    
@@ -61,7 +61,7 @@ var frm = $('#frm').DataTable( {
 });
 
 
-$("#response_id,#date_recieved_id,#kt_select2_district,#kt_select2_province,#feedback_channel,#name_of_registrar,#age_id,#gender,#type_of_client,#project_name,#feedback_category").change(function () {
+$("#response_id,#date_recieved_id,#kt_select2_district,#kt_select2_province,#feedback_channel,#name_of_registrar,#name_of_client,#gender,#type_of_client,#project_name,#feedback_category").change(function () {
     var table = $('#frm').DataTable();
     table.destroy();
     var name_of_registrar = document.getElementById("name_of_registrar").value ?? '1';
@@ -69,7 +69,7 @@ $("#response_id,#date_recieved_id,#kt_select2_district,#kt_select2_province,#fee
     var kt_select2_district = document.getElementById("kt_select2_district").value ?? '1';
     var kt_select2_province = document.getElementById("kt_select2_province").value ?? '1';
     var feedback_channel = document.getElementById("feedback_channel").value ?? '1';
-    var age_id = document.getElementById("age_id").value ?? '1';
+    var name_of_client = document.getElementById("name_of_client").value ?? '1';
     var type_of_client = document.getElementById("type_of_client").value ?? '1';
     var project_name = document.getElementById("project_name").value ?? '1';
     var response_id = document.getElementById("response_id").value ?? '1';
@@ -81,14 +81,13 @@ $("#response_id,#date_recieved_id,#kt_select2_district,#kt_select2_province,#fee
             [1, 'asc']
         ],
 
-        responsive: true, // Enable responsive mode
-        "info": false,
-
+        responsive: false, // Enable responsive mode
+        "info": true,
+        filter: true,
         "processing": true,
         "serverSide": true,
-        "searching": false,
-        "responsive": false,
-        'info': true,
+        "searching": true,
+        
        "ajax": {
             "url":"/get-frms",
             "dataType":"json",
@@ -99,7 +98,7 @@ $("#response_id,#date_recieved_id,#kt_select2_district,#kt_select2_province,#fee
                     'kt_select2_district':kt_select2_district,
                     'kt_select2_province':kt_select2_province,
                     'feedback_channel':feedback_channel,
-                    'age_id':age_id,
+                    'name_of_client':name_of_client,
                     'type_of_client':type_of_client,
                      'project_name':project_name,
                     'response_id':response_id,

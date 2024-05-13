@@ -123,14 +123,14 @@
                                 </div>
                                 <div class="col-md-3 my-3">
                                     <label class="fs-6 fw-semibold form-label mb-2">
-                                        <span class="required">Age</span>
+                                        <span class="required">Name of Client</span>
                                     </label>
-                                    <select name="age" aria-label="Select a Age" data-control="select2" data-placeholder="Select a age..." class="form-select  " id="age_id" data-allow-clear="true" >
+                                    <select name="name_of_client" aria-label="Select a Name of Client" data-control="select2" data-placeholder="Select a Client..." class="form-select  " id="name_of_client" data-allow-clear="true" >
                                         <option  value="" selected>Select Option</option>
                                         <option  value="None" >All</option>
-                                        <option value="Less than 18 years">Less than 18 years</option>
-                                        <option value="19-50 years">19-50 years</option>
-                                        <option value="Above 50 years">Above 50 years</option>
+                                        @foreach($clients as $key => $client)
+                                            <option  value="{{ $client }}">{{$client}}</option>
+                                        @endforeach
                                     </select>
             
                                 </div>

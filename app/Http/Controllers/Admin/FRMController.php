@@ -57,10 +57,12 @@ class FRMController extends Controller
         $feedbackchannels = FeedbackChannel::latest()->get();
         $feedbackcategories = FeedbackCategory::latest()->get()->sortBy('name');
         $projects = Project::where('active','1')->get();
+        $clients = Frm::orderBy('name_of_client')->pluck('name_of_client');
+        
         $users = User::where('user_type','R2')->orWhere('user_type','R1')->orWhere('user_type','R3')->get();
      
         // $themes = Theme::latest()->get();
-        return view('admin.frm.index' ,compact('feedbackchannels','feedbackcategories','projects','total_frm','open_frm','close_frm','users'));
+        return view('admin.frm.index' ,compact('feedbackchannels','feedbackcategories','projects','total_frm','open_frm','close_frm','users','clients'));
     }
     public function getFrms(Request $request){
 
@@ -145,8 +147,8 @@ class FRMController extends Controller
         if($request->feedback_channel != null && $request->feedback_channel != 'None'){
             $frms->where('feedback_channel',$request->feedback_channel);
         }
-        if($request->age_id != null && $request->age_id != 'None'){
-            $frms->where('age',$request->age_id);
+        if($request->name_of_client != null && $request->name_of_client != 'None'){
+            $frms->where('name_of_client',$request->name_of_client);
         }
         if($request->type_of_client != null && $request->type_of_client != 'None'){
             $frms->where('status',$request->type_of_client);
