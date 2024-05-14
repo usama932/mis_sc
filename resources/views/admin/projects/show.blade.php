@@ -69,14 +69,14 @@
                     <tr>
                         <td class="fs-8"><strong>Operational Focal Person</strong></td>
                         <td>
-                          {{$project->focalperson?->name ?? ''}} -  {{$project->focalperson?->desig?->designation_name ?? ''}}<br>
+                          {{$focal_person ?? ''}}<br>
                           {{-- {{$project->focalperson?->email ?? ''}} --}}
                         </td>
                     </tr>
                     <tr>
                         <td><strong>Budget Holder FP</strong></td>
                         <td>
-                          {{$project->budgetholder?->name ?? ''}} -  {{$project->budgetholder?->desig?->designation_name ?? ''}}<br>
+                          {{$budgetholder ?? ''}}<br>
                        
                         </td>
                     </tr>

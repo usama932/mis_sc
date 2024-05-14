@@ -38,7 +38,7 @@
                         @endforeach</p>
                     </div>
                     <div class="col-md-4">
-                        <label class="fw-bold">Donor:</label>
+                        <label class="fw-bold">Partners:</label>
                         <p> @foreach($project->partners as $partners)
                             {{$partners->partner_name->slug ?? ''}}@if(!$loop->last),@endif
                         @endforeach</p>

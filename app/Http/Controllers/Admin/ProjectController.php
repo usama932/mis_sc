@@ -85,7 +85,7 @@ class ProjectController extends Controller
         } elseif ($role == 'meal') {
            
             if (auth()->user()->user_type == 'admin') {
-                // No additional filtering for admins
+                $project_details->latest();
             } else {
              
                 // Apply filtering based on province and district
@@ -95,10 +95,10 @@ class ProjectController extends Controller
                 //     $query->whereJsonContains('province', $province)
                 //         ->whereJsonContains('district', $district);
                 // });
-                // $project_details->whereHas('detail')->latest();
+                $project_details->whereHas('detail')->latest();
             }
         } elseif ($role == 'awards') {
-            $project_details->where('award_person', $user_id);
+            $project_details->whereHas('detail')->where('award_person', $user_id);
         } elseif ($role == 'budget_holder') {
             $project_details->where(function ($query) use ($user) {
                 $query->orWhereJsonContains('budget_holder', $user);    
@@ -397,7 +397,12 @@ class ProjectController extends Controller
         addJavascriptFile('assets/js/custom/project/projectpartnerValidation.js');
         addJavascriptFile('assets/js/custom/project/projectprofilingValidation.js');
         addVendors(['datatables']);
-        return view('admin.projects.show',compact('project','provinces','districts'));
+
+        $focalperson = $project->focal_person;
+        $budgetholder = $project->budget_holder;
+        $focal_person = $focalperson ? implode("<br>", User::whereIn('id', json_decode($focalperson, true))->pluck('name')->toArray()) : '';
+        $budgetholder = $budgetholder ? implode("<br>", User::whereIn('id', json_decode($budgetholder, true))->pluck('name')->toArray()) : '';
+        return view('admin.projects.show',compact('project','provinces','districts','focal_person','budgetholder'));
     }
 
     public function edit(string $id)
