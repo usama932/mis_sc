@@ -1,7 +1,7 @@
 <x-auth-layout>
 
     <div class="text-center fw-bold">
-        <img src="https://opmis.savethechildren.org.np/login//assets/images/Save1.png" height="50px" class="mb-3">
+        <img src="{{asset('assets/media/logos/logo.png') }}" height="50px" class="mb-3">
         <h2>MANAGEMENT INFORMATION SYSTEM (MIS) </h2>
     </div>
 

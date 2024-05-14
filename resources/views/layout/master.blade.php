@@ -2,43 +2,37 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" {!! printHtmlAttributes('html') !!}>
 <!--begin::Head-->
 <head>
-    <base href=""/>
-    <title>@yield('title', 'MIS-SCP') </title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8"/>
-    <meta name="description" content=""/>
-    <meta name="keywords" content=""/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta property="og:locale" content="en_US"/>
-    <meta property="og:type" content="article"/>
-    <meta property="og:title" content=""/>
-    <link rel="canonical" href=""/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield('title', 'MIS-SCP')</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/media/logos/favicon.ico') }}">
 
-    <link rel="icon" type="image/x-icon" href="https://opmis.savethechildren.org.np/login/login">
-
-    <!--begin::Fonts-->
-    {!! includeFonts() !!}
-    <!--end::Fonts-->
-
-    <!--begin::Global Stylesheets Bundle(used by all pages)-->
+    @if(Auth::check())
+     {!! includeFonts() !!}
+    @endif
+  
     @foreach(getGlobalAssets('css') as $path)
         {!! sprintf('<link rel="stylesheet" href="%s">', asset($path)) !!}
     @endforeach
-    <!--end::Global Stylesheets Bundle-->
+ 
 
-    <!--begin::Vendor Stylesheets(used by this page)-->
+    @if(Auth::check())
     @foreach(getVendors('css') as $path)
         {!! sprintf('<link rel="stylesheet" href="%s">', asset($path)) !!}
     @endforeach
+    @endif
     <!--end::Vendor Stylesheets-->
 
-    <!--begin::Custom Stylesheets(optional)-->
-    @foreach(getCustomCss() as $path)
-        {!! sprintf('<link rel="stylesheet" href="%s">', asset($path)) !!}
-    @endforeach
+    @if(Auth::check())
+        @foreach(getCustomCss() as $path)
+            {!! sprintf('<link rel="stylesheet" href="%s">', asset($path)) !!}
+        @endforeach
+    @endif
     <!--end::Custom Stylesheets-->
-    
-    @livewireStyles
+    @if(Auth::check())
+     @livewireStyles
+    @endif
 </head>
 <!--end::Head-->
 
@@ -52,28 +46,29 @@
 
 @yield('content')
 
-<!--begin::Javascript-->
-<!--begin::Global Javascript Bundle(mandatory for all pages)-->
+@if(Auth::check())
 @foreach(getGlobalAssets() as $path)
     {!! sprintf('<script src="%s"></script>', asset($path)) !!}
 @endforeach
+@endif
 <!--end::Global Javascript Bundle-->
 
-
+@if(Auth::check())
 @foreach(getVendors('js') as $path)
 
     {!! sprintf('<script src="%s"></script>', asset($path)) !!}
 @endforeach
-<!--end::Vendors Javascript-->
+@endif
 
-<!--begin::Custom Javascript(optional)-->
+@if(Auth::check())
 @foreach(getCustomJs() as $path)
     {!! sprintf('<script src="%s"></script>', asset($path)) !!}
 @endforeach
-<!--end::Custom Javascript-->
+@endif
 @stack('scripts')
 <!--end::Javascript-->
 
+@if(Auth::check())
 <script>
     $(document).ready(function () {
         $('#update_province').change(function () {
@@ -100,6 +95,7 @@
         });
     });
 </script>
+
 <script>
     document.addEventListener('livewire:load', () => {
         Livewire.on('success', (message) => {
@@ -130,6 +126,8 @@
 </script>
 
 @livewireScripts
+
+@endif
 </body>
 <!--end::Body-->
 
