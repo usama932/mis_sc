@@ -31,7 +31,17 @@ var reviews = $('#project_reviews').DataTable( {
                     {"data":"total_point" ,"searchable":false,"orderable":false},
                     {"data":"created_by" ,"searchable":false,"orderable":false},
                     {"data":"created_at" ,"searchable":false,"orderable":false},
-                    {"data":"action","searchable":false,"orderable":false},
+                    {
+                        "data": "id",
+                        "searchable": false,
+                        "orderable": false,
+                        "render": function(data, type, row) {
+                            return `
+                                <div>
+                                    <button class="btn btn-primary btn-sm" onclick="view(${row.id})">View</button>
+                                </div>`;
+                        }
+                    }            
                 ]
 });
 
@@ -77,15 +87,63 @@ function del(id) {
     });
 }
 
-function view(id) {
+// function view(id) {
     
-    $.post(baseURL + '/view_review', {
-    _token: csrfToken,
-    id: id
-    }).done(function(response) {
-    $('.modal-body').html(response);
-    $('#view_review').modal('show');
+//     $.post(baseURL + '/view_review', {
+//     _token: csrfToken,
+//     id: id
+//     }).done(function(response) {
+//     $('.modal-body').html('response');
+//     $('#view_review').modal('show');
 
+//     });
+// }
+function view(id) {
+    var tr = $(`#project_reviews tbody tr[data-id="${id}"]`); // Get the corresponding row
+    var accordionId = `accordion-${id}`;
+    if (tr.next().hasClass('accordion')) { // If accordion exists, remove it
+        tr.next().remove();
+    } else { // Otherwise, create accordion
+        var accordionHtml = `
+            <tr class="accordion">
+                <td colspan="8">
+                    <div class="accordion" id="${accordionId}">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading-${id}">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${id}" aria-expanded="true" aria-controls="collapse-${id}">
+                                    Review Details
+                                </button>
+                            </h2>
+                            <div id="collapse-${id}" class="accordion-collapse collapse show" aria-labelledby="heading-${id}" data-bs-parent="#${accordionId}">
+                                <div class="accordion-body">
+                                    <!-- Fetch and display review details here via AJAX -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>`;
+        tr.after(accordionHtml); // Add accordion after the corresponding row
+        fetchReviewDetails(id, `#collapse-${id} .accordion-body`); // Fetch review details
+    }
+}
+
+function fetchReviewDetails(id, container) {
+    // Fetch review details via AJAX and populate the container
+    $.post(baseURL + '/project_review/details', { _token: csrfToken, id: id }, function(response) {
+        if (response.success) {
+            var review = response.data;
+            var reviewDetailsHtml = `
+                <strong>Review Date:</strong> ${review.review_date}<br>
+                <strong>Project:</strong> ${review.project ? review.project.name : ''}<br>
+                <strong>Created By:</strong> ${review.user ? review.user.name : ''}<br>
+                <strong>Action Points:</strong> ${review.user}<br>
+                <strong>Comments:</strong> ${review.user}<br>
+                <strong>Document:</strong> <a href="${review.document}" target="_blank">Download</a>`;
+            $(container).html(reviewDetailsHtml); // Populate review details
+        } else {
+            alert(response.message);
+        }
     });
 }
 $('.close').click(function() {

@@ -83,9 +83,9 @@
                     </thead>
                     </table>
                 </div>
-
+                <div id="review-details-accordion" class="accordion mt-4"></div>
             </div>
         </div>
 
-       
+        
     </x-nform-layout>

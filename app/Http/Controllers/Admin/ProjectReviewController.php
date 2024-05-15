@@ -135,7 +135,7 @@ class ProjectReviewController extends Controller
 				$nestedData['action'] = '
                                 <div>
                                 <td>
-                                    <a class="mx-1" title="View Monitor Visit" href="'.$show_url.'">
+                                    <a class="mx-1" title="View Monitor Visit" href="javascript:void(0)" onclick="event.preventDefault();view('.$r->id.');" >
                                         <i class="fa fa-eye text-success" aria-hidden="true"></i>
                                     </a>
                                     <a class="mx-1 " onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
@@ -161,7 +161,17 @@ class ProjectReviewController extends Controller
     {
         
     }
-
+    public function details(Request $request)
+    {
+       
+        $review = ProjectReview::where('id',3)->first();
+      
+        if ($review) {
+            return response()->json(['success' => true, 'data' => $review]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Review not found']);
+        }
+    }
     public function store(Request $request)
     {
        
