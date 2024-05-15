@@ -1,50 +1,122 @@
 var baseURL = window.location.origin;
 var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 var project_id = document.getElementById("project_id").value ?? '1';
-var reviews = $('#project_reviews').DataTable( {
-               
+
+var reviews = $('#project_reviews').DataTable({
     "dom": 'lfBrtip',
-    buttons: [
-        'csv', 'excel'
-    ],
-    "responsive": true, // Enable responsive mode
+    buttons: ['csv', 'excel'],
+    "responsive": true,
     "processing": true,
     "serverSide": true,
     "searching": false,
     "bLengthChange": true,
     "aLengthMenu": [[10, 50, 100, -1], [10, 50, 100, "All"]],
-    "bInfo" : true,
+    "bInfo": true,
     "responsive": false,
     "info": true,
     "ajax": {
-        "url":"/project_reviews",
-        "dataType":"json",
-        "type":"POST",
-        "data":{"_token":csrfToken,
-        'project_id':project_id}
+        "url": "/project_reviews",
+        "dataType": "json",
+        "type": "POST",
+        "data": {
+            "_token": csrfToken,
+            'project_id': project_id
+        }
     },
-    "columns":[
-                    {"data":"id","searchable":false,"orderable":false},
-                    {"data":"meeting_title","searchable":false,"orderable":false},
-                    {"data":"review_date","searchable":false,"orderable":false},
-                    {"data":"project" ,"searchable":false,"orderable":false},
-                    {"data":"total_point" ,"searchable":false,"orderable":false},
-                    {"data":"created_by" ,"searchable":false,"orderable":false},
-                    {"data":"created_at" ,"searchable":false,"orderable":false},
-                    {
-                        "data": "id",
-                        "searchable": false,
-                        "orderable": false,
-                        "render": function(data, type, row) {
-                            return `
-                                <div>
-                                    <button class="btn btn-primary btn-sm" onclick="view(${row.id})">View</button>
-                                </div>`;
-                        }
-                    }            
-                ]
+    "columns": [
+        // { "data": "id", "searchable": false, "orderable": false },
+        { "data": "meeting_title", "searchable": false, "orderable": false },
+        { "data": "review_date", "searchable": false, "orderable": false },
+        { "data": "project", "searchable": false, "orderable": false },
+        {
+            "data": "total_point",
+            "searchable": false,
+            "orderable": false,
+            "render": function (data, type, row) {
+                return '<button class="badge badge-primary border-0" onclick="toggleRowDetails(this)"><i class="fas fa-chevron-right text-white mx-1"></i> View</button>';
+            }
+        },
+        { "data": "created_by", "searchable": false, "orderable": false },
+        { "data": "created_at", "searchable": false, "orderable": false },
+        {
+            "data": "i_d",
+            "searchable": false,
+            "orderable": false,
+            "render": function (data, type, row) {
+                return '<a class="mx-1 " onclick="event.preventDefault();del(' + row.i_d + ');" title="Delete Monitor Visit" href="javascript:void(0)">' +
+                       '<i class="fa fa-trash text-danger" aria-hidden="true"></i>' +
+                       '</a>';
+            }
+        }
+    ]
 });
 
+// Function to toggle row details (expand/collapse)
+function toggleRowDetails(button) {
+    var row = reviews.row($(button).parents('tr'));
+    var tr = $(button).closest('tr');
+    var reviewId = row.data().i_d; // Get the review ID from the row data
+
+    if (row.child.isShown()) {
+        // This row is already expanded, collapse it
+        row.child.hide();
+        tr.removeClass('shown');
+        // Change button text and color, and show close arrow
+        $(button).removeClass('badge badge-danger').addClass('badge badge-primary').html('<i class="fas fa-chevron-right  text-white mx-1"></i> View');
+    } else {
+        // This row is collapsed, expand it
+        // Fetch data for the nested DataTable
+        $.ajax({
+            url: '/project_reviews_actionpoint',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                _token: csrfToken,
+                review_id: reviewId
+            },
+            success: function(data) {
+                var data = data.data;
+                console.log(data);
+                row.child(formatNestedTable(data)).show();
+                tr.addClass('shown');
+                // Change button text and color, and show open arrow
+                $(button).removeClass('badge badge-primary').addClass('badge badge-danger').html('<i class="fas fa-chevron-down  text-white mx-1"></i> Close');
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+}
+
+
+// Format nested DataTable for the expanded row
+function formatNestedTable(data) {
+    // Construct HTML for nested DataTable
+    var tableHtml = '<table id="nested_table" class="table table-striped table-bordered display nowrap" style="width:100%">';
+    // Add table headers
+    tableHtml += '<thead><tr><th>S.No.#</th><th>Action Point</th><th>Responsible Person</th><th>Agreed Action</th><th>Deadline</th><th>Status</th><th>Created By</th><th>Created At</th></tr></thead>';
+    tableHtml += '<tbody>';
+    // Add table data
+    data.forEach(function(row) {
+        tableHtml += '<tr>';
+        tableHtml += '<td>' + row.id + '</td>';
+        tableHtml += '<td>' + row.action_point + '</td>';
+        tableHtml += '<td>' + row.responsible_person + '</td>';
+        tableHtml += '<td>' + row.agreed_action + '</td>';
+        tableHtml += '<td>' + row.deadline + '</td>';
+        tableHtml += '<td>' + row.status + '</td>';
+        tableHtml += '<td>' + row.created_by + '</td>';
+        tableHtml += '<td>' + row.created_at + '</td>';
+        tableHtml += '<td>' + row.action + '</td>';
+        tableHtml += '</tr>';
+    });
+    tableHtml += '</tbody>';
+    tableHtml += '</table>';
+    return tableHtml;
+}
+
+//delete review
 function del(id) {
     
     Swal.fire({
@@ -73,79 +145,17 @@ function del(id) {
                 
             })
             .then(response => {
-                // Handle the response as needed
+                reviews.ajax.reload(null, false).draw(false);
                 console.log(response);
             })
             .catch(error => {
                 // Handle errors
                 console.error('Error:', error);
             });
-
-
-            reviews.ajax.reload(null, false).draw(false);
         }
     });
 }
 
-// function view(id) {
-    
-//     $.post(baseURL + '/view_review', {
-//     _token: csrfToken,
-//     id: id
-//     }).done(function(response) {
-//     $('.modal-body').html('response');
-//     $('#view_review').modal('show');
-
-//     });
-// }
-function view(id) {
-    var tr = $(`#project_reviews tbody tr[data-id="${id}"]`); // Get the corresponding row
-    var accordionId = `accordion-${id}`;
-    if (tr.next().hasClass('accordion')) { // If accordion exists, remove it
-        tr.next().remove();
-    } else { // Otherwise, create accordion
-        var accordionHtml = `
-            <tr class="accordion">
-                <td colspan="8">
-                    <div class="accordion" id="${accordionId}">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="heading-${id}">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${id}" aria-expanded="true" aria-controls="collapse-${id}">
-                                    Review Details
-                                </button>
-                            </h2>
-                            <div id="collapse-${id}" class="accordion-collapse collapse show" aria-labelledby="heading-${id}" data-bs-parent="#${accordionId}">
-                                <div class="accordion-body">
-                                    <!-- Fetch and display review details here via AJAX -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>`;
-        tr.after(accordionHtml); // Add accordion after the corresponding row
-        fetchReviewDetails(id, `#collapse-${id} .accordion-body`); // Fetch review details
-    }
-}
-
-function fetchReviewDetails(id, container) {
-    // Fetch review details via AJAX and populate the container
-    $.post(baseURL + '/project_review/details', { _token: csrfToken, id: id }, function(response) {
-        if (response.success) {
-            var review = response.data;
-            var reviewDetailsHtml = `
-                <strong>Review Date:</strong> ${review.review_date}<br>
-                <strong>Project:</strong> ${review.project ? review.project.name : ''}<br>
-                <strong>Created By:</strong> ${review.user ? review.user.name : ''}<br>
-                <strong>Action Points:</strong> ${review.user}<br>
-                <strong>Comments:</strong> ${review.user}<br>
-                <strong>Document:</strong> <a href="${review.document}" target="_blank">Download</a>`;
-            $(container).html(reviewDetailsHtml); // Populate review details
-        } else {
-            alert(response.message);
-        }
-    });
-}
 $('.close').click(function() {
     $('#view_review').modal('hide');
 });
@@ -390,4 +400,4 @@ var KTreviewValidate = function () {
 KTUtil.onDOMContentLoaded(function () {
 
     KTreviewValidate.init();
-    });
+});

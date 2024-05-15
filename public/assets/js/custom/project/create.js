@@ -1,13 +1,10 @@
 
 flatpickr("#start_date", {
-   
     dateFormat: "Y-m-d",
     maxDate: "today",
 });
 flatpickr("#end_date", {
-  
     dateFormat: "Y-m-d",
-   
 });
  
 
@@ -38,6 +35,8 @@ if (startDateInput && endDateInput) {
         }
     });
 }
+
+//form  Validation
 var KTdipValidate = function () {
     // Elements
     var form;
@@ -302,6 +301,5 @@ var KTdipValidate = function () {
 }();
 // On document ready
 KTUtil.onDOMContentLoaded(function () {
-  
     KTdipValidate.init();
 });

@@ -69,18 +69,18 @@
                 <input type="hidden"  value="{{$id}}" id="project_id" />
                 <div class="table-responsive overflow-*">
                     <table class="table table-striped table-bordered nowrap" id="project_reviews" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>#S.No</th>
-                            <th>Meeting Title</th>
-                            <th>Review Date</th>
-                            <th>Project</th> 
-                            <th>Action Points</th> 
-                            <th>Created By</th> 
-                            <th>Created At</th> 
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
+                        <thead>
+                            <tr>
+                                {{-- <th>#S.No</th> --}}
+                                <th>Meeting Title</th>
+                                <th>Review Date</th>
+                                <th>Project</th> 
+                                <th>Action Points</th> 
+                                <th>Created By</th> 
+                                <th>Created At</th> 
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
                     </table>
                 </div>
                 <div id="review-details-accordion" class="accordion mt-4"></div>

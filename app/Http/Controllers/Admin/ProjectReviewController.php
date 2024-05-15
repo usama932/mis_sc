@@ -42,12 +42,11 @@ class ProjectReviewController extends Controller
 		$totalData = Review_ActionPoint::where('review_id',$request->review_id)->count();
 		$limit = $request->input('length');
 		$start = $request->input('start');
-		$order = $columns[$request->input('order.0.column')];
+
 		$dir = $request->input('order.0.dir');
 	
-        $reviews = Review_ActionPoint::where('review_id',$request->review_id)->offset($start)
-                            ->limit($limit)
-                            ->orderBy($order,$dir)
+        $reviews = Review_ActionPoint::where('review_id',$request->review_id)
+                            ->latest()
                             ->get();
         $totalFiltered = Review_ActionPoint::where('review_id',$request->review_id)->count();	
 		$data = array();
@@ -68,6 +67,7 @@ class ProjectReviewController extends Controller
                 $nestedData['deadline'] = $r->deadline;
                 $nestedData['status'] = $r->status;
                 $nestedData['id'] = $iteration;
+                
               
                 $nestedData['created_by'] = $r->user?->name;
                 $nestedData['created_at'] = date('M d,Y', strtotime($r->created_at)) ?? '';
@@ -95,7 +95,8 @@ class ProjectReviewController extends Controller
     }
 
 
-    public function project_reviews(Request $request){
+    public function project_reviews(Request $request)
+    {
         $id = $request->qb_id;
         $columns = array(
 			0 => 'id',
@@ -132,18 +133,9 @@ class ProjectReviewController extends Controller
                 $nestedData['total_point'] = $r->action_point()->count();
                 $nestedData['created_by'] = $r->user?->name;
                 $nestedData['created_at'] = date('M d,Y', strtotime($r->created_at)) ?? '';
-				$nestedData['action'] = '
-                                <div>
-                                <td>
-                                    <a class="mx-1" title="View Monitor Visit" href="javascript:void(0)" onclick="event.preventDefault();view('.$r->id.');" >
-                                        <i class="fa fa-eye text-success" aria-hidden="true"></i>
-                                    </a>
-                                    <a class="mx-1 " onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
-                                        <i class="fa fa-trash text-danger" aria-hidden="true"></i>
-                                    </a>
-                                </td>
-                                </div>
-                            ';
+                $nestedData['i_d'] = $r->id;
+              
+			
 				$data[] = $nestedData;
 			}
 		}
