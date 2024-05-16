@@ -21,7 +21,7 @@ class LearninglogRepository implements LearningLogRepositoryInterface
             }
             
             $file = $data['thumbnail'];
-            $thumbnail = $file->getClientOriginalName();
+            $thumbnail = time().'_'.$file->getClientOriginalName();
             $file->storeAs('public/learninglog/thumbnail',$thumbnail);
            
         }
@@ -36,7 +36,7 @@ class LearninglogRepository implements LearningLogRepositoryInterface
             }
             
             $file = $data['attachment'];
-            $attachment = $file->getClientOriginalName();
+            $attachment = time().'_'.$file->getClientOriginalName();
             $file->storeAs('public/learninglog/attachment/',$attachment);
            
         }
@@ -76,7 +76,7 @@ class LearninglogRepository implements LearningLogRepositoryInterface
             }
             
             $file = $data['thumbnail'];
-            $thumbnail = $file->getClientOriginalName();
+            $thumbnail = time().'_'.$file->getClientOriginalName();
             $file->storeAs('public/learninglog/thumbnail',$thumbnail);
         
         }
@@ -91,7 +91,7 @@ class LearninglogRepository implements LearningLogRepositoryInterface
             }
             
             $file = $data['attachment'];
-            $attachment = $file->getClientOriginalName();
+            $attachment = time().'_'.$file->getClientOriginalName();
             $file->storeAs('public/learninglog/attachment/',$attachment);
         
         }

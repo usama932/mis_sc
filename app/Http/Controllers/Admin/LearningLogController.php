@@ -31,7 +31,7 @@ class LearningLogController extends Controller
         $totalSurvey = LearningLog::where('research_type', 'Survey Repor')->count();
         $totallogs = LearningLog::count();
         $logs = LearningLog::latest()->paginate(12);
-        $projects = Project::where('active','1')->latest()->get();
+        $projects = Project::latest()->get();
         $themes = Theme::latest()->get();
         return view('admin.learninglogs.index',compact('logs','projects','themes','totalassesment','totalEvaluation',
                     'totalPDM','totalResearch','totalSurvey','totallogs'));
@@ -137,7 +137,7 @@ class LearningLogController extends Controller
     public function create()
     {
         $themes = Theme::latest()->get();
-        $projects = Project::where('active','1')->latest()->get();
+        $projects = Project::latest()->get();
         addJavascriptFile('assets/js/custom/learninglog/createvalidations.js');
         return view('admin.learninglogs.create',compact('projects','themes','projects','themes'));
     }
@@ -179,7 +179,7 @@ class LearningLogController extends Controller
        
         $provinces = Province::whereIn('province_id', $province_logs)->get();
         
-        $projects = Project::where('active','1')->latest()->get(); 
+        $projects = Project::latest()->get(); 
         addJavascriptFile('assets/js/custom/learninglog/createvalidations.js');
         return view('admin.learninglogs.edit',compact('log','projects','themes','theme_logs','districts','provinces'));
     }
