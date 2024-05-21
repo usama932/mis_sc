@@ -51,17 +51,11 @@ var KTSigninGeneral = function () {
             // Prevent button default action
             e.preventDefault();
 
-            // Validate form
             validator.validate().then(function (status) {
                 if (status == 'Valid') {
                     
                     submitButton.setAttribute('data-kt-indicator', 'on');
-
-                    
                     submitButton.disabled = true;
-
-
-                    // Simulate ajax request
                     setTimeout(function () {
                         // Hide loading indication
                         submitButton.removeAttribute('data-kt-indicator');
@@ -125,11 +119,12 @@ var KTSigninGeneral = function () {
                     // Check axios library docs: https://axios-http.com/docs/intro
                     axios.post(submitButton.closest('form').getAttribute('action'), new FormData(form)).then(function (response) {
                         if (response) {
+                            
                             form.reset();
 
-                            if (response.data.message === "Your Credentials are incorrect") {
+                            if (response.data.error == true) {
                                 Swal.fire({
-                                    text:"Sorry, the email or password is incorrect, please try again.",
+                                    text:response.data.message,
                                     icon: "success",
                                     buttonsStyling: false,
                                     confirmButtonText: "Ok, got it!",
@@ -138,17 +133,7 @@ var KTSigninGeneral = function () {
                                     }
                                 });
                             }
-                            else if(response.data.message === "Your Credentials are Approved yet"){
-                                Swal.fire({
-                                    text:"Sorry, the email or password is not approved, please try again.",
-                                    icon: "success",
-                                    buttonsStyling: false,
-                                    confirmButtonText: "Ok, got it!",
-                                    customClass: {
-                                        confirmButton: "btn btn-primary"
-                                    }
-                                });
-                            }
+                           
                             else{
                                 const redirectUrl = form.getAttribute('data-kt-redirect-url');
 
@@ -172,14 +157,14 @@ var KTSigninGeneral = function () {
                     }).catch(function (error) {
                         if (error && error.response && error.response.data) {
                             Swal.fire({
-                                text: error.response.data.message ,
-                                icon: "error",
-                                buttonsStyling: false,
-                                confirmButtonText: "Ok, got it!",
-                                customClass: {
-                                    confirmButton: "btn btn-primary"
-                                }
-                            });
+                                    text: error.response.data.message ,
+                                    icon: "error",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn btn-primary"
+                                    }
+                                });
                             } else {
                                 Swal.fire({
                                     text: "Sorry, looks like there are some errors detected, please try again.",

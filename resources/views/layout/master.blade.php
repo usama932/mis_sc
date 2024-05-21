@@ -46,25 +46,24 @@
 
 @yield('content')
 
-@if(Auth::check())
+
 @foreach(getGlobalAssets() as $path)
     {!! sprintf('<script src="%s"></script>', asset($path)) !!}
 @endforeach
-@endif
+
 <!--end::Global Javascript Bundle-->
 
-@if(Auth::check())
+
 @foreach(getVendors('js') as $path)
 
     {!! sprintf('<script src="%s"></script>', asset($path)) !!}
 @endforeach
-@endif
 
-@if(Auth::check())
+
 @foreach(getCustomJs() as $path)
     {!! sprintf('<script src="%s"></script>', asset($path)) !!}
 @endforeach
-@endif
+
 @stack('scripts')
 <!--end::Javascript-->
 

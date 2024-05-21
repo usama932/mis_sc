@@ -49,13 +49,15 @@ class AuthenticatedSessionController extends Controller
             else{
                 Auth::logout();
                 return response()->json([
-                    'message' => "Your Credentials are Approved yet"
+                    'message' => "Your Credentials are Approved yet",
+                    'error' => true
                 ]);
             }
             
         }else{
             return response()->json([
-                'message' => "Your Credentials are incorrect"
+                'message' => "Your Credentials are incorrect",
+                'error' => true
             ]);
         }
     }

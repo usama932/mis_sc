@@ -43,7 +43,32 @@
     <!--end::App-->
     @push('scripts')
     
+   
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var staffTab = document.getElementById("staffTab");
+            var guestTab = document.getElementById("guestTab");
+            var staffTabContent = document.getElementById("staffTabcontent");
+            var guestTabContent = document.getElementById("guestTabcontent");
+            guestTabContent.style.display = "none";
+            staffTab.style.display  = "none";
+    
+            staffTab.addEventListener("click", function () {
+                staffTabContent.style.display = "block";
+                guestTabContent.style.display = "none";
+                staffTab.style.display  = "none";
+                guestTab.style.display  = "block";
+            });
+    
+            guestTab.addEventListener("click", function () {
+                guestTabContent.style.display = "block";
+                staffTabContent.style.display = "none";
+                guestTab.style.display  = "none";
+                staffTab.style.display  =  "block";
+            });
+        });
+    </script>
+     {{-- <script>
         
         $("#kt_select2_province").change(function () {
 
@@ -73,31 +98,7 @@
             });
 
         }).trigger('change');
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var staffTab = document.getElementById("staffTab");
-            var guestTab = document.getElementById("guestTab");
-            var staffTabContent = document.getElementById("staffTabcontent");
-            var guestTabContent = document.getElementById("guestTabcontent");
-            guestTabContent.style.display = "none";
-            staffTab.style.display  = "none";
-    
-            staffTab.addEventListener("click", function () {
-                staffTabContent.style.display = "block";
-                guestTabContent.style.display = "none";
-                staffTab.style.display  = "none";
-                guestTab.style.display  = "block";
-            });
-    
-            guestTab.addEventListener("click", function () {
-                guestTabContent.style.display = "block";
-                staffTabContent.style.display = "none";
-                guestTab.style.display  = "none";
-                staffTab.style.display  =  "block";
-            });
-        });
-    </script>
+    </script> --}}
 @endpush
 
 @endsection
