@@ -211,4 +211,6 @@ use Illuminate\Support\Facades\Route;
     Route::post('postguest/otp', [StaffLoginController::class,'login_otp'])->name('post_otp');
     require __DIR__ . '/auth.php';
 
-
+    Route::get('/pusher', function () {
+       return view('pusher');
+    });
