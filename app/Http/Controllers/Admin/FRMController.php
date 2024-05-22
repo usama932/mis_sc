@@ -543,15 +543,16 @@ class FRMController extends Controller
 
         $feedbackchannels = FeedbackChannel::latest()->get();
         $projects = Project::where('active','1')->latest()->get();
-        
+        $feedbackcategories = FeedbackCategory::latest()->get()->sortBy('name');
         addJavascriptFile('assets/js/custom/frm/export.js');
-        return view('admin.frm.frm_export.export',compact('feedbackchannels','projects'));
+        return view('admin.frm.frm_export.export',compact('feedbackchannels','projects','feedbackcategories'));
     }
     public function getexportfrm(Request $request){
-      
+       
         $name_of_registrar = $request->name_of_registrar;
         $date_received = $request->date_received;
         $feedback_channel = $request->feedback_channel;
+        $feedback_category = $request->feedback_category;
         $age = $request->age;
         $province = $request->kt_select2_province;
         $district = $request->district;
@@ -559,15 +560,17 @@ class FRMController extends Controller
         $project_name = $request->project_name;
         $status = $request->status;
       
-        $data = ['name_of_registrar'=> $name_of_registrar,
-                'date_received'=>$date_received,
-                'feedback_channel'=>$feedback_channel,
-                'age'=> $age,
-                'province'=> $province,
-                'district'=> $district,
-                'type_of_client'=>$type_of_client,
-                'project_name'=>$project_name,
-                'status'=>$status,
+        $data = [
+                'name_of_registrar' => $name_of_registrar,
+                'date_received'     =>$date_received,
+                'feedback_channel'  =>$feedback_channel,
+                'age'               => $age,
+                'province'          => $province,
+                'district'          => $district,
+                'type_of_client'    =>$type_of_client,
+                'project_name'      =>$project_name,
+                'status'            =>$status,
+                'feedback_category' => $feedback_category
                  ];
                  
                  

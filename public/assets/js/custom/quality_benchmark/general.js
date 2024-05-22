@@ -1,118 +1,117 @@
-
 "use strict";
 
-
-//Create QB Data
+// Create QB Data
 // ----------------Start Create Qbs date------------------
 var KTQBValidate = function () {
     // Elements
     var form;
     var submitButton;
 
+    // Function to check if the radio button value is 'Yes'
+    function isQbBaseYes() {
+        var qbBaseRadio = document.querySelector('[name="qb_base"]:checked');
+        return qbBaseRadio && qbBaseRadio.value === 'Yes';
+    }
 
     // Handle form ajax
     var handleFormAjax = function (e) {
-        // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
+        // Init form validation rules. For more info check the FormValidation plugin's official documentation: https://formvalidation.io/
         var validator = FormValidation.formValidation(
             form,
             {
-                
                 fields: {
-                    'theme':{
+                    'theme': {
                         validators: {
                             notEmpty: {
                                 message: 'Thematic Area required'
                             }
                         }
                     },
-                    'qb_filledby':{
+                    'qb_filledby': {
                         validators: {
                             notEmpty: {
                                 message: 'Visitor Name required'
                             }
                         }
                     },
-                    'project_name':{
+                    'project_name': {
                         validators: {
                             notEmpty: {
                                 message: 'Project required'
                             }
                         }
                     },
-                    'partner':{
+                    'partner': {
                         validators: {
                             notEmpty: {
                                 message: 'Partner Organization required'
                             }
                         }
                     },
-                  
-                    'province':{
+                    'province': {
                         validators: {
                             notEmpty: {
                                 message: 'Province required'
                             }
                         }
                     },
-                    'district':{
+                    'district': {
                         validators: {
                             notEmpty: {
                                 message: 'District required'
                             }
                         }
                     },
-                    'tehsil':{
+                    'tehsil': {
                         validators: {
                             notEmpty: {
                                 message: 'Tehsil required'
                             }
                         }
                     },
-                    'union_counsil':{
+                    'union_counsil': {
                         validators: {
                             notEmpty: {
                                 message: 'Union Counsil required'
                             }
                         }
                     },
-                    'project_type':{
+                    'project_type': {
                         validators: {
                             notEmpty: {
                                 message: 'Project Type required'
                             }
                         }
                     },
-
-                    'type_of_visit':{
-                            validators: {
-                                notEmpty: {
-                                    message: 'Type of visit required'
-                                }
+                    'type_of_visit': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Type of visit required'
+                            }
                         }
                     },
-                  
-                    'activity_description':{
+                    'activity_description': {
                         validators: {
                             notEmpty: {
                                 message: 'Description of activity required'
                             }
                         }
                     },
-                    'monitoring_type':{
+                    'monitoring_type': {
                         validators: {
                             notEmpty: {
                                 message: 'Monitoring Type required'
                             }
                         }
                     },
-                    'accompanied_by':{
+                    'accompanied_by': {
                         validators: {
                             notEmpty: {
                                 message: 'Accompanied by required'
                             }
                         }
                     },
-                    'date_visit':{
+                    'date_visit': {
                         validators: {
                             notEmpty: {
                                 message: 'Date Visit required'
@@ -122,77 +121,58 @@ var KTQBValidate = function () {
                     'total_qbs': {
                         validators: {
                             callback: {
-                                
-                                message: 'Total Qbs  is required',
+                                message: 'Total Qbs is required',
                                 callback: function(value, validator) {
-                                   
-                                    var qb_base = document.querySelector('[name="qb_base"]').value;
-                                 
-                                    if (qb_base === 'Yes' ) {
-                                        return false;
+                                    if (isQbBaseYes()) {
+                                        return value !== '';
                                     }
-                                    
+                                    return true;
                                 }
                             }
                         }
                     },
                     'qbs_fully_met': {
                         validators: {
-                            notEmpty: {
-                                message: 'Required'
-                            },
-                            numeric: {
-                                message: 'only digits allowed'
-                            },
-							callback: {
+                            
+                            callback: {
                                 message: 'Must be less or equal to total QBs',
-                                callback: function (i) {
-                                    var total_qbs = $('#total_qbs').val();
-                                    if (parseInt(total_qbs) >= i.value) {
-                                        return true;
+                                callback: function(value, validator) {
+                                    if (isQbBaseYes()) {
+                                        var total_qbs = parseInt($('#total_qbs').val());
+                                        return !isNaN(total_qbs) && parseInt(value) <= total_qbs;
                                     }
-                                    else{
-                                        return false;
-                                    }
+                                    return true;
                                 }
                             }
                         }
                     },
-                    'qb_not_applicable':{
+                    'qb_not_applicable': {
                         validators: {
-                            notEmpty: {
-                                message: 'Required'
-                            },
-                            numeric: {
-                                message: 'only digits allowed'
-                            },
-							callback: {
-                                message: 'Met and not applicable QBs must be less then total QBs',
-                                callback: function (i) {
-                                    var total_qbs = $('#total_qbs').val();
-									var qbs_fully_met = $('#qbs_fully_met').val();
-									var _qb_count = parseInt(qbs_fully_met) + parseInt(i.value)
-									console.log(total_qbs, qbs_fully_met, i.value, _qb_count)
-                                    if (parseInt(total_qbs) >= _qb_count) {
-                                        return true;
+                           
+                            callback: {
+                                message: 'Met and not applicable QBs must be less than total QBs',
+                                callback: function(value, validator) {
+                                    if (isQbBaseYes()) {
+                                        var total_qbs = parseInt($('#total_qbs').val());
+                                        var qbs_fully_met = parseInt($('#qbs_fully_met').val());
+                                        var qb_not_applicable = parseInt(value);
+                                        var _qb_count = qbs_fully_met + qb_not_applicable;
+                                        console.log(total_qbs, qbs_fully_met, qb_not_applicable, _qb_count);
+                                        return !isNaN(total_qbs) && _qb_count <= total_qbs;
                                     }
-                                    else{
-                                        return false;
-                                    }
+                                    return true;
                                 }
                             }
                         }
                     },
-                    'staff_organization':{
+                    'staff_organization': {
                         validators: {
                             notEmpty: {
                                 message: 'Staff Organization required'
                             }
                         }
-                    },
-                 
+                    }
                 },
-              
                 plugins: {
                     trigger: new FormValidation.plugins.Trigger(),
                     bootstrap: new FormValidation.plugins.Bootstrap5({
@@ -203,11 +183,10 @@ var KTQBValidate = function () {
                 }
             }
         );
-            
+
         // Handle form submit
         submitButton.addEventListener('click', function (e) {
             e.preventDefault();
-
 
             validator.validate().then(function (status) {
                 if (status == 'Valid') {
@@ -217,11 +196,9 @@ var KTQBValidate = function () {
                     // Disable button to avoid multiple click
                     submitButton.disabled = true;
 
-
                     // Check axios library docs: https://axios-http.com/docs/intro
                     axios.post(submitButton.closest('form').getAttribute('action'), new FormData(form)).then(function (response) {
                         if (response) {
-                           
                             form.reset();
                             toastr.options = {
                                 "closeButton": true,
@@ -240,9 +217,8 @@ var KTQBValidate = function () {
                                 "showMethod": "fadeIn",
                                 "hideMethod": "fadeOut"
                             };
-                            toastr.success("QB  Created", "success");
+                            toastr.success("QB Created", "success");
                             window.location.href = response.data.editUrl;
-                            
                         } else {
                             toastr.options = {
                                 "closeButton": false,
@@ -260,9 +236,8 @@ var KTQBValidate = function () {
                                 "hideEasing": "linear",
                                 "showMethod": "fadeIn",
                                 "hideMethod": "fadeOut"
-                              };
-                              
-                              toastr.error("Some thing Went Wrong", "Error");
+                            };
+                            toastr.error("Something Went Wrong", "Error");
                         }
                     }).catch(function (error) {
                         toastr.options = {
@@ -281,9 +256,8 @@ var KTQBValidate = function () {
                             "hideEasing": "linear",
                             "showMethod": "fadeIn",
                             "hideMethod": "fadeOut"
-                          };
-                          
-                          toastr.error("Some thing Went Wrong", "Error");   
+                        };
+                        toastr.error("Something Went Wrong", "Error");
                     }).then(() => {
                         // Hide loading indication
                         submitButton.removeAttribute('data-kt-indicator');
@@ -291,7 +265,6 @@ var KTQBValidate = function () {
                         // Enable button
                         submitButton.disabled = false;
                     });
-
                 } else {
                     // Show error popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                     toastr.options = {
@@ -310,13 +283,11 @@ var KTQBValidate = function () {
                         "hideEasing": "linear",
                         "showMethod": "fadeIn",
                         "hideMethod": "fadeOut"
-                      };
-                      
-                      toastr.error("Some thing Went Wrong", "Error");
+                    };
+                    toastr.error("Something Went Wrong", "Error");
                 }
             });
         });
-
     }
 
     // Public functions
@@ -333,12 +304,6 @@ var KTQBValidate = function () {
 
 // On document ready
 KTUtil.onDOMContentLoaded(function () {
-    
     KTQBValidate.init();
 });
-
-
 // ----------------End Create Qbs date------------------
-
-
-

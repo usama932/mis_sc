@@ -19,6 +19,7 @@ use App\Models\ClosingRecord;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\QB\ActionPoint;
 use App\Repositories\Interfaces\QbRepositoryInterface;
+use PDO;
 
 class QbController extends Controller
 {
@@ -237,15 +238,20 @@ class QbController extends Controller
     }
 
    
-    public function store(CreateQbRequest $request)
+    public function store(Request $request)
     {
-       
         $data = $request->except('_token');
         $Qb = $this->QbRepository->storeQb($data);
     
         $active = 'basic_info';
         session(['active' => $active]);
-        $editUrl = route('quality-benchs.edit',$Qb->id);
+        if($request->qb_base == "Yes"){
+            $editUrl = route('quality-benchs.edit',$Qb->id);
+        }
+        else{
+            $editUrl = route('quality-benchs.index');
+        }
+        
      
         return response()->json([
             'editUrl' => $editUrl

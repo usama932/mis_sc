@@ -50,6 +50,7 @@ $(document).ready(function () {
                 'kt_select2_district':document.getElementById("kt_select2_district").value ,
                 'kt_select2_province':document.getElementById("kt_select2_province").value ,
                 'feedback_channel':document.getElementById("feedback_channel").value ,
+                'feedback_category':document.getElementById("feedback_category").value ,
                 'age_id':document.getElementById("age_id").value , 
                 'type_of_client':document.getElementById("type_of_client").value ,
                 'project_name':document.getElementById("project_name").value ,

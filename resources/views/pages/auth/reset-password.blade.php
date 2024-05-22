@@ -17,7 +17,6 @@
         <form class="w-75 mx-auto"   action="{{ route('update_password') }}" method="post" id="myForm"> 
             @csrf
 
-            <!-- Password Reset Token -->
             <input type="hidden" name="token" value="{{ $request->token }}">
             <input type="hidden" name="email" value="{{ old('email', $request->email) }}">
 
@@ -41,38 +40,26 @@
                 <ul id="errors"></ul>
             </div>
             <div class="fv-row mb-8" data-kt-password-meter="true">
-                <!--begin::Wrapper-->
-               
                    
-                        <input class="form-control bg-white" type="old_password" placeholder="Old Password" name="old_password" autocomplete="off"/>
-                        @error('old_password')
-                            <div class="error text-danger">{{ $message }}</div>
-                        @enderror
-                        
-                   
+                <input class="form-control bg-white" type="passord" placeholder="Old Password" name="old_password" value="" autocomplete="off"/>
+                @error('old_password')
+                    <div class="error text-danger">{{ $message }}</div>
+                @enderror
             </div>
             <div class="fv-row mb-8">
-                <!--begin::Input wrapper-->
-                
                     <div class="input-group mb-3">
-                        <input class="form-control bg-white" type="password" id="password" placeholder="Password" name="password" autocomplete="off"/>
+                        <input class="form-control bg-white" type="password" id="password" placeholder="Password" name="password" value="" autocomplete="off"/>
                         <div class="btn btn-light text-dark"  id="togglePassword"><i class="fas fa-eye" id="eye"></i></div>
                     </div>
                     @error('password')
                         <div class="error text-danger">{{ $message }}</div>
                     @enderror
                 
-                
-                <!--end::Input wrapper-->
                 <div id="passwordMatchError" style="display: none; color: red;">Passwords do not match</div>
                 <div id="passwordFormatError" style="display: none; color: red;">Password Must between 6 to 20 characters  & At least one numeric digit, one uppercase and one lowercase letter</div>
             
             </div>
             
-            
-            <!--end::Input group--->
-
-            <!--end::Input group--->
             <div class="fv-row mb-8">
                 <div class="input-group mb-3">
                     <input placeholder="Repeat Password" id="repeatPassword" name="password_confirmation" type="password" autocomplete="off" class="form-control bg-white"/>
@@ -80,14 +67,11 @@
                 </div>
             </div>
         
-
-            <!--begin::Actions-->
             <div class="d-flex flex-wrap justify-content-center pb-lg-0">
                 <button type="submit" id="kt_sign_in_submit" class="btn btn-primary btn-sm">
                     @include('partials/general/_button-indicator', ['label' => 'Submit'])
                 </button>
               
-
                 <a href="{{ route('login') }}" class="btn btn-light btn-sm">Cancel</a>
             </div>
             <!--end::Actions-->

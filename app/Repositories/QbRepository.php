@@ -9,24 +9,24 @@ class QbRepository implements QbRepositoryInterface
 {
     public function storeQb($data)
     {
-      
-        $qb_not_met =  $data['total_qbs'] - ($data['qbs_fully_met'] + $data['qb_not_applicable']) ;   
-        $score = $data['qbs_fully_met'] /($data['total_qbs']- $data['qb_not_applicable']);
+        if($data['qb_base'] == "Yes"){
+            $qb_not_met =  $data['total_qbs'] - ($data['qbs_fully_met'] + $data['qb_not_applicable']) ;   
+            $score = $data['qbs_fully_met'] /($data['total_qbs']- $data['qb_not_applicable']);
+            
+            $score_out = $score * 100;  
         
-        $score_out = $score * 100;  
-       
-        if($score_out > 0 && $score_out < 50){
-            $qb_status =  "Poor";
+            if($score_out > 0 && $score_out < 50){
+                $qb_status =  "Poor";
+            }
+            elseif($score_out >= 50 && $score_out <= 80){
+                $qb_status =  "Average";
+            }
+            elseif($score_out > 80 && $score_out <= 95){
+                $qb_status =  "Good";
+            }else{
+                $qb_status =  "Excellent";
+            }
         }
-        elseif($score_out >= 50 && $score_out <= 80){
-            $qb_status =  "Average";
-        }
-        elseif($score_out > 80 && $score_out <= 95){
-            $qb_status =  "Good";
-        }else{
-            $qb_status =  "Excellent";
-        }
-       
         $assement_code = $data['district'].'-'.time();
         return QualityBench::create([
             'date_visit'            => $data['date_visit'],
@@ -46,11 +46,11 @@ class QbRepository implements QbRepositoryInterface
             'staff_organization'    => $data['staff_organization'],
             'monitoring_type'       => $data['monitoring_type'],
             'total_qbs'             => $data['total_qbs'], 
-            'qb_not_applicable'     => $data['qb_not_applicable'], 
-            'qbs_fully_met'         => $data['qbs_fully_met'],
-            'qbs_not_fully_met'     => $qb_not_met,
-            'score_out'             => $score_out, 
-            'qb_status'             => $qb_status,
+            'qb_not_applicable'     => $data['qb_not_applicable'] ?? 0, 
+            'qbs_fully_met'         => $data['qbs_fully_met'] ?? 0,
+            'qbs_not_fully_met'     => $qb_not_met ?? 0,
+            'score_out'             => $score_out ?? 0, 
+            'qb_status'             => $qb_status ?? '',
             'created_by'            => auth()->user()->id,
             'activity_description'  => $data['activity_description'],   
         ]);

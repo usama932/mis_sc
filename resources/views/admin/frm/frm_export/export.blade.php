@@ -140,7 +140,18 @@
                                     @endforeach
                                 </select>
                             </div>
-
+                            <div class="col-md-3 my-3">
+                                <label class="fs-6 fw-semibold form-label mb-2">
+                                    <span class="required">Feedback Category</span>
+                                </label>
+                                <select name="feedback_category" id="feedback_category" aria-label="Select a Feedback Category" data-control="select2" data-placeholder="Select a Feedback Category..." class="form-select  " data-allow-clear="true" >
+                                    <option  value="" selected>Select Option</option>
+                                    <option  value="None" >All</option>
+                                    @foreach($feedbackcategories as $feedback_category)
+                                        <option  value="{{$feedback_category->id}}">{{$feedback_category->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                   
                     </div>

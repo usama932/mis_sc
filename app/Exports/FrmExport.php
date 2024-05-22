@@ -38,6 +38,11 @@ class FrmExport implements FromView
         if($this->data['feedback_channel'] != null  && $this->data['feedback_channel'] != 'None'){
             $frm->where('feedback_channel',$this->data['feedback_channel']);
         }
+        
+        if($this->data['feedback_category'] != null  && $this->data['feedback_category'] != 'None'){
+            
+            $frm->where('feedback_category',$this->data['feedback_category']);
+        }
         if($this->data['age'] != null  && $this->data['age']  != 'None'){
             $frm->where('age',$this->data['age']);
         }
