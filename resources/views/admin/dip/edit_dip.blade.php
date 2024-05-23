@@ -30,7 +30,7 @@
                             @endforeach
                         </li>
                         <li><strong>Budget holder FP:</strong> 
-                            {{$project->budget_holder?->name ?? ''}} - {{$project->budget_holder?->desig?->designation_name ?? ''}}
+                           {{$budgetholder ?? ''}}
                         </li>
                         <li><strong>Donor:</strong> {{$project->donors?->name ?? ''}}</li>
                     </ul>
@@ -56,7 +56,7 @@
                             @endforeach
                         </li>
                         <li><strong>Focal Person:</strong> 
-                            {{$project->focalperson?->name ?? ''}} - {{$project->focalperson?->desig?->designation_name ?? ''}}
+                            {{$focal_person ?? ''}}
                         </li>
                         <li><strong>Award FP:</strong> 
                             {{$project->awardfp?->name ?? ''}} - {{$project->awardfp?->desig?->designation_name ?? ''}}

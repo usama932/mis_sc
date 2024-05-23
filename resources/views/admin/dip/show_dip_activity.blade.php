@@ -35,7 +35,7 @@
         
         @endsection
 
-        <div class="container mt-3">
+        <div class="container-fluid mt-3">
            
             <input type="hidden" id="dip_activity" value="{{$dip_activity->id}}">
            

@@ -13,7 +13,7 @@
      
         <li class="breadcrumb-item text-muted">Activities</li>
     </ol>
-    <div class="container py-3">
+    <div class="container-fluid py-3">
         <div class="card">
             <div class="card-header bg-light border-bottom">
                 <h5 class="card-title">{{$project->name ?? ''}}</h5>

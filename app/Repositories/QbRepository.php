@@ -9,6 +9,7 @@ class QbRepository implements QbRepositoryInterface
 {
     public function storeQb($data)
     {
+        $qb_base_monitoring = 0;
         if($data['qb_base'] == "Yes"){
             $qb_not_met =  $data['total_qbs'] - ($data['qbs_fully_met'] + $data['qb_not_applicable']) ;   
             $score = $data['qbs_fully_met'] /($data['total_qbs']- $data['qb_not_applicable']);
@@ -26,6 +27,7 @@ class QbRepository implements QbRepositoryInterface
             }else{
                 $qb_status =  "Excellent";
             }
+            $qb_base_monitoring = 1;
         }
         $assement_code = $data['district'].'-'.time();
         return QualityBench::create([
@@ -52,30 +54,32 @@ class QbRepository implements QbRepositoryInterface
             'score_out'             => $score_out ?? 0, 
             'qb_status'             => $qb_status ?? '',
             'created_by'            => auth()->user()->id,
+            'qb_base_monitoring'    => $qb_base_monitoring,
             'activity_description'  => $data['activity_description'],   
         ]);
     }
     public function updateQb($data,$id)
     {
-       
-        $qb_not_met =  $data['total_qbs'] - ($data['qbs_fully_met'] + $data['qb_not_applicable']) ;   
-        $score = $data['qbs_fully_met'] /($data['total_qbs']- $data['qb_not_applicable']);
-        
-        $score_out = $score * 100;  
-        //dd($score_out);
-        if($score_out > 0 && $score_out < 50){
-            $qb_status =  "Poor";
-        }
-        elseif($score_out >= 50 && $score_out <= 80){
-            $qb_status =  "Average";
-        }
-        elseif($score_out > 80 && $score_out <= 95){
-            $qb_status =  "Good";
-        }else{
-            $qb_status =  "Excellent";
+        $qb = QualityBench::where('id',$id)->first();
+        if($qb->qb_base == "Yes"){
+            $qb_not_met =  $data['total_qbs'] - ($data['qbs_fully_met'] + $data['qb_not_applicable']) ;   
+            $score = $data['qbs_fully_met'] /($data['total_qbs']- $data['qb_not_applicable']);
+            
+            $score_out = $score * 100;  
+            //dd($score_out);
+            if($score_out > 0 && $score_out < 50){
+                $qb_status =  "Poor";
+            }
+            elseif($score_out >= 50 && $score_out <= 80){
+                $qb_status =  "Average";
+            }
+            elseif($score_out > 80 && $score_out <= 95){
+                $qb_status =  "Good";
+            }else{
+                $qb_status =  "Excellent";
+            }
         }
         return QualityBench::where('id',$id)->update([
-
             'accompanied_by'        => $data['accompanied_by'],
             'date_visit'            => $data['date_visit'],
             'type_of_visit'         => $data['type_of_visit'],   
@@ -91,12 +95,12 @@ class QbRepository implements QbRepositoryInterface
             'partner'               => $data['partner'],
             'staff_organization'    => $data['staff_organization'],
             'monitoring_type'       => $data['monitoring_type'],
-            'total_qbs'             => $data['total_qbs'], 
-            'qb_not_applicable'     => $data['qb_not_applicable'], 
-            'qbs_fully_met'         => $data['qbs_fully_met'],
-            'qbs_not_fully_met'     => $qb_not_met,
-            'score_out'             => $score_out,
-            'qb_status'             => $qb_status,
+            'total_qbs'             => $data['total_qbs'] ?? $qb->total_qbs, 
+            'qb_not_applicable'     => $data['qb_not_applicable'] ?? $qb->qb_not_applicable, 
+            'qbs_fully_met'         => $data['qbs_fully_met'] ?? $qb->qbs_fully_met,
+            'qbs_not_fully_met'     => $qb_not_met ?? $qb->qbs_not_fully_met,
+            'score_out'             => $score_out ?? $qb->score_out,
+            'qb_status'             => $qb_status ?? $qb->qb_status,
             'activity_description'  => $data['activity_description'],   
             'updated_by'            => auth()->user()->id
         ]);

@@ -306,16 +306,21 @@ class QbController extends Controller
     }
 
   
-    public function update(UpdateQbRequest $request, string $id)
+    public function update(Request $request, string $id)
     {
+        $qb = QualityBench::find($id);
         $data = $request->except('_token');
         $Qb = $this->QbRepository->updateQb($data,$id);
         $active = 'basic_info';
         if(session('active') == ''){
             session(['active' => $active]);
         }
-        $editUrl = route('quality-benchs.edit',$id);
-     
+        if($qb->qb_base == "Yes"){
+            $editUrl = route('quality-benchs.edit',$id);
+        }
+        else{
+            $editUrl = route('quality-benchs.index');
+        }
         return response()->json([
             'editUrl' => $editUrl
         ]);

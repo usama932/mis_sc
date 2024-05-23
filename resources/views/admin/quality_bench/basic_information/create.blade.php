@@ -78,27 +78,17 @@
                             </div>
                             <div class="fv-row col-md-3">
                                 <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">QB Monitor Visit</span>                           
+                                    <span class="required">Monitoring Type</span>
                                 </label>
-                                <div class="foallow_contactrm-check form-check-custom form-check-solid mt-4">
-                                    <!--begin::Input-->
-                                    <input class="form-check-input qb_base" name="qb_base" id="allow_qb_base_yes" type="radio" value="Yes"/ checked>
-                                    <!--end::Input-->
-                                    <!--begin::Label-->
-                                    <label class="form-check-label me-5">
-                                        <div class="fw-bold text-gray-800 ">Yes</div>
-                                    </label>
-                                    <input class="form-check-input qb_base" name="qb_base" id="allow_qb_base_no"  id="qb_base" type="radio" value="No"/ required>
-                                    <!--end::Input-->
-                                    <!--begin::Label-->
-                                    <label class="form-check-label me-5">
-                                        <div class="fw-bold text-gray-800">No</div>
-                                    </label>
-                                    <!--end::Label-->
-                                   
-                                </div>
-                                <div id="allow_contactError" class="error-message "></div>
+                                <select   name="monitoring_type" id="monitoring_type"  aria-label="Select a Type of Visit " data-control="select2" data-placeholder="Select a Monitoring Type" class="form-select">
+                                    <option value="">Select Monitoring Type</option>
+                                    <option value="Process and output monitoring">Process and output monitoring</option>
+                                    <option value="Distribution">Distribution</option>
+                                    <option value="Joint outcome monitoring">Joint outcome monitoring</option>
+                                </select>
+                                <div id="monitoring_typeError" class="error-message"></div>
                             </div>
+                           
                         </div>
                       
                         <div class="row mt-3">
@@ -192,24 +182,36 @@
                             </div>
                         </div>
                         <div class="row mt-3">
-                            <div class="fv-row col-md-3">
-                                <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">Monitoring Type</span>
-                                </label>
-                                <select   name="monitoring_type" id="monitoring_type"  aria-label="Select a Type of Visit " data-control="select2" data-placeholder="Select a Monitoring Type" class="form-select">
-                                    <option value="">Select Monitoring Type</option>
-                                    <option value="Process and output monitoring">Process and output monitoring</option>
-                                    <option value="Distribution">Distribution</option>
-                                    <option value="Joint outcome monitoring">Joint outcome monitoring</option>
-                                </select>
-                                <div id="monitoring_typeError" class="error-message"></div>
-                            </div>
+                          
                             <div class="fv-row col-md-6">
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Activity visited</span>
                                 </label>
                                 <textarea  rows="1" class="form-control" id="activity_description"  name="activity_description"></textarea>
                                 <div id="activity_descriptionError" class="error-message"></div>
+                            </div>
+                            <div class="fv-row col-md-3">
+                                <label class="fs-6 fw-semibold form-label mb-2">
+                                    <span class="required">QB Monitor Visit</span>                           
+                                </label>
+                                <div class="foallow_contactrm-check form-check-custom form-check-solid mt-4">
+                                    <!--begin::Input-->
+                                    <input class="form-check-input qb_base" name="qb_base" id="allow_qb_base_yes" type="radio" value="Yes"/ checked>
+                                    <!--end::Input-->
+                                    <!--begin::Label-->
+                                    <label class="form-check-label me-5">
+                                        <div class="fw-bold text-gray-800 ">Yes</div>
+                                    </label>
+                                    <input class="form-check-input qb_base" name="qb_base" id="allow_qb_base_no"  id="qb_base" type="radio" value="No"/ required>
+                                    <!--end::Input-->
+                                    <!--begin::Label-->
+                                    <label class="form-check-label me-5">
+                                        <div class="fw-bold text-gray-800">No</div>
+                                    </label>
+                                    <!--end::Label-->
+                                   
+                                </div>
+                                <div id="allow_contactError" class="error-message "></div>
                             </div>
 							<div class="fv-row col-sm-3 col-md-1 col-lg-1 qb_base_div ">
                                 <label class="fs-9 fw-semibold form-label mb-2">

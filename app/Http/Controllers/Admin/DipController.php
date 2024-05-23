@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Models\District;
 use App\Models\Province;
 use App\Models\SCITheme;
+use App\Models\User;
 use DateTime;
 use DateInterval;
 use DatePeriod;
@@ -49,10 +50,11 @@ class DipController extends Controller
         ];
     
         $user = auth()->user();
+        $userId =  $user->id.'';
         $is_admin = $user->user_type === 'admin';
-    
-        $totalData = $is_admin ? Project::count() : Project::where(function ($query) use ($user) {
-            $query->orWhereJsonContains('focal_person', $user->id)
+      
+        $totalData = $is_admin ? Project::count() : Project::where(function ($query) use ($user, $userId) {
+            $query->orWhereJsonContains('focal_person', $userId)
                 ->orWhereHas('partners', function ($query) use ($user) {
                     $query->where('email', $user->email);
                 });
@@ -63,24 +65,30 @@ class DipController extends Controller
         $order = isset($columns[$orderIndex]) ? $columns[$orderIndex] : 'id';
         $dir = $request->input('order.0.dir');
         
-        $totalFiltered = $is_admin ? Project::count() : Project::orWhereJsonContains('focal_person', $user->id)
+        $totalFiltered = $is_admin ? Project::count() : Project::orWhereJsonContains('focal_person', $userId)
             ->orWhereHas('partners', function ($query) use ($user) {
                 $query->where('email', $user->email);
             })->count();
     
         $start = $request->input('start');
-        $query = $is_admin ? Project::query() : Project::where(function ($query) use ($user) {
-            $query->orWhereJsonContains('focal_person', $user->id)
+        $query = $is_admin ? Project::latest() : Project::where(function ($query) use ($user , $userId) {
+            $query->orWhereJsonContains('focal_person', $userId)
                 ->orWhereHas('partners', function ($query) use ($user) {
                     $query->where('email', $user->email);
                 });
         });
-    
+        $project = Project::where(function ($query) use ($user ,$userId) {
+            $query->orWhereJsonContains('focal_person', $userId)
+                ->orWhereHas('partners', function ($query) use ($user) {
+                    $query->where('email', $user->email);
+                });
+        })->get();
+        
         $projects = $query->limit($limit)->offset($start)->orderBy($order, $dir)->get();
     
         $data = [];
         foreach ($projects as $project) {
-            if ($project->detail && $project->themes->count() > 0) {
+            if (!empty($project->detail) && !empty($project->themes)) {
                 $nestedData['id'] = $project->id;
                 $nestedData['project'] = $project->name ?? '';
                 $nestedData['type'] = $project->type ?? '';
@@ -198,8 +206,12 @@ class DipController extends Controller
         }
 
         addVendors(['datatables']);
-        
-        return view('admin.dip.edit',compact('project','provinces','districts'));
+        $focalperson = $project->focal_person;
+        $budgetholder = $project->budget_holder;
+        $focal_person = $focalperson ? implode("<br>", User::whereIn('id', json_decode($focalperson, true))->pluck('name')->toArray()) : '';
+        $budgetholder = $budgetholder ? implode("<br>", User::whereIn('id', json_decode($budgetholder, true))->pluck('name')->toArray()) : '';
+       
+        return view('admin.dip.edit',compact('project','focal_person','budgetholder','provinces','districts'));
     }
 
     public function update(Request $request, string $id)

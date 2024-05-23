@@ -180,27 +180,29 @@
                 <textarea  rows="1" class="form-control" id="activity_description"  name="activity_description">{{$qb->activity_description ?? ''}}</textarea>
                 <div id="activity_descriptionError" class="error-message"></div>
             </div>
-            <div class="fv-row col-sm-1 col-md-1 col-lg-1">
-                <label class="fs-9 fw-semibold form-label mb-2">
-                    <span class="required">Total QBs</span>
-                </label>
-                <input type="text" class="form-control fs-9" id="total_qbs"  name="total_qbs" value="{{$qb->total_qbs ?? ''}}">
-                <div id="total_qbsError" class="error-message"></div>
-            </div>
-            <div class="fv-row col-md-1">
-                <label class="fs-9 fw-semibold form-label mb-2">
-                    <span class="required">Fully Met</span>
-                </label>
-                <input type="text" class="form-control fs-9" id="qbs_fully_met" name="qbs_fully_met" value="{{$qb->qbs_fully_met ?? ''}}">
-                <div id="qbs_fully_metError" class="error-message"></div>
-            </div>
-            <div class="fv-row col-md-1">
-                <label class="fs-9 fw-semibold form-label mb-2">
-                    <span class="required">Not Applicable</span>
-                </label>
-                <input type="text" class="form-control fs-9" name="qb_not_applicable" id="qb_not_applicable" value="{{$qb->qb_not_applicable ?? ''}}">
-                <div id="qb_not_applicableError" class="error-message"></div>
-            </div>
+            @if($qb->qb_base_monitoring == 1)
+                <div class="fv-row col-sm-1 col-md-1 col-lg-1">
+                    <label class="fs-9 fw-semibold form-label mb-2">
+                        <span class="required">Total QBs</span>
+                    </label>
+                    <input type="text" class="form-control fs-9" id="total_qbs"  name="total_qbs" value="{{$qb->total_qbs ?? ''}}">
+                    <div id="total_qbsError" class="error-message"></div>
+                </div>
+                <div class="fv-row col-md-1">
+                    <label class="fs-9 fw-semibold form-label mb-2">
+                        <span class="required">Fully Met</span>
+                    </label>
+                    <input type="text" class="form-control fs-9" id="qbs_fully_met" name="qbs_fully_met" value="{{$qb->qbs_fully_met ?? ''}}">
+                    <div id="qbs_fully_metError" class="error-message"></div>
+                </div>
+                <div class="fv-row col-md-1">
+                    <label class="fs-9 fw-semibold form-label mb-2">
+                        <span class="required">Not Applicable</span>
+                    </label>
+                    <input type="text" class="form-control fs-9" name="qb_not_applicable" id="qb_not_applicable" value="{{$qb->qb_not_applicable ?? ''}}">
+                    <div id="qb_not_applicableError" class="error-message"></div>
+                </div>
+            @endif
         </div>
         <div class="row mt-3">
             <div class="fv-row col-md-3">

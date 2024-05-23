@@ -117,7 +117,6 @@ class ProjectRepository implements ProjectRepositoryInterface
             'updated_by'            => auth()->user()->id,
         ]); 
        
-      
         return $project;
        
     }
@@ -161,7 +160,9 @@ class ProjectRepository implements ProjectRepositoryInterface
                         'status' => '1',
                         'user_type' => 'R1',
                     ]);
-                    $user->assignRole("partner");
+                    $userr = User::latest()->first();
+                    $userr->assignRole("partner");
+                  
                 }
             
                 $projectPartner = ProjectPartner::create([

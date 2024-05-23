@@ -11,7 +11,7 @@
 					<span class="menu-heading fw-bold text-uppercase fs-7">Apps</span>
 				</div>
 			</div>
-            
+            @can('dashboards')
             <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->segment(1) == 'dashboard' || request()->segment(1) == 'qb_dashboard' || request()->segment(1) == 'frm_dashboard' || request()->segment(1) == 'medical_exit_interview') ? 'here show' : '' }}">
                 <!--begin:Menu link-->
                 <span class="menu-link">
@@ -69,7 +69,8 @@
                 </div>
                 <!--end:Menu sub-->
             </div>
-            @can('frm')
+            @endcan
+            @can('read feedback registry')
                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->segment(1) == 'frm-managements' ||  request()->routeIs('frm-export')) ? 'here show' : ''}}">
                     <!--begin:Menu link-->
                     <span class="menu-link">
@@ -121,7 +122,7 @@
                     <!--end:Menu sub-->
                 </div>
             @endcan
-            @can('quality_bench')
+            @can('read quality benchmarks')
                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->segment(1) == 'quality-benchs' || request()->segment(1) == 'get_old_action_points' || request()->segment(1) == 'get_old_qbs' || request()->segment(1) == 'get_oldqbs' ||  request()->segment(1) == 'getupdate_actionpoint' || request()->segment(1) == 'action_points'  ||  request()->routeIs('qb-export') || request()->routeIs('qbactionpoint-export')) ? 'here show' : ''}} ">
                     <!--begin:Menu link-->
                     <span class="menu-link">

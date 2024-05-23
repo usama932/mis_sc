@@ -104,9 +104,9 @@
                                 <input type="text" name="activities[0][complete_date]" id="start_date0" placeholder="Select date"  class="form-control start_date" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
                             
                             </div>
-                            <div class="col-md-2 mt-10 text-end fs-9">
-                                <span class="badge badge-info" onclick="addTargetRow()" id="add_quarter_target">
-                               <i class="fa fa-plus mx-2" aria-hidden="true"></i>Add Monthly Target</span>
+                            <div class="col-md-2 mt-7 text-end fs-9">
+                                <h1> <button class="btn btn-info btn-sm fs-9" onclick="addTargetRow()" id="add_quarter_target">
+                               <i class="fa fa-plus  aria-hidden="true"></i>Add Another Month Target</button></h1>
                             </div>
                         </div>
                     </div>
@@ -132,7 +132,6 @@
         var maxDate = "{{ date('Y-m', strtotime($project->end_date)) }}";
         var selectedMonths = [];
 
-        
         function initFlatpickr() {
             $(".monthpick").flatpickr({
                 plugins: [
