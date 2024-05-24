@@ -67,7 +67,7 @@
                     @endif
                 </td>
                 <td>
-                    {{$action_point->monitor_visit?->action_type ?? ''}}
+                    {{$action_point->action_type ?? ''}}
                 </td>
                 <td>
                     {{$action_point->monitor_visit?->gap_issue ?? ''}}
