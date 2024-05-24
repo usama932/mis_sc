@@ -19,19 +19,16 @@ class ProjectProfileController extends Controller
     }
 
     public function profile_detail(Request $request){
-        $id = $request->id;
-        $profile = ProjectProfile::find($id);
+        $id                 = $request->id;
+        $profile            = ProjectProfile::find($id);
 
-        $district_logs = json_decode($profile->districts , true);
-        $tehsil_logs       = json_decode($profile->tehsils , true);
-        $uc_logs       = json_decode($profile->ucs , true);
-
+        $district_logs      = json_decode($profile->districts , true);
+        $tehsil_logs        = json_decode($profile->tehsils , true);
+        $uc_logs            = json_decode($profile->ucs , true);
      
-        $districts  = District::whereIn('district_id', $district_logs)
-                                    ->pluck('district_name')
-                                    ->toArray();
-        $tehsils    = Tehsil::whereIn('id', $tehsil_logs)->pluck('tehsil_name')->toArray();
-        $ucs        = UnionCounsil::whereIn('union_id', $uc_logs)->pluck('uc_name')->toArray();
+        $districts          = District::whereIn('district_id', $district_logs)->pluck('district_name')->toArray();
+        $tehsils            = Tehsil::whereIn('id', $tehsil_logs)->pluck('tehsil_name')->toArray();
+        $ucs                = UnionCounsil::whereIn('union_id', $uc_logs)->pluck('uc_name')->toArray();
       
         return view('admin.projects.partials.view_profile_detail',compact('profile','districts','tehsils','ucs'));
     }
@@ -66,12 +63,12 @@ class ProjectProfileController extends Controller
 			foreach($profiles as $r) {
                 $edit_url = route('projects.edit', $r->id);
                 $show_url = route('projects.show', $r->id);
-                $nestedData['id'] = $r->id;
-                $nestedData['project'] = $r->project?->name ?? '';
-                $nestedData['theme']  = $r->theme?->name ?? '';
-                $district_logs = json_decode($r->districts , true);
-                $tehsil_logs       = json_decode($r->tehsils , true);
-                $uc_logs       = json_decode($r->ucs , true);
+                $nestedData['id']       = $r->id;
+                $nestedData['project']  = $r->project?->name ?? '';
+                $nestedData['theme']    = $r->theme?->name ?? '';
+                $district_logs          = json_decode($r->districts , true);
+                $tehsil_logs            = json_decode($r->tehsils , true);
+                $uc_logs                = json_decode($r->ucs , true);
 
              
                 $districts  = District::whereIn('district_id', $district_logs)
