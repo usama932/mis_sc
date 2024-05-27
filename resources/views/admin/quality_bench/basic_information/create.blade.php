@@ -140,7 +140,7 @@
                             </div>
                             
                         </div>
-                        <div class="row mt-3">
+                        <div class="row ">
                             <div class="fv-row col-md-3">
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Village</span>
@@ -183,7 +183,7 @@
                         </div>
                         <div class="row mt-3">
                           
-                            <div class="fv-row col-md-6">
+                            <div class="fv-row col-md-5">
                                 <label class="fs-6 fw-semibold form-label mb-2">
                                     <span class="required">Activity visited</span>
                                 </label>
@@ -227,7 +227,7 @@
                                 <input type="text" class="form-control" id="qbs_fully_met" name="qbs_fully_met" value="">
                                 <div id="qbs_fully_metError" class="error-message"></div>
                             </div>
-                            <div class="fv-row col-md-1 qb_base_div">
+                            <div class="fv-row col-md-2 qb_base_div">
                                 <label class="fs-9 fw-semibold form-label mb-2">
                                     <span class="required">Not Applicable</span>
                                 </label>
@@ -295,10 +295,10 @@
             
             var demo = $(this).val();
             if(demo == "Yes"){
-                $(".qb_base_div").show();
+                $(".qb_base_div").show(1000);
             }
             else{
-                $(".qb_base_div").hide();
+                $(".qb_base_div").hide(1000);
             }
         });
         });
