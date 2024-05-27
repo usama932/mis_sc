@@ -225,7 +225,9 @@
                                 <table class="table table-striped table-bordered nowrap" id="dip_activity" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Activity</th>
+                                            <th>Activity. #</th>
+                                            <th>Activity Title</th>
+                                            <th>Theme</th>
                                             <th>Sub Theme</th>
                                             <th>LOP Target</th>
                                             <th>Quarter  Target</th>
@@ -246,9 +248,7 @@
     <script>
         var dip_id = document.getElementById("project_id").value ;
         var dip_activity = $('#dip_activity').DataTable( {
-            "order": [
-            [1, 'desc']
-        ],
+            "order": [],
         "dom": 'lfBrtip',
         buttons: [
             'csv', 'excel'
@@ -271,6 +271,8 @@
             "columns":[
                 
                             {"data":"activity_number","searchable":false,"orderable":false},
+                            {"data":"activity","searchable":false,"orderable":false},
+                            {"data":"theme","searchable":false,"orderable":false},
                             {"data":"sub_theme","searchable":false,"orderable":false},
                             {"data":"lop_target","searchable":false,"orderable":false},
                             {"data":"quarter_target","searchable":false,"orderable":false},

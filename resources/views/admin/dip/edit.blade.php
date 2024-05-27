@@ -59,38 +59,37 @@
         <script>
             var dip_id = document.getElementById("project_id").value ;
             var dip_activity = $('#dip_activity').DataTable( {
-                "order": [
-                    [1, 'desc']
-                ],
-                "dom": 'lfBrtip',
-                buttons: [
-                    'csv', 'excel'
-                ],
-                "responsive": false, // Enable responsive mode
-                "processing": true,
-                "serverSide": true,
-                "searching": false,
-                "bLengthChange": false,
-                "bInfo" : false,
-                "info": true,   
-                "ajax": {
-                    "url":"{{route('admin.get_activity_dips')}}",
-                    "dataType":"json",
-                    "type":"POST",
-                    "data":{"_token":"<?php echo csrf_token() ?>",
-                            "dip_id":dip_id}
-                },
-                "columns":[
-                    {"data":"activity","searchable":false,"orderable":false,"width": "10%",},
-                    {"data":"activity_number","searchable":false,"orderable":false,"width": "10%",},
-                    {"data":"sub_theme","searchable":false,"orderable":false},
-                    {"data":"lop_target","searchable":false,"orderable":false},
-                    {"data":"quarter_target","searchable":false,"orderable":false},
-                    {"data":"created_by","searchable":false,"orderable":false},
-                    {"data":"created_at","searchable":false,"orderable":false},
-                    {"data":"action","searchable":false,"orderable":false},
-                ]
-            });
+            "order": [],
+            "dom": 'lfBrtip',
+            buttons: [
+                'csv', 'excel'
+            ],
+            "responsive": false, // Enable responsive mode
+            "processing": true,
+            "serverSide": true,
+            "searching": false,
+            "bLengthChange": false,
+            "bInfo" : false,
+            "info": true,
+            "ajax": {
+                "url":"{{route('admin.get_activity_dips')}}",
+                "dataType":"json",
+                "type":"POST",
+                "data":{"_token":"<?php echo csrf_token() ?>",
+                        "dip_id":dip_id}
+            },
+            "columns":[
+                {"data":"activity","searchable":false,"orderable":false,"width": "10%"},
+                {"data":"activity_number","searchable":false,"orderable":false,"width": "10%"},
+                {"data":"theme","searchable":false,"orderable":false},
+                {"data":"sub_theme","searchable":false,"orderable":false},
+                {"data":"lop_target","searchable":false,"orderable":false},
+                {"data":"quarter_target","searchable":false,"orderable":false},
+                {"data":"created_by","searchable":false,"orderable":false},
+                {"data":"created_at","searchable":false,"orderable":false},
+                {"data":"action","searchable":false,"orderable":false},
+            ]
+        });
         
             function del(id) {
                 Swal.fire({
@@ -321,8 +320,28 @@
                     },
                 ]
             });
-
+            
         </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const shortDescription = document.getElementById('short-description');
+                const fullDescription = document.getElementById('full-description');
+                const toggleButton = document.getElementById('toggle-button');
+        
+                toggleButton.addEventListener('click', function () {
+                    if (fullDescription.style.display === 'none') {
+                        fullDescription.style.display = 'block';
+                        shortDescription.style.display = 'none';
+                        toggleButton.textContent = 'Show Less';
+                    } else {
+                        fullDescription.style.display = 'none';
+                        shortDescription.style.display = 'block';
+                        toggleButton.textContent = 'Show More';
+                    }
+                });
+            });
+        </script>
+        
     @endpush
 
 </x-nform-layout>

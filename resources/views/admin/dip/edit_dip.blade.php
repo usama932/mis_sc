@@ -74,7 +74,12 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Project Description</h5>
-                    <p class="card-text">{{$project->detail?->project_description ?? ''}}</p>
+                    <p class="card-text">
+                        <span id="short-description">{{$project->detail?->project_description ? substr($project->detail->project_description, 0, 1000) . '...' : ''}}</span>
+                        <span id="full-description" style="display: none;">{{$project->detail?->project_description ?? ''}}</span>
+                        <span id="toggle-button" class="badge badge-primary">Show More</span>
+                    </p>
+                  
                 </div>
             </div>
         </div>

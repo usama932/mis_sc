@@ -146,24 +146,34 @@
                 
             </tr>
             <tr>
+                <td class="fs-7"><strong>QB Base Monitoring</strong></td>
+                <td class="fs-7"> 
+                @if($qb->qb_base_monitoring == 1)
+                   <span class="badge bg-success">Yes</span>
+                @else
+                    <span class="badge bg-light">No</span>
+                @endif
+                </td>
+
                 <td class="fs-7"><strong>Total QBs:</strong></td>
-                <td class="fs-7">{{$qb->total_qbs ?? ''}}</td>
+                <td class="fs-7">{{$qb->total_qbs ?? '0'}}</td>
 
                 <td class="fs-7"><strong>QBs Fully Met:</strong></td>
                 <td class="fs-7">{{$qb->qbs_fully_met ?? ''}}</td>
 
-                <td class="fs-7"><strong>QBs Not Applicable:</strong></td>
-                <td class="fs-7">{{$qb->qb_not_applicable ?? ''}}</td>
+              
             </tr>
             <tr>
-                
+                <td class="fs-7"><strong>QBs Not Applicable:</strong></td>
+                <td class="fs-7">{{$qb->qb_not_applicable ?? ''}}</td>
+
                 <td class="fs-7"><strong>QBs Not Fully Met:</strong></td>
                 <td class="fs-7">{{$qb->qbs_not_fully_met ?? ''}}</td>
 
                 <td class="fs-7"><strong>Score Out:</strong></td>
                 <td class="fs-7">{{$qb->score_out ?? ''}}</td>
 
-                <td></td>
+                
                 <td></td>
 
                 

@@ -42,7 +42,7 @@ class DipActivityController extends Controller
         })->count();
     
         $limit = $request->input('length');
-        $order = $columns[$request->input('order.0.column')];
+        //$order = $columns[$request->input('order.0.column')];
         $dir = $request->input('order.0.dir');
     
         $totalFiltered = DipActivity::when(!empty($dip_id), function ($query) use ($dip_id) {
@@ -92,9 +92,8 @@ class DipActivityController extends Controller
         }
         $dips = $dipsQuery->limit($limit)
             ->offset($start)
-            ->orderBy($order, $dir)
-            ->get()
-            ->sortByDesc("date_visit");
+            ->orderBy("activity_number",'DESC')
+            ->get();
     
         $data = [];
     
@@ -112,8 +111,8 @@ class DipActivityController extends Controller
     
                 $nestedData['activity_number'] = $finalText ?? '';
                 $nestedData['activity'] = $r->activity_number ?? '';
-                $nestedData['theme'] = $r->scitheme_name->name ?? '';
-                $nestedData['sub_theme'] = $r->scisubtheme_name?->maintheme?->name .' - '.$r->scisubtheme_name?->name ?? '';
+                $nestedData['theme'] = $r->scisubtheme_name?->maintheme?->name ?? '';
+                $nestedData['sub_theme'] =  $r->scisubtheme_name?->name ?? '';
                 $nestedData['project'] = $r->project->name ?? '';
                 $nestedData['lop_target'] = $r->lop_target ?? '';
                 $quarterTarget = '<ul style="list-style-type: none; padding: 0; margin: 0;">';
@@ -125,7 +124,7 @@ class DipActivityController extends Controller
                 $quarterTarget .= '</ul>';
                 $nestedData['quarter_target'] = $quarterTarget;
                 $nestedData['created_by'] = $r->user->name ?? '';
-                $nestedData['created_at'] = date('M d ,Y', strtotime($r->created_at)). '<br>'. date('h:iA', strtotime($r->created_at)) ?? '';
+                $nestedData['created_at'] = date('M d, Y', strtotime($r->created_at)). '<br>'. date('h:iA', strtotime($r->created_at)) ?? '';
                 $nestedData['update_progress'] = '<a  href="' . $progress_url . '"><span class="badge badge-success">Update Progress</span></a>';
     
                 $nestedData['action'] = '<div>

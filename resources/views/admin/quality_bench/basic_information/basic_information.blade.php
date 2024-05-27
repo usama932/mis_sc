@@ -202,6 +202,15 @@
                     <input type="text" class="form-control fs-9" name="qb_not_applicable" id="qb_not_applicable" value="{{$qb->qb_not_applicable ?? ''}}">
                     <div id="qb_not_applicableError" class="error-message"></div>
                 </div>
+            @else
+            <div class="fv-row col-md-3">
+                <label class="fs-7 fw-semibold form-label mb-2">
+                    <span class="required">QB Base Monitoring</span>
+                </label>
+                <br>
+                No
+                <div id="qb_not_applicableError" class="error-message"></div>
+            </div>
             @endif
         </div>
         <div class="row mt-3">

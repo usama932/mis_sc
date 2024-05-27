@@ -155,7 +155,13 @@ class QbController extends Controller
                 $nestedData['activity_description'] = $r->activity_description ?? '';
                 $nestedData['village']              = $r->village ?? '';
                 $nestedData['date_visit']           = date('d-M-Y', strtotime($r->date_visit)) ?? '';
-                $nestedData['total_qbs']            = $r->total_qbs ?? '';
+                if($r->qb_base_monitoring == 1){
+                    $qb_base = '<span class="badge bg-success">Yes</span>';
+                }else{
+                    $qb_base = '<span class="badge bg-light">No</span>';
+                }
+                $nestedData['qb_base']              = $qb_base ;
+                $nestedData['total_qbs']            = $r->total_qbs ?? '0';
                 $nestedData['qbs_not_fully_met']    = $r->qbs_not_fully_met ?? '';
                 $nestedData['qbs_fully_met']        = $r->qbs_fully_met ?? '';
                 $nestedData['qb_not_applicable']    = $r->qb_not_applicable ?? '';

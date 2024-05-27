@@ -317,8 +317,11 @@ class ProjectController extends Controller
             $months[] = $start_date->format('M Y'); // Add month name and year to the array
             $start_date->modify('+1 month'); // Move to the next month
         }
-       
-        return view('admin.projects.projectView',compact('project','provinces','districts','project_partners','project_themes','months'));
+        $focalperson = $project->focal_person;
+        $budgetholder = $project->budget_holder;
+        $focal_person = $focalperson ? implode(", ", User::whereIn('id', json_decode($focalperson, true))->pluck('name')->toArray()) : '';
+        $budgetholder = $budgetholder ? implode(", ", User::whereIn('id', json_decode($budgetholder, true))->pluck('name')->toArray()) : '';
+        return view('admin.projects.projectView',compact('project','focal_person','budgetholder','provinces','districts','project_partners','project_themes','months'));
     }
 
     public function create()
@@ -400,8 +403,8 @@ class ProjectController extends Controller
 
         $focalperson = $project->focal_person;
         $budgetholder = $project->budget_holder;
-        $focal_person = $focalperson ? implode("<br>", User::whereIn('id', json_decode($focalperson, true))->pluck('name')->toArray()) : '';
-        $budgetholder = $budgetholder ? implode("<br>", User::whereIn('id', json_decode($budgetholder, true))->pluck('name')->toArray()) : '';
+        $focal_person = $focalperson ? implode(", ", User::whereIn('id', json_decode($focalperson, true))->pluck('name')->toArray()) : '';
+        $budgetholder = $budgetholder ? implode(", ", User::whereIn('id', json_decode($budgetholder, true))->pluck('name')->toArray()) : '';
         return view('admin.projects.show',compact('project','provinces','districts','focal_person','budgetholder'));
     }
 

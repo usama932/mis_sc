@@ -175,6 +175,7 @@
                             <th>GeoLocations</th>
                             <th>Staff Organization</th>
                             <th>Date Visit</th>
+                            <th class="fs-8">QB Base Monitoring</th>
                             <th>Total QBs</th>
                             <th>QBs Not Fully Met</th>
                             <th>QBs  Fully Met</th>
@@ -249,6 +250,7 @@
                             {"data":"village","searchable":false,"orderable":false},
                             {"data":"staff_organization","searchable":false,"orderable":false},
                             {"data":"date_visit","searchable":false,"orderable":false},
+                            {"data":"qb_base","searchable":false,"orderable":false},
                             {"data":"total_qbs","searchable":false,"orderable":false},
                             {"data":"qbs_not_fully_met","searchable":false,"orderable":false},
                             {"data":"qbs_fully_met","searchable":false,"orderable":false},
@@ -338,6 +340,7 @@
                             {"data":"village","searchable":false,"orderable":false},
                             {"data":"staff_organization","searchable":false,"orderable":false},
                             {"data":"date_visit","searchable":false,"orderable":false},
+                            {"data":"qb_base","searchable":false,"orderable":false},
                             {"data":"total_qbs","searchable":false,"orderable":false},
                             {"data":"qbs_not_fully_met","searchable":false,"orderable":false},
                             {"data":"qbs_fully_met","searchable":false,"orderable":false},

@@ -1,4 +1,4 @@
-<x-default-layout>
+<x-nform-layout>
  
     @section('title')
          Project Activity Detail
@@ -7,7 +7,7 @@
         table, th, td ,tr{
           border: 1px solid black;
         }
-        </style>
+    </style>
     <ol class="breadcrumb text-muted fs-6 fw-semibold">
         <li class="breadcrumb-item"><a href="{{route('get_project_index')}}" class="">Project Details</a></li>
      
@@ -75,13 +75,13 @@
                     <div class="col-md-4">
                         <label class="fw-bold">Focal Person:</label>
                         <p class='fs-6'>
-                            {{$project->focalperson?->name}} ({{$project->focalperson?->desig?->designation_name}})
+                            {{$focal_person}} 
                         </p>
                     </div>
                     <div class="col-md-4">
                         <label class="fw-bold">Budget Holder FP:</label>
                         <p class='fs-6'>
-                            {{$project->budgetholder?->name ?? ''}} -  {{$project->budgetholder?->desig?->designation_name ?? ''}}
+                            {{$budgetholder}}
                        
                         </p>
                     </div>
@@ -117,13 +117,14 @@
                 </div>
                 
                 <div class="table-responsive">
-                    <table class="table table-sm  table-bordered"  style="width: auto; overflow-x: auto;">
+                    <table class="table table-sm nowrap table-striped  table-bordered">
                         <thead>
                             <tr>
-                                <th class="fs-7" style="min-width: 300px;">Activities</th>
-                                <th  class="fs-7" style="min-width: 100px;">LOP Target</th>
+                                <th class="fs-9 col-1" style="width:8x !important;">Activity .#</th>
+                                <th class="fs-7 col-4" style="min-width: 300px;">Activity Title</th>
+                                <th  class="fs-9" style="width:60px !important;">LOP Target</th>
                                 @foreach($months as $month)
-                                    <th colspan="6" class=" fs-7 text-center">{{ $month}}</th>
+                                    <th colspan="6 " class=" fs-7 text-center col-2">{{ $month}}</th>
                                 @endforeach
                                 <th class="fs-7" style="min-width: 300px;">Remarks</th>
                             </tr>
@@ -132,12 +133,14 @@
                             <tr>
                                 <th></th>
                                 <th></th>
+                                <th></th>
                                 @foreach($project->quarters as $tenure)
                                     <?php
                                         $dateString = $tenure->quarter;
                                         $parts = explode("-", $dateString);
-                                        $quarter = $parts[0]; // This will give you "Q2"
-                                       
+                                        $quarter = $parts[0];
+
+                                        // This will give you "Q2"
                                     ?>
                                     @if($quarter == 'Q1')
                                         <th colspan="2 class="fs-8 text-center">Jan</th>
@@ -166,14 +169,14 @@
                         </thead> --}}
                         <thead>
                             <tr>
-                                <th></th>
-                                <th></th>
+                                <th class="fs-7 col-1" style="width:8px !important;"></th>
+                                <th class="fs-7 col-4" style="min-width: 300px;"></th>
+                                <th class="fs-7" style="min-width:60px;"></th>
                                 @foreach($months as $month)
-                                    
-                                      <th colspan="3" class="fs-9 text-center"> Target</th>
-                                      <th colspan="3"  class="fs-9 text-center">Acheive</th>
+                                      <th colspan="3" class=" fs-9 text-center col-2"> Target</th>
+                                      <th colspan="3"  class=" fs-9 text-center col-2">Acheive</th>
                                 @endforeach
-                                <th class="fs-9" style="min-width: 300px;"></th>
+                                <th class="fs-9" style="min-width:300px;"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -183,11 +186,32 @@
 
                                 @endphp
                                 <tr>
-                                    <th colspan=" 90" class="fs-6">{{$subtheme->maintheme?->name}} ({{$subtheme->name}})</th> 
+                                    <th colspan="90" class="fs-6">{{$subtheme->maintheme?->name}} ({{$subtheme->name}})</th> 
                                 </tr>
-                                @foreach($activities as $item)
+                                @php
+                                    $sortedActivities = $activities->sort(function ($a, $b) {
+                                        $a_parts = explode('.', $a->activity_number);
+                                        $b_parts = explode('.', $b->activity_number);
+
+                                        for ($i = 0; $i < max(count($a_parts), count($b_parts)); $i++) {
+                                            $a_part = isset($a_parts[$i]) ? (int)$a_parts[$i] : 0;
+                                            $b_part = isset($b_parts[$i]) ? (int)$b_parts[$i] : 0;
+
+                                            if ($a_part < $b_part) {
+                                                return -1;
+                                            } elseif ($a_part > $b_part) {
+                                                return 1;
+                                            }
+                                        }
+
+                                        return 0;
+                                    });
+                                @endphp
+
+                                @foreach($sortedActivities as $item)
                                     <tr>
-                                        <td style="min-width: 150px;" class="fs-8">{{$item->activity_number ?? ''}}</td>
+                                        <td style="width:25px !important;" class="fs-8">{{$item->activity_number ?? ''}}</td>
+                                        <td class="fs-8">{{$item->activity_title ?? ''}}</td>
                                         <td class="fs-8">{{$item->lop_target ?? ''}}</td>
                                         @foreach($months as $monthed)
                                             <td colspan="3" class="text-center fs-8">
@@ -272,4 +296,4 @@ function exportToExcel(project) {
 
 
 @endpush
-</x-default-layout>
+</x-nform-layout>
