@@ -43,6 +43,13 @@ class DipActivityController extends Controller
     
         $limit = $request->input('length');
         //$order = $columns[$request->input('order.0.column')];
+        $orderIndex = $request->input('order.0.column');
+        if (isset($columns[$orderIndex])) {
+            $order = $columns[$orderIndex];
+        } else {
+            
+            $order = 'id'; // Or any other default column name
+        }
         $dir = $request->input('order.0.dir');
     
         $totalFiltered = DipActivity::when(!empty($dip_id), function ($query) use ($dip_id) {
@@ -92,7 +99,7 @@ class DipActivityController extends Controller
         }
         $dips = $dipsQuery->limit($limit)
             ->offset($start)
-            ->orderBy("activity_number",'DESC')
+            ->orderBy($order, $dir)
             ->get();
     
         $data = [];

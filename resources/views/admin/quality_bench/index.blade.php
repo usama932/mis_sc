@@ -232,12 +232,12 @@
             "bInfo" : true,
             "responsive": false,
             "info": true,
-           "ajax": {
-               "url":"{{route('admin.get_qbs')}}",
-               "dataType":"json",
-               "type":"POST",
-               "data":{"_token":"<?php echo csrf_token() ?>"}
-           },
+            "ajax": {
+                "url":"{{route('admin.get_qbs')}}",
+                "dataType":"json",
+                "type":"POST",
+                "data":{"_token":"<?php echo csrf_token() ?>"}
+            },
             "columns":[
                             {"data":"assement_code","searchable":false,"orderable":false},
                             {"data":"project_name","searchable":false,"orderable":false},
@@ -301,7 +301,6 @@
                 buttons: [
                     'csv', 'excel'
                 ],
-                "responsive": true, // Enable responsive mode
                 "processing": true,
                 "serverSide": true,
                 "searching": false,

@@ -20,24 +20,25 @@
             </div>
         @endif
         <input type="hidden" id="project_id" value="{{$project->id}}">
-        <div class="container-fluid">
-            <ul class="nav nav-tabs nav-line-tabs m-5 fs-6">
-                <li class="nav-item">
-                    <a class="nav-link @if(session('dip_edit') != 'dip_activity') active @endif " data-bs-toggle="tab" href="#kt_tab_pane_1">Project Information</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link @if(session('dip_edit') == 'dip_activity') active @endif " data-bs-toggle="tab" href="#kt_tab_pane_2">Activities</a>
-                </li>
-            </ul>
-            <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade @if(session('dip_edit') != 'dip_activity') show active @endif" id="kt_tab_pane_1" role="tabpanel">
-                    @include('admin.dip.edit_dip')
-                </div>
-                <div class="tab-pane fade @if(session('dip_edit') == 'dip_activity') show active @endif" id="kt_tab_pane_2" role="tabpanel">
-                    @include('admin.dip.dip_activity')
-                </div>   
+      
+        <ul class="nav nav-tabs nav-line-tabs m-5 fs-6">
+            <li class="nav-item">
+                <a class="nav-link @if(session('dip_edit') != 'dip_activity') active @endif " data-bs-toggle="tab" href="#kt_tab_pane_1">Project Information</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @if(session('dip_edit') == 'dip_activity') active @endif " data-bs-toggle="tab" href="#kt_tab_pane_2">Activities</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade @if(session('dip_edit') != 'dip_activity') show active @endif" id="kt_tab_pane_1" role="tabpanel">
+                @include('admin.dip.edit_dip')
             </div>
+
+            <div class="tab-pane fade @if(session('dip_edit') == 'dip_activity') show active @endif" id="kt_tab_pane_2" role="tabpanel">
+                @include('admin.dip.dip_activity')
+            </div>   
         </div>
+       
         <div class="modal fade" id="dip_edit" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -59,7 +60,7 @@
         <script>
             var dip_id = document.getElementById("project_id").value ;
             var dip_activity = $('#dip_activity').DataTable( {
-            "order": [],
+            
             "dom": 'lfBrtip',
             buttons: [
                 'csv', 'excel'

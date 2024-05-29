@@ -34,9 +34,6 @@
                             <input type="text" name="sof" id="sof" placeholder="Enter SOF" class="form-control" value="{{ $project->sof ?? ''}}">
                             <div id="sofError" class="error-message "></div>
                         </div> 
-                      
-                 
-                    
                         <div class="fv-row col-md-6 ">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Donor</span>

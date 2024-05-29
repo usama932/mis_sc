@@ -59,14 +59,14 @@
                     <tr>
                         <td class="fs-8"><strong>Operational Focal Person</strong></td>
                         <td>
-                          {{ucfirst($project->focalperson?->name ?? '')}} -  {{$project->focalperson?->desig?->designation_name ?? ''}}<br>
+                          {{ucfirst($focal_person)}}<br>
                        
                         </td>
                     </tr>
                     <tr>
                         <td class="fs-8"><strong>Budget holder FP</strong></td>
                         <td>
-                          {{ucfirst($project->budgetholder?->name ?? '')}} -  {{$project->budgetholder?->desig?->designation_name ?? ''}}<br>
+                          {{ucfirst($budgetholder ?? '')}}
                        
                         </td>
                     </tr>
@@ -126,13 +126,13 @@
             </div>
         </div>
     </div>
-    <div class="modal fade close" id="view_profile" data-backdrop="static" tabindex="-1" role="dialog"
+    <div class="modal fade close" id="editprofile" data-backdrop="static" tabindex="-1" role="dialog"
         aria-labelledby="staticBackdrop" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="view_monitor_visit">Project Profile Details</h4>
+                <h4 class="modal-title" id="editprofile">Project Profile Details</h4>
             </div>
             <div class="modal-body" id="profilemodal_body"></div>
             <div class="modal-footer">

@@ -2,18 +2,54 @@
 var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 var project_id = document.getElementById("project_id").value ?? '1';
 var project_theme = $('#project_themes').DataTable({
-    "order": [
-        [1, 'desc']
+    buttons: [
+        {
+
+            extend: 'excelHtml5',
+
+            filename: 'Themetic area Data export_',
+
+            text: '<i class="flaticon2-download"></i> Excel',
+
+            title: 'Themetic area Data export',
+
+            className: 'btn btn-outline-success',
+
+            exportOptions: {
+
+                columns: [0,1, 2, 3, 4, 5,6,7,8,9,10]
+
+            }
+
+        },
+
+        {
+
+            extend: 'csvHtml5',
+
+            filename: 'Themetic area Data CSV_',
+
+            text: '<i class="flaticon2-download"></i> CSV',
+
+            title: 'Themetic area Data',
+
+            className: 'btn btn-outline-success',
+
+            exportOptions: {
+
+                columns: [0,1, 2, 3, 4, 5,6,7,8,9,10]
+
+            }
+
+        }
     ],
     "dom": 'lfBrtip',
-    buttons: [
-        'csv', 'excel'
-    ],
-    "responsive": true, // Enable responsive mode
     "processing": true,
-    "serverSide": true,
+    "serverSide": false,  // Disable server-side processing
     "searching": false,
-    "bLengthChange": false,
+    "paging": false,      // Disable pagination
+    "bLengthChange": true,
+    "aLengthMenu": [[10, 50, 100, 150, 200], [10, 50, 100, 150, 200]],
     "bInfo": false,
     "responsive": false,
     "info": true,

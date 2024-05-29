@@ -3,6 +3,7 @@
     @section('title')
     View Project Detail
     @endsection
+
     <div class="card p-3">
         <input type="hidden" id="project_id" value="{{$project->id}}">
         <div class="row">
@@ -125,23 +126,23 @@
             </div>
         </div>
         <div class="card">
-            <div class="container-fluid">
-                <ul class="nav nav-tabs mt-1 fs-6">
-                   
-                    <li class="nav-item">
-                        <a class="nav-link  active " data-bs-toggle="tab" href="#thematic" >Thematic area</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link  " data-bs-toggle="tab" href="#partner">Implementing Partner</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link  " data-bs-toggle="tab" href="#profile">Project Profile</a>
-                    </li>
-                    <li class="nav-item " >
-                        <a class="nav-link text-success " data-bs-toggle="tab" href="#activities">Project Activities</a>
-                    </li>
-                </ul>
-            </div>
+            
+            <ul class="nav nav-tabs mt-1 fs-6">
+                
+                <li class="nav-item">
+                    <a class="nav-link  active " data-bs-toggle="tab" href="#thematic" >Thematic area</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  " data-bs-toggle="tab" href="#partner">Implementing Partner</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link  " data-bs-toggle="tab" href="#profile">Project Profile</a>
+                </li>
+                <li class="nav-item " >
+                    <a class="nav-link text-success " data-bs-toggle="tab" href="#activities">Project Activities</a>
+                </li>
+            </ul>
+           
             <div class="tab-content" id="myTabContent">
                 
                 
@@ -248,30 +249,67 @@
     <script>
         var dip_id = document.getElementById("project_id").value ;
         var dip_activity = $('#dip_activity').DataTable( {
-            "order": [],
-        "dom": 'lfBrtip',
         buttons: [
-            'csv', 'excel'
+            {
+
+                extend: 'excelHtml5',
+
+                filename: 'Activity Exports Data export_',
+
+                text: '<i class="flaticon2-download"></i> Excel',
+
+                title: 'Activity Exports',
+
+                className: 'btn btn-outline-success',
+
+                exportOptions: {
+
+                    columns: [0,1, 2, 3, 4, 5]
+
+                }
+
+            },
+
+            {
+
+                extend: 'csvHtml5',
+
+                filename: 'Activity Exports CSV_',
+
+                text: '<i class="flaticon2-download"></i> CSV',
+
+                title: 'Activity Exports',
+
+                className: 'btn btn-outline-success',
+
+                exportOptions: {
+
+                    columns: [0,1, 2, 3, 4, 5]
+
+                }
+
+            }
         ],
-        "responsive": true, // Enable responsive mode
+        "dom": 'lfBrtip',
         "processing": true,
         "serverSide": true,
         "searching": false,
-        "bLengthChange": false,
+        "bLengthChange": true,
+        "aLengthMenu": [[10, 50, 100,200,300,-1], [10, 50, 100,150,200,300,"ALL"]],
         "bInfo" : false,
         "responsive": false,
-        "info": true,   
+        "info": true,
         "ajax": {
             "url":"{{route('admin.get_activity_dips')}}",
             "dataType":"json",
             "type":"POST",
             "data":{"_token":"<?php echo csrf_token() ?>",
                     "dip_id":dip_id}
-        },
+            },
             "columns":[
                 
-                            {"data":"activity_number","searchable":false,"orderable":false},
                             {"data":"activity","searchable":false,"orderable":false},
+                            {"data":"activity_number","searchable":false,"orderable":false},
                             {"data":"theme","searchable":false,"orderable":false},
                             {"data":"sub_theme","searchable":false,"orderable":false},
                             {"data":"lop_target","searchable":false,"orderable":false},

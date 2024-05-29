@@ -48,21 +48,23 @@ class ProjectThemeController extends Controller
 		
 		$totalData = ProjectTheme::where('project_id',$request->project_id)->count();
 		$limit = $request->input('length');
-        $order = $columns[$request->input('order.0.column')];
-        $dir = $request->input('order.0.dir');
+        // $orderIndex = $request->input('order.0.column');
+        // if (isset($columns[$orderIndex])) {
+        //     $order = $columns[$orderIndex];
+        // } else {
+            
+        //     $order = 'id'; // Or any other default column name
+        // }
+     
         $totalFiltered = ProjectTheme::where('project_id',$request->project_id)->count();
 		$start = $request->input('start');	
         $project = ProjectTheme::where('project_id',$request->project_id);
 
-        $projects =$project->offset($start)
-                            ->limit($limit)->orderBy($order, $dir)->get();
+        $projects =$project->orderBy('created_at')->get();
 		$data = array();
 
 		if($projects){
 			foreach($projects as $r){
-			
-                $edit_url = route('projects.edit',$r->id);
-                $show_url = route('projects.show',$r->id);
 				$nestedData['id']                = $r->id;
                 $nestedData['theme']             = $r->scitheme_name?->name ?? '';
                 $nestedData['sub_theme']         = $r->scisubtheme_name?->name ?? '';
@@ -76,8 +78,6 @@ class ProjectThemeController extends Controller
                 $nestedData['pwd_target']        = $r->pwd_target ?? '';
                 $nestedData['plw_target']        = $r->plw_target ?? '';
                 $nestedData['other']             = $r->other ?? '';
-             
-
                 $nestedData['action'] = '<div>
                                             <td>
                                             <a class="btn-icon mx-1" title="Edit project theme" onclick="event.preventDefault(); edittheme('.$r->id.');" title="Edit project theme" href="javascript:void(0)">
@@ -89,8 +89,6 @@ class ProjectThemeController extends Controller
                                             </td>
                                         </div>
                                         ';
-               
-				
 				$data[] = $nestedData;
 			}
 		}

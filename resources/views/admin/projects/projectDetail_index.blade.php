@@ -3,59 +3,58 @@
     Add/Edit Project Details
     @endsection 
     <style>
-        .spacer::after {
-    content: "\2002"; /* Unicode character for en space */
+    .spacer::after {
+            content: "\2002"; /* Unicode character for en space */
 }
-        </style>
+    </style>
     <div id="kt_app_content" class="app-content flex-column-fluid">
 
-        
         <div class="card mb-4">
             @role('administrator')
-            <div class="accordion" id="accordionExample">
-                <div class="accordion-item">
-                    <h3 class="accordion-header" id="headingOne">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            <div class="d-flex align-items-center">
-                                <!--begin::Symbol-->
-                                <div class="symbol symbol-50px me-5">
-                                    <span class="symbol-label bg-light-danger">
-                                        <i class="ki-duotone ki-filter-search fs-2x text-danger">
-                                            <span class="path1"></span>
-                                            <span class="path2"></span>
-                                        </i>
-                                    </span>
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h3 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <div class="d-flex align-items-center">
+                                    <!--begin::Symbol-->
+                                    <div class="symbol symbol-50px me-5">
+                                        <span class="symbol-label bg-light-danger">
+                                            <i class="ki-duotone ki-filter-search fs-2x text-danger">
+                                                <span class="path1"></span>
+                                                <span class="path2"></span>
+                                            </i>
+                                        </span>
+                                    </div>
+                                    <!--end::Symbol-->
+                                    <!--begin::Text-->
+                                    <div class="d-flex flex-column">
+                                        <a href="javascript:;" class="text-dark text-hover-primary fs-6 fw-bold">Apply Filters</a>
+                                    </div>
+                                    <!--end::Text-->
                                 </div>
-                                <!--end::Symbol-->
-                                <!--begin::Text-->
-                                <div class="d-flex flex-column">
-                                    <a href="javascript:;" class="text-dark text-hover-primary fs-6 fw-bold">Apply Filters</a>
-                                </div>
-                                <!--end::Text-->
-                            </div>
-                        </button>
-                    </h3>
-                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            <div class="card-header border-0">
-                                <div class="row mb-5">
-                                    <div class="col-md-12 mt-3">
-                                        <label class="fs-6 fw-semibold form-label mb-2">
-                                            <span>Project</span>
-                                        </label>
-                                        <select name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Project Name" class="form-select form-select-solid">
-                                            <option value="">Select Project</option>
-                                            @foreach($projects as $project)
-                                            <option value="{{$project->id}}">{{$project->name}}</option>
-                                            @endforeach
-                                        </select>
+                            </button>
+                        </h3>
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="card-header border-0">
+                                    <div class="row mb-5">
+                                        <div class="col-md-12 mt-3">
+                                            <label class="fs-6 fw-semibold form-label mb-2">
+                                                <span>Project</span>
+                                            </label>
+                                            <select name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Project Name" class="form-select form-select-solid">
+                                                <option value="">Select Project</option>
+                                                @foreach($projects as $project)
+                                                <option value="{{$project->id}}">{{$project->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
             @endrole
         </div>
         <div class="card"> 

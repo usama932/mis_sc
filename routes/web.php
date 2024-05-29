@@ -197,6 +197,7 @@ use Illuminate\Support\Facades\Route;
         //Project Profile Route
         Route::resource('/projectprofiles', ProjectProfileController::class);
         Route::post('project_profile', [ProjectProfileController::class,'project_profile'])->name('admin.project_profile');
+        Route::get('edit_project_profile/{id}', [ProjectProfileController::class,'edit_project_profile'])->name('edit_project_profile');
         Route::post('profile_detail', [ProjectProfileController::class,'profile_detail'])->name('admin.profile_detail');
         Route::get('/project_profile/delete/{id}', [ProjectProfileController::class,'destroy'])->name('project_profile.delete');
     });

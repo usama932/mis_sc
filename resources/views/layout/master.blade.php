@@ -5,7 +5,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'MIS-SCP')</title>
+    <title>MIS - @yield('title', 'MIS-SCP')</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/media/logos/favicon.ico') }}">
 
     @if(Auth::check())
@@ -33,6 +33,19 @@
     @if(Auth::check())
      @livewireStyles
     @endif
+    <style>
+        .dataTables_length, .dt-buttons {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .dataTables_wrapper .dataTables_length {
+            float: left;
+        }
+        .dataTables_wrapper .dt-buttons {
+            float: right;
+            margin-left: 20px;
+        }
+    </style>
 </head>
 <!--end::Head-->
 

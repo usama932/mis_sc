@@ -45,7 +45,6 @@ class ProjectController extends Controller
     {
 
         $meal_team = ['Meal Assistant', 'Meal Officer', 'Meal Manager', 'Meal Coordinator', 'Accountability Officer', 'MIS Manager', 'MIS Officer', 'Head of Meal', 'administrator', 'MIS Officer'];
-
         $limit = $request->input('length');
         $orderIndex = $request->input('order.0.column');
         $order = $columns[$orderIndex] ?? 'id';
@@ -284,12 +283,16 @@ class ProjectController extends Controller
         $project_partners   = ProjectPartner::where('project_id',$id)->get();  
         $project_themes   = ProjectTheme::where('project_id',$id)->get();  
         addJavascriptFile('assets/js/custom/dip/create.js');
+        $focalperson = $project->focal_person;
+        $budgetholder = $project->budget_holder;
+        $focal_person = $focalperson ? implode(", ", User::whereIn('id', json_decode($focalperson, true))->pluck('name')->toArray()) : '';
+        $budgetholder = $budgetholder ? implode(", ", User::whereIn('id', json_decode($budgetholder, true))->pluck('name')->toArray()) : '';
         addJavascriptFile('assets/js/custom/project/projectthemeValidation.js');
         addJavascriptFile('assets/js/custom/project/projectpartnerValidation.js');
         addJavascriptFile('assets/js/custom/project/projectprofilingValidation.js');
         addVendors(['datatables']);
        
-        return view('admin.projects.updateprojectdetail',compact('project_themes','project','project_partners','partners','themes','provinces','districts','ps','ths'));
+        return view('admin.projects.updateprojectdetail',compact('focal_person','budgetholder','project_themes','project','project_partners','partners','themes','provinces','districts','ps','ths'));
     }
 
     public function project_view($id){

@@ -44,14 +44,19 @@ class ProjectPartnerController extends Controller
 		
 		$totalData = ProjectPartner::where('project_id',$request->project_id)->count();
 		$limit = $request->input('length');
-        $order = $columns[$request->input('order.0.column')];
-        $dir = $request->input('order.0.dir');
+        // $orderIndex = $request->input('order.0.column');
+        // if (isset($columns[$orderIndex])) {
+        //     $order = $columns[$orderIndex];
+        // } else {
+            
+        //     $order = 'id'; // Or any other default column name
+        // }
+        // $dir = $request->input('order.0.dir');
         $totalFiltered = ProjectPartner::where('project_id',$request->project_id)->count();
 		$start = $request->input('start');	
         $project = ProjectPartner::where('project_id',$request->project_id);
 
-        $projects =$project->offset($start)
-                            ->limit($limit)->orderBy($order, $dir)->get();
+        $projects =$project->orderBy('created_at')->get();
 		$data = array();
 
 		if($projects){

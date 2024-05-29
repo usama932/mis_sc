@@ -64,16 +64,12 @@ class QbController extends Controller
         }
       
         $dateParts = explode('to',$request->date_visit);
-       
-        
-        
         $startdate = '';
         $enddate = '';
         if(!empty($dateParts)){
             $startdate = $dateParts[0] ?? '';
             $enddate = $dateParts[1] ?? '';
         }
-     
         if($request->date_visit != null){
 
             $qualit_benchs->whereBetween('date_visit',[$startdate ,$enddate]);

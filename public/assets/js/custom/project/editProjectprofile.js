@@ -1,109 +1,6 @@
 var baseURL = window.location.origin;
+document.getElementById('tehsilloader').style.display = 'none';
 var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-$("#create_projectprofile").hide();
-$("#addprojectprofileBtn").click(function() {
-    $("#create_projectprofile").slideToggle();
-    $("#project_profile_table").slideToggle();
-    $("#cancelprojectprofileBtn").show();
-    $(this).hide();
-});
-
-//Datatable
-var project_id = document.getElementById("project_id").value ?? '1';
-var project_profiles = $('#project_profile').DataTable({
-   
-    buttons: [
-        {
-            extend: 'excelHtml5',
-            filename: 'Project Profile Data export_',
-            text: '<i class="flaticon2-download"></i> Excel',
-            title: 'Themetic area Data export',
-            className: 'btn btn-outline-success',
-            exportOptions: {
-                columns: [0,1,2]
-            }
-        },
-        {
-            extend: 'csvHtml5',
-            filename: 'Project Profile Data CSV_',
-            text: '<i class="flaticon2-download"></i> CSV',
-            title: 'Themetic area Data',
-            className: 'btn btn-outline-success',
-            exportOptions: {
-                columns: [0,1,2]
-            }
-        }
-    ],
-    "dom": 'lfBrtip',
-    "processing": true,
-    "serverSide": false,  // Disable server-side processing
-    "searching": false,
-    "paging": false,      // Disable pagination
-    "bLengthChange": true,
-    "aLengthMenu": [[10, 50, 100, 150, 200], [10, 50, 100, 150, 200]],
-    "bInfo": false,
-    "responsive": false,
-    "info": true,
-    "ajax": {
-
-        "url": "/project_profile",
-        "dataType": "json",
-        "type": "POST",
-        "data": {
-            _token: csrfToken,
-            'project_id': project_id
-        }
-    },
-    "columns": [
-        
-        {
-            "data": "theme",
-            "searchable": false,
-            "orderable": false
-        },
-        {
-            "data": "province",
-            "searchable": false,
-            "orderable": false
-        },
-        {
-            "data": "district",
-            "searchable": false,
-            "orderable": false
-        },
-        // {
-        //     "data": "tehsil",
-        //     "searchable": false,
-        //     "orderable": false
-        // },
-        // {
-        //     "data": "uc",
-        //     "searchable": false,
-        //     "orderable": false
-        // },
-        // {
-        //     "data": "village",
-        //     "searchable": false,
-        //     "orderable": false
-        // },
-        
-        {
-            "data": "action",
-            "searchable": false,
-            "orderable": false
-        },
-    ]
-});
-
-
-//toggle menu
-$("#cancelprojectprofileBtn").click(function() {
-    $("#project_profile_table").slideToggle();
-    $("#create_projectprofile").slideToggle();
-    $("#addprojectprofileBtn").show(); // Show the other buttons
-    $(this).hide(); // Hide the cancel button
-});
-
 $("#select2_profile_district").change(function () {
     var value = $(this).val();
     var project = document.getElementById('project_id').value || '';
@@ -126,7 +23,7 @@ $("#select2_profile_district").change(function () {
         }
     });
 });
-
+document.getElementById('ucloader').style.display = 'none';
 $("#kt_select2_tehsil").change(function () {
     var value = $(this).val();
     var project = document.getElementById('project_id').value || '';
@@ -249,22 +146,7 @@ var KTprojectprofileValidate = function() {
                                 };
                                 toastr.error(response.data.message, "Duplicate Entry");
                             } else {
-                                form.reset();
                                
-                                // var select2_profile_district = $('#select2_profile_district');
-                                // select2_profile_district.val(null).trigger('change');
-                        
-                                var kt_select2_tehsil = $('#kt_select2_tehsil');
-                                kt_select2_tehsil.val(null).trigger('change');
-
-                                var kt_select2_uc = $('#kt_select2_uc');
-                                kt_select2_uc.val(null).trigger('change');
-                                
-                                var village = $('#village');
-                                village.val(null).trigger('change');
-                        
-                                var detail = $('#kt_docs_ckeditor_classic');
-                                detail.val(null).trigger('change');
                              
                                 toastr.options = {
                                     "closeButton": true,
@@ -283,11 +165,8 @@ var KTprojectprofileValidate = function() {
                                     "showMethod": "fadeIn",
                                     "hideMethod": "fadeOut"
                                 };
-                                toastr.success("Profile Added Successfully", "Success");
-                                project_profiles.ajax.reload(null, false).draw(false);
-                                $("#create_projectprofile").slideToggle();
-                                $("#addprojectprofileBtn").show();
-                                $("#project_profile_table").slideToggle();
+                                toastr.success("Profile updated Successfully", "Success");
+                           
                                
                             }
 
@@ -372,8 +251,8 @@ var KTprojectprofileValidate = function() {
         // Initialization
         init: function() {
             // Elements
-            form = document.querySelector('#create_projectprofile');
-            submitButton = document.querySelector('#kt_create_profile');
+            form = document.querySelector('#edit_projectprofile');
+            submitButton = document.querySelector('#kt_edit_profile');
             handleFormAjax();
         }
     };
@@ -383,66 +262,4 @@ var KTprojectprofileValidate = function() {
 KTUtil.onDOMContentLoaded(function() {
 
     KTprojectprofileValidate.init();
-});
-
-//Project profile
-function view(id) {
-    
-    $.post(baseURL + '/profile_detail', {
-    _token: csrfToken,
-    id: id
-    }).done(function(response) {
-    $('#profilemodal_body').html(response);
-    $('#view_profile').modal('show');
-
-    });
-}
-
-//delete project partner
-function project_profiledel(id) {
-    Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, delete it!"
-    }).then(function(result) {
-
-        if (result.value) {
-            Swal.fire(
-                "Deleted!",
-                "Your Project Profile  has been deleted.",
-                "success"
-            );
-            var segments = window.location.href.split('/');
-            var url = segments[1];
-            var APP_URL = url + "/project_profile/delete/" + id;
-            var apiUrl = APP_URL;
-            fetch(apiUrl, {
-                    method: 'GET', // You can use 'GET', 'POST', 'PUT', 'DELETE', etc.
-                    headers: {
-                        'Content-Type': 'application/json', // Set the content type based on your API requirements
-                        // Add any other headers if needed
-                    },
-                    
-                })
-                .then(response => {
-                    // Handle the response as needed
-                    console.log(response);
-                })
-                .catch(error => {
-                    // Handle errors
-                    console.error('Error:', error);
-                });
-
-
-                project_profiles.ajax.reload(null, false).draw(false);
-            // $("#create_projecttheme").slideToggle();
-            // $("#project_theme_table").slideToggle();
-            // $("#addprojectthemeBtn").show();
-        }
-    });
-}
-$('.close').click(function() {
-    $('#view_profile').modal('hide');
 });
