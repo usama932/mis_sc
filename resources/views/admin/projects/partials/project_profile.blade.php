@@ -17,6 +17,7 @@
                 </label>
                 <select id="select2_profile_district" multiple name="district[]" aria-label="Select Multiple District" data-control="select2" data-placeholder="Select Multiple District" class="form-select">
                         @if(!empty($project->detail?->district))
+                        <option value="select_all">Select All</option>
                             @foreach($districts as $district)
                                 <option value="{{$district->district_id}}">
                                     {{$district->district_name}}

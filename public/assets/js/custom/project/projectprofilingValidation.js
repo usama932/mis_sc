@@ -104,28 +104,73 @@ $("#cancelprojectprofileBtn").click(function() {
     $(this).hide(); // Hide the cancel button
 });
 
-$("#select2_profile_district").change(function () {
+$(document).ready(function() {
+    // Initialize select2
+    $('#select2_profile_district').select2();
+
+    // Handle the change event
+    $('#select2_profile_district').on('change', function() {
+        var values = $(this).val();
+        
+        // Check if 'Select All' was selected
+        if (values && values.includes('select_all')) {
+            // Select all options
+            $('#select2_profile_district > option').prop('selected', 'selected');
+            $('#select2_profile_district').trigger('change');
+
+            // Remove 'Select All' from the selection
+            values = values.filter(value => value !== 'select_all');
+            $('#select2_profile_district').val(values).trigger('change');
+        }
+
+        // Proceed with the selected values
+        var project = document.getElementById('project_id').value || '';
+        csrf_token = $('[name="_token"]').val();
+        document.getElementById('tehsilloader').style.display = 'block';
+
+        // AJAX call to fetch tehsils based on selected districts
+        $.ajax({
+            type: 'POST',
+            url: '/getprofiletehsil',
+            data: {'district': values, _token: csrf_token, 'project': project },
+            dataType: 'json',
+            success: function (data) {
+                document.getElementById('tehsilloader').style.display = 'none';
+                $("#kt_select2_tehsil").empty();
+                $("#kt_select2_tehsil").prepend("<option value=''>Select Tehsil</option>");
+                $.each(data, function (i, item) {
+                    $("#kt_select2_tehsil").append("<option value='" + item.id + "'>" +
+                        item.tehsil_name.replace(/_/g, ' ') + "</option>");
+                });
+            }
+        });
+    });
+});
+
+// Handle tehsil change and fetch UCs similarly
+$("#kt_select2_tehsil").change(function () {
     var value = $(this).val();
     var project = document.getElementById('project_id').value || '';
     csrf_token = $('[name="_token"]').val();
-    document.getElementById('tehsilloader').style.display = 'block';
-  
+    document.getElementById('ucloader').style.display = 'block';
+
     $.ajax({
         type: 'POST',
-        url: '/getprofiletehsil',
-        data: {'district': value, _token: csrf_token,'project': project },
+        url: '/getprofileuc',
+        data: {'tehsil': value, _token: csrf_token, 'project': project },
         dataType: 'json',
         success: function (data) {
-            document.getElementById('tehsilloader').style.display = 'none';
-            $("#kt_select2_tehsil").empty();
-            $("#kt_select2_tehsil").prepend("<option value=''>Select Tehsil</option>");
+            document.getElementById('ucloader').style.display = 'none';
+            $("#kt_select2_uc").empty();
+            $("#kt_select2_uc").prepend("<option value=''>Select UC</option>");
             $.each(data, function (i, item) {
-                $("#kt_select2_tehsil").append("<option value='" + item.id + "'>" +
-                    item.tehsil_name.replace(/_/g, ' ') + "</option>");
+                $("#kt_select2_uc").append("<option value='" + item.union_id + "'>" +
+                    item.uc_name.replace(/_/g, ' ') + "</option>");
             });
         }
     });
 });
+
 
 $("#kt_select2_tehsil").change(function () {
     var value = $(this).val();
