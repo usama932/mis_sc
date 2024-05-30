@@ -92,22 +92,21 @@
             </div>
         </form>
     </div>
-
-    @push('scripts')
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                ClassicEditor
-                    .create(document.querySelector('#kt_docs_ckeditor_classic'))
-                    .then(editor => {
-                        document.getElementById('edit_projectprofile').addEventListener('submit', function(event) {
-                            // Ensure CKEditor content is updated in the textarea before form submission
-                            document.querySelector('#kt_docs_ckeditor_classic').value = editor.getData();
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Error initializing CKEditor:', error);
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            ClassicEditor
+                .create(document.querySelector('#kt_docs_ckeditor_classic'))
+                .then(editor => {
+                    document.getElementById('kt_edit_profile').addEventListener('click', function(event) {
+                    event.preventDefault(); // Prevent default form submission
+                    var editorData = editor.getData(); // Get CKEditor content
+                    document.getElementById('kt_docs_ckeditor_classic').value = editorData; // Update textarea with CKEditor content
+                 
                     });
-            });
-        </script>
-    @endpush
+                })
+                .catch(error => {
+                    console.error('Error initializing CKEditor:', error);
+                });
+        });
+    </script>
 </x-nform-layout>

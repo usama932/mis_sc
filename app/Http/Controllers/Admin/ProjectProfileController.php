@@ -201,7 +201,7 @@ class ProjectProfileController extends Controller
     public function update(Request $request, string $id)
     {
         $project_profile = ProjectProfile::where('project_id' ,$request->project)->where('id' ,$id)->first();
-        dd($request->all());
+       
         ProjectProfile::where('id' ,$id)->update([
             'project_id' => $request->project,
             'theme_id' => $project_profile->theme_id,

@@ -2,14 +2,22 @@
     @section('title')
         Add Monitoring Visit
     @endsection
+
     <style>
         .error-message {
-           color: red;
-           font-size: 12px;
-           margin-top: 5px;
-       }
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
 
-   </style>
+        .spinner-border-sm {
+            display: none;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
 
     <div class="card">
         @if ($errors->any())
@@ -21,66 +29,76 @@
             </ul>
         </div>
         @endif
-       <ul class="nav nav-tabs mt-1 fs-6">
+
+        <ul class="nav nav-tabs mt-1 fs-6">
             <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="tab" href="#kt_tab_pane_1">Summary</a>
+                <a class="nav-link active" data-bs-toggle="tab" href="#summary">Summary</a>
+            </li>
+            <li class="nav-item qb_base_div">
+                <a class="nav-link disabled" data-bs-toggle="tab" href="#qbs-not-fully-met">QBs Not Fully Met</a>
+            </li>
+            <li class="nav-item qb_base_div">
+                <a class="nav-link disabled" data-bs-toggle="tab" href="#action-point-details">Action Point Details</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled" data-bs-toggle="tab" href="#kt_tab_pane_2" >QBs Not Fully Met</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" data-bs-toggle="tab" href="#kt_tab_pane_3">Action Point Details</a>
-            </li>
-			<li class="nav-item">
-                <a class="nav-link disabled" data-bs-toggle="tab" href="#kt_tab_pane_4">Comments and Attachment</a>
+                <a class="nav-link disabled" data-bs-toggle="tab" href="#comments-attachments">Comments and Attachment</a>
             </li>
         </ul>
+
         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="kt_tab_pane_1" role="tabpanel">
-                <form class="form" id="qb_form"  novalidate="novalidate" data-kt-redirect-url="{{ route('quality-benchs.index') }}" action="{{ route('quality-benchs.store') }}">
+            <div class="tab-pane fade show active" id="summary" role="tabpanel">
+                <form class="form" id="qb_form" novalidate="novalidate" data-kt-redirect-url="{{ route('quality-benchs.index') }}" action="{{ route('quality-benchs.store') }}" method="POST">
                     @csrf
                     <div class="card-body">
                         <div class="row">
-						    <div class="fv-row col-md-3 ">
-                                <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">Project</span>
-                                </label>
-                                <select   name="project_name" id="project_name" aria-label="Select Project" data-control="select2" data-placeholder="Select Project" class="form-select">
+                            <div class="fv-row mb-3 col-md-3">
+                                <label for="qb_base" class="form-label"><span class="required">QB Monitor Visit</span></label>
+                                <br>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input qb_base" type="radio" name="qb_base" id="allow_qb_base_yes" value="Yes" checked>
+                                    <label class="form-check-label" for="allow_qb_base_yes">Yes</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input qb_base" type="radio" name="qb_base" id="allow_qb_base_no" value="No">
+                                    <label class="form-check-label" for="allow_qb_base_no">No</label>
+                                </div>
+                                <div id="allow_contactError" class="error-message"></div>
+                            </div>
+
+                            <div class="fv-row mb-3 col-md-3">
+                                <label for="project_name" class="form-label"><span class="required">Project</span></label>
+                                <select class="form-select" name="project_name"  data-control="select2" id="project_name" aria-label="Select Project">
                                     <option value="">Select Project</option>
                                     @foreach($projects as $project)
                                     <option value="{{$project->id}}">{{$project->name}}</option>
                                     @endforeach
                                 </select>
-                                <div id="project_nameError" class="error-message "></div>
+                                <div id="project_nameError" class="error-message"></div>
                             </div>
-						    <div class="fv-row col-md-3">
-                                <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+
+                            <div class="fv-row mb-3 col-md-3">
+                                <label for="project_type" class="form-label d-flex">
                                     <span class="required">Project Type</span>
                                     <span class="spinner-border spinner-border-sm align-middle ms-2" id="projectloader"></span>
                                 </label>
-                                <input type="text" name="project_type" id="project_type" class="form-control" />
-                              
-                                <div id="project_typeError" class="error-message "></div>
+                                <input type="text" class="form-control" name="project_type" id="project_type">
+                                <div id="project_typeError" class="error-message"></div>
                             </div>
-							<div class="fv-row col-sm-3 col-md-3 col-lg-3">
-                                <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">Partner</span>
-                                  
-                                </label>
-                                <select   name="partner" id="partner" aria-label="Select a Partner Name" data-control="select2" data-placeholder="Select a Partner" class="form-select">
+
+                            <div class="fv-row mb-3 col-md-3">
+                                <label for="partner" class="form-label"><span class="required">Partner</span></label>
+                                <select class="form-select" name="partner" id="partner" aria-label="Select a Partner Name"  data-control="select2">
                                     <option value="">Select Partner Name</option>
                                     @foreach($partners as $partner)
                                     <option value="{{$partner->id}}">{{$partner->slug}}</option>
                                     @endforeach
                                 </select>
-                                
-                                <div id="partnerError" class="error-message "></div>
+                                <div id="partnerError" class="error-message"></div>
                             </div>
-                            <div class="fv-row col-md-3">
-                                <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">Monitoring Type</span>
-                                </label>
-                                <select   name="monitoring_type" id="monitoring_type"  aria-label="Select a Type of Visit " data-control="select2" data-placeholder="Select a Monitoring Type" class="form-select">
+
+                            <div class="fv-row mb-3 col-md-3">
+                                <label for="monitoring_type" class="form-label"><span class="required">Monitoring Type</span></label>
+                                <select class="form-select" name="monitoring_type" id="monitoring_type"   data-control="select2" aria-label="Select a Type of Visit">
                                     <option value="">Select Monitoring Type</option>
                                     <option value="Process and output monitoring">Process and output monitoring</option>
                                     <option value="Distribution">Distribution</option>
@@ -88,221 +106,162 @@
                                 </select>
                                 <div id="monitoring_typeError" class="error-message"></div>
                             </div>
-                           
-                        </div>
-                      
-                        <div class="row mt-3">
-                            <div class="fv-row col-md-3">
-                                <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">Province</span>
-                                </label>
-                                <select   name="province" id="kt_select2_province" aria-label="Select a Province" data-control="select2" data-placeholder="Select a Province..." class="form-select ">
-                                
-                                    <option value="">Select Province</option>
-                                    {{-- <option value='1'>Punjab</option> --}}
+
+                            <div class="fv-row mb-3 col-md-3">
+                                <label for="kt_select2_province" class="form-label"><span class="required">Province</span></label>
+                                <select class="form-select"  data-control="select2" name="province" id="kt_select2_province" aria-label="Select a Province">
                                     <option value="">Select Province</option>
                                     <option value='4'>Sindh</option>
-                                    <option  value='2'>KPK</option>
+                                    <option value='2'>KPK</option>
                                     <option value='3'>Balochistan</option>
-                                 
                                 </select>
-                                <div id="kt_select2_provinceError" class="error-message "></div>
+                                <div id="kt_select2_provinceError" class="error-message"></div>
                             </div>
-                            <div class="fv-row col-md-3">
-                                <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+
+                            <div class="fv-row mb-3 col-md-3">
+                                <label for="kt_select2_district" class="form-label d-flex">
                                     <span class="required">District</span>
                                     <span class="spinner-border spinner-border-sm align-middle ms-2" id="districtloader"></span>
                                 </label>
-                                <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select ">
-
-                                </select>
-                                <div id="kt_select2_districtError" class="error-message "></div>
+                                <select id="kt_select2_district" name="district" aria-label="Select a District" data-control="select2" data-placeholder="Select a District..." class="form-select "></select>
+                                <div id="kt_select2_districtError" class="error-message"></div>
                             </div>
-                            <div class="fv-row col-md-3">
-                                <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+
+                            <div class="fv-row mb-3 col-md-3">
+                                <label for="kt_select2_tehsil" class="form-label d-flex">
                                     <span class="required">Tehsil</span>
                                     <span class="spinner-border spinner-border-sm align-middle ms-2" id="tehsilloader"></span>
                                 </label>
-                                <select id="kt_select2_tehsil" name="tehsil" aria-label="Select a Tehsil" data-control="select2" data-placeholder="Select a Tehsil..." class="form-select ">
-
-                                </select>
-                                <div id="kt_select2_tehsilError" class="error-message "></div>
+                                <select id="kt_select2_tehsil" name="tehsil" aria-label="Select a Tehsil" data-control="select2" data-placeholder="Select a Tehsil..." class="form-select "></select>
+                                <div id="kt_select2_tehsilError" class="error-message"></div>
                             </div>
-                            <div class="fv-row col-md-3">
-                                <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+
+                            <div class="fv-row mb-3 col-md-3">
+                                <label for="kt_select2_union_counsil" class="form-label d-flex">
                                     <span class="required">UC</span>
                                     <span class="spinner-border spinner-border-sm align-middle ms-2" id="ucloader"></span>
                                 </label>
-                                <select id="kt_select2_union_counsil" name="union_counsil" aria-label="Select a UC" data-control="select2" data-placeholder="Select a Uc..." class="form-select ">
+                                <select id="kt_select2_union_counsil" name="union_counsil" aria-label="Select a UC" data-control="select2" data-placeholder="Select a Uc..." class="form-select "></select>
+                                <div id="kt_select2_union_counsilError" class="error-message"></div>
+                            </div>
 
-                                </select>
-                                <div id="kt_select2_union_counsilError" class="error-message "></div>
+                            <div class="fv-row mb-3 col-md-3">
+                                <label for="village" class="form-label"><span class="required">Village</span></label>
+                                <input type="text" class="form-control" name="village" id="village" placeholder="Enter Village">
+                                <div id="villageError" class="error-message"></div>
                             </div>
-                            
-                        </div>
-                        <div class="row ">
-                            <div class="fv-row col-md-3">
-                                <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">Village</span>
-                                </label>
-                                <input class="form-control" id="vilage" placeholder="Enter Village" name="village" value="">
-                                <div id="villageError" class="error-message "></div>
-                            </div>
-							<div class="fv-row col-sm-3 col-md-3 col-lg-3">
-                                <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">Theme</span>
-                                </label>
-                                <select name="theme" id="theme" aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme" class="form-select">
+
+                            <div class="fv-row mb-3 col-md-3">
+                                <label for="theme" class="form-label"><span class="required">Theme</span></label>
+                                <select class="form-select" name="theme" id="theme" aria-label="Select a Theme"  data-control="select2">
                                     <option value="">Select Theme</option>
                                     @foreach($themes as $theme)
-                                        <option value="{{$theme->id}}">{{$theme->name}}</option>
+                                    <option value="{{$theme->id}}">{{$theme->name}}</option>
                                     @endforeach
                                 </select>
                                 <div id="themeError" class="error-message"></div>
                             </div>
-							<div class="fv-row col-md-3">
-                                <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">Type of visit</span>
-                                </label>
-                                <select   name="type_of_visit" id="type_of_visit"  aria-label="Select a Type of Visit " data-control="select2" data-placeholder="Select a Type of Visit" class="form-select">
+
+                            <div class="fv-row mb-3 col-md-3">
+                                <label for="type_of_visit" class="form-label"><span class="required">Type of Visit</span></label>
+                                <select class="form-select" name="type_of_visit" id="type_of_visit" aria-label="Select a Type of Visit"  data-control="select2">
                                     <option value="">Select Project Type</option>
                                     <option value="Independent">Independent</option>
                                     <option value="Joint">Joint</option>
                                 </select>
-                                <div id="type_of_visitError" class="error-message "></div>
+                                <div id="type_of_visitError" class="error-message"></div>
                             </div>
-							<div class="fv-row col-md-3">
-                                <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">Accompanied By</span>
-                                </label>
-                                <select name="accompanied_by" id="accompanied_by" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Accompanied By..." class="form-select ">
-                                    
-                                </select>
+
+                            <div class="fv-row mb-3 col-md-3">
+                                <label for="accompanied_by" class="form-label"><span class="required">Accompanied By</span></label>
+                                <select class="form-select form-control" name="accompanied_by"  data-placeholder="Select a Accompanied By..."   data-control="select2" id="accompanied_by" aria-label="Select a Registrar Name"></select>
                                 <div id="accompanied_byError" class="error-message"></div>
                             </div>
-                        </div>
-                        <div class="row mt-3">
-                          
-                            <div class="fv-row col-md-5">
-                                <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">Activity visited</span>
-                                </label>
-                                <textarea  rows="1" class="form-control" id="activity_description"  name="activity_description"></textarea>
+
+                            <div class="fv-row mb-3 col-md-5">
+                                <label for="activity_description" class="form-label"><span class="required">Activity visited</span></label>
+                                <textarea class="form-control" rows="1" name="activity_description" id="activity_description"></textarea>
                                 <div id="activity_descriptionError" class="error-message"></div>
                             </div>
-                            <div class="fv-row col-md-3">
-                                <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">QB Monitor Visit</span>                           
-                                </label>
-                                <div class="foallow_contactrm-check form-check-custom form-check-solid mt-4">
-                                    <!--begin::Input-->
-                                    <input class="form-check-input qb_base" name="qb_base" id="allow_qb_base_yes" type="radio" value="Yes"/ checked>
-                                    <!--end::Input-->
-                                    <!--begin::Label-->
-                                    <label class="form-check-label me-5">
-                                        <div class="fw-bold text-gray-800 ">Yes</div>
-                                    </label>
-                                    <input class="form-check-input qb_base" name="qb_base" id="allow_qb_base_no"  id="qb_base" type="radio" value="No"/ required>
-                                    <!--end::Input-->
-                                    <!--begin::Label-->
-                                    <label class="form-check-label me-5">
-                                        <div class="fw-bold text-gray-800">No</div>
-                                    </label>
-                                    <!--end::Label-->
-                                   
-                                </div>
-                                <div id="allow_contactError" class="error-message "></div>
-                            </div>
-							<div class="fv-row col-sm-3 col-md-1 col-lg-1 qb_base_div ">
-                                <label class="fs-9 fw-semibold form-label mb-2">
-                                    <span class="required">Total QBs</span>
-                                </label>
-                                <input type="text" class="form-control " id="total_qbs"  name="total_qbs" value="">
+
+                            <div class="fv-row mb-3 col-md-1 qb_base_div ">
+                                <label for="total_qbs" class="form-label fs-7"><span class="required">Total QBs</span></label>
+                                <input type="text" class="form-control" name="total_qbs" id="total_qbs">
                                 <div id="total_qbsError" class="error-message"></div>
                             </div>
-                            <div class="fv-row col-md-1 qb_base_div">
-                                <label class="fs-9 fw-semibold form-label mb-2">
-                                    <span class="required">Fully Met</span>
-                                </label>
-                                <input type="text" class="form-control" id="qbs_fully_met" name="qbs_fully_met" value="">
+
+                            <div class="fv-row mb-3 col-md-1 qb_base_div ">
+                                <label for="qbs_fully_met" class="form-label fs-7"><span class="required">Fully Met</span></label>
+                                <input type="text" class="form-control" name="qbs_fully_met" id="qbs_fully_met">
                                 <div id="qbs_fully_metError" class="error-message"></div>
                             </div>
-                            <div class="fv-row col-md-2 qb_base_div">
-                                <label class="fs-9 fw-semibold form-label mb-2">
-                                    <span class="required">Not Applicable</span>
-                                </label>
-                                <input type="text" class="form-control" name="qb_not_applicable" id="qb_not_applicable" value="">
+
+                            <div class="fv-row mb-3 col-md-2 qb_base_div ">
+                                <label for="qb_not_applicable" class="form-label fs-7"><span class="required">Not Applicable</span></label>
+                                <input type="text" class="form-control" name="qb_not_applicable" id="qb_not_applicable">
                                 <div id="qb_not_applicableError" class="error-message"></div>
                             </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="fv-row col-md-3">
-                                <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">Date of monitoring visit  </span>
-                                </label>
-                                <input type="text" name="date_visit" id="date_visit" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="" required>
+
+                            <div class="fv-row mb-3 col-md-3">
+                                <label for="date_visit" class="form-label"><span class="required">Date of Monitoring Visit</span></label>
+                                <input type="text" class="form-control" name="date_visit" id="date_visit" placeholder="Select date" required>
                                 <div id="date_visitError" class="error-message"></div>
                             </div>
-							<div class="fv-row col-sm-3 col-md-3 col-lg-3">
-                                <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">QB Filled By</span>
-                                </label>
-                                <input type="text" class="form-control" id="qb_filledby"  name="qb_filledby" value="" placeholder="Enter Filled By">
-                              
+
+                            <div class="fv-row mb-3 col-md-3">
+                                <label for="qb_filledby" class="form-label"><span class="required">QB Filled By</span></label>
+                                <input type="text" class="form-control" name="qb_filledby" id="qb_filledby" placeholder="Enter Filled By">
                                 <div id="qb_filledbyError" class="error-message"></div>
                             </div>
-                            <div class="fv-row col-md-3">
-                                <label class="fs-6 fw-semibold form-label mb-2">
-                                    <span class="required">Staff Organization</span>
-                                </label>
-                                <select name="staff_organization" id="staff_organization" aria-label="Select a Visit Staff Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select " >
-                                    <option  value="">Select Option</option>
-                                    <option  value="SC Staff" >SC Staff</option>
-                                    <option  value="SRSP Staff" >SRSP Staff</option>
-                                    <option  value="LRF Staff" >LRF Staff</option>
-                                    <option  value="TKF Staff" >TKF Staff</option>
+
+                            <div class="fv-row mb-3 col-md-3">
+                                <label for="staff_organization" class="form-label"><span class="required">Staff Organization</span></label>
+                                <select class="form-select" name="staff_organization" id="staff_organization" aria-label="Select a Visit Staff Name"  data-control="select2">
+                                    <option value="">Select Option</option>
+                                    <option value="SC Staff">SC Staff</option>
+                                    <option value="SRSP Staff">SRSP Staff</option>
+                                    <option value="LRF Staff">LRF Staff</option>
+                                    <option value="TKF Staff">TKF Staff</option>
                                 </select>
                                 <div id="staff_organizationError" class="error-message"></div>
                             </div>
-
                         </div>
                         <div class="separator my-3"></div>
                         <div class="text-end">
                             <button type="submit" id="kt_qb_submit" class="btn btn-primary">
                                 @include('partials/general/_button-indicator', ['label' => 'Continue'])
                             </button>
-                            
                         </div>
-                       
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    @push('scripts')
-        
-    <script>
-        var mindate ='{{$record->qb_close_upto}}';
 
-        $('#date_visit').flatpickr({
-            altInput: true,
-            dateFormat: "Y-m-d",
-            maxDate: new Date().fp_incr(+0),
-            minDate: new Date("2024-04-01"),
-        });
-        $(document).ready(function(){
-        $('.qb_base').click(function(){
-            
-            var demo = $(this).val();
-            if(demo == "Yes"){
-                $(".qb_base_div").show(1000);
-            }
-            else{
-                $(".qb_base_div").hide(1000);
-            }
-        });
+    @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var mindate = '{{$record->qb_close_upto}}';
+
+            $('#date_visit').flatpickr({
+                altInput: true,
+                dateFormat: "Y-m-d",
+                maxDate: new Date().fp_incr(+0),
+                minDate: new Date("2024-04-01"),
+            });
+
+            $('.qb_base').change(function() {
+                if ($(this).val() === "Yes") {
+                    $(".qb_base_div").show('1000');
+                } else {
+                    $(".qb_base_div").hide('1000');
+                }
+            });
+
+            // Placeholder for loading dynamic select options for district, tehsil, etc.
+            // Add your AJAX calls here to populate the dependent select boxes
+
         });
     </script>
     @endpush
-
 </x-nform-layout>

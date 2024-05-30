@@ -3,6 +3,7 @@ namespace App\Repositories;
 
 use App\Repositories\Interfaces\FrmRepositoryInterface;
 use App\Models\Frm;
+use Illuminate\Support\Facades\Mail;
 
 class FrmRepository implements FrmRepositoryInterface
 {
@@ -20,7 +21,8 @@ class FrmRepository implements FrmRepositoryInterface
             }
             $status = $data['status'];
         }
-        return Frm::create([
+        
+        $frms =  Frm::create([
             'name_of_registrar'     => $data['name_of_registrar'],
             'date_received'         => $data['date_received'],
             'response_id'           => $data['response_id'],
@@ -54,6 +56,26 @@ class FrmRepository implements FrmRepositoryInterface
 
 
         ]);
+        $frm = FRM::latest()->first();
+        if(!empty($frm) && $frm->feedback_category == '6' || $frm->feedback_category == '7' ){
+            $email = ['sami.khan@savethechildren.org','nariman.bisma@savethechildren.org']; ;
+       
+           $bccEmails = [ 'walid.malik@savethechildren.org','usama.qayyum@savethechildren.org','irfan.majeed@savethechildren.org'];
+            $details = [
+                'feedback_description'  => $frm->feedback_description,
+                'feedback_category'     =>  $frm->category?->name.'-'.$frm->category?->description,
+                'datix_number'          =>  $frm->datix_number,
+                'date_received'         => $frm->date_received,
+                'response_id'           => $frm->response_id,
+                'feedback_activity'     => $frm->feedback_activity,
+                'village'               => $frm->village,
+                'id'                    => $frm->id,
+            ];
+            $subject = "[FRM] ". $frm->feedback_activity ." in ". $frm->village ;
+            Mail::to($email)
+            ->bcc($bccEmails)
+            ->send(new \App\Mail\frmMail($details,$subject));
+        }
     }
 
     public function findFrm($id)

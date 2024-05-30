@@ -456,20 +456,6 @@ class FRMController extends Controller
 
     public function update(UpdatefrmRequest $request, string $id)
     { 
-      
-     
-        // $frm  = Frm::where('name_of_client', $request->name_of_client)
-        //             ->where('date_received', $request->date_received)
-        //             ->where('province', $request->province)
-        //             ->where('district', $request->district)
-        //             ->where('tehsil', $request->tehsil)
-        //             ->where('theme', $request->theme)
-        //             ->where('id','!=', $id)->get();
-        
-        // if(!empty($frm) && $frm->count() > 0){
-        // return redirect()->back()->with('danger','Record already Exist');;
-        // }
-        
         if($request->date_feedback_referred == "Yes"){
             $validatedData = $request->validate([
                 'refferal_position' => ['required','string'],
