@@ -108,39 +108,77 @@ $(document).ready(function() {
     // Initialize select2
     $('#select2_profile_district').select2();
 
+    // Flag to prevent recursion
+    let isProcessing = false;
+
     // Handle the change event
     $('#select2_profile_district').on('change', function() {
+        if (isProcessing) return;
+
         var values = $(this).val();
-        
+
         // Check if 'Select All' was selected
         if (values && values.includes('select_all')) {
-            // Select all options
-            $('#select2_profile_district > option').prop('selected', 'selected');
+            isProcessing = true; // Set flag to true to prevent recursion
+
+            // Select all options except 'select_all'
+            $('#select2_profile_district > option').prop('selected', true);
             $('#select2_profile_district').trigger('change');
 
             // Remove 'Select All' from the selection
-            values = values.filter(value => value !== 'select_all');
+            values = $('#select2_profile_district').val().filter(value => value !== 'select_all');
             $('#select2_profile_district').val(values).trigger('change');
+
+            isProcessing = false; // Reset flag
+            return;
         }
 
         // Proceed with the selected values
+        fetchTehsils(values);
+    });
+
+    // Function to fetch tehsils based on selected districts
+    function fetchTehsils(districts) {
         var project = document.getElementById('project_id').value || '';
-        csrf_token = $('[name="_token"]').val();
+        var csrf_token = $('[name="_token"]').val();
         document.getElementById('tehsilloader').style.display = 'block';
 
-        // AJAX call to fetch tehsils based on selected districts
         $.ajax({
             type: 'POST',
             url: '/getprofiletehsil',
-            data: {'district': values, _token: csrf_token, 'project': project },
+            data: { 'district': districts, _token: csrf_token, 'project': project },
             dataType: 'json',
-            success: function (data) {
+            success: function(data) {
                 document.getElementById('tehsilloader').style.display = 'none';
                 $("#kt_select2_tehsil").empty();
                 $("#kt_select2_tehsil").prepend("<option value=''>Select Tehsil</option>");
-                $.each(data, function (i, item) {
+                $.each(data, function(i, item) {
                     $("#kt_select2_tehsil").append("<option value='" + item.id + "'>" +
                         item.tehsil_name.replace(/_/g, ' ') + "</option>");
+                });
+            }
+        });
+    }
+
+    // Handle tehsil change and fetch UCs similarly
+    $("#kt_select2_tehsil").change(function() {
+        var value = $(this).val();
+        var project = document.getElementById('project_id').value || '';
+        var csrf_token = $('[name="_token"]').val();
+        document.getElementById('ucloader').style.display = 'block';
+
+        $.ajax({
+            type: 'POST',
+            url: '/getprofileuc',
+            data: { 'tehsil': value, _token: csrf_token, 'project': project },
+            dataType: 'json',
+            success: function(data) {
+                document.getElementById('ucloader').style.display = 'none';
+                $("#kt_select2_uc").empty();
+                $("#kt_select2_uc").prepend("<option value=''>Select UC</option>");
+                $.each(data, function(i, item) {
+                    $("#kt_select2_uc").append("<option value='" + item.union_id + "'>" +
+                        item.uc_name.replace(/_/g, ' ') + "</option>");
                 });
             }
         });

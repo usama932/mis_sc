@@ -4,18 +4,60 @@
     @endsection
 
     <style>
-        .error-message {
-            color: red;
-            font-size: 12px;
-            margin-top: 5px;
+        .qb-monitor-visit-section {
+            background-color: #F1C40F;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
         }
 
-        .spinner-border-sm {
-            display: none;
+        .qb-monitor-visit-section .form-label {
+
+            color: black;
+            display: flex; /* Use flexbox for label and switch alignment */
+            align-items: center; /* Center vertically */
+            justify-content: start; /* Space between label and switch */
+            margin-bottom: 20px; /* Increase space between each section */
         }
 
-        .hidden {
-            display: none;
+        .qb-monitor-visit-section .form-check.form-switch {
+            margin-bottom: 0; /* Remove default margin */
+        }
+
+        /* .qb-monitor-visit-section .form-check.form-switch input {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 60px;
+            height: 30px;
+            background-color: red;
+            border: none;
+            border-radius: 30px;
+            position: relative;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.4s;
+        } */
+
+        /* .qb-monitor-visit-section .form-check.form-switch input:checked {
+            background-color: #4CAF50;
+        } */
+
+        .qb-monitor-visit-section .form-check.form-switch input::before {
+            content: '';
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background-color: white;
+            top: 50%;
+            left: 4px;
+            transform: translate(0, -50%);
+            transition: left 0.4s;
+        }
+
+        .qb-monitor-visit-section .form-check.form-switch input:checked::before {
+            left: calc(100% - 30px);
         }
     </style>
 
@@ -51,18 +93,12 @@
                     @csrf
                     <div class="card-body">
                         <div class="row">
-                            <div class="fv-row mb-3 col-md-3">
-                                <label for="qb_base" class="form-label"><span class="required">QB Monitor Visit</span></label>
-                                <br>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input qb_base" type="radio" name="qb_base" id="allow_qb_base_yes" value="Yes" checked>
-                                    <label class="form-check-label" for="allow_qb_base_yes">Yes</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input qb_base" type="radio" name="qb_base" id="allow_qb_base_no" value="No">
-                                    <label class="form-check-label" for="allow_qb_base_no">No</label>
-                                </div>
-                                <div id="allow_contactError" class="error-message"></div>
+                            <div class="fv-row mb-3 col-md-12 qb-monitor-visit-section text-white">
+                                <label for="qb_base" class="form-label"><span class="required">QB Monitor Visit</span>
+                                    <div class="form-check form-check-inline form-switch">
+                                        <input class="form-check-input qb_base mt-5" type="checkbox" id="allow_qb_base_switch" value="Yes" checked>
+                                    </div>
+                                </label>
                             </div>
 
                             <div class="fv-row mb-3 col-md-3">
@@ -250,8 +286,8 @@
                 minDate: new Date("2024-04-01"),
             });
 
-            $('.qb_base').change(function() {
-                if ($(this).val() === "Yes") {
+            $('#allow_qb_base_switch').change(function() {
+                if ($(this).is(':checked')) {
                     $(".qb_base_div").show('1000');
                 } else {
                     $(".qb_base_div").hide('1000');
