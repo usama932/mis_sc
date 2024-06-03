@@ -115,10 +115,11 @@ $(document).ready(function() {
     $('#select2_profile_district').on('change', function() {
         if (isProcessing) return;
 
-        var values = $(this).val();
+        var  values= $(this).val();
 
         // Check if 'Select All' was selected
         if (values && values.includes('select_all')) {
+           
             isProcessing = true; // Set flag to true to prevent recursion
 
             // Select all options except 'select_all'
@@ -127,8 +128,9 @@ $(document).ready(function() {
 
             // Remove 'Select All' from the selection
             values = $('#select2_profile_district').val().filter(value => value !== 'select_all');
+         
             $('#select2_profile_district').val(values).trigger('change');
-
+            fetchTehsils(values);
             isProcessing = false; // Reset flag
             return;
         }
@@ -151,7 +153,7 @@ $(document).ready(function() {
             success: function(data) {
                 document.getElementById('tehsilloader').style.display = 'none';
                 $("#kt_select2_tehsil").empty();
-                $("#kt_select2_tehsil").prepend("<option value=''>Select Tehsil</option>");
+                $("#kt_select2_tehsil").prepend("<option value=''>Select Tehsil</option><option value='select_all'>Select All</option>");
                 $.each(data, function(i, item) {
                     $("#kt_select2_tehsil").append("<option value='" + item.id + "'>" +
                         item.tehsil_name.replace(/_/g, ' ') + "</option>");
@@ -175,7 +177,7 @@ $(document).ready(function() {
             success: function(data) {
                 document.getElementById('ucloader').style.display = 'none';
                 $("#kt_select2_uc").empty();
-                $("#kt_select2_uc").prepend("<option value=''>Select UC</option>");
+                $("#kt_select2_uc").prepend("<option value=''>Select UC</option><option value='select_all'>Select All</option>");
                 $.each(data, function(i, item) {
                     $("#kt_select2_uc").append("<option value='" + item.union_id + "'>" +
                         item.uc_name.replace(/_/g, ' ') + "</option>");
