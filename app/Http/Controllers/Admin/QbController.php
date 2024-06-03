@@ -242,12 +242,13 @@ class QbController extends Controller
    
     public function store(Request $request)
     {
+        
         $data = $request->except('_token');
         $Qb = $this->QbRepository->storeQb($data);
     
         $active = 'basic_info';
         session(['active' => $active]);
-        if($request->qb_base == "Yes"){
+        if(!empty($request->qb_base) &&  $request->qb_base == "on"){
             $editUrl = route('quality-benchs.edit',$Qb->id);
         }
         else{

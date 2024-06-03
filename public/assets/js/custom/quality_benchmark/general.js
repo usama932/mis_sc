@@ -7,10 +7,10 @@ var KTQBValidate = function () {
     var form;
     var submitButton;
 
-    // Function to check if the radio button value is 'Yes'
+    // Function to check if the checkbox is checked
     function isQbBaseYes() {
-        var qbBaseRadio = document.querySelector('[name="qb_base"]:checked');
-        return qbBaseRadio && qbBaseRadio.value === 'Yes';
+        var toggleSwitch = document.getElementById('toggleSwitch');
+        return toggleSwitch.checked;
     }
 
     // Handle form ajax
@@ -133,13 +133,24 @@ var KTQBValidate = function () {
                     },
                     'qbs_fully_met': {
                         validators: {
-                            
                             callback: {
                                 message: 'Must be less or equal to total QBs',
                                 callback: function(value, validator) {
                                     if (isQbBaseYes()) {
-                                        var total_qbs = parseInt($('#total_qbs').val());
-                                        return !isNaN(total_qbs) && parseInt(value) <= total_qbs;
+                                        var total_qbs_str = $('#total_qbs').val();
+                                        var qbs_fully_met_str = $('#qbs_fully_met').val();
+
+                                        // Log the raw values
+                                        console.log('Raw values:', total_qbs_str, qbs_fully_met_str);
+
+                                        // Convert to integers
+                                        var total_qbs = parseInt(total_qbs_str, 10);
+                                        var qbs_fully_met = parseInt(qbs_fully_met_str, 10);
+
+                                        // Log the parsed values
+                                        console.log('Parsed values:', total_qbs, qbs_fully_met);
+
+                                        return !isNaN(total_qbs) && !isNaN(qbs_fully_met) && qbs_fully_met <= total_qbs;
                                     }
                                     return true;
                                 }
@@ -148,23 +159,29 @@ var KTQBValidate = function () {
                     },
                     'qb_not_applicable': {
                         validators: {
-                           
                             callback: {
-                                message: 'Met and not applicable QBs must be less than total QBs',
+                                message: 'Met and not applicable QBs must be less than or equal to total QBs',
                                 callback: function(value, validator) {
                                     if (isQbBaseYes()) {
-                                        var total_qbs = parseInt($('#total_qbs').val());
-                                        var qbs_fully_met = parseInt($('#qbs_fully_met').val());
-                                        var qb_not_applicable = parseInt(value);
+                                        var total_qbs_str = $('#total_qbs').val();
+                                        var qbs_fully_met_str = $('#qbs_fully_met').val();
+                                        var qb_not_applicable_str =  $('#qb_not_applicable').val();
+
+                                        // Convert to integers
+                                        var total_qbs = parseInt(total_qbs_str, 10);
+                                        var qbs_fully_met = parseInt(qbs_fully_met_str, 10);
+                                        var qb_not_applicable = parseInt(qb_not_applicable_str, 10);
+
+                                        // Calculate total met QBs
                                         var _qb_count = qbs_fully_met + qb_not_applicable;
-                                        console.log(total_qbs, qbs_fully_met, qb_not_applicable, _qb_count);
-                                        return !isNaN(total_qbs) && _qb_count <= total_qbs;
+
+                                        return !isNaN(total_qbs) && !isNaN(qbs_fully_met) && !isNaN(qb_not_applicable) && _qb_count <= total_qbs;
                                     }
                                     return true;
                                 }
                             }
                         }
-                    },
+                    },  
                     'staff_organization': {
                         validators: {
                             notEmpty: {
@@ -193,7 +210,7 @@ var KTQBValidate = function () {
                     // Show loading indication
                     submitButton.setAttribute('data-kt-indicator', 'on');
 
-                    // Disable button to avoid multiple click
+                    // Disable button to avoid multiple clicks
                     submitButton.disabled = true;
 
                     // Check axios library docs: https://axios-http.com/docs/intro
@@ -217,7 +234,7 @@ var KTQBValidate = function () {
                                 "showMethod": "fadeIn",
                                 "hideMethod": "fadeOut"
                             };
-                            toastr.success("QB Created", "success");
+                            toastr.success("QB Created", "Success");
                             window.location.href = response.data.editUrl;
                         } else {
                             toastr.options = {

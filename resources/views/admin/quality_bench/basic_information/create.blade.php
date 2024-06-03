@@ -6,8 +6,9 @@
          .square-switch {
             position: relative;
             display: inline-block;
-            width: 100px;
-            height: 34px;
+            width: 105px;
+            height: 36px;
+            border: solid 1px;
         }
         .square-switch input {
             opacity: 0;
@@ -26,7 +27,7 @@
         }
         .slider:before {
             position: absolute;
-            content: "OFF";
+            content: "NO";
             height: 34px;
             width: 50px;
             left: 0;
@@ -38,12 +39,12 @@
             transition: .4s;
         }
         input:checked + .slider {
-            background-color: #2196F3;
+            background-color: green;
         }
         input:checked + .slider:before {
             transform: translateX(50px);
-            content: "ON";
-            background-color: #2196F3;
+            content: "Yes";
+            background-color: green;
             color: white;
         }
         .slider.round {
