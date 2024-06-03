@@ -2,76 +2,80 @@
     @section('title')
         Add Monitoring Visit
     @endsection
-
     <style>
-        .qb-monitor-visit-section {
-            background-color: #F1C40F;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .qb-monitor-visit-section .form-label {
-
-            color: black;
-            display: flex; /* Use flexbox for label and switch alignment */
-            align-items: center; /* Center vertically */
-            justify-content: start; /* Space between label and switch */
-            margin-bottom: 20px; /* Increase space between each section */
-        }
-
-        .qb-monitor-visit-section .form-check.form-switch {
-            margin-bottom: 0; /* Remove default margin */
-        }
-
-        /* .qb-monitor-visit-section .form-check.form-switch input {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            width: 60px;
-            height: 30px;
-            background-color: red;
-            border: none;
-            border-radius: 30px;
+         .square-switch {
             position: relative;
-            cursor: pointer;
-            outline: none;
-            transition: background-color 0.4s;
-        } */
-
-        /* .qb-monitor-visit-section .form-check.form-switch input:checked {
-            background-color: #4CAF50;
-        } */
-
-        .qb-monitor-visit-section .form-check.form-switch input::before {
-            content: '';
-            position: absolute;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            background-color: white;
-            top: 50%;
-            left: 4px;
-            transform: translate(0, -50%);
-            transition: left 0.4s;
+            display: inline-block;
+            width: 100px;
+            height: 34px;
         }
-
-        .qb-monitor-visit-section .form-check.form-switch input:checked::before {
-            left: calc(100% - 30px);
+        .square-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+        }
+        .slider:before {
+            position: absolute;
+            content: "OFF";
+            height: 34px;
+            width: 50px;
+            left: 0;
+            bottom: 0;
+            background-color: white;
+            color: black;
+            text-align: center;
+            line-height: 34px;
+            transition: .4s;
+        }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:checked + .slider:before {
+            transform: translateX(50px);
+            content: "ON";
+            background-color: #2196F3;
+            color: white;
+        }
+        .slider.round {
+            border-radius: 0;
+        }
+        .slider.round:before {
+            border-radius: 0;
+        }
+        .fade-text {
+            opacity: 0.3;
+            transition: opacity 0.5s;
+        }
+        .visible-text {
+            opacity: 1;
+            transition: opacity 0.5s;
+        }
+        .switch-container {
+            display: flex;
+            align-items: center;
         }
     </style>
-
     <div class="card">
         @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
         @endif
-
+   
         <ul class="nav nav-tabs mt-1 fs-6">
             <li class="nav-item">
                 <a class="nav-link active" data-bs-toggle="tab" href="#summary">Summary</a>
@@ -93,12 +97,15 @@
                     @csrf
                     <div class="card-body">
                         <div class="row">
-                            <div class="fv-row mb-3 col-md-12 qb-monitor-visit-section text-white">
-                                <label for="qb_base" class="form-label"><span class="required">QB Monitor Visit</span>
-                                    <div class="form-check form-check-inline form-switch">
-                                        <input class="form-check-input qb_base mt-5" type="checkbox" id="allow_qb_base_switch" value="Yes" checked>
-                                    </div>
-                                </label>
+                           
+                            <div class="col-md-12">
+                                <div class="mb-5 switch-container">
+                                    <label class="square-switch">
+                                        <input type="checkbox" id="toggleSwitch" name="qb_base" onchange="toggleText()" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                    <h3 id="monitoringText" class="fade-text ms-3 required">QB Base Monitoring</h3>
+                                </div>
                             </div>
 
                             <div class="fv-row mb-3 col-md-3">
@@ -276,6 +283,17 @@
 
     @push('scripts')
     <script>
+          function toggleText() {
+            const checkbox = document.getElementById('toggleSwitch');
+            const text = document.getElementById('monitoringText');
+            if (checkbox.checked) {
+                text.classList.remove('fade-text');
+                text.classList.add('visible-text');
+            } else {
+                text.classList.remove('visible-text');
+                text.classList.add('fade-text');
+            }
+        }
         document.addEventListener('DOMContentLoaded', function() {
             var mindate = '{{$record->qb_close_upto}}';
 
@@ -286,7 +304,7 @@
                 minDate: new Date("2024-04-01"),
             });
 
-            $('#allow_qb_base_switch').change(function() {
+            $('#toggleSwitch').change(function() {
                 if ($(this).is(':checked')) {
                     $(".qb_base_div").show('1000');
                 } else {
