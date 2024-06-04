@@ -59,6 +59,7 @@
                                 <th>Activity</th>
                                 <th>Activity Title</th>
                                 <th>Sub Theme</th>
+                                <th>Activity Type</th>
                                 <th>Project</th>
                                 <th>LOP Target</th>
                                 <th>Month</th>
@@ -110,6 +111,7 @@
                             {"data":"activity","searchable":false,"orderable":false},
                             {"data":"activity_number","searchable":false,"orderable":false},
                             {"data":"sub_theme","searchable":false,"orderable":false},
+                            {"data":"activity_type","searchable":false,"orderable":false},
                             {"data":"project","searchable":false,"orderable":false},
                             {"data":"lop_target","searchable":false,"orderable":false},
                             {"data":"quarter_target","searchable":false,"orderable":false},
@@ -155,6 +157,7 @@
                         {"data":"activity","searchable":false,"orderable":false},
                         {"data":"activity_number","searchable":false,"orderable":false},
                         {"data":"sub_theme","searchable":false,"orderable":false},
+                        {"data":"activity_type","searchable":false,"orderable":false},
                         {"data":"project","searchable":false,"orderable":false},
                         {"data":"lop_target","searchable":false,"orderable":false},
                         {"data":"quarter_target","searchable":false,"orderable":false},

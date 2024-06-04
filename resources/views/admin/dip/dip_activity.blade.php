@@ -27,6 +27,7 @@
                     <th width="10%">Activity Title</th>
                     <th>Theme</th>
                     <th>Sub Theme</th>
+                    <th>Activity Type</th>
                     <th>LOP Target</th>
                     <th>Monthly Target</th>
                     <th>Created By</th>

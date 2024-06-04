@@ -84,6 +84,7 @@
                 {"data":"activity_number","searchable":false,"orderable":false,"width": "10%"},
                 {"data":"theme","searchable":false,"orderable":false},
                 {"data":"sub_theme","searchable":false,"orderable":false},
+                {"data":"activity_type","searchable":false,"orderable":false},
                 {"data":"lop_target","searchable":false,"orderable":false},
                 {"data":"quarter_target","searchable":false,"orderable":false},
                 {"data":"created_by","searchable":false,"orderable":false},

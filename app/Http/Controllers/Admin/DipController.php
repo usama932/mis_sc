@@ -32,7 +32,6 @@ class DipController extends Controller
 
     public function get_dips(Request $request)
     {
-       
         $columns = [
             1 => 'id',
             2 => 'project',
@@ -125,11 +124,12 @@ class DipController extends Controller
     
         echo json_encode($json_data);
     }
+    
     public function dip_create($id)
     {
         $ProjectActivityType = ProjectActivityType::latest()->get()->sortBy('name');
         $project = Project::with('themes')->where('id', $id)->first();
-      
+        
         $start = new DateTime($project->start_date);
         $end = new DateTime($project->end_date);
         $interval = DateInterval::createFromDateString('1 month');

@@ -3,12 +3,13 @@
         Add Monitoring Visit
     @endsection
     <style>
-         .square-switch {
+        .square-switch {
             position: relative;
             display: inline-block;
-            width: 105px;
+            width: 452px;
             height: 36px;
-            border: solid 1px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
         }
         .square-switch input {
             opacity: 0;
@@ -22,36 +23,33 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: #ccc;
+            background-color: #f0f0f0;
             transition: .4s;
+            border-radius: 10px;
         }
         .slider:before {
             position: absolute;
-            content: "NO";
+            content: "Non QB Base Monitoring";
             height: 34px;
-            width: 50px;
+            width: 400px;
             left: 0;
             bottom: 0;
             background-color: white;
-            color: black;
+            color: #333;
             text-align: center;
             line-height: 34px;
             transition: .4s;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         input:checked + .slider {
-            background-color: green;
+            background-color: #006400;
         }
         input:checked + .slider:before {
             transform: translateX(50px);
-            content: "Yes";
-            background-color: green;
+            content: "QB Base Monitoring";
+            background-color: #006400;
             color: white;
-        }
-        .slider.round {
-            border-radius: 0;
-        }
-        .slider.round:before {
-            border-radius: 0;
         }
         .fade-text {
             opacity: 0.3;
@@ -105,7 +103,7 @@
                                         <input type="checkbox" id="toggleSwitch" name="qb_base" onchange="toggleText()" checked>
                                         <span class="slider round"></span>
                                     </label>
-                                    <h3 id="monitoringText" class="fade-text ms-3 required">QB Base Monitoring</h3>
+                                
                                 </div>
                             </div>
 
@@ -284,7 +282,7 @@
 
     @push('scripts')
     <script>
-          function toggleText() {
+        function toggleText() {
             const checkbox = document.getElementById('toggleSwitch');
             const text = document.getElementById('monitoringText');
             if (checkbox.checked) {

@@ -68,6 +68,7 @@ use Illuminate\Support\Facades\Route;
         Route::get('get-project', [FBAjaxController::class,'getproject'])->name('get-project');
         Route::post('getSubTheme', [FBAjaxController::class,'getSubTheme'])->name('getSubTheme');
         Route::post('getactivitySubTheme', [FBAjaxController::class,'getactivitySubTheme'])->name('getactivitySubTheme');
+        Route::post('getactivity_categories', [FBAjaxController::class,'getactivity_categories'])->name('getactivity_categories');
         Route::post('getprojecttheme', [FBAjaxController::class,'getprojecttheme'])->name('getprojecttheme');
         Route::get('/get-email-recommendations', [FBAjaxController::class,'getEmailRecommendations'])->name('getEmailRecommendations');
 

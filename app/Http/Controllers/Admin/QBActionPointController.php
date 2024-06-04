@@ -428,6 +428,7 @@ class QBActionPointController extends Controller
             $bccEmails = [ 'walid.malik@savethechildren.org','usama.qayyum@savethechildren.org','irfan.majeed@savethechildren.org'];
             $details = [
                 'id'            => $actionpoint->id,
+                'action_id'     => $qb_action_point->id,
                 'village'       => $actionpoint->village,
                 'activity'      => $actionpoint->activity_description,
                 'response_id'   => $actionpoint->assement_code,

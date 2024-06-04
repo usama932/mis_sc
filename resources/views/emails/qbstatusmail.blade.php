@@ -74,10 +74,15 @@
         <p>This is system generated email, Please do not reply. For any query contact MEAL-MIS Team</p>
     </div>
     <div class="email-content">
-     
+        @php
+            use Carbon\Carbon;
+            $dateVisit = Carbon::parse($details['date_visit']);
+            $completionDate = Carbon::parse($details['completion_date']); // Ensure you have this date in your $details array
+            $daysDifference = $completionDate->diffInDays($dateVisit);
+        @endphp
         <p>Dear Concerned,</p>
-        <p>Following are the completed action point details of the QB activity {{$details['activity']}} in {{$details['village']}} that was visited on {{$details['date_visit']}}. The action points were completed in {{$details['completion_days'] - $details['deadline']}} days.
-            Please log in to <a href="https://mis-sc.pk/">MIS</a> and click this <a href="{{ route('action_points.show', $details['id']) }}" class="custom-btn">QB link</a> to see the complete visit details</p>
+        <p>Following are the completed action point details of the QB activity {{$details['activity']}} in {{$details['village']}} that was visited on {{$details['date_visit']}}. The action points were completed in {{ $daysDifference  ?? ''}} days.
+            Please log in to <a href="https://mis-sc.pk/">MIS</a> and click this <a href="{{ route('action_points.show', $details['action_id']) }}" class="custom-btn">QB link</a> to see the complete visit details</p>
         <table>
             <thead>
                 <tr>
@@ -105,7 +110,7 @@
                         <td>{{$details['completion_date']}}</td>
                         <td>{{$details['comments']}}</td>
                         <td>{{$details['status']}}</td>
-                        <td><a href="{{route("action_points.show",$details["id"])}}">View</a></td>
+                        <td><a href="{{route("action_points.show",$details["action_id"])}}">View</a></td>
                     </tr>
                 @else
                     <tr>

@@ -230,6 +230,7 @@
                                             <th>Activity Title</th>
                                             <th>Theme</th>
                                             <th>Sub Theme</th>
+                                            <th>Activity Type</th>
                                             <th>LOP Target</th>
                                             <th>Monthly Target</th>
                                             <th>Created By</th>
@@ -307,17 +308,17 @@
                     "dip_id":dip_id}
             },
             "columns":[
-                
-                            {"data":"activity","searchable":false,"orderable":false},
-                            {"data":"activity_number","searchable":false,"orderable":false},
-                            {"data":"theme","searchable":false,"orderable":false},
-                            {"data":"sub_theme","searchable":false,"orderable":false},
-                            {"data":"lop_target","searchable":false,"orderable":false},
-                            {"data":"quarter_target","searchable":false,"orderable":false},
-                            {"data":"created_by","searchable":false,"orderable":false},
-                            {"data":"created_at","searchable":false,"orderable":false},
-                            {"data":"action","searchable":false,"orderable":false},
-                        ]
+                {"data":"activity","searchable":false,"orderable":false},
+                {"data":"activity_number","searchable":false,"orderable":false},
+                {"data":"theme","searchable":false,"orderable":false},
+                {"data":"sub_theme","searchable":false,"orderable":false},
+                {"data":"activity_type","searchable":false,"orderable":false},
+                {"data":"lop_target","searchable":false,"orderable":false},
+                {"data":"quarter_target","searchable":false,"orderable":false},
+                {"data":"created_by","searchable":false,"orderable":false},
+                {"data":"created_at","searchable":false,"orderable":false},
+                {"data":"action","searchable":false,"orderable":false},
+            ]
         });
 
         

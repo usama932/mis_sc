@@ -1,51 +1,150 @@
 var baseURL = window.location.origin;
 document.getElementById('tehsilloader').style.display = 'none';
 var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-$("#select2_profile_district").change(function () {
-    var value = $(this).val();
-    var project = document.getElementById('project_id').value || '';
-    csrf_token = $('[name="_token"]').val();
-    document.getElementById('tehsilloader').style.display = 'block';
-  
-    $.ajax({
-        type: 'POST',
-        url: '/getprofiletehsil',
-        data: {'district': value, _token: csrf_token,'project': project },
-        dataType: 'json',
-        success: function (data) {
-            document.getElementById('tehsilloader').style.display = 'none';
-            $("#kt_select2_tehsil").empty();
-            $("#kt_select2_tehsil").prepend("<option value=''>Select Tehsil</option>");
-            $.each(data, function (i, item) {
-                $("#kt_select2_tehsil").append("<option value='" + item.id + "'>" +
-                    item.tehsil_name.replace(/_/g, ' ') + "</option>");
-            });
+$(document).ready(function() {
+    // Initialize select2
+    $('#select2_profile_district').select2();
+    $('#kt_select2_tehsil').select2();
+    $('#kt_select2_uc').select2();
+
+    // Flags to prevent recursion
+    let isProcessingDistrict = false;
+    let isProcessingTehsil = false;
+    let isProcessingUC = false;
+
+    // Handle the change event for districts
+    $('#select2_profile_district').on('change', function() {
+        if (isProcessingDistrict) return;
+
+        var values = $(this).val();
+
+        // Check if 'Select All' was selected
+        if (values && values.includes('select_all')) {
+            isProcessingDistrict = true; // Set flag to true to prevent recursion
+
+            // Select all options except 'select_all'
+            $('#select2_profile_district > option').prop('selected', true);
+            $('#select2_profile_district').trigger('change');
+
+            // Remove 'Select All' from the selection
+            values = $('#select2_profile_district').val().filter(value => value !== 'select_all');
+
+            $('#select2_profile_district').val(values).trigger('change');
+
+            isProcessingDistrict = false; // Reset flag
+            fetchTehsils(values);
+            return;
         }
+
+        // Proceed with the selected values
+        fetchTehsils(values);
     });
-});
-document.getElementById('ucloader').style.display = 'none';
-$("#kt_select2_tehsil").change(function () {
-    var value = $(this).val();
-    var project = document.getElementById('project_id').value || '';
-    csrf_token = $('[name="_token"]').val();
-    document.getElementById('ucloader').style.display = 'block';
-  
-    $.ajax({
-        type: 'POST',
-        url: '/getprofileuc',
-        data: {'tehsil': value, _token: csrf_token,'project': project },
-        dataType: 'json',
-        success: function (data) {
-           
-            document.getElementById('ucloader').style.display = 'none';
-            $("#kt_select2_uc").empty();
-            $("#kt_select2_uc").prepend("<option value=''>Select UC</option>");
-            $.each(data, function (i, item) {
-               
-                $("#kt_select2_uc").append("<option value='" + item.union_id + "'>" +
-                    item.uc_name.replace(/_/g, ' ') + "</option>");
-            });
+
+    // Function to fetch tehsils based on selected districts
+    function fetchTehsils(districts) {
+        // Return if no districts are selected (could happen after 'Select All' handling)
+        if (!districts || districts.length === 0) return;
+
+        var project = document.getElementById('project_id').value || '';
+        var csrf_token = $('[name="_token"]').val();
+        document.getElementById('tehsilloader').style.display = 'block';
+
+        $.ajax({
+            type: 'POST',
+            url: '/getprofiletehsil',
+            data: { 'district': districts, _token: csrf_token, 'project': project },
+            dataType: 'json',
+            success: function(data) {
+                document.getElementById('tehsilloader').style.display = 'none';
+                $("#kt_select2_tehsil").empty();
+                $("#kt_select2_tehsil").prepend('<option value= "select_all">Select All</option>');
+                $.each(data, function(i, item) {
+                    $("#kt_select2_tehsil").append("<option value='" + item.id + "'>" +
+                        item.tehsil_name.replace(/_/g, ' ') + "</option>");
+                });
+            }
+        });
+    }
+
+    // Handle the change event for tehsils
+    $("#kt_select2_tehsil").on('change', function() {
+        if (isProcessingTehsil) return;
+
+        var values = $(this).val();
+
+        // Check if 'Select All' was selected
+        if (values && values.includes('select_all')) {
+            isProcessingTehsil = true; // Set flag to true to prevent recursion
+
+            // Select all options except 'select_all'
+            $('#kt_select2_tehsil > option').prop('selected', true);
+            $('#kt_select2_tehsil').trigger('change');
+            
+            // Remove 'Select All' from the selection
+            values = $('#kt_select2_tehsil').val().filter(value => value !== 'select_all');
+
+            $('#kt_select2_tehsil').val(values).trigger('change');
+
+            isProcessingTehsil = false; // Reset flag
+            fetchUCs(values);
+            return;
         }
+
+        // Proceed with the selected values
+        fetchUCs(values);
+    });
+
+    // Function to fetch UCs based on selected tehsils
+    function fetchUCs(tehsils) {
+        // Return if no tehsils are selected (could happen after 'Select All' handling)
+        if (!tehsils || tehsils.length === 0) return;
+
+        var project = document.getElementById('project_id').value || '';
+        var csrf_token = $('[name="_token"]').val();
+        document.getElementById('ucloader').style.display = 'block';
+
+        $.ajax({
+            type: 'POST',
+            url: '/getprofileuc',
+            data: { 'tehsil': tehsils, _token: csrf_token, 'project': project },
+            dataType: 'json',
+            success: function(data) {
+                document.getElementById('ucloader').style.display = 'none';
+                $("#kt_select2_uc").empty();
+                $("#kt_select2_uc").prepend('<option value="select_all">Select All</option>');
+                $.each(data, function(i, item) {
+                    $("#kt_select2_uc").append("<option value='" + item.union_id + "'>" +
+                        item.uc_name.replace(/_/g, ' ') + "</option>");
+                });
+            }
+        });
+    }
+
+    // Handle the change event for UCs (if needed similar functionality)
+    $("#kt_select2_uc").on('change', function() {
+        if (isProcessingUC) return;
+
+        var values = $(this).val();
+
+        // Check if 'Select All' was selected
+        if (values && values.includes('select_all')) {
+            isProcessingUC = true; // Set flag to true to prevent recursion
+
+            // Select all options except 'select_all'
+            $('#kt_select2_uc > option').prop('selected', true);
+            $('#kt_select2_uc').trigger('change');
+
+            // Remove 'Select All' from the selection
+            values = $('#kt_select2_uc').val().filter(value => value !== 'select_all');
+
+            $('#kt_select2_uc').val(values).trigger('change');
+
+            isProcessingUC = false; // Reset flag
+            return;
+        }
+
+        // Proceed with the selected values
+        // Add any further logic if needed when UC changes
     });
 });
 

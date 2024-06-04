@@ -13,6 +13,7 @@ use App\Models\SciSubTheme;
 use App\Models\SciTheme; 
 use App\Models\ProjectTheme; 
 use App\Models\ProjectPartner; 
+use App\Models\ProjectActivityCategory;
 
 class FBAjaxController extends Controller
 {
@@ -168,7 +169,13 @@ class FBAjaxController extends Controller
             return response()->json($themes);
         }
     }   
-
+    //project activity category
+    public function getactivity_categories(Request $request){
+       
+        $categories = ProjectActivityCategory::where('project_activity_type_id',$request->activity_type_id)->latest()->get();
+       
+        return response()->json($categories);
+    }
     public function getprojecttheme(Request $request){
       
         $projectThemes = ProjectTheme::where('project_id', $request->project_id)->pluck('theme_id');

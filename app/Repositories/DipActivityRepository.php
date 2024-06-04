@@ -16,6 +16,7 @@ class DipActivityRepository implements DipActivityInterface
             'activity_title'        => $data['activity'],
             'lop_target'            => $data['lop_target'],
             'project_id'            => $data['project_id'],
+            'activity_type_id'      => $data['activity_category'],
             'created_by'            => auth()->user()->id,
             'subtheme_id'           =>  $data['sub_theme']
         ]);

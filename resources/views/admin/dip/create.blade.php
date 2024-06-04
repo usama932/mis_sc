@@ -24,7 +24,7 @@
                 <input type="hidden" name="project_id" id="project_id" value="{{ $project->id }}">
                 <div class="card-body">
                     <div class="row">
-                        <div class="fv-row col-md-6 col-lg-6 col-sm-12">
+                        <div class="fv-row col-md-3 col-lg-3 col-sm-12">
                             <label class="fs-6 fw-semibold form-label">
                                 <span class="required">Thematic Area</span>
                             </label>
@@ -37,7 +37,7 @@
                             </select>
                             <div id="themeError" class="error-message"></div>
                         </div>
-                        <div class="fv-row col-md-6 col-lg-6 col-sm-12">
+                        <div class="fv-row col-md-3 col-lg-3 col-sm-12">
                             <label class="fs-6 fw-semibold form-label d-flex">
                                 <span class="required">Sub-Thematic Area</span>
                                 <span class="spinner-border spinner-border-sm align-middle ms-2" id="themeloader"
@@ -48,6 +48,35 @@
                                 data-allow-clear="true">
                             </select>
                             <div id="sub_themeError" class="error-message"></div>
+                        </div>
+                        <div class="fv-row col-md-3 col-lg-3 col-sm-12">
+                            <label class="fs-6 fw-semibold form-label d-flex">
+                                <span class="required">Project Activity Type</span>
+                                <span class="spinner-border spinner-border-sm align-middle ms-2" id="avtivityloader"
+                                    style="display: none !important;"></span>
+                            </label>
+                            <select name="activity_type" id="activity_type_id" aria-label="Select a Activity Type"
+                                data-control="select2" data-placeholder="Select a Activity Type" class="form-select"
+                                data-allow-clear="true">    
+                                <option value="">Select Activity Type </option>
+                                @foreach ($ProjectActivityType as $projectactivity)
+                                    <option value="{{ $projectactivity->id }}">{{ $projectactivity->name }}</option>
+                                @endforeach
+                            </select>
+                            <div id="activity_typeError" class="error-message"></div>
+                        </div>
+                        <div class="fv-row col-md-3 col-lg-3 col-sm-12">
+                            <label class="fs-6 fw-semibold form-label d-flex">
+                                <span class="required">Project Activity Type</span>
+                                <span class="spinner-border spinner-border-sm align-middle ms-2" id="avtivityloader"
+                                    style="display: none !important;"></span>
+                            </label>
+                            <select name="activity_category" id="activity_category_id" aria-label="Select a Activity Category"
+                                data-control="select2" data-placeholder="Select a Activity Category" class="form-select"
+                                data-allow-clear="true">
+                                
+                            </select>
+                            <div id="activity_categorysError" class="error-message"></div>
                         </div>
                         <div class="fv-row col-md-2 col-lg-2 col-sm-12">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
@@ -310,6 +339,38 @@
                 }
             });
         });
+
+
+        // activity type 
+        document.getElementById('avtivityloader').style.display = 'none';
+        $("#activity_type_id").change(function() {
+            document.getElementById('avtivityloader').style.display = 'block';
+            var value = $(this).val();
+            csrf_token = $('[name="_token"]').val();
+            
+            $.ajax({
+                type: 'POST',
+                url: '/getactivity_categories',
+                data: {
+                    'activity_type_id': value,
+                    _token: csrf_token,
+                    
+                },
+                dataType: 'json',
+                success: function(data) {
+                    document.getElementById('avtivityloader').style.display = 'none';
+                    $("#activity_category_id").find('option').remove();
+                    $("#activity_category_id").prepend("<option value=''>Select Activity Category</option>");
+                    var selected = '';
+                    $.each(data, function(i, item) {
+    
+                        $("#activity_category_id").append("<option value='" + item.id + "' " + selected + " >" +
+                            item.name.replace(/_/g, ' ') + "</option>");
+                    });
+                }
+            });
+        });
+        
     </script>
     
     @endpush

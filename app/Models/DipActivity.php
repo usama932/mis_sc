@@ -13,7 +13,7 @@ class DipActivity extends Model
 
     public function activity_type()
     {
-        return $this->hasMany(ProjectActivityCategory::class,'activity_type_id','id');
+        return $this->belongsTo(ProjectActivityCategory::class,'activity_type_id','id');
     }
     public function user()
     {

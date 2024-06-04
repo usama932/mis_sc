@@ -120,6 +120,9 @@ class DipActivityController extends Controller
                 $nestedData['activity'] = $r->activity_number ?? '';
                 $nestedData['theme'] = $r->scisubtheme_name?->maintheme?->name ?? '';
                 $nestedData['sub_theme'] =  $r->scisubtheme_name?->name ?? '';
+                $nestedData['activity_type'] = $r->activity_type?->activity_type?->name 
+                             ? ($r->activity_type?->activity_type?->name . ' (' . $r->activity_type?->name . ')') 
+                             : '';
                 $nestedData['project'] = $r->project->name ?? '';
                 $nestedData['lop_target'] = $r->lop_target ?? '';
                 $quarterTarget = '<ul style="list-style-type: none; padding: 0; margin: 0;">';
@@ -381,8 +384,6 @@ class DipActivityController extends Controller
             return $items->all();
         })->toArray();
 
-      
-        
         $data = $request->except('_token');
         $dip = DipActivity::where('activity_title',$request->activity)->where('subtheme_id',$request->sub_theme)->first();
         $dips = DipActivity::where('activity_number',$request->activity_number)->where('subtheme_id',$request->sub_theme)->first();

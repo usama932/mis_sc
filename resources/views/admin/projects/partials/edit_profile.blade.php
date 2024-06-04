@@ -28,6 +28,7 @@
                         </label>
                         <select id="select2_profile_district" multiple name="district[]" aria-label="Select Multiple District" data-control="select2" data-placeholder="Select Multiple District" class="form-select">
                             @if(!empty($project->detail?->district))
+                                <option value="select_all">Select All</option>
                                 @foreach($districts as $district)
                                     <option value="{{ $district->district_id }}" 
                                         @if(in_array($district->district_id, $profiledistricts->pluck('district_id')->toArray())) selected @endif>
@@ -45,6 +46,7 @@
                             <span class="spinner-border spinner-border-sm align-middle ms-2" id="tehsilloader"></span>
                         </label>
                         <select id="kt_select2_tehsil" multiple name="tehsil[]" aria-label="Select Multiple Tehsil" data-control="select2" data-placeholder="Select Multiple Tehsil" class="form-select">
+                            <option value="select_all">Select All</option>
                             @foreach($tehils as $tehsil)
                                 <option value="{{$tehsil->id}}" selected>{{$tehsil->tehsil_name}}</option>
                             @endforeach
@@ -58,6 +60,7 @@
                             <span class="spinner-border spinner-border-sm align-middle ms-2" id="ucloader"></span>
                         </label>
                         <select id="kt_select2_uc" multiple name="uc[]" aria-label="Select UC " data-control="select2" data-placeholder="Select Multiple Tehsil" class="form-select">
+                            <option value="select_all">Select All</option>
                             @foreach($ucs as $uc)
                                 <option value="{{$uc->union_id}}" selected>{{$uc->uc_name}}</option>
                             @endforeach

@@ -45,6 +45,20 @@ var KTdipActivityValidate = function () {
                             }
                         }
                     },
+                    'activity_category': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Activity Category is required'
+                            }
+                        }
+                    },
+                    'sub_theme': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Activity Type is required'
+                            }
+                        }
+                    },
                     'lop_target': {
                         validators: {
                             notEmpty: {
