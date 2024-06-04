@@ -81,31 +81,33 @@ class DipActivityController extends Controller
         if ($role == 'f_p') {
             $dipsQuery->whereHas('project', function ($query) use ($user) {
                 $query->whereJsonContains('focal_person', $user);
-            })->latest();
+            });
         }
         elseif($role == 'partner'){
             
             $dipsQuery->whereJsonContains('budget_holder', $user)
-                ->whereHas('project', function ($query) {
-                    $query->whereHas('partners', function ($partnersQuery) {
-                        $partnersQuery->where('email', auth()->user()->email);
-                    });
-                })->latest();
-           
+            ->whereHas('project', function ($query) {
+                $query->whereHas('partners', function ($partnersQuery) {
+                    $partnersQuery->where('email', auth()->user()->email);
+                });
+            });
         }
         else{
          
-            $dipsQuery->latest();
+            $dipsQuery;
         }
         $dips = $dipsQuery->limit($limit)
             ->offset($start)
             ->orderBy($order, $dir)
             ->get();
-    
+        $sortedActivities = $dips->sortBy(function ($activity) {
+            $parts = explode('.', $activity->activity_number);
+            return array_map('intval', $parts);
+        });
         $data = [];
     
-        if ($dips) {
-            foreach ($dips as $r) {
+        if ($sortedActivities) {
+            foreach ($sortedActivities as $r) {
                 $show_url = route('activity_dips.show', $r->id);
                 $edit_url = route('activity_dips.edit', $r->id);
                 $progress_url = route('postprogress', $r->id);

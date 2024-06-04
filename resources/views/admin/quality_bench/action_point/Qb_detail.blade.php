@@ -150,14 +150,21 @@
                         <td>{{$action_point->action_achiev?->comments ?? " "}}</td>
                     </tr>
                     <tr>
-                        <td><strong>QB Created By </strong></td>
+                        <td class="fs-7"><strong>Action Point Created By </strong></td>
                         <td>{{$action_point->qb?->user->name ?? ""}}</td>
                     </tr>
                     <tr>
-                        <td><strong>QB Created At </strong></td>
+                        <td class="fs-7"><strong>Action Point Created At </strong></td>
                         <td>{{date('d-M-Y', strtotime($action_point->qb?->created_at)) ?? ""}}</td>
                     </tr>
-                
+                    <tr>
+                        <td class="fs-7"><strong>Action Point Updated By </strong></td>
+                        <td>{{$action_point->qb?->user->name ?? ""}}</td>
+                    </tr>
+                    <tr>
+                        <td class="fs-7"><strong>Action Point Updated At </strong></td>
+                        <td>{{date('d-M-Y', strtotime($action_point->qb?->created_at)) ?? ""}}</td>
+                    </tr>
                 </table>
                 
             </div>

@@ -291,7 +291,6 @@ function exportToExcel(project) {
     XLSX.writeFile(wb, project + '_DIP.xlsx');
 }
 
-
 </script>
 
 

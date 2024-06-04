@@ -5,11 +5,14 @@
     <style>
         .square-switch {
             position: relative;
+             margin: 0 auto;
             display: inline-block;
             width: 452px;
             height: 36px;
             border: 1px solid #ccc;
             border-radius: 10px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         .square-switch input {
             opacity: 0;
@@ -23,7 +26,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: #f0f0f0;
+            background-color: #e0e0e0;
             transition: .4s;
             border-radius: 10px;
         }
@@ -31,24 +34,25 @@
             position: absolute;
             content: "Non QB Base Monitoring";
             height: 34px;
-            width: 400px;
-            left: 0;
-            bottom: 0;
+            width: 200px;
+            left: 10px;
+            bottom: 1px;
             background-color: white;
             color: #333;
             text-align: center;
             line-height: 34px;
             transition: .4s;
-            border-radius: 10px;
+            border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-weight: 500;
         }
         input:checked + .slider {
-            background-color: #006400;
+            background-color: #3a3a3a;
         }
         input:checked + .slider:before {
-            transform: translateX(50px);
+            transform: translateX(200px);
             content: "QB Base Monitoring";
-            background-color: #006400;
+            background-color: #3a3a3a;
             color: white;
         }
         .fade-text {
@@ -220,19 +224,19 @@
                                 <div id="accompanied_byError" class="error-message"></div>
                             </div>
 
-                            <div class="fv-row mb-3 col-md-5">
+                            <div class="fv-row mb-3 col-md-6">
                                 <label for="activity_description" class="form-label"><span class="required">Activity visited</span></label>
                                 <textarea class="form-control" rows="1" name="activity_description" id="activity_description"></textarea>
                                 <div id="activity_descriptionError" class="error-message"></div>
                             </div>
 
-                            <div class="fv-row mb-3 col-md-1 qb_base_div ">
+                            <div class="fv-row mb-3 col-md-2 qb_base_div ">
                                 <label for="total_qbs" class="form-label fs-7"><span class="required">Total QBs</span></label>
                                 <input type="text" class="form-control" name="total_qbs" id="total_qbs">
                                 <div id="total_qbsError" class="error-message"></div>
                             </div>
 
-                            <div class="fv-row mb-3 col-md-1 qb_base_div ">
+                            <div class="fv-row mb-3 col-md-2 qb_base_div ">
                                 <label for="qbs_fully_met" class="form-label fs-7"><span class="required">Fully Met</span></label>
                                 <input type="text" class="form-control" name="qbs_fully_met" id="qbs_fully_met">
                                 <div id="qbs_fully_metError" class="error-message"></div>

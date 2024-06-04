@@ -441,7 +441,7 @@ class QBActionPointController extends Controller
                 'completion_date'       =>   $actionachieve->completion_date ?? '',
                 'qb_recommendation'     =>  $qb_action_point->qb_recommendation ?? '',
             ];
-            $subject = "[Quality Benchmark] ". $actionpoint->activity_description ." in ". $actionpoint->village ;
+            $subject = "[APT-".$actionpoint->assement_code."] ". $actionpoint->activity_description ." in ". $actionpoint->village ;
             Mail::to($email)
             ->bcc($bccEmails)
             ->send(new \App\Mail\QBstatusMail($details,$subject));
