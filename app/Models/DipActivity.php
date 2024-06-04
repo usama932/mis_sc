@@ -11,6 +11,10 @@ class DipActivity extends Model
     protected $table = 'dip_activity';
     protected $guarded = [];
 
+    public function activity_type()
+    {
+        return $this->hasMany(ProjectActivityCategory::class,'activity_type_id','id');
+    }
     public function user()
     {
         return $this->belongsTo(User::class,'created_by','id');

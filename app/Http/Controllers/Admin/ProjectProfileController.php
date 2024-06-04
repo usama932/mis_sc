@@ -156,7 +156,7 @@ class ProjectProfileController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
+       
         $project_profile = ProjectProfile::where('project_id' ,$request->project)->where('theme_id' ,$request->ptheme)->first();
         if(!empty($project_profile)){
             return response()->json([

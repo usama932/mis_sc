@@ -76,8 +76,8 @@
     <div class="email-content">
      
         <p>Dear Concerned,</p>
-        <p>Following are the action point details of the QB activity {{$details['activity']}} in {{$details['village']}} visited on {{$details['date_visit']}} along with their deadlines for your consideration. 
-            Please login into <a href="https://mis-sc.pk/">MIS</a> and click this <a href="{{ route('quality-benchs.show', $details['id']) }}" class="custom-btn">QB link</a> to see complete visit details.</p>
+        <p>Following are the completed action point details of the QB activity {{$details['activity']}} in {{$details['village']}} that was visited on {{$details['date_visit']}}. The action points were completed in {{$details['completion_days'] - $details['deadline']}} days.
+            Please log in to <a href="https://mis-sc.pk/">MIS</a> and click this <a href="{{ route('action_points.show', $details['id']) }}" class="custom-btn">QB link</a> to see the complete visit details</p>
         <table>
             <thead>
                 <tr>

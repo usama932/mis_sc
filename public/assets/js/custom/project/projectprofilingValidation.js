@@ -265,7 +265,7 @@ var KTprojectprofileValidate = function() {
         var validator = FormValidation.formValidation(
             form, {
                 fields: {
-                    'theme': {
+                    'ptheme': {
                         validators: {
                             notEmpty: {
                                 message: 'Theme is required'

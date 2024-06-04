@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\District;
 use App\Models\Province;
-use App\Models\SCITheme;
+use App\Models\ProjectActivityCategory;
+use App\Models\ProjectActivityType;
 use App\Models\User;
 use DateTime;
 use DateInterval;
@@ -126,7 +127,7 @@ class DipController extends Controller
     }
     public function dip_create($id)
     {
-     
+        $ProjectActivityType = ProjectActivityType::latest()->get()->sortBy('name');
         $project = Project::with('themes')->where('id', $id)->first();
       
         $start = new DateTime($project->start_date);
@@ -146,7 +147,7 @@ class DipController extends Controller
       
         
         addJavascriptFile('assets/js/custom/dip/dip_activity_validations.js');
-        return view('admin.dip.create',compact('project','themes','quarters'));
+        return view('admin.dip.create',compact('project','themes','quarters','ProjectActivityType'));
     }
 
     public function create()
