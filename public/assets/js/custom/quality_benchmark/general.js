@@ -234,7 +234,7 @@ var KTQBValidate = function () {
                                 "showMethod": "fadeIn",
                                 "hideMethod": "fadeOut"
                             };
-                            toastr.success("QB Created", "Success");
+                            toastr.success("Monitor Visit Created", "Success");
                             window.location.href = response.data.editUrl;
                         } else {
                             toastr.options = {

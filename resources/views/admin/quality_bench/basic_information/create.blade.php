@@ -5,12 +5,12 @@
     <style>
         .square-switch {
             position: relative;
-             margin: 0 auto;
+            margin: 0 auto;
             display: inline-block;
-            width: 452px;
+            width: 400px;
             height: 36px;
             border: 1px solid #ccc;
-            border-radius: 10px;
+            border-radius: 40px;
             background-color: #f9f9f9;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
@@ -26,42 +26,51 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: #e0e0e0;
-            transition: .4s;
-            border-radius: 10px;
+            background-color: #fff;
+            border-radius: 80px;
         }
-        .slider:before {
+        .slider:before, .slider:after {
             position: absolute;
-            content: "Non QB Base Monitoring";
             height: 34px;
             width: 200px;
-            left: 10px;
             bottom: 1px;
-            background-color: white;
+            background-color: #fff;
             color: #333;
             text-align: center;
             line-height: 34px;
             transition: .4s;
-            border-radius: 8px;
+            border-radius: 80px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             font-weight: 500;
         }
-        input:checked + .slider {
-            background-color: #3a3a3a;
+        .slider:before {
+            content: "Non QB Base Monitoring";
+            
+        }
+        .slider:after {
+            content: "QB Base Monitoring";
+            right: 1px;
         }
         input:checked + .slider:before {
-            transform: translateX(200px);
-            content: "QB Base Monitoring";
-            background-color: #3a3a3a;
-            color: white;
+            background-color:transparent;
+            color: #333;
+            width: 215px;
         }
-        .fade-text {
-            opacity: 0.3;
-            transition: opacity 0.5s;
+        input:checked + .slider:after {
+            background-color: #333;
+            color: #fff;
         }
-        .visible-text {
-            opacity: 1;
-            transition: opacity 0.5s;
+        input:not(:checked) + .slider:before {
+           
+            background-color: #333;
+            color: #fff;
+        }
+        input:not(:checked) + .slider:after {
+           
+
+            background-color:transparent;
+            color: #333;
+            width: 220px;
         }
         .switch-container {
             display: flex;
@@ -104,13 +113,11 @@
                             <div class="col-md-12">
                                 <div class="mb-5 switch-container">
                                     <label class="square-switch">
-                                        <input type="checkbox" id="toggleSwitch" name="qb_base" onchange="toggleText()" checked>
+                                        <input type="checkbox" id="toggleSwitch" name="qb_base" checked>
                                         <span class="slider round"></span>
                                     </label>
-                                
                                 </div>
                             </div>
-
                             <div class="fv-row mb-3 col-md-3">
                                 <label for="project_name" class="form-label"><span class="required">Project</span></label>
                                 <select class="form-select" name="project_name"  data-control="select2" id="project_name" aria-label="Select Project">
@@ -127,7 +134,7 @@
                                     <span class="required">Project Type</span>
                                     <span class="spinner-border spinner-border-sm align-middle ms-2" id="projectloader"></span>
                                 </label>
-                                <input type="text" class="form-control" name="project_type" id="project_type">
+                                <input readonly class="form-control" name="project_type" id="project_type" >
                                 <div id="project_typeError" class="error-message"></div>
                             </div>
 
@@ -255,7 +262,7 @@
                             </div>
 
                             <div class="fv-row mb-3 col-md-3">
-                                <label for="qb_filledby" class="form-label"><span class="required">QB Filled By</span></label>
+                                <label for="qb_filledby" class="form-label"><span class="required">Visited By</span></label>
                                 <input type="text" class="form-control" name="qb_filledby" id="qb_filledby" placeholder="Enter Filled By">
                                 <div id="qb_filledbyError" class="error-message"></div>
                             </div>
@@ -286,17 +293,7 @@
 
     @push('scripts')
     <script>
-        function toggleText() {
-            const checkbox = document.getElementById('toggleSwitch');
-            const text = document.getElementById('monitoringText');
-            if (checkbox.checked) {
-                text.classList.remove('fade-text');
-                text.classList.add('visible-text');
-            } else {
-                text.classList.remove('visible-text');
-                text.classList.add('fade-text');
-            }
-        }
+        
         document.addEventListener('DOMContentLoaded', function() {
             var mindate = '{{$record->qb_close_upto}}';
 
@@ -315,8 +312,19 @@
                 }
             });
 
-            // Placeholder for loading dynamic select options for district, tehsil, etc.
-            // Add your AJAX calls here to populate the dependent select boxes
+            $('#toggleSwitch').change(function() {
+                if ($(this).is(':checked')) {
+                    // QB Base Monitoring is on
+                    $(".qb_base_div").fadeIn('500');
+                    // Add fade effect to Non QB Base Monitoring text
+                    $(".slider:before").addClass("fade-text").removeClass("visible-text");
+                } else {
+                    // QB Base Monitoring is off
+                    $(".qb_base_div").fadeOut('500');
+                    // Add fade effect to QB Base Monitoring text
+                    $(".slider:before").addClass("visible-text").removeClass("fade-text");
+                }
+            });
 
         });
     </script>

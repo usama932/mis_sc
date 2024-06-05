@@ -248,13 +248,9 @@ class QbController extends Controller
     
         $active = 'basic_info';
         session(['active' => $active]);
-        if(!empty($request->qb_base) &&  $request->qb_base == "on"){
-            $editUrl = route('quality-benchs.edit',$Qb->id);
-        }
-        else{
-            $editUrl = route('quality-benchs.index');
-        }
         
+        $editUrl = route('quality-benchs.edit',$Qb->id);
+       
      
         return response()->json([
             'editUrl' => $editUrl

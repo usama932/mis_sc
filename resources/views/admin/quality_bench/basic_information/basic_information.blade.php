@@ -1,6 +1,6 @@
 
 <div>
-    <!--begin::Alert-->
+    @if($qb->qb_base_monitoring == 1)
     <div class="alert alert-warning d-flex align-items-center p-5 mt-10 mb-5 me-20 ms-10">
         <i class="ki-duotone ki-shield-tick fs-2hx text-warning me-4"><span class="path1"></span><span class="path2"></span></i>                    
         <div class="d-flex flex-column">
@@ -8,7 +8,7 @@
             <span>This Monitoring Visit has {{$qb->qbs_not_fully_met ?? ''}} Not Fully met QBs.</span>
         </div>
     </div>
-	
+	@endif
 	<!--end::Alert-->
     <form  class="form" id="qb_update_form"  novalidate="novalidate" action="{{route('quality-benchs.update',$qb->id)}}" method="post">
        
@@ -202,15 +202,8 @@
                     <input type="text" class="form-control fs-9" name="qb_not_applicable" id="qb_not_applicable" value="{{$qb->qb_not_applicable ?? ''}}">
                     <div id="qb_not_applicableError" class="error-message"></div>
                 </div>
-            @else
-            <div class="fv-row col-md-3">
-                <label class="fs-7 fw-semibold form-label mb-2">
-                    <span class="required">QB Base Monitoring</span>
-                </label>
-                <br>
-                No
-                <div id="qb_not_applicableError" class="error-message"></div>
-            </div>
+           
+        
             @endif
         </div>
         <div class="row mt-3">
