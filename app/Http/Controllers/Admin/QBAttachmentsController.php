@@ -139,7 +139,12 @@ class QBAttachmentsController extends Controller
         }
 
         $qb         = QualityBench::where('id',$request->quality_bench_id)->first();
-        $qb_theme   = User::where('theme_id',$qb->theme)->first();
+        if($qb->theme == '6'){
+            $actiontheme = 5;
+        }else{
+            $actiontheme = $qb->theme;
+        }
+        $qb_theme   = User::where('theme_id',$actiontheme)->first();
         
         if(!empty($qb_theme ) && !empty($qb->action_point)){
             if($qb->action_point->count() >= 1){

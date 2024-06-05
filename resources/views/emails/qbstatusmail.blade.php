@@ -82,7 +82,7 @@
         @endphp
         <p>Dear Concerned,</p>
         <p>Following are the completed action point details of the QB activity {{$details['activity']}} in {{$details['village']}} that was visited on {{$details['date_visit']}}. The action point wase completed in <strong>{{ $daysDifference  ?? ''}}</strong> days.
-            Please log in to <a href="https://mis-sc.pk/">MIS</a> and click this <a href="{{ route('quality-benchs.show', $details['action_id']) }}" class="custom-btn">QB link</a> to see the complete visit details</p>
+            Please log in to <a href="https://mis-sc.pk/">MIS</a> and click this <a href="{{ route('quality-benchs.show', $details['id']) }}" class="custom-btn">QB link</a> to see the complete visit details</p>
         <table>
             <thead>
                 <tr>
