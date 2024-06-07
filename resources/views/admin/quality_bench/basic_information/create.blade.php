@@ -38,7 +38,7 @@
             color: #333;
             text-align: center;
             line-height: 34px;
-            transition: .4s;
+            transition: .60s;
             border-radius: 80px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             font-weight: 500;
@@ -293,39 +293,26 @@
 
     @push('scripts')
     <script>
-        
         document.addEventListener('DOMContentLoaded', function() {
             var mindate = '{{$record->qb_close_upto}}';
-
+    
             $('#date_visit').flatpickr({
                 altInput: true,
                 dateFormat: "Y-m-d",
                 maxDate: new Date().fp_incr(+0),
                 minDate: new Date("2024-04-01"),
             });
-
-            $('#toggleSwitch').change(function() {
-                if ($(this).is(':checked')) {
-                    $(".qb_base_div").show('1000');
-                } else {
-                    $(".qb_base_div").hide('1000');
-                }
-            });
-
+    
             $('#toggleSwitch').change(function() {
                 if ($(this).is(':checked')) {
                     // QB Base Monitoring is on
-                    $(".qb_base_div").fadeIn('500');
-                    // Add fade effect to Non QB Base Monitoring text
-                    $(".slider:before").addClass("fade-text").removeClass("visible-text");
+                    $(".qb_base_div input").prop('disabled', false);
                 } else {
                     // QB Base Monitoring is off
-                    $(".qb_base_div").fadeOut('500');
-                    // Add fade effect to QB Base Monitoring text
-                    $(".slider:before").addClass("visible-text").removeClass("fade-text");
+                    $(".qb_base_div input").prop('disabled', true);
                 }
             });
-
+    
         });
     </script>
     @endpush
