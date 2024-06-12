@@ -98,7 +98,7 @@ class DipActivityController extends Controller
         }
         $dips = $dipsQuery->limit($limit)
             ->offset($start)
-            ->orderBy($order, $dir)
+            //->orderBy($order, $dir)
             ->get();
         $sortedActivities = $dips->sortBy(function ($activity) {
             $parts = explode('.', $activity->activity_number);
