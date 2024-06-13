@@ -8,9 +8,6 @@ use App\Models\QualityBench;
 use App\Models\Project;
 use App\Models\Theme;
 use App\Models\User;
-use App\Http\Requests\CreateQbRequest;
-use App\Http\Requests\UpdateQbRequest;
-use Illuminate\Support\Facades\Session;
 use App\Models\MonitorVisit;
 use App\Models\Partner;
 use App\Models\QBAttachement;
@@ -19,7 +16,7 @@ use App\Models\ClosingRecord;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\QB\ActionPoint;
 use App\Repositories\Interfaces\QbRepositoryInterface;
-use PDO;
+use Carbon\Carbon;
 
 class QbController extends Controller
 {
@@ -34,16 +31,44 @@ class QbController extends Controller
         $projects = Project::latest()->get();
         $users = User::where('user_type','R2')->orwhere('user_type','R1')->orwhere('user_type','R3')->get();
 
-        return view('admin.quality_bench.index',compact('projects','users'));
+        addJavascriptFile('assets/js/custom/quality_benchmark/index_script.js');
+        addVendors(['datatables']);
+
+        if(auth()->user()->user_type == "province-wide"){
+            $qb_last_month = QualityBench::where('province',auth()->user()->province)
+                                        ->whereMonth('created_at', Carbon::now()->subMonth()->month)
+                                        ->whereYear('created_at', Carbon::now()->subMonth()->year)->count();
+            $qb_this_month = QualityBench::where('province',auth()->user()->province)->whereMonth('created_at', Carbon::now()->month)
+                                        ->whereYear('created_at', Carbon::now()->year)->count();
+            $qb_this_week = QualityBench::where('province',auth()->user()->province)->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count();
+            $qb_last_days = QualityBench::where('province',auth()->user()->province)->where('created_at', '>=', Carbon::now()->subDays(10))->count();
+        }
+        elseif(auth()->user()->user_type == "district-wide"){
+            $qb_last_month = QualityBench::where('district',auth()->user()->district)->whereMonth('created_at', Carbon::now()->subMonth()->month)
+            ->whereYear('created_at', Carbon::now()->subMonth()->year)->count();
+            $qb_this_month = QualityBench::where('district',auth()->user()->district)->whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', Carbon::now()->year)->count();
+            $qb_this_week = QualityBench::where('district',auth()->user()->district) ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count();
+            $qb_last_10_days = QualityBench::where('district',auth()->user()->district)->where('created_at', '>=', Carbon::now()->subDays(10))->count();
+        }
+        else{
+            $qb_last_month = QualityBench::whereMonth('created_at', Carbon::now()->subMonth()->month)
+            ->whereYear('created_at', Carbon::now()->subMonth()->year)->count();
+            $qb_this_month = QualityBench::whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', Carbon::now()->year)->count();
+            $qb_this_week = QualityBench::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count();
+            $qb_last_days = QualityBench::where('created_at', '>=', Carbon::now()->subDays(10))->count();
+        }
+      
+        return view('admin.quality_bench.index',compact('projects','users','qb_last_days','qb_this_week','qb_this_month','qb_last_month'));
     }
 
     public function get_qbs(Request $request)
     {
-       
         $id = $request->qb_id;
-        $columns = array(
-			0 => 'id',
-			1 => 'date_visit',
+        $columns = [
+            0 => 'id',
+            1 => 'date_visit',
             2 => 'accompanied_by',
             3 => 'type_of_visit',
             4 => 'province',
@@ -51,179 +76,131 @@ class QbController extends Controller
             6 => 'project_type',
             7 => 'project_name',
             8 => 'created_at',
-
-		);
+        ];
+        
         $qualit_benchs = QualityBench::latest();
-  
-        if($request->kt_select2_district != null && $request->kt_select2_district != 'None'){
-            $qualit_benchs->where('district',$request->kt_select2_district);
-        }
-        if($request->kt_select2_province != null && $request->kt_select2_province != 'None'){
+        
+        // Filtering logic
+        $filters = [
+            'district' => $request->kt_select2_district,
+            'province' => $request->kt_select2_province,
+            'assesment_code' => $request->assesment_code,
+            'accompanied_by' => $request->accompanied_by,
+            'type_of_visit' => $request->visit_type,
+            'project_type' => $request->project_type,
+            'staff_organization' => $request->partner,
+            'qb_filledby' => $request->visit_staff,
+            'project_name' => $request->project_name
+        ];
+        
+        foreach ($filters as $field => $value) {
+            if ($value !== null && $value !== 'None') {
+                $qualit_benchs->where($field, $value);
+            }
 
-            $qualit_benchs->where('province',$request->kt_select2_province);
         }
-      
-        $dateParts = explode('to',$request->date_visit);
-        $startdate = '';
-        $enddate = '';
-        if(!empty($dateParts)){
+        if($request->attachement != null && $request->attachement != 'None'){
+            
+            if($request->attachement == "Yes"){
+                $qualit_benchs->wherehas('qbattachement');
+            }
+            elseif($request->attachement == "No"){
+                $qualit_benchs->whereDoesntHave('qbattachement');
+            }
+            else{
+                $qualit_benchs;
+            }
+        }
+        
+        // Date filtering
+        if ($request->date_visit !== null) {
+            $dateParts = explode('to', $request->date_visit);
             $startdate = $dateParts[0] ?? '';
             $enddate = $dateParts[1] ?? '';
+            if ($startdate && $enddate) {
+                $qualit_benchs->whereBetween('date_visit', [$startdate, $enddate]);
+            }
         }
-        if($request->date_visit != null){
-
-            $qualit_benchs->whereBetween('date_visit',[$startdate ,$enddate]);
+        
+        // User permissions
+        $user = auth()->user();
+        if ($user->permissions_level == 'province-wide') {
+            $qualit_benchs->where('province', $user->province);
+        } elseif ($user->permissions_level == 'district-wide') {
+            $qualit_benchs->where('district', $user->district);
         }
-        if ($request->assesment_code != null && $request->assesment_code != 'None') {
-            $qualit_benchs->where('assement_code', $request->assesment_code);
+        
+        if ($user->hasRole("IP's")) {
+            $qualit_benchs->where('created_by', $user->id);
         }
-        if($request->accompanied_by != null && $request->accompanied_by != 'None'){
-
-            $qualit_benchs->where('accompanied_by',$request->accompanied_by);
-        }
-        if($request->visit_type != null && $request->visit_type != 'None'){
-
-            $qualit_benchs->where('type_of_visit',$request->visit_type);
-        }
-        if($request->project_type != null){
-
-            $qualit_benchs->where('project_type',$request->project_type);
-        }
-        if($request->partner != null){
-
-            $qualit_benchs->where('staff_organization',$request->partner);
-        }
-        if($request->visit_staff != null){
-
-            $qualit_benchs->where('qb_filledby',$request->visit_staff);
-        }
-        if($request->project_name != null){
-
-            $qualit_benchs->where('project_name',$request->project_name);
-        }
-        if(auth()->user()->permissions_level == 'province-wide')
-        {
-            $qualit_benchs->where('province',auth()->user()->province);
-        }
-        if(auth()->user()->permissions_level == 'district-wide')
-        {
-            $qualit_benchs->where('district',auth()->user()->district);
-        }
-        $totalData      =   $qualit_benchs->count();
-		$limit          =   $request->input('length');
-        $limit = $request->input('length');
+        
+        // Pagination and sorting
+        $totalData = $qualit_benchs->count();
+        $limit = $request->input('length', -1);
         $orderIndex = $request->input('order.0.column');
-        if (isset($columns[$orderIndex])) {
-            $order = $columns[$orderIndex];
-        } else {
-            
-            $order = 'id'; // Or any other default column name
+        $order = $columns[$orderIndex] ?? 'id';
+        $dir = $request->input('order.0.dir', 'desc');
+        $start = $request->input('start', 0);
+        
+        $totalFiltered = $qualit_benchs->count();
+        $qualit_benchs = ($limit == -1)
+            ? $qualit_benchs->orderBy($order, $dir)->get()
+            : $qualit_benchs->offset($start)->limit($limit)->orderBy($order, $dir)->get();
+        
+        $data = [];
+        foreach ($qualit_benchs as $r) {
+            $edit_url = route('quality-benchs.edit', $r->id);
+            $view_url = route('quality-benchs.show', $r->id);
+            $attachment_url = $r->qbattachement && $r->qbattachement->document 
+                ? route('showPDF.qb_attachments', $r->qbattachement->id) 
+                : '#';
+        
+            $nestedData = [
+                'id' => $r->id,
+                'assement_code' => $r->assement_code ?? '',
+                'project_name' => $r->project?->name ?? '',
+                'partner' => $r->partners?->slug ?? '',
+                'province' => $r->provinces?->province_name ?? '',
+                'district' => $r->districts?->district_name ?? '',
+                'theme' => $r->theme_name?->name ?? '',
+                'activity_description' => $r->activity_description ?? '',
+                'village' => $r->village ?? '',
+                'date_visit' => date('d-M-Y', strtotime($r->date_visit)) ?? '',
+                'qb_base' => $r->qb_base_monitoring ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-light">No</span>',
+                'total_qbs' => $r->total_qbs ?? '0',
+                'qbs_not_fully_met' => $r->qbs_not_fully_met ?? '',
+                'qbs_fully_met' => $r->qbs_fully_met ?? '',
+                'qb_not_applicable' => $r->qb_not_applicable ?? '',
+                'staff_organization' => $r->staff_organization ?? '',
+                'score_out' => $r->score_out.'%' ?? '',
+                'qb_status' => match($r->qb_status) {
+                    'Poor' => '<span class="badge bg-danger">'.$r->qb_status.'</span>',
+                    'Average' => '<span class="badge bg-warning">'.$r->qb_status.'</span>',
+                    'Good' => '<span class="badge bg-secondary">'.$r->qb_status.'</span>',
+                    default => '<span class="badge bg-success">'.$r->qb_status.'</span>',
+                },
+                'attachment' => $attachment_url != '#' 
+                    ? '<a class="btn-icon mx-1" href="'.$attachment_url.'" target="_blank"><i class="fa fa-download text-warning" aria-hidden="true"></i></a>'
+                    : '',
+                'created_at' => date('d-M-Y', strtotime($r->created_at)) ?? '',
+                'created_by' => $r->user?->name,
+                'action' => auth()->check() && auth()->user()->can('edit quality benchmarks', 'delete quality benchmarks')
+                    ? '<div><td><a class="btn-icon mx-1" href="'.$view_url.'" target="_blank"><i class="fa fa-eye text-warning" aria-hidden="true"></i></a><a title="Edit" class="btn-icon mx-1" href="'.$edit_url.'" target="_blank"><i class="fa fa-pencil text-info"></i></a><a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)"><i class="fa fa-trash text-danger" aria-hidden="true"></i></a></td></div>'
+                    : '<div><td><a class="btn-icon mx-1" href="'.$view_url.'" target="_blank"><i class="fa fa-eye text-warning" aria-hidden="true"></i></a></td></div>',
+            ];
+        
+            $data[] = $nestedData;
         }
-        $dir = $request->input('order.0.dir');
-        $dir            =   $request->input('order.0.dir');
-        $totalFiltered  =   $qualit_benchs->count();
-		$start          =   $request->input('start');
-        if ($limit == -1) {
-            $qualit_bench = $qualit_benchs->orderBy($order, $dir)->get()->sortByDesc("id");
-        } else {
-            // Apply pagination as usual
-            $qualit_bench = $qualit_benchs->offset($start)->limit($limit)->orderBy($order, $dir)->get()->sortByDesc("id");
-        }
-                                    
-		$data = array();
-		if($qualit_bench){
-			foreach($qualit_bench as $r){
-				$edit_url = route('quality-benchs.edit',$r->id);
-                $view_url = route('quality-benchs.show',$r->id);
-                if($r->qbattachement && $r->qbattachement->document){
-                    $attachment_url = route('showPDF.qb_attachments', $r->qbattachement->id);
-                }
-                else{
-                    $attachment_url = '#';
-                }
-				$nestedData['id'] = $r->id;
-                $nestedData['assement_code']        = $r->assement_code ?? '';
-                $nestedData['project_name']         = $r->project?->name ?? '';
-                $nestedData['partner']              = $r->partners?->slug ?? '';
-                $nestedData['province']             = $r->provinces?->province_name ?? '';
-                $nestedData['district']             = $r->districts?->district_name ?? '';
-                $nestedData['theme']                = $r->theme_name?->name ?? '';
-                $nestedData['activity_description'] = $r->activity_description ?? '';
-                $nestedData['village']              = $r->village ?? '';
-                $nestedData['date_visit']           = date('d-M-Y', strtotime($r->date_visit)) ?? '';
-                if($r->qb_base_monitoring == 1){
-                    $qb_base = '<span class="badge bg-success">Yes</span>';
-                }else{
-                    $qb_base = '<span class="badge bg-light">No</span>';
-                }
-                $nestedData['qb_base']              = $qb_base ;
-                $nestedData['total_qbs']            = $r->total_qbs ?? '0';
-                $nestedData['qbs_not_fully_met']    = $r->qbs_not_fully_met ?? '';
-                $nestedData['qbs_fully_met']        = $r->qbs_fully_met ?? '';
-                $nestedData['qb_not_applicable']    = $r->qb_not_applicable ?? '';
-                $nestedData['staff_organization']   = $r->staff_organization ?? '';
-                $nestedData['score_out']            = $r->score_out.'%' ?? '';
-                if($r->qb_status == "Poor"){
-                    $qb_status = '<span class="badge bg-danger">'.$r->qb_status.'</span>';
-                }
-                elseif($r->qb_status == "Average"){
-                    $qb_status = '<span class="badge bg-warning">'.$r->qb_status.'</span>';
-                }
-                elseif($r->qb_status == "Good"){
-                    $qb_status = '<span class="badge bg-secondary">'.$r->qb_status.'</span>';
-                }else{
-                    $qb_status = '<span class="badge bg-success">'.$r->qb_status.'</span>';
-                }
-                $nestedData['qb_status'] = $qb_status ?? '';
-                if($attachment_url != "#"){
-                    $nestedData['attachment'] = '<a class="btn-icon mx-1" href="'.$attachment_url.'" target="_blank"><i class="fa fa-download text-warning" aria-hidden="true" ></i>
-                    </a>';
-                }else{
-                    $nestedData['attachment'] = '';
-                }
-               
-                
-                $nestedData['created_at'] = date('d-M-Y', strtotime($r->created_at)) ?? '';
-                $nestedData['created_by'] =$r->user?->name;
-                if (auth()->check() && auth()->user()->can('edit quality benchmarks', 'delete quality benchmarks',)){
-                                $nestedData['action'] =' 
-                                <div>
-                                <td>
-                                    <a class="btn-icon mx-1" href="'.$view_url.'" target="_blank">
-                                    <i class="fa fa-eye text-warning" aria-hidden="true" ></i>
-                                    </a>
-                                    <a title="Edit" class="btn-icon mx-1"
-                                    href="'.$edit_url.'" target="_blank">
-                                    <i class="fa fa-pencil text-info"></i></a>
-                                    <a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)">
-                                        <i class="fa fa-trash text-danger" aria-hidden="true"></i>
-                                    </a>
-                                </td>
-                                </div>
-                                ';
-                }
-                else{
-                    $nestedData['action'] ='<div>
-                                                <td>
-                                                    <a class="btn-icon mx-1" href="'.$view_url.'" target="_blank">
-                                                    <i class="fa fa-eye text-warning" aria-hidden="true" ></i>
-                                                    </a>
-                                                </td>
-                                            </div>';
-                }
-			
-				$data[] = $nestedData;
-			}
-		}
-		
-		$json_data = array(
-			"draw"			=> intval($request->input('draw')),
-			"recordsTotal"	=> intval($totalData),
-			"recordsFiltered" => intval($totalFiltered),
-			"data"			=> $data
-		);
-		
-		echo json_encode($json_data);
+        
+        $json_data = [
+            "draw" => intval($request->input('draw')),
+            "recordsTotal" => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data" => $data
+        ];
+        
+        return response()->json($json_data);
+        
     }
 
     public function create()

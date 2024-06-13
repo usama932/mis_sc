@@ -47,7 +47,9 @@ class ExportQB implements FromView
         if($this->data['project_name'] != null){
             $qb->where('project_name',$this->data['project_name']);
         }
-        
+        if(auth()->user()->hasRole("IP's")){
+            $qb->where('created_by',auth()->user()->id);
+        }
         $qb->with('user','user1','districts','districts',
                     'tehsils','uc','project')->latest();
         $qbs =  $qb->get(); 

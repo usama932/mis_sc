@@ -81,7 +81,9 @@ class FrmExport implements FromView
         if($this->data['status'] != null  && $this->data['status']  != 'None'){
             $frm->where('status',$this->data['status']);
         }
-       
+        if(auth()->user()->hasRole("IP's")){
+            $frm->where('created_by',auth()->user()->id);
+        }
         $frm->with('user','user1','districts','districts',
                     'tehsils','uc','category','theme_name','channel','project')->latest();
         $frms =  $frm->with('responses')->get(); 

@@ -192,7 +192,9 @@ class QBActionPointController extends Controller
         $order = $columns[$request->input('order.0.column')];
         $dir = $request->input('order.0.dir');
         $totalFiltered =  $qb_actionpoints->count();
-        
+        if(auth()->user()->hasRole("IP's")){
+            $qb_actionpoints->where('created_by',auth()->user()->id);
+        }
 		$action_points = $qb_actionpoints->offset($start)
                             ->limit($limit)
                             ->orderBy($order,$dir)

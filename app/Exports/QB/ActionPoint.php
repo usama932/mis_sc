@@ -29,7 +29,9 @@ class ActionPoint implements FromView
         if($this->data['date_visit'] != null){
             $qb->whereBetween('date_visit',[$startdate ,$enddate]);
         }
-
+        if(auth()->user()->hasRole("IP's")){
+            $qb->where('created_by',auth()->user()->id);
+        }
         $qb->with('action_point','user','user1','districts','districts',
                     'tehsils','uc','project')->latest();
         $qbs =  $qb->get(); 

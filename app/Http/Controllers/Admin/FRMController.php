@@ -156,7 +156,9 @@ class FRMController extends Controller
         if($request->project_name != null && $request->project_name != 'None'){
             $frms->where('project_name',$request->project_name);
         }
-        
+        if(auth()->user()->hasRole("IP's")){
+            $frms->where('created_by',auth()->user()->id);
+        }
         $totalData =$frms->count();
         $limit = $request->input('length');
         $order = $columns[$request->input('order.0.column')];

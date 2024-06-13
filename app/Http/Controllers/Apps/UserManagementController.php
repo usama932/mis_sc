@@ -119,7 +119,19 @@ class UserManagementController extends Controller
                 return redirect()->back()->with("success", "User Created successfully!");
             }
             else{
-                return redirect()->back()->with("danger", "User theme already exist!");
+                $user = User::where('id', $id)->first(); 
+                $user->update([
+                    'name'              => $request->name,
+                    'email'             => $request->email,
+                    'permissions_level' => $request->permissions_level,
+                    'designation'       => $request->designation,
+                    'user_type'         => $request->user_type,
+                    'theme_id'          => $user->theme_id,
+                ]);
+                $userr = User::where('id', $id)->first();
+                $d = $userr->syncRoles($request->role); 
+                
+                return redirect()->back()->with("success", "User Created successfully!");
             }
         }   
         else{
