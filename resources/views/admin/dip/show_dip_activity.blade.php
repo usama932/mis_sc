@@ -35,7 +35,7 @@
         
         @endsection
 
-        <div class="container-fluid mt-3">
+        <div class="container-fluid  mt-3">
            
             <input type="hidden" id="dip_activity" value="{{$dip_activity->id}}">
            
@@ -107,7 +107,7 @@
                
             <div class="card mt-3">
                 <div class="card-header">
-                    <h5 class="card-title">Activity Progress Detail</h5>
+                    <h5 class="card-title">Activity Progress Detail @if($dip_activity->activity_type)({{ $dip_activity->activity_type?->activity_type?->name  }} - {{  $dip_activity->activity_type?->name }})@endif</h5>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered" id="activityQuarters">

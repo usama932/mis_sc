@@ -189,9 +189,10 @@ class DipController extends Controller
 
     public function edit(string $id)
     {
-
+        
         $project = Project::find($id);
-
+        $ProjectActivityType = ProjectActivityType::latest()->get()->sortBy('name');
+       
         $dip = 'basic_project';
         session(['dip' => $dip]);
         $provinces = [];

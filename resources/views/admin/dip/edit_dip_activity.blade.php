@@ -22,7 +22,7 @@
                     <input type="hidden" name="activity_id" id="activity_id" value="{{ $dip->id }}">
                     
                     <div class="row">
-                        <div class="fv-row col-md-6 col-lg-6 col-sm-12">
+                        <div class="fv-row col-md-3 col-lg-3 col-sm-12">
                             <label class="fs-6 fw-semibold form-label">
                                 <span class="">Thematic Area:</span>
                             </label>
@@ -32,7 +32,7 @@
                             </label>
                             <div id="themeError" class="error-message"></div>
                         </div>
-                        <div class="fv-row col-md-6 col-lg-6 col-sm-12">
+                        <div class="fv-row col-md-3 col-lg-3 col-sm-12">
                             <label class="fs-6 fw-semibold form-label">
                                 <span class="required">Sub-Thematic Area</span> 
                             </label>
@@ -41,6 +41,35 @@
                                 <span class="">{{$dip->scisubtheme_name?->name}}</span>
                             </label>
                             <div id="sub_themeError" class="error-message"></div>
+                        </div>
+                        <div class="fv-row col-md-3 col-lg-3 col-sm-12">
+                            <label class="fs-6 fw-semibold form-label d-flex">
+                                <span class="required">Project Activity Type</span>
+                                <span class="spinner-border spinner-border-sm align-middle ms-2" id="avtivityloader"
+                                    style="display: none !important;"></span>
+                            </label>
+                            <select name="activity_type" id="activity_type_id" aria-label="Select a Activity Type"
+                                data-control="select2" data-placeholder="Select a Activity Type" class="form-select"
+                                data-allow-clear="true">    
+                                <option value="">Select Activity Type </option>
+                                @foreach ($ProjectActivityType as $projectactivity)
+                                    <option value="{{ $projectactivity->id }}" @if($dip->activity_type?->activity_type?->id == $projectactivity->id) selected @endif>{{ $projectactivity->name }}</option>
+                                @endforeach
+                            </select>
+                            <div id="activity_typeError" class="error-message"></div>
+                        </div>
+                        <div class="fv-row col-md-3 col-lg-3 col-sm-12">
+                            <label class="fs-6 fw-semibold form-label d-flex">
+                                <span class="required">Project Activity Type</span>
+                                <span class="spinner-border spinner-border-sm align-middle ms-2" id="avtivityloader"
+                                    style="display: none !important;"></span>
+                            </label>
+                            <select name="activity_category" id="activity_category_id" aria-label="Select a Activity Category"
+                                data-control="select2" data-placeholder="Select a Activity Category" class="form-select"
+                                data-allow-clear="true">
+                                <option value="{{ $dip->activity_type?->id}}">{{$dip->activity_type?->name}}</option>
+                            </select>
+                            <div id="activity_categorysError" class="error-message"></div>
                         </div>
                         <div class="fv-row col-md-2 col-lg-2 col-sm-12">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
@@ -271,10 +300,7 @@
             $('#add_quarter_target').show();
         }
         
-    </script>
-
-    // add numerice input
-    <script>
+    
         document.addEventListener("DOMContentLoaded", function() {
             var numericInputs = document.querySelectorAll('.numeric-input');
 
@@ -285,9 +311,7 @@
                 });
             });
         });
-    </script>
-
-    <script>
+   
         document.addEventListener("DOMContentLoaded", function() {
             // Delegate event handling to the parent element
             document.getElementById('targetRows').addEventListener('input', function(event) {
@@ -299,10 +323,7 @@
                 }
             });
         });
-    </script>
-
-    //del target
-    <script>
+    
         function del(id) {
             Swal.fire({
                 title: "Are you sure?",
@@ -322,6 +343,37 @@
                 }
             });
         }
+
+        //activity type dropdown
+          // activity type 
+          document.getElementById('avtivityloader').style.display = 'none';
+        $("#activity_type_id").change(function() {
+            document.getElementById('avtivityloader').style.display = 'block';
+            var value = $(this).val();
+            csrf_token = $('[name="_token"]').val();
+            
+            $.ajax({
+                type: 'POST',
+                url: '/getactivity_categories',
+                data: {
+                    'activity_type_id': value,
+                    _token: csrf_token,
+                    
+                },
+                dataType: 'json',
+                success: function(data) {
+                    document.getElementById('avtivityloader').style.display = 'none';
+                    $("#activity_category_id").find('option').remove();
+                    $("#activity_category_id").prepend("<option value=''>Select Activity Category</option>");
+                    var selected = '';
+                    $.each(data, function(i, item) {
+    
+                        $("#activity_category_id").append("<option value='" + item.id + "' " + selected + " >" +
+                            item.name.replace(/_/g, ' ') + "</option>");
+                    });
+                }
+            });
+        });
     </script>
     @endpush
 </x-nform-layout>

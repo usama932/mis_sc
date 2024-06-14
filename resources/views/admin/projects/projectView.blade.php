@@ -211,7 +211,7 @@
                                 @foreach($sortedActivities as $item)
                                     <tr>
                                         <td style="width:25px !important;" class="fs-8">{{$item->activity_number ?? ''}}</td>
-                                        <td class="fs-8">{{$item->activity_title ?? ''}}</td>
+                                        <td class="fs-8">{{$item->activity_title ?? ''}} @if($item->activity_type)({{ $item->activity_type?->activity_type?->name  }} - {{  $item->activity_type?->name }}) @endif</td>
                                         <td class="fs-8">{{$item->lop_target ?? ''}}</td>
                                         @foreach($months as $monthed)
                                             <td colspan="3" class="text-center fs-8">

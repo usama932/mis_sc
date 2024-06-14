@@ -10,6 +10,8 @@ use App\Models\District;
 use App\Models\ActivityMonths;
 use App\Models\Province;
 use App\Models\Project;
+use App\Models\ProjectActivityCategory;
+use App\Models\ProjectActivityType;
 use App\Models\ActivityProgress;
 use Illuminate\Support\Facades\Storage;
 use File;
@@ -453,7 +455,7 @@ class DipActivityController extends Controller
 
     public function edit(string $id)
     {
-       
+        $ProjectActivityType = ProjectActivityType::latest()->get()->sortBy('name');
         $dip = DipActivity::where('id',$id)->first();
         $project = Project::where('id',$dip->project_id)->first();
         $activty_quarters = ActivityMonths::where('activity_id',$id)->where('project_id',$dip->project_id)->get();
@@ -475,7 +477,7 @@ class DipActivityController extends Controller
             $quarters->push($date->format('M-Y'));
         }
         addJavascriptFile('assets/js/custom/dip/dip_activity_validations.js');
-        return view('admin.dip.edit_dip_activity',compact('dip' ,'project','activty_quarters','slugs','quarters'));
+        return view('admin.dip.edit_dip_activity',compact('dip','ProjectActivityType','project','activty_quarters','slugs','quarters'));
     }
 
 

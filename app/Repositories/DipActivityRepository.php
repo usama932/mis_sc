@@ -48,10 +48,11 @@ class DipActivityRepository implements DipActivityInterface
     {
    
         $activity =  DipActivity::where('id',$id)->update([
-            'activity_number'      => $data['activity_number'],
-            'activity_title'      => $data['activity'],
-            'lop_target'           => $data['lop_target'],
-            'updated_by'           => auth()->user()->id,
+            'activity_number'       => $data['activity_number'],
+            'activity_title'        => $data['activity'],
+            'lop_target'            => $data['lop_target'],
+            'activity_type_id'      => $data['activity_category'],
+            'updated_by'            => auth()->user()->id,
         ]);
         foreach($data['activities']  as $key => $q){
         
