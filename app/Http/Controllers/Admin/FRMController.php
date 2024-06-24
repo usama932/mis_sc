@@ -98,7 +98,7 @@ class FRMController extends Controller
         $start = $request->input('start');
       
 		if(empty($request->input('search.value'))){
-			$frms = Frm::where('id','!=',-1);
+			$frms = Frm::where('id','!=',-1)->latest();
 			
 		}
         

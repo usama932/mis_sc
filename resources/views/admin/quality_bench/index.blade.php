@@ -64,7 +64,7 @@
                     <table class="table table-striped table-bordered nowrap" id="quality_bench" style="width:100%">
                         <thead>
                             <tr>
-                                <th>#S.No</th>
+                                <th>#QB.No</th>
                                 <th>Project</th>
                                 <th>Partner</th>
                                 <th>Province</th>
