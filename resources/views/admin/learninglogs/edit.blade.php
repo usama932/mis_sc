@@ -51,6 +51,7 @@
                                 <option value="PDM" @if($log->research_type == "PDM") selected @endif>PDM</option>
                                 <option value="Reasrch Study" @if($log->research_type == "Research Study") selected @endif>Research Study</option>
                                 <option value="Survey Report" @if($log->research_type == "Survey Report") selected @endif>Survey Report</option>
+                                <option value="Reports" @if($log->research_type == "Reports") selected @endif>Reports</option>
                             </select>
                             <div id="research_typeError" class="error-message "></div>
                         </div>  

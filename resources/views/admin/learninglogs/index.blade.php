@@ -115,14 +115,15 @@
                 </div>
                 <div class="col-md-4 ">
                     <select name="research_type" id="research_type" aria-label="Search Research Type" data-control="select2" data-placeholder="Search Research Type" class="form-select form-control"  data-allow-clear="true" >
-                    <option value="" >Search Research Type</option>
-                    <option value="Assessment" >Assessment</option>
-                    <option value="Evaluation">Evalution</option>
-                    <option value="Learning PPT">Learning PPT</option>
-                    <option value="Learning Briefer">Learning Briefer</option>
-                    <option value="PDM">PDM</option>
-                    <option value="Research Study">Research Study</option>
-                    <option value="Survey Report">Survey Report</option>
+                        <option value="" >Search Research Type</option>
+                        <option value="Assessment" >Assessment</option>
+                        <option value="Evaluation">Evalution</option>
+                        <option value="Learning PPT">Learning PPT</option>
+                        <option value="Learning Briefer">Learning Briefer</option>
+                        <option value="PDM">PDM</option>
+                        <option value="Research Study">Research Study</option>
+                        <option value="Survey Report">Survey Report</option>
+                        <option value="Reports">Reports</option>
                     </select>
                 </div>
                 <div class="col-md-4 ">

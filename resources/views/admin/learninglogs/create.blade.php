@@ -34,6 +34,7 @@
                             </label>
                             <select   name="project" id="project" aria-label="Select Project" data-control="select2" data-placeholder="Select Project" class="form-select"  data-allow-clear="true" >
                                 <option value="">Select Project</option>
+                                <option value="0" >All</option>
                                 @foreach($projects as $project)
                                     <option value="{{$project->id}}" >{{$project->name}}</option>
                                 @endforeach
@@ -61,6 +62,7 @@
                                 <option value="PDM">PDM</option>
                                 <option value="Research Study">Research Study</option>
                                 <option value="Survey Report">Survey Report</option>
+                                <option value="Reports">Reports</option>
                             </select>
                             <div id="research_typeError" class="error-message "></div>
                         </div>  
