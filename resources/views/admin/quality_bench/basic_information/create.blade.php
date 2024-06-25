@@ -110,14 +110,14 @@
                     <div class="card-body">
                         <div class="row">
                            
-                            {{-- <div class="col-md-12">
+                            <div class="col-md-12">
                                 <div class="mb-5 switch-container">
                                     <label class="square-switch">
                                         <input type="checkbox" id="toggleSwitch" name="qb_base" checked>
                                         <span class="slider round"></span>
                                     </label>
                                 </div>
-                            </div> --}}
+                            </div>
                             <div class="fv-row mb-3 col-md-3">
                                 <label for="project_name" class="form-label"><span class="required">Project</span></label>
                                 <select class="form-select" name="project_name"  data-control="select2" id="project_name" aria-label="Select Project">

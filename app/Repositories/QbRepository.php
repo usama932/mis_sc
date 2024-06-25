@@ -10,42 +10,26 @@ class QbRepository implements QbRepositoryInterface
     public function storeQb($data)
     {
         $qb_base_monitoring = 0;
-        // if(!empty($data['qb_base']) && $data['qb_base'] == 'on'){
-        //     $qb_not_met =  $data['total_qbs'] - ($data['qbs_fully_met'] + $data['qb_not_applicable']) ;   
-        //     $score = $data['qbs_fully_met'] /($data['total_qbs']- $data['qb_not_applicable']);
+        if(!empty($data['qb_base']) && $data['qb_base'] == 'on'){
+            $qb_not_met =  $data['total_qbs'] - ($data['qbs_fully_met'] + $data['qb_not_applicable']) ;   
+            $score = $data['qbs_fully_met'] /($data['total_qbs']- $data['qb_not_applicable']);
             
-        //     $score_out = $score * 100;  
+            $score_out = $score * 100;  
         
-        //     if($score_out > 0 && $score_out < 50){
-        //         $qb_status =  "Poor";
-        //     }
-        //     elseif($score_out >= 50 && $score_out <= 80){
-        //         $qb_status =  "Average";
-        //     }
-        //     elseif($score_out > 80 && $score_out <= 95){
-        //         $qb_status =  "Good";
-        //     }else{
-        //         $qb_status =  "Excellent";
-        //     }
-        //     $qb_base_monitoring = 1;
-        // }
-        $qb_not_met =  $data['total_qbs'] - ($data['qbs_fully_met'] + $data['qb_not_applicable']) ;   
-        $score = $data['qbs_fully_met'] /($data['total_qbs']- $data['qb_not_applicable']);
-        
-        $score_out = $score * 100;  
+            if($score_out > 0 && $score_out < 50){
+                $qb_status =  "Poor";
+            }
+            elseif($score_out >= 50 && $score_out <= 80){
+                $qb_status =  "Average";
+            }
+            elseif($score_out > 80 && $score_out <= 95){
+                $qb_status =  "Good";
+            }else{
+                $qb_status =  "Excellent";
+            }
+            $qb_base_monitoring = 1;
+        }
     
-        if($score_out > 0 && $score_out < 50){
-            $qb_status =  "Poor";
-        }
-        elseif($score_out >= 50 && $score_out <= 80){
-            $qb_status =  "Average";
-        }
-        elseif($score_out > 80 && $score_out <= 95){
-            $qb_status =  "Good";
-        }else{
-            $qb_status =  "Excellent";
-        }
-        $qb_base_monitoring = 1;
         $assement_code = $data['district'].'-'.time();
         return QualityBench::create([
             'date_visit'            => $data['date_visit'],
@@ -64,10 +48,10 @@ class QbRepository implements QbRepositoryInterface
             'partner'               => $data['partner'],
             'staff_organization'    => $data['staff_organization'],
             'monitoring_type'       => $data['monitoring_type'],
-            'total_qbs'             => $data['total_qbs'], 
+            'total_qbs'             => $data['total_qbs'] ?? 0, 
             'qb_not_applicable'     => $data['qb_not_applicable'] ?? 0, 
             'qbs_fully_met'         => $data['qbs_fully_met'] ?? 0,
-            'qbs_not_fully_met'     => $qb_not_met ?? 1,
+            'qbs_not_fully_met'     => $qb_not_met ?? 0,
             'score_out'             => $score_out ?? 0, 
             'qb_status'             => $qb_status ?? '',
             'created_by'            => auth()->user()->id,
@@ -78,25 +62,8 @@ class QbRepository implements QbRepositoryInterface
     public function updateQb($data,$id)
     {
         $qb = QualityBench::where('id',$id)->first();
-        // if($qb->qb_base == 'on'){
-        //     $qb_not_met =  $data['total_qbs'] - ($data['qbs_fully_met'] + $data['qb_not_applicable']) ;   
-        //     $score = $data['qbs_fully_met'] /($data['total_qbs']- $data['qb_not_applicable']);
-            
-        //     $score_out = $score * 100;  
-        //     //dd($score_out);
-        //     if($score_out > 0 && $score_out < 50){
-        //         $qb_status =  "Poor";
-        //     }
-        //     elseif($score_out >= 50 && $score_out <= 80){
-        //         $qb_status =  "Average";
-        //     }
-        //     elseif($score_out > 80 && $score_out <= 95){
-        //         $qb_status =  "Good";
-        //     }else{
-        //         $qb_status =  "Excellent";
-        //     }
-        // }
-        $qb_not_met =  $data['total_qbs'] - ($data['qbs_fully_met'] + $data['qb_not_applicable']) ;   
+        if($qb->qb_base == 'on'){
+            $qb_not_met =  $data['total_qbs'] - ($data['qbs_fully_met'] + $data['qb_not_applicable']) ;   
             $score = $data['qbs_fully_met'] /($data['total_qbs']- $data['qb_not_applicable']);
             
             $score_out = $score * 100;  
@@ -112,6 +79,8 @@ class QbRepository implements QbRepositoryInterface
             }else{
                 $qb_status =  "Excellent";
             }
+        }
+    
         return QualityBench::where('id',$id)->update([
             'accompanied_by'        => $data['accompanied_by'],
             'date_visit'            => $data['date_visit'],

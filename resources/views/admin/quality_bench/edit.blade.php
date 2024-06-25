@@ -25,14 +25,14 @@
                 <li class="nav-item">
                     <a class="nav-link @if(session('active') == 'basic_info')  active @endif" data-bs-toggle="tab" href="#basic_info">Summary</a>
                 </li>
-                @if($qb->qb_base_monitoring == 1)
+             
                 <li class="nav-item">
-                    <a class="nav-link @if(session('active') == 'monitor_visit') active @else  @endif" data-bs-toggle="tab" href="#monitor_visit" @if($qb->qb_base_monitoring == 0) disabled @endif>QBs Not Fully Met</a>
+                    <a class="nav-link @if(session('active') == 'monitor_visit') active @else  @endif" data-bs-toggle="tab" href="#monitor_visit" >QBs Not Fully Met</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link @if(session('active') == 'action_point') active @else  @endif" data-bs-toggle="tab" href="#action_point" @if($qb->qb_base_monitoring == 0) disabled @endif>Action Point Details</a>
+                    <a class="nav-link @if(session('active') == 'action_point') active @else  @endif" data-bs-toggle="tab" href="#action_point" >Action Point Details</a>
                 </li>
-                @endif
+              
                 <li class="nav-item">
                     <a class="nav-link @if(session('active') == 'qbattachment') active @else  @endif" data-bs-toggle="tab" href="#qbattachment" >Comments and Attachment</a>
                 </li>
@@ -44,18 +44,17 @@
                     @include('admin.quality_bench.basic_information.basic_information')
                 </div>
             </div>
-            @if($qb->qb_base_monitoring == 1)
-            <div class="tab-pane fade show @if(session('active') == 'monitor_visit') active @else  @endif" id="monitor_visit" role="tabpanel" @if($qb->qb_base_monitoring == 0) disabled @endif>
+           
+            <div class="tab-pane fade show @if(session('active') == 'monitor_visit') active @else  @endif" id="monitor_visit" role="tabpanel" >
                 <div>
                     @include('admin.quality_bench.monitor_visits.monitor_visits')
                 </div>
             </div>
-            <div class="tab-pane fade show @if(session('active') == 'action_point') active @else  @endif" id="action_point" role="tabpanel" @if($qb->qb_base_monitoring == 0) disabled @endif>   
+            <div class="tab-pane fade show @if(session('active') == 'action_point') active @else  @endif" id="action_point" role="tabpanel" >   
                 <div>
                     @include('admin.quality_bench.action_point.action_point')
                 </div>
             </div>
-            @endif
             <div class="tab-pane fade show @if(session('active') == 'qbattachment') active @else  @endif" id="qbattachment" role="tabpanel">
                 <div>
                     @include('admin.quality_bench.qb_attachment.attachment')
