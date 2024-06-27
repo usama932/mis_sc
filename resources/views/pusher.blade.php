@@ -64,9 +64,6 @@
         </div>
     </div>
 
-    <!-- Include Pusher and Laravel Echo directly -->
-    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/laravel-echo/dist/echo.iife.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const pusherKey = '{{ env("PUSHER_APP_KEY") }}';
