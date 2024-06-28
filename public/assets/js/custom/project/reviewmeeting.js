@@ -48,6 +48,7 @@ var reviews = $('#project_reviews').DataTable({
                        '</a>';
             }
         }
+        
     ]
 });
 

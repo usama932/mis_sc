@@ -32,7 +32,16 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = Project::orderBy('name')->latest()->get();
-        return view('admin.projects.index',compact('projects'));
+
+        $total_projects = Project::count();
+        $humanterian = Project::where('type','Humanitarian')->count();
+        $development = Project::where('type','Development')->count();
+        $active = Project::where('active',1)->count();
+        $inactive = Project::where('active',0)->count();
+        $detail = Project::has('detail')->count();
+        addVendors(['datatables']);
+        addJavascriptFile('assets/js/custom/project/index_script.js');
+        return view('admin.projects.index',compact('projects','inactive','detail','active','development','humanterian','total_projects'));
     }
 
     public function get_project_index()
@@ -147,113 +156,89 @@ class ProjectController extends Controller
 
     public function get_projects(Request $request)
     {
-        $columns = array(
-            0 => 'project',
-            1 => 'type',
-            2 => 'sof',
-            3 => 'donor',
-            4 => 'focal_person',
-            5 => 'budget_holder',
-            6 => 'award_person',
-            7 => 'start_date',
-            8 => 'end_date',
-            9 => 'created_by',
-            10 => 'created_at',
-        );
-        
-        $totalData = Project::count();
-        $limit = $request->input('length');
-        $orderColumn = $request->input('order.0.column');
+      
+        $columns = [
+            'project', 'type', 'sof', 'donor', 'focal_person', 'budget_holder',
+            'award_person', 'start_date', 'end_date', 'created_by', 'created_at'
+        ];
+    
+        $query = Project::latest();
+        $totalData = $query->count();
+    
+        // Apply filters
+        if ($request->filled('project')) {
+            $query->where('id', $request->project);
+        }
+        if ($request->filled('type')) {
+            $query->where('type', $request->type);
+        }
+        if ($request->filled('status')) {
+            $query->where('active', $request->status);
+        }
+        if ($request->filled('startdate') && $request->startdate != 1) {
+            $query->where('start_date', '>=', $request->startdate);
+        }
+        if ($request->filled('enddate') && $request->enddate != 1) {
+            $query->where('end_date', '<=', $request->enddate);
+        }
+    
+        $totalFiltered = $query->count();
+    
+        // Order
+        $orderColumn = $columns[$request->input('order.0.column')];
         $orderDirection = $request->input('order.0.dir');
-        $order = $columns[$orderColumn];
-        $totalFiltered = Project::count();
+        $query->orderBy($orderColumn, $orderDirection);
+    
+        // Pagination and get data
         $start = $request->input('start');
-        
-        $projectQuery = Project::latest();
-        
-        if ($request->project != null) {
-           
-            $projectQuery->where('id',$request->project);
+        $limit = $request->input('length');
+        $projects = $query->offset($start)
+                         ->limit($limit)
+                         ->get();
+    
+        // Prepare data for DataTables
+        $data = [];
+        foreach ($projects as $project) {
+            $nestedData = [
+                'id' => $project->id,
+                'project' => $project->name ?? '',
+                'type' => $project->type ?? '',
+                'sof' => $project->sof ?? '',
+                'donor' => $project->donors?->name ?? '',
+                'focal_person' => $this->getUserNames($project->focal_person),
+                'budgetholder' => $this->getUserNames($project->budget_holder),
+                'awardsfp' => $project->awardfp?->name ?? '',
+                'start_date' => $project->start_date ? date('M d,Y', strtotime($project->start_date)) : '',
+                'end_date' => $project->end_date ? date('M d,Y', strtotime($project->end_date)) : '',
+                'status' => $project->status ?? '',
+                'created_by' => $project->user->name ?? '',
+                'created_at' => ($project->created_at) ? date('M d, Y', strtotime($project->created_at)) . '<br>' . date('h:iA', strtotime($project->created_at)) : '',
+                'action' => '',
+                'edit_url' => route('projects.edit', $project->id),
+                'show_url' => route('projects.show', $project->id),
+            ];
+            $data[] = $nestedData;
         }
-        
-        if ($request->startdate != null && $request->startdate != 1) {
-            
-            $projectQuery->where('start_date', '>=', $request->startdate);
-            if ($request->enddate != null) {
-                $projectQuery->where('start_date', '<=', $request->enddate);
-            }
-        }
-        
-        if ($request->enddate != null  && $request->enddate != 1) {
-            $projectQuery->where('end_date', '<=', $request->enddate);
-            if ($request->startdate != null) {
-                $projectQuery->where('end_date', '>=', $request->startdate);
-            }
-        }
-        
-        $projects = $projectQuery->offset($start)
-            ->limit($limit)
-            ->orderBy($order, $orderDirection)
-            ->get();
-        
-        $data = array();
-        if ($projects) {
-            foreach ($projects as $r) {
-                $edit_url = route('projects.edit', $r->id);
-                $show_url = route('projects.show', $r->id);
-                $nestedData['id'] = $r->id;
-                $nestedData['project'] = $r->name ?? '';
-                $nestedData['type'] = $r->type ?? '';
-                $nestedData['sof'] = $r->sof ?? '';
-                $nestedData['donor'] = $r->donors?->name ?? '';
-                
-                $focalperson = $r->focal_person;
-                $budgetholder = $r->budget_holder;
-                $nestedData['focal_person'] = $focalperson ? implode("<br>", User::whereIn('id', json_decode($focalperson, true))->pluck('name')->toArray()) : '';
-                $nestedData['budgetholder'] = $budgetholder ? implode("<br>", User::whereIn('id', json_decode($budgetholder, true))->pluck('name')->toArray()) : '';
-                
-                $nestedData['awardsfp'] = $r->awardfp?->name ?? '';
-                if (!empty($r->start_date)) {
-                    $nestedData['start_date'] = date('M d,Y', strtotime($r->start_date)) ?? '';
-                } else {
-                    $nestedData['start_date'] = '';
-                }
-                if (!empty($r->end_date)) {
-                    $nestedData['end_date'] = date('M d,Y', strtotime($r->end_date)) ?? '';
-                } else {
-                    $nestedData['end_date'] = '';
-                }
-        
-                $nestedData['status'] = $r->status ?? '';
-                $nestedData['created_by'] = $r->user->name ?? '';
-                $nestedData['created_at'] = date('M d, Y', strtotime($r->created_at)) . '<br>' . date('h:iA', strtotime($r->created_at)) ?? '';
-        
-                $nestedData['action'] = '<div>
-                    <td>
-                        <a class="btn-icon mx-1" href="' . $show_url . '" >
-                            <i class="fa fa-eye text-success" ></i>
-                        </a>
-                        <a class="btn-icon mx-1" href="' . $edit_url . '" target="_blank">
-                            <i class="fa fa-pencil text-warning" aria-hidden="true"></i>
-                        </a>
-                        <a class="btn-icon mx-1" onclick="event.preventDefault();del(' . $r->id . ');" title="Delete Monitor Visit" href="javascript:void(0)">
-                            <i class="fa fa-trash text-danger" aria-hidden="true"></i>
-                        </a>
-                    </td>
-                </div>';
-        
-                $data[] = $nestedData;
-            }
-        }
-        
-        $json_data = array(
-            "draw"            => intval($request->input('draw')),
-            "recordsTotal"    => intval($totalData),
+    
+        // Return JSON response for DataTables
+        return response()->json([
+            "draw" => intval($request->input('draw')),
+            "recordsTotal" => intval($totalData),
             "recordsFiltered" => intval($totalFiltered),
-            "data"            => $data
-        );
-        
-        echo json_encode($json_data);
+            "data" => $data,
+        ]);
+    }
+    protected function getUserNames($userIds)
+    {
+        if (!$userIds) {
+            return '';
+        }
+        $userIdsArray = json_decode($userIds, true);
+        if (!$userIdsArray) {
+            return '';
+        }
+        $users = User::whereIn('id', $userIdsArray)->pluck('name')->toArray();
+        return implode("<br>", $users);
     }
   
     public function createProject_details($id){

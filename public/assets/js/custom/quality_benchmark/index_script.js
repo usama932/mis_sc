@@ -100,18 +100,18 @@ $("#date_visit,#assesment_code,#attachement, #visit_staff,#partner, #accompanied
     var attachement = document.getElementById("attachement").value ?? '1';
     var qb = $('#quality_bench').DataTable( {
         "dom": 'lfBrtip',
-       buttons: [
-        {
-            extend: 'excelHtml5',
-            filename: 'Project Profile Data export_',
-            text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
-            title: 'Themetic area Data export',
-            className: 'badge badge-outline-success',
-            exportOptions: {
-                columns: [0,1,2]
-            }
-        },
-        {
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                filename: 'Project Profile Data export_',
+                text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
+                title: 'Themetic area Data export',
+                className: 'badge badge-outline-success',
+                exportOptions: {
+                    columns: [0,1,2]
+                }
+            },
+            {
             extend: 'csvHtml5',
             filename: 'Project Profile Data CSV_',
             text: '<i class="fa fa-download text-warning mx-1"></i> CSV',
@@ -120,8 +120,8 @@ $("#date_visit,#assesment_code,#attachement, #visit_staff,#partner, #accompanied
             exportOptions: {
                 columns: [0,1,2]
             }
-        }
-    ],
+         }
+        ],
         "processing": true,
         "serverSide": true,
         "searching": false,
