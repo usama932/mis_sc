@@ -27,7 +27,7 @@
                 </li>
              
                 <li class="nav-item">
-                    <a class="nav-link @if(session('active') == 'monitor_visit') active @else  @endif" data-bs-toggle="tab" href="#monitor_visit" >QBs Not Fully Met</a>
+                    <a class="nav-link @if(session('active') == 'monitor_visit') active @else  @endif" data-bs-toggle="tab" href="#monitor_visit" > @if($qb->qb_base_monitoring == 1) QBs Not Fully Met @else Add Observations @endif</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link @if(session('active') == 'action_point') active @else  @endif" data-bs-toggle="tab" href="#action_point" >Action Point Details</a>

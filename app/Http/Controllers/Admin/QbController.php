@@ -15,6 +15,9 @@ use App\Exports\QB\ExportQB;
 use App\Models\ClosingRecord;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\QB\ActionPoint;
+use App\Models\OldQB;
+use App\Models\District;
+use App\Models\Province;
 use App\Repositories\Interfaces\QbRepositoryInterface;
 use Carbon\Carbon;
 
@@ -35,32 +38,37 @@ class QbController extends Controller
         addVendors(['datatables']);
 
         if(auth()->user()->user_type == "province-wide"){
+            $province = Province::where('province_id',auth()->user()->province)->first();
             $qb_last_month = QualityBench::where('province',auth()->user()->province)
-                                        ->whereMonth('created_at', Carbon::now()->subMonth()->month)
-                                        ->whereYear('created_at', Carbon::now()->subMonth()->year)->count();
-            $qb_this_month = QualityBench::where('province',auth()->user()->province)->whereMonth('created_at', Carbon::now()->month)
-                                        ->whereYear('created_at', Carbon::now()->year)->count();
-            $qb_this_week = QualityBench::where('province',auth()->user()->province)->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count();
+                                        ->whereMonth('date_visit', Carbon::now()->subMonth()->month)
+                                        ->whereYear('date_visit', Carbon::now()->subMonth()->year)->count();
+            $qb_this_month = QualityBench::where('province',auth()->user()->province)->whereMonth('date_visit', Carbon::now()->month)
+                                        ->whereYear('date_visit', Carbon::now()->year)->count();
+            $total_qbs =  QualityBench::where('province',auth()->user()->province)->count();
+            $old_totalqb = OldQB::where('province',$province)->count();
             $qb_last_days = QualityBench::where('province',auth()->user()->province)->where('created_at', '>=', Carbon::now()->subDays(10))->count();
         }
         elseif(auth()->user()->user_type == "district-wide"){
-            $qb_last_month = QualityBench::where('district',auth()->user()->district)->whereMonth('created_at', Carbon::now()->subMonth()->month)
-            ->whereYear('created_at', Carbon::now()->subMonth()->year)->count();
-            $qb_this_month = QualityBench::where('district',auth()->user()->district)->whereMonth('created_at', Carbon::now()->month)
-            ->whereYear('created_at', Carbon::now()->year)->count();
-            $qb_this_week = QualityBench::where('district',auth()->user()->district) ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count();
+            $district = District::where('district_id',auth()->user()->district)->count();
+            $qb_last_month = QualityBench::where('district',auth()->user()->district)->whereMonth('date_visit', Carbon::now()->subMonth()->month)
+            ->whereYear('date_visit', Carbon::now()->subMonth()->year)->count();
+            $qb_this_month = QualityBench::where('district',auth()->user()->district)->whereMonth('date_visit', Carbon::now()->month)
+            ->whereYear('date_visit', Carbon::now()->year)->count();
+            $total_qbs =  QualityBench::where('district',auth()->user()->district)->count();
+            $old_totalqb = OldQB::where('district',$district)->count();
             $qb_last_10_days = QualityBench::where('district',auth()->user()->district)->where('created_at', '>=', Carbon::now()->subDays(10))->count();
         }
         else{
-            $qb_last_month = QualityBench::whereMonth('created_at', Carbon::now()->subMonth()->month)
-            ->whereYear('created_at', Carbon::now()->subMonth()->year)->count();
-            $qb_this_month = QualityBench::whereMonth('created_at', Carbon::now()->month)
-            ->whereYear('created_at', Carbon::now()->year)->count();
-            $qb_this_week = QualityBench::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count();
+            $qb_last_month = QualityBench::whereMonth('date_visit', Carbon::now()->subMonth()->month)
+            ->whereYear('date_visit', Carbon::now()->subMonth()->year)->count();
+            $qb_this_month = QualityBench::whereMonth('date_visit', Carbon::now()->month)
+            ->whereYear('date_visit', Carbon::now()->year)->count();
+            $total_qbs =  QualityBench::count();
+            $old_totalqb = OldQB::count();
             $qb_last_days = QualityBench::where('created_at', '>=', Carbon::now()->subDays(10))->count();
         }
       
-        return view('admin.quality_bench.index',compact('projects','users','qb_last_days','qb_this_week','qb_this_month','qb_last_month'));
+        return view('admin.quality_bench.index',compact('projects','users','total_qbs','old_totalqb','qb_last_days','qb_this_month','qb_last_month'));
     }
 
     public function get_qbs(Request $request)

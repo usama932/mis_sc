@@ -118,9 +118,9 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="fv-row mb-3 col-md-3">
+                            <div class="fv-row mb-3 col-md-6">
                                 <label for="project_name" class="form-label"><span class="required">Project</span></label>
-                                <select class="form-select" name="project_name"  data-control="select2" id="project_name" aria-label="Select Project">
+                                <select class="form-select" name="project_name" data-placeholder="Select Project..." data-control="select2" id="project_name" aria-label="Select Project">
                                     <option value="">Select Project</option>
                                     @foreach($projects as $project)
                                     <option value="{{$project->id}}">{{$project->name}}</option>
@@ -140,7 +140,7 @@
 
                             <div class="fv-row mb-3 col-md-3">
                                 <label for="partner" class="form-label"><span class="required">Partner</span></label>
-                                <select class="form-select" name="partner" id="partner" aria-label="Select a Partner Name"  data-control="select2">
+                                <select class="form-select" name="partner" id="partner" data-placeholder="Select Partner Name..." aria-label="Select a Partner Name"  data-control="select2">
                                     <option value="">Select Partner Name</option>
                                     @foreach($partners as $partner)
                                     <option value="{{$partner->id}}">{{$partner->slug}}</option>
@@ -149,20 +149,11 @@
                                 <div id="partnerError" class="error-message"></div>
                             </div>
 
-                            <div class="fv-row mb-3 col-md-3">
-                                <label for="monitoring_type" class="form-label"><span class="required">Monitoring Type</span></label>
-                                <select class="form-select" name="monitoring_type" id="monitoring_type"   data-control="select2" aria-label="Select a Type of Visit">
-                                    <option value="">Select Monitoring Type</option>
-                                    <option value="Process and output monitoring">Process and output monitoring</option>
-                                    <option value="Distribution">Distribution</option>
-                                    <option value="Joint outcome monitoring">Joint outcome monitoring</option>
-                                </select>
-                                <div id="monitoring_typeError" class="error-message"></div>
-                            </div>
+                          
 
                             <div class="fv-row mb-3 col-md-3">
                                 <label for="kt_select2_province" class="form-label"><span class="required">Province</span></label>
-                                <select class="form-select"  data-control="select2" name="province" id="kt_select2_province" aria-label="Select a Province">
+                                <select class="form-select"  data-control="select2" name="province" data-placeholder="Select Theme..." id="kt_select2_province" aria-label="Select a Province">
                                     <option value="">Select Province</option>
                                     <option value='4'>Sindh</option>
                                     <option value='2'>KPK</option>
@@ -198,7 +189,7 @@
                                 <div id="kt_select2_union_counsilError" class="error-message"></div>
                             </div>
 
-                            <div class="fv-row mb-3 col-md-3">
+                            <div class="fv-row mb-3 col-md-6">
                                 <label for="village" class="form-label"><span class="required">Village</span></label>
                                 <input type="text" class="form-control" name="village" id="village" placeholder="Enter Village">
                                 <div id="villageError" class="error-message"></div>
@@ -206,7 +197,7 @@
 
                             <div class="fv-row mb-3 col-md-3">
                                 <label for="theme" class="form-label"><span class="required">Theme</span></label>
-                                <select class="form-select" name="theme" id="theme" aria-label="Select a Theme"  data-control="select2">
+                                <select class="form-select" name="theme" id="theme"  data-placeholder="Select Theme..." aria-label="Select a Theme"  data-control="select2">
                                     <option value="">Select Theme</option>
                                     @foreach($themes as $theme)
                                     <option value="{{$theme->id}}">{{$theme->name}}</option>
@@ -217,7 +208,7 @@
 
                             <div class="fv-row mb-3 col-md-3">
                                 <label for="type_of_visit" class="form-label"><span class="required">Type of Visit</span></label>
-                                <select class="form-select" name="type_of_visit" id="type_of_visit" aria-label="Select a Type of Visit"  data-control="select2">
+                                <select class="form-select" name="type_of_visit" data-placeholder="Select Project Type..."  id="type_of_visit" aria-label="Select a Type of Visit"  data-control="select2">
                                     <option value="">Select Project Type</option>
                                     <option value="Independent">Independent</option>
                                     <option value="Joint">Joint</option>
@@ -229,6 +220,17 @@
                                 <label for="accompanied_by" class="form-label"><span class="required">Accompanied By</span></label>
                                 <select class="form-select form-control" name="accompanied_by"  data-placeholder="Select a Accompanied By..."   data-control="select2" id="accompanied_by" aria-label="Select a Registrar Name"></select>
                                 <div id="accompanied_byError" class="error-message"></div>
+                            </div>
+
+                            <div class="fv-row mb-3 col-md-3">
+                                <label for="monitoring_type" class="form-label"><span class="required">Monitoring Type</span></label>
+                                <select class="form-select" name="monitoring_type"  data-placeholder="Select Monitoring Type..." id="monitoring_type"   data-control="select2" aria-label="Select a Type of Visit">
+                                    <option value="">Select Monitoring Type</option>
+                                    <option value="Process and output monitoring">Process and output monitoring</option>
+                                    <option value="Distribution">Distribution</option>
+                                    <option value="Joint outcome monitoring">Joint outcome monitoring</option>
+                                </select>
+                                <div id="monitoring_typeError" class="error-message"></div>
                             </div>
 
                             <div class="fv-row mb-3 col-md-6">
@@ -269,8 +271,8 @@
 
                             <div class="fv-row mb-3 col-md-3">
                                 <label for="staff_organization" class="form-label"><span class="required">Staff Organization</span></label>
-                                <select class="form-select" name="staff_organization" id="staff_organization" aria-label="Select a Visit Staff Name"  data-control="select2">
-                                    <option value="">Select Option</option>
+                                <select class="form-select" name="staff_organization"  data-placeholder="Select Staff Organization..."id="staff_organization" aria-label="Select a Visit Staff Name"  data-control="select2">
+                                    <option value="">Select Staff Organization</option>
                                     <option value="SC Staff">SC Staff</option>
                                     <option value="SRSP Staff">SRSP Staff</option>
                                     <option value="LRF Staff">LRF Staff</option>

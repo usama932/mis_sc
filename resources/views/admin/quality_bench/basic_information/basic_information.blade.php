@@ -216,7 +216,7 @@
             </div>
             <div class="fv-row col-sm-3 col-md-3 col-lg-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
-                    <span class="required">QB Filled By</span>
+                    <span class="required">Visited By</span>
                 </label>
                 <input type="text" class="form-control" id="qb_filledby"  name="qb_filledby" value="{{$qb->qb_filledby ?? ''}}">
               

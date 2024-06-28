@@ -1,43 +1,9 @@
 <x-default-layout>
     @section('title', 'Monitoring Visits List')
-
+   
     <div id="kt_app_content" class="app-content flex-column-fluid">
-        <div class="row p-5">
-            <div class="col-lg-3">
-                <div class="small-box bg-success p-4 rounded">
-                    <div class="inner">
-                        <h6>Total visits this Month</h6>
-                        <p>{{$qb_this_month ?? ''}}</p>
-                    </div>
-                </div>
-            </div>
-         
-            <div class="col-lg-3">
-                <div class="small-box bg-warning p-4 rounded">
-                    <div class="inner">
-                        <h6>Total visits last Month</h6>
-                        <p>{{$qb_last_month ?? ''}}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="small-box bg-primary p-4 rounded">
-                    <div class="inner">
-                        <h6>Total visits this Week</h6>
-                        <p>{{$qb_this_week ?? ''}}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="small-box bg-secondary p-4 rounded">
-                    <div class="inner">
-                        <h6>Total visits last 10 days</h6>
-                        <p>{{$qb_last_days ?? ''}}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
+    
+        @include('admin.quality_bench.partials.index_tiles')
         <div class="card mb-4">
             @include('admin.quality_bench.partials.filter_qb_index')
         </div>
