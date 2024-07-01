@@ -139,8 +139,8 @@ class QBAttachmentsController extends Controller
         }
 
         $qb         = QualityBench::where('id',$request->quality_bench_id)->first();
-        if($qb->theme == '6'){
-            $actiontheme = 5;
+        if($qb->theme == '5'){
+            $actiontheme = 6;
         }else{
             $actiontheme = $qb->theme;
         }

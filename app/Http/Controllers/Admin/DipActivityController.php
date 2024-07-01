@@ -54,9 +54,7 @@ class DipActivityController extends Controller
         }
         $dir = $request->input('order.0.dir');
     
-        $totalFiltered = DipActivity::when(!empty($dip_id), function ($query) use ($dip_id) {
-            $query->where('project_id', $dip_id);
-        })->count();
+       
     
         $start = $request->input('start');
     
@@ -72,7 +70,7 @@ class DipActivityController extends Controller
             $role = 'f_p';
         }
         elseif($userRole == "partner"){
-            $role = 'budget_holder';
+            $role = 'partner';
         }else{
             $role = "all";
         }
@@ -80,15 +78,16 @@ class DipActivityController extends Controller
         //projects 
         $user_id = auth()->user()->id;
         $user = $user_id.'';
+       
         if ($role == 'f_p') {
             $dipsQuery->whereHas('project', function ($query) use ($user) {
                 $query->whereJsonContains('focal_person', $user);
             });
         }
+        
         elseif($role == 'partner'){
-            
-            $dipsQuery->whereJsonContains('budget_holder', $user)
-            ->whereHas('project', function ($query) {
+          
+            $dipsQuery->whereHas('project', function ($query) {
                 $query->whereHas('partners', function ($partnersQuery) {
                     $partnersQuery->where('email', auth()->user()->email);
                 });
@@ -98,6 +97,7 @@ class DipActivityController extends Controller
          
             $dipsQuery;
         }
+        $totalFiltered =  $dipsQuery->count();
         $dips = $dipsQuery->limit($limit)
             ->offset($start)
             //->orderBy($order, $dir)
@@ -139,8 +139,18 @@ class DipActivityController extends Controller
                 $nestedData['quarter_target'] = $quarterTarget;
                 $nestedData['created_by'] = $r->user->name ?? '';
                 $nestedData['created_at'] = date('M d, Y', strtotime($r->created_at)). '<br>'. date('h:iA', strtotime($r->created_at)) ?? '';
-                $nestedData['update_progress'] = '<a  href="' . $progress_url . '"><span class="badge badge-success">Update Progress</span></a>';
-    
+                $activity = DipActivity::find($r->id);
+                $progressMonths = $activity->months()->pluck('id')->toArray();
+               
+                $quarters = ActivityProgress::whereIn('quarter_id', $progressMonths)->get();
+            
+                if($quarters && !auth()->user()->hasRole('partner')) {
+                
+                    $nestedData['update_progress'] = '<a href="' . $progress_url . '"><span class="badge badge-success">Update Progress</span></a>';
+                }else {
+                    $nestedData['update_progress'] = '';
+                }
+                
                 $nestedData['action'] = '<div>
                                         <td>
                                             <a class="btn-icon mx-1" href="' . $show_url . '" title="Show Activity" href="javascript:void(0)">
@@ -189,19 +199,20 @@ class DipActivityController extends Controller
             3 => 'activity_detail',
 		);
 	
-        $totalData = ActivityMonths::where('project_id',$project_id)->where('activity_id',$activity_id)->count();
+      
         
 		$limit = $request->input('length');
         $order = $columns[$request->input('order.0.column')];
         $dir = $request->input('order.0.dir');
        
-        $totalFiltered = ActivityMonths::where('project_id',$project_id)->where('activity_id',$activity_id)->count();
       
 		$start = $request->input('start');
 		
         $quarters = ActivityMonths::where('project_id',$project_id)->where('activity_id',$activity_id);
         
+        $totalData = $quarters->count();
         
+        $totalFiltered = $quarters->count();
         $quarters =$quarters->limit($limit)->offset($start)
                                     ->orderBy($order, $dir)->get()->sortByDesc("date_visit");
 		$data = array();
@@ -573,11 +584,16 @@ class DipActivityController extends Controller
 
     public function activity_progress(){
       
-        if(auth()->user()->user_type != 'admin'){
-            $projects = Project::orWhere('focal_person',auth()->user()->id)->orWhereHas('partners', function ($query) {
-                                    $query->where('email', auth()->user()->email);
-                                })->orderBy('name')->get();
+        if(auth()->user()->hasRole('partner')){
+          
+            $projects = Project::whereHas('partners', function ($query) {
+                $query->where('email', auth()->user()->email);
+            })->orderBy('name')->get();
+        }
+        elseif(auth()->user()->hasRole('focal_person')){
+            $projects = Project::whereJsonContains('focal_person',auth()->user()->id)->orderBy('name')->get();
         }else{
+           
             $projects = Project::orderBy('name')->get();
         }
         addVendors(['datatables']);

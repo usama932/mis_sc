@@ -419,8 +419,8 @@ class QBActionPointController extends Controller
             'updated_by'         => auth()->user()->id,
         ]);
         $actionpoint    = QualityBench::where('id',$request->qb_id)->first();
-        if($actionpoint->theme == '6'){
-            $actiontheme = 5;
+        if($actionpoint->theme == '5'){
+            $actiontheme = 6;
         }else{
             $actiontheme = $actionpoint->theme;
         }
