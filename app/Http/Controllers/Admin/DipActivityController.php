@@ -427,6 +427,7 @@ class DipActivityController extends Controller
 
     public function show(string $id)
     {
+        
         $dip_activity = DipActivity::where('id',$id)->with('months','project','project.themes','user','user1')->first();
   
         if(!empty($dip_activity->project->detail->province )){
@@ -654,17 +655,18 @@ class DipActivityController extends Controller
                 }
                 if(!empty($quarter)){
                     ActivityProgress::where('quarter_id',$request->quarter)->update([
-                        'quarter_id'    => $request->quarter,
-                        'project_id'    => $quarter->project_id,
-                        'activity_id'   => $quarter->activity_id,
-                        'women_target'  => $request->women_target,
-                        'boys_target'   => $request->boys_target,
-                        'girls_target'  => $request->girls_target,
-                        'men_target'    => $request->men_target,
-                        'remarks'       => $request->remarks,
-                        'attachment'    => $attachment,
-                        'image'         => $image,
-                        'created_by'    => auth()->user()->id
+                        'quarter_id'        => $request->quarter,
+                        'activity_target'   => $request->activity_target,
+                        'project_id'        => $quarter->project_id,
+                        'activity_id'       => $quarter->activity_id,
+                        'women_target'      => $request->women_target,
+                        'boys_target'       => $request->boys_target,
+                        'girls_target'      => $request->girls_target,
+                        'men_target'        => $request->men_target,
+                        'remarks'           => $request->remarks,
+                        'attachment'        => $attachment,
+                        'image'             => $image,
+                        'created_by'        => auth()->user()->id
                     ]);
                 }
               
@@ -697,18 +699,19 @@ class DipActivityController extends Controller
                    
                 }
                 ActivityProgress::create([
-                    'quarter_id'    => $request->quarter,
-                    'project_id'    => $quarter->project_id,
-                    'activity_id'   => $quarter->activity_id,
-                    'women_target'  => $request->women_target,
-                    'boys_target'   => $request->boys_target,
-                    'girls_target'  => $request->girls_target,
-                    'men_target'    => $request->men_target,
-                    'remarks'       => $request->remarks,
-                    'attachment'    => $attachment,
-                    'complete_date' => $request->complete_date,
-                    'image'         => $image,
-                    'created_by'    => auth()->user()->id
+                    'quarter_id'        => $request->quarter,
+                    'project_id'        => $quarter->project_id,
+                    'activity_target'   => $request->activity_target,
+                    'activity_id'       => $quarter->activity_id,
+                    'women_target'      => $request->women_target,
+                    'boys_target'       => $request->boys_target,
+                    'girls_target'      => $request->girls_target,
+                    'men_target'        => $request->men_target,
+                    'remarks'           => $request->remarks,
+                    'attachment'        => $attachment,
+                    'complete_date'     => $request->complete_date,
+                    'image'             => $image,
+                    'created_by'        => auth()->user()->id
                 ]);
                
             }
