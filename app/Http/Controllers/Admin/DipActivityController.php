@@ -97,6 +97,7 @@ class DipActivityController extends Controller
          
             $dipsQuery;
         }
+       
         $totalFiltered =  $dipsQuery->count();
         $dips = $dipsQuery->limit($limit)
             ->offset($start)
@@ -140,16 +141,9 @@ class DipActivityController extends Controller
                 $nestedData['created_by'] = $r->user->name ?? '';
                 $nestedData['created_at'] = date('M d, Y', strtotime($r->created_at)). '<br>'. date('h:iA', strtotime($r->created_at)) ?? '';
                 $activity = DipActivity::find($r->id);
-                $progressMonths = $activity->months()->pluck('id')->toArray();
-               
-                $quarters = ActivityProgress::whereIn('quarter_id', $progressMonths)->get();
-            
-                if($quarters && !auth()->user()->hasRole('partner')) {
                 
-                    $nestedData['update_progress'] = '<a href="' . $progress_url . '"><span class="badge badge-success">Update Progress</span></a>';
-                }else {
-                    $nestedData['update_progress'] = '';
-                }
+                $nestedData['update_progress'] = '<a href="' . $progress_url . '"><span class="badge badge-success">Update Progress</span></a>';
+              
                 
                 $nestedData['action'] = '<div>
                                         <td>
@@ -187,7 +181,157 @@ class DipActivityController extends Controller
     
         return response()->json($json_data);
     }
+    public function get_complete_activity(Request $request)
+    {
+        $dip_id = $request->dip_id;
+        $columns = [
+            1 => 'id',
+            2 => 'project_id',
+            3 => 'activity_detail',
+        ];
     
+        $totalData = DipActivity::when(!empty($dip_id), function ($query) use ($dip_id) {
+            $query->where('project_id', $dip_id);
+        })->count();
+    
+        $limit = $request->input('length');
+        //$order = $columns[$request->input('order.0.column')];
+        $orderIndex = $request->input('order.0.column');
+        if (isset($columns[$orderIndex])) {
+            $order = $columns[$orderIndex];
+        } else {
+            
+            $order = 'id'; // Or any other default column name
+        }
+        $dir = $request->input('order.0.dir');
+    
+       
+    
+        $start = $request->input('start');
+    
+        $dipsQuery = DipActivity::when(!empty($dip_id), function ($query) use ($dip_id) {
+            $query->where('project_id', $dip_id);
+        });
+        $userType = auth()->user()->user_type;
+        $user_id = auth()->user()->id;
+
+        $userRole =  $role = Auth::user()->getRoleNames()->first();
+     
+        if($userRole == "focal person"){
+            $role = 'f_p';
+        }
+        elseif($userRole == "partner"){
+            $role = 'partner';
+        }else{
+            $role = "all";
+        }
+
+        //projects 
+        $user_id = auth()->user()->id;
+        $user = $user_id.'';
+       
+        if ($role == 'f_p') {
+            $dipsQuery->whereHas('project', function ($query) use ($user) {
+                $query->whereJsonContains('focal_person', $user);
+            });
+        }
+        
+        elseif($role == 'partner'){
+          
+            $dipsQuery->whereHas('project', function ($query) {
+                $query->whereHas('partners', function ($partnersQuery) {
+                    $partnersQuery->where('email', auth()->user()->email);
+                });
+            });
+        }
+        else{
+         
+            $dipsQuery;
+        }
+       
+        $totalFiltered =  $dipsQuery->count();
+        $dips = $dipsQuery->limit($limit)
+            ->offset($start)
+            //->orderBy($order, $dir)
+            ->get();
+        $sortedActivities = $dips->sortBy(function ($activity) {
+            $parts = explode('.', $activity->activity_number);
+            return array_map('intval', $parts);
+        });
+        $data = [];
+    
+        if ($sortedActivities) {
+            foreach ($sortedActivities as $r) {
+                $show_url = route('activity_dips.show', $r->id);
+                $edit_url = route('activity_dips.edit', $r->id);
+                $progress_url = route('postprogress', $r->id);
+                $text = $r->activity_title ?? "";
+                $words = str_word_count($text, 1);
+                $lines = array_chunk($words, 10);
+                $finalText = implode("<br>", array_map(function ($line) {
+                    return implode(" ", $line);
+                }, $lines));
+    
+                $nestedData['activity_number'] = $finalText ?? '';
+                $nestedData['activity'] = $r->activity_number ?? '';
+                $nestedData['theme'] = $r->scisubtheme_name?->maintheme?->name ?? '';
+                $nestedData['sub_theme'] =  $r->scisubtheme_name?->name ?? '';
+                $nestedData['activity_type'] = $r->activity_type?->activity_type?->name 
+                             ? ($r->activity_type?->activity_type?->name . ' (' . $r->activity_type?->name . ')') 
+                             : '';
+                $nestedData['project'] = $r->project->name ?? '';
+                $nestedData['lop_target'] = $r->lop_target ?? '';
+                $quarterTarget = '<ul style="list-style-type: none; padding: 0; margin: 0;">';
+                foreach ($r->months as $month) {
+                    if ($month->activity_id == $r->id && $month->project_id == $r->project_id) {
+                        $quarterTarget .= '<li><strong>' . $month->quarter.'-'.$month->year . ':</strong> ' . $month->target . '</li>';
+                    }
+                }
+                $quarterTarget .= '</ul>';
+                $nestedData['quarter_target'] = $quarterTarget;
+                $nestedData['created_by'] = $r->user->name ?? '';
+                $nestedData['created_at'] = date('M d, Y', strtotime($r->created_at)). '<br>'. date('h:iA', strtotime($r->created_at)) ?? '';
+                $activity = DipActivity::find($r->id);
+                
+                $nestedData['update_progress'] = '<a href="' . $progress_url . '"><span class="badge badge-success">Update Progress</span></a>';
+              
+                
+                $nestedData['action'] = '<div>
+                                        <td>
+                                            <a class="btn-icon mx-1" href="' . $show_url . '" title="Show Activity" href="javascript:void(0)">
+                                                <i class="fa fa-eye text-warning" aria-hidden="true"></i>
+                                            </a>';
+                                            if (!empty($request->url) && $request->url == 'quarter_progress') {
+                                                $nestedData['action'] .= ' ';
+                                            } else {
+                                                $nestedData['action'] .= '
+                                                <a class="btn-icon mx-1" href="' . $edit_url . '" title="Edit Activity" href="javascript:void(0)">
+                                                    <i class="fa fa-pencil text-info" aria-hidden="true"></i>
+                                                </a>';
+                                            }
+    
+                                            if (auth()->user()->user_type == 'admin') {
+                                                $nestedData['action'] .= '
+                                                                        <a class="btn-icon mx-1" onclick="event.preventDefault();del(' . $r->id . ');" title="Delete Activity" href="javascript:void(0)">
+                                                                            <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+                                                                        </a>';
+                                            }
+    
+                $nestedData['action'] .= '</td></div>';
+    
+                $data[] = $nestedData;
+            }
+        }
+    
+        $json_data = [
+            "draw" => intval($request->input('draw')),
+            "recordsTotal" => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data" => $data
+        ];
+    
+        return response()->json($json_data);
+    }
     public function get_activity_quarters(Request $request){
            
         $project_id = $request->project_id;
@@ -467,6 +611,7 @@ class DipActivityController extends Controller
 
     public function edit(string $id)
     {
+       
         $ProjectActivityType = ProjectActivityType::latest()->get()->sortBy('name');
         $dip = DipActivity::where('id',$id)->first();
         $project = Project::where('id',$dip->project_id)->first();
@@ -510,7 +655,7 @@ class DipActivityController extends Controller
         
       
         $data = $request->except('_token');
-        $editUrl = route('dips.edit',$request->project_id);
+        $editUrl = route('activity_dips.show',$id);
        
             if($duplicates == []){
                
@@ -598,6 +743,24 @@ class DipActivityController extends Controller
         }
         addVendors(['datatables']);
         return view('admin.dip.activity_progress',compact('projects'));
+    }
+
+    public function activity_complete(){
+      
+        if(auth()->user()->hasRole('partner')){
+          
+            $projects = Project::whereHas('partners', function ($query) {
+                $query->where('email', auth()->user()->email);
+            })->orderBy('name')->get();
+        }
+        elseif(auth()->user()->hasRole('focal_person')){
+            $projects = Project::whereJsonContains('focal_person',auth()->user()->id)->orderBy('name')->get();
+        }else{
+           
+            $projects = Project::orderBy('name')->get();
+        }
+        addVendors(['datatables']);
+        return view('admin.dip.activity_complete',compact('projects'));
     }
 
     public function postprogress($id){

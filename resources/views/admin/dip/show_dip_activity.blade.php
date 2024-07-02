@@ -38,73 +38,94 @@
         <div class="container-fluid  mt-3">
            
             <input type="hidden" id="dip_activity" value="{{$dip_activity->id}}">
-           
-            <div class="card">
-                <div class="card-header text-center">
-                    <h5 class="card-title  text-center">{{$dip_activity->project->name ?? ''}}</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label class="fw-bold">Activity Number.#</label>
-                            <p>{{$dip_activity->activity_number ?? ''}}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="fw-bold">LOP Target</label>
-                            <p>{{$dip_activity->lop_target ?? ''}}</p>
-                        </div>
-                        <div class="col-md-12">
-                            <label class="fw-bold">Activity Title</label>
-                            <p>{{$dip_activity->activity_title ?? ''}}</p>
-                        </div>
-                        
-                        <div class="col-md-4">
-                            <label class="fw-bold">Thematic Area</label>
-                            <p class="fs-8">{{$dip_activity->scisubtheme_name?->maintheme?->name ?? ''}}</p>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="fw-bold">Donor</label>
-                            <p>{{$dip_activity->project->donors->name ?? ''}}</p>
-                        </div>
-                        
-                        <div class="col-md-4">
-                            <label class="fw-bold">SOF</label>
-                            <p>{{$dip_activity->project->sof ?? ''}}</p>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="fw-bold">Provinces</label>
-                            <p class='fs-8'>
-                                @if(!empty($provinces))
-                                    @foreach($provinces as $province)
-                                        {{ $province}}@if(! $loop->last), @endif
-                                    @endforeach
-                                @endif
-                            </p>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="fw-bold">Districts</label>
-                            <p class='fs-8'>
-                                @if(!empty($districts))
-                                    @foreach($districts as $district)
-                                        {{ $district}}@if(! $loop->last), @endif
-                                    @endforeach
-                                @endif
-                            </p>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="fw-bold">Project Tenure</label>
-                            <p>
-                                @if(!empty($dip_activity->project->start_date) && $dip_activity->project->start_date != null)
-                                    {{ date('M d, Y', strtotime($dip_activity->project->start_date))}} - {{date('M d, Y', strtotime($dip_activity->project->end_date))}}
-                                @endif
-                            </p>
+            <div class="card mt-3">
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h3 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <div class="d-flex align-items-center">
+                                <!--begin::Symbol-->
+                                <div class="symbol symbol-10px me-5">
+                                    <span class="symbol-label bg-light-danger">
+                                        <i class="fa fa-info-circle fs-2x text-success">
+                                            <span class="path1"></span>
+                                            <span class="path2"></span>
+                                        </i>
+                                    </span>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <a href="javascript:;" class="text-dark text-hover-primary fs-6 fw-bold">Project Detail</a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </button>
+                    </h3>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div class="card-header border-0">
+                                <div class="row mb-5">
+                                    <div class="col-md-6">
+                                        <label class="fw-bold">Activity Number.#</label>
+                                        <p>{{$dip_activity->activity_number ?? ''}}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="fw-bold">LOP Target</label>
+                                        <p>{{$dip_activity->lop_target ?? ''}}</p>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="fw-bold">Activity Title</label>
+                                        <p>{{$dip_activity->activity_title ?? ''}}</p>
+                                    </div>
+                                    
+                                    <div class="col-md-4">
+                                        <label class="fw-bold">Thematic Area</label>
+                                        <p class="fs-8">{{$dip_activity->scisubtheme_name?->maintheme?->name ?? ''}}</p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="fw-bold">Donor</label>
+                                        <p>{{$dip_activity->project->donors->name ?? ''}}</p>
+                                    </div>
+                                    
+                                    <div class="col-md-4">
+                                        <label class="fw-bold">SOF</label>
+                                        <p>{{$dip_activity->project->sof ?? ''}}</p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="fw-bold">Provinces</label>
+                                        <p class='fs-8'>
+                                            @if(!empty($provinces))
+                                                @foreach($provinces as $province)
+                                                    {{ $province}}@if(! $loop->last), @endif
+                                                @endforeach
+                                            @endif
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="fw-bold">Districts</label>
+                                        <p class='fs-8'>
+                                            @if(!empty($districts))
+                                                @foreach($districts as $district)
+                                                    {{ $district}}@if(! $loop->last), @endif
+                                                @endforeach
+                                            @endif
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="fw-bold">Project Tenure</label>
+                                        <p>
+                                            @if(!empty($dip_activity->project->start_date) && $dip_activity->project->start_date != null)
+                                                {{ date('M d, Y', strtotime($dip_activity->project->start_date))}} - {{date('M d, Y', strtotime($dip_activity->project->end_date))}}
+                                            @endif
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                
             </div>
-               
+            </div>
             <div class="card mt-3">
                 <div class="card-header">
                     <h5 class="card-title">Activity Progress Detail @if($dip_activity->activity_type)({{ $dip_activity->activity_type?->activity_type?->name  }} - {{  $dip_activity->activity_type?->name }})@endif</h5>

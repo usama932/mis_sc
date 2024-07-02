@@ -67,23 +67,43 @@
             <textarea type="text" name="remarks" rows id="remarks" placeholder="Enter Remarks" class="form-control" value="">{{$progress->remarks ?? ""}}</textarea>
             <div id="remarksError" class="error-message text-danger"></div>
         </div> 
-        {{-- <div class="fv-row col-md-6 ">
+        @if($progress->attachment)
+            <div class="fv-row col-md-6">
+                <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                    <span>Current Attachment</span>
+                </label>
+                <div>
+                    <a href="{{ route('download_progress_attachment',$progress?->attachment ) }}" target="_blank">View Current Attachment</a>
+                </div>
+            </div>
+        @endif
+        <div class="fv-row col-md-6">
             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                 <span class="required">Attachemnt</span>
             </label>
             <input type="file" name="attachment" id="attachment" accept=".pdf, .docx, .doc" class="form-control" value="">
             <div id="attachmentError" class="error-message "></div>
         </div> 
+        @if($progress->image)
+            <div class="fv-row col-md-6">
+                <label class="fs-6 fw-semibold form-label mb-2 d-flex">
+                    <span>Current Image</span>
+                </label>
+                <div>
+                    <img src="{{ asset("storage/activity_progress/image/" .$progress?->image)}}" alt="Current Image" style="max-width: 100px;">
+                </div>
+            </div>
+        @endif
         <div class="fv-row col-md-6 ">
             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                 <span class="required">Image</span>
             </label>
             <input type="file" name="image" id="image"   accept=".jpg, .jpeg, .png" class="form-control" value="">
             <div id="imageError" class="error-message "></div>
-        </div>  --}}
+        </div> 
     </div>
     
-    <div class="modal-footer">
+    <div class="modal-footer mt-2">
         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-primary btn-sm m-5 " id="kt_edit_quarter_status_form">
             @include('partials/general/_button-indicator', ['label' => 'Update'])

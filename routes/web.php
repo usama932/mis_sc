@@ -137,6 +137,7 @@ use Illuminate\Support\Facades\Route;
         Route::resource('/activity_dips', DipActivityController::class);
         Route::post('edit_activity_dips', [DipActivityController::class,'edit_activity_dips'])->name('admin.edit_activity_dips');
         Route::post('get_activity_dips', [DipActivityController::class,'get_activity_dips'])->name('admin.get_activity_dips');
+        Route::post('get_complete_activity', [DipActivityController::class,'get_complete_activity'])->name('admin.get_complete_activity');
         Route::post('get_activity_quarters', [DipActivityController::class,'get_activity_quarters'])->name('admin.get_activity_quarters');
         Route::post('view_activity_dips', [DipActivityController::class,'view_activity_dips'])->name('admin.view_activity_dips');
         Route::get('/activity_dips/delete/{id}', [DipActivityController::class,'destroy'])->name('activity_dips.delete');
@@ -144,6 +145,7 @@ use Illuminate\Support\Facades\Route;
         //progress routes
         Route::get('/activity_progress/delete/{id}', [DipActivityController::class,'delete_progress'])->name('delete_progress.delete');
         Route::get('/activity/progress', [DipActivityController::class,'activity_progress'])->name('activity_dips.progress');
+        Route::get('/activity/complete', [DipActivityController::class,'activity_complete'])->name('activity_dips.complete');
         Route::get('/delete_month/delete/{id}', [DipActivityController::class,'delete_month'])->name('delete_month.delete');
         Route::get('postprogress/{id}', [DipActivityController::class,'postprogress'])->name('postprogress');
         Route::post('updateprogress', [DipActivityController::class,'updateprogress'])->name('updateprogress');
