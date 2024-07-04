@@ -2,24 +2,7 @@ var activity_id = document.getElementById("dip_activity").value ;
 var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 var activityQuarters = $('#activityQuarters').DataTable({
     "order": [[1, 'desc']],
-    // "dom": 'lfBrtip',
-    // buttons: [{
-    //     extend: 'csv',
-    //     customize: function (csv) {
-    //         // Add additional rows to CSV export
-    //         var additionalInfo = $('#additionalInfo').html();
-    //         csv = additionalInfo + csv;
-    //         return csv;
-    //     }
-    // },
-    // {
-    //     extend: 'excel',
-    //     customize: function (xlsx) {
-    //         // Add additional rows to Excel export
-    //         var additionalInfo = $('#additionalInfo').html();
-    //         $(xlsx).find('worksheet:first').prepend(additionalInfo);
-    //     }
-    // }],
+   
     "responsive": true, // Enable responsive mode
     "processing": true,
     "serverSide": true,

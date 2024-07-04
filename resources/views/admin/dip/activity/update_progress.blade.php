@@ -21,13 +21,13 @@
         </select>
         <div id="statusError" class="error-message text-danger"></div>
     </div>  
-    {{-- <div class="fv-row col-md-12">
+    <div class="fv-row col-md-12">
         <label class="fs-6 fw-semibold form-label mb-2">
             <span class="">Remarks</span>
         </label>  
-        <textarea name="remarks" rows="2" class="form-control" > </textarea>
+        <textarea name="remarks" id="remarks" rows="2" class="form-control" > </textarea>
         <div id="remarksError" class="error-message text-danger"></div>
-    </div>  --}}
+    </div> 
     <div class="modal-footer">
         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-primary btn-sm m-5 submitButton" id="kt_update_quarter_status_form">Update</button> 
@@ -42,10 +42,18 @@ $(document).ready(function() {
        
         // Perform validation
         var status = $('#status').val();
-        
+       
+     
         if (!status && status === "") {
+            var remarks = $('#remarks').val();
             
             $('#statusError').text('Please select a status');
+            if (!remarks && status === "Returned") {
+                $('#remarksError').text('Please enter a Remarks');
+                return;
+            }else{
+                $('#remarksError').text('');
+            }
             return;
         } else {
             $('#statusError').text('');

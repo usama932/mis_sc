@@ -33,11 +33,11 @@
                      <table class="table table-striped table-bordered" id="dynamic_field">
                         <thead>
                             <tr>
-                                <th style="width: 30%">S.No.#</th>
-                                <th style="width: 30%">Identifies Gap</th>
+                                <th style="width: 5%">S.No.#</th>
+                                <th style="width: 40%">Identifies Gap</th>
                                 <th style="width: 30%">Responsible Person</th>
-                                <th style="width: 10%">Action Agreed</th>
-                                <th style="width: 10%">Deadline</th>
+                                <th style="width: 15%">Action Agreed</th>
+                                <th style="width: 15%">Deadline</th>
                                 <th style="width: 15%">Status</th>
                                 <th style="width: 5%">Action</th>
                             </tr>
@@ -73,7 +73,9 @@
                         <button type="button" name="add" id="add" class="btn btn-success btn-sm">Add More</button>
                     </div>
                     <div class="text-end mt-3">
-                        <button type="submit" id="kt_create_projectreview" class="btn btn-primary">Submit</button>
+
+                        <a href="{{ route('get_project_index') }}" class="btn btn-secondary btn-sm">Cancel</a>
+                        <button type="submit" id="kt_create_projectreview" class="btn btn-primary btn-sm">Submit</button>
                     </div>
                 </form>
             </div>

@@ -67,6 +67,7 @@
                             <th>Month</th>
                             <th>Created By</th>
                             <th>Created At</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                 </table>
@@ -76,97 +77,54 @@
     
     @push("scripts")
     <script>
-          
         $(document).ready(function () {
-            $('#project').change(function () {
-                var table = $('#dip_complete_activity').DataTable();
-                table.destroy();
-                var dip_id =  $(this).val();;
-                    var dip_activity = $('#dip_activity').DataTable( {
-                        "order": [
-                        [1, 'desc']
-                    ],
-                    "dom": 'lfBrtip',
-                    buttons: [
-                        'csv', 'excel'
-                    ],
-                    "responsive": true, // Enable responsive mode
-                    "processing": true,
-                    "serverSide": true,
-                    "searching": false,
-                    "bLengthChange": false,
-                    "bInfo" : false,
-                    "responsive": false,
-                    "info": true,   
-                    "ajax": {
-                        "url":"{{route('admin.get_complete_activity')}}",
-                        "dataType":"json",
-                        "type":"POST",
-                        "data":{"_token":"<?php echo csrf_token() ?>",
-                                "dip_id":dip_id}
-                    },
-                    "columns":
-                        [
-                            {"data":"activity","searchable":false,"orderable":false},
-                            {"data":"activity_number","searchable":false,"orderable":false},
-                            {"data":"sub_theme","searchable":false,"orderable":false},
-                            {"data":"activity_type","searchable":false,"orderable":false},
-                            {"data":"project","searchable":false,"orderable":false},
-                            {"data":"lop_target","searchable":false,"orderable":false},
-                            {"data":"quarter_target","searchable":false,"orderable":false},
-                            {"data":"created_by","searchable":false,"orderable":false},
-                            {"data":"created_at","searchable":false,"orderable":false},
-                           
-                           
-                        ]
-                    });
-            });
+    function initDataTable(dipId) {
+        $('#dip_complete_activity').DataTable({
+            "order": [[1, 'desc']],
+            "dom": 'lfBrtip',
+            buttons: ['csv', 'excel'],
+            "responsive": false,
+            "processing": true,
+            "serverSide": true,
+            "searching": false,
+            "bLengthChange": false,
+            "bInfo": false,
+            "info": true,
+            "ajax": {
+                "url": "{{route('admin.get_complete_activity')}}",
+                "dataType": "json",
+                "type": "POST",
+                "data": {
+                    "_token": "{{ csrf_token() }}",
+                    "dip_id": dipId
+                }
+            },
+            "columns": [
+                {"data": "activity", "searchable": false, "orderable": false},
+                {"data": "activity_number", "searchable": false, "orderable": false},
+                {"data": "sub_theme", "searchable": false, "orderable": false},
+                {"data": "activity_type", "searchable": false, "orderable": false},
+                {"data": "project", "searchable": false, "orderable": false},
+                {"data": "lop_target", "searchable": false, "orderable": false},
+                {"data": "quarter_target", "searchable": false, "orderable": false},
+                {"data": "created_by", "searchable": false, "orderable": false},
+                {"data": "created_at", "searchable": false, "orderable": false},
+                {"data": "action", "searchable": false, "orderable": false}
+            ]
         });
-        $(document).ready(function () {
-          
-            var table = $('#dip_complete_activity').DataTable();
-            table.destroy();
-            var dip_id =  $(this).val();;
-                var dip_activity = $('#dip_complete_activity').DataTable( {
-                    "order": [
-                    [1, 'desc']
-                ],
-                "dom": 'lfBrtip',
-                buttons: [
-                    'csv', 'excel'
-                ],
-                "responsive": true, // Enable responsive mode
-                "processing": true,
-                "serverSide": true,
-                "searching": false,
-                "bLengthChange": false,
-                "bInfo" : false,
-                "responsive": false,
-                "info": true,   
-                "ajax": {
-                    "url":"{{route('admin.get_complete_activity')}}",
-                    "dataType":"json",
-                    "type":"POST",
-                    "data":{"_token":"<?php echo csrf_token() ?>",
-                            "dip_id":dip_id }
-                },
-                "columns":
-                    [
-                        {"data":"activity","searchable":false,"orderable":false},
-                        {"data":"activity_number","searchable":false,"orderable":false},
-                        {"data":"sub_theme","searchable":false,"orderable":false},
-                        {"data":"activity_type","searchable":false,"orderable":false},
-                        {"data":"project","searchable":false,"orderable":false},
-                        {"data":"lop_target","searchable":false,"orderable":false},
-                        {"data":"quarter_target","searchable":false,"orderable":false},
-                        {"data":"created_by","searchable":false,"orderable":false},
-                        {"data":"created_at","searchable":false,"orderable":false},
-                     
-                     
-                    ]
-                });
-           
-        });
+    }
+
+    $('#project').change(function () {
+        var table = $('#dip_complete_activity').DataTable();
+        table.destroy();
+        var dipId = $(this).val();
+        initDataTable(dipId);
+    });
+
+    initDataTable($('#project').val());
+});
+
+
         function del(id) {
             Swal.fire({
                 title: "Are you sure?",

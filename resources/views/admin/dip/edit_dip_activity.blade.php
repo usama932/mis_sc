@@ -339,11 +339,16 @@
                         "success"
                     );
                     var APP_URL = {!! json_encode(url('/')) !!}
-                    window.location.href = APP_URL + "/delete_month/delete/" + id;
+                    $.ajax({
+                        type: 'GET',
+                        url: APP_URL + "/delete_month/delete/" + id,
+                        success: function(data) {
+                            location.reload(); // Reload the current page after deletion
+                        }
+                    });
                 }
             });
         }
-
         //activity type dropdown
           // activity type 
           document.getElementById('avtivityloader').style.display = 'none';
