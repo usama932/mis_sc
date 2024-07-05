@@ -10,7 +10,7 @@ use App\Models\District;
 use App\Models\ActivityMonths;
 use App\Models\Province;
 use App\Models\Project;
-use App\Models\ProjectActivityCategory;
+use App\Models\User;
 use App\Models\ProjectActivityType;
 use App\Models\ActivityProgress;
 use Illuminate\Support\Facades\Storage;
@@ -398,11 +398,11 @@ class DipActivityController extends Controller
                         'action' => '',
                     ];
         
-                    if ($quarter->status == 'Returned' && auth()->user()->hasRole('partner')) {
+                    if ($quarter->status == 'Returned' ) {
                         $nestedData['action'] = '<div><td><a class="" href="javascript:void(0)" title="Edit status" onclick="event.preventDefault();edit_status(' . $quarter->progress->quarter_id . ');"><span class="badge bg-success text-white">Edit</span></a></td></div>';
-                    } elseif (!auth()->user()->hasRole('partner')) {
+                    } elseif (!auth()->user()->hasRole('partner') && $quarter->status == 'To be Reviewed') {
                         $nestedData['action'] = '<div><td><a class="" href="javascript:void(0)" title="Update status" onclick="event.preventDefault();update_status(' . $quarter->progress->quarter_id . ');"><span class="badge bg-info btn-sm text-white">Update Status</span></a></td></div>';
-                    } elseif ($quarter->status != 'Posted') {
+                    } elseif ($quarter->status == 'To be Reviewed') {
                         $nestedData['action'] = '<div><td><a class="" title="Add Progress" onclick="event.preventDefault();add_progress(' . $quarter->id . ');" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#add_progress_' . $quarter->id . '"><span class="badge bg-primary text-dark">Add Progress</span></a></td></div>';
                     }
         
@@ -826,12 +826,43 @@ class DipActivityController extends Controller
        
     }
 
-    public function quarterstatus_update(Request $request,$id){
-       
-        $quarter = ActivityMonths::where('id',$id)->update([
-            'status' => $request->status,
+    public function quarterstatus_update(Request $request,$id)
+    {
+        ActivityMonths::where('id', $id)->update([
+            'status'  => $request->status,
             'remarks' => $request->remarks,
         ]);
+        $quarter = ActivityMonths::find($id);
+
+        $activity = DipActivity::find($quarter->activity_id);
+        $project  = Project::find($quarter->project_id);
+
+        $partnerEmails = $project->partners()
+            ->whereHas('partnertheme', function ($query) use ($activity) {
+                $query->where('theme_id', $activity->subtheme_id);
+            })->pluck('email')->toArray();
+
+        $focalPerson = json_decode($project->focal_person, true);
+        $fpEmails = User::whereIn('id', $focalPerson)->pluck('email')->toArray();
+
+        $allEmails = array_merge($partnerEmails, $fpEmails);
+
+        if (!empty($allEmails)) {
+            $bccEmails = ['walid.malik@savethechildren.org', 'usama.qayyum@savethechildren.org'];
+            $details = [
+                'remarks'         => $quarter->remarks,
+                'activity_id'     => $quarter->activity_id,
+                'activity'        => $activity->activity_title,
+                'status'          => $quarter->status,
+                'activity_number' => $activity->activity_number,
+            ];
+            $subject = "Project Activity Progress:" . $activity->activity_title;
+
+            Mail::to($allEmails)
+                ->bcc($bccEmails)
+                ->send(new \App\Mail\frmMail($details, $subject));
+        }
+
         return redirect()->back();
     }
 

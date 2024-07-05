@@ -431,7 +431,7 @@ class QBActionPointController extends Controller
             $email = $qb_theme->email;
            
               //$email = 'usama.qayyum@savethechildren.org';
-            $bccEmails = [ 'walid.malik@savethechildren.org','usama.qayyum@savethechildren.org','irfan.majeed@savethechildren.org'];
+            $bccEmails = [ 'walid.malik@savethechildren.org','usama.qayyum@savethechildren.org'];
             $details = [
                 'id'            => $actionpoint->id,
                 'action_id'     => $qb_action_point->id,

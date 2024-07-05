@@ -60,7 +60,7 @@ class FrmRepository implements FrmRepositoryInterface
         if(!empty($frm) && $frm->feedback_category == '6' || $frm->feedback_category == '7' ){
             $email = ['sami.khan@savethechildren.org','nariman.bisma@savethechildren.org']; ;
        
-           $bccEmails = [ 'walid.malik@savethechildren.org','usama.qayyum@savethechildren.org','irfan.majeed@savethechildren.org'];
+            $bccEmails = [ 'walid.malik@savethechildren.org','usama.qayyum@savethechildren.org'];
             $details = [
                 'feedback_description'  => $frm->feedback_description,
                 'feedback_category'     =>  $frm->category?->name.'-'.$frm->category?->description,

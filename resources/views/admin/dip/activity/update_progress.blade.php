@@ -36,95 +36,102 @@
 </form>
 
 <script>
-$(document).ready(function() {
-    $('#kt_update_quarter_status_form').click(function(e) {
-        e.preventDefault();
-       
-        // Perform validation
-        var status = $('#status').val();
-       
-     
-        if (!status && status === "") {
+    $(document).ready(function() {
+        $('#kt_update_quarter_status_form').click(function(e) {
+            e.preventDefault();
+        
+            // Perform validation
+            var status = $('#status').val();
             var remarks = $('#remarks').val();
-            
-            $('#statusError').text('Please select a status');
-            if (!remarks && status === "Returned") {
-                $('#remarksError').text('Please enter a Remarks');
-                return;
-            }else{
-                $('#remarksError').text('');
-            }
-            return;
-        } else {
-            $('#statusError').text('');
-        }
-       
-        $.ajax({
-            url: $('#update_quarter_status_form').attr('action'),
-            type: 'post',
-            data: $('#update_quarter_status_form').serialize(),
-            beforeSend: function() {
-                $('#loadingSpinner').show();
-                $('#kt_update_quarter_status_form').hide();
-            },
-            success: function(response) {
-                if(response){
-                    toastr.options = {
-                        "closeButton": false,
-                        "debug": true,
-                        "newestOnTop": false,
-                        "progressBar": false,
-                        "positionClass": "toastr-top-right",
-                        "preventDuplicates": false,
-                        "onclick": null,
-                        "showDuration": "300",
-                        "hideDuration": "1000",
-                        "timeOut": "5000",
-                        "extendedTimeOut": "1000",
-                        "showEasing": "swing",
-                        "hideEasing": "linear",
-                        "showMethod": "fadeIn",
-                        "hideMethod": "fadeOut"
-                    };
+            var statusError = $('#statusError');
+            var remarksError = $('#remarksError');
 
-                    activityQuarters.ajax.reload(null, false).draw(false);
-                    $('#loadingSpinners').hide();
-                    $('#update_status').modal('hide');
+            if (!status || status === "") {
+                statusError.text('Please select a status');
+            } else {
+                statusError.text('');
+                
+                if (status === "Returned") {
+                    var remarks = $('#remarks').val(); // Assuming you have an element with id="remarks"
+                    if (!remarks || remarks.trim() === "") {
+                        remarksError.text('Please enter a Remarks');
+                        return;
+                    } else {
+                        remarksError.text('');
+                    }
+                } else {
+                    remarksError.text('');
+                }
+            }
+
+
+            $.ajax({
+                url: $('#update_quarter_status_form').attr('action'),
+                type: 'post',
+                data: $('#update_quarter_status_form').serialize(),
+                beforeSend: function() {
+                    $('#loadingSpinner').show();
+                    $('#kt_update_quarter_status_form').hide();
+                },
+                success: function(response) {
+                    console.log(response);
+                    if(response){
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": true,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toastr-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+
+                        activityQuarters.ajax.reload(null, false).draw(false);
+                        $('#loadingSpinners').hide();
+                        $('#update_status').modal('hide');
+                        $('#loadingSpinner').hide();
+                        $('#kt_update_quarter_status_form').show();
+                        toastr.success("Activity Quarter Status Updated", "Success");
+                    }
+                },
+                error: function(xhr) {
+                    // Handle errors
+                    
+                    if(xhr){
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": true,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toastr-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+                        toastr.error(xhr.responseText, "Error occurred");
+                    }
+                },
+                complete: function() {
                     $('#loadingSpinner').hide();
                     $('#kt_update_quarter_status_form').show();
-                    toastr.success("Activity Quarter Status Updated", "Success");
                 }
-            },
-            error: function(xhr) {
-                // Handle errors
-                
-                if(xhr){
-                    toastr.options = {
-                        "closeButton": false,
-                        "debug": true,
-                        "newestOnTop": false,
-                        "progressBar": false,
-                        "positionClass": "toastr-top-right",
-                        "preventDuplicates": false,
-                        "onclick": null,
-                        "showDuration": "300",
-                        "hideDuration": "1000",
-                        "timeOut": "5000",
-                        "extendedTimeOut": "1000",
-                        "showEasing": "swing",
-                        "hideEasing": "linear",
-                        "showMethod": "fadeIn",
-                        "hideMethod": "fadeOut"
-                    };
-                    toastr.error(xhr.responseText, "Error occurred");
-                }
-            },
-            complete: function() {
-                $('#loadingSpinner').hide();
-                $('#kt_update_quarter_status_form').show();
-            }
+            });
         });
     });
-});
 </script>
     

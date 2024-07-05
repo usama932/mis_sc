@@ -150,7 +150,7 @@ class QBAttachmentsController extends Controller
             if($qb->action_point->count() >= 1){
                 $email = $qb_theme->email;
            
-                $bccEmails = [ 'walid.malik@savethechildren.org','usama.qayyum@savethechildren.org','irfan.majeed@savethechildren.org'];
+                $bccEmails = [ 'walid.malik@savethechildren.org','usama.qayyum@savethechildren.org'];
                 $details = [
                     'id'            => $qb->id,
                     'village'       => $qb->village,
