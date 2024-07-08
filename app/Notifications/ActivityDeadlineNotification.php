@@ -1,50 +1,55 @@
 <?php
 
-namespace App\Notifications;
-
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\BroadcastMessage;
-use Illuminate\Notifications\Notification;
 
-class ActivityDeadlineNotification extends Notification
+class ActivityDeadlineNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    protected $month;
+    use Queueable;
 
-    public function __construct($month)
+    protected $activity;
+
+    public function __construct($activity)
     {
-        $this->month = $month;
+        $this->activity = $activity;
     }
 
-    public function via($notifiable)
+   
+    public function via(object $notifiable): array
     {
         return [ 'broadcast'];
     }
 
-    public function toMail($notifiable)
+
+    public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->line('The deadline for the following activity is the day after tomorrow:')
-            ->line($this->month->name)
-            ->action('View Project Activity', url('/activity_dips/'.$this->month->activity->id))
-            ->line('Thank you for using our application!');
+                    ->subject('Activity Deadline Approaching')
+                    ->line('The deadline for the activity "' . $this->activity->name . '" is approaching in 2 days.')
+                    ->action('View Activity', url('/activities/' . $this->activity->id))
+                    ->line('Please take the necessary actions.');
     }
+
 
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-            'message' => 'The deadline for the activity "'.$this->month->activity->name.'" is the day after tomorrow.'
+            'activity' => $this->activity,
+            'message' => 'The deadline for the activity "' . $this->activity->name . '" is approaching in 2 days.',
         ]);
     }
 
     public function toArray($notifiable)
     {
         return [
-            'activity_id' => $this->month->activity->id,
-            'message' => 'The deadline for the activity "'.$this->month->activity->name.'" is the day after tomorrow.'
+            'activity_id' => $this->activity->id,
+            'message' => 'The deadline for the activity "' . $this->activity->name . '" is approaching in 2 days.',
         ];
     }
+
 }

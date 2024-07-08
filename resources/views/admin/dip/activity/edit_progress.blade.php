@@ -53,12 +53,18 @@
             <input type="text" name="boys_target" id="boys_target"  value="{{$progress->boys_target ?? ""}}" class="form-control boys_target" placeholder="Boys" >
             <div id="boys_targetError" class="error-message text-danger " ></div>
         </div> 
-        <div class="fv-row col-md-4 ">
+        <div class="fv-row col-md-2 ">
             <label class="fs-7 fw-semibold form-label mb-2 d-flex">
-                <span>PWD/CLWD</span>
+                <span>PWD/CLWD </span>
             </label>
             <input type="text" name="pwd_target" id="pwd_target"  value="{{$progress->pwd_target ?? ""}}"  class="form-control pwd_target" >
             
+        </div>
+        <div class="fv-row col-md-2 mt-5">
+            <div class="form-check form-switch mt-5">
+                <input class="form-check-input" type="checkbox" id="double_count" name="double_count"  {{$progress->double_count ? 'checked' : ''}}>
+                <label class="form-check-label fs-8" for="double_count">Double Count</label>
+            </div>
         </div>
         <div class="fv-row col-md-12 ">
             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
@@ -104,7 +110,7 @@
     </div>
     
     <div class="modal-footer mt-2">
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-primary btn-sm m-5 " id="kt_edit_quarter_status_form">
             @include('partials/general/_button-indicator', ['label' => 'Update'])
         </button>

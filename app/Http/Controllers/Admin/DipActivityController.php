@@ -13,7 +13,7 @@ use App\Models\Project;
 use App\Models\User;
 use App\Models\ProjectActivityType;
 use App\Models\ActivityProgress;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
 use File;
 use DateTime;
 use DateInterval;
@@ -709,7 +709,12 @@ class DipActivityController extends Controller
                 'message' => "Beneficiaries progress must be less than or equal to Beneficiaries Target"
             ]);
         }
-        
+        if(!empty($data['double_count']) && $data['double_count'] == 'on'){
+            $double_count = 1;
+            
+        }else{
+            $double_count = 0;
+        }
         if(!empty($quarter)){
             $quarter_month = ActivityProgress::where('quarter_id',$request->quarter)
             ->where('project_id',$quarter->project_id)
@@ -718,31 +723,26 @@ class DipActivityController extends Controller
             if(!empty($quarter_month))
             {
                 if($request->attachment){
-         
                     $path = storage_path("app/public/activity_progress/attachment" .$request->attachment);
-                    
                     if(File::exists($path)){
                         File::delete(storage_path('app/public/activity_progress/attachment'.$request->attachment));
                     }
-                    
                     $file = $request->attachment;
                     $attachment = $file->getClientOriginalName();
                     $file->storeAs('public/activity_progress/attachment/',$attachment);
-                   
                 }
+
                 if($request->image){
-             
                     $path = storage_path("app/public/activity_progress/image" .$request->image);
-                    
                     if(File::exists($path)){
                         File::delete(storage_path('app/public/activity_progress/image'.$request->image));
                     }
-                    
                     $file = $request->image;
                     $image = $file->getClientOriginalName();
                     $file->storeAs('public/activity_progress/image/',$image);
-                   
                 }
+
+               
                 if(!empty($quarter)){
                     ActivityProgress::where('quarter_id',$request->quarter)->update([
                         'quarter_id'        => $request->quarter,
@@ -756,6 +756,7 @@ class DipActivityController extends Controller
                         'remarks'           => $request->remarks,
                         'attachment'        => $attachment,
                         'image'             => $image,
+                        'double_count'      => $double_count,
                         'created_by'        => auth()->user()->id
                     ]);
                 }
@@ -800,6 +801,7 @@ class DipActivityController extends Controller
                     'remarks'           => $request->remarks,
                     'attachment'        => $attachment,
                     'complete_date'     => $request->complete_date,
+                    'double_count'      => $double_count,
                     'image'             => $image,
                     'created_by'        => auth()->user()->id
                 ]);
@@ -857,18 +859,20 @@ class DipActivityController extends Controller
                 'activity_number' => $activity->activity_number,
             ];
             $subject = "Project Activity Progress:" . $activity->activity_title;
-
-            Mail::to($allEmails)
-                ->bcc($bccEmails)
-                ->send(new \App\Mail\frmMail($details, $subject));
         }
 
         return redirect()->back();
     }
 
-    public function quarterstatus_edit(Request $request,$id){
-      
+    public function quarterstatus_edit(Request $request,$id)
+    {
         $quarters = ActivityProgress::where('id',$id)->first();
+        if(!empty($data['double_count']) && $data['double_count'] == 'on'){
+            $double_count = 1;
+            
+        }else{
+            $double_count = 0;
+        }
         $quarter = ActivityProgress::where('id',$id)->update([
                 'activity_target'   => $request->activity_target,
                 'women_target'      => $request->women_target,
@@ -876,6 +880,7 @@ class DipActivityController extends Controller
                 'girls_target'      => $request->girls_target,
                 'boys_target'       => $request->boys_target,
                 'pwd_target'        => $request->pwd_target,
+                'double_count'      => $double_count,
                 'remarks'           => $request->remarks,
         ]);
         ActivityMonths::where('id',$quarters->quarter_id)->update([
@@ -884,14 +889,14 @@ class DipActivityController extends Controller
         return response()->json(['error' => true,'quarter' => $quarter ]);
     }
 
-    public function activtyquarter_update(Request $request,$id){
-       
+    public function activtyquarter_update(Request $request,$id)
+    {
         $quarter = ActivityMonths::where('id',$id)->update([
             'target' => $request->target_quarter,
             'beneficiary_target' => $request->target_benefit,
         ]);
-       
         return response()->json(['error' => false,'quarter' => $quarter ]);
+
     }
 
     public function fetchquartertarget(Request $request)

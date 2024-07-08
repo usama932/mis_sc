@@ -29,7 +29,7 @@
                             </label>
                             <input type="text" name="lop" value="{{$activity->lop_target ?? ''}}" class="form-control form-control-solid" readonly>
                         </div> 
-                        <div class="fv-row col-md-4 mt-3">
+                        <div class="fv-row col-md-3 mt-3">
                             <label class="fs-7 fw-semibold form-label mb-2 d-flex">
                                 <span>Select Month</span>
                             </label>
@@ -51,13 +51,14 @@
                             <input type="text" name="lop_target" id="lop_target" class="form-control form-control-solid" readonly>
                             <div id="sofError" class="error-message " ></div>
                         </div> 
-                        <div class="fv-row col-md-3 mt-3">
-                            <label class="fs-8 fw-semibold form-label mb-2 d-flex">
+                        <div class="fv-row col-md-2 mt-3">
+                            <label class="fs-9 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Enter Monthly Progress</span>
                             </label>
                             <input type="text" name="activity_target" id="activity_target" class="form-control" >
                             <div id="activity_targetError" class="error-message " ></div>
                         </div> 
+                       
                         <div class="fv-row col-md-3 mt-3">
                             <label class="fs-7 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Actual Monthly Completion Date</span>
@@ -65,6 +66,12 @@
                             <input type="text" name="complete_date" id="start_date" placeholder="Select date"  class="form-control " onkeydown="event.preventDefault()" data-provide="datepicker" value="">
                             <div id="activity_targetError" class="error-message " ></div>
                         </div> 
+                        <div class="fv-row col-md-2 mt-5">
+                            <div class="form-check form-switch mt-5">
+                                <input class="form-check-input" type="checkbox" id="double_count" name="double_count">
+                                <label class="form-check-label fs-8" for="double_count">Double Count</label>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="fv-row col-md-2 mt-3">
