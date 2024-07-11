@@ -184,7 +184,6 @@ class DipActivityController extends Controller
     }
     public function get_complete_activity(Request $request)
     {
-        DB::enableQueryLog();
             $dipId = $request->dip_id;
             $columns = [
                 1 => 'id',
@@ -225,18 +224,19 @@ class DipActivityController extends Controller
             $dipsQuery->where(function ($query) {
                 $query->whereHas('months', function ($query) {
                     $query->whereHas('progress', function ($query) {
-                        $query->where('status', 'Posted');
+                        $query->whereIn('status', ['To be Reviewed', 'Returned', 'Posted']);
                     });
                 }, '=', DB::raw('(SELECT COUNT(*) FROM dip_activity_months WHERE dip_activity_months.activity_id = dip_activity.id)'));
             });
-        
+           
+            
             $totalFiltered = $dipsQuery->count();
             $totalData = $dipsQuery->count();
             $dips = $dipsQuery->limit($limit)
                 ->offset($start)
                 ->orderBy($order, $dir)
                 ->get();
-                dd(DB::getQueryLog());
+             
             $sortedActivities = $dips->sortBy(function ($activity) {
                 return array_map('intval', explode('.', $activity->activity_number));
             });
