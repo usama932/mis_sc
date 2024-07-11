@@ -218,3 +218,6 @@ use Illuminate\Support\Facades\Route;
     Route::get('/pusher', function () {
        return view('pusher');
     });
+    Route::middleware(['auth'])->post('/pusher/auth', function () {
+        return auth()->user(); // Return the authenticated user for Pusher authentication
+    });

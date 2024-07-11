@@ -10,9 +10,9 @@ use App\Models\User;
 
 class CheckActivityDeadlines extends Command
 {
-   
+
     protected $description = 'Check activity deadlines and send notifications if they are within 2 days.';
-    protected $signature = 'app:check-activity-deadlines';
+    protected $signature = 'check:activity-deadlines';
 
 
     public function handle()
@@ -27,7 +27,7 @@ class CheckActivityDeadlines extends Command
         // }
 
         // $this->info('Activity deadlines checked and notifications sent.');
-        $user =User::find(1);
-        $user->notify(new ActivityDeadlineNotification($activity));
+        $activity =User::find(1);
+        $activity->notify(new ActivityDeadlineNotification($activity));
     }
 }

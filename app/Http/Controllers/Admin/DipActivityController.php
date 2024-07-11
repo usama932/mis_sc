@@ -109,7 +109,7 @@ class DipActivityController extends Controller
             return array_map('intval', $parts);
         });
         $data = [];
-    
+        
         if ($sortedActivities) {
             foreach ($sortedActivities as $r) {
                 $show_url = route('activity_dips.show', $r->id);
@@ -184,7 +184,7 @@ class DipActivityController extends Controller
     }
     public function get_complete_activity(Request $request)
     {
-        
+        DB::enableQueryLog();
             $dipId = $request->dip_id;
             $columns = [
                 1 => 'id',
@@ -192,9 +192,7 @@ class DipActivityController extends Controller
                 3 => 'activity_detail',
             ];
         
-            $totalData = DipActivity::when($dipId, function ($query) use ($dipId) {
-                $query->where('project_id', $dipId);
-            })->count();
+            
         
             $limit = $request->input('length');
             $orderIndex = $request->input('order.0.column');
@@ -233,15 +231,16 @@ class DipActivityController extends Controller
             });
         
             $totalFiltered = $dipsQuery->count();
+            $totalData = $dipsQuery->count();
             $dips = $dipsQuery->limit($limit)
                 ->offset($start)
                 ->orderBy($order, $dir)
                 ->get();
-        
+                dd(DB::getQueryLog());
             $sortedActivities = $dips->sortBy(function ($activity) {
                 return array_map('intval', explode('.', $activity->activity_number));
             });
-        
+            
             $data = [];
             foreach ($sortedActivities as $activity) {
                 $show_url = route('activity_dips.show', $activity->id);
@@ -282,8 +281,6 @@ class DipActivityController extends Controller
                 "recordsFiltered" => intval($totalFiltered),
                 "data" => $data
             ]);
-       
-        
     }
     public function get_activity_quarters(Request $request){
            

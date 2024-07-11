@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Notifications;
+
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
@@ -10,7 +12,6 @@ class ActivityDeadlineNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    use Queueable;
 
     protected $activity;
 
@@ -19,10 +20,10 @@ class ActivityDeadlineNotification extends Notification implements ShouldQueue
         $this->activity = $activity;
     }
 
-   
+
     public function via(object $notifiable): array
     {
-        return [ 'broadcast'];
+        return [ 'broadcast','mail'];
     }
 
 
@@ -42,6 +43,11 @@ class ActivityDeadlineNotification extends Notification implements ShouldQueue
             'activity' => $this->activity,
             'message' => 'The deadline for the activity "' . $this->activity->name . '" is approaching in 2 days.',
         ]);
+    }
+
+    public function broadcastAs()
+    {
+        return 'activity-deadline';
     }
 
     public function toArray($notifiable)
