@@ -11,8 +11,6 @@ use Illuminate\Notifications\Messages\BroadcastMessage;
 class ActivityDeadlineNotification extends Notification implements ShouldQueue
 {
     use Queueable;
-
-
     protected $activity;
 
     public function __construct($activity)
@@ -23,17 +21,16 @@ class ActivityDeadlineNotification extends Notification implements ShouldQueue
 
     public function via(object $notifiable): array
     {
-        return [ 'broadcast','mail'];
+        return [ 'broadcast','mail','database'];
     }
-
 
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->subject('Activity Deadline Approaching')
-                    ->line('The deadline for the activity "' . $this->activity->name . '" is approaching in 2 days.')
-                    ->action('View Activity', url('/activities/' . $this->activity->id))
-                    ->line('Please take the necessary actions.');
+            ->subject('Activity Deadline Approaching')
+            ->line('The deadline for the activity "' . $this->activity->name . '" is approaching in 2 days.')
+            ->action('View Activity', route('activity_dips', $this->activity->id))
+            ->line('Please take the necessary actions.');
     }
 
 

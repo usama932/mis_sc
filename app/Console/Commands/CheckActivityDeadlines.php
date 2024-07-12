@@ -3,10 +3,11 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\Activity;
+use App\Models\DipActivity;
 use App\Notifications\ActivityDeadlineNotification;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Project;
 
 class CheckActivityDeadlines extends Command
 {
@@ -17,17 +18,33 @@ class CheckActivityDeadlines extends Command
 
     public function handle()
     {
-        // $activities = Activity::whereHas('targets', function ($query) {
-        //     $query->whereDate('deadline', '=', Carbon::now()->addDays(2)->toDateString());
-        // })->get();
 
-        // foreach ($activities as $activity) {
-        //     $user = $activity->user; // Assuming each activity has a user associated with it
-        //     $user->notify(new ActivityDeadlineNotification($activity));
-        // }
+        $activities = DipActivity::whereHas('months', function ($query) {
+            $query->whereBetween('completion_date', [
+                Carbon::now()->toDateString(),
+                Carbon::now()->addDays(2)->toDateString()
+            ]);
+        })->get();
 
-        // $this->info('Activity deadlines checked and notifications sent.');
-        $activity =User::find(1);
-        $activity->notify(new ActivityDeadlineNotification($activity));
+        if(!empty($activities)){
+            foreach($activities as $activity) {
+                $project_id = $activity->project_id;
+                $project = Project::find($project_id);  // Use find instead of where->first
+
+                $partner_emails = $project->partners()->pluck('email')->toArray();
+                $partners = User::whereIn('email', $partner_emails)->get();
+
+                $focal_person_ids = json_decode($project->focal_person, true);
+                $focal_person = User::whereIn('id', $focal_person_ids)->get();
+
+                $combined = $partners->merge($focal_person)->unique('id');
+
+                if($combined){
+                    foreach ($combined as $user) {
+                        $user->notify(new ActivityDeadlineNotification($activity));
+                    }
+                }
+            }
+        }
     }
 }
