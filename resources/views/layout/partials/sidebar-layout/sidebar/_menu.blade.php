@@ -78,8 +78,7 @@
                         <span class="menu-title">FRM Tracker</span>
                         <span class="menu-arrow"></span>
                     </span>
-                    <!--end:Menu link-->
-                    <!--begin:Menu sub-->
+                    
                     <div class="menu-sub menu-sub-accordion">
                         <!--begin:Menu item-->
                         @can('create feedback registry')
