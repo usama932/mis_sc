@@ -106,19 +106,33 @@ class QBAttachmentsController extends Controller
     public function store(Request $request)
     {
         $active = 'qbattachment';
-        if($request->hasFile('document')){
-         
-            $path = storage_path("app/public/qbattachment/" .$request->document);
-            
-            if(File::exists($path)){
-                File::delete(storage_path('app/public/qbattachment/'.$request->document));
+        $qb_id = $request->quality_bench_id;
+        $qb = QualityBench::where('id', $qb_id)->first();
+        
+        if ($request->hasFile('document')) {
+            $province_paths = [
+                1 => 'punjab',
+                2 => 'kp',
+                3 => 'baluchistan',
+                4 => 'sindh',
+                5 => 'gilgit',
+                6 => 'kashmir',
+                7 => 'federal',
+            ];
+        
+            $path_suffix = $province_paths[$qb->province] ?? 'miscellaneous';
+            $path = storage_path("app/public/qbattachment/{$path_suffix}/" . $request->document);
+        
+            if (File::exists($path)) {
+                File::delete($path);
             }
-            
+        
             $file = $request->file('document');
             $filename = $file->getClientOriginalName();
-            $file->storeAs('public/qbattachment/',$filename);
-           
+            $file->storeAs("public/qbattachment/{$path_suffix}", $filename);
         }
+
+
         if($request->id == ''){
             $qbattachment = QBAttachement::create([
                 'document'                  => $filename ?? '',
@@ -146,26 +160,26 @@ class QBAttachmentsController extends Controller
         }
         $qb_theme   = User::where('theme_id',$actiontheme)->first();
         
-        if(!empty($qb_theme ) && !empty($qb->action_point)){
-            if($qb->action_point->count() >= 1){
-                $email = $qb_theme->email;
+        // if(!empty($qb_theme ) && !empty($qb->action_point)){
+        //     if($qb->action_point->count() >= 1){
+        //         $email = $qb_theme->email;
            
-                $bccEmails = [ 'walid.malik@savethechildren.org','usama.qayyum@savethechildren.org'];
-                $details = [
-                    'id'            => $qb->id,
-                    'village'       => $qb->village,
-                    'activity'      => $qb->activity_description,
-                    'response_id'   => $qb->assement_code,
-                    'action_point'  => $qb->action_point,
-                    'date_visit'    => $qb->date_visit,
-                ];
-                $subject = "[Quality Benchmark] ". $qb->activity_description ." in ". $qb->village ;
-                Mail::to($email)
-                ->bcc($bccEmails)
-                ->send(new \App\Mail\QBMail($details,$subject));
-            }
+        //         $bccEmails = [ 'walid.malik@savethechildren.org','usama.qayyum@savethechildren.org'];
+        //         $details = [
+        //             'id'            => $qb->id,
+        //             'village'       => $qb->village,
+        //             'activity'      => $qb->activity_description,
+        //             'response_id'   => $qb->assement_code,
+        //             'action_point'  => $qb->action_point,
+        //             'date_visit'    => $qb->date_visit,
+        //         ];
+        //         $subject = "[Quality Benchmark] ". $qb->activity_description ." in ". $qb->village ;
+        //         Mail::to($email)
+        //         ->bcc($bccEmails)
+        //         ->send(new \App\Mail\QBMail($details,$subject));
+        //     }
             
-        }
+        // }
         session(['active' => $active]);
         $editUrl = route('quality-benchs.edit',$request->quality_bench_id);
      
@@ -175,10 +189,24 @@ class QBAttachmentsController extends Controller
     }
 
     public function download_attachment($id){
+
         $qb_attachment = QBAttachement::find($id);
+        $qb_id = $qb_attachment->quality_bench_id;
+        $qb = QualityBench::where('id', $qb_id)->first();
+        $province_paths = [
+            1 => 'punjab',
+            2 => 'kp',
+            3 => 'baluchistan',
+            4 => 'sindh',
+            5 => 'gilgit',
+            6 => 'kashmir',
+            7 => 'federal',
+        ];
+        
+        $path_suffix = $province_paths[$qb->province] ?? 'miscellaneous';
        
 	    if(!empty($qb_attachment)){
-            $path = storage_path("app/public/qbattachment/" . $qb_attachment->document); 
+            $path = storage_path("app/public/qbattachment/{$path_suffix}/" . $qb_attachment->document); 
             if(File::exists($path)){   
             }
             else{
@@ -190,30 +218,9 @@ class QBAttachmentsController extends Controller
 
 	    return redirect()->back();
     }
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
+   
+   
+    
     public function destroy(string $id)
     {
         $qb_attachment = QBAttachement::find($id);
@@ -234,12 +241,27 @@ class QBAttachmentsController extends Controller
     }
     public function showPDF($id)
     {
-     
+    
         $qb_attachment = QBAttachement::find($id);
-        $path = storage_path("app/public/qbattachment/" . $qb_attachment->document);
-       
-        $file = Storage::get('public/qbattachment/'.$qb_attachment->document);
+        $qb_id = $qb_attachment->quality_bench_id;
+        
+        $qb = QualityBench::where('id', $qb_id)->first();
+        $province_paths = [
+            1 => 'punjab',
+            2 => 'kp',
+            3 => 'baluchistan',
+            4 => 'sindh',
+            5 => 'gilgit',
+            6 => 'kashmir',
+            7 => 'federal',
+        ];
+        
+        $path_suffix = $province_paths[$qb->province] ?? 'miscellaneous';
       
+        $path = storage_path("app/public/qbattachment/{$path_suffix}/" . $qb_attachment->document);
+       
+        $file = Storage::get("public/qbattachment/{$path_suffix}/" . $qb_attachment->document);
+        
         $response = response($file, 200, [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename= $qb_attachment->document.".pdf"',

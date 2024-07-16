@@ -74,6 +74,7 @@ class QbController extends Controller
     public function get_qbs(Request $request)
     {
         $id = $request->qb_id;
+
         $columns = [
             0 => 'id',
             1 => 'date_visit',
@@ -85,63 +86,58 @@ class QbController extends Controller
             7 => 'project_name',
             8 => 'created_at',
         ];
-        
+
         $qualit_benchs = QualityBench::latest();
-        
+
         // Filtering logic
         $filters = [
             'district' => $request->kt_select2_district,
             'province' => $request->kt_select2_province,
-            'assement_code' => $request->assesment_code,
+            'assesment_code' => $request->assesment_code,
             'accompanied_by' => $request->accompanied_by,
             'type_of_visit' => $request->visit_type,
             'project_type' => $request->project_type,
             'staff_organization' => $request->partner,
             'qb_filledby' => $request->visit_staff,
-            'project_name' => $request->project_name
+            'project_name' => $request->project_name,
         ];
-        
+
         foreach ($filters as $field => $value) {
-            if ($value !== null && $value !== 'None') {
+            if (!is_null($value) && $value !== 'None') {
                 $qualit_benchs->where($field, $value);
             }
+        }
 
+        if (!is_null($request->attachement) && $request->attachement !== 'None') {
+            $qualit_benchs->whereHas('qbattachement', function ($query) use ($request) {
+                if ($request->attachement === "Yes") {
+                    $query->whereNotNull('document');
+                } elseif ($request->attachement === "No") {
+                    $query->where('document',Null);
+                }
+            });
         }
-        if($request->attachement != null && $request->attachement != 'None'){
-            
-            if($request->attachement == "Yes"){
-                $qualit_benchs->wherehas('qbattachement');
-            }
-            elseif($request->attachement == "No"){
-                $qualit_benchs->whereDoesntHave('qbattachement');
-            }
-            else{
-                $qualit_benchs;
-            }
-        }
-        
+
         // Date filtering
-        if ($request->date_visit !== null) {
-            $dateParts = explode('to', $request->date_visit);
-            $startdate = $dateParts[0] ?? '';
-            $enddate = $dateParts[1] ?? '';
+        if ($request->date_visit) {
+            [$startdate, $enddate] = explode(' to ', $request->date_visit);
             if ($startdate && $enddate) {
                 $qualit_benchs->whereBetween('date_visit', [$startdate, $enddate]);
             }
         }
-        
+
         // User permissions
         $user = auth()->user();
-        if ($user->permissions_level == 'province-wide') {
+        if ($user->permissions_level === 'province-wide') {
             $qualit_benchs->where('province', $user->province);
-        } elseif ($user->permissions_level == 'district-wide') {
+        } elseif ($user->permissions_level === 'district-wide') {
             $qualit_benchs->where('district', $user->district);
         }
-        
+
         if ($user->hasRole("IP's")) {
             $qualit_benchs->where('created_by', $user->id);
         }
-        
+
         // Pagination and sorting
         $totalData = $qualit_benchs->count();
         $limit = $request->input('length', -1);
@@ -149,21 +145,26 @@ class QbController extends Controller
         $order = $columns[$orderIndex] ?? 'id';
         $dir = $request->input('order.0.dir', 'desc');
         $start = $request->input('start', 0);
-        
+
         $totalFiltered = $qualit_benchs->count();
         $qualit_benchs = ($limit == -1)
             ? $qualit_benchs->orderBy($order, $dir)->get()
             : $qualit_benchs->offset($start)->limit($limit)->orderBy($order, $dir)->get();
-        
-        $data = [];
-        foreach ($qualit_benchs as $r) {
+
+        $data = $qualit_benchs->map(function ($r) {
             $edit_url = route('quality-benchs.edit', $r->id);
             $view_url = route('quality-benchs.show', $r->id);
-            $attachment_url = $r->qbattachement && $r->qbattachement->document 
+            if(!empty($r->qbattachement->document) && $r->qbattachement->document !== ''){
+                $attachment_url = $r->qbattachement && $r->qbattachement->document 
                 ? route('showPDF.qb_attachments', $r->qbattachement->id) 
                 : '#';
-        
-            $nestedData = [
+            }
+            else{
+                $attachment_url ='#';
+            }
+          
+
+            return [
                 'id' => $r->id,
                 'assement_code' => $r->assement_code ?? '',
                 'project_name' => $r->project?->name ?? '',
@@ -187,7 +188,7 @@ class QbController extends Controller
                     'Good' => '<span class="badge bg-secondary">'.$r->qb_status.'</span>',
                     default => '<span class="badge bg-success">'.$r->qb_status.'</span>',
                 },
-                'attachment' => $attachment_url != '#' 
+                'attachment' => $attachment_url !== '#' 
                     ? '<a class="btn-icon mx-1" href="'.$attachment_url.'" target="_blank"><i class="fa fa-download text-warning" aria-hidden="true"></i></a>'
                     : '',
                 'created_at' => date('d-M-Y', strtotime($r->created_at)) ?? '',
@@ -196,19 +197,17 @@ class QbController extends Controller
                     ? '<div><td><a class="btn-icon mx-1" href="'.$view_url.'" target="_blank"><i class="fa fa-eye text-warning" aria-hidden="true"></i></a><a title="Edit" class="btn-icon mx-1" href="'.$edit_url.'" target="_blank"><i class="fa fa-pencil text-info"></i></a><a class="btn-icon mx-1" onclick="event.preventDefault();del('.$r->id.');" title="Delete Monitor Visit" href="javascript:void(0)"><i class="fa fa-trash text-danger" aria-hidden="true"></i></a></td></div>'
                     : '<div><td><a class="btn-icon mx-1" href="'.$view_url.'" target="_blank"><i class="fa fa-eye text-warning" aria-hidden="true"></i></a></td></div>',
             ];
-        
-            $data[] = $nestedData;
-        }
-        
+        })->toArray();
+
         $json_data = [
             "draw" => intval($request->input('draw')),
             "recordsTotal" => intval($totalData),
             "recordsFiltered" => intval($totalFiltered),
             "data" => $data
         ];
-        
+
         return response()->json($json_data);
-        
+
     }
 
     public function create()
