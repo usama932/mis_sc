@@ -128,7 +128,7 @@ class QBAttachmentsController extends Controller
             }
         
             $file = $request->file('document');
-            $filename = $file->getClientOriginalName();
+            $filename = $qb->assement_code.'_'.$file->getClientOriginalExtension();
             $file->storeAs("public/qbattachment/{$path_suffix}", $filename);
         }
 

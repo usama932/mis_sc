@@ -107,7 +107,7 @@
                 </label>
                 <select id="kt_select2_union_counsil" name="union_counsil" aria-label="Select a UC" data-control="select2" data-placeholder="Select a Uc..." class="form-select">
                     @if(!empty($qb->union_counsil))
-                        <option value="{{$qb->union_counsil}}">{{$qb->uc?->uc_name ?? $frm->union_counsil}}</option>
+                        <option value="{{$qb->union_counsil}}">{{$qb->uc?->uc_name ?? $qb->union_counsil}}</option>
                     @endif
                 </select>
                 <div id="kt_select2_union_counsilError" class="error-message "></div>
