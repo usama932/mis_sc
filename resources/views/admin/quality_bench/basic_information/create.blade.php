@@ -302,7 +302,7 @@
                 altInput: true,
                 dateFormat: "Y-m-d",
                 maxDate: new Date().fp_incr(+0),
-                minDate: new Date("2024-04-01"),
+                minDate: new Date("2024-07-01"),
             });
     
             $('#toggleSwitch').change(function() {

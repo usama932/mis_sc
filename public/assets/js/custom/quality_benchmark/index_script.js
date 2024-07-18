@@ -11,7 +11,7 @@ var QBs = $('#quality_bench').DataTable( {
             title: 'Themetic area Data export',
             className: 'badge badge-outline-success',
             exportOptions: {
-                columns: [0,1,2]
+                columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
             }
         },
         {
@@ -21,7 +21,7 @@ var QBs = $('#quality_bench').DataTable( {
             title: 'Themetic area Data',
             className: 'badge badge-outline-success ',
             exportOptions: {
-                columns: [0,1,2]
+                columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
             }
         }
     ],
@@ -84,6 +84,7 @@ function del(id) {
         }
     });
 }
+
 $("#date_visit,#assesment_code,#attachement, #visit_staff,#partner, #accompanied_by, #visit_type, #kt_select2_province, #kt_select2_district, #project_type, #project_name").change(function () {
     var table = $('#quality_bench').DataTable();
     table.destroy();
@@ -108,7 +109,7 @@ $("#date_visit,#assesment_code,#attachement, #visit_staff,#partner, #accompanied
                 title: 'Themetic area Data export',
                 className: 'badge badge-outline-success',
                 exportOptions: {
-                    columns: [0,1,2]
+                    columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
                 }
             },
             {
@@ -118,7 +119,7 @@ $("#date_visit,#assesment_code,#attachement, #visit_staff,#partner, #accompanied
             title: 'Themetic area Data',
             className: 'badge badge-outline-success',
             exportOptions: {
-                columns: [0,1,2]
+                columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
             }
          }
         ],
@@ -176,6 +177,7 @@ $("#date_visit,#assesment_code,#attachement, #visit_staff,#partner, #accompanied
 
     });
 });
+
 $("#kt_select2_province").change(function () {
 
     var value = $(this).val();
@@ -203,6 +205,7 @@ $("#kt_select2_province").change(function () {
     });
 
 }).trigger('change');
+
 $('.close').click(function() {
     $('#quality_benchmark').modal('hide');
 });
@@ -211,4 +214,5 @@ flatpickr("#date_visit", {
     mode: "range",
     dateFormat: "Y-m-d",
     maxDate: "today",
+    minDate: new Date("2023-10-01"),
 });
