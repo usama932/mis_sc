@@ -18,17 +18,16 @@ class ZipFolders extends Command
 
     public function handle()
     {
-        $fileName = 'D:/mis_attachments.zip';
+        $baseFileName = "D:/auto_backup/mis_attachments_".date('d-M-Y H-i-s').".zip";
+        $fileName = $this->makeUniqueFileName($baseFileName);
 
         if (!File::isWritable(dirname($fileName))) {
             $this->error('Destination path is not writable.');
             return;
         }
 
-        // Initialize ZipArchive
         $zip = new ZipArchive;
 
-        // Open zip file for writing
         if ($zip->open($fileName, ZipArchive::CREATE) === true) {
             try {
                 // Add storage folder contents to zip
@@ -49,6 +48,21 @@ class ZipFolders extends Command
         } else {
             $this->error('Failed to open zip file for writing.');
         }
+    }
+
+    private function makeUniqueFileName($baseFileName)
+    {
+        $fileName = $baseFileName;
+        $counter = 1;
+
+        // Check if the file already exists
+        while (file_exists($fileName)) {
+            // Append a counter to the base file name to make it unique
+            $fileName = $baseFileName . '_' . $counter;
+            $counter++;
+        }
+
+        return $fileName;
     }
 
     private function addFolderToZip($folder, $zip)

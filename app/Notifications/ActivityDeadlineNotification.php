@@ -21,24 +21,24 @@ class ActivityDeadlineNotification extends Notification implements ShouldQueue
 
     public function via(object $notifiable): array
     {
-        return [ 'broadcast','mail','database'];
+        return [ 'broadcast','database'];
     }
 
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
             ->subject('Activity Deadline Approaching')
-            ->line('The deadline for the activity "' . $this->activity->name . '" is approaching in 2 days.')
-            ->action('View Activity', route('activity_dips', $this->activity->id))
+            ->line('The deadline for the "' . $this->activity->project?->name . '" activity "' . $this->activity->activity_number . '" is approaching in 2 days.')
+            ->action('View Activity', route('activity_dips.show', $this->activity->id))
             ->line('Please take the necessary actions.');
     }
 
-
     public function toBroadcast($notifiable)
     {
+
         return new BroadcastMessage([
             'activity' => $this->activity,
-            'message' => 'The deadline for the activity "' . $this->activity->name . '" is approaching in 2 days.',
+            'message' => 'The deadline for the "' . $this->activity->project?->name . '" activity "' . $this->activity->activity_number . '" is approaching in 2 days.',
         ]);
     }
 
@@ -51,7 +51,7 @@ class ActivityDeadlineNotification extends Notification implements ShouldQueue
     {
         return [
             'activity_id' => $this->activity->id,
-            'message' => 'The deadline for the activity "' . $this->activity->name . '" is approaching in 2 days.',
+            'message' => 'The deadline for the "' . $this->activity->project?->name . '" activity "' . $this->activity->activity_number . '" is approaching in 2 days.',
         ];
     }
 

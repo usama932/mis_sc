@@ -29,7 +29,7 @@ class CheckActivityDeadlines extends Command
         if(!empty($activities)){
             foreach($activities as $activity) {
                 $project_id = $activity->project_id;
-                $project = Project::find($project_id);  // Use find instead of where->first
+                $project = Project::find($project_id);
 
                 $partner_emails = $project->partners()->pluck('email')->toArray();
                 $partners = User::whereIn('email', $partner_emails)->get();

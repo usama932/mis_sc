@@ -11,11 +11,11 @@
     @if(Auth::check())
      {!! includeFonts() !!}
     @endif
-  
+
     @foreach(getGlobalAssets('css') as $path)
         {!! sprintf('<link rel="stylesheet" href="%s">', asset($path)) !!}
     @endforeach
- 
+
 
     @if(Auth::check())
     @foreach(getVendors('css') as $path)
@@ -138,7 +138,6 @@
 </script>
 <!-- Include Pusher JS library -->
 
-<!-- Include Pusher library -->
 <!-- Include Pusher JS library -->
 <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 
@@ -172,18 +171,38 @@
         client: pusher,
         encrypted: true
     });
-
-    window.Echo.private('App.Models.User.' + '{{ auth()->user()->id }}')
-        .listen('activity-deadline', (data) => {
+    var baseUrl = '{{ url('/') }}';
+    window.Echo.private('App.Models.User.' + '{{ auth()->id() }}')
+        .listen('.activity-deadline', (data) => { // Note the dot before the event name
             console.log('Received activity-deadline event:', data);
+            const activityUrl = `${baseUrl}/activity_dips/${data.activity.id}`; // Construct the activity URL
             if (data.message) {
-                alert(data.message); // Display the notification message
+                // const notificationItem = `
+                //     // <div class="d-flex flex-stack py-4">
+                //     //     <div class="d-flex align-items-center">
+                            
+                //     //         <div class="symbol symbol-35px me-4">
+                //     //             <span class="symbol-label bg-light-primary">{!! getIcon('abstract-28', 'fs-2 text-primary') !!}</span>
+                //     //         </div>
+                //     //         <div class="mb-0 me-2">
+                //     //             <a href="${activityUrl}" class="fs-6 text-gray-800 text-hover-primary fw-bold">${data.activity.activity_title || 'Notification'}</a>
+                //     //             <div class="text-gray-400 fs-7">${data.message}</div>
+                //     //         </div>
+                           
+                //     //     </div>
+                //     //     <span class="badge badge-light fs-8">${data.time || 'Just now'}</span>
+                //     // </div>
+                    
+                // `;
+                console.log(data.message);
+                // document.getElementById('notification-list').insertAdjacentHTML('afterbegin', notificationItem);
             }
         })
         .error((error) => {
             console.error('Subscription error:', error);
         });
 </script>
+
 
 
 @livewireScripts

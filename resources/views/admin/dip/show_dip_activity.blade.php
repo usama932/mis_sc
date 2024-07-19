@@ -54,7 +54,7 @@
                                         </span>
                                     </div>
                                     <div class="d-flex flex-column">
-                                        <a href="javascript:;" class="text-dark text-hover-primary fs-6 fw-bold">Project Detail</a>
+                                        <a href="javascript:;" class="text-dark text-hover-primary fs-6 fw-bold">Activity Detail</a>
                                         
                                     </div>
                                     

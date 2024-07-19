@@ -11,9 +11,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
 
-        //$schedule->command('check:activity-deadlines')->daily();
-        $schedule->command('folders:zip')->daily();
-        
+        $schedule->command('check:activity-deadlines')->daily();
     }
 
 
