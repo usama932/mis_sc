@@ -54,13 +54,15 @@ class FRMController extends Controller
                                 ->where('name_of_registrar',auth()->user()->name)->where('status','Close')->count();
            
         }
-        $feedbackchannels = FeedbackChannel::latest()->get();
+        $feedbackchannels   = FeedbackChannel::latest()->get();
         $feedbackcategories = FeedbackCategory::latest()->get()->sortBy('name');
-        $projects = Project::where('active','1')->get();
-        $clients = Frm::orderBy('name_of_client')->pluck('name_of_client');
+        $projects           = Project::where('active','1')->get();
+        $clients            = Frm::orderBy('name_of_client')->pluck('name_of_client');
         
         $users = User::where('user_type','R2')->orWhere('user_type','R1')->orWhere('user_type','R3')->get();
-     
+
+        addVendors(['datatables']);
+        addJavascriptFile('assets/js/custom/frm/index.js');
         // $themes = Theme::latest()->get();
         return view('admin.frm.index' ,compact('feedbackchannels','feedbackcategories','projects','total_frm','open_frm','close_frm','users','clients'));
     }
@@ -115,7 +117,7 @@ class FRMController extends Controller
         }
         $dateParts = explode('to', $request->date_received);
        
-           $startdate = '';
+        $startdate = '';
         $enddate = '';
         if(!empty($dateParts)){
             $startdate = $dateParts[0] ?? '';

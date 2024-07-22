@@ -292,17 +292,23 @@
             </div>
         </div>
     </div>
-
+    @php
+        $closingRecords = app('closing_records');
+        $qbCloseDate = $closingRecords['qb_close_date'];
+    @endphp
     @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var mindate = '{{$record->qb_close_upto}}';
-    
+           
+            window.jsVars = {
+                qbCloseDate: @json($qbCloseDate),
+            };
+            const qbCloseDate = new Date(window.jsVars.qbCloseDate);
             $('#date_visit').flatpickr({
                 altInput: true,
                 dateFormat: "Y-m-d",
                 maxDate: new Date().fp_incr(+0),
-                minDate: new Date("2024-07-01"),
+                minDate: new Date(qbCloseDate),
             });
     
             $('#toggleSwitch').change(function() {

@@ -119,12 +119,7 @@ $('#date_feedback_referred').flatpickr({
     maxDate: "today",
     minDate: new Date().fp_incr(-90), 
 });
-$('#date_recieved_id').flatpickr({
-    altInput: true,
-    dateFormat: "Y-m-d",
-    maxDate: "today",
-    minDate: new Date("2024-07-01"), 
-});
+
 
 //script for province, district,tehisl and uc
 ///get district cascade province

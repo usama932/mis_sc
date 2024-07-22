@@ -119,11 +119,16 @@ class QbController extends Controller
         }
 
         // Date filtering
-        if ($request->date_visit) {
-            [$startdate, $enddate] = explode(' to ', $request->date_visit);
-            if ($startdate && $enddate) {
-                $qualit_benchs->whereBetween('date_visit', [$startdate, $enddate]);
-            }
+        $dateParts = explode('to', $request->date_visit);
+       
+        $startdate = '';
+        $enddate = '';
+        if(!empty($request->date_visit)){
+            $startdate = $dateParts[0] ?? '';
+            $enddate = $dateParts[1] ?? '';
+        }
+        if($request->date_visit != null ){
+            $qualit_benchs->whereBetween('date_visit',[$startdate ,$enddate]);
         }
 
         // User permissions

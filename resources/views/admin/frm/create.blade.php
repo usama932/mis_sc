@@ -41,6 +41,13 @@
                     </div>
                     <div class="fv-row col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">
+                            @php
+                                $closingRecords = app('closing_records');
+                                $frmCloseDate = $closingRecords['frm_close_date'];
+                                $frmCloseUpto = $closingRecords['frm_close_upto'];
+                                $qbCloseDate  = $closingRecords['qb_close_date'];
+                                $qbCloseUpto  = $closingRecords['qb_close_upto'];
+                            @endphp
                             <span class="required">Date Received</span>
                             
                         </label>
@@ -359,10 +366,25 @@
         </form>
 
     </div>
-
+    @php
+        $closingRecords = app('closing_records');
+        $frmCloseDate = $closingRecords['frm_close_date'];
+    endphp
     @push('scripts')
-  
+        <script>
+            window.jsVars = {
+                frmCloseDate: @json($frmCloseDate),
+            };
+            const frmCloseDate = new Date(window.jsVars.frmCloseDate);
 
+            $('#date_recieved_id').flatpickr({
+                altInput: true,
+                dateFormat: "Y-m-d",
+                maxDate: "today",
+                minDate: new Date(frmCloseDate), 
+            });
+            
+        </script>
     @endpush
 
 </x-nform-layout>
