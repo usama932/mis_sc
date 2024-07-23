@@ -613,9 +613,9 @@ class DipActivityController extends Controller
                 $query->doesntHave('progress')
                     ->whereDate('completion_date', '<', Carbon::now()->toDateString());
             }])
-            ->first()->months_count;
+            ->first()->months_count ?? '0';
 
-        $monthsWithProgressCount = $dip_activity_complete->months->count();
+        $monthsWithProgressCount = $dip_activity_complete->months->count() ?? '0';
 
         if(!empty($dip_activity->project->detail->province )){
             $province_dip = json_decode($dip_activity->project->detail->province , true);
