@@ -460,8 +460,6 @@ class DipActivityController extends Controller
             3 => 'activity_detail',
         ];
         
-    
-        
         $limit = $request->input('length');
         $orderColumn = $columns[$request->input('order.0.column')];
         $orderDirection = $request->input('order.0.dir');
@@ -503,9 +501,9 @@ class DipActivityController extends Controller
         
                     if ($quarter->status == 'Returned' ) {
                         $nestedData['action'] = '<div><td><a class="" href="javascript:void(0)" title="Edit status" onclick="event.preventDefault();edit_status(' . $quarter->progress->quarter_id . ');"><span class="badge bg-success text-white">Edit</span></a></td></div>';
-                    } elseif (!auth()->user()->hasRole('partner') && $quarter->status == 'To be Reviewed') {
+                    } elseif (!auth()->user()->hasRole('partner') && $quarter->status == 'To be Reviewed' && $quarter->progress()->exists()) {
                         $nestedData['action'] = '<div><td><a class="" href="javascript:void(0)" title="Update status" onclick="event.preventDefault();update_status(' . $quarter->progress?->quarter_id . ');"><span class="badge bg-info btn-sm text-white">Update Status</span></a></td></div>';
-                    } elseif ($quarter->status == 'To be Reviewed') {
+                    } elseif (!$quarter->progress()->exists()) {
                         $nestedData['action'] = '<div><td><a class="" title="Add Progress" onclick="event.preventDefault();add_progress(' . $quarter->id . ');" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#add_progress_' . $quarter->id . '"><span class="badge bg-primary text-dark">Add Progress</span></a></td></div>';
                     }
         
@@ -1059,7 +1057,9 @@ class DipActivityController extends Controller
     {
         
        $activity =  ActivityMonths::where('id',$request->id)->first();
+      
        $progress =  $activity->progress ?? '';
+      
        return view('admin.dip.activity.update_progress',compact('progress'));
     }
 
