@@ -1,8 +1,7 @@
 <x-nform-layout>
     @section('title')
-       Add Activity Progress
+       Complete Activites
     @endsection
-  
     <div class="card mb-5">
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
@@ -55,7 +54,7 @@
         <div class="card-body">
         
             <div class="table-responsive overflow-*">
-                <table class="table table-striped table-bordered nowrap" id="dip_complete_activity" style="width:100%">
+                <table class="table table-striped table-bordered nowrap table-sm" id="dip_complete_activity" style="width:100%">
                     <thead>
                         <tr>
                             <th>Activity</th>
@@ -74,76 +73,4 @@
             </div>
         </div>
     </div>
-    
-    @push("scripts")
-    <script>
-        $(document).ready(function () {
-    function initDataTable(dipId) {
-        $('#dip_complete_activity').DataTable({
-            "order": [[1, 'desc']],
-            "dom": 'lfBrtip',
-            buttons: ['csv', 'excel'],
-            "responsive": false,
-            "processing": true,
-            "serverSide": true,
-            "searching": false,
-            "bLengthChange": false,
-            "bInfo": false,
-            "info": true,
-            "ajax": {
-                "url": "{{route('admin.get_complete_activity')}}",
-                "dataType": "json",
-                "type": "POST",
-                "data": {
-                    "_token": "{{ csrf_token() }}",
-                    "dip_id": dipId
-                }
-            },
-            "columns": [
-                {"data": "activity", "searchable": false, "orderable": false},
-                {"data": "activity_number", "searchable": false, "orderable": false},
-                {"data": "sub_theme", "searchable": false, "orderable": false},
-                {"data": "activity_type", "searchable": false, "orderable": false},
-                {"data": "project", "searchable": false, "orderable": false},
-                {"data": "lop_target", "searchable": false, "orderable": false},
-                {"data": "quarter_target", "searchable": false, "orderable": false},
-                {"data": "created_by", "searchable": false, "orderable": false},
-                {"data": "created_at", "searchable": false, "orderable": false},
-                {"data": "action", "searchable": false, "orderable": false}
-            ]
-        });
-    }
-
-    $('#project').change(function () {
-        var table = $('#dip_complete_activity').DataTable();
-        table.destroy();
-        var dipId = $(this).val();
-        initDataTable(dipId);
-    });
-
-    initDataTable($('#project').val());
-});
-
-
-        function del(id) {
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Yes, delete it!"
-            }).then(function(result) {
-                if (result.value) {
-                    Swal.fire(
-                        "Deleted!",
-                        "Your DIP has been deleted.",
-                        "success"
-                    );
-                    var APP_URL = {!! json_encode(url('/')) !!}
-                    window.location.href = APP_URL + "/activity_dips/delete/" + id;
-                }
-            });
-        }
-    </script>
-    @endpush
 </x-nform-layout>

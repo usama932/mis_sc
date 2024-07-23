@@ -19,13 +19,16 @@ class CheckActivityDeadlines extends Command
     public function handle()
     {
 
+        // $activities = DipActivity::whereHas('months', function ($query) {
+        //     $query->whereBetween('completion_date', [
+        //         Carbon::now()->toDateString(),
+        //         Carbon::now()->addDays(2)->toDateString()
+        //     ]);
+        // })->get();
         $activities = DipActivity::whereHas('months', function ($query) {
-            $query->whereBetween('completion_date', [
-                Carbon::now()->toDateString(),
-                Carbon::now()->addDays(2)->toDateString()
-            ]);
+            $query->whereDate('completion_date', '<', Carbon::now()->toDateString());
         })->get();
-
+       
         if(!empty($activities)){
             foreach($activities as $activity) {
                 $project_id = $activity->project_id;

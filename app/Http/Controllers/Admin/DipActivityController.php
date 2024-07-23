@@ -664,10 +664,10 @@ class DipActivityController extends Controller
         elseif(auth()->user()->hasRole('focal_person')){
             $projects = Project::whereJsonContains('focal_person',auth()->user()->id)->orderBy('name')->get();
         }else{
-           
             $projects = Project::orderBy('name')->get();
         }
         addVendors(['datatables']);
+        addJavascriptFile('assets/js/custom/dip/complete_activities.js');
         return view('admin.dip.activity_complete',compact('projects'));
     }
 
