@@ -35,7 +35,7 @@ $(document).ready(function () {
             "responsive": false,
             "info": true,
             "ajax": {
-                "url": "/get_complete_activity",
+                "url": "/get_activity_due",
                 "dataType": "json",
                 "type": "POST",
                 "data": {

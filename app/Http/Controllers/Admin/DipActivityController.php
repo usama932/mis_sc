@@ -18,7 +18,9 @@ use File;
 use DateTime;
 use DateInterval;
 use DatePeriod;
-use DB;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
 
 use App\Repositories\Interfaces\DipActivityInterface;
 
@@ -182,6 +184,7 @@ class DipActivityController extends Controller
     
         return response()->json($json_data);
     }
+
     public function get_complete_activity(Request $request)
     {
             $dipId = $request->dip_id;
@@ -261,9 +264,14 @@ class DipActivityController extends Controller
                         : '',
                     'project' => $activity->project->name ?? '',
                     'lop_target' => $activity->lop_target ?? '',
-                    'quarter_target' => collect($activity->months)->filter(fn($month) => $month->activity_id == $activity->id && $month->project_id == $activity->project_id)
-                        ->map(fn($month) => '<li><strong>' . $month->quarter . '-' . $month->year . ':</strong> ' . $month->target . '</li>')
-                        ->implode(''),
+                    'quarter_target' => collect($activity->months)
+                    ->filter(function($month) use ($activity) {
+                        return $month->activity_id == $activity->id 
+                            && $month->project_id == $activity->project_id 
+                            && ($month->progress && in_array($month->status, ['To be Reviewed', 'Returned', 'Posted']));
+                    })
+                    ->map(fn($month) => '<li><strong>' . $month->quarter . '-' . $month->year . ':</strong> ' . $month->target . '</li>')
+                    ->implode(''),
                     'created_by' => $activity->user->name ?? '',
                     'created_at' => date('M d, Y', strtotime($activity->created_at)) . '<br>' . date('h:iA', strtotime($activity->created_at)),
                     'update_progress' => '<a href="' . $progressUrl . '"><span class="badge badge-success">Update Progress</span></a>',
@@ -282,6 +290,104 @@ class DipActivityController extends Controller
                 "data" => $data
             ]);
     }
+
+    public function get_activity_due(Request $request)
+    {
+            $dipId = $request->dip_id;
+
+            $limit = $request->input('length');
+            $orderIndex = $request->input('order.0.column');
+            $order = $columns[$orderIndex] ?? 'id';
+            $dir = $request->input('order.0.dir');
+            $start = $request->input('start');
+        
+            $user = auth()->user();
+            $userRole = $user->getRoleNames()->first();
+        
+            $dipsQuery = DipActivity::when($dipId, function ($query) use ($dipId) {
+                $query->where('project_id', $dipId);
+            });
+        
+            switch ($userRole) {
+                case 'focal person':
+                    $dipsQuery->whereHas('project', function ($query) use ($user) {
+                        $query->whereJsonContains('focal_person', $user->id);
+                    });
+                    break;
+                case 'partner':
+                    $dipsQuery->whereHas('project', function ($query) use ($user) {
+                        $query->whereHas('partners', function ($partnersQuery) use ($user) {
+                            $partnersQuery->where('email', $user->email);
+                        });
+                    });
+                    break;
+            }
+        
+            $dipsQuery = DipActivity::whereHas('months', function ($query) {
+                $query->doesntHave('progress') // Check if the month does not have any progress
+                    ->whereDate('completion_date', '<', Carbon::now()->toDateString()); // Check if the completion date is in the past
+            })
+            ->with('months');
+             
+            $totalFiltered = $dipsQuery->count();
+            $totalData = $dipsQuery->count();
+            $dips = $dipsQuery->limit($limit)
+                ->offset($start)
+                ->orderBy($order, $dir)
+                ->get();
+             
+            $sortedActivities = $dips->sortBy(function ($activity) {
+                return array_map('intval', explode('.', $activity->activity_number));
+            });
+          
+            
+            $data = [];
+            foreach ($sortedActivities as $activity) {
+                $show_url = route('activity_dips.show', $activity->id);
+                $editUrl = route('activity_dips.edit', $activity->id);
+                $progressUrl = route('postprogress', $activity->id);
+                $text = $activity->activity_title ?? "";
+                $words = str_word_count($text, 1);
+                $lines = array_chunk($words, 10);
+                $finalText = implode("<br>", array_map(fn($line) => implode(" ", $line), $lines));
+        
+                $nestedData = [
+                    'activity_number' => $finalText,
+                    'activity' => $activity->activity_number ?? '',
+                    'theme' => $activity->scisubtheme_name?->maintheme?->name ?? '',
+                    'sub_theme' => $activity->scisubtheme_name?->name ?? '',
+                    'activity_type' => $activity->activity_type?->activity_type?->name
+                        ? ($activity->activity_type?->activity_type?->name . ' (' . $activity->activity_type?->name . ')')
+                        : '',
+                    'project' => $activity->project->name ?? '',
+                    'lop_target' => $activity->lop_target ?? '',
+                   'quarter_target' => collect($activity->months)
+                    ->filter(function($month) use ($activity) {
+                        return $month->activity_id == $activity->id 
+                            && $month->project_id == $activity->project_id 
+                            && (!$month->progress & $month->completion_date < Carbon::now()->toDateString());
+                    })
+                    ->map(fn($month) => '<li><strong>' . $month->quarter . '-' . $month->year . ':</strong> ' . $month->target . '</li>')
+                    ->implode(''),
+                    'created_by' => $activity->user->name ?? '',
+                    'created_at' => date('M d, Y', strtotime($activity->created_at)) . '<br>' . date('h:iA', strtotime($activity->created_at)),
+                    'update_progress' => '<a href="' . $progressUrl . '"><span class="badge badge-success">Update Progress</span></a>',
+                   'action' => '<div>
+                    <td><a class="btn-icon mx-1" href="' . $show_url . '" title="Show Activity" href="javascript:void(0)">
+                            <i class="fa fa-eye text-warning" aria-hidden="true"></i></a></td></div>',
+                ];
+        
+                $data[] = $nestedData;
+            }
+        
+            return response()->json([
+                "draw" => intval($request->input('draw')),
+                "recordsTotal" => intval($totalData),
+                "recordsFiltered" => intval($totalFiltered),
+                "data" => $data
+            ]);
+    }
+
     public function get_activity_quarters(Request $request){
            
         $project_id = $request->project_id;
@@ -671,6 +777,24 @@ class DipActivityController extends Controller
         return view('admin.dip.activity_complete',compact('projects'));
     }
 
+    public function activity_due(){
+      
+        if(auth()->user()->hasRole('partner')){
+          
+            $projects = Project::whereHas('partners', function ($query) {
+                $query->where('email', auth()->user()->email);
+            })->orderBy('name')->get();
+        }
+        elseif(auth()->user()->hasRole('focal_person')){
+            $projects = Project::whereJsonContains('focal_person',auth()->user()->id)->orderBy('name')->get();
+        }else{
+            $projects = Project::orderBy('name')->get();
+        }
+        addVendors(['datatables']);
+        addJavascriptFile('assets/js/custom/dip/complete_due.js');
+        return view('admin.dip.activity_due',compact('projects'));
+    }
+
     public function postprogress($id){
         $activity = DipActivity::where('id',$id)->first();
         $progressMonths = $activity->months()->pluck('id')->toArray();
@@ -923,7 +1047,6 @@ class DipActivityController extends Controller
         
     }
 
-
     public function add_progress(Request $request){
         
 
@@ -931,7 +1054,6 @@ class DipActivityController extends Controller
         addJavascriptFile('assets/js/custom/dip/add_progress.js');
         return view('admin.dip.activity.add_progress',compact('quarter'));
     }
-
 
     public function update_status(Request $request)
     {

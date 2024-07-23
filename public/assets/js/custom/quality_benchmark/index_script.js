@@ -132,7 +132,6 @@ $("#date_visit,#assesment_code,#attachement, #visit_staff,#partner, #accompanied
         "responsive": false,
         "info": true,
 
-        
         "ajax": {
             "url":"/get_qbs",
             "dataType":"json",

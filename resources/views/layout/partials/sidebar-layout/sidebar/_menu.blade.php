@@ -364,11 +364,23 @@
                                 @can('create dip')
                                     <div class="menu-item">
                                         <!--begin:Menu link-->
-                                        <a class="menu-link {{ ( request()->segment(2) == 'complete' ||  request()->segment(1) == 'postprogress' )  ? 'active' : '' }}" href="{{ route('activity_dips.complete') }}"">
+                                        <a class="menu-link {{ ( request()->segment(2) == 'complete'  )  ? 'active' : '' }}" href="{{ route('activity_dips.complete') }}"">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot"></span>
                                             </span>
                                             <span class="menu-title">Complete Activities</span>
+                                        </a>
+                                        <!--end:Menu link-->
+                                    </div>
+                                @endcan
+                                @can('create dip')
+                                    <div class="menu-item">
+                                        <!--begin:Menu link-->
+                                        <a class="menu-link {{ ( request()->segment(2) == 'due'  )  ? 'active' : '' }}" href="{{ route('activity_dips.due') }}"">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Due Activities</span>
                                         </a>
                                         <!--end:Menu link-->
                                     </div>
