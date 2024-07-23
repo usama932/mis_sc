@@ -414,7 +414,7 @@ class DipActivityController extends Controller
         
         $totalFiltered = $quarters->count();
         $quarters =$quarters->limit($limit)->offset($start)
-                                    ->orderBy($order, $dir)->get()->sortByDesc("date_visit");
+                                    ->orderBy('$order, $dir')->get();
 		$data = array();
 		if($quarters){
 			foreach($quarters as $r){
@@ -451,6 +451,7 @@ class DipActivityController extends Controller
 
     public function activityQuarters(Request $request)
     {
+        
         $activity_id = $request->activity_id;
         $activity = DipActivity::where('id', $activity_id)->first();
         
@@ -472,7 +473,7 @@ class DipActivityController extends Controller
         
         $totalFiltered = $quartersQuery->count();
         $totalData = $quartersQuery->count();
-        $quarters = $quartersQuery->offset($start)->limit($limit)->get()->sortByDesc('date_visit');
+        $quarters = $quartersQuery->offset($start)->limit($limit)->get();
         
         $data = [];
         if ($quarters) {
@@ -480,7 +481,7 @@ class DipActivityController extends Controller
                 if ($quarter->activity_id == $activity_id && $quarter->project_id == $activity->project_id) {
                     $nestedData = [
                         'quarter' => $quarter->quarter . '-' . $quarter->year ?? '',
-                        'activity_target' => '<span style="background-color: grey">' . ($quarter->target ?? '') . '</span>',
+                        'activity_target' => '<span  class="p-2 badeg badge-warning text-dark">' . ($quarter->target ?? '') . '</span>',
                         'benefit_target' => $quarter->beneficiary_target ?? '',
                         'women_target' => $quarter->progress ? $quarter->progress->women_target ?? '0' : '0',
                         'men_target' => $quarter->progress ? $quarter->progress->men_target ?? '0' : '0',
@@ -598,7 +599,24 @@ class DipActivityController extends Controller
     public function show(string $id)
     {
         $dip_activity = DipActivity::where('id',$id)->with('months','project','project.themes','user','user1')->first();
-  
+        
+        $dip_activity_complete = $dip_activity->with(['months' => function($query) {
+            $query->has('progress');
+        }])->find($id);
+
+        $monthsWithoutProgressCount = DipActivity::where('id', $id)
+            ->whereHas('months', function ($query) {
+                $query->doesntHave('progress')
+                    ->whereDate('completion_date', '<', Carbon::now()->toDateString());
+            })
+            ->withCount(['months as months_count' => function ($query) {
+                $query->doesntHave('progress')
+                    ->whereDate('completion_date', '<', Carbon::now()->toDateString());
+            }])
+            ->first()->months_count;
+
+        $monthsWithProgressCount = $dip_activity_complete->months->count();
+
         if(!empty($dip_activity->project->detail->province )){
             $province_dip = json_decode($dip_activity->project->detail->province , true);
             $provinces = Province::whereIn('province_id', $province_dip)->pluck('province_name');
@@ -613,14 +631,16 @@ class DipActivityController extends Controller
         else{
             $districts = '';
         }
+        
+        $months = ActivityProgress::where('activity_id',$id)->where('project_id',$dip_activity->project_id)->get();
+        $quarters = ActivityMonths::where('activity_id',$id)->where('project_id',$dip_activity->project_id)->get();
 
         addVendors(['datatables']);
         addJavascriptFile('assets/js/custom/dip/dipquarteroupdateValidation.js');
         addJavascriptFile('assets/js/custom/dip/dipquartereditValidation.js');
         //addJavascriptFile('assets/js/custom/dip/add_progress.js');
-        $months = ActivityProgress::where('activity_id',$id)->where('project_id',$dip_activity->project_id)->get();
-        $quarters = ActivityMonths::where('activity_id',$id)->where('project_id',$dip_activity->project_id)->get();
-        return view('admin.dip.show_dip_activity',compact('dip_activity','districts','provinces','months','quarters'));
+       
+        return view('admin.dip.show_dip_activity',compact('dip_activity','monthsWithoutProgressCount','monthsWithProgressCount','districts','provinces','months','quarters'));
     }
 
     public function edit(string $id)

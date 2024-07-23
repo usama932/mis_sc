@@ -20,6 +20,7 @@ var activityQuarters = $('#activityQuarters').DataTable({
         }
     },
     "columns":[
+        {"data":"action","searchable":false,"orderable":false},
         {"data":"quarter","searchable":false,"orderable":false},
         {"data":"activity_target","searchable":false,"orderable":false},
         {"data":"activity_acheive","searchable":false,"orderable":false},
@@ -37,7 +38,7 @@ var activityQuarters = $('#activityQuarters').DataTable({
         {"data":"remarks","searchable":false,"orderable":false},
         {"data":"created_at","searchable":false,"orderable":false},
         {"data":"created_by","searchable":false,"orderable":false},
-        {"data":"action","searchable":false,"orderable":false},
+      
     ]
 });
 
