@@ -78,13 +78,13 @@ var KTlearninglogValidate = function () {
                             }
                         }
                     },
-                    'project':{
-                        validators: {
-                            notEmpty: {
-                                message: 'Project  is required'
-                            }
-                        }
-                    },
+                    // 'project':{
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: 'Project  is required'
+                    //         }
+                    //     }
+                    // },
                     'province':{
                         validators: {
                             notEmpty: {

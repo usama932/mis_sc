@@ -180,7 +180,7 @@
                          
                             
                             @if(!empty($log->attachment) && $log->attachment != '')
-                            <input type="file" name="attachment" class="form-control mx-4" value="{{$log->attachment}}" onchange="validateFile()" accept=".pdf">
+                            <input type="file" name="attachment" class="form-control mx-4" value="{{$log->attachment}}" onchange="validateFile()" >
                                 <div class="input-group-append">
                                     <a class="btn  btn-danger" title="Download Attachment" href="{{ route('download.log_file',$log->id) }}" >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-pdf" viewBox="0 0 16 16">

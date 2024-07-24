@@ -97,7 +97,7 @@ class LearninglogRepository implements LearningLogRepositoryInterface
         }
         return LearningLog::where('id',$id)->update([
             'title'                 => $data['title'],
-            'project'               => $data['project'],
+            'project'               => $data['project'] ?? '',
             'project_type'          => $data['project_type'],
             'research_type'         => $data['research_type'],
             'theme'                 => json_encode($data['theme']),
