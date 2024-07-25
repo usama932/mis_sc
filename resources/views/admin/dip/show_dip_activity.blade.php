@@ -8,46 +8,33 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card shadow-sm h-100 py-4">
-                    <div class="row no-gutters h-100">
-                        <div class="col-4 d-flex align-items-center justify-content-center" style="background-color: blue;">
-                            <i class="fa fa-tasks text-dark" aria-hidden="true" style="font-size: 24px;"></i>
-                        </div>
-                        <div class="col-8 d-flex flex-column justify-content-center text-right pr-4">
-                            <h4 class="mb-0">Total Months</h4>
-                            <h2 class="mb-0">{{ $dip_activity->months->count() }}</h2>
-                        </div>
-                    </div>
+            <div class="col-md-4 m-2 bg-success rounded">
+                <div class="d-flex flex-column justify-content-start text-left py-2">
+                    <h4 class="mb-0">Total Months</h4>
+                </div>
+                <div class=" d-flex flex-column justify-content-end text-right py-2">
+                    
+                    <h2 class="mb-0">{{ $dip_activity->months->count() }}</h2>
                 </div>
             </div>
             
-            <div class="col-md-4 mb-4">
-                <div class="card shadow-sm h-100 py-4">
-                    <div class="row no-gutters h-100">
-                        <div class="col-4 d-flex align-items-center justify-content-center" style="background-color: green;">
-                            <i class="fa fa-indent text-dark" aria-hidden="true" style="font-size: 24px;"></i>
-                        </div>
-                        <div class="col-8 d-flex flex-column justify-content-center text-right pr-4">
-                            <h4 class="mb-0">Completed Activities</h4>
-                            <h2 class="mb-0">{{ $monthsWithProgressCount }}</h2>
-                        </div>
-                    </div>
+            <div class="col-md-3 m-2 bg-primary rounded">
+                <div class=" d-flex flex-column justify-content-left text-left py-2">
+                    <h4 class="mb-0">Completed Activities</h4>
+                </div>
+                <div class=" d-flex flex-column justify-content-end text-right py-2">
+                    <h2 class="mb-0">{{ $monthsWithProgressCount }}</h2>
                 </div>
             </div>
             
-            <div class="col-md-4 mb-4">
-                <div class="card shadow-sm h-100 py-4">
-                    <div class="row no-gutters h-100">
-                        <div class="col-4 d-flex align-items-center justify-content-center" style="background-color: red;">
-                            <i class="fa fa-history text-dark" aria-hidden="true" style="font-size: 24px;"></i>
-                        </div>
-                        <div class="col-8 d-flex flex-column justify-content-center text-right pr-4">
-                            <h4 class="mb-0">Overdue</h4>
-                            <h2 class="mb-0">{{ $monthsWithoutProgressCount }}</h2>
-                        </div>
-                    </div>
+            <div class="col-md-4 m-2 bg-warning rounded">
+                <div class=" d-flex flex-column justify-content-start text-left py-2">
+                    <h4 class="mb-0">Overdue</h4>
                 </div>
+                <div class=" d-flex flex-column justify-content-end text-right py-2">
+                    <h2 class="mb-0">{{ $monthsWithoutProgressCount }}</h2>
+                </div>
+                  
             </div>
         </div>
     </div>
