@@ -5,44 +5,11 @@
     @section('title')
         Activity Progress Detail
     @endsection
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 m-2 bg-success rounded">
-                <div class="d-flex flex-column justify-content-start text-left py-2">
-                    <h4 class="mb-0">Total Months</h4>
-                </div>
-                <div class=" d-flex flex-column justify-content-end text-right py-2">
-                    
-                    <h2 class="mb-0">{{ $dip_activity->months->count() }}</h2>
-                </div>
-            </div>
-            
-            <div class="col-md-3 m-2 bg-primary rounded">
-                <div class=" d-flex flex-column justify-content-left text-left py-2">
-                    <h4 class="mb-0">Completed Activities</h4>
-                </div>
-                <div class=" d-flex flex-column justify-content-end text-right py-2">
-                    <h2 class="mb-0">{{ $monthsWithProgressCount }}</h2>
-                </div>
-            </div>
-            
-            <div class="col-md-4 m-2 bg-warning rounded">
-                <div class=" d-flex flex-column justify-content-start text-left py-2">
-                    <h4 class="mb-0">Overdue</h4>
-                </div>
-                <div class=" d-flex flex-column justify-content-end text-right py-2">
-                    <h2 class="mb-0">{{ $monthsWithoutProgressCount }}</h2>
-                </div>
-                  
-            </div>
-        </div>
-    </div>
-    
  
     <div class="container-fluid  mt-3">
         
         <input type="hidden" id="dip_activity" value="{{$dip_activity->id}}">
+
         <div class="card mb-5">
             <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
@@ -60,7 +27,6 @@
                                 </div>
                                 <div class="d-flex flex-column">
                                     <a href="javascript:;" class="text-dark text-hover-primary fs-6 fw-bold">Activity Detail</a>
-                                    
                                 </div>
                                 
                             </div>
@@ -70,13 +36,17 @@
                         <div class="accordion-body">
                             <div class="card-header border-0">
                                 <div class="row mb-5">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label class="fw-bold">Activity Number.#</label>
                                         <p>{{$dip_activity->activity_number ?? ''}}</p>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label class="fw-bold">LOP Target</label>
                                         <p>{{$dip_activity->lop_target ?? ''}}</p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="fw-bold">Project</label>
+                                        <p>{{$dip_activity->project?->name ?? ''}}</p>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="fw-bold">Activity Title</label>
@@ -131,43 +101,56 @@
                 </div>
             </div>
         </div>
+
         <div class="card mt-3">
             <div class="card-header">
-                <h5 class="card-title">Activity Progress Detail @if($dip_activity->activity_type)({{ $dip_activity->activity_type?->activity_type?->name  }} - {{  $dip_activity->activity_type?->name }})@endif</h5>
+                <h5 class="card-title">Activity - {{$dip_activity->activity_number ?? ''}}</h5>
+                <div class="card-tool mt-2">
+                    <span class="badge badge-success ">Total Months: {{ $dip_activity->months->count() }}</span>
+                    <span class="badge badge-primary ">Completed : {{ $monthsWithpostedCount }}</span>
+                    <span class="badge badge-info ">Returned : {{ $monthsWithreturnCount }}</span>
+                    <span class="badge badge-dark ">To Be Reviewed : {{ $monthstobreviewCount }}</span>
+                    <span class="badge badge-warning ">Pending : {{ $monthspending }}</span>
+                    <span class="badge badge-danger ">Overdue: {{ $monthsWithoutProgressCount }}</span>
+                </div>
             </div>
             <div class="card-body">
-                <table class="table table-bordered" id="activityQuarters">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th colspan="2" class="text-center">Activity</th>
-                            <th colspan="7" class="text-center">Beneficiary Target vs Achievement</th>
-                            <th colspan="5" class="fs-8"></th>
-                            
-                        </tr>
-                        <tr>
-                            <th class="fs-9">Action</th>
-                            <th class="fs-9">Month</th>
-                            <th class="fs-9" style="background-color: #f7d6d6fd">Target</th>
-                            <th class="fs-9" >Achievement</th>
-                            <th class="fs-9"  style="background-color: #f7d6d6fd">Target</th>
-                            <th class="fs-9" >Women</th>
-                            <th class="fs-9">Men</th>
-                            <th class="fs-9">Girls</th>
-                            <th class="fs-9">Boys</th>
-                            <th class="fs-9">PWD/CLWD</th>
-                            <th class="fs-9">Status</th>
-                            <th class="fs-9">Expected Completion Date</th>
-                            <th class="fs-9">Completed Date</th>
-                            <th class="fs-9">Image</th>
-                            <th class="fs-9">Attachemnt</th>
-                            <th class="fs-9">Remarks</th>
-                            <th class="fs-9">Created At</th>
-                            <th class="fs-9">Created By</th>
-                            
-                        </tr>
-                    </thead>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered nowrap" id="activityQuarters">
+                        <thead>
+                            <tr>
+                                <th>Action</th>
+                                <th></th>
+                                <th colspan="2" class="text-center">Activity</th>
+                                <th colspan="7" class="text-center">Beneficiary Target vs Achievement</th>
+                                <th colspan="5" class="fs-8"></th>
+                                
+                            </tr>
+                            <tr>
+                                
+                                <th class="fs-9"></th>
+                                <th class="fs-9">Month</th>
+                                <th class="fs-9" style="background-color: #f7d6d6fd">Target</th>
+                                <th class="fs-9" >Achievement</th>
+                                <th class="fs-9"  style="background-color: #f7d6d6fd">Target</th>
+                                <th class="fs-9" >Women</th>
+                                <th class="fs-9">Men</th>
+                                <th class="fs-9">Girls</th>
+                                <th class="fs-9">Boys</th>
+                                <th class="fs-9">PWD/CLWD</th>
+                                <th class="fs-9">Status</th>
+                                <th class="fs-9">Expected Completion Date</th>
+                                <th class="fs-9">Completed Date</th>
+                                <th class="fs-9">Image</th>
+                                <th class="fs-9">Attachemnt</th>
+                                <th class="fs-9">Remarks</th>
+                                <th class="fs-9">Created At</th>
+                                <th class="fs-9">Created By</th>
+                                
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -232,6 +215,7 @@
 
             });
         }
+
         function previewImage(image) {
             // Create a modal overlay
             var modal = document.createElement("div");
@@ -296,6 +280,7 @@
 
             });
         }
+
         function update_status(id){
             var baseURL = window.location.origin;
             var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -308,8 +293,6 @@
 
             });
         }
-
-        
     </script>
     
     @endpush

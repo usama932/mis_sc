@@ -293,6 +293,7 @@ class DipActivityController extends Controller
 
     public function get_activity_due(Request $request)
     {
+        
             $dipId = $request->dip_id;
 
             $limit = $request->input('length');
@@ -300,14 +301,18 @@ class DipActivityController extends Controller
             $order = $columns[$orderIndex] ?? 'id';
             $dir = $request->input('order.0.dir');
             $start = $request->input('start');
-        
+
             $user = auth()->user();
             $userRole = $user->getRoleNames()->first();
-        
-            $dipsQuery = DipActivity::when($dipId, function ($query) use ($dipId) {
-                $query->where('project_id', $dipId);
-            });
-        
+
+            if(!empty($dipId)){
+                $dipsQuery = DipActivity::where('project_id',$dipId);
+            }
+            else{
+                $dipsQuery = DipActivity::where('id','!=',0);
+            }
+            
+            
             switch ($userRole) {
                 case 'focal person':
                     $dipsQuery->whereHas('project', function ($query) use ($user) {
@@ -323,7 +328,7 @@ class DipActivityController extends Controller
                     break;
             }
         
-            $dipsQuery = DipActivity::whereHas('months', function ($query) {
+            $dipsQuery = $dipsQuery->whereHas('months', function ($query) {
                 $query->doesntHave('progress') // Check if the month does not have any progress
                     ->whereDate('completion_date', '<', Carbon::now()->toDateString()); // Check if the completion date is in the past
             })
@@ -462,49 +467,47 @@ class DipActivityController extends Controller
         ];
         
         $limit = $request->input('length');
-        $orderColumn = $columns[$request->input('order.0.column')];
-        $orderDirection = $request->input('order.0.dir');
         $start = $request->input('start');
         
         $quartersQuery = ActivityMonths::with('progress')
             ->where('activity_id', $activity_id)
-            ->where('project_id', $activity->project_id)
-            ->orderBy($orderColumn, $orderDirection);
+            ->where('project_id', $activity->project_id);
         
         $totalFiltered = $quartersQuery->count();
         $totalData = $quartersQuery->count();
-        $quarters = $quartersQuery->offset($start)->limit($limit)->get();
+        $quarters = $quartersQuery->orderBy('completion_date')->offset($start)->limit($limit)->get();
         
         $data = [];
         if ($quarters) {
             foreach ($quarters as $quarter) {
+                $project = Project::where('id',$quarter->project_id)->first();
                 if ($quarter->activity_id == $activity_id && $quarter->project_id == $activity->project_id) {
                     $nestedData = [
                         'quarter' => $quarter->quarter . '-' . $quarter->year ?? '',
                         'activity_target' => '<span  class="p-2 badeg badge-warning text-dark">' . ($quarter->target ?? '') . '</span>',
-                        'benefit_target' => $quarter->beneficiary_target ?? '',
+                        'benefit_target' => '<span  class="p-2 badeg badge-warning text-dark">' .($quarter->beneficiary_target ?? '') . '</span>',
                         'women_target' => $quarter->progress ? $quarter->progress->women_target ?? '0' : '0',
                         'men_target' => $quarter->progress ? $quarter->progress->men_target ?? '0' : '0',
                         'girls_target' => $quarter->progress ? $quarter->progress->girls_target ?? '0' : '0',
                         'boys_target' => $quarter->progress ? $quarter->progress->boys_target ?? '0' : '0',
                         'pwd_target' => $quarter->progress ? $quarter->progress->pwd_target ?? '0' : '0',
                         'activity_acheive' => $quarter->progress ? $quarter->progress->activity_target ?? '0' : '0',
-                        'status' => $quarter->status,
+                        'status' => $quarter->progress ? $quarter->status ?? $quarter->status : '',
                         'remarks' => $quarter->progress ? $quarter->progress->remarks ?? '' : '',
                         'created_at' => $quarter->created_at ? date('M d, Y', strtotime($quarter->created_at)) : '',
                         'created_by' => $quarter->user ? $quarter->user->remarks ?? '' : '',
                         'completion_date' => !empty($quarter->completion_date) ? '<span class="fs-9">' . date('M d, Y', strtotime($quarter->completion_date)) . '</span>' : '',
                         'completed_date' => $quarter->progress && !empty($quarter->progress->complete_date) ? '<span class="fs-9">' . date('M d, Y', strtotime($quarter->progress->complete_date)) . '</span>' : '',
-                        'image' => !empty($quarter->progress->image) ? '<img src="' . asset("storage/activity_progress/image/" . $quarter->progress->image) . '" alt="Image" style="width: 100px;" class="thumbnail" onclick="previewImage(this)">' : '',
-                        'attachment' => !empty($quarter->progress->attachment) ? '<a title="Edit" class="" href="' . route('download_progress_attachment', $quarter->progress->attachment) . '"><i class="fa fa-download text-dark" aria-hidden="true"></i></a>' : '',
+                        'image' => !empty($quarter->progress->image) ? '<img src="' . asset("storage/activity_progress/image/{$project->sof}/" . $quarter->progress->image) . '" alt="Image" style="width: 100px;" class="thumbnail" onclick="previewImage(this)">' : '',
+                        'attachment' => !empty($quarter->progress->attachment) ? '<a title="Edit" class="" href="' . route('download_progress_attachment', $quarter->progress->id) . '"><i class="fa fa-download text-dark" aria-hidden="true"></i></a>' : '',
                         'action' => '',
                     ];
-        
+                    $twoMonthsFromNow = Carbon::now()->addMonths(2);
                     if ($quarter->status == 'Returned' ) {
-                        $nestedData['action'] = '<div><td><a class="" href="javascript:void(0)" title="Edit status" onclick="event.preventDefault();edit_status(' . $quarter->progress->quarter_id . ');"><span class="badge bg-success text-white">Edit</span></a></td></div>';
+                        $nestedData['action'] = '<div><td><a class="" href="javascript:void(0)" title="Edit status" onclick="event.preventDefault();edit_status(' . $quarter->progress?->quarter_id . ');"><span class="badge bg-success text-white">Edit</span></a></td></div>';
                     } elseif (!auth()->user()->hasRole('partner') && $quarter->status == 'To be Reviewed' && $quarter->progress()->exists()) {
                         $nestedData['action'] = '<div><td><a class="" href="javascript:void(0)" title="Update status" onclick="event.preventDefault();update_status(' . $quarter->progress?->quarter_id . ');"><span class="badge bg-info btn-sm text-white">Update Status</span></a></td></div>';
-                    } elseif (!$quarter->progress()->exists()) {
+                    } elseif (!$quarter->progress()->exists() && $quarter->completion_date <= $twoMonthsFromNow) {
                         $nestedData['action'] = '<div><td><a class="" title="Add Progress" onclick="event.preventDefault();add_progress(' . $quarter->id . ');" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#add_progress_' . $quarter->id . '"><span class="badge bg-primary text-dark">Add Progress</span></a></td></div>';
                     }
         
@@ -598,23 +601,18 @@ class DipActivityController extends Controller
 
     public function show(string $id)
     {
-        $dip_activity = DipActivity::where('id',$id)->with('months','project','project.themes','user','user1')->first();
+        $dip_activity          = DipActivity::where('id',$id)->with('months','project','project.themes','user','user1')->first();
         
         $dip_activity_complete = $dip_activity->with(['months' => function($query) {
-            $query->has('progress');
-        }])->find($id);
+                                        $query->has('progress');
+                                    }])->find($id);
 
-        $monthsWithoutProgressCount = DipActivity::where('id', $id)
-            ->whereHas('months', function ($query) {
-                $query->doesntHave('progress')
-                    ->whereDate('completion_date', '<', Carbon::now()->toDateString());
-            })
-            ->withCount(['months as months_count' => function ($query) {
-                $query->doesntHave('progress')
-                    ->whereDate('completion_date', '<', Carbon::now()->toDateString());
-            }])
-            ->first()->months_count ?? '0';
-
+        $monthsWithpostedCount      = ActivityMonths::where('activity_id', $id)->where('status',"Posted")->whereHas('progress')->count();
+        $monthsWithoutProgressCount = ActivityMonths::where('activity_id', $id)->whereDate('completion_date', '<', Carbon::now()->toDateString())->whereDoesntHave('progress')->count();
+        $monthspending              = ActivityMonths::where('activity_id', $id)->whereDate('completion_date', '>', Carbon::now()->toDateString())->whereDoesntHave('progress')->count();
+        $monthstobreviewCount       = ActivityMonths::where('activity_id', $id)->where('activity_id', $id)->whereHas('progress')->where('status',"To be Reviewed")->count();
+        $monthsWithreturnCount      = ActivityMonths::where('activity_id', $id)->whereHas('progress')->where('status',"Returned")->count();
+      
         $monthsWithProgressCount = $dip_activity_complete->months->count() ?? '0';
 
         if(!empty($dip_activity->project->detail->province )){
@@ -640,7 +638,7 @@ class DipActivityController extends Controller
         addJavascriptFile('assets/js/custom/dip/dipquartereditValidation.js');
         //addJavascriptFile('assets/js/custom/dip/add_progress.js');
        
-        return view('admin.dip.show_dip_activity',compact('dip_activity','monthsWithoutProgressCount','monthsWithProgressCount','districts','provinces','months','quarters'));
+        return view('admin.dip.show_dip_activity',compact('dip_activity','monthsWithreturnCount','monthspending','monthstobreviewCount','monthsWithpostedCount','monthsWithoutProgressCount','monthsWithProgressCount','districts','provinces','months','quarters'));
     }
 
     public function edit(string $id)
@@ -861,10 +859,12 @@ class DipActivityController extends Controller
             ->first();
             if(!empty($quarter_month))
             {
+                $project = Project::where('id',$quarter->project_id)->first();
+
                 if($request->attachment){
-                    $path = storage_path("app/public/activity_progress/attachment" .$request->attachment);
+                    $path = storage_path("app/public/activity_progress/attachment/{$project->sof}/" .$request->attachment);
                     if(File::exists($path)){
-                        File::delete(storage_path('app/public/activity_progress/attachment'.$request->attachment));
+                        File::delete(storage_path('app/public/activity_progress/attachment/{$project->sof}/'.$request->attachment));
                     }
                     $file = $request->attachment;
                     $attachment = $file->getClientOriginalName();
@@ -872,9 +872,9 @@ class DipActivityController extends Controller
                 }
 
                 if($request->image){
-                    $path = storage_path("app/public/activity_progress/image" .$request->image);
+                    $path = storage_path("app/public/activity_progress/image/{$project->sof}/" .$request->image);
                     if(File::exists($path)){
-                        File::delete(storage_path('app/public/activity_progress/image'.$request->image));
+                        File::delete(storage_path('app/public/activity_progress/image/{$project->sof}/'.$request->image));
                     }
                     $file = $request->image;
                     $image = $file->getClientOriginalName();
@@ -1012,6 +1012,29 @@ class DipActivityController extends Controller
         }else{
             $double_count = 0;
         }
+        $project = Project::where('id',$quarters->project_id)->first();
+        $attachment =  $quarters->attachment;
+        $image =  $quarters->image;
+        if($request->attachment){
+         
+            $path = storage_path("app/public/activity_progress/attachment/{$project->sof}/" .$request->attachment);
+            if(File::exists($path)){
+                File::delete(storage_path("app/public/activity_progress/attachment/{$project->sof}/".$request->attachment));
+            }
+            $file = $request->attachment;
+            $attachment = $file->getClientOriginalName();
+            $file->storeAs("public/activity_progress/attachment/{$project->sof}",$attachment);
+        }
+
+        if($request->image){
+            $path = storage_path("app/public/activity_progress/image/{$project->sof}/" .$request->image);
+            if(File::exists($path)){
+                File::delete(storage_path('app/public/activity_progress/image/{$project->sof}/'.$request->image));
+            }
+            $file = $request->image;
+            $image = $file->getClientOriginalName();
+            $file->storeAs("public/activity_progress/image/{$project->sof}",$image);
+        }
         $quarter = ActivityProgress::where('id',$id)->update([
                 'activity_target'   => $request->activity_target,
                 'women_target'      => $request->women_target,
@@ -1019,6 +1042,8 @@ class DipActivityController extends Controller
                 'girls_target'      => $request->girls_target,
                 'boys_target'       => $request->boys_target,
                 'pwd_target'        => $request->pwd_target,
+                'attachment'        => $attachment,
+                'image'             => $image,
                 'double_count'      => $double_count,
                 'remarks'           => $request->remarks,
         ]);
@@ -1052,9 +1077,10 @@ class DipActivityController extends Controller
 
     public function download_progress_attachment($filename)
     {
-     
-      
-        $path = public_path("storage/activity_progress/attachment/" . $filename);
+        
+        $progress = ActivityProgress::where('id',$filename)->first();
+        $project = Project::where('id',$progress->project_id)->first();
+        $path = public_path("storage/activity_progress/attachment/{$project->sof}/" . $progress->attachment);
 
         if (!file_exists($path)) {
             // Output error or log it

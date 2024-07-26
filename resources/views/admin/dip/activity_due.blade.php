@@ -54,7 +54,7 @@
         <div class="card-body">
         
             <div class="table-responsive overflow-*">
-                <table class="table table-striped table-bordered nowrap table-sm" id="dip_complete_activity" style="width:100%">
+                <table class="table table-striped table-bordered nowrap table-sm" id="dip_due_activity" style="width:100%">
                     <thead>
                         <tr>
                             <th>Activity</th>

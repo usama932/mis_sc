@@ -1,15 +1,15 @@
 var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 $(document).ready(function () {
     function initDataTable(dipId) {
-        $('#dip_complete_activity').DataTable({
+        $('#dip_due_activity').DataTable({
             "order": [[1, 'desc']],
             "dom": 'lfBrtip',
             buttons: [
                 {
                     extend: 'excelHtml5',
-                    filename: 'Project Profile Data export_',
+                    filename: 'Overdue Progress Activities',
                     text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
-                    title: 'Themetic area Data export',
+                    title: 'Overdue Progress Activities',
                     className: 'badge badge-outline-success mb-4',
                     exportOptions: {
                         columns: [0,1,2,3,4,5,6,7]
@@ -17,10 +17,10 @@ $(document).ready(function () {
                 },
                 {
                 extend: 'csvHtml5',
-                filename: 'Project Profile Data CSV_',
-                text: '<i class="fa fa-download text-warning mx-1"></i> CSV',
-                title: 'Themetic area Data',
-                className: 'badge badge-outline-success',
+                filename: 'Overdue Progress Activities',
+                text: '<i class="fa fa-download text-warning "></i> CSV',
+                title: 'Overdue Progress Activities',
+                className: 'badge badge-success',
                 exportOptions: {
                     columns: [0,1,2,3,4,5,6,7]
                 }
@@ -30,7 +30,7 @@ $(document).ready(function () {
             "serverSide": true,
             "searching": false,
             "bLengthChange": true,
-            "aLengthMenu": [[10, 50, 100, -1], [10, 50, 100, "All"]],
+            "aLengthMenu": [[10, 50, 100], [10, 50, 100]],
             "bInfo" : false,
             "responsive": false,
             "info": true,
@@ -59,11 +59,11 @@ $(document).ready(function () {
     }
 
     $('#project').change(function () {
-            var table = $('#dip_complete_activity').DataTable();
-            table.destroy();
-            var dipId = $(this).val();
-            initDataTable(dipId);
-        });
+        var table = $('#dip_due_activity').DataTable();
+        table.destroy();
+        var dipId = $(this).val();
+        initDataTable(dipId);
+    });
 
-    initDataTable($('#project').val());
+initDataTable($('#project').val());
 });

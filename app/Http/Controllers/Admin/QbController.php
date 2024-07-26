@@ -93,7 +93,7 @@ class QbController extends Controller
         $filters = [
             'district' => $request->kt_select2_district,
             'province' => $request->kt_select2_province,
-            'assesment_code' => $request->assesment_code,
+            'assement_code' => $request->assesment_code,
             'accompanied_by' => $request->accompanied_by,
             'type_of_visit' => $request->visit_type,
             'project_type' => $request->project_type,

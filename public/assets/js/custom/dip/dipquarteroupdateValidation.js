@@ -1,16 +1,37 @@
 var activity_id = document.getElementById("dip_activity").value ;
 var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 var activityQuarters = $('#activityQuarters').DataTable({
-    "order": [[1, 'desc']],
-   
-    "responsive": true, // Enable responsive mode
-    "processing": true,
-    "serverSide": true,
-    "searching": false,
-    "bLengthChange": false,
-    "bInfo" : false,
-    "responsive": false,
-    "info": false,   
+        "dom": 'lfBrtip',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                filename: 'Activity Progress Detail',
+                text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
+                title: 'Activity Progress Detail',
+                className: 'badge badge-success',
+                exportOptions: {
+                    columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+                }
+            },
+            {
+            extend: 'csvHtml5',
+            filename: 'Activity Progress Detail',
+            text: '<i class="fa fa-download text-warning mx-1"></i> CSV',
+            title: 'Activity Progress Detail',
+            className: 'badge badge-success',
+            exportOptions: {
+                columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+            }
+         }
+        ],
+        "processing": true,
+        "serverSide": true,
+        "searching": false,
+        "bLengthChange": true,
+        "aLengthMenu": [[10, 50, 100], [10, 50, 100]],
+        "bInfo" : false,
+        "responsive": false,
+        "info": true,
     "ajax": {
         "url":"/activity_Quarters",
         "dataType":"json",

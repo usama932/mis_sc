@@ -380,7 +380,7 @@
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot"></span>
                                             </span>
-                                            <span class="menu-title">OversDue Activities</span>
+                                            <span class="menu-title">Overdue Activities</span>
                                         </a>
                                         <!--end:Menu link-->
                                     </div>

@@ -1,4 +1,4 @@
-<form id="edit_quarter_status_form" method="post" autocomplete="off" action="{{ route('quarterstatus.edit',$progress->id) }}">   
+<form id="edit_quarter_status_form" method="post" autocomplete="off" action="{{ route('quarterstatus.edit',$progress->id) }}" enctype="multipart/form-data">   
     @csrf
     @method('post') <!-- Assuming you are using PUT method for updating -->
     <input type="hidden" name="project_id" value="{{ $progress->project_id }}">
@@ -119,7 +119,7 @@
 </form>
 
 <script>
-  $(document).ready(function() {
+$(document).ready(function() {
     $('#kt_edit_quarter_status_form').click(function(e) {
         e.preventDefault();
         
@@ -130,6 +130,8 @@
         var girlsTarget = $('#girls_target').val();
         var boysTarget = $('#boys_target').val();
         var remarks = $('#remarks').val();
+        var attachment = $('#attachment').prop('files')[0];
+        var image = $('#image').prop('files')[0];
         
         if (!activityTarget || activityTarget === "") {
             $('#activity_targetError').text('Please enter Monthly Target');
@@ -173,12 +175,15 @@
             $('#remarksError').text('');
         }
 
-    
+        // Create FormData object
+        var formData = new FormData($('#edit_quarter_status_form')[0]);
         
         $.ajax({
             url: $('#edit_quarter_status_form').attr('action'),
             type: 'post',
-            data: $('#edit_quarter_status_form').serialize(),
+            data: formData,
+            processData: false,  // Prevent jQuery from automatically transforming the data into a query string
+            contentType: false,  // Prevent jQuery from setting Content-Type
             beforeSend: function() {
                 $('#loadingSpinner').show();
                 $('#kt_edit_quarter_status_form').hide();
@@ -213,7 +218,6 @@
             },
             error: function(xhr) {
                 // Handle errors
-                
                 if(xhr){
                     toastr.options = {
                         "closeButton": false,
@@ -242,5 +246,6 @@
         });
     });
 });
+
 
 </script>
