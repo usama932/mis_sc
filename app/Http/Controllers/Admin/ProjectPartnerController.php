@@ -224,10 +224,10 @@ class ProjectPartnerController extends Controller
     {
         $project_partner = ProjectPartner::where('id' ,$id)->first();
         if(!empty($project_partner)){
-            $user = User::where('email',$project_partner->email)->first();
-            if(!empty($user)){
-                $user->delete();
-            }
+            // $user = User::where('email',$project_partner->email)->first();
+            // if(!empty($user)){
+            //     $user->delete();
+            // }
           
             $project_partner->delete();
         }

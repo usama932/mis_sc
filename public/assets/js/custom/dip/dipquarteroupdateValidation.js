@@ -10,7 +10,7 @@ var activityQuarters = $('#activityQuarters').DataTable({
                 title: 'Activity Progress Detail',
                 className: 'badge badge-success',
                 exportOptions: {
-                    columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+                    columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]
                 }
             },
             {
@@ -20,7 +20,7 @@ var activityQuarters = $('#activityQuarters').DataTable({
             title: 'Activity Progress Detail',
             className: 'badge badge-success',
             exportOptions: {
-                columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+                columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]
             }
          }
         ],
@@ -59,7 +59,8 @@ var activityQuarters = $('#activityQuarters').DataTable({
         {"data":"remarks","searchable":false,"orderable":false},
         {"data":"created_at","searchable":false,"orderable":false},
         {"data":"created_by","searchable":false,"orderable":false},
-      
+        {"data":"updated_at","searchable":false,"orderable":false},
+        {"data":"updated_by","searchable":false,"orderable":false},
     ]
 });
 

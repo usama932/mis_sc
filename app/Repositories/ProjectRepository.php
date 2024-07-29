@@ -80,6 +80,7 @@ class ProjectRepository implements ProjectRepositoryInterface
         return $project_details;
          
     }
+    
     public function updatebasicproject($data,$id)
     { 
         

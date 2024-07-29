@@ -146,7 +146,8 @@
                                 <th class="fs-9">Remarks</th>
                                 <th class="fs-9">Created At</th>
                                 <th class="fs-9">Created By</th>
-                                
+                                <th class="fs-9">Updated At</th>
+                                <th class="fs-9">Updated By</th>
                             </tr>
                         </thead>
                     </table>

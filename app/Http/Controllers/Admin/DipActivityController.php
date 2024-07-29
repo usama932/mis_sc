@@ -13,6 +13,7 @@ use App\Models\Project;
 use App\Models\User;
 use App\Models\ProjectActivityType;
 use App\Models\ActivityProgress;
+use App\Models\SCITheme;
 use Illuminate\Support\Facades\Mail;
 use File;
 use DateTime;
@@ -35,6 +36,8 @@ class DipActivityController extends Controller
     
     public function get_activity_dips(Request $request)
     {
+
+        
         $dip_id = $request->dip_id;
         $columns = [
             1 => 'id',
@@ -56,8 +59,6 @@ class DipActivityController extends Controller
             $order = 'id'; // Or any other default column name
         }
         $dir = $request->input('order.0.dir');
-    
-       
     
         $start = $request->input('start');
     
@@ -100,7 +101,9 @@ class DipActivityController extends Controller
          
             $dipsQuery;
         }
-       
+        if(!empty($request->subtheme_id) &&  $request->subtheme_id != null){
+            $dipsQuery->where('subtheme_id',$request->subtheme_id);
+        }
         $totalFiltered =  $dipsQuery->count();
         $dips = $dipsQuery->limit($limit)
             ->offset($start)
@@ -136,7 +139,7 @@ class DipActivityController extends Controller
                 $quarterTarget = '<ul style="list-style-type: none; padding: 0; margin: 0;">';
                 foreach ($r->months as $month) {
                     if ($month->activity_id == $r->id && $month->project_id == $r->project_id) {
-                        $quarterTarget .= '<li><strong>' . $month->quarter.'-'.$month->year . ':</strong> ' . $month->target . '</li>';
+                        $quarterTarget .= '<li><strong>' . $month->quarter.'-'.$month->year . ':</strong> ' . $month->target . ', </li>';
                     }
                 }
                 $quarterTarget .= '</ul>';
@@ -495,7 +498,9 @@ class DipActivityController extends Controller
                         'status' => $quarter->progress ? $quarter->status ?? $quarter->status : '',
                         'remarks' => $quarter->progress ? $quarter->progress->remarks ?? '' : '',
                         'created_at' => $quarter->created_at ? date('M d, Y', strtotime($quarter->created_at)) : '',
-                        'created_by' => $quarter->user ? $quarter->user->remarks ?? '' : '',
+                        'created_by' => $quarter->user ? $quarter->user->name  ?? '' : '',
+                        'updated_by' => $quarter->user1 ? $quarter->user1->name ?? '' : '',
+                        'updated_at' => $quarter->updated_at ? date('M d, Y', strtotime($quarter->updated_at)) : '',
                         'completion_date' => !empty($quarter->completion_date) ? '<span class="fs-9">' . date('M d, Y', strtotime($quarter->completion_date)) . '</span>' : '',
                         'completed_date' => $quarter->progress && !empty($quarter->progress->complete_date) ? '<span class="fs-9">' . date('M d, Y', strtotime($quarter->progress->complete_date)) . '</span>' : '',
                         'image' => !empty($quarter->progress->image) ? '<img src="' . asset("storage/activity_progress/image/{$project->sof}/" . $quarter->progress->image) . '" alt="Image" style="width: 100px;" class="thumbnail" onclick="previewImage(this)">' : '',
@@ -760,7 +765,6 @@ class DipActivityController extends Controller
     public function activity_progress(){
       
         if(auth()->user()->hasRole('partner')){
-          
             $projects = Project::whereHas('partners', function ($query) {
                 $query->where('email', auth()->user()->email);
             })->orderBy('name')->get();
@@ -768,11 +772,14 @@ class DipActivityController extends Controller
         elseif(auth()->user()->hasRole('focal_person')){
             $projects = Project::whereJsonContains('focal_person',auth()->user()->id)->orderBy('name')->get();
         }else{
-           
             $projects = Project::orderBy('name')->get();
         }
+
+        $themes = SCITheme::all()->sortBy('name');
+
         addVendors(['datatables']);
-        return view('admin.dip.activity_progress',compact('projects'));
+        addJavascriptFile('assets/js/custom/dip/manage_activities.js');
+        return view('admin.dip.activity_progress',compact('projects','themes'));
     }
 
     public function activity_complete(){
@@ -947,7 +954,8 @@ class DipActivityController extends Controller
                
             }
             ActivityMonths::where('id',$request->quarter)->update([
-                'status'   => "To be Reviewed",
+                'status'        => "To be Reviewed",
+                'updated_by'    => auth()->user()->id,
             ]);
             return response()->json([
                 'editUrl' => $editUrl,
@@ -972,6 +980,7 @@ class DipActivityController extends Controller
         ActivityMonths::where('id', $id)->update([
             'status'  => $request->status,
             'remarks' => $request->remarks,
+            'updated_by'    => auth()->user()->id,
         ]);
         $quarter = ActivityMonths::find($id);
 
@@ -1046,6 +1055,7 @@ class DipActivityController extends Controller
                 'image'             => $image,
                 'double_count'      => $double_count,
                 'remarks'           => $request->remarks,
+                'updated_by'        => auth()->user()->id,
         ]);
         ActivityMonths::where('id',$quarters->quarter_id)->update([
             'status'   => "To be Reviewed",
@@ -1056,8 +1066,9 @@ class DipActivityController extends Controller
     public function activtyquarter_update(Request $request,$id)
     {
         $quarter = ActivityMonths::where('id',$id)->update([
-            'target' => $request->target_quarter,
-            'beneficiary_target' => $request->target_benefit,
+            'target'                => $request->target_quarter,
+            'beneficiary_target'    => $request->target_benefit,
+            'updated_by'            => auth()->user()->id,
         ]);
         return response()->json(['error' => false,'quarter' => $quarter ]);
 

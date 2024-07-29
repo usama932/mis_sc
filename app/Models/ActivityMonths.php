@@ -32,4 +32,8 @@ class ActivityMonths extends Model
     {
         return $this->belongsTo(User::class,'created_by','id');
     }
+    public function user1()
+    {
+        return $this->belongsTo(User::class,'updated_by','id');
+    }
 }
