@@ -88,6 +88,28 @@ var KTupdateProgressValidate = function () {
                             }
                         }
                     },
+                    'boys_target': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Boys Target is required'
+                            },
+                            numeric: {
+                                message: 'Boys Target  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Individual Target must be a positive number'
+                            }
+                        }
+                    },
+                    'remarks': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Boys Target is required'
+                            },
+                           
+                        }
+                    },
                     'attachment': {
                         validators: {
                             notEmpty: {

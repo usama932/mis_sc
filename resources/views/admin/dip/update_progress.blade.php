@@ -114,7 +114,7 @@
                         </div>
                         <div class="fv-row col-md-12 mt-3">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                                <span class="">Remarks</span>
+                                <span class="required">Remarks</span>
                             </label>
                             <textarea type="text" name="remarks" rows id="remarks" placeholder="Enter Remarks" class="form-control" value=""></textarea>
                             <div id="achieve_targetError" class="error-message "></div>
