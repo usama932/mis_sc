@@ -241,58 +241,68 @@
         </div>
     </div>
 
-@push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
-<script>
-
-function exportToExcel(project) {
-    // Get the HTML table element
-    var table = document.querySelector('.table');
-    var project = document.getElementById("project_id").value;
-    // Create a new workbook
-    var wb = XLSX.utils.book_new();
-
-    // Convert table to worksheet, considering the first row as headers
-    var ws = XLSX.utils.table_to_sheet(table, { header: 1 });
-
-    // Customize styles for heading rows
-    var headingStyles = [
-        {
-            font: { bold: true }, // Example: make the font bold
-            fill: { fgColor: { rgb: "FFFF00" } } // Example: set background color to yellow
-            // Add more style properties as needed
-        },
-        {
-            font: { bold: true }, // Example: make the font bold
-            fill: { fgColor: { rgb: "FF0000" } } // Example: set background color to red
-            // Add more style properties as needed
+    @push('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+    <script>
+        function exportToExcel() {
+            var table = document.querySelector('.table');
+            var project = document.getElementById("project_id").value;
+        
+            var wb = XLSX.utils.book_new();
+            var ws = XLSX.utils.table_to_sheet(table, { header: 1 });
+        
+            var merges = [];
+            var tableRows = table.querySelectorAll('tr');
+        
+            tableRows.forEach((tr, rowIndex) => {
+                var cells = tr.querySelectorAll('th, td');
+                cells.forEach((cell, cellIndex) => {
+                    var colspan = cell.getAttribute('colspan');
+                    var rowspan = cell.getAttribute('rowspan');
+                    if (colspan || rowspan) {
+                        var merge = {
+                            s: { r: rowIndex, c: cellIndex },
+                            e: { r: rowIndex + (parseInt(rowspan, 10) || 1) - 1, c: cellIndex + (parseInt(colspan, 10) || 1) - 1 }
+                        };
+                        merges.push(merge);
+                    }
+                });
+            });
+        
+            ws['!merges'] = merges;
+        
+            // Define styles
+            var headingStyles = {
+                font: { bold: true },
+                fill: { fgColor: { rgb: "FFFF00" } },
+                alignment: { horizontal: "center", vertical: "center" }
+            };
+        
+            var cellStyles = {
+                alignment: { horizontal: "center", vertical: "center" }
+            };
+        
+            // Apply styles to the header row and other cells
+            var range = XLSX.utils.decode_range(ws["!ref"]);
+            for (var row = range.s.r; row <= range.e.r; row++) {
+                for (var col = range.s.c; col <= range.e.c; col++) {
+                    var cellAddress = XLSX.utils.encode_cell({ r: row, c: col });
+                    if (ws[cellAddress]) {
+                        if (row === 0) {
+                            ws[cellAddress].s = headingStyles;
+                        } else {
+                            ws[cellAddress].s = cellStyles;
+                        }
+                    }
+                }
+            }
+        
+            XLSX.utils.book_append_sheet(wb, ws, "Sheet 1");
+            XLSX.writeFile(wb, project + '_DIP.xlsx');
         }
-        // Add more styles for alternates as needed
-    ];
+    </script>
+    @endpush
+    
+    
 
-    // Get the range of the worksheet
-    var range = XLSX.utils.decode_range(ws["!ref"]);
-
-    // Iterate over each cell in the first row (header row)
-    for (var col = range.s.c; col <= range.e.c; col++) {
-        var cellAddress = XLSX.utils.encode_cell({ r: range.s.r, c: col });
-        // Check if the cell exists in the worksheet
-        if (ws[cellAddress]) {
-            // Set styles for header cells alternating between styles in headingStyles
-            var styleIndex = col % headingStyles.length;
-            ws[cellAddress].s = headingStyles[styleIndex];
-        }
-    }
-
-    // Add the worksheet to the workbook
-    XLSX.utils.book_append_sheet(wb, ws, "Sheet 1");
-
-    // Save the workbook as an Excel file with dynamic file name
-    XLSX.writeFile(wb, project + '_DIP.xlsx');
-}
-
-</script>
-
-
-@endpush
 </x-nform-layout>
