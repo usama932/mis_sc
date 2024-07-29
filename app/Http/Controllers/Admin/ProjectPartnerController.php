@@ -167,6 +167,18 @@ class ProjectPartnerController extends Controller
                     'error' => "false"
                 ]);
             }
+            elseif($projectpartner == 0){
+                
+                $active = 'partner';
+                session(['project' => $active]);
+                $editUrl = route('project.detail',$request->project);
+                return response()->json([
+                    'message' => "Duplicate Email Error",
+                    'editUrl' => $editUrl,
+                    'error' => "true"
+                ]);
+              
+            }
             else{
                 $active = 'partner';
                 session(['project' => $active]);

@@ -843,16 +843,16 @@ class DipActivityController extends Controller
                 'message' => "Quarterly Progress must less than Quarterly target"
             ]);
         }
-        $beneficiary_target = $request->women_target + $request->men_target + $request->girls_target + $request->boys_target;
+        // $beneficiary_target = $request->women_target + $request->men_target + $request->girls_target + $request->boys_target;
 
-        if($beneficiary_target > intval($request->benefit_target)) {
-            $editUrl = redirect()->back();
-            return response()->json([
-                'editUrl' => $editUrl,
-                'error'   => true,
-                'message' => "Beneficiaries progress must be less than or equal to Beneficiaries Target"
-            ]);
-        }
+        // if($beneficiary_target > intval($request->benefit_target)) {
+        //     $editUrl = redirect()->back();
+        //     return response()->json([
+        //         'editUrl' => $editUrl,
+        //         'error'   => true,
+        //         'message' => "Beneficiaries progress must be less than or equal to Beneficiaries Target"
+        //     ]);
+        // }
         if(!empty($data['double_count']) && $data['double_count'] == 'on'){
             $double_count = 1;
             

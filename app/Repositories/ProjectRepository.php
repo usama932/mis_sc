@@ -163,58 +163,65 @@ class ProjectRepository implements ProjectRepositoryInterface
                     ]);
                     $userr = User::latest()->first();
                     $userr->assignRole("partner");
-                  
-                }
-            
-                $projectPartner = ProjectPartner::create([
-                    'partner_id'      => $data['partner'],
-                    'project_id'      => $data['project'],
-                    'email'           => $user->email,
-                    'designation'     => $row['desig'],
-                    'created_by'      => auth()->user()->id,
-                ]);
-                //Insert themes
-                foreach ($data['theme'] as $themeId) {
-                    $user_theme = UserTheme::where('theme_id',$themeId)->where('user_id',$user->id)->where('partner_id',$projectPartner->id)->first();
-                    if(empty($user_theme)){
-                        UserTheme::firstOrCreate([
-                            'theme_id' => $themeId,
-                            'user_id' => $user->id,
-                            'partner_id' => $projectPartner->id
-                        ]);
-                    }
-                }
-                
-                foreach ($data['district'] as $districtId) {
-                    $district = District::where('district_id',$districtId)->first();
-                    if ($district) {
-                        $user_district = UserProvinceDistricts::where('province_id',$district->provinces_id)
-                        ->where('district_id',$districtId)->where('user_id',$user->id)->where('partner_id',$projectPartner->id)->first();
-                        if(empty($user_district)){
-                            UserProvinceDistricts::firstOrCreate([
-                                'province_id' => $district->provinces_id,
-                                'district_id' => $districtId,
+
+                    $projectPartner = ProjectPartner::create([
+                        'partner_id'      => $data['partner'],
+                        'project_id'      => $data['project'],
+                        'email'           => $user->email,
+                        'designation'     => $row['desig'],
+                        'created_by'      => auth()->user()->id,
+                    ]);
+                    //Insert themes
+                    foreach ($data['theme'] as $themeId) {
+                        $user_theme = UserTheme::where('theme_id',$themeId)->where('user_id',$user->id)->where('partner_id',$projectPartner->id)->first();
+                        if(empty($user_theme)){
+                            UserTheme::firstOrCreate([
+                                'theme_id' => $themeId,
                                 'user_id' => $user->id,
                                 'partner_id' => $projectPartner->id
                             ]);
                         }
                     }
+                    
+                    foreach ($data['district'] as $districtId) {
+                        $district = District::where('district_id',$districtId)->first();
+                        if ($district) {
+                            $user_district = UserProvinceDistricts::where('province_id',$district->provinces_id)
+                            ->where('district_id',$districtId)->where('user_id',$user->id)->where('partner_id',$projectPartner->id)->first();
+                            if(empty($user_district)){
+                                UserProvinceDistricts::firstOrCreate([
+                                    'province_id' => $district->provinces_id,
+                                    'district_id' => $districtId,
+                                    'user_id' => $user->id,
+                                    'partner_id' => $projectPartner->id
+                                ]);
+                            }
+                        }
+                    }
+
+                    $userCreatedWithinLastHour = User::where('id',$user->id)->where('created_at', '>=', Carbon::now()->subHour())->first();
+                    if (empty($userCreatedWithinLastHour)) {
+                        $details = [
+                            'title' => 'Save the children',
+                            "password" => "12345678",
+                            'email'   => $user->email,
+                            'project' => $project->name,
+                            'partner' => $partner->name
+                        ];
+                        Mail::to($email)->send(new \App\Mail\partnerMail($details));
+                    }
+                    
+                    DB::commit();
+                    return 1;
                 }
-                $userCreatedWithinLastHour = User::where('id',$user->id)->where('created_at', '>=', Carbon::now()->subHour())->first();
-                if (empty($userCreatedWithinLastHour)) {
-                    $details = [
-                        'title' => 'Save the children',
-                        "password" => "12345678",
-                        'email'   => $user->email,
-                        'project' => $project->name,
-                        'partner' => $partner->name
-                    ];
-                    Mail::to($email)->send(new \App\Mail\partnerMail($details));
+                else{
+                    
+                    
+                    return 0;
                 }
-              
+               
             }
-            DB::commit();
-            return 1;
+            
         } 
         catch (\Exception $e) {
             $x =  $e->getMessage();
