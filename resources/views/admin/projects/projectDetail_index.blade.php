@@ -98,7 +98,7 @@
 
                     title: '',
 
-                    className: 'btn btn-outline-success',
+                    className: 'btn btn-success',
 
                     exportOptions: {
 
@@ -118,7 +118,7 @@
 
                     title: '',
 
-                    className: 'btn btn-outline-success',
+                    className: 'btn btn-success',
 
                     exportOptions: {
 

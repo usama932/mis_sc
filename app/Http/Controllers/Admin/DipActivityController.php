@@ -230,7 +230,7 @@ class DipActivityController extends Controller
                     $query->whereHas('progress', function ($query) {
                         $query->whereIn('status', ['To be Reviewed', 'Returned', 'Posted']);
                     });
-                });
+                }, '=', DB::raw('(SELECT COUNT(*) FROM dip_activity_months WHERE dip_activity_months.activity_id = dip_activity.id)'));
             });
            
             
@@ -568,8 +568,8 @@ class DipActivityController extends Controller
         })->toArray();
 
         $data = $request->except('_token');
-        $dip = DipActivity::where('activity_title',$request->activity)->where('subtheme_id',$request->sub_theme)->first();
-        $dips = DipActivity::where('activity_number',$request->activity_number)->where('subtheme_id',$request->sub_theme)->first();
+        $dip = DipActivity::where('activity_title',$request->activity)->where('subtheme_id',$request->sub_theme)->where('project_id',$request->project_id)->first();
+        $dips = DipActivity::where('activity_number',$request->activity_number)->where('subtheme_id',$request->sub_theme)->where('project_id',$request->project_id)->first();
         $editUrl = route('dips.edit',$request->project_id);
        
         if(empty($dip) && empty($dips)){

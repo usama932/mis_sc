@@ -1,32 +1,109 @@
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    .stats-box {
+        padding: 20px;
+        border-radius: 10px;
+        color: white;
+    }
+    .stats-box .icon {
+        font-size: 2.5rem;
+    }
+    .bg-primary {
+        background-color: #007bff !important;
+    }
+    .bg-success {
+        background-color: #28a745 !important;
+    }
+    .bg-warning {
+        background-color: #ffc107 !important;
+    }
+    .bg-danger {
+        background-color: #dc3545 !important;
+    }
+</style>
 <x-default-layout>
-  
-    
-    @section('title')
-        Activity Progress Detail
-    @endsection
- 
+    @section('title', 'Activity progress details')
     <div class="container-fluid  mt-3">
+        <div class="row mb-5">
+            <div class="col-lg-6 col-6">
+                <!-- small box -->
+                <div class="card stats-box bg-danger">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h3>{{ $dip_activity->months->count() }}</h3>
+                                <p>Total Months:</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-shopping-cart text-light"></i>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between mb-4 text-white">
+                            <div class="justify-content-start font-weight-boldest">
+                                Overdue: {{ $monthsWithoutProgressCount }}
+                            </div>
+                            <div class="justify-content-end font-weight-boldest">
+                                Completed: {{ $monthsWithpostedCount }}
+                            </div>
+                        </div>
+                        <div class="progress mt-3" style="height: 10px;">
+                            
+                            <div class="progress-bar bg-light" role="progressbar" style="width: 70%; " aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-6 col-6">
+                <!-- small box -->
+                <div class="card stats-box bg-success">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h3>{{ $monthstobreviewCount }}</h3>
+                                <p>To Be Reviewed </p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-chart-bar text-light"></i>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between mb-4 text-white">
+                            <div class="justify-content-start font-weight-boldest">
+                                Returned : {{ $monthsWithreturnCount }}
+                            </div>
+                            <div class="justify-content-end font-weight-boldest">
+                                Pending : {{ $monthspending }}
+                            </div>
+                        </div>
+                        <div class="progress mt-3" style="height: 10px;">
+                            <div class="progress-bar bg-light" role="progressbar" style="width: 53%;" aria-valuenow="53" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                  
+                </div>
+            </div>
+          
+        </div>
+        <!-- /.row -->
         
-        <input type="hidden" id="dip_activity" value="{{$dip_activity->id}}">
-
-        <div class="card mb-5">
+        
+        <div class="card">
             <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
                     <h3 class="accordion-header" id="headingOne">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                             <div class="d-flex align-items-center">
                                 <!--begin::Symbol-->
-                                <div class="symbol symbol-10px me-5">
+                                {{-- <div class="symbol symbol-10px me-5">
                                     <span class="symbol-label bg-light-danger">
                                         <i class="fa fa-info-circle fs-2x text-success">
                                             <span class="path1"></span>
                                             <span class="path2"></span>
                                         </i>
                                     </span>
-                                </div>
+                                </div> --}}
                                 <div class="d-flex flex-column">
-                                    <a href="javascript:;" class="text-dark text-hover-primary fs-6 fw-bold">Activity Detail</a>
+                                    <a href="javascript:;" class="text-dark text-hover-primary fs-6 fw-bold">#{{$dip_activity->activity_number ?? '--'}} - {{$dip_activity->activity_title  ?? ''}}</a>
                                 </div>
                                 
                             </div>
@@ -34,68 +111,79 @@
                     </h3>
                     <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                            <div class="card-header border-0">
-                                <div class="row mb-5">
-                                    <div class="col-md-4">
-                                        <label class="fw-bold">Activity Number.#</label>
-                                        <p>{{$dip_activity->activity_number ?? ''}}</p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="fw-bold">LOP Target</label>
-                                        <p>{{$dip_activity->lop_target ?? ''}}</p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="fw-bold">Project</label>
-                                        <p>{{$dip_activity->project?->name ?? ''}}</p>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label class="fw-bold">Activity Title</label>
-                                        <p>{{$dip_activity->activity_title ?? ''}}</p>
-                                    </div>
-                                    
-                                    <div class="col-md-4">
-                                        <label class="fw-bold">Thematic Area</label>
-                                        <p class="fs-8">{{$dip_activity->scisubtheme_name?->maintheme?->name ?? ''}}</p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="fw-bold">Donor</label>
-                                        <p>{{$dip_activity->project->donors->name ?? ''}}</p>
-                                    </div>
-                                    
-                                    <div class="col-md-4">
-                                        <label class="fw-bold">SOF</label>
-                                        <p>{{$dip_activity->project->sof ?? ''}}</p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="fw-bold">Provinces</label>
-                                        <p class='fs-8'>
-                                            @if(!empty($provinces))
+                           
+                                @php
+                                    $provinces = [];
+                                    $districts = [];
+                                    if($dip_activity->project?->detail?->district != null) {
+                                        $district_project = json_decode($dip_activity->project->detail?->district , true);
+                                        $districts = App\Models\District::whereIn('district_id', $district_project)->get();
+                                    }
+                                
+                                    if($dip_activity->project?->detail?->province != null) {
+                                        $province_project = json_decode($dip_activity->project->detail->province , true);
+                                        $provinces =  App\Models\Province::whereIn('province_id', $province_project)->get();
+                                    }
+                                                
+                                @endphp
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th width='10%'><strong>Project</strong></th>
+                                            <td width='25%'>{{$dip_activity->project?->name ?? '--'}}</td>
+                                            <th  width='10%'>SOF</th>
+                                            <td width='20%'>{{$dip_activity->project?->sof ?? '--'}}</td>
+                                            <th  width='10%'>Donor</th>
+                                            <td width='25%'>{{$dip_activity->project?->donors?->name ?? '--'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Province</th>
+                                            <td>
                                                 @foreach($provinces as $province)
-                                                    {{ $province}}@if(! $loop->last), @endif
+                                                    {{ $province->province_name ?? '--' }}@if(! $loop->last), @endif
                                                 @endforeach
-                                            @endif
-                                        </p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="fw-bold">Districts</label>
-                                        <p class='fs-8'>
-                                            @if(!empty($districts))
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <th>Tenure</th>
+                                            <td>
+                                                @if(!empty($dip_activity->project->start_date) && $dip_activity->project->start_date != null)
+                                                    {{ date('M d, Y', strtotime($dip_activity->project->start_date))}} - {{date('M d, Y', strtotime($dip_activity->project->end_date))}}
+                                                @else
+                                                    N/A
+                                                @endif
+                                            </td>
+                                           
+                                        </tr>
+                                        <tr>
+                                            <th>District</th>
+                                            <td colspan="2">
                                                 @foreach($districts as $district)
-                                                    {{ $district}}@if(! $loop->last), @endif
+                                                    {{ $district->district_name }}@if(! $loop->last), @endif
                                                 @endforeach
-                                            @endif
-                                        </p>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="fw-bold">Project Tenure</label>
-                                        <p>
-                                            @if(!empty($dip_activity->project->start_date) && $dip_activity->project->start_date != null)
-                                                {{ date('M d, Y', strtotime($dip_activity->project->start_date))}} - {{date('M d, Y', strtotime($dip_activity->project->end_date))}}
-                                            @endif
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                                            </td>
+                                            <th>Theme and sub theme</th>
+                                        <td colspan="3">{{$dip_activity->scisubtheme_name?->maintheme?->name ?? 'N/A'}} - {{$dip_activity->scisubtheme_name?->name ?? ''}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6"><div class="separator separator-dashed separator-border-4"></div></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Activity Details</th>
+                                            <td colspan="5">#{{$dip_activity->activity_number ?? '--'}} - {{$dip_activity->activity_title  ?? ''}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Actvity type & sub-type</th>
+                                            <td colspan="3">{{$dip_activity->activity_type?->activity_type?->name ?? ''}} -> {{$dip_activity->activity_type?->name ?? ''}}</td>
+                                            <th>LOP Target</th>
+                                            <td>{{$dip_activity->lop_target ?? 'N/A'}}</td>
+                                        </tr>
+                                        <tr>
+                                            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            
                         </div>
                     </div>
                 </div>
@@ -103,17 +191,7 @@
         </div>
 
         <div class="card mt-3">
-            <div class="card-header">
-                <h5 class="card-title">Activity - {{$dip_activity->activity_number ?? ''}}</h5>
-                <div class="card-tool mt-2">
-                    <span class="badge badge-success ">Total Months: {{ $dip_activity->months->count() }}</span>
-                    <span class="badge badge-primary ">Completed : {{ $monthsWithpostedCount }}</span>
-                    <span class="badge badge-info ">Returned : {{ $monthsWithreturnCount }}</span>
-                    <span class="badge badge-dark ">To Be Reviewed : {{ $monthstobreviewCount }}</span>
-                    <span class="badge badge-warning ">Pending : {{ $monthspending }}</span>
-                    <span class="badge badge-danger ">Overdue: {{ $monthsWithoutProgressCount }}</span>
-                </div>
-            </div>
+            
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered nowrap" id="activityQuarters">
@@ -127,7 +205,6 @@
                                 
                             </tr>
                             <tr>
-                                
                                 <th class="fs-9"></th>
                                 <th class="fs-9">Month</th>
                                 <th class="fs-9" style="background-color: #f7d6d6fd">Target</th>
@@ -200,7 +277,7 @@
                 </div>
             </div>
         </div>
-        
+        <input type="hidden" id="dip_activity" value="{{$dip_activity->id}}">
     </div>
     @push('scripts')
     <script>

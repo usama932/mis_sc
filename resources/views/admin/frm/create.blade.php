@@ -369,7 +369,8 @@
     @php
         $closingRecords = app('closing_records');
         $frmCloseDate = $closingRecords['frm_close_date'];
-    endphp
+    
+    @endphp
     @push('scripts')
         <script>
             window.jsVars = {
