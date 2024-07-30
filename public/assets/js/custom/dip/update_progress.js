@@ -21,95 +21,87 @@ var KTupdateProgressValidate = function () {
                     'activity_target': {
                         validators: {
                             notEmpty: {
-                                message: 'Activity Target  is required'
+                                message: 'Activity Achievement  is required'
                             },
                             numeric: {
-                                message: 'Activity Target  is must number'
+                                message: 'Activity Achievement  is must number'
                             },
                             regexp: {
                                 regexp: /^\d+$/,
-                                message: 'Individual Target must be a positive number'
+                                message: 'Activity Achievement must be a positive number'
                             }
                         }
                     },
+
                     'women_target': {
                         validators: {
                             notEmpty: {
-                                message: 'Women Target  is required'
+                                message: 'Women Achievement  is required'
                             },
                             numeric: {
-                                message: 'Women Target  is must number'
+                                message: 'Women Achievement  is must number'
                             },
                             regexp: {
                                 regexp: /^\d+$/,
-                                message: 'Individual Target must be a positive number'
+                                message: 'Women Achievement must be a positive number'
                             }
                         }
                     },
+
                     'men_target': {
                         validators: {
                             notEmpty: {
-                                message: 'Men Target is required'
+                                message: 'Men Achievement is required'
                             },
                             numeric: {
-                                message: 'Men Target  is must number'
+                                message: 'Men Achievement  is must number'
                             },
                             regexp: {
                                 regexp: /^\d+$/,
-                                message: 'Individual Target must be a positive number'
+                                message: 'Men Achievement must be a positive number'
                             }
                         }
                     },
+
                     'girls_target': {
                         validators: {
                             notEmpty: {
-                                message: 'Girls Target is required'
+                                message: 'Girls Achievement is required'
                             },
                             numeric: {
-                                message: 'Girls Target  is must number'
+                                message: 'Girls Achievement  is must number'
                             },
                             regexp: {
                                 regexp: /^\d+$/,
-                                message: 'Individual Target must be a positive number'
+                                message: 'Girls Achievement must be a positive number'
                             }
                         }
                     },
+
                     'boys_target': {
                         validators: {
                             notEmpty: {
-                                message: 'Boys Target is required'
+                                message: 'Boys Achievement is required'
                             },
                             numeric: {
-                                message: 'Boys Target  is must number'
+                                message: 'Boys Achievement  is must number'
                             },
                             regexp: {
                                 regexp: /^\d+$/,
-                                message: 'Individual Target must be a positive number'
+                                message: 'Individual Achievement must be a positive number'
                             }
                         }
                     },
-                    'boys_target': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Boys Target is required'
-                            },
-                            numeric: {
-                                message: 'Boys Target  is must number'
-                            },
-                            regexp: {
-                                regexp: /^\d+$/,
-                                message: 'Individual Target must be a positive number'
-                            }
-                        }
-                    },
+              
                     'remarks': {
                         validators: {
                             notEmpty: {
-                                message: 'Boys Target is required'
+                                message: 'Remarks Target is required'
                             },
                            
                         }
                     },
+                    
                     'attachment': {
                         validators: {
                             notEmpty: {
@@ -118,6 +110,7 @@ var KTupdateProgressValidate = function () {
                         },
                        
                     },
+                    
                     'image': {
                         validators: {
                             notEmpty: {

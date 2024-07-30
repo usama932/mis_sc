@@ -12,8 +12,6 @@ var KTdip_Validate = function () {
             form,
             {
                 fields: {
-
-                  
                     // 'total_activities':{
                     //     validators: {
                     //         notEmpty: {
@@ -26,8 +24,6 @@ var KTdip_Validate = function () {
                     //     }
                     // }
                   
-                   
-                   
                 
                 },
               

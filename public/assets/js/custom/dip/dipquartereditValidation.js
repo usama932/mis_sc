@@ -46,7 +46,7 @@ $(document).ready(function() {
         } else {
             $('#boys_targetError').text('');
         }
-        alert
+      
         $.ajax({
             url: $('.edit_quarter_status_form').attr('action'),
             type: 'Post',

@@ -96,7 +96,7 @@
                     <span>Current Image</span>
                 </label>
                 <div>
-                    <img src="{{ asset("storage/activity_progress/image/" .$progress?->image)}}" alt="Current Image" style="max-width: 100px;">
+                    <img src="{{ asset("storage/activity_progress/image/{$project_sof->sof}/{$progress->image}") }}" alt="Current Image" style="max-width: 100px;">
                 </div>
             </div>
         @endif

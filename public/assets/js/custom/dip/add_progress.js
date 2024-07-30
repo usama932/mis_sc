@@ -28,66 +28,71 @@ var KTupdateProgressValidate = function () {
                             },
                             regexp: {
                                 regexp: /^\d+$/,
-                                message: 'Individual Target must be a positive number'
+                                message: 'Activity Target must be a positive number'
                             }
                         }
                     },
+
                     'women_target': {
                         validators: {
                             notEmpty: {
-                                message: 'Women Target  is required'
+                                message: 'Women acheivement  is required'
                             },
                             numeric: {
-                                message: 'Women Target  is must number'
+                                message: 'Women acheivement  is must number'
                             },
                             regexp: {
                                 regexp: /^\d+$/,
-                                message: 'Individual Target must be a positive number'
+                                message: 'Women acheivement must be a positive number'
                             }
                         }
                     },
+
                     'men_target': {
                         validators: {
                             notEmpty: {
-                                message: 'Men Target is required'
+                                message: 'Men acheivement is required'
                             },
                             numeric: {
-                                message: 'Men Target  is must number'
+                                message: 'Men acheivement  is must number'
                             },
                             regexp: {
                                 regexp: /^\d+$/,
-                                message: 'Individual Target must be a positive number'
+                                message: 'Men acheivement must be a positive number'
                             }
                         }
                     },
+
                     'girls_target': {
                         validators: {
                             notEmpty: {
-                                message: 'Girls Target is required'
+                                message: 'Girls acheivement is required'
                             },
                             numeric: {
-                                message: 'Girls Target  is must number'
+                                message: 'Girls acheivement  is must number'
                             },
                             regexp: {
                                 regexp: /^\d+$/,
-                                message: 'Individual Target must be a positive number'
+                                message: 'Girls acheivement must be a positive number'
                             }
                         }
                     },
+
                     'boys_target': {
                         validators: {
                             notEmpty: {
-                                message: 'Boys Target is required'
+                                message: 'Boys acheivement is required'
                             },
                             numeric: {
-                                message: 'Boys Target  is must number'
+                                message: 'Boys acheivement  is must number'
                             },
                             regexp: {
                                 regexp: /^\d+$/,
-                                message: 'Individual Target must be a positive number'
+                                message: 'Boys acheivement must be a positive number'
                             }
                         }
                     },
+
                     'attachment': {
                         validators: {
                             notEmpty: {
@@ -96,6 +101,7 @@ var KTupdateProgressValidate = function () {
                         },
                        
                     },
+                    
                     'image': {
                         validators: {
                             notEmpty: {

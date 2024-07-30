@@ -69,7 +69,7 @@ var KTdipActivityValidate = function () {
                             },
                             regexp: {
                                 regexp: /^\d+$/,
-                                message: 'Individual Target must be a positive number'
+                                message: 'LOP Target must be a positive number'
                             }
                         }
                     },

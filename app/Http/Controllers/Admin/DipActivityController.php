@@ -197,8 +197,6 @@ class DipActivityController extends Controller
                 3 => 'activity_detail',
             ];
         
-            
-        
             $limit = $request->input('length');
             $orderIndex = $request->input('order.0.column');
             $order = $columns[$orderIndex] ?? 'id';
@@ -232,7 +230,7 @@ class DipActivityController extends Controller
                     $query->whereHas('progress', function ($query) {
                         $query->whereIn('status', ['To be Reviewed', 'Returned', 'Posted']);
                     });
-                }, '=', DB::raw('(SELECT COUNT(*) FROM dip_activity_months WHERE dip_activity_months.activity_id = dip_activity.id)'));
+                });
             });
            
             
@@ -503,11 +501,11 @@ class DipActivityController extends Controller
                         'updated_at' => $quarter->updated_at ? date('M d, Y', strtotime($quarter->updated_at)) : '',
                         'completion_date' => !empty($quarter->completion_date) ? '<span class="fs-9">' . date('M d, Y', strtotime($quarter->completion_date)) . '</span>' : '',
                         'completed_date' => $quarter->progress && !empty($quarter->progress->complete_date) ? '<span class="fs-9">' . date('M d, Y', strtotime($quarter->progress->complete_date)) . '</span>' : '',
-                        'image' => !empty($quarter->progress->image) ? '<img src="' . asset("storage/activity_progress/image/{$project->sof}/" . $quarter->progress->image) . '" alt="Image" style="width: 100px;" class="thumbnail" onclick="previewImage(this)">' : '',
+                        'image' => !empty($quarter->progress->image) ? '<img src="'.asset("storage/activity_progress/image/{$project->sof}/".$quarter->progress->image).'" alt="Image" style="width: 100px;" class="thumbnail" onclick="previewImage(this)">' : '',
                         'attachment' => !empty($quarter->progress->attachment) ? '<a title="Edit" class="" href="' . route('download_progress_attachment', $quarter->progress->id) . '"><i class="fa fa-download text-dark" aria-hidden="true"></i></a>' : '',
                         'action' => '',
                     ];
-                    $twoMonthsFromNow = Carbon::now()->addMonths(2);
+                    $twoMonthsFromNow = Carbon::now()->addMonths(0);
                     if ($quarter->status == 'Returned' ) {
                         $nestedData['action'] = '<div><td><a class="" href="javascript:void(0)" title="Edit status" onclick="event.preventDefault();edit_status(' . $quarter->progress?->quarter_id . ');"><span class="badge bg-success text-white">Edit</span></a></td></div>';
                     } elseif (!auth()->user()->hasRole('partner') && $quarter->status == 'To be Reviewed' && $quarter->progress()->exists()) {
@@ -830,19 +828,19 @@ class DipActivityController extends Controller
         return view('admin.dip.update_progress',compact('activity','quarters'));
     }
 
-    public function updateprogress(Request $request){
-      
+    public function updateprogress(Request $request)
+    {
         $quarter = ActivityMonths::where('id',$request->quarter)->first();
         $editUrl = route('activity_dips.show',$quarter->activity_id);
 
-        if($request->activity_target > $request->lop_target) {
-            $editUrl = redirect()->back();
-            return response()->json([
-                'editUrl' => $editUrl,
-                'error'   => true,
-                'message' => "Quarterly Progress must less than Quarterly target"
-            ]);
-        }
+        // if($request->activity_target > $request->lop_target) {
+        //     $editUrl = redirect()->back();
+        //     return response()->json([
+        //         'editUrl' => $editUrl,
+        //         'error'   => true,
+        //         'message' => "Quarterly Progress must less than Quarterly target"
+        //     ]);
+        // }
         // $beneficiary_target = $request->women_target + $request->men_target + $request->girls_target + $request->boys_target;
 
         // if($beneficiary_target > intval($request->benefit_target)) {
@@ -859,6 +857,8 @@ class DipActivityController extends Controller
         }else{
             $double_count = 0;
         }
+        $project = Project::where('id',$quarter->project_id)->first();
+        $sof = $project->sof;
         if(!empty($quarter)){
             $quarter_month = ActivityProgress::where('quarter_id',$request->quarter)
             ->where('project_id',$quarter->project_id)
@@ -866,26 +866,26 @@ class DipActivityController extends Controller
             ->first();
             if(!empty($quarter_month))
             {
-                $project = Project::where('id',$quarter->project_id)->first();
+                
 
                 if($request->attachment){
-                    $path = storage_path("app/public/activity_progress/attachment/{$project->sof}/" .$request->attachment);
+                    $path = storage_path("app/public/activity_progress/attachment/{$sof}/" .$request->attachment);
                     if(File::exists($path)){
-                        File::delete(storage_path('app/public/activity_progress/attachment/{$project->sof}/'.$request->attachment));
+                        File::delete(storage_path("app/public/activity_progress/attachment/{$sof}/".$request->attachment));
                     }
                     $file = $request->attachment;
                     $attachment = $file->getClientOriginalName();
-                    $file->storeAs('public/activity_progress/attachment/',$attachment);
+                    $file->storeAs("public/activity_progress/attachment/{$sof}/",$attachment);
                 }
 
                 if($request->image){
-                    $path = storage_path("app/public/activity_progress/image/{$project->sof}/" .$request->image);
+                    $path = storage_path("app/public/activity_progress/image/{$sof}/" .$request->image);
                     if(File::exists($path)){
-                        File::delete(storage_path('app/public/activity_progress/image/{$project->sof}/'.$request->image));
+                        File::delete(storage_path("app/public/activity_progress/image/{$sof}/".$request->image));
                     }
                     $file = $request->image;
                     $image = $file->getClientOriginalName();
-                    $file->storeAs('public/activity_progress/image/',$image);
+                    $file->storeAs("public/activity_progress/image/{$sof}/",$image);
                 }
 
                
@@ -911,28 +911,28 @@ class DipActivityController extends Controller
             else{
                 if($request->attachment){
          
-                    $path = storage_path("app/public/activity_progress/attachment" . $request->attachment);
+                    $path = storage_path("app/public/activity_progress/attachment/{$sof}/" . $request->attachment);
                     
                     if(File::exists($path)){
-                        File::delete(storage_path('app/public/activity_progress/attachment'.$request->attachment));
+                        File::delete(storage_path("app/public/activity_progress/attachment/{$sof}/".$request->attachment));
                     }
                     
                     $file = $request->attachment;
                     $attachment = $file->getClientOriginalName();
-                    $file->storeAs('public/activity_progress/attachment/',$attachment);
+                    $file->storeAs("public/activity_progress/attachment/{$sof}/",$attachment);
                    
                 }
                 if($request->image){
              
-                    $path = storage_path("app/public/activity_progress/image" .$request->image);
+                    $path = storage_path("app/public/activity_progress/image/{$sof}/" .$request->image);
                     
                     if(File::exists($path)){
-                        File::delete(storage_path('app/public/activity_progress/image'.$request->image));
+                        File::delete(storage_path("app/public/activity_progress/image/{$sof}/".$request->image));
                     }
                     
                     $file = $request->image;
                     $image = $file->getClientOriginalName();
-                    $file->storeAs('public/activity_progress/image/',$image);
+                    $file->storeAs("public/activity_progress/image/{$sof}/",$image);
                    
                 }
                 ActivityProgress::create([
@@ -1038,7 +1038,7 @@ class DipActivityController extends Controller
         if($request->image){
             $path = storage_path("app/public/activity_progress/image/{$project->sof}/" .$request->image);
             if(File::exists($path)){
-                File::delete(storage_path('app/public/activity_progress/image/{$project->sof}/'.$request->image));
+                File::delete(storage_path("app/public/activity_progress/image/{$project->sof}/".$request->image));
             }
             $file = $request->image;
             $image = $file->getClientOriginalName();
@@ -1091,7 +1091,7 @@ class DipActivityController extends Controller
         
         $progress = ActivityProgress::where('id',$filename)->first();
         $project = Project::where('id',$progress->project_id)->first();
-        $path = public_path("storage/activity_progress/attachment/{$project->sof}/" . $progress->attachment);
+        $path = public_path("storage/activity_progress/attachment/{$project->sof}/".$progress->attachment);
 
         if (!file_exists($path)) {
             // Output error or log it
@@ -1124,6 +1124,7 @@ class DipActivityController extends Controller
     {
         $activity =  ActivityMonths::where('id',$request->id)->first();
         $progress =  $activity->progress ?? '';
-        return view('admin.dip.activity.edit_progress',compact('progress'));
+        $project_sof = Project::where('id',$activity->project_id)->first();
+        return view('admin.dip.activity.edit_progress',compact('progress','project_sof'));
     }
 }

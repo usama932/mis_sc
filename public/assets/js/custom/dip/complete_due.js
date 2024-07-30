@@ -10,7 +10,7 @@ $(document).ready(function () {
                     filename: 'Overdue Progress Activities',
                     text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
                     title: 'Overdue Progress Activities',
-                    className: 'badge badge-outline-success mb-4',
+                    className: 'badge badge-success mb-4',
                     exportOptions: {
                         columns: [0,1,2,3,4,5,6,7]
                     }
