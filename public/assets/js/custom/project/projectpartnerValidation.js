@@ -248,7 +248,7 @@ var project_partners = $('#project_partners').DataTable({
             filename: 'Implementing Partner Data export_',
             text: '<i class="flaticon2-download"></i> Excel',
             title: 'Themetic area Data export',
-            className: 'btn btn-outline-success',
+            className: 'badge badge-success my-2',
             exportOptions: {
                 columns: [0,1, 2, 3, 4, 5]
             }
@@ -258,7 +258,7 @@ var project_partners = $('#project_partners').DataTable({
             filename: 'Implementing Partner Data CSV_',
             text: '<i class="flaticon2-download"></i> CSV',
             title: 'Themetic area Data',
-            className: 'btn btn-outline-success',
+            className: 'badge badge-success my-2',
             exportOptions: {
                 columns: [0,1, 2, 3, 4, 5]
             }

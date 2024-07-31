@@ -3,130 +3,45 @@
     @section('title')
     View Project Detail
     @endsection
-
-    <div class="card p-3">
-        <input type="hidden" id="project_id" value="{{$project->id}}">
-        <div class="row">
-            
-            <div class="col-md-6">
-                <table class="table table-striped m-4 p-4">
-                    
-                    <tr>
-                        <td><strong>Project Name</strong></td>
-                        <td>{{$project->name ?? ''}}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Donor</strong></td>
-                        <td>
-                          {{$project->donors?->name ?? ''}} 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>Awards  FP</strong></td>
-                        <td>
-                          {{$project->awardfp?->name ?? ''}} -  {{$project->awardfp?->desig?->designation_name ?? ''}}<br>
-                       
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>SOF.#</strong></td>
-                        <td>{{$project->sof ?? ''}}</td>
-                    </tr>
-                   
-                    @if(!empty($provinces))
-                        <tr>
-                            <td><strong>Provinces</strong></td>
-                            <td>
-                                @foreach($provinces as $province)
-                                    {{ $province->province_name}}  @if(! $loop->last)<br> @endif
-                                @endforeach
-                            </td>
-                        </tr>
-                    @endif
-                    {{-- <tr>
-                        <td><strong>Status</strong></td>
-                        <td>{{$project->status ?? ''}}</td>
-                    </tr> --}}
-                    
-                    {{-- <tr>
-                        <td><strong>Project Status </strong></td>
-                        <td>
-                            @if($project->active == 1)
-                                Active
-                            @else
-                                InActive
-                            @endif
-                          {{$project->atic ?? ''}}
-                        </td>
-                    </tr> --}}
-                </table>
-            </div>
-            <div class="col-md-6">
-                <table class="table table-striped m-4 p-4">
-                    <tr>
-                        <td><strong>Type</strong></td>
-                        <td>{{$project->type ?? ''}}</td>
-                    </tr>
-                    <tr>
-                        <td class="fs-8"><strong>Operational Focal Person</strong></td>
-                        <td>
-                          {{$focal_person ?? ''}}
-                          {{-- {{$project->focalperson?->email ?? ''}} --}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>Budget Holder FP</strong></td>
-                        <td>
-                          {{$budgetholder ?? ''}}
-                       
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="fs-8"><strong>Project Tenure</strong></td>
-                        <td>
-                            @if(!empty($project->start_date) && $project->start_date != null)
-                                {{ date('d-M-Y', strtotime($project->start_date))}} -To- {{date('d-M-Y', strtotime($project->end_date));}}
-                            @endif
-                        </td>
-                    </tr>
-                   
-                    
-                 
-                    @if(!empty($districts))
-                    <tr>
-                        <td><strong>Disticts</strong></td>
-                        <td>  @foreach($districts as $district)
-                            {{ $district->district_name}}  @if(! $loop->last)<br> @endif
-                            @endforeach
-                        </td>
-                    </tr>
-                    @endif
-                   
-                   
-                    {{-- <tr>
-                        <td><strong>Project Extended </strong></td>
-                        <td>
-                            @if($project->project_extended == "0")  
-                                No
-                            @else
-                               Yes 
-                            @endif
-                        </td>
-                    </tr> --}}
-                    
-                </table>
-            </div>
-            <div class="col-md-12"> 
-                <table class="table table-striped px-4 mx-4">
-                    <tr>
-                        <td><strong>Project Description</strong></td>
-                        <td>{{$project->detail?->project_description ??  ''}}</td>
-                    </tr>
-                </table>
+    <div class="card mb-4">
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h3 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <div class="d-flex align-items-center">
+                            <!--begin::Symbol-->
+                            <div class="symbol symbol-50px me-5">
+                                <span class="symbol-label bg-light-danger">
+                                    <i class="ki-duotone ki-filter-search fs-2x text-danger">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                </span>
+                            </div>
+                            <!--end::Symbol-->
+                            <!--begin::Text-->
+                            <div class="d-flex flex-column">
+                                <a href="javascript:;" class="text-dark text-hover-primary fs-6 fw-bold">Apply Filters</a>
+                            </div>
+                            <!--end::Text-->
+                        </div>
+                    </button>
+                </h3>
+                <div id="collapseOne" class="accordion-collapse collapse mb-4" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="card-header border-0">
+                          @include('admin.projects.partials.project_basic_info')
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="card">
-            
+       
+    </div>
+    <div class="card p-3">
+        <input type="hidden" id="project_id" value="{{$project->id}}">
+      
+      
             <ul class="nav nav-tabs mt-1 fs-6">
                 
                 <li class="nav-item">
@@ -147,36 +62,36 @@
                 
                 
                 <div class="tab-pane fade show  active " id="thematic" role="tabpanel">
-                    <div class="card m-4"  id="project_theme_table">
-                        <div class="card-body overflow-*">
-                            <div class="table-responsive overflow-*">
-                                <table class="table table-striped table-bordered nowrap" id="project_themes" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>Theme</th>
-                                        <th>Sub Theme</th>
-                                        <th>House-Hold Target</th>
-                                        <th>Individual Target</th>
-                                        <th>Women Target</th>
-                                        <th>Men Target</th>
-                                        <th>Girls Target</th>
-                                        <th>Boys Target</th>
-                                        <th>PWD/CLWD Target</th>
-                                        <th>PLW Target</th>
-                                        <th>Other Target</th>
-                                        {{-- <th>Created At</th>
-                                        <th>Created By</th> --}}
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                </table>
-                            </div>
+                    <div  id="project_theme_table">
+                     
+                        <div class="table-responsive overflow-*">
+                            <table class="table table-striped table-bordered nowrap" id="project_themes" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Theme</th>
+                                    <th>Sub Theme</th>
+                                    <th>House-Hold Target</th>
+                                    <th>Individual Target</th>
+                                    <th>Women Target</th>
+                                    <th>Men Target</th>
+                                    <th>Girls Target</th>
+                                    <th>Boys Target</th>
+                                    <th>PWD/CLWD Target</th>
+                                    <th>PLW Target</th>
+                                    <th>Other Target</th>
+                                    {{-- <th>Created At</th>
+                                    <th>Created By</th> --}}
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            </table>
                         </div>
+                        
                     </div>
                 </div>
                 <div class="tab-pane fade show" id="partner" role="tabpanel">
-                    <div class="card m-4"  id="project_partner_table">
-                        <div class="card-body overflow-*">
+                    <div   id="project_partner_table">
+                      
                             <div class="table-responsive overflow-*">
                                 <table class="table table-striped table-bordered nowrap" id="project_partners" style="width:100%">
                                 <thead>
@@ -194,13 +109,13 @@
                                 </thead>
                                 </table>
                             </div>
-                        </div>
+                       
                     </div>
                 </div>
                
                 <div class="tab-pane fade show" id="profile" role="tabpanel">
-                    <div class="card m-4"  id="project_partner_table">
-                        <div class="card-body overflow-*">
+                    <div  id="project_partner_table">
+                       
                             <div class="table-responsive overflow-*">
                                 <table class="table table-striped table-bordered nowrap" id="project_profile" style="width:100%">
                                     <thead>
@@ -216,35 +131,35 @@
                                     </thead>
                                 </table>
                             </div>
-                        </div>
+                        
                     </div>
                 </div>
                 <div class="tab-pane fade show " id="activities" role="tabpanel">
-                    <div class="card m-4 "  id="project_partner_table">
-                        <div class="card-body overflow-*">
-                            <div class="table-responsive overflow-*">
-                                <table class="table table-striped table-bordered nowrap" id="dip_activity" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Activity. #</th>
-                                            <th>Activity Title</th>
-                                            <th>Theme</th>
-                                            <th>Sub Theme</th>
-                                            <th>Activity Type</th>
-                                            <th>LOP Target</th>
-                                            <th>Monthly Target</th>
-                                            <th>Created By</th>
-                                            <th>Created At</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
+                    <div  id="project_partner_table">
+                      
+                        <div class="table-responsive overflow-*">
+                            <table class="table table-striped table-bordered nowrap" id="dip_activity" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Activity. #</th>
+                                        <th>Activity Title</th>
+                                        <th>Theme</th>
+                                        <th>Sub Theme</th>
+                                        <th>Activity Type</th>
+                                        <th>LOP Target</th>
+                                        <th>Monthly Target</th>
+                                        <th>Created By</th>
+                                        <th>Created At</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                            </table>
                         </div>
+                        
                     </div>
                 </div>
             </div>
-        </div>
+        
     </div>
     @push('scripts')
     <script>
@@ -252,43 +167,26 @@
         var dip_activity = $('#dip_activity').DataTable( {
         buttons: [
             {
-
                 extend: 'excelHtml5',
-
                 filename: 'Activity Exports Data export_',
-
                 text: '<i class="flaticon2-download"></i> Excel',
-
                 title: 'Activity Exports',
-
-                className: 'btn btn-outline-success',
-
+                className: 'badge badge-success my-2',
                 exportOptions: {
-
-                    columns: [0,1, 2, 3, 4, 5]
-
+                    columns: [0,1, 2, 3, 4, 5,6,7]
                 }
 
             },
 
             {
-
                 extend: 'csvHtml5',
-
                 filename: 'Activity Exports CSV_',
-
                 text: '<i class="flaticon2-download"></i> CSV',
-
                 title: 'Activity Exports',
-
-                className: 'btn btn-outline-success',
-
+                className: 'badge badge-warning my-2',
                 exportOptions: {
-
-                    columns: [0,1, 2, 3, 4, 5]
-
+                    columns: [0,1, 2, 3, 4, 5,6,7]
                 }
-
             }
         ],
         "dom": 'lfBrtip',
@@ -296,7 +194,7 @@
         "serverSide": true,
         "searching": false,
         "bLengthChange": true,
-        "aLengthMenu": [[10, 50, 100,200,300,-1], [10, 50, 100,150,200,300,"ALL"]],
+        "aLengthMenu": [[10, 50, 100,200,300,500], [10, 50, 100,150,200,300,500]],
         "bInfo" : false,
         "responsive": false,
         "info": true,

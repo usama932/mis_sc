@@ -98,7 +98,7 @@
 
                     title: '',
 
-                    className: 'btn btn-success',
+                    className: 'badge badge-success',
 
                     exportOptions: {
 
@@ -118,7 +118,7 @@
 
                     title: '',
 
-                    className: 'btn btn-success',
+                    className: 'badge badge-warning',
 
                     exportOptions: {
 

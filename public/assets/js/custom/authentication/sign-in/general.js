@@ -74,8 +74,7 @@ var KTSigninGeneral = function () {
                             }
                         }).then(function (result) {
                             if (result.isConfirmed) {
-                                form.querySelector('[name="email"]').value = "";
-                                form.querySelector('[name="password"]').value = "";
+                              
 
                                 //form.submit(); // submit form
                                 var redirectUrl = form.getAttribute('data-kt-redirect-url');
@@ -119,9 +118,7 @@ var KTSigninGeneral = function () {
                     // Check axios library docs: https://axios-http.com/docs/intro
                     axios.post(submitButton.closest('form').getAttribute('action'), new FormData(form)).then(function (response) {
                         if (response) {
-                            
-                            form.reset();
-
+                        
                             if (response.data.error == true) {
                                 Swal.fire({
                                     text:response.data.message,

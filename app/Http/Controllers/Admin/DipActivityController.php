@@ -615,7 +615,10 @@ class DipActivityController extends Controller
         $monthspending              = ActivityMonths::where('activity_id', $id)->whereDate('completion_date', '>', Carbon::now()->toDateString())->whereDoesntHave('progress')->count();
         $monthstobreviewCount       = ActivityMonths::where('activity_id', $id)->where('activity_id', $id)->whereHas('progress')->where('status',"To be Reviewed")->count();
         $monthsWithreturnCount      = ActivityMonths::where('activity_id', $id)->whereHas('progress')->where('status',"Returned")->count();
-      
+        $totalMonths = $dip_activity->months->count();
+        $completedMonths = $monthsWithpostedCount;
+        $progress = $totalMonths > 0 ? ($completedMonths / $totalMonths) * 100 : 0;
+
         $monthsWithProgressCount = $dip_activity_complete->months->count() ?? '0';
 
         if(!empty($dip_activity->project->detail->province )){
@@ -641,7 +644,7 @@ class DipActivityController extends Controller
         addJavascriptFile('assets/js/custom/dip/dipquartereditValidation.js');
         //addJavascriptFile('assets/js/custom/dip/add_progress.js');
        
-        return view('admin.dip.show_dip_activity',compact('dip_activity','monthsWithreturnCount','monthspending','monthstobreviewCount','monthsWithpostedCount','monthsWithoutProgressCount','monthsWithProgressCount','districts','provinces','months','quarters'));
+        return view('admin.dip.show_dip_activity',compact('dip_activity','progress','monthsWithreturnCount','monthspending','monthstobreviewCount','monthsWithpostedCount','monthsWithoutProgressCount','monthsWithProgressCount','districts','provinces','months','quarters'));
     }
 
     public function edit(string $id)

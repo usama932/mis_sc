@@ -1,92 +1,67 @@
-<style>
-    .stats-box {
-        padding: 20px;
-        border-radius: 10px;
-        color: white;
-    }
-    .stats-box .icon {
-        font-size: 2.5rem;
-    }
-    .bg-primary {
-        background-color: #007bff !important;
-    }
-    .bg-success {
-        background-color: #28a745 !important;
-    }
-    .bg-warning {
-        background-color: #ffc107 !important;
-    }
-    .bg-danger {
-        background-color: #dc3545 !important;
-    }
-</style>
+
 <x-default-layout>
     @section('title', 'Activity progress details')
     <div class="container-fluid  mt-3">
         <div class="row mb-5">
-            <div class="col-lg-6 col-6">
-                <!-- small box -->
-                <div class="card stats-box bg-danger">
+            <div class="col-lg-6 d-flex">
+                <div class="card bg-danger w-100">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h3>{{ $dip_activity->months->count() }}</h3>
-                                <p>Total Months:</p>
-                            </div>
-                            <div class="icon">
-                                <i class="fas fa-shopping-cart text-light"></i>
+                                <h1 class="text-white">{{ $dip_activity->months->count() }}</h1>
+                                <h6 class="text-white">Total Months</h6>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-between mb-4 text-white">
-                            <div class="justify-content-start font-weight-boldest">
-                                Overdue: {{ $monthsWithoutProgressCount }}
+                        <div class="d-flex justify-content-between mt-2">
+                            <div class="font-weight-boldest">
+                                <h5 class="text-white">{{ $monthsWithoutProgressCount }} Overdue</h5>
                             </div>
-                            <div class="justify-content-end font-weight-boldest">
-                                Completed: {{ $monthsWithpostedCount }}
+                            <div class="font-weight-boldest">
+                                <h5 class="text-white">{{ $monthsWithpostedCount }} Completed</h5>
                             </div>
                         </div>
-                        <div class="progress mt-3" style="height: 10px;">
-                            
-                            <div class="progress-bar bg-light" role="progressbar" style="width: 70%; " aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress" style="height:5px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ $progress }}%;" aria-valuenow="{{ $progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <h5 class="text-white">{{ number_format($progress, 2) }}%</h5>
                         </div>
                     </div>
-                   
                 </div>
             </div>
-            <!-- ./col -->
-            <div class="col-lg-6 col-6">
-                <!-- small box -->
-                <div class="card stats-box bg-success">
+            <div class="col-lg-3 d-flex">
+                <div class="card bg-primary w-100">
                     <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h3>{{ $monthstobreviewCount }}</h3>
-                                <p>To Be Reviewed </p>
-                            </div>
-                            <div class="icon">
-                                <i class="fas fa-chart-bar text-light"></i>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-between mb-4 text-white">
-                            <div class="justify-content-start font-weight-boldest">
-                                Returned : {{ $monthsWithreturnCount }}
-                            </div>
-                            <div class="justify-content-end font-weight-boldest">
-                                Pending : {{ $monthspending }}
-                            </div>
-                        </div>
-                        <div class="progress mt-3" style="height: 10px;">
-                            <div class="progress-bar bg-light" role="progressbar" style="width: 53%;" aria-valuenow="53" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div>
+                            <h3 class="text-white">{{ $monthstobreviewCount }}</h3>
+                            <h3 class="text-white">To Be Reviewed</h3>
                         </div>
                     </div>
-                  
+                </div>
+            </div>
+            <div class="col-lg-3 d-flex">
+                <div class="card bg-warning w-100">
+                    <div class="card-body">
+                        <div>
+                        <h3 class="text-white">{{ $monthspending }}</h3 >
+                            <h3 class="text-white">Pending</h3>
+                        </div>
+                    </div>
                 </div>
             </div>
           
         </div>
-        <!-- /.row -->
         
         
+        <div class="d-flex justify-content-between mb-4 text-white">
+            <div class="justify-content-start font-weight-boldest">
+                Returned : {{ $monthsWithreturnCount }}
+            </div>
+            <div class="justify-content-end font-weight-boldest">
+                Pending : {{ $monthspending }}
+            </div>
+        </div>
+
         <div class="card">
             <div class="accordion" id="accordionExample">
                 <div class="accordion-item">

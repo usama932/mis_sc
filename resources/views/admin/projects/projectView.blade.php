@@ -17,135 +17,39 @@
         <li class="breadcrumb-item"><a href="{{ route('get_project_index') }}" class="">Project Details</a></li>
         <li class="breadcrumb-item text-muted">Activities</li>
     </ol>
-
-    <div class="container-fluid py-3">
-        <div class="card">
-            <div class="card-header bg-light border-bottom">
-                <h5 class="card-title">{{ $project->name ?? '' }}</h5>
-            </div>
-            <div class="card-body">
-                <div class="row">
-        
-                    <div class="col-md-6">
-                        <table class="table table-striped m-4 p-4">
-                            
-                            <tr>
-                                <td><strong>Project Name</strong></td>
-                                <td>{{$project->name ?? ''}}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Donor</strong></td>
-                                <td>
-                                    {{$project->donors?->name ?? ''}} 
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><strong>Awards  FP</strong></td>
-                                <td>
-                                    {{$project->awardfp?->name ?? ''}} -  {{$project->awardfp?->desig?->designation_name ?? ''}}<br>
-                                
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><strong>SOF.#</strong></td>
-                                <td>{{$project->sof ?? ''}}</td>
-                            </tr>
-                            
-                            @if(!empty($provinces))
-                                <tr>
-                                    <td><strong>Provinces</strong></td>
-                                    <td>
-                                        @foreach($provinces as $province)
-                                            {{ $province->province_name}}  @if(! $loop->last)<br> @endif
-                                        @endforeach
-                                    </td>
-                                </tr>
-                            @endif
-                            {{-- <tr>
-                                <td><strong>Status</strong></td>
-                                <td>{{$project->status ?? ''}}</td>
-                            </tr> --}}
-                            
-                            {{-- <tr>
-                                <td><strong>Project Status </strong></td>
-                                <td>
-                                    @if($project->active == 1)
-                                        Active
-                                    @else
-                                        InActive
-                                    @endif
-                                    {{$project->atic ?? ''}}
-                                </td>
-                            </tr> --}}
-                        </table>
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+            <h3 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <div class="d-flex align-items-center">
+                        <!--begin::Symbol-->
+                        <div class="symbol symbol-50px me-5">
+                            <span class="symbol-label bg-light-success">
+                                <i class="ki-duotone ki-filter-search fs-2x text-danger">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                </i>
+                            </span>
+                        </div>
+                        <!--end::Symbol-->
+                        <!--begin::Text-->
+                        <div class="d-flex flex-column">
+                            <a href="javascript:;" class="text-dark text-hover-primary fs-6 fw-bold">{{$project->name ?? ''}} Info</a>
+                        </div>
+                        <!--end::Text-->
                     </div>
-                    <div class="col-md-6">
-                        <table class="table table-striped m-4 p-4">
-                            <tr>
-                                <td><strong>Type</strong></td>
-                                <td>{{$project->type ?? ''}}</td>
-                            </tr>
-                            <tr>
-                                <td class="fs-8"><strong>Operational Focal Person</strong></td>
-                                <td>
-                                    {{$focal_person ?? ''}}
-                                    {{-- {{$project->focalperson?->email ?? ''}} --}}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><strong>Budget Holder FP</strong></td>
-                                <td>
-                                    {{$budgetholder ?? ''}}
-                                
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="fs-8"><strong>Project Tenure</strong></td>
-                                <td>
-                                    @if(!empty($project->start_date) && $project->start_date != null)
-                                        {{ date('d-M-Y', strtotime($project->start_date))}} -To- {{date('d-M-Y', strtotime($project->end_date));}}
-                                    @endif
-                                </td>
-                            </tr>
-                            
-                            
-                            
-                            @if(!empty($districts))
-                            <tr>
-                                <td><strong>Disticts</strong></td>
-                                <td>  @foreach($districts as $district)
-                                    {{ $district->district_name}}  @if(! $loop->last)<br> @endif
-                                    @endforeach
-                                </td>
-                            </tr>
-                            @endif
-                            
-                            
-                            {{-- <tr>
-                                <td><strong>Project Extended </strong></td>
-                                <td>
-                                    @if($project->project_extended == "0")  
-                                        No
-                                    @else
-                                        Yes 
-                                    @endif
-                                </td>
-                            </tr> --}}
-                            
-                        </table>
-                    </div>
-                    <div class="col-md-12"> 
-                        <table class="table table-striped px-4 mx-4">
-                            <tr>
-                                <td><strong>Project Description</strong></td>
-                                <td>{{$project->detail?->project_description ??  ''}}</td>
-                            </tr>
-                        </table>
+                </button>
+            </h3>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="card-header border-0">
+                        @include('admin.projects.partials.project_basic_info')
                     </div>
                 </div>
             </div>
         </div>
-
+    </div>
+    <div class="container-fluid py-3">
         <div class="card mt-3">
             <div class="card-header border-bottom">
                 <h5 class="card-title">Activity Progress Detail</h5>
@@ -157,7 +61,7 @@
                 </div>
                 <div class="table-responsive">
                     <table class="table table-sm nowrap table-striped table-bordered" id="activityTable">
-                        <thead>
+                        <thead class="bg-success">
                             <tr>
                                 <th class="fs-9 col-1">Activity .#</th>
                                 <th class="fs-7 col-4" style="min-width: 300px;">Activity Title</th>
@@ -179,33 +83,33 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($project->activities->groupBy('scisubtheme_name.id') as $theme => $activities)
+                            @forelse($project->activities->groupBy('scisubtheme_name.id') as $theme => $activities)
                                 @php
                                     $subtheme = \App\Models\SciSubTheme::with('maintheme')->find($theme);
-                                @endphp
+                                @endphp 
                                 <tr>
-                                    <th colspan="90" class="fs-6">{{ $subtheme->maintheme?->name }} ({{ $subtheme->name }})</th>
+                                    <th colspan="{{count($months) }}" class="fs-6 bg-primary">{{ $subtheme->maintheme?->name }} ({{ $subtheme->name }})</th>
                                 </tr>
                                 @php
                                     $sortedActivities = $activities->sort(function ($a, $b) {
                                         $a_parts = explode('.', $a->activity_number);
                                         $b_parts = explode('.', $b->activity_number);
-
+                            
                                         for ($i = 0; $i < max(count($a_parts), count($b_parts)); $i++) {
                                             $a_part = isset($a_parts[$i]) ? (int)$a_parts[$i] : 0;
                                             $b_part = isset($b_parts[$i]) ? (int)$b_parts[$i] : 0;
-
+                            
                                             if ($a_part < $b_part) {
                                                 return -1;
                                             } elseif ($a_part > $b_part) {
                                                 return 1;
                                             }
                                         }
-
+                            
                                         return 0;
                                     });
                                 @endphp
-
+                            
                                 @foreach($sortedActivities as $item)
                                     <tr>
                                         <td class="fs-8">{{ $item->activity_number ?? '' }}</td>
@@ -214,16 +118,17 @@
                                                 ({{ $item->activity_type?->activity_type?->name }} - {{ $item->activity_type?->name }})
                                             @endif
                                         </td>
-                                        <td class="fs-8">{{ $item->lop_target ?? '' }}</td>
+                                        <td class="fs-8 bg-success">{{ $item->lop_target ?? '' }}</td>
+                                        
                                         @foreach($months as $monthed)
-                                            <td class="text-center fs-8">
+                                            <td class="text-center fs-8 ">
                                                 @foreach($item->months as $month)
                                                     @if($monthed == $month->quarter.' '.$month->year)
                                                         {{ $month->target }}
                                                     @endif
                                                 @endforeach
                                             </td>
-                                            <td class="text-center fs-8">
+                                            <td class="text-center fs-8 ">
                                                 @foreach($item->months as $month)
                                                     @if($monthed == $month->quarter.' '.$month->year)
                                                         {{ $month->progress?->activity_target ?? 0 }}
@@ -234,7 +139,12 @@
                                         <td class="fs-9" style="min-width: 300px;"></td>
                                     </tr>
                                 @endforeach
-                            @endforeach
+                            @empty
+                            <tr>
+                                <th colspan="20" class="text-center">No Records</th>
+                            </tr>
+                            @endforelse
+                        
                         </tbody>
                     </table>
                 </div>
@@ -249,45 +159,61 @@
         function exportToExcel() {
             var workbook = new ExcelJS.Workbook();
             var worksheet = workbook.addWorksheet("Activity Progress");
-    
+
+            // Set the page orientation to portrait
+            worksheet.pageSetup.orientation = 'portrait';
+
             var table = document.querySelector("#activityTable");
             var rows = table.querySelectorAll("tr");
             var headerRowCount = 2; // Adjust this if you have more header rows
-    
+
             rows.forEach((row, rowIndex) => {
                 let excelRow = worksheet.getRow(rowIndex + 1);
                 let cells = row.querySelectorAll("th, td");
-    
+                let cellIndexOffset = 0;
+
                 cells.forEach((cell, cellIndex) => {
-                    let excelCell = excelRow.getCell(cellIndex + 1);
+                    let excelCell = excelRow.getCell(cellIndex + 1 + cellIndexOffset);
                     excelCell.value = cell.innerText;
-    
-                    if (rowIndex < headerRowCount) { // Apply bold formatting to header rows
+
+                    if (rowIndex < headerRowCount) { // Apply bold formatting and color to header rows
                         excelCell.font = { bold: true };
                         excelCell.fill = {
                             type: 'pattern',
                             pattern: 'solid',
-                            fgColor: { argb: 'FFFFE0B2' }
+                            fgColor: { argb: 'FFB0E57C' } // Light green background
+                        };
+                        excelCell.border = {
+                            top: { style: 'thin', color: { argb: 'FF000000' } }, // Black borders
+                            left: { style: 'thin', color: { argb: 'FF000000' } },
+                            bottom: { style: 'thin', color: { argb: 'FF000000' } },
+                            right: { style: 'thin', color: { argb: 'FF000000' } }
+                        };
+                    } else { // Apply different formatting and color to data rows
+                        excelCell.fill = {
+                            type: 'pattern',
+                            pattern: 'solid',
+                            fgColor: { argb: 'FFCCE5FF' } // Light blue background for data rows
+                        };
+                        excelCell.border = {
+                            top: { style: 'thin', color: { argb: 'FF000000' } },
+                            left: { style: 'thin', color: { argb: 'FF000000' } },
+                            bottom: { style: 'thin', color: { argb: 'FF000000' } },
+                            right: { style: 'thin', color: { argb: 'FF000000' } }
                         };
                     }
-    
-                    excelCell.border = {
-                        top: { style: 'thin' },
-                        left: { style: 'thin' },
-                        bottom: { style: 'thin' },
-                        right: { style: 'thin' }
-                    };
-    
+
                     // Check for colspan attribute
                     if (cell.hasAttribute('colspan')) {
                         let colspan = parseInt(cell.getAttribute('colspan'));
-                        for (let i = 1; i < colspan; i++) {
-                            excelRow.getCell(cellIndex + 1 + i).value = ''; // Clear value for spanned cells
+                        if (colspan > 1) {
+                            worksheet.mergeCells(rowIndex + 1, cellIndex + 1 + cellIndexOffset, rowIndex + 1, cellIndex + colspan + cellIndexOffset);
+                            cellIndexOffset += colspan - 1;
                         }
                     }
                 });
             });
-    
+
             var sheetName = document.getElementById('project_id').value;
             worksheet.name = sheetName;
             workbook.xlsx.writeBuffer().then(function(buffer) {
@@ -295,7 +221,49 @@
                 saveAs(new Blob([buffer]), excelFileName);
             });
         }
+
+        function printPage() {
+            window.print();
+        }
     </script>
-    
     @endpush
+
+    <style>
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact; /* Ensure colors are printed correctly */
+                margin: 0;
+            }
+            .container-fluid {
+                width: 100%;
+                overflow: hidden;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                padding: 8px;
+                text-align: left;
+                border: 1px solid black;
+                white-space: nowrap; /* Prevent text wrapping */
+            }
+            @page {
+                size: A4 portrait; /* Ensure the page is in portrait orientation */
+                margin: 20mm; /* Adjust margins as needed */
+            }
+            .table-responsive {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            .table {
+                width: 100%;
+                border: 1px solid black;
+            }
+        }
+    </style>
+    
+    
+  
 </x-nform-layout>
