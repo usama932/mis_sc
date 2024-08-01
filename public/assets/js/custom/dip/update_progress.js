@@ -106,18 +106,29 @@ var KTupdateProgressValidate = function () {
                         validators: {
                             notEmpty: {
                                 message: 'Attachment is required'
+                            },
+                            file: {
+                                extension: 'jpeg,jpg,png,pdf,doc,docx', // Specify allowed file extensions if necessary
+                                type: 'image/jpeg,image/png,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document', // Specify allowed file MIME types if necessary
+                                maxSize: 10485760, // 10 MB in bytes
+                                message: 'The selected file is not valid or exceeds 10 MB (for compression plz visit:: https://www.ilovepdf.com/)'
                             }
-                        },
-                       
+                        }
                     },
-                    
                     'image': {
                         validators: {
                             notEmpty: {
                                 message: 'Image is required'
+                            },
+                            file: {
+                                extension: 'jpeg,jpg,png', // Specify allowed file extensions if necessary
+                                type: 'image/jpeg,image/png', // Specify allowed file MIME types if necessary
+                                maxSize: 10485760, // 10 MB in bytes
+                                message: 'The selected file is not valid or exceeds 10 MB'
                             }
                         }
-                    },
+                    }
+                    
                     
                 },
               

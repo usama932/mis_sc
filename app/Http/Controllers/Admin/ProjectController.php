@@ -63,18 +63,18 @@ class ProjectController extends Controller
         $userRole = Auth::user()->getRoleNames()->first();
      
         $roleMap = [
-            'Meal Assistant' => 'meal',
-            'Meal Officer' => 'meal',
-            'Meal Manager' => 'meal',
-            'Meal Coordinator' => 'meal',
+            'Meal Assistant'         => 'meal',
+            'Meal Officer'           => 'meal',
+            'Meal Manager'           => 'meal',
+            'Meal Coordinator'       => 'meal',
             'Accountability Officer' => 'meal',
-            'MIS Manager' => 'meal',
-            'MIS Officer' => 'meal',
-            'Head of Meal' => 'meal',
-            'administrator' => 'meal',
-            'focal person' => 'f_p',
-            'awards' => 'awards',
-            'budget holder' => 'budget_holder',
+            'MIS Manager'            => 'meal',
+            'MIS Officer'            => 'meal',
+            'Head of Meal'           => 'meal',
+            'administrator'          => 'meal',
+            'focal person'           => 'f_p',
+            'awards'                 => 'awards',
+            'budget holder'          => 'budget_holder',
         ];
         
         $role = $roleMap[$userRole] ?? 'all';
@@ -82,20 +82,22 @@ class ProjectController extends Controller
         $user_id = auth()->user()->id;
         
         $user = $user_id.'';
-        // Get Projects
+        
         $project_details = Project::query();
-       
-        if ($role == 'f_p') {
+      
+        if ($role == 'f_p') 
+        {
             $project_details->where(function ($query) use ($user) {
                 $query->orWhereJsonContains('focal_person', $user);    
             });
 
-        } elseif ($role == 'meal') {
-           
+        } 
+        elseif ($role == 'meal') 
+        {
+          
             if (auth()->user()->user_type == 'admin') {
                 $project_details->latest();
             } else {
-             
                 // Apply filtering based on province and district
                 // $province = auth()->user()->province ?? '';
                 // $district = auth()->user()->district ?? '';
@@ -105,12 +107,19 @@ class ProjectController extends Controller
                 // });
                 $project_details->whereHas('detail')->latest();
             }
-        } elseif ($role == 'awards') {
+        } 
+        elseif ($role == 'awards') 
+        {
             $project_details->whereHas('detail')->where('award_person', $user_id);
-        } elseif ($role == 'budget_holder') {
+        } 
+        elseif ($role == 'budget_holder') 
+        {
             $project_details->where(function ($query) use ($user) {
                 $query->orWhereJsonContains('budget_holder', $user);    
-            });;
+            });
+        }
+        else{
+            $project_details->whereHas('detail');
         }
         
         // Filter projects if requested
@@ -131,16 +140,16 @@ class ProjectController extends Controller
         $data = [];
         foreach ($projects as $project) {
            
-            $nestedData['id'] = $project->id;
-            $nestedData['project'] = $project->name ?? '';
-            $nestedData['sof'] = $project->sof ?? '';
-            $nestedData['type'] = $project->type ?? '';
-            $provinces = optional($project->detail)->province;
-            $districts = optional($project->detail)->district;
+            $nestedData['id']       = $project->id;
+            $nestedData['project']  = $project->name ?? '';
+            $nestedData['sof']      = $project->sof ?? '';
+            $nestedData['type']     = $project->type ?? '';
+            $provinces              = optional($project->detail)->province;
+            $districts              = optional($project->detail)->district;
             $nestedData['province'] = $provinces ? implode("<br>", Province::whereIn('province_id', json_decode($provinces, true))->pluck('province_name')->toArray()) : '';
             $nestedData['district'] = $districts ? implode("<br>", District::whereIn('district_id', json_decode($districts, true))->pluck('district_name')->toArray()) : '';
             $nestedData['project_tenure'] = ($project->start_date && $project->end_date) ? '<span style="font-size: smaller;">' . date('M d, Y', strtotime($project->start_date)) . '<br><span class="spacer">-</span><br>' . date('M d, Y', strtotime($project->end_date)) . '</span>' : '';
-            $nestedData['role'] =  $role;           
+            $nestedData['role']           =  $role;           
             $data[] = $nestedData;
         }
         

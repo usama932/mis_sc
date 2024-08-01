@@ -204,16 +204,18 @@ class DipActivityController extends Controller
             $start = $request->input('start');
         
             $user = auth()->user();
+            $userId =   $user->id.'';
             $userRole = $user->getRoleNames()->first();
         
-            $dipsQuery = DipActivity::when($dipId, function ($query) use ($dipId) {
+            $dipsQuery = ActivityMonths::when($dipId, function ($query) use ($dipId) {
                 $query->where('project_id', $dipId);
             });
         
+
             switch ($userRole) {
                 case 'focal person':
-                    $dipsQuery->whereHas('project', function ($query) use ($user) {
-                        $query->whereJsonContains('focal_person', $user->id);
+                    $dipsQuery->whereHas('project', function ($query) use ($userId) {
+                        $query->whereJsonContains('focal_person', $userId);
                     });
                     break;
                 case 'partner':
@@ -225,60 +227,45 @@ class DipActivityController extends Controller
                     break;
             }
         
-            $dipsQuery->where(function ($query) {
-                $query->whereHas('months', function ($query) {
-                    $query->whereHas('progress', function ($query) {
-                        $query->whereIn('status', ['To be Reviewed', 'Returned', 'Posted']);
-                    });
-                }, '=', DB::raw('(SELECT COUNT(*) FROM dip_activity_months WHERE dip_activity_months.activity_id = dip_activity.id)'));
-            });
-           
-            
+            $dipsQuery->whereIn('status', ['To be Reviewed', 'Returned', 'Posted'])->whereHas('progress');
+        
             $totalFiltered = $dipsQuery->count();
             $totalData = $dipsQuery->count();
             $dips = $dipsQuery->limit($limit)
-                ->offset($start)
-                ->orderBy($order, $dir)
-                ->get();
+            ->offset($start)
+            ->orderBy($order, $dir)
+            ->orderBy('created_at', 'asc')
+            ->get();
              
-            $sortedActivities = $dips->sortBy(function ($activity) {
-                return array_map('intval', explode('.', $activity->activity_number));
-            });
+          
             
             $data = [];
-            foreach ($sortedActivities as $activity) {
-                $show_url = route('activity_dips.show', $activity->id);
-                $editUrl = route('activity_dips.edit', $activity->id);
-                $progressUrl = route('postprogress', $activity->id);
-                $text = $activity->activity_title ?? "";
+            foreach ($dips as $completemonth) {
+                $show_url = route('activity_dips.show', $completemonth->activity->id);
+                $editUrl = route('activity_dips.edit', $completemonth->activity->id);
+                $progressUrl = route('postprogress', $completemonth->activity->id);
+                $text = $completemonth->activity->activity_title ?? "";
                 $words = str_word_count($text, 1);
                 $lines = array_chunk($words, 10);
                 $finalText = implode("<br>", array_map(fn($line) => implode(" ", $line), $lines));
         
                 $nestedData = [
                     'activity_number' => $finalText,
-                    'activity' => $activity->activity_number ?? '',
-                    'theme' => $activity->scisubtheme_name?->maintheme?->name ?? '',
-                    'sub_theme' => $activity->scisubtheme_name?->name ?? '',
-                    'activity_type' => $activity->activity_type?->activity_type?->name
-                        ? ($activity->activity_type?->activity_type?->name . ' (' . $activity->activity_type?->name . ')')
+                    'activity' => $completemonth->activity->activity_number ?? '',
+                    'theme' => $completemonth->activity->scisubtheme_name?->maintheme?->name ?? '',
+                    'sub_theme' => $completemonth->activity->scisubtheme_name?->name ?? '',
+                    'activity_type' => $completemonth->activity->activity_type?->activity_type?->name
+                        ? ($completemonth->activity->activity_type?->activity_type?->name . ' (' . $completemonth->activity->activity_type?->name . ')')
                         : '',
-                    'project' => $activity->project->name ?? '',
-                    'lop_target' => $activity->lop_target ?? '',
-                    'quarter_target' => collect($activity->months)
-                    ->filter(function($month) use ($activity) {
-                        return $month->activity_id == $activity->id 
-                            && $month->project_id == $activity->project_id 
-                            && ($month->progress && in_array($month->status, ['To be Reviewed', 'Returned', 'Posted']));
-                    })
-                    ->map(fn($month) => '<li><strong>' . $month->quarter . '-' . $month->year . ':</strong> ' . $month->target . '</li>')
-                    ->implode(''),
-                    'created_by' => $activity->user->name ?? '',
-                    'created_at' => date('M d, Y', strtotime($activity->created_at)) . '<br>' . date('h:iA', strtotime($activity->created_at)),
+                    'project' => $completemonth->project->name ?? '',
+                    'lop_target' => $completemonth->activity->lop_target ?? '',
+                    'quarter_target' => $completemonth->quarter.'-'.$completemonth->year,
+                    'created_by' => $completemonth->user->name ?? '',
+                    'created_at' => date('M d, Y', strtotime($completemonth->created_at)) . '<br>' . date('h:iA', strtotime($completemonth->created_at)),
                     'update_progress' => '<a href="' . $progressUrl . '"><span class="badge badge-success">Update Progress</span></a>',
                    'action' => '<div>
-                    <td><a class="btn-icon mx-1" href="' . $show_url . '" title="Show Activity" href="javascript:void(0)">
-                            <i class="fa fa-eye text-warning" aria-hidden="true"></i></a></td></div>',
+                    <td><a class="badge badge-primary mx-1" href="' . $show_url . '" title="Show Activity" href="javascript:void(0)">
+                          Show Activity</a></td></div>',
                 ];
         
                 $data[] = $nestedData;
@@ -304,83 +291,68 @@ class DipActivityController extends Controller
             $start = $request->input('start');
 
             $user = auth()->user();
+            $userId =   $user->id.'';
             $userRole = $user->getRoleNames()->first();
 
-            if(!empty($dipId)){
-                $dipsQuery = DipActivity::where('project_id',$dipId);
-            }
-            else{
-                $dipsQuery = DipActivity::where('id','!=',0);
-            }
-            
+            $dipsQuery = ActivityMonths::when($dipId, function ($query) use ($dipId) {
+                $query->where('project_id', $dipId);
+            });
             
             switch ($userRole) {
                 case 'focal person':
-                    $dipsQuery->whereHas('project', function ($query) use ($user) {
-                        $query->whereJsonContains('focal_person', $user->id);
+                    $dipsQuery = $dipsQuery->whereHas('project', function ($query) use ($userId) {
+                        $query->whereJsonContains('focal_person', $userId);
                     });
                     break;
                 case 'partner':
-                    $dipsQuery->whereHas('project', function ($query) use ($user) {
+                    $dipsQuery = $dipsQuery->whereHas('project', function ($query) use ($user) {
                         $query->whereHas('partners', function ($partnersQuery) use ($user) {
                             $partnersQuery->where('email', $user->email);
                         });
                     });
-                    break;
+                break;
             }
-        
-            $dipsQuery = $dipsQuery->whereHas('months', function ($query) {
-                $query->doesntHave('progress') // Check if the month does not have any progress
-                    ->whereDate('completion_date', '<', Carbon::now()->toDateString()); // Check if the completion date is in the past
-            })
-            ->with('months');
-             
-            $totalFiltered = $dipsQuery->count();
-            $totalData = $dipsQuery->count();
-            $dips = $dipsQuery->limit($limit)
-                ->offset($start)
-                ->orderBy($order, $dir)
-                ->get();
-             
-            $sortedActivities = $dips->sortBy(function ($activity) {
-                return array_map('intval', explode('.', $activity->activity_number));
-            });
           
+            $dipsMonths = $dipsQuery->doesntHave('progress')->whereDate('completion_date', '<', Carbon::now()->toDateString());
+           
+            $totalFiltered = $dipsMonths->count();
+            $totalData = $dipsMonths->count();
+            $dips = $dipsMonths->limit($limit)
+            ->offset($start)
+            ->orderBy($order, $dir)
+            ->get();
+
+            // Use collection methods to sort the data
+            $sortedActivities = $dips->sortBy('created_at');
             
             $data = [];
-            foreach ($sortedActivities as $activity) {
-                $show_url = route('activity_dips.show', $activity->id);
-                $editUrl = route('activity_dips.edit', $activity->id);
-                $progressUrl = route('postprogress', $activity->id);
-                $text = $activity->activity_title ?? "";
+            foreach ($sortedActivities as $dipmonth) {
+                $show_url = route('activity_dips.show',  $dipmonth->activity->id);
+                $editUrl = route('activity_dips.edit',  $dipmonth->activity->id);
+
+                $progressUrl = route('postprogress', $dipmonth->activity->id);
+                $text = $dipmonth->activity->activity_title ?? "";
                 $words = str_word_count($text, 1);
                 $lines = array_chunk($words, 10);
                 $finalText = implode("<br>", array_map(fn($line) => implode(" ", $line), $lines));
         
                 $nestedData = [
                     'activity_number' => $finalText,
-                    'activity' => $activity->activity_number ?? '',
-                    'theme' => $activity->scisubtheme_name?->maintheme?->name ?? '',
-                    'sub_theme' => $activity->scisubtheme_name?->name ?? '',
-                    'activity_type' => $activity->activity_type?->activity_type?->name
-                        ? ($activity->activity_type?->activity_type?->name . ' (' . $activity->activity_type?->name . ')')
+                    'activity' => $dipmonth->activity->activity_number ?? '',
+                    'theme' => $dipmonth->activity->scisubtheme_name?->maintheme?->name ?? '',
+                    'sub_theme' => $dipmonth->activity->scisubtheme_name?->name ?? '',
+                    'activity_type' =>  $dipmonth->activity->activity_type?->activity_type?->name
+                        ? ($dipmonth->activity->activity_type?->activity_type?->name . ' (' . $dipmonth->activity->activity_type?->name . ')')
                         : '',
-                    'project' => $activity->project->name ?? '',
-                    'lop_target' => $activity->lop_target ?? '',
-                   'quarter_target' => collect($activity->months)
-                    ->filter(function($month) use ($activity) {
-                        return $month->activity_id == $activity->id 
-                            && $month->project_id == $activity->project_id 
-                            && (!$month->progress & $month->completion_date < Carbon::now()->toDateString());
-                    })
-                    ->map(fn($month) => '<li><strong>' . $month->quarter . '-' . $month->year . ':</strong> ' . $month->target . '</li>')
-                    ->implode(''),
-                    'created_by' => $activity->user->name ?? '',
-                    'created_at' => date('M d, Y', strtotime($activity->created_at)) . '<br>' . date('h:iA', strtotime($activity->created_at)),
+                    'project' => $dipmonth->project->name ?? '',
+                    'lop_target' => $dipmonth->activity->lop_target ?? '',
+                   'quarter_target' => $dipmonth->quarter.'-'.$dipmonth->year,
+                    'created_by' => $dipmonth->user->name ?? '',
+                    'created_at' => date('M d, Y', strtotime($dipmonth->created_at)) . '<br>' . date('h:iA', strtotime($dipmonth->created_at)),
                     'update_progress' => '<a href="' . $progressUrl . '"><span class="badge badge-success">Update Progress</span></a>',
                    'action' => '<div>
-                    <td><a class="btn-icon mx-1" href="' . $show_url . '" title="Show Activity" href="javascript:void(0)">
-                            <i class="fa fa-eye text-warning" aria-hidden="true"></i></a></td></div>',
+                    <td><a class="badge badge-primary mx-1" href="' . $show_url . '" title="Show Activity" href="javascript:void(0)">
+                          Show Activity</a></td></div>',
                 ];
         
                 $data[] = $nestedData;
@@ -783,7 +755,8 @@ class DipActivityController extends Controller
         return view('admin.dip.activity_progress',compact('projects','themes'));
     }
 
-    public function activity_complete(){
+    public function activity_complete()
+    {
       
         if(auth()->user()->hasRole('partner')){
           
@@ -835,7 +808,11 @@ class DipActivityController extends Controller
     {
         $quarter = ActivityMonths::where('id',$request->quarter)->first();
         $editUrl = route('activity_dips.show',$quarter->activity_id);
-
+        $validatedData = $request->validate([
+            'attachment' => 'required|file|mimes:pdf,docx,doc|max:10240',
+            'image' => 'required|file|mimes:jpeg,jpg,png|max:10240',
+    
+        ]);
         // if($request->activity_target > $request->lop_target) {
         //     $editUrl = redirect()->back();
         //     return response()->json([

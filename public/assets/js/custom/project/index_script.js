@@ -55,7 +55,7 @@ $(document).ready(function() {
                 title: 'Thematic area Data export',
                 className: 'badge badge-outline-success mb-2',
                 exportOptions: {
-                    columns: [0, 1, 2]
+                    columns: [0, 1, 2,3,4,5,6,7,8,9]
                 }
             },
             {
@@ -65,7 +65,7 @@ $(document).ready(function() {
                 title: 'Thematic area Data',
                 className: 'badge badge-outline-success mb-2',
                 exportOptions: {
-                    columns: [0, 1, 2]
+                    columns: [0, 1, 2,3,4,5,6,7,8,9]
                 }
             }
         ];

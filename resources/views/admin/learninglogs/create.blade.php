@@ -59,6 +59,7 @@
                                 <option value="Evaluation">Evaluation</option>
                                 <option value="Learning PPT" >Learning PPT</option>
                                 <option value="Learning Briefer">Learning Briefer</option>
+                                <option value="Learning Evidence Piece">Learning Evidence Piece</option>
                                 <option value="PDM">PDM</option>
                                 <option value="Research Study">Research Study</option>
                                 <option value="Survey Report">Survey Report</option>

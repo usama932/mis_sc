@@ -48,6 +48,7 @@
                                 <option value="Evaluation" @if($log->research_type == "Evaluation") selected @endif >Evaluation</option>
                                 <option value="Learning PPT" @if($log->research_type == "Learning PPT") selected @endif>Learning PPT</option>
                                 <option value="Learning Briefer" @if($log->research_type == "Learning Briefer") selected @endif>Learning Briefer</option>
+                                <option value="Learning Evidence Piece"  @if($log->research_type == "Learning Evidence Piece") selected @endif>Learning Evidence Piece</option>
                                 <option value="PDM" @if($log->research_type == "PDM") selected @endif>PDM</option>
                                 <option value="Reasrch Study" @if($log->research_type == "Research Study") selected @endif>Research Study</option>
                                 <option value="Survey Report" @if($log->research_type == "Survey Report") selected @endif>Survey Report</option>
@@ -62,7 +63,7 @@
                             <select name="theme[]" multiple id="theme" aria-label="Select Theme" data-control="select2" data-placeholder="Select Theme" class="form-select">
                                 <option value="">Select Theme</option>
                                 @foreach($themes as $theme)
-                                <option value="{{$theme->id}}" @if(in_array($theme->id, $themes->pluck('id')->toArray())) selected @endif>{{$theme->name}}</option>
+                                    <option value="{{$theme->id}}" @if(in_array($theme->id, $themes->pluck('id')->toArray())) selected @endif>{{$theme->name}}</option>
                                 @endforeach
                             </select>
                             <div id="themeError" class="error-message "></div>

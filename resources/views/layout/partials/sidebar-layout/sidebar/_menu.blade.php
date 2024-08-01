@@ -1,4 +1,61 @@
-<!--begin::sidebar menu-->
+@php
+$user = auth()->user();
+$userId =   $user->id.'';
+$userRole = $user->getRoleNames()->first();
+$dipsQuery = App\Models\ActivityMonths::where('id','!=',0);
+$dipscomplete = App\Models\ActivityMonths::where('id','!=',0);
+switch ($userRole) {
+
+    case 'focal person':
+        $dipsQuery = $dipsQuery->whereHas('project', function ($query) use ($userId) {
+            $query->whereJsonContains('focal_person', $userId);
+        });
+
+    break;	
+        
+    case 'budget holder':
+        $dipsQuery = $dipsQuery->whereHas('project', function ($query) use ($user) {
+            $query->whereHas('partners', function ($partnersQuery) use ($user) {
+                $partnersQuery->where('email', $user->email);
+            });
+        });
+    break;
+
+    case 'awards':
+        $dipsQuery =$dipsQuery->whereHas('project', function ($query) use ($user) {
+            $query->where('award_person', $user->id);
+        });
+    break;
+
+    case 'partner':
+        $dipsQuery = $dipsQuery->whereHas('project', function ($query) use ($user) {
+            $query->whereHas('partners', function ($partnersQuery) use ($user) {
+                $partnersQuery->where('email', $user->email);
+            });
+        });
+    break;
+   
+}
+$overdue = $dipsQuery->doesntHave('progress')->whereDate('completion_date', '<', Carbon\Carbon::now()->toDateString())->count();
+
+switch ($userRole) {
+        case 'focal person':
+            $dipscomplete->whereHas('project', function ($query) use ($userId) {
+                $query->whereJsonContains('focal_person', $userId);
+            });
+            break;
+        case 'partner':
+            $dipscomplete->whereHas('project', function ($query) use ($user) {
+                $query->whereHas('partners', function ($partnersQuery) use ($user) {
+                    $partnersQuery->where('email', $user->email);
+                });
+            });
+            break;
+    }
+
+$dipscomplete->whereIn('status', ['To be Reviewed', 'Returned', 'Posted'])->whereHas('progress');
+$complete = $dipscomplete->count();
+@endphp
 <div class="app-sidebar-menu overflow-hidden flex-column-fluid">
 	<!--begin::Menu wrapper-->
 	<div id="kt_app_sidebar_menu_wrapper" class="app-sidebar-wrapper hover-scroll-overlay-y my-5" data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer" data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px" data-kt-scroll-save-state="true">
@@ -363,24 +420,26 @@
                                 @endcan
                                 @can('create dip')
                                     <div class="menu-item">
-                                        <!--begin:Menu link-->
+                                        
                                         <a class="menu-link {{ ( request()->segment(2) == 'complete')  ? 'active' : '' }}" href="{{ route('activity_dips.complete') }}"">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot"></span>
                                             </span>
-                                            <span class="menu-title">Completed Activities</span>
+                                            <span class="menu-title">Completed Activities <span class="badge badge-light-danger mb-5">{{ $complete }}</span></span>
                                         </a>
                                         <!--end:Menu link-->
                                     </div>
                                 @endcan
                                 @can('create dip')
+                                  
                                     <div class="menu-item">
                                         <!--begin:Menu link-->
                                         <a class="menu-link {{ ( request()->segment(2) == 'due'  )  ? 'active' : '' }}" href="{{ route('activity_dips.due') }}"">
+                                            
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot"></span>
                                             </span>
-                                            <span class="menu-title">Overdue Activities</span>
+                                            <span class="menu-title">Overdue Activities  <span class="badge badge-light-danger mb-5">{{ $overdue }}</span> </span>
                                         </a>
                                         <!--end:Menu link-->
                                     </div>

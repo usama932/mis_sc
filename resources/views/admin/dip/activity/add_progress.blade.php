@@ -151,212 +151,88 @@
 </script>
 <script>
    
-    document.getElementById('add_progress_form').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent default form submission
-        var submitButton = $('#kt_add_progress_status_form');
-       
-        const form = this;
-        const formValidationRules = {
-            quarter: {
-                validators: {
-                    notEmpty: {
-                        message: 'Quarter is required'
-                    }
-                }
-            },
-            activity_target: {
-                validators: {
-                    notEmpty: {
-                        message: 'Activity Target is required'
-                    },
-                    numeric: {
-                        message: 'Activity Target must be a number'
-                    },
-                    regexp: {
-                        regexp: /^\d+$/,
-                        message: 'Activity Target must be a positive number'
-                    }
-                }
-            },
-            complete_date: {
-                validators: {
-                    notEmpty: {
-                        message: 'Complete date  is required'
-                    },
-                
-                }
-            },
-            'women_target': {
-                validators: {
-                    notEmpty: {
-                        message: 'Women Target  is required'
-                    },
-                    numeric: {
-                        message: 'Women Target  is must number'
-                    },
-                    regexp: {
-                        regexp: /^\d+$/,
-                        message: 'Individual Target must be a positive number'
-                    }
-                }
-            },
-            'men_target': {
-                validators: {
-                    notEmpty: {
-                        message: 'Men Target is required'
-                    },
-                    numeric: {
-                        message: 'Men Target  is must number'
-                    },
-                    regexp: {
-                        regexp: /^\d+$/,
-                        message: 'Individual Target must be a positive number'
-                    }
-                }
-            },
-            'girls_target': {
-                validators: {
-                    notEmpty: {
-                        message: 'Girls Target is required'
-                    },
-                    numeric: {
-                        message: 'Girls Target  is must number'
-                    },
-                    regexp: {
-                        regexp: /^\d+$/,
-                        message: 'Individual Target must be a positive number'
-                    }
-                }
-            },
-            'boys_target': {
-                validators: {
-                    notEmpty: {
-                        message: 'Boys Target is required'
-                    },
-                    numeric: {
-                        message: 'Boys Target  is must number'
-                    },
-                    regexp: {
-                        regexp: /^\d+$/,
-                        message: 'Individual Target must be a positive number'
-                    }
-                }
-            },
-            'remarks': {
-                validators: {
-                    notEmpty: {
-                        message: 'Remarks Target is required'
-                    },
-                }
-            },
-            'attachment': {
-                validators: {
-                    notEmpty: {
-                        message: 'Attachment is required'
-                    }
-                },
-                
-            },
-            'image': {
-                validators: {
-                    notEmpty: {
-                        message: 'Image is required'
-                    }
-                }
-            },
-        };
-        const errorContainers = document.querySelectorAll('.error-message');
-        errorContainers.forEach(container => container.textContent = '');
-    
-        let isValid = true;
-        for (const field in formValidationRules) {
-            const fieldElement = form.elements[field];
-            const fieldRules = formValidationRules[field].validators;
-    
-            let errorContainer = fieldElement.parentNode ? fieldElement.parentNode.querySelector('.error-message') : null;
-            if (errorContainer) {
-                // Check for required field
-                if (fieldRules.notEmpty && !fieldElement.value.trim()) {
-                    errorContainer.textContent = fieldRules.notEmpty.message;
-                    isValid = false;
-                }
-    
-                // Check for numeric field
-                if (fieldRules.numeric && isNaN(fieldElement.value)) {
-                    errorContainer.textContent = fieldRules.numeric.message;
-                    isValid = false;
-                }
-    
-                // Check for positive integer (regexp validation)
-                if (fieldRules.regexp) {
-                    const regex = new RegExp(fieldRules.regexp.regexp);
-                    if (!regex.test(fieldElement.value)) {
-                        errorContainer.textContent = fieldRules.regexp.message;
-                        isValid = false;
-                    }
-                }
+   document.getElementById('add_progress_form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
+    var submitButton = $('#kt_add_progress_status_form');
+   
+    const form = this;
+    const fileInputs = {
+        attachment: document.getElementById('attachment'),
+        image: document.getElementById('image')
+    };
+
+    const fileValidationRules = {
+        attachment: {
+            types: ['pdf', 'docx', 'doc'],
+            maxSize: 10485760 // 10 MB in bytes
+        },
+        image: {
+            types: ['jpeg', 'jpg', 'png'],
+            maxSize: 10485760 // 10 MB in bytes
+        }
+    };
+
+    let isValid = true;
+    const errorContainers = document.querySelectorAll('.error-message');
+    errorContainers.forEach(container => container.textContent = '');
+
+    for (const [key, fileInput] of Object.entries(fileInputs)) {
+        if (fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+            const { types, maxSize } = fileValidationRules[key];
+            const fileType = file.name.split('.').pop().toLowerCase();
+            
+            if (!types.includes(fileType)) {
+                document.getElementById(`${key}Error`).textContent = `Invalid file type for ${key}. Allowed types: ${types.join(', ')}`;
+                isValid = false;
+            }
+            if (file.size > maxSize) {
+                document.getElementById(`${key}Error`).textContent = `The selected file ${key} is not valid or exceeds 10 MB (for compression plz visit:: https://www.ilovepdf.com/)`;
+                isValid = false;
             }
         }
-    
-        if (isValid) {
-            submitButton.prop('disabled', true).addClass('disabled-blur');
-            fetch(form.action, {
-                method: 'POST',
-                body: new FormData(form),
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Form submitted successfully:', data);
-                // Reset the form
-                
-                form.reset();
-                toastr.options = {
-                    "closeButton": true,
-                    "debug": false,
-                    "newestOnTop": false,
-                    "progressBar": false,
-                    "positionClass": "toastr-top-right",
-                    "preventDuplicates": false,
-                    "onclick": null,
-                    "showDuration": "300",
-                    "hideDuration": "1000",
-                    "timeOut": "5000",
-                    "extendedTimeOut": "1000",
-                    "showEasing": "swing",
-                    "hideEasing": "linear",
-                    "showMethod": "fadeIn",
-                    "hideMethod": "fadeOut"
-                };
-                
-                toastr.success("Quarterly achievement updated succesfully", "Success");
-                $('#add_progress').modal('hide');
-                window.location.href = window.location.href;
-                submitButton.prop('disabled', false).removeClass('disabled-blur');
-            })
-            .catch(error => {
-                toastr.options = {
-                    "closeButton": true,
-                    "debug": false,
-                    "newestOnTop": false,
-                    "progressBar": false,
-                    "positionClass": "toastr-top-right",
-                    "preventDuplicates": false,
-                    "onclick": null,
-                    "showDuration": "300",
-                    "hideDuration": "1000",
-                    "timeOut": "5000",
-                    "extendedTimeOut": "1000",
-                    "showEasing": "swing",
-                    "hideEasing": "linear",
-                    "showMethod": "fadeIn",
-                    "hideMethod": "fadeOut"
-                };
-                submitButton.prop('disabled', false).removeClass('disabled-blur');
-                toastr.success("Error submitting progress", "Success");
-                console.error('Error submitting form:', error);
-                
-            });
+    }
+
+    // Additional form field validations (e.g., required fields)
+    const formValidationRules = {
+        // Add your form field rules here...
+    };
+
+    for (const field in formValidationRules) {
+        const fieldElement = form.elements[field];
+        const fieldRules = formValidationRules[field].validators;
+        let errorContainer = fieldElement.parentNode ? fieldElement.parentNode.querySelector('.error-message') : null;
+
+        if (errorContainer) {
+            if (fieldRules.notEmpty && !fieldElement.value.trim()) {
+                errorContainer.textContent = fieldRules.notEmpty.message;
+                isValid = false;
+            }
+            // Add other validation checks here...
         }
-    });
+    }
+
+    if (isValid) {
+        submitButton.prop('disabled', true).addClass('disabled-blur');
+        fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Form submitted successfully:', data);
+            form.reset();
+            toastr.success("Quarterly achievement updated successfully", "Success");
+            $('#add_progress').modal('hide');
+            window.location.href = window.location.href;
+            submitButton.prop('disabled', false).removeClass('disabled-blur');
+        })
+        .catch(error => {
+            toastr.error("Error submitting progress", error);
+            console.error('Error submitting form:', error);
+            submitButton.prop('disabled', false).removeClass('disabled-blur');
+        });
+    }
+});
  
 </script>

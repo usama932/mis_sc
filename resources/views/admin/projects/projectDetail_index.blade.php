@@ -89,41 +89,24 @@
           
             buttons: [
                 {
-
                     extend: 'excelHtml5',
-
-                    filename: 'Identificatoin Data export_',
-
+                    filename: 'project Data export',
                     text: '<i class="flaticon2-download"></i> Excel',
-
-                    title: '',
-
+                    title: 'project Data export',
                     className: 'badge badge-success',
-
                     exportOptions: {
-
                         columns: [1, 2, 3, 4, 5, 6, 7]
-
                     }
-
                 },
 
                 {
-
                     extend: 'csvHtml5',
-
-                    filename: 'Identificatoin Data CSV_',
-
+                    filename: 'Project Data CSV',
                     text: '<i class="flaticon2-download"></i> CSV',
-
                     title: '',
-
                     className: 'badge badge-warning',
-
                     exportOptions: {
-
                         columns: [1, 2, 3, 4, 5, 6, 7]
-
                     }
 
                 }

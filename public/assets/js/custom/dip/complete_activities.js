@@ -30,7 +30,7 @@ $(document).ready(function () {
             "serverSide": true,
             "searching": false,
             "bLengthChange": true,
-            "aLengthMenu": [[10, 50, 100, 250], [10, 50, 100, 250]],
+            "aLengthMenu": [[10, 50, 100, 250,500,750,1000,1500,2000,2500], [10, 50, 100, 250,500,750,1000,1500,2000,2500]],
             "bInfo" : false,
             "responsive": false,
             "info": true,

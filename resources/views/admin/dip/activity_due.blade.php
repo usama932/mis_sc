@@ -2,6 +2,7 @@
     @section('title')
        Complete Activites
     @endsection
+    @if(auth()->user()->user_type == 'admin')
     <div class="card mb-5">
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
@@ -50,6 +51,7 @@
             </div>
         </div>
     </div>
+    @endif
     <div class="card">
         <div class="card-body">
         
