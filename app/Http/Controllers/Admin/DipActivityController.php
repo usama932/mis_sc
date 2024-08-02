@@ -582,7 +582,7 @@ class DipActivityController extends Controller
                                         $query->has('progress');
                                     }])->find($id);
 
-        $monthsWithpostedCount      = ActivityMonths::where('activity_id', $id)->where('status',"Posted")->whereHas('progress')->count();
+        $monthsWithpostedCount      = ActivityMonths::where('activity_id', $id)->whereHas('progress')->count();
         $monthsWithoutProgressCount = ActivityMonths::where('activity_id', $id)->whereDate('completion_date', '<', Carbon::now()->toDateString())->whereDoesntHave('progress')->count();
         $monthspending              = ActivityMonths::where('activity_id', $id)->whereDate('completion_date', '>', Carbon::now()->toDateString())->whereDoesntHave('progress')->count();
         $monthstobreviewCount       = ActivityMonths::where('activity_id', $id)->where('activity_id', $id)->whereHas('progress')->where('status',"To be Reviewed")->count();
@@ -854,7 +854,8 @@ class DipActivityController extends Controller
                         File::delete(storage_path("app/public/activity_progress/attachment/{$sof}/".$request->attachment));
                     }
                     $file = $request->attachment;
-                    $attachment = $file->getClientOriginalName();
+                    $timestamp = now()->timestamp;  // Get the current timestamp
+                    $attachment = $timestamp.'_'.$file->getClientOriginalName();
                     $file->storeAs("public/activity_progress/attachment/{$sof}/",$attachment);
                 }
 
@@ -864,7 +865,9 @@ class DipActivityController extends Controller
                         File::delete(storage_path("app/public/activity_progress/image/{$sof}/".$request->image));
                     }
                     $file = $request->image;
-                    $image = $file->getClientOriginalName();
+                    $timestamp = now()->timestamp;  // Get the current timestamp
+                    $image = $timestamp.'_'.$file->getClientOriginalName();
+                  
                     $file->storeAs("public/activity_progress/image/{$sof}/",$image);
                 }
 
@@ -898,7 +901,8 @@ class DipActivityController extends Controller
                     }
                     
                     $file = $request->attachment;
-                    $attachment = $file->getClientOriginalName();
+                    $timestamp = now()->timestamp;  // Get the current timestamp
+                    $attachment = $timestamp.'_'.$file->getClientOriginalName();
                     $file->storeAs("public/activity_progress/attachment/{$sof}/",$attachment);
                    
                 }
@@ -911,7 +915,8 @@ class DipActivityController extends Controller
                     }
                     
                     $file = $request->image;
-                    $image = $file->getClientOriginalName();
+                    $timestamp = now()->timestamp;  // Get the current timestamp
+                    $image = $timestamp.'_'.$file->getClientOriginalName();
                     $file->storeAs("public/activity_progress/image/{$sof}/",$image);
                    
                 }
@@ -1011,7 +1016,9 @@ class DipActivityController extends Controller
                 File::delete(storage_path("app/public/activity_progress/attachment/{$project->sof}/".$request->attachment));
             }
             $file = $request->attachment;
-            $attachment = $file->getClientOriginalName();
+           
+            $timestamp = now()->timestamp;  // Get the current timestamp
+            $attachment = $timestamp.'_'.$file->getClientOriginalName();
             $file->storeAs("public/activity_progress/attachment/{$project->sof}",$attachment);
         }
 
@@ -1021,7 +1028,8 @@ class DipActivityController extends Controller
                 File::delete(storage_path("app/public/activity_progress/image/{$project->sof}/".$request->image));
             }
             $file = $request->image;
-            $image = $file->getClientOriginalName();
+            $timestamp = now()->timestamp;  // Get the current timestamp
+            $image = $timestamp.'_'.$file->getClientOriginalName();
             $file->storeAs("public/activity_progress/image/{$project->sof}",$image);
         }
         $quarter = ActivityProgress::where('id',$id)->update([
@@ -1074,7 +1082,6 @@ class DipActivityController extends Controller
         $path = public_path("storage/activity_progress/attachment/{$project->sof}/".$progress->attachment);
 
         if (!file_exists($path)) {
-            // Output error or log it
             return response()->json(['error' => 'File not found'], 404);
         }
         
