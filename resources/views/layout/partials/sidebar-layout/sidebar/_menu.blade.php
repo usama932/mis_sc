@@ -421,11 +421,14 @@ $complete = $dipscomplete->count();
                                 @can('create dip')
                                     <div class="menu-item">
                                         
-                                        <a class="menu-link {{ ( request()->segment(2) == 'complete')  ? 'active' : '' }}" href="{{ route('activity_dips.complete') }}"">
+                                        <a class="menu-link {{ ( request()->segment(2) == 'complete')  ? 'active' : '' }}" href="{{ route('activity_dips.complete') }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot"></span>
                                             </span>
-                                            <span class="menu-title">Completed Activities <span class="badge badge-light-danger mb-5">{{ $complete }}</span></span>
+                                            <span class="menu-title d-flex justify-content-between align-items-center w-100">
+                                                Completed Activities
+                                                <span class="badge badge-light-success">{{ $complete }}</span>
+                                            </span>
                                         </a>
                                         <!--end:Menu link-->
                                     </div>
@@ -434,12 +437,14 @@ $complete = $dipscomplete->count();
                                   
                                     <div class="menu-item">
                                         <!--begin:Menu link-->
-                                        <a class="menu-link {{ ( request()->segment(2) == 'due'  )  ? 'active' : '' }}" href="{{ route('activity_dips.due') }}"">
-                                            
+                                        <a class="menu-link {{ ( request()->segment(2) == 'due')  ? 'active' : '' }}" href="{{ route('activity_dips.due') }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot"></span>
                                             </span>
-                                            <span class="menu-title">Overdue Activities  <span class="badge badge-light-danger mb-5">{{ $overdue }}</span> </span>
+                                            <span class="menu-title d-flex justify-content-between align-items-center w-100">
+                                                Overdue Activities
+                                                <span class="badge badge-light-success">{{ $overdue }}</span>
+                                            </span>
                                         </a>
                                         <!--end:Menu link-->
                                     </div>
