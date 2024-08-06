@@ -230,12 +230,14 @@ class DipActivityController extends Controller
             $totalData = $dipsQuery->count();
             $dips = $dipsQuery->limit($limit)
             ->offset($start)
-            ->with(['activity' => function ($query) {
-                $query->orderByActivityNumber();
-            }])
+            ->with('activity')
             ->get();
-             
-          
+        
+            // Sort the results by activity_number of the related activity
+            $sortedDips = $dips->sortBy(function ($dip) {
+                return $dip->activity ? $dip->activity->activity_number : '';
+            }, SORT_NATURAL);
+            
             
             $data = [];
             foreach ($dips as $completemonth) {
@@ -315,10 +317,11 @@ class DipActivityController extends Controller
            
             $totalFiltered = $dipsMonths->count();
             $totalData = $dipsMonths->count();
-            $dips = $dipsMonths->limit($limit)
-            ->offset($start)
+            $dips = $dipsMonths
             ->with(['activity' => function ($query) {
-                $query->orderByActivityNumber();
+                return $query->orderByRaw("
+                    REPLACE(activity_number, '.', '') + 0
+                ");
             }])
             ->get();
         
