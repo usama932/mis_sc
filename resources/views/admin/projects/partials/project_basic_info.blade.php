@@ -1,3 +1,13 @@
+<style>
+    .description-text, .full-text {
+    display: inline;
+    }
+    .toggle-text {
+        color: blue;
+        cursor: pointer;
+        margin-left: 5px;
+    }
+    </style>
 <div class="row">
     <div class="col-md-6">
         <table class="table table-borderless">
@@ -110,8 +120,38 @@
         <table class="table ">
             <tr>
                 <td><strong>Project Description</strong></td>
-                <td>{{$project->detail?->project_description ??  ''}}</td>
-            </tr>
+                <td>
+                    <span class="description-text">
+                        {{ Str::limit($project->detail?->project_description, 500, '...') }}
+                    </span>
+                    <span class="full-text" style="display: none;">
+                        {{$project->detail?->project_description ??  ''}}
+                    </span>
+                    @if(strlen($project->detail?->project_description ?? '') > 100)
+                        <a href="javascript:void(0);" class="toggle-text">See More</a>
+                    @endif
+                </td>
+            </tr>            
         </table>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.toggle-text').forEach(function(toggle) {
+            toggle.addEventListener('click', function() {
+                let descriptionText = this.previousElementSibling.previousElementSibling;
+                let fullText = this.previousElementSibling;
+                
+                if (fullText.style.display === 'none') {
+                    descriptionText.style.display = 'none';
+                    fullText.style.display = 'inline';
+                    this.textContent = 'See Less';
+                } else {
+                    descriptionText.style.display = 'inline';
+                    fullText.style.display = 'none';
+                    this.textContent = 'See More';
+                }
+            });
+        });
+    });
+</script>

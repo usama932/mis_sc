@@ -3,7 +3,7 @@
     @section('title ')
         Add Project Activities & Targets
     @endsection
-
+    
     <div class="card">
         @if ($errors->any())
             <div class="alert alert-danger">

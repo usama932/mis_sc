@@ -2,13 +2,14 @@
     @section('title')
     Add/Edit Project Details
     @endsection 
+
     <style>
     .spacer::after {
-            content: "\2002"; /* Unicode character for en space */
-}
+        content: "\2002"; /* Unicode character for en space */
+    }
     </style>
-    <div id="kt_app_content" class="app-content flex-column-fluid">
 
+    <div id="kt_app_content" class="app-content flex-column-fluid">
         <div class="card mb-4">
             @role('administrator')
                 <div class="accordion" id="accordionExample">
@@ -16,40 +17,32 @@
                         <h3 class="accordion-header" id="headingOne">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                 <div class="d-flex align-items-center">
-                                    <!--begin::Symbol-->
                                     <div class="symbol symbol-50px me-5">
                                         <span class="symbol-label bg-light-danger">
-                                            <i class="ki-duotone ki-filter-search fs-2x text-danger">
-                                                <span class="path1"></span>
-                                                <span class="path2"></span>
-                                            </i>
+                                            <i class="ki-duotone ki-filter-search fs-2x text-danger"></i>
                                         </span>
                                     </div>
-                                    <!--end::Symbol-->
-                                    <!--begin::Text-->
                                     <div class="d-flex flex-column">
                                         <a href="javascript:;" class="text-dark text-hover-primary fs-6 fw-bold">Apply Filters</a>
                                     </div>
-                                    <!--end::Text-->
                                 </div>
                             </button>
                         </h3>
                         <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
-                                <div class="card-header border-0">
-                                    <div class="row mb-5">
-                                        <div class="col-md-12 mt-3">
-                                            <label class="fs-6 fw-semibold form-label mb-2">
-                                                <span>Project</span>
-                                            </label>
-                                            <select name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Project Name" class="form-select form-select-solid">
-                                                <option value="">Select Project</option>
-                                                @foreach($projects as $project)
-                                                <option value="{{$project->id}}">{{$project->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                <div class="row mb-5">
+                                    <div class="col-md-4 mt-3">
+                                        <label class=" form-label mb-2">
+                                            <span>Project</span>
+                                        </label>
+                                        <select name="project_name" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Project Name" class="form-select" data-allow-clear="true">
+                                            <option value="">Select Project</option>
+                                            @foreach($projects as $project)
+                                                <option value="{{ $project->id }}">{{ $project->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
+                                   
                                 </div>
                             </div>
                         </div>
@@ -57,8 +50,9 @@
                 </div>
             @endrole
         </div>
+
         <div class="card"> 
-            <div class="card-body pt-3">
+           
                 <div class="table-responsive overflow-*">
                     <table class="table table-striped table-bordered nowrap" id="project_details">
                         <thead>
@@ -76,257 +70,16 @@
                         </thead>
                     </table>
                 </div>
-            </div>
+            
         </div>
-    
     </div>
-
-    @push("scripts")
-    <script src="{{asset("assets/plugins/custom/datatables/datatables.bundle.js")}}"></script>
+    @push('scripts')
     <script>
-        var project = $('#project_details').DataTable({
-            "dom": 'lfBrtip',
-          
-            buttons: [
-                {
-                    extend: 'excelHtml5',
-                    filename: 'project Data export',
-                    text: '<i class="flaticon2-download"></i> Excel',
-                    title: 'project Data export',
-                    className: 'badge badge-success',
-                    exportOptions: {
-                        columns: [1, 2, 3, 4, 5, 6, 7]
-                    }
-                },
-
-                {
-                    extend: 'csvHtml5',
-                    filename: 'Project Data CSV',
-                    text: '<i class="flaticon2-download"></i> CSV',
-                    title: '',
-                    className: 'badge badge-warning',
-                    exportOptions: {
-                        columns: [1, 2, 3, 4, 5, 6, 7]
-                    }
-
-                }
-            ],
-
-            "processing": true,
-            "serverSide": true,
-            "searching": false,
-            "bLengthChange": false,
-            "paging": true,
-            "bInfo": false,
-            "responsive": false,
-            "info": false,
-            "ajax": {
-                "url": "{{route('admin.get_project_details')}}",
-                "dataType": "json",
-                "type": "POST",
-                "data": {
-                    "_token": "<?php echo csrf_token() ?>"
-                }
-            },
-            "columns": [{
-                    "data": "project",
-                    "searchable": false,
-                    "orderable": false,
-                    "sorting": false
-                },
-                {
-                    "data": "type",
-                    "searchable": false,
-                    "orderable": false
-                },
-                {
-                    "data": "sof",
-                    "searchable": false,
-                    "orderable": false
-                },
-                {
-                    "data": "province",
-                    "searchable": false,
-                    "orderable": false
-                },
-                {
-                    "data": "district",
-                    "searchable": false,
-                    "orderable": false
-                },
-                {
-                    "data": "project_tenure",
-                    "searchable": false,
-                    "orderable": false
-                },
-                {
-                    "data": "action",
-                    "searchable": false,
-                    "orderable": false,
-                    "render": function(data, type, row) {
-                        var actionHtml = '';
-
-                        // Conditionally render action buttons based on role or any other criteria
-                        if (row.role === 'f_p') {
-                            actionHtml += '<a class="btn-icon mx-1" href="{{ route('project.detail', ':id') }}" title="Edit Project"><i class="fas fa-pencil-alt text-warning"></i></a>';
-                        }
-
-                        if ('{{ auth()->user()->user_type }}' === 'admin') {
-                            actionHtml += '<a class="btn-icon mx-1" href="{{ route('project.detail', ':id') }}" title="Edit Project"><i class="fas fa-pencil-alt text-warning"></i></a>';
-                            actionHtml += '<a class="btn-icon mx-1" onclick="event.preventDefault(); del(' + row.id + ');" title="Delete Project" href="#"><i class="fas fa-trash-alt text-danger"></i></a>';
-                        }
-
-                        actionHtml += '<a class="btn-icon mx-1" href="{{ route('projects.show', ':id') }}" target="_blank" title="Show Project"><i class="far fa-eye text-success"></i></a>';
-
-                        return actionHtml.replace(/:id/g, row.id);
-                    }
-                },
-                { 
-                        "data": "project_activities",
-                        "searchable": false,
-                        "orderable": false,
-                        "render": function(data, type, row) {
-                            return '<a class="btn" href="{{ route("project.view",":id") }}" target="_blank" title="Download project DIP"><i class="far fa-caret-square-right text-info"></i></a>'.replace(':id', row.id);
-                        }
-                    },
-                { 
-                    "data": "review_meeting",
-                    "searchable": false,
-                    "orderable": false,
-                    "render": function(data, type, row) {
-                        return '<a class="btn" href="{{ route("projectreviews.show", ":id") }}" title="Add/Show Review Meeting"><i class="far fa-calendar-alt text-info"></i></a>'.replace(':id', row.id);
-                    }
-                }
-            ]
-                
-        });
-        project.order([]);
-        $("#project_name").change(function() {
-
-            var table = $('#project_details').DataTable();
-            table.destroy();
-
-            var project = document.getElementById("project_name").value ?? '1';
-
-            var projects = $('#project_details').DataTable({
-
-                "dom": 'lfBrtip',
-                buttons: [
-                    'csv', 'excel'
-                ],
-                "processing": true,
-                "serverSide": true,
-                "searching": false,
-                "bLengthChange": false,
-                "paging": true,
-                "bInfo": false,
-                "responsive": false,
-                "info": false,
-
-                "ajax": {
-                    "url": "{{ route('admin.get_project_details') }}",
-                    "dataType": "json",
-                    "type": "POST",
-                    "data": {
-                        "_token": "<?php echo csrf_token() ?>",
-                        'project': project
-                    }
-                },
-                "columns": [{
-                        "data": "project",
-                        "searchable": false,
-                        "orderable": false,
-                    },
-                    {
-                        "data": "type",
-                        "searchable": false,
-                        "orderable": false
-                    },
-                    {
-                        "data": "sof",
-                        "searchable": false,
-                        "orderable": false
-                    },
-                    {
-                        "data": "province",
-                        "searchable": false,
-                        "orderable": false
-                    },
-                    {
-                        "data": "district",
-                        "searchable": false,
-                        "orderable": false
-                    },
-                    {
-                        "data": "project_tenure",
-                        "searchable": false,
-                        "orderable": false
-                    },
-                    {
-                        "data": "action",
-                        "searchable": false,
-                        "orderable": false,
-                        "render": function(data, type, row) {
-                            var actionHtml = '';
-
-                            // Conditionally render action buttons based on role or any other criteria
-                            if (row.role === 'f_p') {
-                                actionHtml += '<a class="btn-icon mx-1" href="{{ route('project.detail', ':id') }}" title="Edit Project"><i class="fas fa-pencil-alt text-warning"></i></a>';
-                            }
-
-                            if ('{{ auth()->user()->user_type }}' === 'admin') {
-                                actionHtml += '<a class="btn-icon mx-1" href="{{ route('project.detail', ':id') }}" title="Edit Project"><i class="fas fa-pencil-alt text-warning"></i></a>';
-                                actionHtml += '<a class="btn-icon mx-1" onclick="event.preventDefault(); del(' + row.id + ');" title="Delete Project" href="#"><i class="fas fa-trash-alt text-danger"></i></a>';
-                            }
-
-                            actionHtml += '<a class="btn-icon mx-1" href="{{ route('projects.show', ':id') }}" target="_blank" title="Show Project"><i class="far fa-eye text-success"></i></a>';
-
-                            return actionHtml.replace(/:id/g, row.id);
-                        }
-                    },
-                    { 
-                        "data": "project_activities",
-                        "searchable": false,
-                        "orderable": false,
-                        "render": function(data, type, row) {
-                            return '<a class="btn" href="{{ route("project.view", ":id") }}" target="_blank" title="Download project DIP"><i class="far fa-caret-square-right text-info"></i></a>'.replace(':id', row.id);
-                        }
-                    },
-                    { 
-                        "data": "review_meeting",
-                        "searchable": false,
-                        "orderable": false,
-                        "render": function(data, type, row) {
-                            return '<a class="btn" href="{{ route("projectreviews.show", ":id") }}" title="Add/Show Review Meeting"><i class="far fa-calendar-alt text-info"></i></a>'.replace(':id', row.id);
-                        }
-                    },
-                   
-                ]
-
-            });
-            projects.order([]);
-        });
-
-
-        function del(id) {
-            Swal.fire({
-                title: "Are you sure?",
-                text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Yes, delete it!"
-            }).then(function(result) {
-                if (result.value) {
-                    Swal.fire(
-                        "Deleted!",
-                        "Your Project has been deleted.",
-                        "success"
-                    );
-                    var APP_URL = {!! json_encode(url('/')) !!}
-                    window.location.href = APP_URL + "/dip/delete/" + id;
-                }
-            });
-        }
+    var projectReviewsUrl   = "{{ route('projectreviews.show', ':id') }}";
+    var userType            = "{{ auth()->user()->user_type }}";
+    var projectDetail       = "{{ route('project.detail', ':id') }}";
+    var projectView         = "{{ route('project.view', ':id') }}";
+    var APP_URL = @json(url('/'));
     </script>
     @endpush
 </x-default-layout>

@@ -160,26 +160,26 @@ class QBAttachmentsController extends Controller
         }
         $qb_theme   = User::where('theme_id',$actiontheme)->first();
         
-        // if(!empty($qb_theme ) && !empty($qb->action_point)){
-        //     if($qb->action_point->count() >= 1){
-        //         $email = $qb_theme->email;
+        if(!empty($qb_theme ) && !empty($qb->action_point)){
+            if($qb->action_point->count() >= 1){
+                $email = $qb_theme->email;
            
-        //         $bccEmails = [ 'walid.malik@savethechildren.org','usama.qayyum@savethechildren.org'];
-        //         $details = [
-        //             'id'            => $qb->id,
-        //             'village'       => $qb->village,
-        //             'activity'      => $qb->activity_description,
-        //             'response_id'   => $qb->assement_code,
-        //             'action_point'  => $qb->action_point,
-        //             'date_visit'    => $qb->date_visit,
-        //         ];
-        //         $subject = "[Quality Benchmark] ". $qb->activity_description ." in ". $qb->village ;
-        //         Mail::to($email)
-        //         ->bcc($bccEmails)
-        //         ->send(new \App\Mail\QBMail($details,$subject));
-        //     }
+                $bccEmails = [ 'walid.malik@savethechildren.org','usama.qayyum@savethechildren.org'];
+                $details = [
+                    'id'            => $qb->id,
+                    'village'       => $qb->village,
+                    'activity'      => $qb->activity_description,
+                    'response_id'   => $qb->assement_code,
+                    'action_point'  => $qb->action_point,
+                    'date_visit'    => $qb->date_visit,
+                ];
+                $subject = "[Quality Benchmark] ". $qb->activity_description ." in ". $qb->village ;
+                Mail::to($email)
+                ->bcc($bccEmails)
+                ->send(new \App\Mail\QBMail($details,$subject));
+            }
             
-        // }
+        }
         session(['active' => $active]);
         $editUrl = route('quality-benchs.edit',$request->quality_bench_id);
      

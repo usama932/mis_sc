@@ -39,6 +39,7 @@ class ProjectController extends Controller
         $active = Project::where('active',1)->count();
         $inactive = Project::where('active',0)->count();
         $detail = Project::has('detail')->count();
+
         addVendors(['datatables']);
         addJavascriptFile('assets/js/custom/project/index_script.js');
         return view('admin.projects.index',compact('projects','inactive','detail','active','development','humanterian','total_projects'));
@@ -47,6 +48,9 @@ class ProjectController extends Controller
     public function get_project_index()
     {
         $projects = Project::orderBy('name')->get();
+
+        addVendors(['datatables']);
+        addJavascriptFile('assets/js/custom/project/detail_index_script.js');
         return view('admin.projects.projectDetail_index',compact('projects'));
     }
 
@@ -139,9 +143,12 @@ class ProjectController extends Controller
         
         $data = [];
         foreach ($projects as $project) {
-           
+            $text = $project->name ?? "";
+            $words = str_word_count($text, 1);
+            $lines = array_chunk($words, 10);
+            $finalText = implode("<br>", array_map(fn($line) => implode(" ", $line), $lines));
             $nestedData['id']       = $project->id;
-            $nestedData['project']  = $project->name ?? '';
+            $nestedData['project']  = $finalText ?? '';
             $nestedData['sof']      = $project->sof ?? '';
             $nestedData['type']     = $project->type ?? '';
             $provinces              = optional($project->detail)->province;

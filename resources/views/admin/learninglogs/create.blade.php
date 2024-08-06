@@ -12,9 +12,7 @@
             background-image: url('svg/avatars/blank-dark.svg');
         }
     </style>
-    <!--end::Image input placeholder-->
-  
-    <!--begin::Image input-->
+   
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div class="card">
             <form action="{{route('learning-logs.store')}}" method="post" id="learninglog" method="post" enctype="multipart/form-data">
@@ -38,6 +36,7 @@
                                 @foreach($projects as $project)
                                     <option value="{{$project->id}}" >{{$project->name}}</option>
                                 @endforeach
+                                <option value="Other">Other</option>
                             </select>
                             <div id="projectError" class="error-message "></div>
                         </div>   
@@ -74,10 +73,9 @@
                             <select name="theme[]" id="theme" class="form-select form-select-solid" data-control="select2" data-placeholder="Select an option" data-allow-clear="true" multiple>
                                 <option></option>
                                 @foreach($themes as $theme)
-                                
                                 <option value="{{$theme->id}}" @if($loop->index == '0') selected @endif>{{$theme->name}}</option>
                                 @endforeach
-                              
+                                <option value="Other">Other</option>
                             </select>
                         
                             <div id="themeError" class="error-message "></div>
@@ -186,16 +184,12 @@
                      
                     </div>
                 
-                
                     </div>
                     <div class="d-flex justify-content-end">
                         <button type="submit" id="kt_learninglog" class="btn btn-success btn-sm  m-5">
-                          
                             @include('partials/general/_button-indicator', ['label' => 'Submit'])
                         </button>
                       
-                       
-                       
                     </div>
                 </div>
             </form>

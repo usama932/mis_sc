@@ -111,6 +111,7 @@
                                 @endphp
                             
                                 @foreach($sortedActivities as $item)
+                                  
                                     <tr>
                                         <td class="fs-8">{{ $item->activity_number ?? '' }}</td>
                                         <td class="fs-8">{{ $item->activity_title ?? '' }}

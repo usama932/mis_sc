@@ -1,89 +1,118 @@
 <div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <input type="hidden" id="project_id" value="{{$project->id}}">
-                    <h5 class="card-title">Project Details</h5>
-                    <ul class="list-unstyled">
-                        <li><strong>Project Title:</strong> {{$project->name ?? ''}}</li>
-                        @if(!empty($provinces))
-                            <li><strong>Provinces:</strong> 
-                                @foreach($provinces as $province)
-                                    {{ $province->province_name}}@if(!$loop->last),@endif
-                                @endforeach
+    <style>
+        .description-text, .full-text {
+        display: inline;
+        }
+        .toggle-text {
+            color: blue;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+        </style>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-4 shadow-sm border-light">
+                    <div class="card-body">
+                        <input type="hidden" id="project_id" value="{{ $project->id }}">
+                        <h5 class="card-title font-weight-bold">Project Details</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <strong>Project Title:</strong> {{ $project->name ?? 'N/A' }} 
+                                <span class="text-muted">({{ $project->type ?? 'Type not mentioned' }})</span>
                             </li>
-                        @endif
-                        @php
-                            $groupedThemes = [];
-                            foreach($project->themes as $themes) {
-                                $mainThemeName = $themes->scisubtheme_name->maintheme->name ?? '';
-                                $subThemeName = $themes->scisubtheme_name->name ?? '';
-                                $groupedThemes[$mainThemeName][] = $subThemeName;
-                            }
-                        @endphp
-                        <li><strong>Themes:</strong> 
-                            @foreach($groupedThemes as $mainThemeName => $subThemes)
-                                {{$mainThemeName}}(@foreach($subThemes as $index => $subTheme)
-                                <u>{{$subTheme}}</u>@unless($loop->last),@endunless
-                                @endforeach)@unless($loop->last),@endunless
-                            @endforeach
-                        </li>
-                        <li><strong>Budget holder FP:</strong> 
-                           {{$budgetholder ?? ''}}
-                        </li>
-                        <li><strong>Donor:</strong> {{$project->donors?->name ?? ''}}</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Additional Details</h5>
-                    <ul class="list-unstyled">
-                        <li><strong>Type:</strong> {{$project->type ?? ''}}</li>
-                        @if(!empty($districts))
-                            <li><strong>Districts:</strong> 
-                                @foreach($districts as $district)
-                                    {{ $district->district_name}}@if(!$loop->last),@endif
-                                @endforeach
-                            </li>
-                        @endif
-                        <li><strong>Partner:</strong> 
-                            @foreach($project->partners as $partners)
-                                {{$partners->partner_name->slug ?? ''}}@if(!$loop->last),@endif
-                            @endforeach
-                        </li>
-                        <li><strong>Focal Person:</strong> 
-                            {{$focal_person ?? ''}}
-                        </li>
-                        <li><strong>Award FP:</strong> 
-                            {{$project->awardfp?->name ?? ''}} - {{$project->awardfp?->desig?->designation_name ?? ''}}
-                        </li>
-                        <li><strong>Project Tenure:</strong> 
-                            @if(!empty($project->start_date) && $project->start_date != null)
-                                {{ date('M d, Y', strtotime($project->start_date))}} -To- {{date( 'M d, Y', strtotime($project->end_date));}}
+                            @if (!empty($provinces))
+                                <li class="list-group-item">
+                                    <strong>Provinces:</strong> 
+                                    {{ implode(', ', $provinces->pluck('province_name')->toArray()) }}
+                                </li>
                             @endif
-                        </li>
-                    </ul>
+                            @php
+                                $groupedThemes = [];
+                                foreach ($project->themes as $theme) {
+                                    $mainThemeName = $theme->scisubtheme_name->maintheme->name ?? '';
+                                    $subThemeName = $theme->scisubtheme_name->name ?? '';
+                                    $groupedThemes[$mainThemeName][] = $subThemeName;
+                                }
+                            @endphp
+                            <li class="list-group-item">
+                                <strong>Themes:</strong> 
+                                @foreach ($groupedThemes as $mainThemeName => $subThemes)
+                                    {{ $mainThemeName }} (  {{ implode(', ', $subThemes) }} )
+                                  
+                                @endforeach
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Budget Holder FP:</strong> {{ $budgetholder ?? 'N/A' }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Donor:</strong> {{ $project->donors?->name ?? 'N/A' }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-4 shadow-sm border-light">
+                    <div class="card-body">
+                        <h5 class="card-title font-weight-bold">Additional Details</h5>
+                        <ul class="list-group list-group-flush">
+                            @if (!empty($districts))
+                                <li class="list-group-item">
+                                    <strong>Districts:</strong> 
+                                    {{ implode(', ', $districts->pluck('district_name')->toArray()) }}
+                                </li>
+                            @endif
+                            <li class="list-group-item">
+                                <strong>Partner:</strong> 
+                                {{ implode(', ', $project->partners->pluck('partner_name.slug')->toArray()) ?? 'N/A' }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Focal Person:</strong> {{ $focal_person ?? 'N/A' }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Award FP:</strong> 
+                                {{ $project->awardfp?->name ?? 'N/A' }} - 
+                                {{ $project->awardfp?->desig?->designation_name ?? 'N/A' }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Project Tenure:</strong> 
+                                @if (!empty($project->start_date))
+                                    {{ date('M d, Y', strtotime($project->start_date)) }} - 
+                                    {{ date('M d, Y', strtotime($project->end_date)) }}
+                                @else
+                                    N/A
+                                @endif
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card mb-4 shadow-sm border-light">
+                    <div class="card-body">
+                        <h5 class="card-title font-weight-bold">Project Description</h5>
+                        <p class="card-text">
+                           
+                                <span class="description-text">
+                                    {{ Str::limit($project->detail?->project_description, 500, '...') }}
+                                </span>
+                                <span class="full-text" style="display: none;">
+                                    {{$project->detail?->project_description ??  ''}}
+                                </span>
+                                @if(strlen($project->detail?->project_description ?? '') > 100)
+                                    <a href="javascript:void(0);" class="toggle-text">See More</a>
+                                @endif
+                           
+
+                            </span>
+                        
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-12">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5 class="card-title">Project Description</h5>
-                    <p class="card-text">
-                        <span id="short-description">{{$project->detail?->project_description ? substr($project->detail->project_description, 0, 1000) . '...' : ''}}</span>
-                        <span id="full-description" style="display: none;">{{$project->detail?->project_description ?? ''}}</span>
-                        <span id="toggle-button" class="badge badge-primary">Show More</span>
-                    </p>
-                  
-                </div>
-            </div>
-        </div>
-    </div>
+   
+  
    
     <div class="container-fluid">
         <ul class="nav nav-tabs mt-1 fs-6">
@@ -170,5 +199,24 @@
             </div>
         </div>
     </div>
-    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.toggle-text').forEach(function(toggle) {
+                toggle.addEventListener('click', function() {
+                    let descriptionText = this.previousElementSibling.previousElementSibling;
+                    let fullText = this.previousElementSibling;
+                    
+                    if (fullText.style.display === 'none') {
+                        descriptionText.style.display = 'none';
+                        fullText.style.display = 'inline';
+                        this.textContent = 'See Less';
+                    } else {
+                        descriptionText.style.display = 'inline';
+                        fullText.style.display = 'none';
+                        this.textContent = 'See More';
+                    }
+                });
+            });
+        });
+    </script>
 </div>

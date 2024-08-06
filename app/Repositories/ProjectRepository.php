@@ -215,8 +215,6 @@ class ProjectRepository implements ProjectRepositoryInterface
                     return 1;
                 }
                 else{
-                    
-                    
                     return 0;
                 }
                

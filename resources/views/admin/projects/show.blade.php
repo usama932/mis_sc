@@ -1,5 +1,14 @@
 <x-default-layout>
- 
+    <style>
+        .description-text, .full-text {
+        display: inline;
+        }
+        .toggle-text {
+            color: blue;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+    </style>
     @section('title')
     View Project Detail
     @endsection
@@ -241,7 +250,8 @@
                 }
             });
         }
-       
+        
     </script>
+   
     @endpush
 </x-default-layout>
