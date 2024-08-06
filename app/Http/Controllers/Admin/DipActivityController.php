@@ -107,16 +107,13 @@ class DipActivityController extends Controller
         $totalFiltered =  $dipsQuery->count();
         $dips = $dipsQuery->limit($limit)
             ->offset($start)
-            //->orderBy($order, $dir)
+            ->orderByActivityNumber()
             ->get();
-        $sortedActivities = $dips->sortBy(function ($activity) {
-            $parts = explode('.', $activity->activity_number);
-            return array_map('intval', $parts);
-        });
+   
         $data = [];
         
-        if ($sortedActivities) {
-            foreach ($sortedActivities as $r) {
+        if ($dips) {
+            foreach ($dips as $r) {
                 $show_url = route('activity_dips.show', $r->id);
                 $edit_url = route('activity_dips.edit', $r->id);
                 $progress_url = route('postprogress', $r->id);
@@ -233,8 +230,9 @@ class DipActivityController extends Controller
             $totalData = $dipsQuery->count();
             $dips = $dipsQuery->limit($limit)
             ->offset($start)
-            ->orderBy($order, $dir)
-            ->orderBy('created_at', 'asc')
+            ->with(['activity' => function ($query) {
+                $query->orderByActivityNumber();
+            }])
             ->get();
              
           
@@ -319,14 +317,15 @@ class DipActivityController extends Controller
             $totalData = $dipsMonths->count();
             $dips = $dipsMonths->limit($limit)
             ->offset($start)
-            ->orderBy($order, $dir)
+            ->with(['activity' => function ($query) {
+                $query->orderByActivityNumber();
+            }])
             ->get();
-
-            // Use collection methods to sort the data
-            $sortedActivities = $dips->sortBy('created_at');
+        
+           
             
             $data = [];
-            foreach ($sortedActivities as $dipmonth) {
+            foreach ($dips as $dipmonth) {
                 $show_url = route('activity_dips.show',  $dipmonth->activity->id);
                 $editUrl = route('activity_dips.edit',  $dipmonth->activity->id);
 

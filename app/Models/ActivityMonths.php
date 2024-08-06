@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class ActivityMonths extends Model
 {
@@ -35,5 +36,14 @@ class ActivityMonths extends Model
     public function user1()
     {
         return $this->belongsTo(User::class,'updated_by','id');
+    }
+    public static function getWithSortedActivities($limit, $start)
+    {
+        return self::limit($limit)
+            ->offset($start)
+            ->with(['activity' => function ($query) {
+                $query->orderByActivityNumber();
+            }])
+            ->get();
     }
 }

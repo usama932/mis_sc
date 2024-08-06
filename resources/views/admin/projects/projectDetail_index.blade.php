@@ -52,7 +52,7 @@
         </div>
 
         <div class="card"> 
-           
+            <div class="card-body">
                 <div class="table-responsive overflow-*">
                     <table class="table table-striped table-bordered nowrap" id="project_details">
                         <thead>
@@ -70,16 +70,16 @@
                         </thead>
                     </table>
                 </div>
-            
+            </div>
         </div>
     </div>
     @push('scripts')
     <script>
-    var projectReviewsUrl   = "{{ route('projectreviews.show', ':id') }}";
-    var userType            = "{{ auth()->user()->user_type }}";
-    var projectDetail       = "{{ route('project.detail', ':id') }}";
-    var projectView         = "{{ route('project.view', ':id') }}";
-    var APP_URL = @json(url('/'));
+        var projectReviewsUrl   = "{{ route('projectreviews.show', ':id') }}";
+        var userType            = "{{ auth()->user()->user_type }}";
+        var projectDetail       = "{{ route('project.detail', ':id') }}";
+        var projectView         = "{{ route('project.view', ':id') }}";
+        var APP_URL = @json(url('/'));
     </script>
     @endpush
 </x-default-layout>

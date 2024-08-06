@@ -155,12 +155,13 @@ class ProjectRepository implements ProjectRepositoryInterface
                     $user = User::create([
                         'email' =>  $row['email'],
                         'name'  => $partner->name,
-                        'password' => Hash::make('12345678'),
+                        'password' => Hash::make('Save@Pk2n4'),
                         'permissions_level' => 'nation-wide',
                         'designation' => '48',
                         'status' => '1',
                         'user_type' => 'R1',
                     ]);
+                    
                     $userr = User::latest()->first();
                     $userr->assignRole("partner");
 

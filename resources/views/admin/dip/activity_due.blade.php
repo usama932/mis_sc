@@ -1,6 +1,6 @@
 <x-nform-layout>
     @section('title')
-       Complete Activites
+       Overdue Activites
     @endsection
     @if(auth()->user()->user_type == 'admin')
     <div class="card mb-5">
@@ -54,7 +54,6 @@
     @endif
     <div class="card">
         <div class="card-body">
-        
             <div class="table-responsive overflow-*">
                 <table class="table table-striped table-bordered nowrap table-sm" id="dip_due_activity" style="width:100%">
                     <thead>

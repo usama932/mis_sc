@@ -29,6 +29,7 @@
                             </label>
                             <input type="text" name="lop" value="{{$activity->lop_target ?? ''}}" class="form-control form-control-solid" readonly>
                         </div> 
+                        
                         <div class="fv-row col-md-3 mt-3">
                             <label class="fs-7 fw-semibold form-label mb-2 d-flex">
                                 <span>Select Month</span>

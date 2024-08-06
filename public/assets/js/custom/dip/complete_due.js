@@ -58,12 +58,12 @@ $(document).ready(function () {
         });
     }
 
-    $('#project').change(function () {
+    $('#dip_due_activity').change(function () {
         var table = $('#dip_due_activity').DataTable();
         table.destroy();
         var dipId = $(this).val();
         initDataTable(dipId);
     });
 
-initDataTable($('#project').val());
+initDataTable($('#dip_due_activity').val());
 });

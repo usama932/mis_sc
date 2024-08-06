@@ -146,50 +146,44 @@ class ProjectPartnerController extends Controller
     public function store(Request $request)
     {
       
-        $project_partner = ProjectPartner::where('project_id' ,$request->project)->where('partner_id' ,$request->partner)->first();
+        //$project_partner = ProjectPartner::where('project_id' ,$request->project)->where('partner_id' ,$request->partner)->first();
        
-        if(!empty($project_partner)){
+    
+        $data = $request->except('_token');
+        $projectpartner = $this->projectRepository->storeprojectpartner($data);
+        if($projectpartner == 1){
+            $active = 'partner';
+            session(['project' => $active]);
+            $editUrl = route('project.detail',$request->project);
             return response()->json([
-                'message' => "Partner already exist",
+                'message' => "Partner Added",
+                'editUrl' => $editUrl,
+                'error' => "false"
+            ]);
+        }
+        elseif($projectpartner == 0){
+            
+            $active = 'partner';
+            session(['project' => $active]);
+            $editUrl = route('project.detail',$request->project);
+            return response()->json([
+                'message' => "Duplicate Email Error",
+                'editUrl' => $editUrl,
+                'error' => "true"
+            ]);
+            
+        }
+        else{
+            $active = 'partner';
+            session(['project' => $active]);
+            $editUrl = route('project.detail',$request->project);
+            return response()->json([
+                'message' => "Error occurred while processing data",
+                'editUrl' => $editUrl,
                 'error' => "true"
             ]);
         }
-        else{
-            $data = $request->except('_token');
-            $projectpartner = $this->projectRepository->storeprojectpartner($data);
-            if($projectpartner == 1){
-                $active = 'partner';
-                session(['project' => $active]);
-                $editUrl = route('project.detail',$request->project);
-                return response()->json([
-                    'message' => "Partner Added",
-                    'editUrl' => $editUrl,
-                    'error' => "false"
-                ]);
-            }
-            elseif($projectpartner == 0){
-                
-                $active = 'partner';
-                session(['project' => $active]);
-                $editUrl = route('project.detail',$request->project);
-                return response()->json([
-                    'message' => "Duplicate Email Error",
-                    'editUrl' => $editUrl,
-                    'error' => "true"
-                ]);
-              
-            }
-            else{
-                $active = 'partner';
-                session(['project' => $active]);
-                $editUrl = route('project.detail',$request->project);
-                return response()->json([
-                    'message' => "Error occurred while processing data",
-                    'editUrl' => $editUrl,
-                    'error' => "true"
-                ]);
-            }
-        }
+        
     }
 
     

@@ -1,33 +1,38 @@
 var csrfToken = $('meta[name="csrf-token"]').attr('content');
 function initializeDataTable(projectId = null) {
     return $('#project_details').DataTable({
-        dom: 'lfBrtip',
+        "dom": 'lfBrtip',
         buttons: [
             {
                 extend: 'excelHtml5',
-                filename: 'project Data export',
-                text: '<i class="flaticon2-download"></i> Excel',
-                title: 'project Data export',
-                className: 'badge badge-success',
-                exportOptions: { columns: [1, 2, 3, 4, 5, 6, 7] }
+                filename: 'Project detail list',
+                text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
+                title: 'Project detail list',
+                className: 'badge badge-outline-success',
+                exportOptions: {
+                    columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+                }
             },
             {
                 extend: 'csvHtml5',
-                filename: 'Project Data CSV',
-                text: '<i class="flaticon2-download"></i> CSV',
-                title: '',
-                className: 'badge badge-warning',
-                exportOptions: { columns: [1, 2, 3, 4, 5, 6, 7] }
+                filename: 'Project detail list',
+                text: '<i class="fa fa-download text-warning mx-1"></i> CSV',
+                title: 'Project detail list',
+                className: 'badge badge-outline-success ',
+                exportOptions: {
+                    columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+                }
             }
         ],
-        processing: true,
-        serverSide: true,
-        searching: false,
-        bLengthChange: false,
-        paging: true,
-        bInfo: false,
-        responsive: false,
-        info: false,
+        "responsive": true, // Enable responsive mode
+        "processing": true,
+        "serverSide": true,
+        "searching": false,
+        "bLengthChange": true,
+        "aLengthMenu": [[10, 50, 100, -1], [10, 50, 100, "All"]],
+        "bInfo" : true,
+        "responsive": false,
+        "info": true,
         ajax: {
             url: "/get_project_details",
             dataType: 'json',
@@ -49,7 +54,7 @@ function initializeDataTable(projectId = null) {
                 render: function(data, type, row) {
                     var actionHtml = '';
                     if (row.role === 'f_p') {
-                        actionHtml += `<a class="btn-icon mx-1" href="{{ route('project.detail', ':id') }}" title="Edit Project"><i class="fas fa-pencil-alt text-warning"></i></a>`;
+                        actionHtml += `<a class="btn-icon mx-1" href="${projectDetail.replace(':id', row.id)}" title="Edit Project"><i class="fas fa-pencil-alt text-warning"></i></a>`;
                     }
                   
                     if (userType === 'admin') {

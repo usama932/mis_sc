@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class DipActivity extends Model
 {
@@ -38,5 +39,12 @@ class DipActivity extends Model
     public function scisubtheme_name()
     {
         return $this->belongsTo(SciSubTheme::class,'subtheme_id','id');
+    }
+
+    public function scopeOrderByActivityNumber(Builder $query)
+    {
+        return $query->orderByRaw("
+        REPLACE(activity_number, '.', '') + 0
+    ");
     }
 }
