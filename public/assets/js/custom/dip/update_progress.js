@@ -62,7 +62,14 @@ var KTupdateProgressValidate = function () {
                             }
                         }
                     },
-
+                    'complete_date': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Completion date  is required'
+                            },
+                           
+                        }
+                    },
                     'girls_target': {
                         validators: {
                             notEmpty: {

@@ -7,7 +7,7 @@ $(document).ready(function () {
             buttons: [
                 {
                     extend: 'excelHtml5',
-                    filename: 'Project Profile Data export_',
+                    filename: 'Complete Activities',
                     text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
                     title: 'Themetic area Data export',
                     className: 'badge badge-outline-success mb-4',
@@ -17,7 +17,7 @@ $(document).ready(function () {
                 },
                 {
                 extend: 'csvHtml5',
-                filename: 'Project Profile Data CSV_',
+                filename: 'Complete Activities',
                 text: '<i class="fa fa-download text-warning mx-1"></i> CSV',
                 title: 'Themetic area Data',
                 className: 'badge badge-outline-success',

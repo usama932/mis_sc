@@ -67,7 +67,7 @@
             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                 <span class="required">Women</span>
             </label>
-            <input type="text" name="women_target" value="" class="form-control"  placeholder="Women">
+            <input type="text" name="women_target" id="women_target" value="" class="form-control"  placeholder="Women">
             <div id="women_targetError" class="error-message text-danger"></div>
        
         </div> 
@@ -75,33 +75,33 @@
             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                 <span class="required">Men</span>
             </label>
-            <input type="text" name="men_target" value="" class="form-control"  placeholder="Men">
+            <input type="text" name="men_target" id="men_target" value="" class="form-control"  placeholder="Men">
             <div id="men_targetError" class="error-message text-danger" ></div>
         </div> 
         <div class="fv-row col-md-2 mt-3">
             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                 <span class="required">Girls</span>
             </label>
-            <input type="text" name="girls_target" value="" class="form-control"  placeholder="Girls">
+            <input type="text" name="girls_target" id="girls_target" value="girls_target" class="form-control"  placeholder="Girls">
             <div id="girls_targetError" class="error-message text-danger" ></div>
         </div> 
         <div class="fv-row col-md-2 mt-3">
             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                 <span class="required">Boys</span>
             </label>
-            <input type="text" name="boys_target" value="" class="form-control" placeholder="Boys" >
+            <input type="text" name="boys_target" id="boys_target" class="form-control" placeholder="Boys" >
             <div id="boys_targetError" class="error-message text-danger" ></div>
         </div> 
         <div class="fv-row col-md-2 mt-3">
             <label class="fs-7 fw-semibold form-label mb-2 d-flex">
-                <span>PWD</span>
+                <span>PWD/CLWD</span>
             </label>
-            <input type="text" name="pwd_target" id="pwd_target" class="form-control" >
+            <input type="text" name="pwd_target" id="pwd_target" class="form-control" placeholder="PWD/CLWD">
             <div id="pwd_targetError" class="error-message text-danger" ></div>
         </div>
         <div class="fv-row col-md-12 mt-3">
             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                <span class="">Remarks</span>
+                <span class="required">Remarks</span>
             </label>
             <textarea type="text" name="remarks" rows id="remarks" placeholder="Enter Remarks" class="form-control" value=""></textarea>
             <div id="achieve_targetError" class="error-message text-danger"></div>
@@ -148,13 +148,14 @@
             }
         ]
     });
+    flatpickrInstance.setDate(givenDate);
 </script>
+
 <script>
-   
-   document.getElementById('add_progress_form').addEventListener('submit', function(event) {
+ document.getElementById('add_progress_form').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent default form submission
+
     var submitButton = $('#kt_add_progress_status_form');
-   
     const form = this;
     const fileInputs = {
         attachment: document.getElementById('attachment'),
@@ -176,8 +177,9 @@
     const errorContainers = document.querySelectorAll('.error-message');
     errorContainers.forEach(container => container.textContent = '');
 
+    // Validate file inputs
     for (const [key, fileInput] of Object.entries(fileInputs)) {
-        if (fileInput.files.length > 0) {
+        if (fileInput && fileInput.files.length > 0) {
             const file = fileInput.files[0];
             const { types, maxSize } = fileValidationRules[key];
             const fileType = file.name.split('.').pop().toLowerCase();
@@ -187,52 +189,134 @@
                 isValid = false;
             }
             if (file.size > maxSize) {
-                document.getElementById(`${key}Error`).textContent = `The selected file ${key} is not valid or exceeds 10 MB (for compression plz visit:: https://www.ilovepdf.com/)`;
+                document.getElementById(`${key}Error`).textContent = `The selected file ${key} is not valid or exceeds 10 MB.`;
                 isValid = false;
             }
         }
     }
 
-    // Additional form field validations (e.g., required fields)
-    const formValidationRules = {
-        // Add your form field rules here...
+    // Validate required fields and positive numbers
+    const requiredFields = {
+        activity_target: 'Enter Monthly Progress',
+        women_target: 'Women',
+        men_target: 'Men',
+        boys_target: 'Boys',
+        girls_target: 'Girls'
     };
 
-    for (const field in formValidationRules) {
-        const fieldElement = form.elements[field];
-        const fieldRules = formValidationRules[field].validators;
-        let errorContainer = fieldElement.parentNode ? fieldElement.parentNode.querySelector('.error-message') : null;
-
-        if (errorContainer) {
-            if (fieldRules.notEmpty && !fieldElement.value.trim()) {
-                errorContainer.textContent = fieldRules.notEmpty.message;
+    for (const [id, label] of Object.entries(requiredFields)) {
+        const field = document.getElementById(id);
+        if (field) {
+            if (!field.value.trim()) {
+                document.getElementById(`${id}Error`).textContent = `${label} is required.`;
+                isValid = false;
+            } else if (isNaN(field.value) || parseFloat(field.value) <= 0) {
+                document.getElementById(`${id}Error`).textContent = `${label} must be a positive number.`;
                 isValid = false;
             }
-            // Add other validation checks here...
+        } else {
+            console.error(`Element with ID '${id}' not found.`);
         }
+    }
+
+    // Validate optional fields for numbers
+    const optionalFields = {
+        pwd_target: 'PWD/CLWD'
+    };
+
+    for (const [id, label] of Object.entries(optionalFields)) {
+        const field = document.getElementById(id);
+        if (field) {
+            if (field.value.trim() && (isNaN(field.value) || parseFloat(field.value) < 0)) {
+                document.getElementById(`${id}Error`).textContent = `${label} must be a non-negative number if provided.`;
+                isValid = false;
+            }
+        } else {
+            console.error(`Element with ID '${id}' not found.`);
+        }
+    }
+
+    // Validate Completion Date
+    const completeDate = document.getElementById('complete_date');
+    if (completeDate) {
+        if (!completeDate.value.trim()) {
+            document.getElementById('complete_dateError').textContent = 'Completion Date is required.';
+            isValid = false;
+        }
+    } else {
+        console.error('Element with ID "complete_date" not found.');
     }
 
     if (isValid) {
-        submitButton.prop('disabled', true).addClass('disabled-blur');
-        fetch(form.action, {
-            method: 'POST',
-            body: new FormData(form),
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Form submitted successfully:', data);
-            form.reset();
-            toastr.success("Quarterly achievement updated successfully", "Success");
-            $('#add_progress').modal('hide');
-            window.location.href = window.location.href;
-            submitButton.prop('disabled', false).removeClass('disabled-blur');
-        })
-        .catch(error => {
-            toastr.error("Error submitting progress", error);
-            console.error('Error submitting form:', error);
-            submitButton.prop('disabled', false).removeClass('disabled-blur');
+        var formData = new FormData($('#add_progress_form')[0]);
+        $.ajax({
+            url: $('#add_progress_form').attr('action'),
+            type: 'post',
+            data: formData,
+            processData: false,  // Prevent jQuery from automatically transforming the data into a query string
+            contentType: false,  // Prevent jQuery from setting Content-Type
+            beforeSend: function() {
+                $('#loadingSpinner').show();
+                $('#kt_add_progress_status_form').hide();
+            },
+            success: function(response) {
+                if(response){
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": true,
+                        "newestOnTop": false,
+                        "progressBar": false,
+                        "positionClass": "toastr-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    };
+
+                    activityQuarters.ajax.reload(null, false).draw(false);
+                    $('#loadingSpinner').hide();
+                    $('#edit_progress').modal('hide');
+                    $('#add_progress').modal('hide');
+                    $('#kt_add_progress_status_form').show();
+                    toastr.success("Activity Quarter Status Updated", "Success");
+                }
+            },
+            error: function(xhr) {
+                // Handle errors
+                if(xhr){
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": true,
+                        "newestOnTop": false,
+                        "progressBar": false,
+                        "positionClass": "toastr-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    };
+                    toastr.error(xhr.responseText, "Error occurred");
+                }
+            },
+            complete: function() {
+                $('#loadingSpinner').hide();
+                $('#kt_add_progress_status_form').show();
+            }
         });
     }
 });
- 
+
+
 </script>

@@ -19,18 +19,38 @@ $(document).ready(function() {
 
     function initializeDataTable() {
         return $('#projects').DataTable({
-            "order": [[1, 'desc']],
             "dom": 'lfBrtip',
-            "buttons": getButtons(),
-            "responsive": false,
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    filename: 'Project list',
+                    text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
+                    title: 'Project detail list',
+                    className: 'badge badge-outline-success',
+                    exportOptions: {
+                        columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+                    }
+                },
+                {
+                    extend: 'csvHtml5',
+                    filename: 'Project list',
+                    text: '<i class="fa fa-download text-warning mx-1"></i> CSV',
+                    title: 'Project detail list',
+                    className: 'badge badge-outline-success ',
+                    exportOptions: {
+                        columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+                    }
+                }
+            ],
+            "responsive": true, // Enable responsive mode
             "processing": true,
             "serverSide": true,
             "searching": false,
-            "bLengthChange": false,
-            "paging": true,
-            "bInfo": false,
-            "info": true,
-            "ajax": {
+            "bLengthChange": true,
+            "aLengthMenu": [[10, 50, 100, -1], [10, 50, 100, "All"]],
+            "bInfo" : true,
+            "responsive": false,
+        "info": true,
                 "url": "/get_projects",
                 "type": "POST",
                 "data": function(d) {
@@ -50,7 +70,7 @@ $(document).ready(function() {
         return [
             {
                 extend: 'excelHtml5',
-                filename: 'Project_Profile_Data_export_',
+                filename: 'Project export',
                 text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
                 title: 'Thematic area Data export',
                 className: 'badge badge-outline-success mb-2',
@@ -60,7 +80,7 @@ $(document).ready(function() {
             },
             {
                 extend: 'csvHtml5',
-                filename: 'Project_Profile_Data_CSV_',
+                filename: 'Project ',
                 text: '<i class="fa fa-download text-warning mx-1"></i> CSV',
                 title: 'Thematic area Data',
                 className: 'badge badge-outline-success mb-2',

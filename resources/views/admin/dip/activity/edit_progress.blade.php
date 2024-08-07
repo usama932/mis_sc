@@ -119,133 +119,116 @@
 </form>
 
 <script>
-$(document).ready(function() {
-    $('#kt_edit_quarter_status_form').click(function(e) {
-        e.preventDefault();
-        
-        // Perform validation
-        var activityTarget = $('#activity_target').val();
-        var womenTarget = $('#women_target').val();
-        var menTarget = $('#men_target').val();
-        var girlsTarget = $('#girls_target').val();
-        var boysTarget = $('#boys_target').val();
-        var remarks = $('#remarks').val();
-        var attachment = $('#attachment').prop('files')[0];
-        var image = $('#image').prop('files')[0];
-        
-        if (!activityTarget || activityTarget === "") {
-            $('#activity_targetError').text('Please enter Monthly Target');
-            return;
-        } else {
+    $(document).ready(function() {
+        $('#kt_edit_quarter_status_form').click(function(e) {
+            e.preventDefault();
+            
+            // Perform validation
+            var activityTarget = $('#activity_target').val();
+            var womenTarget = $('#women_target').val();
+            var menTarget = $('#men_target').val();
+            var girlsTarget = $('#girls_target').val();
+            var boysTarget = $('#boys_target').val();
+            var remarks = $('#remarks').val();
+            var attachment = $('#attachment').prop('files')[0];
+            var image = $('#image').prop('files')[0];
+            
+            // Reset error messages
             $('#activity_targetError').text('');
-        }
-
-        if (!womenTarget || womenTarget === "") {
-            $('#women_targetError').text('Please enter Women Progress');
-            return;
-        } else {
             $('#women_targetError').text('');
-        }
-        
-        if (!menTarget || menTarget === "") {
-            $('#men_targetError').text('Please enter Men Progress');
-            return;
-        } else {
             $('#men_targetError').text('');
-        }
-        
-        if (!girlsTarget || girlsTarget === "") {
-            $('#girls_targetError').text('Please enter Girls Progress');
-            return;
-        } else {
             $('#girls_targetError').text('');
-        }
-        
-        if (!boysTarget || boysTarget === "") {
-            $('#boys_targetError').text('Please enter boys Progress');
-            return;
-        } else {
             $('#boys_targetError').text('');
-        }
-        
-        if (!remarks || remarks === "") {
-            $('#remarksError').text('Please enter Remarks');
-            return;
-        } else {
             $('#remarksError').text('');
-        }
 
-        // Create FormData object
-        var formData = new FormData($('#edit_quarter_status_form')[0]);
-        
-        $.ajax({
-            url: $('#edit_quarter_status_form').attr('action'),
-            type: 'post',
-            data: formData,
-            processData: false,  // Prevent jQuery from automatically transforming the data into a query string
-            contentType: false,  // Prevent jQuery from setting Content-Type
-            beforeSend: function() {
-                $('#loadingSpinner').show();
-                $('#kt_edit_quarter_status_form').hide();
-            },
-            success: function(response) {
-                if(response){
-                    toastr.options = {
-                        "closeButton": false,
-                        "debug": true,
-                        "newestOnTop": false,
-                        "progressBar": false,
-                        "positionClass": "toastr-top-right",
-                        "preventDuplicates": false,
-                        "onclick": null,
-                        "showDuration": "300",
-                        "hideDuration": "1000",
-                        "timeOut": "5000",
-                        "extendedTimeOut": "1000",
-                        "showEasing": "swing",
-                        "hideEasing": "linear",
-                        "showMethod": "fadeIn",
-                        "hideMethod": "fadeOut"
-                    };
+            // Validate positive numbers and required fields
+            function validatePositiveNumber(value, fieldName, errorSelector) {
+                if (!value || value.trim() === "" || isNaN(value) || parseFloat(value) <= 0) {
+                    $(errorSelector).text(`${fieldName} must be a positive number.`);
+                    return false;
+                }
+                return true;
+            }
 
-                    activityQuarters.ajax.reload(null, false).draw(false);
-                    $('#loadingSpinners').hide();
-                    $('#edit_progress').modal('hide');
+            if (!validatePositiveNumber(activityTarget, 'Monthly Target', '#activity_targetError')) return;
+            if (!validatePositiveNumber(womenTarget, 'Women Progress', '#women_targetError')) return;
+            if (!validatePositiveNumber(menTarget, 'Men Progress', '#men_targetError')) return;
+            if (!validatePositiveNumber(girlsTarget, 'Girls Progress', '#girls_targetError')) return;
+            if (!validatePositiveNumber(boysTarget, 'Boys Progress', '#boys_targetError')) return;
+
+            if (!remarks || remarks.trim() === "") {
+                $('#remarksError').text('Please enter Remarks');
+                return;
+            }
+
+            // Create FormData object
+            var formData = new FormData($('#edit_quarter_status_form')[0]);
+            
+            $.ajax({
+                url: $('#edit_quarter_status_form').attr('action'),
+                type: 'post',
+                data: formData,
+                processData: false,  // Prevent jQuery from automatically transforming the data into a query string
+                contentType: false,  // Prevent jQuery from setting Content-Type
+                beforeSend: function() {
+                    $('#loadingSpinner').show();
+                    $('#kt_edit_quarter_status_form').hide();
+                },
+                success: function(response) {
+                    if(response){
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": true,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toastr-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+
+                        activityQuarters.ajax.reload(null, false).draw(false);
+                        $('#loadingSpinner').hide();
+                        $('#edit_progress').modal('hide');
+                        $('#kt_edit_quarter_status_form').show();
+                        toastr.success("Activity Quarter Status Updated", "Success");
+                    }
+                },
+                error: function(xhr) {
+                    // Handle errors
+                    if(xhr){
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": true,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toastr-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+                        toastr.error(xhr.responseText, "Error occurred");
+                    }
+                },
+                complete: function() {
                     $('#loadingSpinner').hide();
                     $('#kt_edit_quarter_status_form').show();
-                    toastr.success("Activity Quarter Status Updated", "Success");
                 }
-            },
-            error: function(xhr) {
-                // Handle errors
-                if(xhr){
-                    toastr.options = {
-                        "closeButton": false,
-                        "debug": true,
-                        "newestOnTop": false,
-                        "progressBar": false,
-                        "positionClass": "toastr-top-right",
-                        "preventDuplicates": false,
-                        "onclick": null,
-                        "showDuration": "300",
-                        "hideDuration": "1000",
-                        "timeOut": "5000",
-                        "extendedTimeOut": "1000",
-                        "showEasing": "swing",
-                        "hideEasing": "linear",
-                        "showMethod": "fadeIn",
-                        "hideMethod": "fadeOut"
-                    };
-                    toastr.error(xhr.responseText, "Error occurred");
-                }
-            },
-            complete: function() {
-                $('#loadingSpinner').hide();
-                $('#kt_edit_quarter_status_form').show();
-            }
+            });
         });
     });
-});
-
-
 </script>

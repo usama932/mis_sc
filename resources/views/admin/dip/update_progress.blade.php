@@ -148,50 +148,50 @@
         </div>
     </div>
     @push("scripts")
-    <script>
-        $(document).ready(function() {
-            // Function to handle quarter change event
-            $('#quarter').change(function() {
-               
-                var selectedQuarterId = $(this).val(); // Get the selected quarter value
-              
-                $.ajax({
-                    url: "{{ route('fetchquartertarget') }}", // Change this route to your actual route
-                    method: 'POST',
-                    data: {
-                        quarter_id: selectedQuarterId,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        $('#benefit_target').val(response.benefit_target); 
-                        $('#lop_target').val(response.lop_target); 
+        <script>
+            $(document).ready(function() {
+                // Function to handle quarter change event
+                $('#quarter').change(function() {
+                
+                    var selectedQuarterId = $(this).val(); // Get the selected quarter value
+                
+                    $.ajax({
+                        url: "{{ route('fetchquartertarget') }}", // Change this route to your actual route
+                        method: 'POST',
+                        data: {
+                            quarter_id: selectedQuarterId,
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            $('#benefit_target').val(response.benefit_target); 
+                            $('#lop_target').val(response.lop_target); 
 
-                        var givenDate = new Date(response.complete_date);
-                   
-                        var oneWeekBefore = new Date(givenDate.getTime() - 30 * 24 * 60 * 60 * 1000);
-                        var twoWeeksAfter = new Date(givenDate.getTime() + 30 * 24 * 60 * 60 * 1000);
+                            var givenDate = new Date(response.complete_date);
+                    
+                            var oneWeekBefore = new Date(givenDate.getTime() - 30 * 24 * 60 * 60 * 1000);
+                            var twoWeeksAfter = new Date(givenDate.getTime() + 90 * 24 * 60 * 60 * 1000);
 
-                        var flatpickrInstance = flatpickr("#start_date", {
-                            minDate: oneWeekBefore,
-                            maxDate: twoWeeksAfter,
-                            disable: [
-                                function(date) {
-                                    // Disable Saturdays and Sundays
-                                    return (date.getDay() === 6 || date.getDay() === 0); // 6 is Saturday, 0 is Sunday
-                                }
-                            ]
-                        });
+                            var flatpickrInstance = flatpickr("#start_date", {
+                                minDate: oneWeekBefore,
+                                maxDate: twoWeeksAfter,
+                                disable: [
+                                    function(date) {
+                                        // Disable Saturdays and Sundays
+                                        return (date.getDay() === 6 || date.getDay() === 0); // 6 is Saturday, 0 is Sunday
+                                    }
+                                ]
+                            });
 
-                        // Set the date
-                        flatpickrInstance.setDate(givenDate);
-                    },
-                    error: function(xhr) {
-                        console.log(xhr.responseText);
-                    }
+                            // Set the date
+                            flatpickrInstance.setDate(givenDate);
+                        },
+                        error: function(xhr) {
+                            console.log(xhr.responseText);
+                        }
+                    });
                 });
-            });
 
-        });
-    </script>
+            });
+        </script>
     @endpush
 </x-nform-layout>

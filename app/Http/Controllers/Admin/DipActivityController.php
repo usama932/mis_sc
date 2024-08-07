@@ -37,7 +37,6 @@ class DipActivityController extends Controller
     public function get_activity_dips(Request $request)
     {
 
-        
         $dip_id = $request->dip_id;
         $columns = [
             1 => 'id',
@@ -119,7 +118,7 @@ class DipActivityController extends Controller
                 $progress_url = route('postprogress', $r->id);
                 $text = $r->activity_title ?? "";
                 $words = str_word_count($text, 1);
-                $lines = array_chunk($words, 10);
+                $lines = array_chunk($words, 5);
                 $finalText = implode("<br>", array_map(function ($line) {
                     return implode(" ", $line);
                 }, $lines));

@@ -79,7 +79,7 @@ $("#subtheme_id, #project" ).change(function () {
         buttons: [
             {
                 extend: 'excelHtml5',
-                filename: 'Project Profile Data export_',
+                filename: 'Activities export',
                 text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
                 title: 'Themetic area Data export',
                 className: 'badge badge-outline-success',
@@ -89,7 +89,7 @@ $("#subtheme_id, #project" ).change(function () {
             },
             {
             extend: 'csvHtml5',
-            filename: 'Project Profile Data CSV_',
+            filename: 'Activities export',
             text: '<i class="fa fa-download text-warning mx-1"></i> CSV',
             title: 'Themetic area Data',
             className: 'badge badge-outline-success',

@@ -4,14 +4,35 @@ var project_id = document.getElementById("project_id").value ?? '1';
 
 var reviews = $('#project_reviews').DataTable({
     "dom": 'lfBrtip',
-    buttons: ['csv', 'excel'],
-    "responsive": true,
+    buttons: [
+        {
+            extend: 'excelHtml5',
+            filename: 'Project Reviews list',
+            text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
+            title: 'Project detail list',
+            className: 'badge badge-outline-success',
+            exportOptions: {
+                columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+            }
+        },
+        {
+            extend: 'csvHtml5',
+            filename: 'Project Reviews list',
+            text: '<i class="fa fa-download text-warning mx-1"></i> CSV',
+            title: 'Project detail list',
+            className: 'badge badge-outline-success ',
+            exportOptions: {
+                columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+            }
+        }
+    ],
+    "responsive": true, // Enable responsive mode
     "processing": true,
     "serverSide": true,
     "searching": false,
     "bLengthChange": true,
     "aLengthMenu": [[10, 50, 100, -1], [10, 50, 100, "All"]],
-    "bInfo": true,
+    "bInfo" : true,
     "responsive": false,
     "info": true,
     "ajax": {
