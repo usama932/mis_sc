@@ -238,7 +238,6 @@ class DipActivityController extends Controller
                 return $dip->activity ? $dip->activity->activity_number : '';
             }, SORT_NATURAL);
             
-            
             $data = [];
             foreach ($dips as $completemonth) {
                 $show_url = route('activity_dips.show', $completemonth->activity->id);
