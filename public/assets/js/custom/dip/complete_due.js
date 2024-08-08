@@ -1,69 +1,62 @@
 var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 $(document).ready(function () {
-    function initDataTable(dipId) {
-        $('#dip_due_activity').DataTable({
-            "order": [[1, 'desc']],
-            "dom": 'lfBrtip',
-            buttons: [
-                {
-                    extend: 'excelHtml5',
-                    filename: 'Overdue Progress Activities',
-                    text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
-                    title: 'Overdue Progress Activities',
-                    className: 'badge badge-success mb-4',
-                    exportOptions: {
-                        columns: [0,1,2,3,4,5,6,7]
-                    }
-                },
-                {
+    var table = $('#dip_due_activity').DataTable({
+        "dom": 'lfBrtip',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                filename: 'Overdue Progress Activities',
+                text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
+                title: 'Overdue Progress Activities',
+                className: 'badge badge-success mb-4',
+                exportOptions: {
+                    columns: [0,1,2,3,4,5,6,7]
+                }
+            },
+            {
                 extend: 'csvHtml5',
                 filename: 'Overdue Progress Activities',
-                text: '<i class="fa fa-download text-warning "></i> CSV',
+                text: '<i class="fa fa-download text-warning"></i> CSV',
                 title: 'Overdue Progress Activities',
                 className: 'badge badge-success',
                 exportOptions: {
                     columns: [0,1,2,3,4,5,6,7]
                 }
-                }
-            ],
-            "processing": true,
-            "serverSide": true,
-            "searching": false,
-            "bLengthChange": true,
-            "aLengthMenu": [[10, 50, 100, 250,500,750,1000,1500,2000,2500], [10, 50, 100, 250,500,750,1000,1500,2000,2500]],
-            "bInfo" : false,
-            "responsive": false,
-            "info": true,
-            "ajax": {
-                "url": "/get_activity_due",
-                "dataType": "json",
-                "type": "POST",
-                "data": {
-                    "_token": csrfToken,
-                    "dip_id": dipId
-                }
-            },
-            "columns": [
-                {"data": "activity", "searchable": false, "orderable": false},
-                {"data": "activity_number", "searchable": false, "orderable": false},
-                {"data": "sub_theme", "searchable": false, "orderable": false},
-                {"data": "activity_type", "searchable": false, "orderable": false},
-                {"data": "project", "searchable": false, "orderable": false},
-                {"data": "lop_target", "searchable": false, "orderable": false},
-                {"data": "quarter_target", "searchable": false, "orderable": false},
-                {"data": "created_by", "searchable": false, "orderable": false},
-                {"data": "created_at", "searchable": false, "orderable": false},
-                {"data": "action", "searchable": false, "orderable": false}
-            ]
-        });
-    }
-
-    $('#dip_due_activity').change(function () {
-        var table = $('#dip_due_activity').DataTable();
-        table.destroy();
-        var dipId = $(this).val();
-        initDataTable(dipId);
+            }
+        ],
+        "processing": true,
+        "serverSide": false, // Disable server-side processing
+        "searching": true, // Enable client-side searching
+        "ordering": true, // Enable client-side sorting
+        "paging": true, // Enable pagination
+        "info": true, // Show table information
+        "bLengthChange": true,
+        "aLengthMenu": [[10, 50, 100, 250,500,750,1000,1500,2000,2500], [10, 50, 100, 250,500,750,1000,1500,2000,2500]],
+       
+        "ajax": {
+            "url": "/getActivityDue",
+            "dataType": "json",
+            "type": "POST",
+            "data": function(d) {
+                d._token = csrfToken;
+                d.dip_id = $('#project').val(); // Pass the selected project ID
+            }
+        },
+        "columns": [
+            {"data": "activity", "searchable": true, "orderable": true},
+            {"data": "activity_number", "searchable": true, "orderable": true},
+            {"data": "sub_theme", "searchable": true, "orderable": true},
+            {"data": "activity_type", "searchable": true, "orderable": true},
+            {"data": "project", "searchable": true, "orderable": true},
+            {"data": "lop_target", "searchable": true, "orderable": true},
+            {"data": "quarter_target", "searchable": true, "orderable": true},
+            {"data": "created_by", "searchable": true, "orderable": true},
+            {"data": "created_at", "searchable": true, "orderable": true},
+            {"data": "action", "searchable": false, "orderable": false}
+        ]
     });
 
-initDataTable($('#dip_due_activity').val());
+    $('#project').change(function () {
+        table.ajax.reload(); // Reload table data when filter changes
+    });
 });

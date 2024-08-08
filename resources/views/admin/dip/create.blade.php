@@ -297,6 +297,7 @@
             }
     
         // Remove row function
+        
         function removeTargetRow(button) {
             $(button).closest('.row').remove();
             $('#add_quarter_target').show();

@@ -114,7 +114,6 @@
         <button type="submit" class="btn btn-primary btn-sm m-5 " id="kt_edit_quarter_status_form">
             @include('partials/general/_button-indicator', ['label' => 'Update'])
         </button>
-    
     </div>         
 </form>
 
@@ -143,7 +142,7 @@
 
             // Validate positive numbers and required fields
             function validatePositiveNumber(value, fieldName, errorSelector) {
-                if (!value || value.trim() === "" || isNaN(value) || parseFloat(value) <= 0) {
+                if (!value || value.trim() === "" || isNaN(value) || parseFloat(value) < 0) {
                     $(errorSelector).text(`${fieldName} must be a positive number.`);
                     return false;
                 }

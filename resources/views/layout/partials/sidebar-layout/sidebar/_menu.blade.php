@@ -443,7 +443,7 @@ $complete = $dipscomplete->count();
                                             </span>
                                             <span class="menu-title d-flex justify-content-between align-items-center w-100">
                                                 Overdue Activities
-                                                <span class="badge badge-light-success">{{ $overdue }}</span>
+                                                <span class="badge badge-light-warning">{{ $overdue }}</span>
                                             </span>
                                         </a>
                                         <!--end:Menu link-->

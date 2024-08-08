@@ -27,8 +27,12 @@ $(document).ready(function () {
                 }
             ],
             "processing": true,
-            "serverSide": true,
-            "searching": false,
+            "serverSide": false, // Disable server-side processing
+            "searching": true, // Enable client-side searching
+            "ordering": true, // Enable client-side sorting
+            "paging": true, // Enable pagination
+            "info": true, // Show table information
+        
             "bLengthChange": true,
             "aLengthMenu": [[10, 50, 100, 250,500,750,1000,1500,2000,2500], [10, 50, 100, 250,500,750,1000,1500,2000,2500]],
             "bInfo" : false,
@@ -44,21 +48,21 @@ $(document).ready(function () {
                 }
             },
             "columns": [
-                {"data": "activity", "searchable": false, "orderable": false},
-                {"data": "activity_number", "searchable": false, "orderable": false},
-                {"data": "sub_theme", "searchable": false, "orderable": false},
-                {"data": "activity_type", "searchable": false, "orderable": false},
-                {"data": "project", "searchable": false, "orderable": false},
-                {"data": "lop_target", "searchable": false, "orderable": false},
-                {"data": "quarter_target", "searchable": false, "orderable": false},
-                {"data": "created_by", "searchable": false, "orderable": false},
-                {"data": "created_at", "searchable": false, "orderable": false},
-                {"data": "action", "searchable": false, "orderable": false}
+                {"data": "activity", "searchable": true, "orderable": true},
+                {"data": "activity_number", "searchable": true, "orderable": true},
+                {"data": "sub_theme", "searchable": true, "orderable": true},
+                {"data": "activity_type", "searchable": true, "orderable": true},
+                {"data": "project", "searchable": true, "orderable": true},
+                {"data": "lop_target", "searchable": true, "orderable": true},
+                {"data": "quarter_target", "searchable": true, "orderable": true},
+                {"data": "created_by", "searchable": true, "orderable": true},
+                {"data": "created_at", "searchable": true, "orderable": true},
+                {"data": "action", "searchable": true, "orderable": true}
             ]
         });
     }
 
-    $('#project').change(function () {
+    $('#project,').change(function () {
             var table = $('#dip_complete_activity').DataTable();
             table.destroy();
             var dipId = $(this).val();

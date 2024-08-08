@@ -138,7 +138,7 @@ use Illuminate\Support\Facades\Route;
         Route::post('edit_activity_dips', [DipActivityController::class,'edit_activity_dips'])->name('admin.edit_activity_dips');
         Route::post('get_activity_dips', [DipActivityController::class,'get_activity_dips'])->name('admin.get_activity_dips');
         Route::post('get_complete_activity', [DipActivityController::class,'get_complete_activity'])->name('admin.get_complete_activity');
-        Route::post('get_activity_due', [DipActivityController::class,'get_activity_due'])->name('admin.get_complete_due');
+        Route::post('getActivityDue', [DipActivityController::class,'getActivityDue'])->name('getActivityDue');
         Route::post('get_activity_quarters', [DipActivityController::class,'get_activity_quarters'])->name('admin.get_activity_quarters');
         Route::post('view_activity_dips', [DipActivityController::class,'view_activity_dips'])->name('admin.view_activity_dips');
         Route::get('/activity_dips/delete/{id}', [DipActivityController::class,'destroy'])->name('activity_dips.delete');

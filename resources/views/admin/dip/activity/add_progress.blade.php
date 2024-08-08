@@ -82,7 +82,7 @@
             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                 <span class="required">Girls</span>
             </label>
-            <input type="text" name="girls_target" id="girls_target" value="girls_target" class="form-control"  placeholder="Girls">
+            <input type="text" name="girls_target" id="girls_target" value="" class="form-control"  placeholder="Girls">
             <div id="girls_targetError" class="error-message text-danger" ></div>
         </div> 
         <div class="fv-row col-md-2 mt-3">
@@ -135,8 +135,8 @@
   
     var givenDate = new Date(quarter_month);
         
-    var oneWeekBefore = new Date(givenDate.getTime() - 0 * 24 * 60 * 60 * 1000);
-    var twoWeeksAfter = new Date(givenDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+    var oneWeekBefore = new Date(givenDate.getTime() - 30 * 24 * 60 * 60 * 1000);
+    var twoWeeksAfter = new Date(givenDate.getTime() + 60 * 24 * 60 * 60 * 1000);
 
     var flatpickrInstance = flatpickr("#complete_date", {
         minDate: oneWeekBefore,
@@ -148,6 +148,7 @@
             }
         ]
     });
+    
     flatpickrInstance.setDate(givenDate);
 </script>
 
@@ -210,7 +211,7 @@
             if (!field.value.trim()) {
                 document.getElementById(`${id}Error`).textContent = `${label} is required.`;
                 isValid = false;
-            } else if (isNaN(field.value) || parseFloat(field.value) <= 0) {
+            } else if (isNaN(field.value) || parseFloat(field.value) < 0) {
                 document.getElementById(`${id}Error`).textContent = `${label} must be a positive number.`;
                 isValid = false;
             }

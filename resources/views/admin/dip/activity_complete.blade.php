@@ -29,21 +29,45 @@
                     </h3>
                     <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                            <div class="card-header border-0">
-                                <div class="row mb-5">
-                                    <div class="col-md-12 mt-3">
-                                        <label class="fs-6 fw-semibold form-label mb-2">
-                                            <span>Project</span>
-                                        </label>
-                                        <select name="project" id="project" aria-label="Select a Project" data-control="select2" data-placeholder="Select a Project..." class="form-select" data-allow-clear="true">
-                                            <option value=''>Select Project</option>
-                                            @foreach($projects as $project)
-                                                @if(!empty($project->detail))
-                                                <option value='{{$project->id}}'>{{ucfirst($project->name)}}</option>
-                                                @endif
-                                            @endforeach
-                                        </select>
-                                    </div>
+                            <div class="row mb-5">
+                                <div class="col-md-4 mt-3">
+                                    <label class="fs-6 fw-semibold form-label mb-2">
+                                        <span>Project</span>
+                                    </label>
+                                    <select name="project" id="project" aria-label="Select a Project" data-control="select2" data-placeholder="Select a Project..." class="form-select" data-allow-clear="true">
+                                        <option value=''>Select Project</option>
+                                        @foreach($projects as $project)
+                                            @if(!empty($project->detail))
+                                            <option value='{{$project->id}}'>{{ucfirst($project->name)}}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4 mt-3">
+                                    <label class="fs-6 fw-semibold form-label mb-2">
+                                        <span>Activity Theme</span>
+                                    </label>
+                                    <select name="subtheme" id="subtheme" aria-label="Select a Activity theme" data-control="select2" data-placeholder="Select a Activity theme..." class="form-select" data-allow-clear="true">
+                                        <option value=''>Select Activity theme</option>
+                                        @foreach($subthemes as $subtheme)
+                                           
+                                            <option value='{{$subtheme->id}}'>{{ucfirst($subtheme->name)}}</option>
+                                           
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4 mt-3">
+                                    <label class="fs-6 fw-semibold form-label mb-2">
+                                        <span>Created By</span>
+                                    </label>
+                                    <select name="user" id="user" aria-label="Select a Created By" data-control="select2" data-placeholder="Select a Created By..." class="form-select" data-allow-clear="true">
+                                        <option value=''>Select Created By</option>
+                                        @foreach($users as $user)
+                                            <option value='{{$user->id}}'>{{ucfirst($user->name)}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>

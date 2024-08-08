@@ -101,18 +101,18 @@
                                     }
                                                 
                                 @endphp
-                                <table class="table table-bordered">
+                                <table class="table">
                                     <tbody>
                                         <tr>
                                             <th width='10%'><strong>Project</strong></th>
                                             <td width='25%'>{{$dip_activity->project?->name ?? '--'}}</td>
-                                            <th  width='10%'>SOF</th>
+                                            <th  width='10%'><strong>SOF</strong></th>
                                             <td width='20%'>{{$dip_activity->project?->sof ?? '--'}}</td>
-                                            <th  width='10%'>Donor</th>
+                                            <th  width='10%'><strong>Donor</strong></strong></th>
                                             <td width='25%'>{{$dip_activity->project?->donors?->name ?? '--'}}</td>
                                         </tr>
                                         <tr>
-                                            <th>Province</th>
+                                            <th><strong>Province</th>
                                             <td>
                                                 @foreach($provinces as $province)
                                                     {{ $province->province_name ?? '--' }}@if(! $loop->last), @endif
@@ -120,7 +120,7 @@
                                             </td>
                                             <td></td>
                                             <td></td>
-                                            <th>Tenure</th>
+                                            <th><strong>Tenure</strong></th>
                                             <td>
                                                 @if(!empty($dip_activity->project->start_date) && $dip_activity->project->start_date != null)
                                                     {{ date('M d, Y', strtotime($dip_activity->project->start_date))}} - {{date('M d, Y', strtotime($dip_activity->project->end_date))}}
@@ -131,26 +131,26 @@
                                            
                                         </tr>
                                         <tr>
-                                            <th>District</th>
+                                            <th><strong>District</strong></th>
                                             <td colspan="2">
                                                 @foreach($districts as $district)
                                                     {{ $district->district_name }}@if(! $loop->last), @endif
                                                 @endforeach
                                             </td>
-                                            <th>Theme and sub theme</th>
+                                            <th><strong>Theme and sub theme</strong</th>
                                         <td colspan="3">{{$dip_activity->scisubtheme_name?->maintheme?->name ?? 'N/A'}} - {{$dip_activity->scisubtheme_name?->name ?? ''}}</td>
                                         </tr>
                                         <tr>
                                             <td colspan="6"><div class="separator separator-dashed separator-border-4"></div></td>
                                         </tr>
                                         <tr>
-                                            <th>Activity Details</th>
+                                            <th><strong>Activity Details</strong></th>
                                             <td colspan="5">#{{$dip_activity->activity_number ?? '--'}} - {{$dip_activity->activity_title  ?? ''}}</td>
                                         </tr>
                                         <tr>
-                                            <th>Actvity type & sub-type</th>
+                                            <th><strong>Actvity type & sub-type</strong></th>
                                             <td colspan="3">{{$dip_activity->activity_type?->activity_type?->name ?? ''}} -> {{$dip_activity->activity_type?->name ?? ''}}</td>
-                                            <th>LOP Target</th>
+                                            <th><strong>LOP Target</strong></th>
                                             <td>{{$dip_activity->lop_target ?? 'N/A'}}</td>
                                         </tr>
                                         <tr>
