@@ -187,9 +187,10 @@ class DipActivityController extends Controller
 
     public function get_complete_activity(Request $request)
     {
+           
             $dipId = $request->dip_id;
-        
-        
+            $user_idd = $request->user;
+            $subtheme = $request->subtheme;
             $user = auth()->user();
             $userId =   $user->id.'';
             $userRole = $user->getRoleNames()->first();
@@ -197,8 +198,16 @@ class DipActivityController extends Controller
             $dipsQuery = ActivityMonths::when($dipId, function ($query) use ($dipId) {
                 $query->where('project_id', $dipId);
             });
-        
-
+            if(!empty($user_idd) && $user_idd == null){
+                $dipsQuery = ActivityMonths::when($user_idd, function ($query) use ($user_idd) {
+                    $query->where('created_by', $user_idd);
+                });
+            }
+            if(!empty($subtheme) && $subtheme == null){
+                $dipsQuery = ActivityMonths::whereHas('activity', function ($query) use ($subtheme) {
+                    $query->where('subtheme_id', $subtheme);
+                });
+            }
             switch ($userRole) {
                 case 'focal person':
                     $dipsQuery->whereHas('project', function ($query) use ($userId) {
@@ -236,25 +245,28 @@ class DipActivityController extends Controller
                 $progressUrl = route('postprogress', $completemonth->activity->id);
                 $text = $completemonth->activity->activity_title ?? "";
                 $words = str_word_count($text, 1);
-                $lines = array_chunk($words, 10);
+                $lines = array_chunk($words, 5);
                 $finalText = implode("<br>", array_map(fn($line) => implode(" ", $line), $lines));
         
                 $nestedData = [
-                    'activity_number' => $finalText,
+                   'activity_title' => $finalText,
                     'activity' => $completemonth->activity->activity_number ?? '',
-                    'theme' => $completemonth->activity->scisubtheme_name?->maintheme?->name ?? '',
-                    'sub_theme' => $completemonth->activity->scisubtheme_name?->name ?? '',
-                    'activity_type' => $completemonth->activity->activity_type?->activity_type?->name
-                        ? ($completemonth->activity->activity_type?->activity_type?->name . ' (' . $completemonth->activity->activity_type?->name . ')')
+                    'sub_theme' => 
+                        ($completemonth->activity->scisubtheme_name?->maintheme?->name ?? '') 
+                        . ' (' 
+                        . ($completemonth->activity->scisubtheme_name?->name ?? '') 
+                        . ')',
+                    'activity_type' => 
+                        $completemonth->activity->activity_type?->activity_type?->name 
+                        ? ($completemonth->activity->activity_type?->activity_type?->name . ' (' . $completemonth->activity->activity_type?->name . ')') 
                         : '',
                     'project' => $completemonth->project->name ?? '',
                     'lop_target' => $completemonth->activity->lop_target ?? '',
                     'quarter_target' => $completemonth->quarter.'-'.$completemonth->year,
                     'created_by' => $completemonth->user->name ?? '',
                     'created_at' => date('M d, Y', strtotime($completemonth->created_at)) . '<br>' . date('h:iA', strtotime($completemonth->created_at)),
-                    'update_progress' => '<a href="' . $progressUrl . '"><span class="badge badge-success">Update Progress</span></a>',
                     'action' => '<div>
-                    <td><a class="badge badge-primary mx-1" href="' . $show_url . '" title="Show Activity" href="javascript:void(0)">
+                        <td><a class="badge badge-primary mx-1" href="' . $show_url . '" title="Show Activity" href="javascript:void(0)">
                           Show Activity</a></td></div>',
                 ];
         
@@ -270,15 +282,33 @@ class DipActivityController extends Controller
     }
 
     public function getActivityDue(Request $request)
-    {
+    {   
+  
         $dipId = $request->dip_id;
         $user = auth()->user();
+        $user_idd = $request->user;
+        $subtheme = $request->subtheme;
         $userId = $user->id . '';
         $userRole = $user->getRoleNames()->first();
-    
-        $dipsQuery = ActivityMonths::when($dipId, function ($query) use ($dipId) {
-            $query->where('project_id', $dipId);
-        });
+        $dipsQuery = ActivityMonths::query();
+        if(!empty($dipId) && $dipId != null){
+           
+            $dipsQuery = ActivityMonths::when($dipId, function ($query) use ($dipId) {
+                $query->where('project_id', $dipId);
+            });
+        }
+        if(!empty($user_idd) && $user_idd != null){
+          
+            $dipsQuery = ActivityMonths::when($user_idd, function ($query) use ($user_idd) {
+                $query->where('created_by', $user_idd);
+            });
+        }
+        if(!empty($subtheme) && $subtheme != null){
+            
+            $dipsQuery = ActivityMonths::whereHas('activity', function ($query) use ($subtheme) {
+                $query->where('subtheme_id', $subtheme);
+            });
+        }
     
         switch ($userRole) {
             case 'focal person':
@@ -313,16 +343,20 @@ class DipActivityController extends Controller
             $progressUrl = route('postprogress', $dipmonth->activity->id);
             $text = $dipmonth->activity->activity_title ?? "";
             $words = str_word_count($text, 1);
-            $lines = array_chunk($words, 10);
+            $lines = array_chunk($words, 5  );
             $finalText = implode("<br>", array_map(fn($line) => implode(" ", $line), $lines));
     
             $nestedData = [
-                'activity_number'   => $finalText,
-                'activity'          => $dipmonth->activity->activity_number ?? '',
-                'theme'             => $dipmonth->activity->scisubtheme_name?->maintheme?->name ?? '',
-                'sub_theme'         => $dipmonth->activity->scisubtheme_name?->name ?? '',
-                'activity_type'     => $dipmonth->activity->activity_type?->activity_type?->name
-                    ? ($dipmonth->activity->activity_type?->activity_type?->name . ' (' . $dipmonth->activity->activity_type?->name . ')')
+                'activity_title' => $finalText,
+                'activity' => $dipmonth->activity->activity_number ?? '',
+                'sub_theme' => 
+                    ($dipmonth->activity->scisubtheme_name?->maintheme?->name ?? '') 
+                    . ' (' 
+                    . ($dipmonth->activity->scisubtheme_name?->name ?? '') 
+                    . ')',
+                'activity_type' => 
+                    $dipmonth->activity->activity_type?->activity_type?->name 
+                    ? ($dipmonth->activity->activity_type?->activity_type?->name . ' (' . $dipmonth->activity->activity_type?->name . ')') 
                     : '',
                 'project'           => $dipmonth->project->name ?? '',
                 'lop_target'        => $dipmonth->activity->lop_target ?? '',
@@ -716,14 +750,43 @@ class DipActivityController extends Controller
     public function activity_progress(){
       
         if(auth()->user()->hasRole('partner')){
-            $projects = Project::whereHas('partners', function ($query) {
-                $query->where('email', auth()->user()->email);
-            })->orderBy('name')->get();
+           
+
         }
         elseif(auth()->user()->hasRole('focal_person')){
             $projects = Project::whereJsonContains('focal_person',auth()->user()->id)->orderBy('name')->get();
         }else{
             $projects = Project::orderBy('name')->get();
+            $projects = Project::whereHas('partners', function ($query) {
+                $query->where('email', auth()->user()->email);
+            })->orderBy('name')->get();
+
+            $completedCount = DipActivity::whereHas('months', function($query) {
+                $query->where('completion_date', '<', now())
+                      ->whereHas('progress');
+            })
+           
+            ->count();
+           
+            // Count of partially completed activities
+            $partialCompleteCount = DipActivity::whereHas('months', function($query) {
+                $query->whereHas('progress');
+            }, '>', 0)->whereHas('months', function($query) {
+                $query->whereDoesntHave('progress');
+            })->count();
+            
+            // Count of overdue activities
+            $overdueCount = DipActivity::whereHas('months', function($query) {
+                $query->whereDoesntHave('progress')
+                      ->where('completion_date', '<', Carbon::now());
+            })->count();
+            
+            // Count of pending activities
+            $pendingCount = DipActivity::whereHas('months', function($query) {
+                $query->whereDoesntHave('progress')
+                      ->where('completion_date', '>', Carbon::now());
+            })->count();
+        
         }
 
         $themes = SCITheme::all()->sortBy('name');

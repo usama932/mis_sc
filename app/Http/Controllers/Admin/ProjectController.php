@@ -172,12 +172,6 @@ class ProjectController extends Controller
 
     public function get_projects(Request $request)
     {
-      
-        $columns = [
-            'project', 'type', 'sof', 'donor', 'focal_person', 'budget_holder',
-            'award_person', 'start_date', 'end_date', 'created_by', 'created_at'
-        ];
-    
         $query = Project::latest();
         $totalData = $query->count();
     
@@ -197,20 +191,8 @@ class ProjectController extends Controller
         if ($request->filled('enddate') && $request->enddate != 1) {
             $query->where('end_date', '<=', $request->enddate);
         }
-    
         $totalFiltered = $query->count();
-    
-        // Order
-        $orderColumn = $columns[$request->input('order.0.column')];
-        $orderDirection = $request->input('order.0.dir');
-        $query->orderBy($orderColumn, $orderDirection);
-    
-        // Pagination and get data
-        $start = $request->input('start');
-        $limit = $request->input('length');
-        $projects = $query->offset($start)
-                         ->limit($limit)
-                         ->get();
+        $projects = $query->get();
     
         // Prepare data for DataTables
         $data = [];

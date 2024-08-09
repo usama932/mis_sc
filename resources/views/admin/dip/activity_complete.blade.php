@@ -51,9 +51,7 @@
                                     <select name="subtheme" id="subtheme" aria-label="Select a Activity theme" data-control="select2" data-placeholder="Select a Activity theme..." class="form-select" data-allow-clear="true">
                                         <option value=''>Select Activity theme</option>
                                         @foreach($subthemes as $subtheme)
-                                           
-                                            <option value='{{$subtheme->id}}'>{{ucfirst($subtheme->name)}}</option>
-                                           
+                                            <option value='{{$subtheme->id}}'>{{ucfirst($subtheme->name)}}</option>                                          
                                         @endforeach
                                     </select>
                                 </div>

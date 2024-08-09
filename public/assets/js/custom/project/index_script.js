@@ -23,34 +23,35 @@ $(document).ready(function() {
             buttons: [
                 {
                     extend: 'excelHtml5',
-                    filename: 'Project list',
+                    filename: 'Overdue Progress Activities',
                     text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
-                    title: 'Project detail list',
-                    className: 'badge badge-outline-success',
+                    title: 'Overdue Progress Activities',
+                    className: 'badge badge-success mb-4',
                     exportOptions: {
-                        columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7,8,9]
                     }
                 },
                 {
                     extend: 'csvHtml5',
-                    filename: 'Project list',
-                    text: '<i class="fa fa-download text-warning mx-1"></i> CSV',
-                    title: 'Project detail list',
-                    className: 'badge badge-outline-success ',
+                    filename: 'Overdue Progress Activities',
+                    text: '<i class="fa fa-download text-warning"></i> CSV',
+                    title: 'Overdue Progress Activities',
+                    className: 'badge badge-success',
                     exportOptions: {
-                        columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7,8,9]
                     }
                 }
             ],
-            "responsive": true, // Enable responsive mode
             "processing": true,
-            "serverSide": true,
-            "searching": false,
+            "serverSide": false, // Disable server-side processing
+            "searching": true, // Enable client-side searching
+            "ordering": true, // Enable client-side sorting
+            "paging": true, // Enable pagination
+            "info": true, // Show table information
             "bLengthChange": true,
-            "aLengthMenu": [[10, 50, 100, -1], [10, 50, 100, "All"]],
-            "bInfo" : true,
-            "responsive": false,
-        "info": true,
+           
+            "info": true,
+            "ajax": {
                 "url": "/get_projects",
                 "type": "POST",
                 "data": function(d) {
@@ -75,17 +76,17 @@ $(document).ready(function() {
                 title: 'Thematic area Data export',
                 className: 'badge badge-outline-success mb-2',
                 exportOptions: {
-                    columns: [0, 1, 2,3,4,5,6,7,8,9]
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
                 }
             },
             {
                 extend: 'csvHtml5',
-                filename: 'Project ',
+                filename: 'Project export',
                 text: '<i class="fa fa-download text-warning mx-1"></i> CSV',
-                title: 'Thematic area Data',
+                title: 'Thematic area Data export',
                 className: 'badge badge-outline-success mb-2',
                 exportOptions: {
-                    columns: [0, 1, 2,3,4,5,6,7,8,9]
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
                 }
             }
         ];

@@ -30,44 +30,42 @@
                     </h3>
                     <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                            <div class="card-header border-0">
-                                <div class="row mb-5">
-                                    <div class="col-md-4 mt-3">
-                                        <label class="fs-6 fw-semibold form-label mb-2">
-                                            <span>Project</span>
-                                        </label>
-                                        <select name="project" id="project" aria-label="Select a Project" data-control="select2" data-placeholder="Select a Project..." class="form-select" data-allow-clear="true">
-                                            <option value=''>Select Project</option>
-                                            @foreach($projects as $project)
-                                                @if(!empty($project->detail))
-                                                <option value='{{$project->id}}'>{{ucfirst($project->name)}}</option>
-                                                @endif
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4 mt-3">
-                                        <label class="fs-6 fw-semibold form-label mb-2">
-                                            <span>Theme</span>
-                                        </label>
-                                        <select name="theme" id="theme_id" aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme..." class="form-select" data-allow-clear="true">
-                                            <option value=''>Select Project</option>
-                                            @foreach($themes as $theme)
-                                                <option value='{{$theme->id}}'>{{ucfirst($theme->name)}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="fv-row col-md-4 mt-3">
-                                        <label class="fs-6 fw-semibold form-label d-flex">
-                                            <span class="required">Sub-Thematic Area</span>
-                                            <span class="spinner-border spinner-border-sm align-middle ms-2" id="themeloader"
-                                                style="display: none !important;"></span>
-                                        </label>
-                                        <select name="subtheme_id" id="subtheme_id" aria-label="Select a Sub-Theme"
-                                            data-control="select2" data-placeholder="Select a Sub-Theme" class="form-select"
-                                            data-allow-clear="true">
-                                        </select>
-                                      
-                                    </div>
+                            <div class="row mb-5">
+                                <div class="col-md-4 mt-3">
+                                    <label class="fs-6 fw-semibold form-label mb-2">
+                                        <span>Project</span>
+                                    </label>
+                                    <select name="project" id="project" aria-label="Select a Project" data-control="select2" data-placeholder="Select a Project..." class="form-select" data-allow-clear="true">
+                                        <option value=''>Select Project</option>
+                                        @foreach($projects as $project)
+                                            @if(!empty($project->detail))
+                                            <option value='{{$project->id}}'>{{ucfirst($project->name)}}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-3">
+                                    <label class="fs-6 fw-semibold form-label mb-2">
+                                        <span>Theme</span>
+                                    </label>
+                                    <select name="theme" id="theme_id" aria-label="Select a Theme" data-control="select2" data-placeholder="Select a Theme..." class="form-select" data-allow-clear="true">
+                                        <option value=''>Select Project</option>
+                                        @foreach($themes as $theme)
+                                            <option value='{{$theme->id}}'>{{ucfirst($theme->name)}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="fv-row col-md-4 mt-3">
+                                    <label class="fs-6 fw-semibold form-label d-flex">
+                                        <span class="required">Sub-Thematic Area</span>
+                                        <span class="spinner-border spinner-border-sm align-middle ms-2" id="themeloader"
+                                            style="display: none !important;"></span>
+                                    </label>
+                                    <select name="subtheme_id" id="subtheme_id" aria-label="Select a Sub-Theme"
+                                        data-control="select2" data-placeholder="Select a Sub-Theme" class="form-select"
+                                        data-allow-clear="true">
+                                    </select>
+                                    
                                 </div>
                             </div>
                         </div>
