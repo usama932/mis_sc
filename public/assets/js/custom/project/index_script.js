@@ -19,51 +19,51 @@ $(document).ready(function() {
 
     function initializeDataTable() {
         return $('#projects').DataTable({
-            "dom": 'lfBrtip',
-            buttons: [
-                {
-                    extend: 'excelHtml5',
-                    filename: 'Overdue Progress Activities',
-                    text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
-                    title: 'Overdue Progress Activities',
-                    className: 'badge badge-success mb-4',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7,8,9]
-                    }
-                },
-                {
-                    extend: 'csvHtml5',
-                    filename: 'Overdue Progress Activities',
-                    text: '<i class="fa fa-download text-warning"></i> CSV',
-                    title: 'Overdue Progress Activities',
-                    className: 'badge badge-success',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7,8,9]
-                    }
-                }
-            ],
-            "processing": true,
-            "serverSide": false, // Disable server-side processing
-            "searching": true, // Enable client-side searching
-            "ordering": true, // Enable client-side sorting
-            "paging": true, // Enable pagination
-            "info": true, // Show table information
-            "bLengthChange": true,
-           
-            "info": true,
-            "ajax": {
-                "url": "/get_projects",
-                "type": "POST",
-                "data": function(d) {
-                    d._token = csrfToken;
-                    d.project = $('#project_name').val() || '';
-                    d.startdate = $('#start_date').val() || '';
-                    d.enddate = $('#end_date').val() || '';
-                    d.type = $('#type').val() || '';
-                    d.status = $('#status').val() || '';
+        "dom": 'lfBrtip',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                filename: 'Overdue Progress Activities',
+                text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
+                title: 'Overdue Progress Activities',
+                className: 'badge badge-success mb-4',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7,8]
                 }
             },
-            "columns": getColumns()
+            {
+                extend: 'csvHtml5',
+                filename: 'Overdue Progress Activities',
+                text: '<i class="fa fa-download text-warning"></i> CSV',
+                title: 'Overdue Progress Activities',
+                className: 'badge badge-success',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7,8]
+                }
+            }
+        ],
+        "processing": true,
+        "serverSide": false, // Disable server-side processing
+        "searching": true, // Enable client-side searching
+        "ordering": true, // Enable client-side sorting
+        "paging": true, // Enable pagination
+        "info": true, // Show table information
+        "bLengthChange": true,
+        "aLengthMenu": [[10, 50, 100, 250, 500, 750, 1000, 1500, 2000, 2500], [10, 50, 100, 250, 500, 750, 1000, 1500, 2000, 2500]],
+       
+        "ajax": {
+            "url": "/get_projects",
+            "type": "POST",
+            "data": function(d) {
+                d._token = csrfToken;
+                d.project = $('#project_name').val() || '';
+                d.startdate = $('#start_date').val() || '';
+                d.enddate = $('#end_date').val() || '';
+                d.type = $('#type').val() || '';
+                d.status = $('#status').val() || '';
+            }
+        },
+        "columns": getColumns()
         });
     }
 
@@ -107,8 +107,8 @@ $(document).ready(function() {
             {"data": "created_at"},
             {
                 "data": null,
-                "orderable": false,
-                "searchable": false,
+                "orderable": true,
+                "searchable": true,
                 "className": "text-center",
                 "render": function (data, type, row, meta) {
                     var editUrl = row.edit_url;

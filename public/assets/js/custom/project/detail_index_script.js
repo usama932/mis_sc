@@ -24,12 +24,12 @@ function initializeDataTable(projectId = null) {
                 }
             }
         ],
-        "responsive": true, // Enable responsive mode
+       
         "processing": true,
-        "serverSide": true,
-        "searching": false,
+        "serverSide": false,
+        "searching": true,
         "bLengthChange": true,
-        "aLengthMenu": [[10, 50, 100, -1], [10, 50, 100, "All"]],
+        "aLengthMenu": [[10, 50, 100, 150], [10, 50, 100, 150]],
         "bInfo" : true,
         "responsive": false,
         "info": true,
@@ -43,9 +43,9 @@ function initializeDataTable(projectId = null) {
             }
         },
         columns: [
-            { data: "project", searchable: false, orderable: false },
-            { data: "type", searchable: false, orderable: false },
-            { data: "sof", searchable: false, orderable: false },
+            { data: "project", searchable: true, orderable: true },
+            { data: "type", searchable: true, orderable: true },
+            { data: "sof", searchable: true, orderable: true },
             { data: "province", searchable: false, orderable: false },
             { data: "district", searchable: false, orderable: false },
             { data: "project_tenure", searchable: false, orderable: false },

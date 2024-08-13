@@ -83,12 +83,13 @@
                         }
                     }
                 ],
-                "responsive": true, // Enable responsive mode
-                "processing": true,
-                "serverSide": true,
-                "searching": false,
+              
+                "processing": false,
+                "serverSide": false,
+                "searching": true,
+                "ordering": true,
                 "bLengthChange": true,
-                "aLengthMenu": [[10, 50, 100, -1], [10, 50, 100, "All"]],
+                "aLengthMenu": [[10, 50, 100, 250,500,750,1000], [10, 50,250,500,750,1000]],
                 "bInfo" : true,
                 "responsive": false,
                 "info": true,
@@ -100,15 +101,15 @@
                         "dip_id":dip_id}
             },
             "columns":[
-                {"data":"activity","searchable":false,"orderable":false,"width": "10%"},
-                {"data":"activity_number","searchable":false,"orderable":false,"width": "10%"},
-                {"data":"theme","searchable":false,"orderable":false},
-                {"data":"sub_theme","searchable":false,"orderable":false},
-                {"data":"activity_type","searchable":false,"orderable":false},
-                {"data":"lop_target","searchable":false,"orderable":false},
-                {"data":"quarter_target","searchable":false,"orderable":false},
-                {"data":"created_by","searchable":false,"orderable":false},
-                {"data":"created_at","searchable":false,"orderable":false},
+                {"data":"activity","searchable":true,"orderable":true},
+                {"data":"activity_number","searchable":true,"orderable":true},
+                {"data":"theme","searchable":true,"orderable":true},
+                {"data":"sub_theme","searchable":true,"orderable":true},
+                {"data":"activity_type","searchable":true,"orderable":true},
+                {"data":"lop_target","searchable":true,"orderable":false},
+                {"data":"quarter_target","searchable":true,"orderable":false},
+                {"data":"created_by","searchable":true,"orderable":true},
+                {"data":"created_at","searchable":true,"orderable":false},
                 {"data":"action","searchable":false,"orderable":false},
             ]
         });
@@ -134,38 +135,12 @@
             }
             var project_id = document.getElementById("project_id").value ?? '1';
             var project_partners = $('#project_partners').DataTable({
-                "order": [
-                    [1, 'desc']
-                ],
-                "dom": 'lfBrtip',
-                buttons: [
-                    {
-                        extend: 'excelHtml5',
-                        filename: 'Project Profile Data export_',
-                        text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
-                        title: 'Themetic area Data export',
-                        className: 'badge badge-outline-success',
-                        exportOptions: {
-                            columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
-                        }
-                    },
-                    {
-                        extend: 'csvHtml5',
-                        filename: 'Project Profile Data CSV_',
-                        text: '<i class="fa fa-download text-warning mx-1"></i> CSV',
-                        title: 'Themetic area Data',
-                        className: 'badge badge-outline-success ',
-                        exportOptions: {
-                            columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
-                        }
-                    }
-                ],
-                "responsive": true, // Enable responsive mode
                 "processing": true,
-                "serverSide": true,
-                "searching": false,
+                "serverSide": false,
+                "searching": true,
+                "ordering": true,
                 "bLengthChange": true,
-                "aLengthMenu": [[10, 50, 100, -1], [10, 50, 100, "All"]],
+                "aLengthMenu": [[10, 50, 100, 250], [10, 50,250]],
                 "bInfo" : true,
                 "responsive": false,
                 "info": true,
@@ -181,18 +156,18 @@
                 "columns": [
                     {
                         "data": "themes",
-                        "searchable": false,
-                        "orderable": false
+                        "searchable": true,
+                        "orderable": true
                     },
                     {
                         "data": "sub_themes",
-                        "searchable": false,
-                        "orderable": false
+                        "searchable": true,
+                        "orderable": true
                     },
                     {
                         "data": "partner",
-                        "searchable": false,
-                        "orderable": false
+                        "searchable": true,
+                        "orderable": true
                     },
                     {
                         "data": "email",
@@ -214,21 +189,38 @@
             var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             var project_id = document.getElementById("project_id").value ?? '1';
             var project_theme = $('#project_themes').DataTable({
-                "order": [
-                    [1, 'desc']
-                ],
                 "dom": 'lfBrtip',
                 buttons: [
-                    'csv', 'excel'
+                    {
+                        extend: 'excelHtml5',
+                        filename: 'Overdue Progress Activities',
+                        text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
+                        title: 'Overdue Progress Activities',
+                        className: 'badge badge-success mb-4',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7,8]
+                        }
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        filename: 'Overdue Progress Activities',
+                        text: '<i class="fa fa-download text-warning"></i> CSV',
+                        title: 'Overdue Progress Activities',
+                        className: 'badge badge-success',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7,8]
+                        }
+                    }
                 ],
-                "responsive": true, // Enable responsive mode
                 "processing": true,
-                "serverSide": true,
-                "searching": false,
-                "bLengthChange": false,
-                "bInfo": false,
-                "responsive": false,
-                "info": true,
+                "serverSide": false, // Disable server-side processing
+                "searching": true, // Enable client-side searching
+                "ordering": true, // Enable client-side sorting
+                "paging": true, // Enable pagination
+                "info": true, // Show table information
+                "bLengthChange": true,
+                "aLengthMenu": [[10, 50, 100, 250, 500, 750, 1000, 1500, 2000, 2500], [10, 50, 100, 250, 500, 750, 1000, 1500, 2000, 2500]],
+            
                 "ajax": {
                     "url": "/project_themes",
                     "dataType": "json",
@@ -241,13 +233,13 @@
                 "columns": [
                     {
                         "data": "theme",
-                        "searchable": false,
-                        "orderable": false
+                        "searchable": true,
+                        "orderable": true
                     },
                     {
                         "data": "sub_theme",
-                        "searchable": false,
-                        "orderable": false
+                        "searchable": true,
+                        "orderable": true
                     },
                     {
                         "data": "house_hold_target",
@@ -326,10 +318,10 @@
                 ],
                 "responsive": true, // Enable responsive mode
                 "processing": true,
-                "serverSide": true,
-                "searching": false,
+                "serverSide": false,
+                "searching": true,
                 "bLengthChange": true,
-                "aLengthMenu": [[10, 50, 100, -1], [10, 50, 100, "All"]],
+                "aLengthMenu": [[10, 50, 100, 250], [10, 50, 100, 250]],
                 "bInfo" : true,
                 "responsive": false,
                 "info": true,

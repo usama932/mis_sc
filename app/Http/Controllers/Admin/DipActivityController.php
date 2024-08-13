@@ -50,14 +50,7 @@ class DipActivityController extends Controller
         })->count();
     
         $limit = $request->input('length');
-        //$order = $columns[$request->input('order.0.column')];
-        $orderIndex = $request->input('order.0.column');
-        if (isset($columns[$orderIndex])) {
-            $order = $columns[$orderIndex];
-        } else {
-            
-            $order = 'id'; // Or any other default column name
-        }
+     
         $dir = $request->input('order.0.dir');
     
         $start = $request->input('start');
@@ -105,8 +98,7 @@ class DipActivityController extends Controller
             $dipsQuery->where('subtheme_id',$request->subtheme_id);
         }
         $totalFiltered =  $dipsQuery->count();
-        $dips = $dipsQuery->limit($limit)
-            ->offset($start)
+        $dips = $dipsQuery
             ->orderByActivityNumber()
             ->get();
    
@@ -750,8 +742,9 @@ class DipActivityController extends Controller
     public function activity_progress(){
       
         if(auth()->user()->hasRole('partner')){
-           
-
+            $projects = Project::whereHas('partners', function ($query) {
+                $query->where('email', auth()->user()->email);
+            })->orderBy('name')->get();
         }
         elseif(auth()->user()->hasRole('focal_person')){
             $projects = Project::whereJsonContains('focal_person',auth()->user()->id)->orderBy('name')->get();
@@ -761,26 +754,22 @@ class DipActivityController extends Controller
                 $query->where('email', auth()->user()->email);
             })->orderBy('name')->get();
 
-            $completedCount = DipActivity::whereHas('months', function($query) {
+            $completedCountQuery = DipActivity::whereHas('months', function($query) {
                 $query->where('completion_date', '<', now())
                       ->whereHas('progress');
-            })
-           
-            ->count();
-           
+            });
+            
             // Count of partially completed activities
             $partialCompleteCount = DipActivity::whereHas('months', function($query) {
                 $query->whereHas('progress');
-            }, '>', 0)->whereHas('months', function($query) {
-                $query->whereDoesntHave('progress');
-            })->count();
-            
+            }, '>', 0)->count();
+
             // Count of overdue activities
             $overdueCount = DipActivity::whereHas('months', function($query) {
                 $query->whereDoesntHave('progress')
                       ->where('completion_date', '<', Carbon::now());
             })->count();
-            
+
             // Count of pending activities
             $pendingCount = DipActivity::whereHas('months', function($query) {
                 $query->whereDoesntHave('progress')

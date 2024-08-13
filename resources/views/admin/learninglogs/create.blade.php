@@ -53,7 +53,6 @@
                                 <span class="required">Research Type</span>
                             </label>
                             <select name="research_type" id="research_type" aria-label="Select Research Type" data-control="select2" data-placeholder="Select Research Type" class="form-select"  data-allow-clear="true" >
-                                <option value="" >Select Research Type</option>
                                 <option value="Assessment" >Assessment</option>
                                 <option value="Evaluation">Evaluation</option>
                                 <option value="Learning PPT" >Learning PPT</option>
@@ -70,8 +69,8 @@
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Thematic Area</span>
                             </label>
-                            <select name="theme[]" id="theme" class="form-select form-select-solid" data-control="select2" data-placeholder="Select an option" data-allow-clear="true" multiple>
-                                <option></option>
+                            <select name="theme[]" id="theme" class="form-select form-select-solid" aria-label="Select Research Type" data-control="select2" data-placeholder="Select an option" data-allow-clear="true" multiple>
+                              
                                 @foreach($themes as $theme)
                                 <option value="{{$theme->id}}" @if($loop->index == '0') selected @endif>{{$theme->name}}</option>
                                 @endforeach

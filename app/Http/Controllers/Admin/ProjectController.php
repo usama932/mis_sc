@@ -31,6 +31,7 @@ class ProjectController extends Controller
 
     public function index()
     {
+       
         $projects = Project::orderBy('name')->latest()->get();
 
         $total_projects = Project::count();
@@ -136,9 +137,6 @@ class ProjectController extends Controller
         
         // Apply pagination and ordering
         $projects = $project_details->with('detail')
-            ->orderBy($order, $dir)
-            ->limit($limit)
-            ->offset($start)
             ->latest()->get();
         
         $data = [];
