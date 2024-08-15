@@ -1,11 +1,11 @@
 <x-nform-layout>
     @section('title')
-         Project Activity Detail
+        Project Activity Detail
     @endsection
 
     <style>
         table, th, td, tr {
-          border: 1px solid black;
+            border: 1px solid black;
         }
         .fs-6 { font-size: 14px; }
         .fs-7 { font-size: 12px; }
@@ -17,6 +17,7 @@
         <li class="breadcrumb-item"><a href="{{ route('get_project_index') }}" class="">Project Details</a></li>
         <li class="breadcrumb-item text-muted">Activities</li>
     </ol>
+
     <div class="accordion" id="accordionExample">
         <div class="accordion-item">
             <h3 class="accordion-header" id="headingOne">
@@ -34,7 +35,7 @@
                         <!--end::Symbol-->
                         <!--begin::Text-->
                         <div class="d-flex flex-column">
-                            <a href="javascript:;" class="text-dark text-hover-primary fs-6 fw-bold">{{$project->name ?? ''}} Info</a>
+                            <a href="javascript:;" class="text-dark text-hover-primary fs-6 fw-bold">{{ $project->name ?? '' }} Info</a>
                         </div>
                         <!--end::Text-->
                     </div>
@@ -49,6 +50,7 @@
             </div>
         </div>
     </div>
+
     <div class="container-fluid py-3">
         <div class="card mt-3">
             <div class="card-header border-bottom">
@@ -69,6 +71,7 @@
                                 @foreach($months as $month)
                                     <th colspan="2" class="fs-7 text-center col-2">{{ $month }}</th>
                                 @endforeach
+                                <th class="fs-7" style="width:60px;">Cumulative LOP %</th>
                                 <th class="fs-7" style="min-width: 300px;">Remarks</th>
                             </tr>
                             <tr>
@@ -79,6 +82,7 @@
                                     <th class="fs-9 text-center col-2">Target</th>
                                     <th class="fs-9 text-center col-2">Achieve</th>
                                 @endforeach
+                                <th class="fs-7" style="width:60px;"></th>
                                 <th class="fs-9" style="min-width: 300px;"></th>
                             </tr>
                         </thead>
@@ -94,24 +98,32 @@
                                     $sortedActivities = $activities->sort(function ($a, $b) {
                                         $a_parts = explode('.', $a->activity_number);
                                         $b_parts = explode('.', $b->activity_number);
-                            
+
                                         for ($i = 0; $i < max(count($a_parts), count($b_parts)); $i++) {
                                             $a_part = isset($a_parts[$i]) ? (int)$a_parts[$i] : 0;
                                             $b_part = isset($b_parts[$i]) ? (int)$b_parts[$i] : 0;
-                            
+
                                             if ($a_part < $b_part) {
                                                 return -1;
                                             } elseif ($a_part > $b_part) {
                                                 return 1;
                                             }
                                         }
-                            
+
                                         return 0;
                                     });
                                 @endphp
-                            
                                 @foreach($sortedActivities as $item)
-                                  
+                                    @php
+                                        // Calculate the cumulative percentage
+                                        $totalAchieved = $item->months->sum('progress.activity_target') ?? 1;
+                                        $lopTarget = $item->lop_target ?? 1; // Avoid division by zero
+                                        $cumulativePercentage = 0;
+                                        if($lopTarget > 0 ){
+                                            $cumulativePercentage =round(($totalAchieved / $lopTarget) * 100);
+                                        }
+                                    @endphp
+
                                     <tr>
                                         <td class="fs-8">{{ $item->activity_number ?? '' }}</td>
                                         <td class="fs-8">{{ $item->activity_title ?? '' }}
@@ -122,14 +134,14 @@
                                         <td class="fs-8 bg-success">{{ $item->lop_target ?? '' }}</td>
                                         
                                         @foreach($months as $monthed)
-                                            <td class="text-center fs-8 ">
+                                            <td class="text-center fs-8">
                                                 @foreach($item->months as $month)
                                                     @if($monthed == $month->quarter.' '.$month->year)
                                                         {{ $month->target }}
                                                     @endif
                                                 @endforeach
                                             </td>
-                                            <td class="text-center fs-8 ">
+                                            <td class="text-center fs-8">
                                                 @foreach($item->months as $month)
                                                     @if($monthed == $month->quarter.' '.$month->year)
                                                         {{ $month->progress?->activity_target ?? 0 }}
@@ -137,6 +149,9 @@
                                                 @endforeach
                                             </td>
                                         @endforeach
+                                        <td class="fs-9">
+                                            {{ number_format($cumulativePercentage) }}%
+                                        </td>
                                         <td class="fs-9" style="min-width: 300px;"></td>
                                     </tr>
                                 @endforeach
@@ -145,7 +160,6 @@
                                 <th colspan="20" class="text-center">No Records</th>
                             </tr>
                             @endforelse
-                        
                         </tbody>
                     </table>
                 </div>
@@ -229,42 +243,4 @@
     </script>
     @endpush
 
-    <style>
-        @media print {
-            body {
-                -webkit-print-color-adjust: exact; /* Ensure colors are printed correctly */
-                margin: 0;
-            }
-            .container-fluid {
-                width: 100%;
-                overflow: hidden;
-            }
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-            th, td {
-                padding: 8px;
-                text-align: left;
-                border: 1px solid black;
-                white-space: nowrap; /* Prevent text wrapping */
-            }
-            @page {
-                size: A4 portrait; /* Ensure the page is in portrait orientation */
-                margin: 20mm; /* Adjust margins as needed */
-            }
-            .table-responsive {
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap;
-            }
-            .table {
-                width: 100%;
-                border: 1px solid black;
-            }
-        }
-    </style>
-    
-    
-  
 </x-nform-layout>
