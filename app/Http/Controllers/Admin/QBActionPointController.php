@@ -162,16 +162,16 @@ class QBActionPointController extends Controller
                 $query->where('assement_code', $request->assesment_code);
             });
         }
-        $dateParts = explode('to', $request->date_visit);
-        $startdate = '';
-        $enddate = '';
-        if(!empty($dateParts)){
-            $startdate = $dateParts[0];
-            $enddate = $dateParts[1] ?? '';
-        }
+        $dateParts = explode('to', '2024-04-01 to 2024-06-30');
+        
+        $startdate = trim($dateParts[0]);
+        $enddate = isset($dateParts[1]) ? trim($dateParts[1]) : '';
+        
         if ($request->date_visit != null && $request->date_visit != 'None') {
-            $qb_actionpoints->whereHas('qb', function ($query) use ($startdate ,$enddate) {
-                $query->whereBetween('date_visit',[$startdate ,$enddate]);
+            $qb_actionpoints->whereHas('qb', function ($query) use ($startdate, $enddate) {
+                if ($startdate && $enddate) {
+                    $query->whereBetween('date_visit', [$startdate, $enddate]);
+                }
             });
         }
        
@@ -198,7 +198,6 @@ class QBActionPointController extends Controller
         }
 		$action_points = $qb_actionpoints->offset($start)
                             ->limit($limit)
-                            ->orderBy($order,$dir)
                             ->get();
       
 		$data = array();

@@ -226,19 +226,36 @@
             var status = document.getElementById("status").value ?? '1';
 
             var clients = $('#qb_actionpoints').DataTable( {
-                "order": [
-                [1, 'desc']
-            ],
             "dom": 'lfBrtip',
             buttons: [
-                'csv', 'excel'
+                {
+                    extend: 'excelHtml5',
+                    filename: 'Project Profile Data export_',
+                    text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
+                    title: 'Themetic area Data export',
+                    className: 'badge badge-outline-success',
+                    exportOptions: {
+                        columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+                    }
+                },
+                {
+                extend: 'csvHtml5',
+                filename: 'Project Profile Data CSV_',
+                text: '<i class="fa fa-download text-warning mx-1"></i> CSV',
+                title: 'Themetic area Data',
+                className: 'badge badge-outline-success ',
+                exportOptions: {
+                    columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+                }
+                }
             ],
             "responsive": true, // Enable responsive mode
             "processing": true,
             "serverSide": true,
             "searching": false,
-            "bLengthChange": false,
-            "bInfo" : false,
+            "bLengthChange": true,
+            "aLengthMenu": [[10, 50, 100, -1], [10, 50, 100, "All"]],
+            "bInfo" : true,
             "responsive": false,
             "info": true,
                 "ajax": {
@@ -253,7 +270,7 @@
                             'status':status
                             }
                 },
-               "columns":[
+                "columns":[
                             {"data":"assement_code","searchable":false,"orderable":false},
                             {"data":"date_visit"},
                             {"data":"district","searchable":false,"orderable":false},
