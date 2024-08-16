@@ -190,14 +190,12 @@ class QBActionPointController extends Controller
         }
         $totalData = $qb_actionpoints->count();
         $limit = $request->input('length');
-        $order = $columns[$request->input('order.0.column')];
-        $dir = $request->input('order.0.dir');
+       
         $totalFiltered =  $qb_actionpoints->count();
         if(auth()->user()->hasRole("IP's")){
             $qb_actionpoints->where('created_by',auth()->user()->id);
         }
-		$action_points = $qb_actionpoints->offset($start)
-                            ->limit($limit)
+		$action_points = $qb_actionpoints
                             ->get();
       
 		$data = array();
@@ -233,6 +231,12 @@ class QBActionPointController extends Controller
                 }else{
                     $nestedData['deadline'] ='';
                 }
+                 $nestedData['qb_status'] = match($action_point->qb_status) {
+                    'Poor' => '<span class="badge bg-danger">'.$action_point->qb->qb_status.'</span>',
+                    'Average' => '<span class="badge bg-warning">'.$action_point->qb->qb_status.'</span>',
+                    'Good' => '<span class="badge bg-secondary">'.$action_point->qb->qb_status.'</span>',
+                    default => '<span class="badge bg-success">'.$action_point->qb->qb_status.'</span>',
+                };
                 $nestedData['status'] = $action_point->status ?? '';
                 $nestedData['created_by'] = $action_point->user?->name ?? '';
                 $nestedData['created_at'] = date('d-M-Y H:i:s',strtotime($action_point->created_at)) ?? '';

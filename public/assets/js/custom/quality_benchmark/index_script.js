@@ -6,22 +6,22 @@ var QBs = $('#quality_bench').DataTable( {
     buttons: [
         {
             extend: 'excelHtml5',
-            filename: 'Project Profile Data export_',
+            filename: 'Quality bench',
             text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
             title: 'Themetic area Data export',
             className: 'badge badge-outline-success',
             exportOptions: {
-                columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+                columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
             }
         },
         {
             extend: 'csvHtml5',
-            filename: 'Project Profile Data CSV_',
+            filename: 'Quality bench',
             text: '<i class="fa fa-download text-warning mx-1"></i> CSV',
             title: 'Themetic area Data',
             className: 'badge badge-outline-success ',
             exportOptions: {
-                columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+                columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
             }
         }
     ],
@@ -104,22 +104,22 @@ $("#date_visit,#assesment_code,#attachement, #visit_staff,#partner, #accompanied
         buttons: [
             {
                 extend: 'excelHtml5',
-                filename: 'Project Profile Data export_',
+                filename: 'Quality bench',
                 text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
                 title: 'Themetic area Data export',
                 className: 'badge badge-outline-success',
                 exportOptions: {
-                    columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+                    columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
                 }
             },
             {
             extend: 'csvHtml5',
-            filename: 'Project Profile Data CSV_',
+            filename: 'Quality bench',
             text: '<i class="fa fa-download text-warning mx-1"></i> CSV',
             title: 'Themetic area Data',
             className: 'badge badge-outline-success',
             exportOptions: {
-                columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+                columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
             }
          }
         ],

@@ -100,6 +100,7 @@
                             <th>Responsible Person</th>
                             <th>Deadline</th>
                             <th>Status</th>
+                            <th>QB Status</th>
                             <th>Created By</th>
                             <th>Created At</th>
                             <th>Actions</th>
@@ -124,8 +125,27 @@
             ],
             "dom": 'lfBrtip',
             buttons: [
-                'csv', 'excel'
-            ],
+                    {
+                        extend: 'excelHtml5',
+                        filename: 'QB Action Tracker',
+                        text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
+                        title: 'QB Action Tracker',
+                        className: 'badge badge-success mb-4',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7,8,9,10,11,12,13,14]
+                        }
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        filename: 'Overdue Progress Activities',
+                        text: '<i class="fa fa-download text-warning"></i> CSV',
+                        title: 'Overdue Progress Activities',
+                        className: 'badge badge-success',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7,8,9,10,11,12,13,14]
+                        }
+                    }
+                ],
             "responsive": true, // Enable responsive mode
             "processing": true,
             "serverSide": true,
@@ -141,14 +161,14 @@
                "data":{"_token":"<?php echo csrf_token() ?>"}
            },
             "columns":[
-                            {"data":"assement_code","searchable":false,"orderable":false},
+                {"data":"assement_code","searchable":false,"orderable":false},
                             {"data":"date_visit"},
-                            {"data":"district","searchable":false,"orderable":false},
-                            {"data":"village" ,"searchable":false,"orderable":false},
-                            {"data":"theme" ,"searchable":false,"orderable":false},
-                            {"data":"activity" ,"searchable":false,"orderable":false},
-                            {"data":"qb_no" ,"searchable":false,"orderable":false},
-                            {"data":"db_note" ,"searchable":false,"orderable":false,"width": "10%",
+                            {"data":"district","searchable":true,"orderable":false},
+                            {"data":"village" ,"searchable":true,"orderable":false},
+                            {"data":"theme" ,"searchable":true,"orderable":true},
+                            {"data":"activity" ,"searchable":true,"orderable":false},
+                            {"data":"qb_no" ,"searchable":true,"orderable":false},
+                            {"data":"db_note" ,"searchable":true,"orderable":false,"width": "10%",
                             render: function(data, type, row) {
                                 // 'type' specifies the type of rendering
                                 // 'display' is used for displaying the data
@@ -163,7 +183,7 @@
                                 // For other types (sort, filter), return the data unchanged
                                 return data;
                             }},
-                            {"data":"action_point" ,"searchable":false,"orderable":false,"width": "10%",
+                            {"data":"action_point" ,"searchable":true,"orderable":false,"width": "10%",
                             render: function(data, type, row) {
                                 // 'type' specifies the type of rendering
                                 // 'display' is used for displaying the data
@@ -178,7 +198,7 @@
                                 // For other types (sort, filter), return the data unchanged
                                 return data;
                             }},
-                            {"data":"qb_recommendation" ,"searchable":false,"orderable":false,"width": "10%",
+                            {"data":"qb_recommendation" ,"searchable":true,"orderable":false,"width": "10%",
                             render: function(data, type, row) {
                                 // 'type' specifies the type of rendering
                                 // 'display' is used for displaying the data
@@ -193,11 +213,12 @@
                                 // For other types (sort, filter), return the data unchanged
                                 return data;
                             }},
-                            {"data":"responsible_person" ,"searchable":false,"orderable":false},
-                            {"data":"deadline" ,"searchable":false,"orderable":false},
-                            {"data":"status","searchable":false,"orderable":false },
-                            {"data":"created_by" ,"searchable":false,"orderable":false},
-                            {"data":"created_at" },
+                            {"data":"responsible_person" ,"searchable":true,"orderable":false},
+                            {"data":"deadline" ,"searchable":true,"orderable":false},
+                            {"data":"status","searchable":true,"orderable":true },
+                            {"data":"qb_status","searchable":true,"orderable":true },
+                            {"data":"created_by" ,"searchable":true,"orderable":true},
+                            {"data":"created_at","searchable":true,"orderable":true },
                             {"data":"action","searchable":false,"orderable":false},
                         ]
                     });
@@ -226,38 +247,39 @@
             var status = document.getElementById("status").value ?? '1';
 
             var clients = $('#qb_actionpoints').DataTable( {
-            "dom": 'lfBrtip',
-            buttons: [
-                {
-                    extend: 'excelHtml5',
-                    filename: 'Project Profile Data export_',
-                    text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
-                    title: 'Themetic area Data export',
-                    className: 'badge badge-outline-success',
-                    exportOptions: {
-                        columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+                "dom": 'lfBrtip',
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        filename: 'QB Action Tracker',
+                        text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
+                        title: 'QB Action Tracker',
+                        className: 'badge badge-success mb-4',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7,8,9,10,11,12,13,14]
+                        }
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        filename: 'Overdue Progress Activities',
+                        text: '<i class="fa fa-download text-warning"></i> CSV',
+                        title: 'Overdue Progress Activities',
+                        className: 'badge badge-success',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7,8,9,10,11,12,13,14]
+                        }
                     }
-                },
-                {
-                extend: 'csvHtml5',
-                filename: 'Project Profile Data CSV_',
-                text: '<i class="fa fa-download text-warning mx-1"></i> CSV',
-                title: 'Themetic area Data',
-                className: 'badge badge-outline-success ',
-                exportOptions: {
-                    columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
-                }
-                }
-            ],
-            "responsive": true, // Enable responsive mode
-            "processing": true,
-            "serverSide": true,
-            "searching": false,
-            "bLengthChange": true,
-            "aLengthMenu": [[10, 50, 100, -1], [10, 50, 100, "All"]],
-            "bInfo" : true,
-            "responsive": false,
-            "info": true,
+                ],
+                "processing": true,
+                "serverSide": false, // Disable server-side processing
+                "searching": true, // Enable client-side searching
+                "ordering": true, // Enable client-side sorting
+                "paging": true, // Enable pagination
+                "info": true, // Show table information
+                "bLengthChange": true,
+                "aLengthMenu": [[10, 50, 100, 250, 500, 750, 1000, 1500, 2000, 2500], [10, 50, 100, 250, 500, 750, 1000, 1500, 2000, 2500]],
+            
+
                 "ajax": {
                     "url":"{{ route('get_qbs_actionpoints') }}",
                     "dataType":"json",
@@ -271,25 +293,68 @@
                             }
                 },
                 "columns":[
-                            {"data":"assement_code","searchable":false,"orderable":false},
+                    {"data":"assement_code","searchable":false,"orderable":false},
                             {"data":"date_visit"},
-                            {"data":"district","searchable":false,"orderable":false},
-                            {"data":"village" ,"searchable":false,"orderable":false},
-                            {"data":"theme" ,"searchable":false,"orderable":false},
-                            {"data":"activity" ,"searchable":false,"orderable":false},
-                            {"data":"qb_no" ,"searchable":false,"orderable":false},
-                            {"data":"db_note" ,"searchable":false,"orderable":false,"width": "10%"},
-                            {"data":"action_point" ,"searchable":false,"orderable":false,"width": "10%"},
-                            {"data":"qb_recommendation" ,"searchable":false,"orderable":false,"width": "10%"},
-                            {"data":"responsible_person" ,"searchable":false,"orderable":false},
-                            {"data":"deadline" ,"searchable":false,"orderable":false},
-                            {"data":"status" ,"searchable":false,"orderable":false},
-                            {"data":"created_by" ,"searchable":false,"orderable":false},
-                            {"data":"created_at" },
+                            {"data":"district","searchable":true,"orderable":false},
+                            {"data":"village" ,"searchable":true,"orderable":false},
+                            {"data":"theme" ,"searchable":true,"orderable":true},
+                            {"data":"activity" ,"searchable":true,"orderable":false},
+                            {"data":"qb_no" ,"searchable":true,"orderable":false},
+                            {"data":"db_note" ,"searchable":true,"orderable":false,"width": "10%",
+                            render: function(data, type, row) {
+                                // 'type' specifies the type of rendering
+                                // 'display' is used for displaying the data
+                                if (type === 'display') {
+                                    // Limit the text length to 50 characters
+                                    var truncatedText = data.length > 50 ? data.substr(0, 50) + '...' : data;
+
+                                    // Use a tooltip to show the full text on hover
+                                    return '<span title="' + data + '">' + truncatedText + '</span>';
+                                }
+
+                                // For other types (sort, filter), return the data unchanged
+                                return data;
+                            }},
+                            {"data":"action_point" ,"searchable":true,"orderable":false,"width": "10%",
+                            render: function(data, type, row) {
+                                // 'type' specifies the type of rendering
+                                // 'display' is used for displaying the data
+                                if (type === 'display') {
+                                    // Limit the text length to 50 characters
+                                    var truncatedText = data.length > 50 ? data.substr(0, 50) + '...' : data;
+
+                                    // Use a tooltip to show the full text on hover
+                                    return '<span title="' + data + '">' + truncatedText + '</span>';
+                                }
+
+                                // For other types (sort, filter), return the data unchanged
+                                return data;
+                            }},
+                            {"data":"qb_recommendation" ,"searchable":true,"orderable":false,"width": "10%",
+                            render: function(data, type, row) {
+                                // 'type' specifies the type of rendering
+                                // 'display' is used for displaying the data
+                                if (type === 'display') {
+                                    // Limit the text length to 50 characters
+                                    var truncatedText = data.length > 50 ? data.substr(0, 50) + '...' : data;
+
+                                    // Use a tooltip to show the full text on hover
+                                    return '<span title="' + data + '">' + truncatedText + '</span>';
+                                }
+
+                                // For other types (sort, filter), return the data unchanged
+                                return data;
+                            }},
+                            {"data":"responsible_person" ,"searchable":true,"orderable":false},
+                            {"data":"deadline" ,"searchable":true,"orderable":false},
+                            {"data":"status","searchable":true,"orderable":false },
+                            {"data":"qb_status","searchable":true,"orderable":false },
+                            {"data":"created_by" ,"searchable":true,"orderable":true},
+                            {"data":"created_at","searchable":true,"orderable":true },
                             {"data":"action","searchable":false,"orderable":false},
                         ]
 
-            });
+            });     
         });
 
         function del(id) {
