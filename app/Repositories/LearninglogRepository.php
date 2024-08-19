@@ -40,19 +40,27 @@ class LearninglogRepository implements LearningLogRepositoryInterface
             $file->storeAs('public/learninglog/attachment/',$attachment);
            
         }
+
+        if(!empty($data['cli']) && $data['cli'] == 'on'){
+            $cli = 1;
+            
+        }else{
+            $cli = 0;
+        }
         
         return LearningLog::create([
             'title'                 => $data['title'],
-            'project'               => $data['project'],
-            'project_type'          => $data['project_type'],
-            'research_type'         => $data['research_type'],
-            'province'              => json_encode($data['province']),
-            'district'              => json_encode($data['district']),
-            'status'                => $data['status'],
-            'description'           => $data['description'],
-            'theme'                 => json_encode($data['theme']) ,
+            'project'               => $data['project'] ?? null,
+            'project_type'          => $data['project_type'] ?? null,
+            'research_type'         => $data['research_type'] ?? null,
+            'province'              => json_encode($data['province'] ?? null) ,
+            'district'              => json_encode($data['district']  ?? null),
+            'status'                => $data['status'] ?? null,
+            'description'           => $data['description'] ?? null,
+            'theme'                 => json_encode($data['theme']  ?? null),
             'thumbnail'             => $thumbnail ?? '',
             'attachment'            => $attachment ?? '',
+            'cli'                   => $cli,
             'created_by'            => auth()->user()->id,
         ]);
     }

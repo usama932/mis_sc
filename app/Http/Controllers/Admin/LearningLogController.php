@@ -159,11 +159,22 @@ class LearningLogController extends Controller
         $theme_logs = json_decode($log->theme , true);
         $district_logs = json_decode($log->district , true);
         $province_logs = json_decode($log->province , true);
-
-        $themes = Theme::whereIn('id', $theme_logs)->get();
-        $districts = District::whereIn('district_id', $district_logs)->get();
-        $provinces = Province::whereIn('province_id', $province_logs)->get();
-        
+        if($theme_logs){
+            $themes = Theme::whereIn('id', $theme_logs)->get();
+        }else{
+            $themes = '';
+        }
+        if($district_logs){
+            $districts = District::whereIn('district_id', $district_logs)->get();
+        }else{
+            $districts = '';
+        }
+        if($province_logs){
+            $provinces = Province::whereIn('province_id', $province_logs)->get();
+        }else{
+            $provinces = '';
+        }
+       
         return view('admin.learninglogs.show',compact('log','themes','districts','provinces'));
     }
 

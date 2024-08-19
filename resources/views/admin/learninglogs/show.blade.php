@@ -59,15 +59,21 @@
                     <div class="mb-5" ">
                         <p >{!! $log->description !!}</p>
                     </div>
+                    @if($log->cli == 0)
                     <h3 class="">
                         Theme
                     </h3>
-                    <div class="">
-                        @foreach($themes as $theme) 
-                            {{$theme->name ?? ''}}@if(!($loop->last)),@endif 
-                        @endforeach
-                    </div>
+                   
+                        @if($themes)
+                        <div class="">
+                            @foreach($themes as $theme) 
+                                {{$theme->name ?? ''}}@if(!($loop->last)),@endif 
+                            @endforeach
+                        </div>
+                        @endif
+                  
                     <div class="row ">
+                      
                         <div class="col-md-4 ">
                             <div class="mt-5">
                                 <h6>Research Type  
@@ -83,16 +89,19 @@
                             </div>
                             <div class="mt-5">
                                <h6>Province</h6>
-                                @foreach($provinces as $province)
-                                    <span class="svg-icon svg-icon-primary svg-icon-1x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Map/Marker1.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xdivnk="http://www.w3.org/1999/xdivnk" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                        <rect x="0" y="0" width="24" height="24"/>
-                                        <path d="M5,10.5 C5,6 8,3 12.5,3 C17,3 20,6.75 20,10.5 C20,12.8325623 17.8236613,16.03566 13.470984,20.1092932 C12.9154018,20.6292577 12.0585054,20.6508331 11.4774555,20.1594925 C7.15915182,16.5078313 5,13.2880005 5,10.5 Z M12.5,12 C13.8807119,12 15,10.8807119 15,9.5 C15,8.11928813 13.8807119,7 12.5,7 C11.1192881,7 10,8.11928813 10,9.5 C10,10.8807119 11.1192881,12 12.5,12 Z" fill="#000000" fill-rule="nonzero"/>
-                                    </g>
-                                    </svg><!--end::Svg Icon--></span> {{$province->province_name ?? ''}} @if(!($loop->last))  , @endif
-                                @endforeach
+                                @if($provinces)
+                                    @foreach($provinces as $province)
+                                        <span class="svg-icon svg-icon-primary svg-icon-1x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Map/Marker1.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xdivnk="http://www.w3.org/1999/xdivnk" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24"/>
+                                            <path d="M5,10.5 C5,6 8,3 12.5,3 C17,3 20,6.75 20,10.5 C20,12.8325623 17.8236613,16.03566 13.470984,20.1092932 C12.9154018,20.6292577 12.0585054,20.6508331 11.4774555,20.1594925 C7.15915182,16.5078313 5,13.2880005 5,10.5 Z M12.5,12 C13.8807119,12 15,10.8807119 15,9.5 C15,8.11928813 13.8807119,7 12.5,7 C11.1192881,7 10,8.11928813 10,9.5 C10,10.8807119 11.1192881,12 12.5,12 Z" fill="#000000" fill-rule="nonzero"/>
+                                        </g>
+                                        </svg><!--end::Svg Icon--></span> {{$province->province_name ?? ''}} @if(!($loop->last))  , @endif
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
+                       
                         <div class="col-md-4 ">
                             <div class="mt-5">
                                
@@ -112,11 +121,14 @@
                                         <path d="M12,21 C7.02943725,21 3,16.9705627 3,12 C3,7.02943725 7.02943725,3 12,3 C16.9705627,3 21,7.02943725 21,12 C21,16.9705627 16.9705627,21 12,21 Z M14.1654881,7.35483745 L9.61055177,10.3622525 C9.47921741,10.4489666 9.39637436,10.592455 9.38694497,10.7495509 L9.05991526,16.197949 C9.04337012,16.4735952 9.25341309,16.7104632 9.52905936,16.7270083 C9.63705011,16.7334903 9.74423017,16.7047714 9.83451193,16.6451626 L14.3894482,13.6377475 C14.5207826,13.5510334 14.6036256,13.407545 14.613055,13.2504491 L14.9400847,7.80205104 C14.9566299,7.52640477 14.7465869,7.28953682 14.4709406,7.27299168 C14.3629499,7.26650974 14.2557698,7.29522855 14.1654881,7.35483745 Z" fill="#000000"/>
                                     </g>
                                 </svg><!--end::Svg Icon--></span>
-                                @foreach($districts as $district)
-                                    {{$district->district_name ?? ''}}@if(!($loop->last))  , @endif
-                                @endforeach
+                                @if($districts)
+                                    @foreach($districts as $district)
+                                        {{$district->district_name ?? ''}}@if(!($loop->last))  , @endif
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
+                        
                         <div class="col-md-4 ">
                             <div class="mt-5"> 
                             <h6>  
@@ -133,9 +145,9 @@
                            
                            
                         </div>
-                       
+                        
                     </div>
-                   
+                    @endif
                   
                     <div class="row"> 
                         <div class="col-md-4 ">
