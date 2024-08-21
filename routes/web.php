@@ -209,6 +209,7 @@ use Illuminate\Support\Facades\Route;
 
         //Output tracker routes
         Route::resource('/output_trackers', OTController::class);
+        Route::post('get_output_tracker', [QbController::class,'get_output_tracker'])->name('admin.get_output_tracker');
     });
 
     Route::get('/error', function () {
