@@ -26,6 +26,7 @@ use App\Http\Controllers\Auth\StaffLoginController;
 use App\Http\Controllers\Admin\CloseRecordController;
 use App\Http\Controllers\Admin\ProjectReviewController;
 use App\Http\Controllers\Admin\ProjectProfileController;
+use App\Http\Controllers\Admin\OTController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -205,6 +206,9 @@ use Illuminate\Support\Facades\Route;
         Route::get('edit_project_profile/{id}', [ProjectProfileController::class,'edit_project_profile'])->name('edit_project_profile');
         Route::post('profile_detail', [ProjectProfileController::class,'profile_detail'])->name('admin.profile_detail');
         Route::get('/project_profile/delete/{id}', [ProjectProfileController::class,'destroy'])->name('project_profile.delete');
+
+        //Output tracker routes
+        Route::resource('/output_trackers', OTController::class);
     });
 
     Route::get('/error', function () {

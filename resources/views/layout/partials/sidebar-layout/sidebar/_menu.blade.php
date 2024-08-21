@@ -350,6 +350,17 @@ $complete = $dipscomplete->count();
                         <div class="menu-sub menu-sub-accordion pt-3">
                             <!--begin::Menu item-->
                             @can('read project detail')
+                            <div class="menu-item">
+                                <!--begin:Menu link-->
+                            
+                                <a class="menu-link {{ (request()->segment(2) == 'output_trackers') ?  'active' : '' }}" href="{{ route('output_trackers.index') }}"">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Output Tracker</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
                                 
