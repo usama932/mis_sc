@@ -44,31 +44,33 @@ class OTController extends Controller
         $query = ActivityProgress::latest();
         $totalData = $query->count();
     
-       
-       
         $totalFiltered = $query->count();
         $activity_progress = $query->with('activitymonth','activity','project','user')->get();
     
-        dd($activity_progress);
+       
         $data = [];
-        foreach ($projects as $project) {
+        foreach ($activity_progress as $progress) {
             $nestedData = [
-                'id' => $project->id,
-                'project' => $project->name ?? '',
-                'type' => $project->type ?? '',
-                'sof' => $project->sof ?? '',
-                'donor' => $project->donors?->name ?? '',
-                'focal_person' => $this->getUserNames($project->focal_person),
-                'budgetholder' => $this->getUserNames($project->budget_holder),
-                'awardsfp' => $project->awardfp?->name ?? '',
-                'start_date' => $project->start_date ? date('M d,Y', strtotime($project->start_date)) : '',
-                'end_date' => $project->end_date ? date('M d,Y', strtotime($project->end_date)) : '',
-                'status' => $project->status ?? '',
-                'created_by' => $project->user->name ?? '',
-                'created_at' => ($project->created_at) ? date('M d, Y', strtotime($project->created_at)) . '<br>' . date('h:iA', strtotime($project->created_at)) : '',
-                'action' => '',
-                'edit_url' => route('projects.edit', $project->id),
-                'show_url' => route('projects.show', $project->id),
+                'date' => date('M d,Y', strtotime($progress->activity->created_at ?? '')),
+                'reported_date' =>date('M d,Y', strtotime($progress->activitymonth?->complete_date ?? '')) ,
+                'project' => $progress->project?->name ?? '',
+                'sof' => $progress->project?->sof ?? '',
+                'activity' => $progress->activity?->activity_title ?? '',
+                'theme' => $progress->activity?->scisubtheme_name?->maintheme?->name ?? '' .'-'.$progress->activity?->scisubtheme_name?->name ?? '',
+                'lop' => $progress->activity?->lop_target ?? '',
+                'monthly_achieve' => $progress->activity_target ?? '',
+                'women' => $progress->women_target ?? '',
+                'men' => $progress->men_target ?? '',
+                'total_adult' => $progress->men_target + $progress->women_target ?? '',
+                'girls' => $progress->girls_target ?? '',
+                'boys' => $progress->boys_target ?? '',
+                'total_child' => $progress->boys_target + $progress->girls_target ?? '',
+                'pwd' => $progress->pwd_target ?? '',
+                'total_reach' =>$progress->women_target + $progress->men_target + $progress->girls_target + $progress->boys_target,
+                'remarks' => $progress->remarks,
+                'created_by' => $progress->user->name ?? '',
+                'created_at' => ($progress->created_at) ? date('M d, Y', strtotime($progress->created_at)) . '<br>' . date('h:iA', strtotime($progress->created_at)) : '',
+                
             ];
             $data[] = $nestedData;
         }

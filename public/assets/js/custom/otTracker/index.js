@@ -11,7 +11,7 @@ var QBs = $('#ottracker').DataTable( {
             title: 'Themetic area Data export',
             className: 'badge badge-outline-success',
             exportOptions: {
-                columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+                columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
             }
         },
         {
@@ -21,7 +21,7 @@ var QBs = $('#ottracker').DataTable( {
             title: 'Themetic area Data',
             className: 'badge badge-outline-success ',
             exportOptions: {
-                columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+                columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
             }
         }
     ],
@@ -35,32 +35,31 @@ var QBs = $('#ottracker').DataTable( {
     "responsive": false,
     "info": true,
     "ajax": {
-        "url":"/get_qb",
+        "url":"/get_output_tracker",
         "dataType":"json",
         "type":"POST",
         "data":{"_token":csrfToken}
     },
     "columns":[
-                    {"data":"assement_code","searchable":false,"orderable":false},
-                    {"data":"project_name","searchable":false,"orderable":false},
-                    {"data":"partner","searchable":false,"orderable":false},
-                    {"data":"province","searchable":false,"orderable":false},
-                    {"data":"district","searchable":false,"orderable":false},
+                    {"data":"date","searchable":false,"orderable":false},
+                    {"data":"reported_date","searchable":false,"orderable":false},
+                    {"data":"project","searchable":false,"orderable":false},
+                    {"data":"sof","searchable":false,"orderable":false},
+                    {"data":"activity","searchable":false,"orderable":false},
                     {"data":"theme","searchable":false,"orderable":false},
-                    {"data":"activity_description","searchable":false,"orderable":false},
-                    {"data":"village","searchable":false,"orderable":false},
-                    {"data":"staff_organization","searchable":false,"orderable":false},
-                    {"data":"date_visit","searchable":false,"orderable":false},
-                    {"data":"qb_base","searchable":false,"orderable":false},
-                    {"data":"total_qbs","searchable":false,"orderable":false},
-                    {"data":"qbs_not_fully_met","searchable":false,"orderable":false},
-                    {"data":"qbs_fully_met","searchable":false,"orderable":false},
-                    {"data":"qb_not_applicable","searchable":false,"orderable":false},
-                    {"data":"score_out","searchable":false,"orderable":false},
-                    {"data":"qb_status","searchable":false,"orderable":false},
-                    {"data":"attachment","searchable":false,"orderable":false},
+                    {"data":"theme","searchable":false,"orderable":false},
+                    {"data":"lop","searchable":false,"orderable":false},
+                    {"data":"monthly_achieve","searchable":false,"orderable":false},
+                    {"data":"women","searchable":false,"orderable":false},
+                    {"data":"men","searchable":false,"orderable":false},
+                    {"data":"total_adult","searchable":false,"orderable":false},
+                    {"data":"girls","searchable":false,"orderable":false},
+                    {"data":"boys","searchable":false,"orderable":false},
+                    {"data":"total_child","searchable":false,"orderable":false},
+                    {"data":"pwd","searchable":false,"orderable":false},
+                    {"data":"total_reach","searchable":false,"orderable":false},
+                    {"data":"remarks","searchable":false,"orderable":false},
                     {"data":"created_at" ,"searchable":false,"orderable":false},
-                    {"data":"created_by" ,"searchable":false,"orderable":false},
-                    {"data":"action","searchable":false,"orderable":false},
+                    {"data":"created_by" ,"searchable":false,"orderable":false},                    
                 ]
 });

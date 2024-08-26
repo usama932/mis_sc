@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card-body pt-3">
                 <div class="table-responsive overflow-*">
-                    <table class="table table-striped table-bordered nowrap" id="projects" style="width:100%">
+                    <table class="table table-striped table-bordered nowrap" id="ottracker" style="width:100%">
                         <thead>
                             <tr>
                                 <th>Date</th>
@@ -30,7 +30,6 @@
                                 <th>Remarks</th>
                                 <th>Created By</th>
                                 <th>Created At</th>
-                                <th>Actions</th>
                             </tr>
                         </thead>
                     </table>
