@@ -71,6 +71,7 @@
                                 @foreach($months as $month)
                                     <th colspan="2" class="fs-7 text-center col-2">{{ $month }}</th>
                                 @endforeach
+                                <th class="fs-7" style="width:60px;">Total Progress</th>
                                 <th class="fs-7" style="width:60px;">Cumulative LOP %</th>
                                 <th class="fs-7" style="min-width: 300px;">Remarks</th>
                             </tr>
@@ -82,6 +83,7 @@
                                     <th class="fs-9 text-center col-2">Target</th>
                                     <th class="fs-9 text-center col-2">Achieve</th>
                                 @endforeach
+                                <th class="fs-7" style="width:60px;"></th>
                                 <th class="fs-7" style="width:60px;"></th>
                                 <th class="fs-9" style="min-width: 300px;"></th>
                             </tr>
@@ -149,6 +151,9 @@
                                                 @endforeach
                                             </td>
                                         @endforeach
+                                        <td class="fs-9">
+                                            {{ ($totalAchieved) }}
+                                        </td>
                                         <td class="fs-9">
                                             {{ number_format($cumulativePercentage) }}%
                                         </td>
