@@ -6,6 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\ActivityProgress;
+use App\Models\Project;
+use App\Models\SciSubTheme;
+use App\Models\SciTheme;
+use App\Models\User;
+
 
 class OTController extends Controller
 {
@@ -16,7 +21,13 @@ class OTController extends Controller
     {
         addJavascriptFile('assets/js/custom/otTracker/index.js');
         addVendors(['datatables']);
-        return view('admin.otTracker.index');
+        $projects   = Project::latest()->get();
+        $subthemes  = SciSubTheme::orderBy('name')->get();
+        $themes     = SciTheme::orderBy('name')->get();
+        $activity_user = ActivityProgress::get('created_by')->toArray(); 
+        $users = User::whereIn('id',$activity_user)->get();
+
+        return view('admin.otTracker.index',compact('projects','subthemes','themes','users'));
     }
     // {
     //     $apiToken = '9742a49db588994dae7593ec22d976ba8632f4f2';
@@ -41,36 +52,80 @@ class OTController extends Controller
     // }
 
     public function  get_output_tracker(Request $request){
+      
         $query = ActivityProgress::latest();
-        $totalData = $query->count();
+
+        if ($request->has('project') && !empty($request->input('project'))) {
+            $query->where('project_id', $request->input('project'));
+        }
     
+        if ($request->has('subtheme') && !empty($request->input('subtheme'))) {
+            $query->whereHas('activity', function($q) use ($request) {
+                $q->where('subtheme_id', $request->input('subtheme'));
+            });
+        }
+    
+        if ($request->has('added_by') && !empty($request->input('added_by'))) {
+           $query->where('created_by', $request->input('added_by'));
+        }
+
+        $totalMen   = $query->sum('men_target');
+        $totalWomen = $query->sum('women_target');
+        $totalBoys  = $query->sum('boys_target');
+        $totalGirls = $query->sum('girls_target');
+        $totalPWD   = $query->sum('pwd_target');
+
+        $totalAdults    = $totalMen + $totalWomen;
+        $totalChildren  = $totalBoys + $totalGirls;
+        $totalReach     = $totalAdults + $totalChildren;
+        
+        $totalRow = [
+            'date'              => '',  // Empty columns
+            'reported_date'     => '',
+            'project'           => '',
+            'sof'               => '',
+            'activity'          => '',
+            'theme'             => '',
+            'lop'               => '',
+            'monthly_achieve'   => '',
+            'women'             => $totalWomen,
+            'men'               => $totalMen,
+            'total_adult'       => $totalAdults,
+            'girls'             => $totalGirls,
+            'boys'              => $totalBoys,
+            'pwd'               => $totalPWD,
+            'total_child'       => $totalChildren,
+            'total_reach'       => $totalReach,
+            'remarks'           => '',
+            'created_by'        => '',
+            'created_at'        => '',
+        ];  
+        $data = [$totalRow]; 
+
+        $totalData = $query->count();
         $totalFiltered = $query->count();
         $activity_progress = $query->with('activitymonth','activity','project','user')->get();
-    
-       
-        $data = [];
         foreach ($activity_progress as $progress) {
             $nestedData = [
-                'date' => date('M d,Y', strtotime($progress->activity->created_at ?? '')),
-                'reported_date' =>date('M d,Y', strtotime($progress->activitymonth?->complete_date ?? '')) ,
-                'project' => $progress->project?->name ?? '',
-                'sof' => $progress->project?->sof ?? '',
-                'activity' => $progress->activity?->activity_title ?? '',
-                'theme' => $progress->activity?->scisubtheme_name?->maintheme?->name ?? '' .'-'.$progress->activity?->scisubtheme_name?->name ?? '',
-                'lop' => $progress->activity?->lop_target ?? '',
-                'monthly_achieve' => $progress->activity_target ?? '',
-                'women' => $progress->women_target ?? '',
-                'men' => $progress->men_target ?? '',
-                'total_adult' => $progress->men_target + $progress->women_target ?? '',
-                'girls' => $progress->girls_target ?? '',
-                'boys' => $progress->boys_target ?? '',
-                'total_child' => $progress->boys_target + $progress->girls_target ?? '',
-                'pwd' => $progress->pwd_target ?? '',
-                'total_reach' =>$progress->women_target + $progress->men_target + $progress->girls_target + $progress->boys_target,
-                'remarks' => $progress->remarks,
-                'created_by' => $progress->user->name ?? '',
-                'created_at' => ($progress->created_at) ? date('M d, Y', strtotime($progress->created_at)) . '<br>' . date('h:iA', strtotime($progress->created_at)) : '',
-                
+                'date'              => date('M d,Y', strtotime($progress->activity->created_at ?? '')),
+                'reported_date'     => date('M d,Y', strtotime($progress->activitymonth?->complete_date ?? '')),
+                'project'           => $progress->project?->name ?? '',
+                'sof'               => $progress->project?->sof ?? '',
+                'activity'          => $progress->activity?->activity_title ?? '',
+                'theme'             => $progress->activity?->scisubtheme_name?->maintheme?->name .'->'.$progress->activity?->scisubtheme_name?->name ,
+                'lop'               => $progress->activity?->lop_target ?? '',
+                'monthly_achieve'   => $progress->activity_target ?? '',
+                'women'             => $progress->women_target ?? '',
+                'men'               => $progress->men_target ?? '',
+                'total_adult'       => $progress->men_target + $progress->women_target ?? '',
+                'girls'             => $progress->girls_target ?? '',
+                'boys'              => $progress->boys_target ?? '',
+                'total_child'       => $progress->boys_target + $progress->girls_target ?? '',
+                'pwd'               => $progress->pwd_target ?? '',
+                'total_reach'       => $progress->women_target + $progress->men_target + $progress->girls_target + $progress->boys_target,
+                'remarks'           => $progress->remarks,
+                'created_by'        => $progress->user->name ?? '',
+                'created_at'        => ($progress->created_at) ? date('M d, Y', strtotime($progress->created_at)) . '<br>' . date('h:iA', strtotime($progress->created_at)) : '',
             ];
             $data[] = $nestedData;
         }
