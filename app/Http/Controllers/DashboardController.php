@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use ConsoleTVs\Charts\Classes\Chartjs\Chart;
+use DB;
 
 class DashboardController extends Controller
 {
@@ -12,12 +13,26 @@ class DashboardController extends Controller
         $projects = Project::select('active')->get();
         $projects_count = Project::count();
         $activeCounts = $projects->groupBy('active')->map->count();
+        $project_data = DB::table('projects as p')
+                        ->leftJoin('dip_activity as da', 'p.id', '=', 'da.project_id')
+                        ->leftJoin('dip_activity_months as dam', 'da.id', '=', 'dam.activity_id')
+                        ->leftJoin('dip_activity_progress as dap', 'dam.id', '=', 'dap.quarter_id')
+                        ->select(
+                            'p.name as project_name',
+                            DB::raw('COUNT(DISTINCT dam.id) AS total_activities_count'),
+                            DB::raw('COUNT(DISTINCT CASE WHEN dam.completion_date <= CURRENT_DATE AND dap.id IS NOT NULL THEN dam.id END) AS complete_activities_count'),
+                            DB::raw('COUNT(DISTINCT CASE WHEN dam.completion_date < CURRENT_DATE AND dap.id IS NULL THEN dam.id END) AS overdue_count'),
+                            DB::raw('COUNT(DISTINCT CASE WHEN dam.completion_date > CURRENT_DATE AND dap.id IS NULL THEN dam.id END) AS pending_count')
+                        )
+                        ->groupBy('p.id', 'p.name')
+                        ->get();
+               
         $data = [
             'inactive' => $activeCounts->get(0, 0),
             'active' => $activeCounts->get(1, 0),
         ];
-
-        return view('pages.dashboards.index', compact('projects_count','data'));
+       
+        return view('pages.dashboards.index', compact('projects_count','data','project_data'));
     }
     public function frm_dashboard()
     {
