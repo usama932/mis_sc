@@ -5,18 +5,17 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use App\Models\ActivityProgress;
+use App\Models\OtTracker;
 use App\Models\Project;
+use App\Models\ActivityProgress;
 use App\Models\SciSubTheme;
 use App\Models\SciTheme;
 use App\Models\User;
-
+use Illuminate\Support\Facades\DB;
 
 class OTController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+  
     public function index()
     {
         addJavascriptFile('assets/js/custom/otTracker/index.js');
@@ -53,28 +52,27 @@ class OTController extends Controller
 
     public function  get_output_tracker(Request $request){
       
-        $query = ActivityProgress::latest();
-
+        $query = OtTracker::latest();
+       
         if ($request->has('project') && !empty($request->input('project'))) {
-            $query->where('project_id', $request->input('project'));
+         
+            $query->where('project_name', $request->input('project'));
         }
-    
+        
         if ($request->has('subtheme') && !empty($request->input('subtheme'))) {
-            $query->whereHas('activity', function($q) use ($request) {
-                $q->where('subtheme_id', $request->input('subtheme'));
-            });
+            $query->where('subtheme_name', $request->input('subtheme'));
         }
-    
+        
         if ($request->has('added_by') && !empty($request->input('added_by'))) {
-           $query->where('created_by', $request->input('added_by'));
+            $query->where('created_by', $request->input('added_by'));
         }
-
+        
         $totalMen   = $query->sum('men_target');
         $totalWomen = $query->sum('women_target');
         $totalBoys  = $query->sum('boys_target');
         $totalGirls = $query->sum('girls_target');
         $totalPWD   = $query->sum('pwd_target');
-
+        
         $totalAdults    = $totalMen + $totalWomen;
         $totalChildren  = $totalBoys + $totalGirls;
         $totalReach     = $totalAdults + $totalChildren;
@@ -101,19 +99,20 @@ class OTController extends Controller
             'created_at'        => '',
         ];  
         $data = [$totalRow]; 
-
+        
         $totalData = $query->count();
         $totalFiltered = $query->count();
-        $activity_progress = $query->with('activitymonth','activity','project','user')->get();
+        $activity_progress = $query->get();
+        
         foreach ($activity_progress as $progress) {
             $nestedData = [
-                'date'              => date('M d,Y', strtotime($progress->activity->created_at ?? '')),
-                'reported_date'     => date('M d,Y', strtotime($progress->activitymonth?->complete_date ?? '')),
-                'project'           => $progress->project?->name ?? '',
-                'sof'               => $progress->project?->sof ?? '',
-                'activity'          => $progress->activity?->activity_title ?? '',
-                'theme'             => $progress->activity?->scisubtheme_name?->maintheme?->name .'->'.$progress->activity?->scisubtheme_name?->name ,
-                'lop'               => $progress->activity?->lop_target ?? '',
+                'date'              => date('M d,Y', strtotime($progress->created_at ?? '')),
+                'reported_date'     => date('M d,Y', strtotime($progress->reported_date ?? '')),
+                'project'           => $progress->project_name ?? '',
+                'sof'               => $progress->sof ?? '',
+                'activity'          => $progress->activity_title ?? '',
+                'theme'             => $progress->main_theme_name .'->'.$progress->subtheme_name,
+                'lop'               => $progress->lop_target ?? '',
                 'monthly_achieve'   => $progress->activity_target ?? '',
                 'women'             => $progress->women_target ?? '',
                 'men'               => $progress->men_target ?? '',
@@ -124,12 +123,12 @@ class OTController extends Controller
                 'pwd'               => $progress->pwd_target ?? '',
                 'total_reach'       => $progress->women_target + $progress->men_target + $progress->girls_target + $progress->boys_target,
                 'remarks'           => $progress->remarks,
-                'created_by'        => $progress->user->name ?? '',
+                'created_by'        => $progress->user_name ?? '',
                 'created_at'        => ($progress->created_at) ? date('M d, Y', strtotime($progress->created_at)) . '<br>' . date('h:iA', strtotime($progress->created_at)) : '',
             ];
             $data[] = $nestedData;
         }
-    
+        
         // Return JSON response for DataTables
         return response()->json([
             "draw" => intval($request->input('draw')),
@@ -138,35 +137,46 @@ class OTController extends Controller
             "data" => $data,
         ]);
     }   
-    public function create()
+  
+    public function getThemeGenderData(Request $request)
     {
-        //
+        // Query to get theme-wise progress subdivided by gender
+        $data = OtTracker::select('main_theme_name', 
+                DB::raw('SUM(men_target) as men'), 
+                DB::raw('SUM(women_target) as women'), 
+                DB::raw('SUM(boys_target) as boys'), 
+                DB::raw('SUM(girls_target) as girls'))
+                ->groupBy('main_theme_name')
+                ->get();
+
+        return response()->json($data);
     }
 
-    
-    public function store(Request $request)
+    public function getProjectThemeGenderData(Request $request)
     {
-        //
+        // Query to get project-wise progress subdivided by theme and gender
+        $data = OtTracker::select('project_name', 'main_theme_name', 
+                DB::raw('SUM(men_target) as men'), 
+                DB::raw('SUM(women_target) as women'), 
+                DB::raw('SUM(boys_target) as boys'), 
+                DB::raw('SUM(girls_target) as girls'))
+                ->groupBy('project_name', 'main_theme_name')
+                ->get();
+
+        return response()->json($data);
     }
-
-    public function show(string $id)
+    public function getProjectReachData(Request $request)
     {
-        //
-    }
+        // Example query to get project reach data
+        $data = OtTracker::select('project_name', 'main_theme_name', 
+            DB::raw('SUM(men_target) as men'), 
+            DB::raw('SUM(women_target) as women'), 
+            DB::raw('SUM(boys_target) as boys'), 
+            DB::raw('SUM(girls_target) as girls'),
+            DB::raw('SUM(men_target + women_target + boys_target + girls_target) as total_reach'))
+        ->groupBy('project_name', 'main_theme_name')
+        ->get();
 
-    public function edit(string $id)
-    {
-        //
-    }
-
-
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    public function destroy(string $id)
-    {
-        //
+        return response()->json($data);
     }
 }

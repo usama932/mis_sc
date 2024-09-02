@@ -100,7 +100,8 @@ function del(id) {
     }).then(function(result) {
         if (result.value) {
             Swal.fire("Deleted!", "Your Project has been deleted.", "success");
-            var APP_URL = json_encode(url('/'));
+            var segments = window.location.href.split('/');
+            var APP_URL = segments[1];
             window.location.href = APP_URL + "/dip/delete/" + id;
         }
     });

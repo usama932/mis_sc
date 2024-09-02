@@ -82,15 +82,11 @@
                 <table class="table table-striped table-bordered nowrap table-sm" id="dip_due_activity" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Activity</th>
-                            <th>Activity Title</th>
-                            <th>Sub Theme</th>
-                            <th>Activity Type</th>
                             <th>Project</th>
+                            <th>Activity Title</th>
+                            <th>Theme</th>
                             <th>LOP Target</th>
                             <th>Month</th>
-                            <th>Created By</th>
-                            <th>Created At</th>
                             <th>Action</th>
                         </tr>
                     </thead>

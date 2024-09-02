@@ -210,6 +210,9 @@ use Illuminate\Support\Facades\Route;
         //Output tracker routes
         Route::resource('/output_trackers', OTController::class);
         Route::post('get_output_tracker', [OTController::class,'get_output_tracker'])->name('admin.get_output_tracker');
+        Route::post('/get_theme_gender_data', [OTController::class, 'getThemeGenderData']);
+        Route::post('/get_project_theme_gender_data', [OTController::class, 'getProjectThemeGenderData']);
+        Route::get('/get_project_reach_data', [OTController::class, 'getProjectReachData']);
     });
 
     Route::get('/error', function () {

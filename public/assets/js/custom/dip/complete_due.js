@@ -46,15 +46,11 @@ $(document).ready(function () {
                 }
             },
             "columns": [
-                {"data": "activity", "searchable": true, "orderable": true},
+                {"data": "project", "searchable": true, "orderable": true},
                 {"data": "activity_title", "searchable": true, "orderable": true},
                 {"data": "sub_theme", "searchable": true, "orderable": true},
-                {"data": "activity_type", "searchable": true, "orderable": true},
-                {"data": "project", "searchable": true, "orderable": true},
                 {"data": "lop_target", "searchable": true, "orderable": true},
                 {"data": "quarter_target", "searchable": true, "orderable": true},
-                {"data": "created_by", "searchable": true, "orderable": true},
-                {"data": "created_at", "searchable": true, "orderable": true},
                 {"data": "action", "searchable": false, "orderable": false}
             ]
         });

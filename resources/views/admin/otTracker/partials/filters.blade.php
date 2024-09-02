@@ -28,10 +28,10 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="">Project</span>
                         </label>
-                        <select name="project" id="project_name" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Project Name" class="form-select form-select-solid" data-allow-clear="true">
+                        <select name="projectFilter" id="projectFilter" aria-label="Select a Project Name" data-control="select2" data-placeholder="Select a Project Name" class="form-select form-select-solid" data-allow-clear="true">
                             <option value="">Select Project</option>
                             @foreach($projects as $project)
-                                <option value="{{$project->id}}">{{$project->name}}</option>
+                                <option value="{{$project->name}}">{{$project->name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -42,7 +42,7 @@
                         <select name="subtheme" id="subtheme" aria-label="Select a Sub Theme Name" data-control="select2" data-placeholder="Select a Sub Theme Name" class="form-select form-select-solid" data-allow-clear="true">
                             <option value="">Select Sub Theme</option>
                             @foreach($subthemes as $subtheme)
-                                <option value="{{$subtheme->id}}">{{$subtheme->name}}</option>
+                                <option value="{{$subtheme->name}}">{{$subtheme->name}}</option>
                             @endforeach
                         </select>
                     </div>

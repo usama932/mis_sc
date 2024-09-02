@@ -90,44 +90,160 @@ function reinitializeDataTable() {
 reinitializeDataTable();
 
 // Event listener for changes in filter elements
-$('#project_name, #subtheme, #added_by').on('change', function() {
+$('#projectFilter, #subtheme, #added_by').on('change', function() {
     // Reinitialize the DataTable on filter change
     reinitializeDataTable();
 });
 
 //
-document.addEventListener('DOMContentLoaded', function() {
-    var ctx = document.getElementById('projectReachChart').getContext('2d');
+// document.addEventListener('DOMContentLoaded', function() {
+//     var ctx = document.getElementById('projectReachChart').getContext('2d');
 
-    // Fetch data from the server
-    fetch('/get_project_reach_data')
-        .then(response => response.json())
-        .then(data => {
-            // Prepare data for Chart.js
-            const projectNames = data.map(item => item.project);
-            const totalReachValues = data.map(item => item.total_reach);
+//     // Fetch data from the server
+//     fetch('/get_project_reach_data')
+//         .then(response => response.json())
+//         .then(data => {
+//             // Prepare data for Chart.js
+//             const projectNames = data.map(item => item.project_name);
+//             const totalReachValues = data.map(item => item.total_reach);
 
-            // Create chart
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: projectNames,
-                    datasets: [{
-                        label: 'Total Reach',
-                        data: totalReachValues,
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        })
-        .catch(error => console.error('Error fetching data:', error));
-});
+//             // Create chart
+//             new Chart(ctx, {
+//                 type: 'bar',
+//                 data: {
+//                     labels: projectNames,
+//                     datasets: [{
+//                         label: 'Total Reach',
+//                         data: totalReachValues,
+//                         backgroundColor: 'rgba(75, 192, 192, 0.2)',
+//                         borderColor: 'rgba(75, 192, 192, 1)',
+//                         borderWidth: 1
+//                     }]
+//                 },
+//                 options: {
+//                     scales: {
+//                         y: {
+//                             beginAtZero: true
+//                         }
+//                     }
+//                 }
+//             });
+//         })
+//         .catch(error => console.error('Error fetching data:', error));
+// });
+// // Fetch theme-wise progress and create graph
+// function loadThemeGenderGraph() {
+//     $.ajax({
+//         url: '/get_theme_gender_data',
+//         type: 'POST',
+//         data: { _token: csrfToken },
+//         success: function(data) {
+//             // Prepare data for Chart.js
+//             const themes = data.map(item => item.main_theme_name);
+//             const men = data.map(item => item.men);
+//             const women = data.map(item => item.women);
+//             const boys = data.map(item => item.boys);
+//             const girls = data.map(item => item.girls);
+
+//             // Create bar chart for theme-wise gender distribution
+//             new Chart(document.getElementById('themeGenderChart'), {
+//                 type: 'bar',
+//                 data: {
+//                     labels: themes,
+//                     datasets: [
+//                         { label: 'Men', data: men, backgroundColor: 'blue' },
+//                         { label: 'Women', data: women, backgroundColor: 'pink' },
+//                         { label: 'Boys', data: boys, backgroundColor: 'green' },
+//                         { label: 'Girls', data: girls, backgroundColor: 'yellow' }
+//                     ]
+//                 },
+//                 options: {
+//                     scales: {
+//                         y: {
+//                             beginAtZero: true
+//                         }
+//                     }
+//                 }
+//             });
+//         }
+//     });
+// }
+
+// // Fetch project-wise progress and create graph
+// function loadProjectThemeGenderGraph() {
+//     $.ajax({
+//         url: '/get_project_theme_gender_data',
+//         type: 'POST',
+//         data: { _token: csrfToken },
+//         success: function(data) {
+//             // Extract the project names and themes as labels
+//             const labels = data.map(item => `${item.project_name} - ${item.main_theme_name}`);
+
+//             // Extract data for each gender category
+//             const menData = data.map(item => item.men);
+//             const womenData = data.map(item => item.women);
+//             const boysData = data.map(item => item.boys);
+//             const girlsData = data.map(item => item.girls);
+
+//             // Prepare datasets for Chart.js
+//             const chartData = {
+//                 labels: labels,
+//                 datasets: [
+//                     {
+//                         label: 'Men',
+//                         backgroundColor: 'rgba(54, 162, 235, 0.6)',
+//                         borderColor: 'rgba(54, 162, 235, 1)',
+//                         borderWidth: 1,
+//                         data: menData
+//                     },
+//                     {
+//                         label: 'Women',
+//                         backgroundColor: 'rgba(255, 99, 132, 0.6)',
+//                         borderColor: 'rgba(255, 99, 132, 1)',
+//                         borderWidth: 1,
+//                         data: womenData
+//                     },
+//                     {
+//                         label: 'Boys',
+//                         backgroundColor: 'rgba(75, 192, 192, 0.6)',
+//                         borderColor: 'rgba(75, 192, 192, 1)',
+//                         borderWidth: 1,
+//                         data: boysData
+//                     },
+//                     {
+//                         label: 'Girls',
+//                         backgroundColor: 'rgba(255, 206, 86, 0.6)',
+//                         borderColor: 'rgba(255, 206, 86, 1)',
+//                         borderWidth: 1,
+//                         data: girlsData
+//                     }
+//                 ]
+//             };
+
+//             // Create or update the Chart.js chart
+//             const ctx = document.getElementById('projectThemeGenderChart').getContext('2d');
+//             const projectThemeGenderChart = new Chart(ctx, {
+//                 type: 'bar', // You can change this to 'line', 'pie', etc. based on your needs
+//                 data: chartData,
+//                 options: {
+//                     scales: {
+//                         y: {
+//                             beginAtZero: true
+//                         }
+//                     },
+//                     responsive: true,
+//                     plugins: {
+//                         legend: {
+//                             position: 'top',
+//                         },
+//                         title: {
+//                             display: true,
+//                             text: 'Project-wise Theme and Gender-wise Progress'
+//                         }
+//                     }
+//                 }
+//             });
+//         }
+//     });
+// }
+

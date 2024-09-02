@@ -339,8 +339,7 @@ class DipActivityController extends Controller
             $finalText = implode("<br>", array_map(fn($line) => implode(" ", $line), $lines));
     
             $nestedData = [
-                'activity_title' => $finalText,
-                'activity' => $dipmonth->activity->activity_number ?? '',
+                'activity_title' => $dipmonth->activity->activity_number.'  '.$finalText,
                 'sub_theme' => 
                     ($dipmonth->activity->scisubtheme_name?->maintheme?->name ?? '') 
                     . ' (' 
