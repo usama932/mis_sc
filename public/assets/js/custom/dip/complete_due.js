@@ -48,8 +48,9 @@ $(document).ready(function () {
             "columns": [
                 {"data": "project", "searchable": true, "orderable": true},
                 {"data": "activity_title", "searchable": true, "orderable": true},
-                {"data": "sub_theme", "searchable": true, "orderable": true},
-                {"data": "lop_target", "searchable": true, "orderable": true},
+                {"data": "activity_lop_target", "searchable": true, "orderable": true},
+                {"data": "beneficiary_target", "searchable": true, "orderable": true},
+                {"data": "expected_completion_date", "searchable": true, "orderable": true},
                 {"data": "quarter_target", "searchable": true, "orderable": true},
                 {"data": "action", "searchable": false, "orderable": false}
             ]

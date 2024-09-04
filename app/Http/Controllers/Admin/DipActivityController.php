@@ -325,6 +325,7 @@ class DipActivityController extends Controller
             ->with(['activity' => function ($query) {
                 return $query->orderByRaw("REPLACE(activity_number, '.', '') + 0");
             }])
+            ->orderByRaw("CAST(completion_date AS DATE) ASC") 
             ->get();
     
         $data = [];
@@ -339,23 +340,16 @@ class DipActivityController extends Controller
             $finalText = implode("<br>", array_map(fn($line) => implode(" ", $line), $lines));
     
             $nestedData = [
-                'activity_title' => $dipmonth->activity->activity_number.'  '.$finalText,
-                'sub_theme' => 
-                    ($dipmonth->activity->scisubtheme_name?->maintheme?->name ?? '') 
-                    . ' (' 
-                    . ($dipmonth->activity->scisubtheme_name?->name ?? '') 
-                    . ')',
-                'activity_type' => 
-                    $dipmonth->activity->activity_type?->activity_type?->name 
-                    ? ($dipmonth->activity->activity_type?->activity_type?->name . ' (' . $dipmonth->activity->activity_type?->name . ')') 
-                    : '',
-                'project'           => $dipmonth->project->name ?? '',
-                'lop_target'        => $dipmonth->activity->lop_target ?? '',
-                'quarter_target'    => $dipmonth->quarter . '-' . $dipmonth->year,
-                'created_by'        => $dipmonth->user->name ?? '',
-                'created_at'        => date('M d, Y', strtotime($dipmonth->created_at)) . '<br>' . date('h:iA', strtotime($dipmonth->created_at)),
-                'update_progress'   => '<a href="' . $progressUrl . '"><span class="badge badge-success">Update Progress</span></a>',
-                'action'            => '<div><td><a class="badge badge-primary mx-1" href="' . $show_url . '" title="Show Activity" href="javascript:void(0)">Show Activity</a></td></div>',
+                'activity_title'            => $dipmonth->activity->activity_number.'  '.$finalText,
+                'project'                   => $dipmonth->project->name ?? '',
+                'beneficiary_target'        => $dipmonth->beneficiary_target ?? '',
+                'activity_lop_target'       => $dipmonth->target ?? '',
+                'expected_completion_date'  => date('M d, Y', strtotime($dipmonth->completion_date)),
+                'quarter_target'            => $dipmonth->quarter . '-' . $dipmonth->year,
+                'created_by'                => $dipmonth->user->name ?? '',
+                'created_at'                => date('M d, Y', strtotime($dipmonth->created_at)) . '<br>' . date('h:iA', strtotime($dipmonth->created_at)),
+                'update_progress'           => '<a href="' . $progressUrl . '"><span class="badge badge-success">Update Progress</span></a>',
+                'action'                    => '<div><td><a class="badge badge-primary mx-1" href="' . $show_url . '" title="Show Activity" href="javascript:void(0)">Show Activity</a></td></div>',
             ];
     
             $data[] = $nestedData;

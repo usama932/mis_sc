@@ -113,7 +113,7 @@ $(document).ready(function() {
                 "render": function (data, type, row, meta) {
                     var editUrl = row.edit_url;
                     var showUrl = row.show_url;
-                    var deleteUrl = "/projects/" + row.id; // Replace with your delete URL
+                    var deleteUrl = row.delete_url;
 
                     var actionsHtml = `
                         <div>
@@ -123,13 +123,13 @@ $(document).ready(function() {
                             <a class="btn-icon mx-1" href="${editUrl}" target="_blank">
                                 <i class="fa fa-pencil text-warning"></i>
                             </a>
-                            <a class="btn-icon mx-1 delete-record" data-id="${row.id}" href="#">
+                            <a class="btn-icon mx-1" href="${deleteUrl}">
                                 <i class="fa fa-trash text-danger"></i>
                             </a>
                         </div>
                     `;
                     return actionsHtml;
-                }
+                } 
             }
         ];
     }

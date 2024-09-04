@@ -31,7 +31,6 @@ class ProjectController extends Controller
 
     public function index()
     {
-       
         $projects = Project::orderBy('name')->latest()->get();
 
         $total_projects = Project::count();
@@ -210,8 +209,9 @@ class ProjectController extends Controller
                 'created_by' => $project->user->name ?? '',
                 'created_at' => ($project->created_at) ? date('M d, Y', strtotime($project->created_at)) . '<br>' . date('h:iA', strtotime($project->created_at)) : '',
                 'action' => '',
-                'edit_url' => route('projects.edit', $project->id),
-                'show_url' => route('projects.show', $project->id),
+                'edit_url'      => route('projects.edit', $project->id),
+                'show_url'      => route('projects.show', $project->id),
+                'delete_url'    => route('project.delete', $project->id),
             ];
             $data[] = $nestedData;
         }
@@ -224,6 +224,7 @@ class ProjectController extends Controller
             "data" => $data,
         ]);
     }
+
     protected function getUserNames($userIds)
     {
         if (!$userIds) {
