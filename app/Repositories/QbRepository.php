@@ -59,6 +59,7 @@ class QbRepository implements QbRepositoryInterface
             'activity_description'  => $data['activity_description'],   
         ]);
     }
+    
     public function updateQb($data,$id)
     {
         $qb = QualityBench::where('id',$id)->first();
