@@ -72,9 +72,15 @@ function initializeDataTable(projectId = null) {
                 }
             },
             {
+                data: "project_activities", searchable: false, orderable: false,
+                render: function(data, type, row) {
+                    return `<a class="btn" href="${projectprogressView.replace(':id', row.id)}" title="Extract Project" target="_blank"><i class="far fa-file-excel text-info"></i></a>`;
+                }
+            },
+            {
                 data: "review_meeting", searchable: false, orderable: false,
                 render: function(data, type, row) {
-                    return `<a class="btn" href="${projectReviewsUrl.replace(':id', row.id)}"  target="_blank" title="Add/Show Review Meeting"><i class="far fa-calendar-alt text-info"></i></a>`;
+                    return `<a class="btn" href="${projectReviewsUrl.replace(':id', row.id)}"  target="_blank" title="Add/Show Review Meeting"><i class="far fa-comments text-info"></i></a>`;
                 }
             }
         ],

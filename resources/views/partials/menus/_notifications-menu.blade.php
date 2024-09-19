@@ -1,4 +1,5 @@
 @can('read dip')
+
     @if(auth()->user()->user_type != 'admin')
         @php
             $notifications = \App\Models\Notification::where('notifiable_id', auth()->user()->id)->latest()->get();
@@ -10,7 +11,7 @@
     @endif
     <div class="card menu menu-sub menu-sub-dropdown menu-column w-350px w-lg-375px" data-kt-menu="true" id="kt_menu_notifications">
         
-     <h4 class="card-header mt-4">Notifications:</h4>
+        <h4 class="card-header mt-4">Notifications:</h4>
         <div class="tab-content">
             <div class="scroll-y my-5 px-8" style="max-height: 400px; overflow-y: auto;">
                 @foreach ($notifications as $notification)

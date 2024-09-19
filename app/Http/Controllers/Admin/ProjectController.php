@@ -126,15 +126,12 @@ class ProjectController extends Controller
             $project_details->whereHas('detail');
         }
         
-        // Filter projects if requested
         if ($request->project !== null) {
             $project_details->where('id', $request->project);
         }
         
-        // Count total records before pagination
         $totalData = $totalFiltered = $project_details->count();
         
-        // Apply pagination and ordering
         $projects = $project_details->with('detail')
             ->latest()->get();
         
@@ -307,6 +304,38 @@ class ProjectController extends Controller
         $focal_person = $focalperson ? implode(", ", User::whereIn('id', json_decode($focalperson, true))->pluck('name')->toArray()) : '';
         $budgetholder = $budgetholder ? implode(", ", User::whereIn('id', json_decode($budgetholder, true))->pluck('name')->toArray()) : '';
         return view('admin.projects.projectView',compact('project','focal_person','budgetholder','provinces','districts','project_partners','project_themes','months'));
+    }
+    
+    public function project_progress_view($id){
+
+        $project   = Project::where('id',$id)->with('detail','activities')->orderBy('name')->first();
+        $provinces = [];
+        $districts = "";
+        if($project->detail?->district != null) {
+            $district_project = json_decode($project->detail->district , true);
+            $districts = District::whereIn('district_id', $district_project)->get();
+        }
+       
+        if($project->detail?->province != null) {
+            $province_project = json_decode($project->detail->province , true);
+            $provinces = Province::whereIn('province_id', $province_project)->get();
+        }
+        $project_partners   = ProjectPartner::where('project_id',$id)->get();  
+        $project_themes   = ProjectTheme::where('project_id',$id)->get();  
+
+        $start_date = new DateTime($project->start_date);
+        $end_date = new DateTime($project->end_date);
+        
+        $months = array();
+        while ($start_date <= $end_date) {
+            $months[] = $start_date->format('M Y'); // Add month name and year to the array
+            $start_date->modify('+1 month'); // Move to the next month
+        }
+        $focalperson = $project->focal_person;
+        $budgetholder = $project->budget_holder;
+        $focal_person = $focalperson ? implode(", ", User::whereIn('id', json_decode($focalperson, true))->pluck('name')->toArray()) : '';
+        $budgetholder = $budgetholder ? implode(", ", User::whereIn('id', json_decode($budgetholder, true))->pluck('name')->toArray()) : '';
+        return view('admin.projects.projectprogressView',compact('project','focal_person','budgetholder','provinces','districts','project_partners','project_themes','months'));
     }
 
     public function create()

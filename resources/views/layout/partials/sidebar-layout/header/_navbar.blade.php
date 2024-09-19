@@ -1,3 +1,45 @@
+@php
+    $user = auth()->user();
+    $userId =   $user->id.'';
+    $userRole = $user->getRoleNames()->first();
+    $dipsQuery = App\Models\ActivityMonths::where('id','!=',0);
+    $dipscomplete = App\Models\ActivityMonths::where('id','!=',0);
+    switch ($userRole) {
+
+        case 'focal person':
+            $dipsQuery = $dipsQuery->whereHas('project', function ($query) use ($userId) {
+                $query->whereJsonContains('focal_person', $userId);
+            });
+
+        break;	
+            
+        case 'budget holder':
+            $dipsQuery = $dipsQuery->whereHas('project', function ($query) use ($user) {
+                $query->whereHas('partners', function ($partnersQuery) use ($user) {
+                    $partnersQuery->where('email', $user->email);
+                });
+            });
+        break;
+
+        case 'awards':
+            $dipsQuery =$dipsQuery->whereHas('project', function ($query) use ($user) {
+                $query->where('award_person', $user->id);
+            });
+        break;
+
+        case 'partner':
+            $dipsQuery = $dipsQuery->whereHas('project', function ($query) use ($user) {
+                $query->whereHas('partners', function ($partnersQuery) use ($user) {
+                    $partnersQuery->where('email', $user->email);
+                });
+            });
+        break;
+    
+    }
+    $overdue = $dipsQuery->doesntHave('progress')->whereDate('completion_date', '<', Carbon\Carbon::now()->toDateString())->count();
+
+
+@endphp
 <div class="app-navbar flex-shrink-0">
     @can('read dip')
     <div class="app-navbar-item ms-1 ms-md-3">
@@ -8,12 +50,12 @@
              id="kt_menu_item_wow">
             <i class="fa fa-bell" aria-hidden="true" style="font-size:16px;color:red"></i>
             @if(auth()->user()->user_type != 'admin')
-                <span id="notification-badge" class="position-absolute top-0 start-75 translate-middle badge rounded-pill bg-danger">
+                <span id="notification-badge" class="position-absolute top-74 start-75 translate-middle badge rounded-pill bg-danger text-white">
                 @php
                     $notif = \App\Models\Notification::where('notifiable_id', auth()->user()->id)->count();
                 @endphp
-                {{ $notif }}
-            @endif
+                {{ $overdue }}
+                @endif
                 <span class="visually-hidden">unread notifications</span>
             </span>
         </div>

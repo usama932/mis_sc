@@ -17,6 +17,7 @@
         <select name="status" class="form-select form-control donor" id="status" aria-label="Select Status" data-control="select2" data-placeholder="Select a Status" required> 
             <option value="">Select Status</option>
             <option value='Posted'>Posted</option>
+            <option value='Reviewed'>Reviewed</option>
             <option value='Returned'>Returned</option>
         </select>
         <div id="statusError" class="error-message text-danger"></div>

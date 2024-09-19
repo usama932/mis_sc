@@ -57,15 +57,16 @@
                     <table class="table table-striped table-bordered nowrap" id="project_details">
                         <thead>
                             <tr>
-                                <th>Project</th>
-                                <th>Type</th>
-                                <th>SOF</th>
-                                <th>Provinces</th>
-                                <th>Districts</th>
-                                <th>Project Tenure</th>
-                                <th>Actions</th>
-                                <th>Extract DIP</th>
-                                <th>Review Meeting</th>
+                                <th class="fs-9">Project</th>
+                                <th class="fs-9"> Type</th>
+                                <th class="fs-9">SOF</th>
+                                <th class="fs-9">Provinces</th>
+                                <th class="fs-9">Districts</th>
+                                <th class="fs-9">Project Tenure</th>
+                                <th class="fs-9">Actions</th>
+                                <th class="fs-9">Extract DIP</th>
+                                <th class="fs-9">DIP Progress</th>
+                                <th class="fs-9">Review Meeting</th>
                             </tr>
                         </thead>
                     </table>
@@ -79,6 +80,7 @@
         var userType            = "{{ auth()->user()->user_type }}";
         var projectDetail       = "{{ route('project.detail', ':id') }}";
         var projectView         = "{{ route('project.view', ':id') }}";
+        var projectprogressView = "{{ route('project.progress.view', ':id') }}";
         var APP_URL = @json(url('/'));
     </script>
     @endpush

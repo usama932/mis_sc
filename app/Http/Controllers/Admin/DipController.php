@@ -100,8 +100,8 @@ class DipController extends Controller
                 }
                 $nestedData['province'] = $provinces;
                 $themes = $project->themes->pluck('scitheme_name.name')->unique()->implode(', ');
-                $partners = $project->partners->pluck('partner_name.slug')->implode(', ');
-                $nestedData['partners'] = $partners;
+                $partners = $project->partners->pluck('partner_name.slug')->unique()->implode(', ');
+                $nestedData['partners'] = $project->detail->implemented_sc == 0 ? $partners : "Self Implemented";
                 $nestedData['themes'] = $themes;
                 $districts = '';
                 if ($project->detail && !empty($project->detail->district)) {

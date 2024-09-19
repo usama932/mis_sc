@@ -27,12 +27,9 @@ class DashboardController extends Controller
                         ->groupBy('p.id', 'p.name')
                         ->get();
                
-        $data = [
-            'inactive' => $activeCounts->get(0, 0),
-            'active' => $activeCounts->get(1, 0),
-        ];
+      
        
-        return view('pages.dashboards.index', compact('projects_count','data','project_data'));
+        return view('pages.dashboards.index', compact('projects_count','project_data'));
     }
     public function frm_dashboard()
     {

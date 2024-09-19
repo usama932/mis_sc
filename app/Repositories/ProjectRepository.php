@@ -209,6 +209,7 @@ class ProjectRepository implements ProjectRepositoryInterface
                             'project' => $project->name,
                             'partner' => $partner->name
                         ];
+                        $email  = $user->email;
                         Mail::to($email)->send(new \App\Mail\partnerMail($details));
                     }
                     

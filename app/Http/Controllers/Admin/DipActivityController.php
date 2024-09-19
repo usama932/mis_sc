@@ -83,7 +83,6 @@ class DipActivityController extends Controller
         }
         
         elseif($role == 'partner'){
-          
             $dipsQuery->whereHas('project', function ($query) {
                 $query->whereHas('partners', function ($partnersQuery) {
                     $partnersQuery->where('email', auth()->user()->email);
@@ -138,7 +137,6 @@ class DipActivityController extends Controller
                 $activity = DipActivity::find($r->id);
                 
                 $nestedData['update_progress'] = '<a href="' . $progress_url . '"><span class="badge badge-success">Update Progress</span></a>';
-              
                 
                 $nestedData['action'] = '<div>
                                         <td>

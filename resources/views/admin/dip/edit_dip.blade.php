@@ -64,7 +64,10 @@
                             @endif
                             <li class="list-group-item">
                                 <strong>Partner:</strong> 
-                                {{ implode(', ', $project->partners->pluck('partner_name.slug')->toArray()) ?? 'N/A' }}
+                             @if($project->detail->implemented_sc == 0 )   {{ implode(', ', $project->partners->pluck('partner_name.slug')->unique()->toArray()) ?? 'N/A' }} 
+                             @else
+                             Self Implemented
+                             @endif
                             </li>
                             <li class="list-group-item">
                                 <strong>Focal Person:</strong> {{ $focal_person ?? 'N/A' }}

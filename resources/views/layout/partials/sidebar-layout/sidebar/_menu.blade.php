@@ -1,60 +1,60 @@
 @php
-$user = auth()->user();
-$userId =   $user->id.'';
-$userRole = $user->getRoleNames()->first();
-$dipsQuery = App\Models\ActivityMonths::where('id','!=',0);
-$dipscomplete = App\Models\ActivityMonths::where('id','!=',0);
-switch ($userRole) {
+    $user = auth()->user();
+    $userId =   $user->id.'';
+    $userRole = $user->getRoleNames()->first();
+    $dipsQuery = App\Models\ActivityMonths::where('id','!=',0);
+    $dipscomplete = App\Models\ActivityMonths::where('id','!=',0);
+    switch ($userRole) {
 
-    case 'focal person':
-        $dipsQuery = $dipsQuery->whereHas('project', function ($query) use ($userId) {
-            $query->whereJsonContains('focal_person', $userId);
-        });
-
-    break;	
-        
-    case 'budget holder':
-        $dipsQuery = $dipsQuery->whereHas('project', function ($query) use ($user) {
-            $query->whereHas('partners', function ($partnersQuery) use ($user) {
-                $partnersQuery->where('email', $user->email);
-            });
-        });
-    break;
-
-    case 'awards':
-        $dipsQuery =$dipsQuery->whereHas('project', function ($query) use ($user) {
-            $query->where('award_person', $user->id);
-        });
-    break;
-
-    case 'partner':
-        $dipsQuery = $dipsQuery->whereHas('project', function ($query) use ($user) {
-            $query->whereHas('partners', function ($partnersQuery) use ($user) {
-                $partnersQuery->where('email', $user->email);
-            });
-        });
-    break;
-   
-}
-$overdue = $dipsQuery->doesntHave('progress')->whereDate('completion_date', '<', Carbon\Carbon::now()->toDateString())->count();
-
-switch ($userRole) {
         case 'focal person':
-            $dipscomplete->whereHas('project', function ($query) use ($userId) {
+            $dipsQuery = $dipsQuery->whereHas('project', function ($query) use ($userId) {
                 $query->whereJsonContains('focal_person', $userId);
             });
-            break;
-        case 'partner':
-            $dipscomplete->whereHas('project', function ($query) use ($user) {
+
+        break;	
+            
+        case 'budget holder':
+            $dipsQuery = $dipsQuery->whereHas('project', function ($query) use ($user) {
                 $query->whereHas('partners', function ($partnersQuery) use ($user) {
                     $partnersQuery->where('email', $user->email);
                 });
             });
-            break;
-    }
+        break;
 
-$dipscomplete->whereIn('status', ['To be Reviewed', 'Returned', 'Posted'])->whereHas('progress');
-$complete = $dipscomplete->count();
+        case 'awards':
+            $dipsQuery =$dipsQuery->whereHas('project', function ($query) use ($user) {
+                $query->where('award_person', $user->id);
+            });
+        break;
+
+        case 'partner':
+            $dipsQuery = $dipsQuery->whereHas('project', function ($query) use ($user) {
+                $query->whereHas('partners', function ($partnersQuery) use ($user) {
+                    $partnersQuery->where('email', $user->email);
+                });
+            });
+        break;
+    
+    }
+    $overdue = $dipsQuery->doesntHave('progress')->whereDate('completion_date', '<', Carbon\Carbon::now()->toDateString())->count();
+
+    switch ($userRole) {
+            case 'focal person':
+                $dipscomplete->whereHas('project', function ($query) use ($userId) {
+                    $query->whereJsonContains('focal_person', $userId);
+                });
+                break;
+            case 'partner':
+                $dipscomplete->whereHas('project', function ($query) use ($user) {
+                    $query->whereHas('partners', function ($partnersQuery) use ($user) {
+                        $partnersQuery->where('email', $user->email);
+                    });
+                });
+                break;
+        }
+
+    $dipscomplete->whereIn('status', ['To be Reviewed', 'Returned', 'Posted'])->whereHas('progress');
+    $complete = $dipscomplete->count();
 @endphp
 <div class="app-sidebar-menu overflow-hidden flex-column-fluid">
 	<!--begin::Menu wrapper-->
@@ -350,17 +350,7 @@ $complete = $dipscomplete->count();
                         <div class="menu-sub menu-sub-accordion pt-3">
                             <!--begin::Menu item-->
                             @can('read project detail')
-                            <div class="menu-item">
-                                <!--begin:Menu link-->
-                            
-                                <a class="menu-link {{ (request()->segment(2) == 'output_trackers') ?  'active' : '' }}" href="{{ route('output_trackers.index') }}"">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">Output Tracker</span>
-                                </a>
-                                <!--end:Menu link-->
-                            </div>
+                          
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
                                 
@@ -460,6 +450,17 @@ $complete = $dipscomplete->count();
                                         <!--end:Menu link-->
                                     </div>
                                 @endcan
+                               
+                            @endcan
+                            @can('read project detail')
+                                <div class="menu-item">
+                                    <a class="menu-link {{ (request()->segment(2) == 'output_trackers') ?  'active' : '' }}" href="{{ route('output_trackers.index') }}"">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Beneficiaries Reach</span>
+                                    </a>
+                                </div>
                             @endcan
                         </div>
                         <!--end::Menu sub-->

@@ -173,6 +173,7 @@ use Illuminate\Support\Facades\Route;
         //Project detail Routes
         Route::get('/project/detailupdate/{id}', [ProjectController::class,'createProject_details'])->name('project.detail');
         Route::get('/project/detailview/{id}', [ProjectController::class,'project_view'])->name('project.view');
+        Route::get('/project/detailprogressview/{id}', [ProjectController::class,'project_progress_view'])->name('project.progress.view');
         Route::get('/project/details', [ProjectController::class,'get_project_index'])->name('get_project_index');
         Route::post('get_project_details', [ProjectController::class,'get_project_details'])->name('admin.get_project_details');
 

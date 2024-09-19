@@ -67,9 +67,9 @@
                             <tr>
                                 <th class="fs-9 col-1">Activity .#</th>
                                 <th class="fs-7 col-4" style="min-width: 300px;">Activity Title</th>
-                                <th class="fs-9" style="width:60px;">LOP Target</th>
+                                <th class="fs-9" style="width:60px;">Activity Target</th>
                                 @foreach($months as $month)
-                                    <th colspan="2" class="fs-7 text-center col-2">{{ $month }}</th>
+                                    <th colspan="7" class="fs-7 text-center col-2">{{ $month }}</th>
                                 @endforeach
                                 <th class="fs-7" style="width:60px;">Total Progress</th>
                                 <th class="fs-7" style="width:60px;">Cumulative LOP %</th>
@@ -80,8 +80,14 @@
                                 <th class="fs-7 col-4" style="min-width: 300px;"></th>
                                 <th class="fs-7" style="min-width:60px;"></th>
                                 @foreach($months as $month)
-                                    <th class="fs-9 text-center col-2">Target</th>
-                                    <th class="fs-9 text-center col-2">Achieve</th>
+                                    <th class="fs-9 text-center col-1">Benificary Target</th>
+                                    <th class="fs-9 text-center col-1">LOP Target</th>
+                                    <th class="fs-9 text-center col-1">Women Achieve</th>
+                                    <th class="fs-9 text-center col-1">Men Achieve</th>
+                                    <th class="fs-9 text-center col-1">Girls Achieve</th>
+                                    <th class="fs-9 text-center col-1">Boys Achieve</th>
+                                    <th class="fs-9 text-center col-1">PLWD Achieve</th>
+                                  
                                 @endforeach
                                 <th class="fs-7" style="width:60px;"></th>
                                 <th class="fs-7" style="width:60px;"></th>
@@ -94,7 +100,7 @@
                                     $subtheme = \App\Models\SciSubTheme::with('maintheme')->find($theme);
                                 @endphp 
                                 <tr>
-                                    <th colspan="{{count($months) }}" class="fs-6 bg-primary">{{ $subtheme->maintheme?->name }} ({{ $subtheme->name }})</th>
+                                    <th colspan="{{count($months) }}{{count($months) }}" class="fs-6 bg-primary">{{ $subtheme->maintheme?->name }} ({{ $subtheme->name }})</th>
                                 </tr>
                                 @php
                                     $sortedActivities = $activities->sort(function ($a, $b) {
@@ -136,7 +142,13 @@
                                         <td class="fs-8 bg-success">{{ $item->lop_target ?? '' }}</td>
                                         
                                         @foreach($months as $monthed)
-                                     
+                                            <td class="text-center fs-8">
+                                                @foreach($item->months as $month)
+                                                    @if($monthed == $month->quarter.' '.$month->year)
+                                                        {{ $month->beneficiary_target }}
+                                                    @endif
+                                                @endforeach
+                                            </td>
                                             <td class="text-center fs-8">
                                                 @foreach($item->months as $month)
                                                     @if($monthed == $month->quarter.' '.$month->year)
@@ -144,13 +156,43 @@
                                                     @endif
                                                 @endforeach
                                             </td>
+                                           
                                             <td class="text-center fs-8">
                                                 @foreach($item->months as $month)
                                                     @if($monthed == $month->quarter.' '.$month->year)
-                                                        {{ $month->progress?->activity_target ?? 0 }}
+                                                        {{ $month->progress?->women_target ?? 0}}
                                                     @endif
                                                 @endforeach
                                             </td>
+                                            <td class="text-center fs-8">
+                                                @foreach($item->months as $month)
+                                                    @if($monthed == $month->quarter.' '.$month->year)
+                                                        {{ $month->progress?->men_target ?? 0}}
+                                                    @endif
+                                                @endforeach
+                                            </td>
+                                            <td class="text-center fs-8">
+                                                @foreach($item->months as $month)
+                                                    @if($monthed == $month->quarter.' '.$month->year)
+                                                        {{ $month->progress?->girls_target ?? 0}}
+                                                    @endif
+                                                @endforeach
+                                            </td>
+                                            <td class="text-center fs-8">
+                                                @foreach($item->months as $month)
+                                                    @if($monthed == $month->quarter.' '.$month->year)
+                                                        {{ $month->progress?->boys_target ?? 0 }}
+                                                    @endif
+                                                @endforeach
+                                            </td>
+                                            <td class="text-center fs-8">
+                                                @foreach($item->months as $month)
+                                                    @if($monthed == $month->quarter.' '.$month->year)
+                                                        {{ $month->progress?->pwd_target }}
+                                                    @endif
+                                                @endforeach
+                                            </td>
+                                         
                                         @endforeach
                                         <td class="fs-9">
                                             {{ ($totalAchieved) }}
