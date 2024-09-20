@@ -10,7 +10,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $projects = Project::select('active')->get();
+        $projects = Project::select('name','id')->get();
         $projects_count = Project::count();
         $activeCounts = $projects->groupBy('active')->map->count();
         $project_data = DB::table('projects as p')
@@ -29,7 +29,7 @@ class DashboardController extends Controller
                
       
        
-        return view('pages.dashboards.index', compact('projects_count','project_data'));
+        return view('pages.dashboards.index', compact('projects','project_data'));
     }
     public function frm_dashboard()
     {

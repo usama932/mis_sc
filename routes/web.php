@@ -27,9 +27,8 @@ use App\Http\Controllers\Admin\CloseRecordController;
 use App\Http\Controllers\Admin\ProjectReviewController;
 use App\Http\Controllers\Admin\ProjectProfileController;
 use App\Http\Controllers\Admin\OTController;
+use App\Http\Controllers\Admin\ProjectAjaxController;
 use Illuminate\Support\Facades\Route;
-
-
 
     Route::post('getuserDistrict', [FBAjaxController::class,'getuserDistrict'])->name('getuserDistrict');
     Route::middleware(['auth', 'verified'])->group(function () {
@@ -214,6 +213,9 @@ use Illuminate\Support\Facades\Route;
         Route::post('/get_theme_gender_data', [OTController::class, 'getThemeGenderData']);
         Route::post('/get_project_theme_gender_data', [OTController::class, 'getProjectThemeGenderData']);
         Route::get('/get_project_reach_data', [OTController::class, 'getProjectReachData']);
+
+        //Project Dashbaord 
+        Route::get('/get-districts', [ProjectAjaxController::class, 'getDistricts']);
     });
 
     Route::get('/error', function () {

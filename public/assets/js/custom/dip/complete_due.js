@@ -12,7 +12,7 @@ $(document).ready(function () {
                     title: 'Overdue Progress Activities',
                     className: 'badge badge-success mb-4',
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                        columns: [0, 1, 2, 3, 4, 5]
                     }
                 },
                 {
@@ -22,7 +22,7 @@ $(document).ready(function () {
                     title: 'Overdue Progress Activities',
                     className: 'badge badge-success',
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                        columns: [0, 1, 2, 3, 4, 5]
                     }
                 }
             ],
