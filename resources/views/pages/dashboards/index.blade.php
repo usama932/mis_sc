@@ -26,27 +26,42 @@
         }
     </style>
     <style>
-        .card-custom {
-            background-color: #f1e8e3;
-        }
-    
-        .card-title-half-out {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-        }
-    
-        .card-title-half-out .card-title-text {
-            position: absolute;
-            top: -50%;
-            left: 50%;
-            transform: translate(-50%, 0%);
-        }
-    
-        .card-item {
-            background-color: #e4382c;
-        }
+      .tile {
+  background-color: #f1e8e3;
+  border: 1px solid #ddd;
+  padding: 20px;
+}
+
+.tile-header {
+  text-align: center;
+}
+
+.tile-title {
+  color: #da291c;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.tile-subtitle {
+  color: #da291c;
+  font-size: 18px;
+}
+
+.tile-body {
+  padding-top: 20px;
+}
+
+.child-stats, .adult-stats {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.child-stats img, .adult-stats img {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
     </style>
     @can('dashboards')
         <div class="card card-px-0 shadow-sm card-rounded">
@@ -81,31 +96,36 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="card text-center card-custom">
-                            <h6 class="card-title fs-7 mx-9 card-title-half-out">
-                                <i class="icon fas fa-paint-brush"></i>
-                                <span class="card-title-text">HEALTH & NUTRITION</span>
-                            </h6>
-                            <div class="card-body">
-                                <h1 class="card-text">724,061</h1>
-                            </div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item mx-9 card-item">Children</li>
-                                <ul class="list-group list-group-horizontal">
-                                    <li class="list-group-item">Girls: 174,255</li>
-                                    <li class="list-group-item">Boys: 164,433</li>
-                                </ul>
-                                <li class="list-group-item mx-9 card-item">Adults</li>
-                                <ul class="list-group list-group-horizontal">
-                                    <li class="list-group-item">Women: 237,075</li>
-                                    <li class="list-group-item">Men: 148,298</li>
-                                </ul>
-                            </ul>
+                <div class="row justify-content-center">
+                    <div class="col-md-4">
+                      <div class="card text-center">
+                        <div class="card-header">   
+                          <h5 class="card-title">WASH</h5>
                         </div>
+                        <div class="card-body">
+                          <h1 class="card-text">145,837</h1>
+                          <p class="card-text">Total Individuals</p>
+                          <div class="row">
+                            <div class="col-6">
+                              <h5>Children</h5>
+                                <span>Girls: 37,714<br>
+                                Boys: 33,975</span>
+                              </ul>
+                            </div>
+                            <div class="col-6">
+                                <h5>Adults</h5>
+                                <span>
+                                    Women: 40,437 <br>
+                                    Men: 33,691
+                                </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                 </div>
+                
+                
             </div>
             <div class="card-footer rounded" style="background-color: #da291c;">
                 <h3 class="card-title mx-3 text-white"> Project Response</h3>
