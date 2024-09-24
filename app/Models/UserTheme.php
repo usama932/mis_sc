@@ -16,7 +16,7 @@ class UserTheme extends Model
     }
     public function subtheme()
     {
-        return $this->belongsTo(SciSubTheme::class,'theem_id','id');
+        return $this->belongsTo(SciSubTheme::class,'theme_id','id');
     }
     public function projectPartner()
     {

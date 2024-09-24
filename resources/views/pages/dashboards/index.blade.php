@@ -1,205 +1,255 @@
-<x-default-layout>
-    @section('title')
-    Dashboard
-    @endsection
-    
-    <script src="https://d3js.org/d3.v6.min.js"></script>
-    <style>
-        .chart-container {
-            height: 400px;
-            overflow: hidden;
-            border-radius: 10px;
-            background-color: #fff;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-        }
-    
-        #chart_div, #main {
-            display: none; /* Initially hide the charts */
-        }
+    <x-default-layout>
+        @section('title')
+        Dashboard
+        @endsection
 
-        .card-title {
-            font-weight: 600;
-            color: #333;
-        }
-
-        .card-text {
-            font-size: 1.25rem;
-            font-weight: 500;
-        }
-
-        .theme-card {
-            background-color: #f4f4f4;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
-            border: 1px solid #ddd;
-        }
-
-        .theme-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .theme-card h5 {
-            font-weight: 700;
-            color: #555;
-        }
-
-        .theme-card .card-body h1 {
-            color: #da291c;
-            font-size: 2.5rem;
-        }
-
-        .theme-card .card-body p {
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        @media (max-width: 768px) {
+        <script src="https://d3js.org/d3.v6.min.js"></script>
+        <style>
             .chart-container {
-                width: 100% !important;
+                height: 400px;
+                overflow: hidden;
+                border-radius: 15px;
+                background-color: #ffffff;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+                margin: 10px 0;
+                transition: transform 0.3s ease;
             }
-        }
-    </style>
 
-    @can('dashboards')
-        <div class="card shadow-sm card-rounded">
-            <div class="card-header bg-danger text-white">
-                <h2 class="card-title mx-3">Project DIP Analytics</h2>
-            </div>
-            <div class="card-body">
-                <!-- Project Selection -->
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <select name="project" id="project_id" class="form-select fs-6" aria-label="Select a Project">
-                            <option value="" class="fs-6">Select a Project</option>
-                            @foreach ($projects as $project)
-                                <option value="{{ $project->id }}">{{ $project->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="row g-4 my-4" id="theme-cards-container"></div>
-                <!-- Charts Section -->
-                <div class="row g-4">
-                    <!-- Google Chart -->
-                    <div class="col-md-6">
-                        <div id="chart_container" class="chart-container">
-                            <div id="chart_title" style="text-align: center; font-weight: bold; font-size: 24px;">Organization Chart of Pakistan</div>
-                            <div id="chart_div" style="margin-top: 20px;"></div>
-                        </div>
-                    </div>
-                    <!-- Sunburst Chart -->
-                    <div class="col-md-6">
-                        <div class="chart-container">
-                            <div id="main" style="width: 100%; height: 100%;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            .chart-container:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            }
 
-            <div class="card-footer bg-danger text-white">
-                <h3 class="card-title mx-3">Project Response Analytics</h3>
-            </div>
-        </div>
-    @endcan
+            #chart_div, #main {
+                display: none; /* Initially hide the charts */
+            }
 
-    @push('scripts')
-    <script src="https://www.gstatic.com/charts/loader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+            .card-title {
+                font-weight: 600;
+                color: #333;
+            }
 
-    <script>
-        $(document).ready(function() {
-            $('#chart_div, #main').hide();
+            .card-text {
+                font-size: 1.25rem;
+                font-weight: 500;
+            }
 
-            $('#project_id').on('change', function() {
-                var projectId = $(this).val();
-                if (!projectId) {
-                    $('#chart_div, #main').hide(); // Hide charts if no project is selected
-                    return;
+            .theme-card {
+                background-color: #f8f9fa;
+                border-radius: 15px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                border: 1px solid #ddd;
+                padding: 20px;
+                height: 100%;
+                text-align: center;
+            }
+
+            .theme-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            }
+
+            .theme-card h5 {
+                font-weight: 700;
+                color: #555;
+            }
+
+            .theme-card .card-body h1 {
+                color: #da291c;
+                font-size: 3rem;
+                margin-bottom: 10px;
+            }
+
+            .theme-card .card-body p {
+                font-size: 1.1rem;
+                font-weight: 600;
+            }
+
+            .theme-card .col-6 {
+                margin-top: 10px;
+            }
+
+            .btn-select {
+                width: 100%;
+                border: none;
+                border-radius: 5px;
+                padding: 10px;
+                background-color: #da291c;
+                color: white;
+                transition: background-color 0.3s ease;
+            }
+
+            .btn-select:hover {
+                background-color: #a82018;
+            }
+
+            /* Improved Layout */
+            @media (max-width: 1200px) {
+                .col-md-3 {
+                    flex: 0 0 50%;
+                    max-width: 50%;
+                }
+            }
+
+            @media (max-width: 768px) {
+                .col-md-3 {
+                    flex: 0 0 100%;
+                    max-width: 100%;
                 }
 
-                $('#main').html('Loading...').show();
+                .chart-container {
+                    width: 100% !important;
+                }
+            }
 
-                $.ajax({
-                    url: '/get-districts',
-                    method: 'GET',
-                    data: { project_id: projectId },
-                    success: function(response) {
-                    if (response.themeTargetCounts && Array.isArray(response.themeTargetCounts)) {
-                        drawGoogleChart(response.provinces, response.districts);
-                        drawSunburstChart(response.themes, response.subThemes);
+            .header-title {
+                font-size: 2rem;
+                font-weight: bold;
+                color: #ffffff;
+                text-align: center;
+            }
 
-                        // Ensure projectPartners are part of the response
-                        const projectPartners = response.projectPartners || [];
+            .card-header {
+                background-color: #da291c;
+            }
 
-                        $('#theme-cards-container').empty();
+            .chart-title {
+                font-size: 18px;
+                font-weight: bold;
+                text-align: center;
+                margin-bottom: 0px;
+            }
+        </style>
 
-                        response.themeTargetCounts.forEach(function(theme) {
-                            var totalIndividuals = Number(theme.total_boys_target) + 
-                                                Number(theme.total_girls_target) + 
-                                                Number(theme.total_women_target) + 
-                                                Number(theme.total_men_target);
-
-                            // Filter partners related to this theme
-                            var partnersHtml = '';
-                            var relatedPartners = projectPartners.filter(function(partner) {
-                                return partner.partnertheme.subtheme.sci_theme_id == theme.main_theme_id;
-                            });
-
-                            if (relatedPartners.length > 0) {
-                                partnersHtml += '<h5>Partners:</h5><ul>';
-                                relatedPartners.forEach(function(partner) {
-                                    partnersHtml += `
-                                        <li>
-                                            <strong>Partner Name:</strong> ${partner.partner_name.name} <br>
-                                            <strong>Assigned User:</strong> ${partner.user.name} <br>
-                                        </li>
-                                    `;
-                                });
-                                partnersHtml += '</ul>';
-                            } else {
-                                partnersHtml += '<p>No partners available for this theme.</p>';
-                            }
-
-                            // Generate theme card HTML
-                            var cardHtml = `
-                                <div class="col-md-3">
-                                    <div class="card theme-card text-center">
-                                        <div class="card-header bg-danger text-white">   
-                                            <h5 class="card-title">${theme.main_theme_name}</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <h1 class="card-text">${totalIndividuals}</h1>
-                                            <p class="card-text fs-7">Total Individuals</p>
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <h5 class="fs-7">Children</h5>
-                                                    <span class="fs-7">Girls: ${theme.total_girls_target ?? 0}<br>Boys: ${theme.total_boys_target ?? 0}</span>
-                                                </div>
-                                                <div class="col-6">
-                                                    <h5 class="fs-7">Adults</h5>
-                                                    <span class="fs-7">Women: ${theme.total_women_target ?? 0}<br>Men: ${theme.total_men_target ?? 0}</span>
-                                                </div>
-                                            </div>
-                                            ${partnersHtml}
-                                        </div>
+        @can('dashboards')
+            <div class="card shadow-sm card-rounded">
+                <div class="card-header">
+                    <h2 class="header-title">Project DIP Analytics</h2>
+                </div>
+                <div class="card-body">
+                    <!-- Project Selection -->
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <select name="project" id="project_id" class="form-select btn-select fs-6" aria-label="Select a Project">
+                                <option value="" class="fs-6">Select a Project</option>
+                                @foreach ($projects as $project)
+                                    <option value="{{ $project->id }}">{{ $project->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row g-4 my-4" id="theme-cards-container"></div>
+                    <!-- Charts Section -->
+                    <div class="row g-4">
+                        <!-- Google Chart -->
+                        <div class="col-md-6">
+                            <div class="chart-container border-danger">
+                                <div class="chart-title text-danger">Organization Chart of Pakistan</div>
+                                <div id="chart_div"></div>
+                                <div class="district-card mt-3">
+                                    <h5 class="text-danger"><i>Implemented By:</i></h5>
+                                    <div class="partner-info"  id="partner_info">
+                                        
                                     </div>
                                 </div>
-                            `;
+                    
+                            </div>
+                        </div>
+                        <!-- Sunburst Chart -->
+                        <div class="col-md-6">
+                            <div class="chart-container border-danger">
+                                <div class="chart-title text-danger">Theme-wise Progress Analysis</div>
+                                <div id="main" style="width: 100%; height: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                            $('#theme-cards-container').append(cardHtml);
-                        });
-                    } else {
-                        console.error("themeTargetCounts not found or is not an array");
+                <div class="card-footer bg-danger text-white p-0 m-0">
+                    <h6 class="header-title  p-0 m-0">Project Response Analytics</h6>
+                </div>
+            </div>
+        @endcan
+
+        @push('scripts')
+        <script src="https://www.gstatic.com/charts/loader.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#chart_div, #main').hide();
+
+                $('#project_id').on('change', function() {
+                    var projectId = $(this).val();
+                    if (!projectId) {
+                        $('#chart_div, #main').hide(); // Hide charts if no project is selected
+                        return;
                     }
-                    }
+
+                    $('#main').html('Loading...').show();
+
+                    $.ajax({
+                        url: '/get-districts',
+                        method: 'GET',
+                        data: { project_id: projectId },
+                        success: function(response) {
+                            if (response.themeTargetCounts && Array.isArray(response.themeTargetCounts)) {
+                              
+                                drawGoogleChart(response.provinces, response.districts);
+                                drawSunburstChart(response.themes, response.subThemes);
+
+                                // Ensure projectPartners are part of the response
+                                const projectPartners = response.projectPartners || [];
+        
+                                // Update partner information
+                                const partnerInfoText = projectPartners.length > 0 
+                                    ? ` ${projectPartners.map(partner => partner.partner_name.name).join('<br>')}`
+                                    : ' None';
+
+                                // Update the partner info in the DOM
+                                $('#partner_info').html(partnerInfoText);
+
+                                $('#theme-cards-container').empty();
+
+                                response.themeTargetCounts.forEach(function(theme) {
+                                    var totalIndividuals = Number(theme.total_boys_target) +
+                                        Number(theme.total_girls_target) +
+                                        Number(theme.total_women_target) +
+                                        Number(theme.total_men_target);
+
+                                    // Generate theme card HTML
+                                    var cardHtml = `
+                                        <div class="col-md-2 col-6">
+                                            <div class="theme-card border-danger">
+                                                <h5 class="card-title text-danger m-0 p-0 ">${theme.main_theme_name}</h5>
+                                                <p class="card-text m-0 p-0 fs-7">Total Individuals</p>
+                                                <h6 class="card-text fs-6 m-0 p-0 mb-3">${totalIndividuals}</h6>
+                                               
+                                                <div class="row">
+                                                    <div class="col-6 m-0 p-0">
+                                                        <h5 class="fs-9">Children</h5>
+                                                        <span class="fs-9">Girls: ${theme.total_girls_target ?? 0}<br>Boys: ${theme.total_boys_target ?? 0}</span>
+                                                    </div>
+                                                    <div class="col-6 m-0 p-0">
+                                                        <h5 class="fs-9">Adults</h5>
+                                                        <span class="fs-9">Women: ${theme.total_women_target ?? 0}<br>Men: ${theme.total_men_target ?? 0}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `;
+
+                                    $('#theme-cards-container').append(cardHtml);
+                                });
+                            } else {
+                                console.error("themeTargetCounts not found or is not an array");
+                            }
+                        }
+                    });
                 });
             });
-        });
-
-    </script>
-    <script src="{{ asset('assets/js/custom/charts/projectdashboard.js') }}"></script>
-    @endpush
-</x-default-layout>
+        </script>
+        <script src="{{ asset('assets/js/custom/charts/projectdashboard.js') }}"></script>
+        @endpush
+    </x-default-layout>

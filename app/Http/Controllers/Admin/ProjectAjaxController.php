@@ -46,23 +46,26 @@ class ProjectAjaxController extends Controller
         // Calculate theme targets
         
         $themeTargetCounts = DB::table('tbl_sci_themes as mt')
-                            ->leftJoin('tbl_sci_sub_theme as sst', 'mt.id', '=', 'sst.sci_theme_id')
-                            ->leftJoin('dip_activity as da', 'sst.id', '=', 'da.subtheme_id')
-                            ->leftJoin('dip_activity_months as dam', 'da.id', '=', 'dam.activity_id')
-                            ->leftJoin('dip_activity_progress as dap', 'dam.id', '=', 'dap.quarter_id')
-                            ->select(
-                                'mt.id as main_theme_id',
-                                'mt.name as main_theme_name',
-                                DB::raw('SUM(dap.boys_target) as total_boys_target'),
-                                DB::raw('SUM(dap.girls_target) as total_girls_target'),
-                                DB::raw('SUM(dap.women_target) as total_women_target'),
-                                DB::raw('SUM(dap.men_target) as total_men_target')
-                            )
-                            ->where('da.project_id', $projectId) // Replace 3 with $projectId if needed
-                            ->groupBy('mt.id')
-                            ->get();
-                            
+        ->leftJoin('tbl_sci_sub_theme as sst', 'mt.id', '=', 'sst.sci_theme_id')
+        ->leftJoin('dip_activity as da', 'sst.id', '=', 'da.subtheme_id')
+        ->leftJoin('dip_activity_months as dam', 'da.id', '=', 'dam.activity_id')
+        ->leftJoin('dip_activity_progress as dap', 'dam.id', '=', 'dap.quarter_id')
+        ->select(
+            'mt.id as main_theme_id',
+            'mt.name as main_theme_name',
+            DB::raw('IFNULL(SUM(dap.boys_target), 0) as total_boys_target'),
+            DB::raw('IFNULL(SUM(dap.girls_target), 0) as total_girls_target'),
+            DB::raw('IFNULL(SUM(dap.women_target), 0) as total_women_target'),
+            DB::raw('IFNULL(SUM(dap.men_target), 0) as total_men_target')
+        )
+        ->where('da.project_id', $projectId)
+        ->groupBy('mt.id', 'mt.name') // Group by main theme ID and name
+        ->orderBy('mt.id') // Optional: Order by main theme ID
+        ->get();
+    
+       
         $project_partners   = ProjectPartner::with('partner_name','partnertheme','user')->where('project_id',$projectId)->get();  
+                                
         return response()->json([
             'districts'         => $districts,
             'provinces'         => $provinces,

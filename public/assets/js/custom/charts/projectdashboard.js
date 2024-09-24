@@ -23,6 +23,7 @@ function drawGoogleChart(provinces, districts) {
 
         // Show the chart_div after drawing
         $('#chart_div').show();
+        
     });
 }
 
@@ -72,7 +73,7 @@ function drawSunburstChart(themes, subThemes) {
                 if (params.data.tooltip) {
                     return params.data.tooltip.formatter();
                 }
-                return `${params.name} - Details: No additional info`; // Fallback tooltip
+                return `${params.name} `; // Fallback tooltip
             }
         },
         series: {
