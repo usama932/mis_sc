@@ -25,6 +25,7 @@ function drawGoogleChart(provinces, districts) {
         $('#chart_div').show();
     });
 }
+
 // Function to draw Sunburst chart
 function drawSunburstChart(themes, subThemes) {
     if (!themes || !subThemes || themes.length === 0) {

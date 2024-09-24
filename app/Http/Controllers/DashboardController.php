@@ -10,7 +10,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $projects = Project::select('name','id')->get();
+        $projects = Project::wherehas('detail')->select('name','id')->get();
         $projects_count = Project::count();
         $activeCounts = $projects->groupBy('active')->map->count();
         $project_data = DB::table('projects as p')

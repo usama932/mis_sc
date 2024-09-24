@@ -27,10 +27,7 @@ class ProjectPartner extends Model
     {
         return $this->belongsTo(SciSubTheme::class,'themes','id');
     }
-    public function theme_name()
-    {
-        return $this->belongsTo(Theme::class,'themes','id');
-    }
+ 
     public function provincedistrict(){
         return $this->hasMany(UserProvinceDistricts::class,'partner_id','id');
     }

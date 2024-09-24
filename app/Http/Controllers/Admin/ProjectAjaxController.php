@@ -11,6 +11,7 @@ use App\Models\ProjectTheme;
 use App\Models\SciSubTheme;
 use Illuminate\Support\Facades\DB;
 use App\Models\SciTheme;
+use App\Models\ProjectPartner;
 
 class ProjectAjaxController extends Controller
 {
@@ -31,21 +32,24 @@ class ProjectAjaxController extends Controller
             $province_project = json_decode($project->detail->province, true);
             $provinces = Province::whereIn('province_id', $province_project)->get();
         }
+
         $projectThemeIds = ProjectTheme::where('project_id', $projectId)
-        ->pluck('sub_theme_id')
-        ->toArray();
-    
+            ->pluck('sub_theme_id')
+            ->toArray();
+
         // Get all sub themes based on sub_theme_ids
         $subThemes = SciSubTheme::whereIn('id', $projectThemeIds)->get();
         
         // Get all themes based on sci_theme_id from subThemes
         $themes = SciTheme::whereIn('id', $subThemes->pluck('sci_theme_id'))->distinct()->get();
-    
-        $themeTargetCounts = DB::table('dip_activity_progress as dap')
-                            ->join('dip_activity_months as dam', 'dap.quarter_id', '=', 'dam.id')
-                            ->join('dip_activity as da', 'dam.activity_id', '=', 'da.id')
-                            ->join('tbl_sci_sub_theme as sst', 'da.subtheme_id', '=', 'sst.id')
-                            ->join('tbl_sci_themes as mt', 'sst.sci_theme_id', '=', 'mt.id')
+
+        // Calculate theme targets
+        
+        $themeTargetCounts = DB::table('tbl_sci_themes as mt')
+                            ->leftJoin('tbl_sci_sub_theme as sst', 'mt.id', '=', 'sst.sci_theme_id')
+                            ->leftJoin('dip_activity as da', 'sst.id', '=', 'da.subtheme_id')
+                            ->leftJoin('dip_activity_months as dam', 'da.id', '=', 'dam.activity_id')
+                            ->leftJoin('dip_activity_progress as dap', 'dam.id', '=', 'dap.quarter_id')
                             ->select(
                                 'mt.id as main_theme_id',
                                 'mt.name as main_theme_name',
@@ -54,12 +58,19 @@ class ProjectAjaxController extends Controller
                                 DB::raw('SUM(dap.women_target) as total_women_target'),
                                 DB::raw('SUM(dap.men_target) as total_men_target')
                             )
-                            ->groupBy('mt.id', 'mt.name')
-                            ->where('dap.project_id', $projectId)  // Add your condition here
+                            ->where('da.project_id', $projectId) // Replace 3 with $projectId if needed
+                            ->groupBy('mt.id')
                             ->get();
-        dd($themeTargetCounts);
-        return response()->json(['districts' => $districts, 'provinces' => $provinces,'subThemes' => $subThemes,'themes' => $themes,]); 
-
+                            
+        $project_partners   = ProjectPartner::with('partner_name','partnertheme','user')->where('project_id',$projectId)->get();  
+        return response()->json([
+            'districts'         => $districts,
+            'provinces'         => $provinces,
+            'subThemes'         => $subThemes,
+            'themes'            => $themes,
+            'projectPartners'   => $project_partners,
+            'themeTargetCounts' => $themeTargetCounts
+        ]); 
 
     }
 }

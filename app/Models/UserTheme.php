@@ -14,7 +14,10 @@ class UserTheme extends Model
     public function user(){
         return $this->belongsTo(User::class,'user_id','id');
     }
-    
+    public function subtheme()
+    {
+        return $this->belongsTo(SciSubTheme::class,'theem_id','id');
+    }
     public function projectPartner()
     {
         return $this->belongsTo(ProjectPartner::class,'partner_id','id');
