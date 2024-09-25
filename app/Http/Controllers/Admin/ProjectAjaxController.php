@@ -61,29 +61,29 @@ class ProjectAjaxController extends Controller
         $project_partners   = ProjectPartner::where('project_id',$projectId)->with('partner_name','partnertheme','user')->get();
       
         $projectData = Project::select('projects.id', 'projects.name')
-                                    ->leftJoin('dip_activity as da', 'projects.id', '=', 'da.project_id')
-                                    ->leftJoin('dip_activity_months as dam', 'da.id', '=', 'dam.activity_id')
-                                    ->leftJoin('dip_activity_progress as dap', 'dam.id', '=', 'dap.quarter_id')
-                                    ->select(
-                                        'projects.name as project_name',
-                                        DB::raw('COUNT(DISTINCT da.id) AS total_activities_count'),
-                                        DB::raw('COUNT(DISTINCT dam.id) AS total_activities_target_count'),
-                                        DB::raw('COUNT(DISTINCT CASE WHEN dam.completion_date <= CURRENT_DATE AND dap.id IS NOT NULL THEN dam.id END) AS complete_activities_count'),
-                                        DB::raw('COUNT(DISTINCT CASE WHEN dam.completion_date < CURRENT_DATE AND dap.id IS NULL THEN dam.id END) AS overdue_count'),
-                                        DB::raw('COUNT(DISTINCT CASE WHEN dam.completion_date > CURRENT_DATE AND dap.id IS NULL THEN dam.id END) AS pending_count')
-                                    )
-                                    ->where('projects.id', $projectId) // Add this line to filter by project ID
-                                    ->groupBy('projects.id', 'projects.name')
-                                    ->get();        
+                        ->leftJoin('dip_activity as da', 'projects.id', '=', 'da.project_id')
+                        ->leftJoin('dip_activity_months as dam', 'da.id', '=', 'dam.activity_id')
+                        ->leftJoin('dip_activity_progress as dap', 'dam.id', '=', 'dap.quarter_id')
+                        ->select(
+                            'projects.name as project_name',
+                            DB::raw('COUNT(DISTINCT da.id) AS total_activities_count'),
+                            DB::raw('COUNT(DISTINCT dam.id) AS total_activities_target_count'),
+                            DB::raw('COUNT(DISTINCT CASE WHEN dam.completion_date <= CURRENT_DATE AND dap.id IS NOT NULL THEN dam.id END) AS complete_activities_count'),
+                            DB::raw('COUNT(DISTINCT CASE WHEN dam.completion_date < CURRENT_DATE AND dap.id IS NULL THEN dam.id END) AS overdue_count'),
+                            DB::raw('COUNT(DISTINCT CASE WHEN dam.completion_date > CURRENT_DATE AND dap.id IS NULL THEN dam.id END) AS pending_count')
+                        )
+                        ->where('projects.id', $projectId) // Add this line to filter by project ID
+                        ->groupBy('projects.id', 'projects.name')
+                        ->get();        
 
         return response()->json([
-            'districts' => $districts,
-            'provinces' => $provinces,
-            'themes' => $themes,
-            'subThemes' => $subThemes,
+            'districts'         => $districts,
+            'provinces'         => $provinces,
+            'themes'            => $themes,
+            'subThemes'         => $subThemes,
             'themeTargetCounts' => $themeTargetCounts,
-            'project_partners' => $project_partners,
-            'projectData' => $projectData
+            'project_partners'  => $project_partners,
+            'projectData'       => $projectData
         ]);
 
     }

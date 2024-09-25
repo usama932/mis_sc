@@ -229,6 +229,47 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="container m-3">
+                        <div class="table-responsive overflow-*">
+                            <table class="table table-striped table-bordered nowrap" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th class="fs-9">Project</th>
+                                        <th class="fs-9">Type</th>
+                                        <th class="fs-9">SOF</th>
+                                        <th class="fs-9">SCI OPs FP</th>
+                                        <th class="fs-9">Budget Holder</th>
+                                        <th class="fs-9">Tenure</th>
+                                        <th class="fs-9">DIP</th>
+                                        <th class="fs-9">Total Activities</th>
+                                        <th class="fs-9">Total Targets</th>
+                                        <th class="fs-9">Complete Targets</th>
+                                        <th class="fs-9">Overdue Targets</th>
+                                        <th class="fs-9">Pending Targets</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($project_data as $project)
+                                    <tr>
+                                        <td class="fs-9">{{ $project->name }}</td>
+                                        <td class="fs-9">{{ $project->type }}</td>
+                                        <td class="fs-9">{{ $project->sof }}</td>
+                                        <td class="fs-9">{{ $project->focal_person }}</td>
+                                        <td class="fs-9">{{ $project->budget_holder }}</td>
+                                        <td class="fs-9">{{ date('M d,Y', strtotime($project->start_date))}} - {{date('M d,Y', strtotime($project->end_date));}}</td>
+                                        <td class="fs-9">@if($project->activities->count() > 0) Yes @else No @endif</td>
+                                        <td class="fs-9">{{ $project->total_activities_count }}</td>
+                                        <td class="fs-9">{{ $project->total_activities_target_count }}</td>
+                                        <td class="fs-9">{{ $project->complete_activities_count }}</td>
+                                        <td class="fs-9">{{ $project->overdue_count }}</td>
+                                        <td class="fs-9">{{ $project->pending_count }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="card-footer bg-danger text-white p-0 m-0">
