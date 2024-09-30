@@ -26,7 +26,7 @@ use Carbon\Carbon;
 
 use App\Repositories\Interfaces\DipActivityInterface;
 
-class DipActivityController extends Controller
+class   DipActivityController extends Controller
 {
     private $dipactivityRepository;
 
