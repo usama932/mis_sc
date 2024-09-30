@@ -430,7 +430,7 @@ class FRMController extends Controller
     {
         $frm =Frm::find($id);
         $responses  = FrmResponse::where('fbreg_id',$id)->get();
-        $tagged = json_decode($frm->tagged_by->tagged);
+        $tagged = json_decode($frm->tagged_by->tagged ?? '') ;
     
         if(!empty($frm))
         {

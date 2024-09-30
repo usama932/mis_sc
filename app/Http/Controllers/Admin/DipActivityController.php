@@ -740,32 +740,8 @@ class   DipActivityController extends Controller
         elseif(auth()->user()->hasRole('focal_person')){
             $projects = Project::whereJsonContains('focal_person',auth()->user()->id)->orderBy('name')->get();
         }else{
-            $projects = Project::orderBy('name')->get();
-            $projects = Project::whereHas('partners', function ($query) {
-                $query->where('email', auth()->user()->email);
-            })->orderBy('name')->get();
-
-            $completedCountQuery = DipActivity::whereHas('months', function($query) {
-                $query->where('completion_date', '<', now())
-                      ->whereHas('progress');
-            });
-            
-            // Count of partially completed activities
-            $partialCompleteCount = DipActivity::whereHas('months', function($query) {
-                $query->whereHas('progress');
-            }, '>', 0)->count();
-
-            // Count of overdue activities
-            $overdueCount = DipActivity::whereHas('months', function($query) {
-                $query->whereDoesntHave('progress')
-                      ->where('completion_date', '<', Carbon::now());
-            })->count();
-
-            // Count of pending activities
-            $pendingCount = DipActivity::whereHas('months', function($query) {
-                $query->whereDoesntHave('progress')
-                      ->where('completion_date', '>', Carbon::now());
-            })->count();
+            $projects = Project::wherehas('detail')->orderBy('name')->get();
+        
         
         }
 

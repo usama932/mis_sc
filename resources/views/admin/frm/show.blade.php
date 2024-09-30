@@ -6,11 +6,14 @@
     View Feedback/Complaint
     @endsection
         <div class=" d-flex justify-content-center">
-            @foreach ($tagged as $tag)
-                <span  class="badge badge-danger mx-2 mb-2">
-                    {{ $tag }} 
-                </span>
-            @endforeach
+            @if (!empty($tagged))
+                @foreach ($tagged as $tag)
+                    <span  class="badge badge-danger mx-2 mb-2">
+                        {{ $tag }} 
+                    </span>
+                @endforeach
+            @endif
+            
         </div>
         <div class=" d-flex justify-content-center">
           
@@ -24,14 +27,13 @@
             
         </div>
        
-        
-        <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-primary btn-sm mb-3" data-toggle="modal" data-target="#exampleModal">
-                Add Tag
-            </button>
-
-          
-        </div>
+        @can('frm tag')
+            <div class="d-flex justify-content-end">
+                <button type="button" class="btn btn-primary btn-sm mb-3" data-toggle="modal" data-target="#exampleModal">
+                    Add Tag
+                </button>
+            </div>
+        @endcan
       
     <div class="card p-2">
         <div class="row">
@@ -303,8 +305,8 @@
                             <input type="hidden" value="{{ $frm->id  }}" name="frm_id">
                             <select name="tags[]" id="tags" class="form-select" aria-label="Select Tag" data-control="select2" data-placeholder="Select an option" data-allow-clear="true" multiple required>
                                 <option value="">Select Thematic Area</option>
-                                <option value="Unsafe Programming" @if(in_array('Unsafe Programming', $tagged)) selected @endif>Unsafe Programming</option>
-                                <option value="Report to Datix" @if(in_array('Report to Datix', $tagged)) selected @endif>Report to Datix</option>
+                                <option value="Unsafe Programming" @if($tagged) @if(in_array('Unsafe Programming', $tagged)) selected @endif @endif>Unsafe Programming</option>
+                                <option value="Report to Datix"  @if($tagged) @if(in_array('Report to Datix', $tagged)) selected @endif @endif>Report to Datix</option>
                             </select>
                             <div id="tagsError" class="error-message "></div>
                         </div>
