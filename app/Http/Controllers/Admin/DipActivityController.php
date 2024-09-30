@@ -889,8 +889,6 @@ class   DipActivityController extends Controller
             ->first();
             if(!empty($quarter_month))
             {
-                
-
                 if($request->attachment){
                     $path = storage_path("app/public/activity_progress/attachment/{$sof}/" .$request->attachment);
                     if(File::exists($path)){
@@ -1133,8 +1131,6 @@ class   DipActivityController extends Controller
     }
 
     public function add_progress(Request $request){
-        
-
         $quarter = ActivityMonths::where('id',$request->id)->first();
         addJavascriptFile('assets/js/custom/dip/add_progress.js');
         return view('admin.dip.activity.add_progress',compact('quarter'));

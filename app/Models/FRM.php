@@ -56,5 +56,10 @@ class Frm extends Model
         return $this->hasMany(FrmResponse::class,'fbreg_id','id');
     }
 
+    public function tagged_by()
+    {
+        return $this->hasOne(FrmTag::class,'frm_id','id');
+    }
+
 }
 

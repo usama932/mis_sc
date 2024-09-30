@@ -1,24 +1,38 @@
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <x-default-layout>
     @section('title')
     View Feedback/Complaint
     @endsection
-        <div class="d-flex">
-            <div class="justify-content-start">
-                View Feedback/Complaint
-            </div>
-        <div class="" style="margin-left: 150px !important;  margin-right: 0 !important;">
+        <div class=" d-flex justify-content-center">
+            @foreach ($tagged as $tag)
+                <span  class="badge badge-danger mx-2 mb-2">
+                    {{ $tag }} 
+                </span>
+            @endforeach
+        </div>
+        <div class=" d-flex justify-content-center">
+          
             <h3>Respons Id.# :: {{$frm->response_id ?? ''}}  
             @if($frm->status == "Close")
                 <span class="badge badge-success">{{$frm->status}}</span>
             @else
                 <span class="badge badge-warning">{{$frm->status}}</span>
             @endif</h3>
+                
+            
         </div>
+       
         
-        </div>
-        
-    
+        <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-primary btn-sm mb-3" data-toggle="modal" data-target="#exampleModal">
+                Add Tag
+            </button>
 
+          
+        </div>
+      
     <div class="card p-2">
         <div class="row">
             <div class="col-md-6">
@@ -269,4 +283,99 @@
 
         </div>
     </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Tag</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <form id="add-tag" method="post" action="{{ route('add-frmTag') }}">
+                        @csrf
+                        <div class="fv-row col-md-12 form-group" id="ta-field">
+                            <label class="fs-6 fw-semibold form-label mb-2">
+                                <span class="required">Thematic Area</span>
+                            </label>
+                            <input type="hidden" value="{{ $frm->id  }}" name="frm_id">
+                            <select name="tags[]" id="tags" class="form-select" aria-label="Select Tag" data-control="select2" data-placeholder="Select an option" data-allow-clear="true" multiple required>
+                                <option value="">Select Thematic Area</option>
+                                <option value="Unsafe Programming" @if(in_array('Unsafe Programming', $tagged)) selected @endif>Unsafe Programming</option>
+                                <option value="Report to Datix" @if(in_array('Report to Datix', $tagged)) selected @endif>Report to Datix</option>
+                            </select>
+                            <div id="tagsError" class="error-message "></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary  btn-sm"  id="frm_form_btn">Submit</button>
+                        </div>
+                    </form> 
+                </div>
+            </div>
+        </div>
+    </div>
+{{-- @push('script')
+<script>
+    $(document).ready(function() {
+        $("#frm_form_btn").click(function(e){
+            alert('asda');
+            e.preventDefault();
+            let form = $('#add-tag')[0];
+            let data = new FormData(form);
+        
+            $.ajax({
+                url: "{{ route('add-frmTag') }}",
+                type: "POST",
+                data : data,
+                dataType:"JSON",
+            
+                success: function(response) {
+    
+                if (response.errors) 
+                {
+                var errorMsg = '';
+                $.each(response.errors, function(field, errors) {
+                    $.each(errors, function(index, error) {
+                        errorMsg += error + '<br>';
+                    });
+                });
+                iziToast.error({
+                    message: errorMsg,
+                    position: 'topRight'
+                });
+                
+                }
+                else {
+                iziToast.success({
+                    message: response.success,
+                    position: 'topRight'
+                    
+                });
+                }
+                        
+                },
+                error: function(xhr, status, error) {
+                    let errorMsg = 'An error occurred.';
+                    if (xhr.status === 0) {
+                        errorMsg = 'A network error occurred.';
+                    } else if (xhr.status === 419) { // CSRF token mismatch (example)
+                        errorMsg = 'The form submission failed due to a security issue. Please refresh the page and try again.';
+                    } else {
+                        errorMsg = 'Server error encountered. Please try again later.';
+                    }
+                    iziToast.error({
+                        message: errorMsg,
+                        position: 'topRight'
+                    });
+                }
+        
+            });
+        
+        })
+    });
+</script>
+@endpush --}}
 </x-default-layout>

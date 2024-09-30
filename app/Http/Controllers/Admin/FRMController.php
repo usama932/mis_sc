@@ -16,6 +16,7 @@ use App\Models\FeedbackCategory;
 use App\Models\Project;
 use App\Models\Theme;
 use App\Models\User;
+use App\Models\FrmTag;
 use App\Models\ClosingRecord;
 use App\Repositories\Interfaces\FrmRepositoryInterface;
 use Carbon\Carbon;
@@ -66,8 +67,8 @@ class FRMController extends Controller
         // $themes = Theme::latest()->get();
         return view('admin.frm.index' ,compact('feedbackchannels','feedbackcategories','projects','total_frm','open_frm','close_frm','users','clients'));
     }
-    public function getFrms(Request $request){
-
+    public function getFrms(Request $request)
+    {
 		$columns = array(
 			0 => 'id',
 			1 => 'response_id',
@@ -369,7 +370,6 @@ class FRMController extends Controller
 
 	}
 
-
     public function create()
     {
         $last_record = Frm::latest()->first();
@@ -388,6 +388,7 @@ class FRMController extends Controller
         addJavascriptFile('assets/js/custom/frm/frm.js');
         return view('admin.frm.create',compact('record','feedbackchannels','feedbackcategories','projects','themes','response_id','users'));
     }
+
     public function getUpdate_response($id)
     {
         $frm        = Frm::find($id);
@@ -401,7 +402,6 @@ class FRMController extends Controller
 
     public function store(CreatefrmRequest $request)
     {
-     
         $frm  = Frm::where('name_of_client', $request->name_of_client)
                     ->where('date_received', $request->date_received)
                     ->where('province', $request->province)
@@ -426,20 +426,19 @@ class FRMController extends Controller
        
     }
 
-
     public function show(string $id)
     {
         $frm =Frm::find($id);
         $responses  = FrmResponse::where('fbreg_id',$id)->get();
+        $tagged = json_decode($frm->tagged_by->tagged);
+    
         if(!empty($frm))
         {
-            return view('admin.frm.show',compact('frm','responses'));
+            return view('admin.frm.show',compact('frm','responses','tagged'));
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(string $id)
     {
         $frm =Frm::find($id);
@@ -456,7 +455,6 @@ class FRMController extends Controller
             return view('admin.frm.edit',compact('frm','feedbackchannels','feedbackcategories','projects','themes','users','title'));
         }
     }
-
 
     public function update(UpdatefrmRequest $request, string $id)
     { 
@@ -519,6 +517,27 @@ class FRMController extends Controller
         ]);
         return redirect()->route('frm-managements.show', $request->frm_id);
 
+    }
+    
+    public function add_frmTag(Request $request){
+        
+        $frm = FrmTag::where('frm_id',$request->frm_id)->first();
+        if(empty($frm)){
+            $frm = FrmTag::create([
+                'tagged_by' => auth()->user()->id,
+                'tagged'    => json_encode($request->tags),
+                'frm_id'    => $request->frm_id,
+            ]);
+        }
+        else{
+            $frm = FrmTag::where('frm_id',$request->frm_id)->update([
+                'tagged_by' => auth()->user()->id,
+                'tagged'    => json_encode($request->tags),
+                'frm_id'    => $request->frm_id,
+            ]);
+        }
+        
+        return redirect()->back();
     }
     public function destroy(string $id)
     {

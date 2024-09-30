@@ -55,6 +55,7 @@ use Illuminate\Support\Facades\Route;
         Route::post('frm/response_update/{id}', [FRMController::class,'postUpdate_response'])->name('frm-response.update');
         Route::get('frm-managements/frm/export', [FRMController::class,'getexportform'])->name('frm-export');
         Route::post('getfrm/export', [FRMController::class,'getexportfrm'])->name('getfrm-export');
+        Route::post('add-frmTag', [FRMController::class,'add_frmTag'])->name('add-frmTag');
 
         //Ajax Destrict Routes
         Route::post('getDistrict', [FBAjaxController::class,'getDistrict'])->name('getDistrict');
