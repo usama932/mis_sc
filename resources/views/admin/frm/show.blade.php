@@ -5,10 +5,11 @@
     @section('title')
     View Feedback/Complaint
     @endsection
-        <div class=" d-flex justify-content-center">
+        <div class=" d-flex justify-content-end">
             @if (!empty($tagged))
+                <h6>Tags By SC Advisor <i class="fa fa-tag"></i> :</h6>
                 @foreach ($tagged as $tag)
-                    <span  class="badge badge-danger mx-2 mb-2">
+                    <span  class="badge badge-danger mx-1 mb-1">
                         {{ $tag }} 
                     </span>
                 @endforeach
@@ -16,15 +17,12 @@
             
         </div>
         <div class=" d-flex justify-content-center">
-          
             <h3>Respons Id.# :: {{$frm->response_id ?? ''}}  
             @if($frm->status == "Close")
                 <span class="badge badge-success">{{$frm->status}}</span>
             @else
                 <span class="badge badge-warning">{{$frm->status}}</span>
             @endif</h3>
-                
-            
         </div>
        
         @can('frm tag')

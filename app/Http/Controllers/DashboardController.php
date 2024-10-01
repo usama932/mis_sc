@@ -13,7 +13,7 @@ class DashboardController extends Controller
         $projects = Project::wherehas('detail')->select('name','id')->get();
         $projects_count = Project::count();
         $activeCounts = $projects->groupBy('active')->map->count();
-        $project_data = Project::select('projects.id', 'projects.name')
+        $project_data = Project::wherehas('detail')->select('projects.id', 'projects.name')
                         ->leftJoin('dip_activity as da', 'projects.id', '=', 'da.project_id')
                         ->leftJoin('dip_activity_months as dam', 'da.id', '=', 'dam.activity_id')
                         ->leftJoin('dip_activity_progress as dap', 'dam.id', '=', 'dap.quarter_id')
@@ -28,8 +28,13 @@ class DashboardController extends Controller
                         ->groupBy('projects.id', 'projects.name')
                         ->orderBy('projects.name')
                         ->get();
-        
-        return view('pages.dashboards.index', compact('projects','project_data'));
+
+        $projectNames = $project_data->pluck('name');
+        $completeActivities = $project_data->pluck('complete_activities_count');
+        $overdueActivities = $project_data->pluck('overdue_count');
+        $pendingActivities = $project_data->pluck('pending_count');
+        addVendors(['datatables']);
+        return view('pages.dashboards.index', compact('projects','project_data','projectNames', 'completeActivities', 'overdueActivities', 'pendingActivities'));
     }
     public function frm_dashboard()
     {
