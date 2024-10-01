@@ -5,7 +5,7 @@
         <script src="https://d3js.org/d3.v6.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <style>
-             .bar {
+            .bar {
                 transition: fill 0.3s;
             }
             .bar:hover {
@@ -18,10 +18,10 @@
                 font-size: 12px;
             }
             .chart-container {
-                height: 40vh; /* Adjust height as needed */
-                width: 100%;
+                height: 400px;
+                overflow: hidden;
                 border-radius: 15px;
-                border: 1px solid #da291c;
+                border-color: #da291c;
                 background-color: #ffffff;
                 box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
                 padding: 20px;
@@ -29,9 +29,13 @@
                 transition: transform 0.3s ease;
             }
 
-            #projectChart {
-                height: 100% !important;
-                width: 100% !important;
+            .project-container {
+                height: 500px;
+                overflow: hidden;
+              
+                padding: 20px;
+                margin: 10px 0;
+                transition: transform 0.3s ease;
             }
     
             .chart-container:hover {
@@ -200,17 +204,15 @@
        
         @can('dashboards')
             <div class="card shadow-sm card-rounded">
-                <div class="card-header">
-                    <h2 class="header-title">Project DIP Analytics</h2>
-                </div>
-                <h2>Project Activities Overview</h2>
-                <div style="position: relative; height: 70vh; width: 100%;">
-                    <canvas id="projectChart"></canvas>
+                <div class="project-container">
+                    <div style="position: relative; height: 70vh; width: 100%;">
+                        <canvas id="projectChart"></canvas>
+                    </div>
                 </div>
                 <div class="card-body">
                    
                     <div class="tab-content" id="myTabContent">
-                            @include('pages.charts_partials.tabcontent_dashbaord')
+                        @include('pages.charts_partials.tabcontent_dashbaord')
                     </div>
                 </div>
                 <ul class="nav nav-tabs justify-content-start mt-4 mx-9" id="myTab" role="tablist">
@@ -230,8 +232,8 @@
         @push('scripts')
         <script src="https://www.gstatic.com/charts/loader.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+        
         <script>
             $(document).ready(function() {
                 $('#chart_div, #main').hide();
@@ -332,85 +334,109 @@
                         }
                     });
                 });
-             
+                //Datatable projects
+                $("#projects").DataTable({
+                    buttons: [
+                        {
+                            extend: 'excelHtml5',
+                            filename: 'Implementing Partner Data export_',
+                            text: '<i class="flaticon2-download"></i> Excel',
+                            title: 'Thematic Area Data Export',
+                            className: 'badge badge-success my-2',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4, 5,6,7,8,9,10,11]
+                            }
+                        },
+                        {
+                            extend: 'csvHtml5',
+                            filename: 'Implementing Partner Data CSV_',
+                            text: '<i class="flaticon2-download"></i> CSV',
+                            title: 'Thematic Area Data',
+                            className: 'badge badge-success my-2',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4, 5]
+                            }
+                        }
+                    ],
+                    dom: 'lfBrtip',
+                    processing: true,
+                    serverSide: false,
+                    searching: false,
+                    paging: false,
+                    responsive: false,
+                    info: true,
+                });
             });
         </script>
-       
-       <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Load data for the project chart
-            const projectNames = {!! json_encode($projectNames) !!}; // Project names
-            const completeActivities = {!! json_encode($completeActivities) !!}; // Complete activities count
-            const overdueActivities = {!! json_encode($overdueActivities) !!}; // Overdue activities count
-            const pendingActivities = {!! json_encode($pendingActivities) !!}; // Pending activities count
-    
-            const ctx = document.getElementById('projectChart').getContext('2d');
-            const projectChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: projectNames, // Using project names as labels
-                    datasets: [
-                        {
-                            label: 'Complete Activities',
-                            data: completeActivities, // Data for complete activities
-                            backgroundColor: 'rgba(39, 174, 96, 0.6)',
-                            borderColor: 'rgba(39, 174, 96, 1)',
-                            borderWidth: 1
-                        },
-                        {
-                            label: 'Overdue Activities',
-                            data: overdueActivities, // Data for overdue activities
-                            backgroundColor: 'rgba(231, 76, 60, 0.6)',
-                            borderColor: 'rgba(231, 76, 60, 1)',
-                            borderWidth: 1
-                        },
-                        {
-                            label: 'Pending Activities',
-                            data: pendingActivities, // Data for pending activities
-                            backgroundColor: 'rgba(241, 196, 15, 0.6)',
-                            borderColor: 'rgba(241, 196, 15, 1)',
-                            borderWidth: 1
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Number of Activities'
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Load data for the project chart
+                const projectNames = {!! json_encode($projectNames) !!}; // Project names
+                const completeActivities = {!! json_encode($completeActivities) !!}; // Complete activities count
+                const overdueActivities = {!! json_encode($overdueActivities) !!}; // Overdue activities count
+                const pendingActivities = {!! json_encode($pendingActivities) !!}; // Pending activities count
+        
+                const ctx = document.getElementById('projectChart').getContext('2d');
+                const projectChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: projectNames, // Using project names as labels
+                        datasets: [
+                            {
+                                label: 'Complete Activities',
+                                data: completeActivities, // Data for complete activities
+                                backgroundColor: 'rgba(39, 174, 96, 0.6)',
+                                borderColor: 'rgba(39, 174, 96, 1)',
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Overdue Activities',
+                                data: overdueActivities, // Data for overdue activities
+                                backgroundColor: 'rgba(231, 76, 60, 0.6)',
+                                borderColor: 'rgba(231, 76, 60, 1)',
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Pending Activities',
+                                data: pendingActivities, // Data for pending activities
+                                backgroundColor: 'rgba(241, 196, 15, 0.6)',
+                                borderColor: 'rgba(241, 196, 15, 1)',
+                                borderWidth: 1
                             }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Projects'
-                            }
-                        }
+                        ]
                     },
-                    plugins: {
-                        legend: {
-                            position: 'top',
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false, // Allows for better control of aspect ratio
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Number of Activities'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Projects'
+                                }
+                            }
                         },
-                        title: {
-                            display: true,
-                            text: 'Project Activity Overview'
-                        },
-                        datalabels: {
-                            anchor: 'end', // Positioning of the label
-                            align: 'end',  // Aligns label to the end of the bar
-                            color: '#000', // Text color
-                            formatter: (value) => value // Display the actual value
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Project Activity Overview'
+                            }
                         }
                     }
-                },
-                plugins: [ChartDataLabels] // Enable the Data Labels plugin
+                });
             });
-        });
-    </script>
+        </script>
         <script src="{{ asset('assets/js/custom/charts/projectdashboard.js') }}"></script>
         @endpush
     </x-default-layout>
