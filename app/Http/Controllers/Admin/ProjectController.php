@@ -48,7 +48,6 @@ class ProjectController extends Controller
     public function get_project_index()
     {
         $projects = Project::orderBy('name')->get();
-
         addVendors(['datatables']);
         addJavascriptFile('assets/js/custom/project/detail_index_script.js');
         return view('admin.projects.projectDetail_index',compact('projects'));

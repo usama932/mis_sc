@@ -980,8 +980,8 @@ class   DipActivityController extends Controller
     public function quarterstatus_update(Request $request,$id)
     {
         ActivityMonths::where('id', $id)->update([
-            'status'  => $request->status,
-            'remarks' => $request->remarks,
+            'status'        => $request->status,
+            'remarks'       => $request->remarks,
             'updated_by'    => auth()->user()->id,
         ]);
         $quarter = ActivityMonths::find($id);

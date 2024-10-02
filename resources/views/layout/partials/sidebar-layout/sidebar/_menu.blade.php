@@ -350,7 +350,6 @@
                         <div class="menu-sub menu-sub-accordion pt-3">
                             <!--begin::Menu item-->
                             @can('read project detail')
-                          
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
                                 
@@ -363,51 +362,50 @@
                                     <!--end:Menu link-->
                                 </div>
                             @endcan
-                                
+                            @can('activity list')
+                            <div class="menu-item menu-accordion {{ (request()->segment(1) == 'dips' ||  request()->segment(1) == 'dip' ||   request()->segment(1) == 'get_project_index'|| request()->segment(1) == 'dips.create'||  request()->segment(1) == 'dips.edit'  || request()->segment(1) == 'activity_dips'  || request()->routeIs('create_activity') )  ? 'here show' : '' }}" data-kt-menu-trigger="click">
+                                <!--begin::Menu link-->
+                                <a href="#" class="menu-link py-3">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Project List & Activities </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <!--end::Menu link-->
 
-                            @can('create dip')
-                                <div class="menu-item menu-accordion {{ (request()->segment(1) == 'dips' ||  request()->segment(1) == 'dip' ||   request()->segment(1) == 'get_project_index'|| request()->segment(1) == 'dips.create'||  request()->segment(1) == 'dips.edit'  || request()->segment(1) == 'activity_dips'  || request()->routeIs('create_activity') )  ? 'here show' : '' }}" data-kt-menu-trigger="click">
-                                    <!--begin::Menu link-->
-                                    <a href="#" class="menu-link py-3">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                        <span class="menu-title">Project List & Activities </span>
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    <!--end::Menu link-->
-
-                                    <!--begin::Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion pt-3">
-                                        @can('create dip')
-                                        <div class="menu-item">
-                                            <!--begin:Menu link-->
-                                            <a class="menu-link {{ (request()->routeIs('dips.index') || request()->routeIs('dips.edit') || request()->segment(1) == 'activity_dips' || request()->segment(1) == 'dip' ) ? 'active' : '' }}" href="{{ route('dips.index') }}"">
-                                                <span class="menu-bullet">
-                                                    <span class="bullet bullet-dot"></span>
-                                                </span>
-                                                <span class="menu-title">Projects List/Activity Targets</span>
-                                            </a>
-                                            <!--end:Menu link-->
-                                        </div>
-                                        @endcan
-                                        @can('create dip')
-                                            <div class="menu-item">
-                                                <!--begin:Menu link-->
-                                            
-                                                <a class="menu-link {{ request()->routeIs('create_activity') ? 'active' : '' }}" href="{{route('create_activity')}}">
-                                                    <span class="menu-bullet">
-                                                        <span class="bullet bullet-dot"></span>
-                                                    </span>
-                                                    <span class="menu-title">Add Activity</span>
-                                                </a>
-                                                <!--end:Menu link-->
-                                            </div>
-                                        @endcan
+                                <!--begin::Menu sub-->
+                                <div class="menu-sub menu-sub-accordion pt-3">
+                                    
+                                    <div class="menu-item">
+                                        <!--begin:Menu link-->
+                                        <a class="menu-link {{ (request()->routeIs('dips.index') || request()->routeIs('dips.edit') || request()->segment(1) == 'activity_dips' || request()->segment(1) == 'dip' ) ? 'active' : '' }}" href="{{ route('dips.index') }}"">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Projects List/Activity Targets</span>
+                                        </a>
+                                        <!--end:Menu link-->
                                     </div>
-                                    <!--end::Menu sub-->
+                                   
+                                    <div class="menu-item">
+                                        <!--begin:Menu link-->
+                                    
+                                        <a class="menu-link {{ request()->routeIs('create_activity') ? 'active' : '' }}" href="{{route('create_activity')}}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Add Activity</span>
+                                        </a>
+                                        <!--end:Menu link-->
+                                    </div>
                                 </div>
-                                @can('create dip')
+                                <!--end::Menu sub-->
+                            </div>
+                            @endcan
+                            @can('create dip')
+                             
+                                @can('manage progress')
                                     <div class="menu-item">
                                         <!--begin:Menu link-->
                                         <a class="menu-link {{ ( request()->segment(2) == 'progress' ||  request()->segment(1) == 'postprogress' )  ? 'active' : '' }}" href="{{ route('activity_dips.progress') }}"">
@@ -421,7 +419,6 @@
                                 @endcan
                                 @can('create dip')
                                     <div class="menu-item">
-                                        
                                         <a class="menu-link {{ ( request()->segment(2) == 'complete')  ? 'active' : '' }}" href="{{ route('activity_dips.complete') }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot"></span>
@@ -435,7 +432,6 @@
                                     </div>
                                 @endcan
                                 @can('create dip')
-                                  
                                     <div class="menu-item">
                                         <!--begin:Menu link-->
                                         <a class="menu-link {{ ( request()->segment(2) == 'due')  ? 'active' : '' }}" href="{{ route('activity_dips.due') }}">

@@ -11,7 +11,7 @@
 
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div class="card mb-4">
-            @role('administrator')
+            @can('project filter')
                 <div class="accordion" id="accordionExample">
                     <div class="accordion-item">
                         <h3 class="accordion-header" id="headingOne">
@@ -19,7 +19,7 @@
                                 <div class="d-flex align-items-center">
                                     <div class="symbol symbol-50px me-5">
                                         <span class="symbol-label bg-light-danger">
-                                            <i class="ki-duotone ki-filter-search fs-2x text-danger"></i>
+                                            <i class="fa fa-filter fs-2x text-danger"></i>
                                         </span>
                                     </div>
                                     <div class="d-flex flex-column">
@@ -48,7 +48,7 @@
                         </div>
                     </div>
                 </div>
-            @endrole
+            @endcan
         </div>
 
         <div class="card"> 

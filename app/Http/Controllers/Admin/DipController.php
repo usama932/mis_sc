@@ -26,7 +26,6 @@ class DipController extends Controller
     public function index()
     {
         addVendors(['datatables']);
-        addJavascriptFile('assets/js/custom/project/projectlist.js');
         return view('admin.dip.index');
     }
 
@@ -51,27 +50,28 @@ class DipController extends Controller
     
         $user = auth()->user();
         $userId =  $user->id.'';
-        $is_admin = $user->user_type === 'admin';
-      
-        $totalData = $is_admin ? Project::count() : Project::where(function ($query) use ($user, $userId) {
+        $is_admin = $user->user_type == 'admin';
+        $is_manager = $user->hasRole('Meal Manager');
+        
+        $totalData = ($is_admin || $is_manager) ? Project::count() : Project::where(function ($query) use ($user, $userId) {
             $query->orWhereJsonContains('focal_person', $userId)
                 ->orWhereHas('partners', function ($query) use ($user) {
                     $query->where('email', $user->email);
                 });
         })->count();
-    
+        
         $limit = $request->input('length');
         $orderIndex = $request->input('order.0.column');
         $order = isset($columns[$orderIndex]) ? $columns[$orderIndex] : 'id';
         $dir = $request->input('order.0.dir');
         
-        $totalFiltered = $is_admin ? Project::count() : Project::orWhereJsonContains('focal_person', $userId)
+        $totalFiltered = ($is_admin || $is_manager) ? Project::count() : Project::orWhereJsonContains('focal_person', $userId)
             ->orWhereHas('partners', function ($query) use ($user) {
                 $query->where('email', $user->email);
             })->count();
     
         $start = $request->input('start');
-        $query = $is_admin ? Project::latest() : Project::where(function ($query) use ($user , $userId) {
+        $query = ($is_admin || $is_manager) ? Project::latest() : Project::where(function ($query) use ($user , $userId) {
             $query->orWhereJsonContains('focal_person', $userId)
                 ->orWhereHas('partners', function ($query) use ($user) {
                     $query->where('email', $user->email);

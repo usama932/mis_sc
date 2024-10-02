@@ -2,7 +2,7 @@
     @section('title')
        Complete Activites
     @endsection
-    @if(auth()->user()->user_type == 'admin')
+    @can('project filter')
         <div class="card mb-5">
             <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
@@ -73,7 +73,7 @@
                 </div>
             </div>
         </div>
-    @endif
+    @endcan
     <div class="card">
         <div class="card-body">
         

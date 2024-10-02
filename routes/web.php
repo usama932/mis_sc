@@ -196,7 +196,6 @@ use Illuminate\Support\Facades\Route;
         Route::post('project_reviews_actionpoint', [ProjectReviewController::class,'project_reviews_actionpoint'])->name('admin.project_reviews_actionpoint');
         Route::post('view_review', [ProjectReviewController::class,'view_review'])->name('view_review');
         Route::get('/project_review/delete/{id}', [ProjectReviewController::class,'destroy'])->name('project_review.delete');
-
         Route::post('/project_review/details', [ProjectReviewController::class,'details'])->name('project_review.details');
         //close Records routes
         Route::resource('/close_records', CloseRecordController::class);

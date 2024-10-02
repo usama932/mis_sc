@@ -40,7 +40,7 @@
     <div class="tab-pane " id="table" role="tabpanel" aria-labelledby="table-tab">
         <div class="container m-3">
             <div class="table-responsive overflow-*">
-                <table class="table table-striped table-bordered nowrap" style="width:100%">
+                <table class="table table-striped table-bordered nowrap" id="projects" style="width:100%">
                     <thead>
                         <tr>
                             <th class="fs-9">Project</th>
@@ -50,11 +50,11 @@
                             <th class="fs-9">Budget Holder</th>
                             <th class="fs-9">Tenure</th>
                             <th class="fs-9">DIP</th>
-                            <th class="fs-9 text-primary">Total Activities</th>
-                            <th class="fs-9 text-info">Total Targets</th>
-                            <th class="fs-9 text-success">Complete Targets</th>
-                            <th class="fs-9 text-danger">Overdue Targets</th>
-                            <th class="fs-9 text-warning">Pending Targets</th>
+                            <th class="fs-9 bg-primary">Total Activities</th>
+                            <th class="fs-9 bg-info">Total Targets</th>
+                            <th class="fs-9 bg-success">Complete Targets</th>
+                            <th class="fs-9 bg-danger">Overdue Targets</th>
+                            <th class="fs-9 bg-warning">Pending Targets</th>
                         </tr>
                     </thead>
                     <tbody>

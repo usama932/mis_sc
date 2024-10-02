@@ -16,9 +16,17 @@
         </label> 
         <select name="status" class="form-select form-control donor" id="status" aria-label="Select Status" data-control="select2" data-placeholder="Select a Status" required> 
             <option value="">Select Status</option>
-            <option value='Posted'>Posted</option>
-            <option value='Reviewed'>Reviewed</option>
-            <option value='Returned'>Returned</option>
+            @if(auth()->user()->hasRole('administrator'))
+                <option value='Posted'>Posted</option>
+                <option value='Reviewed'>Reviewed</option>
+                <option value='Returned'>Returned</option>
+            @elseif(auth()->user()->hasAnyRole(['partner', 'focal person']))
+                <option value='Reviewed'>Reviewed</option>
+                <option value='Returned'>Returned</option>
+            @elseif(auth()->user()->hasRole('Meal Manager'))
+                <option value='Posted'>Posted</option>
+                <option value='Returned'>Returned</option>
+            @endif
         </select>
         <div id="statusError" class="error-message text-danger"></div>
     </div>  
@@ -30,9 +38,9 @@
         <div id="remarksError" class="error-message text-danger"></div>
     </div> 
     <div class="modal-footer">
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary btn-sm m-5 submitButton" id="kt_update_quarter_status_form">Update</button> 
-        <button type="submit" class="btn btn-primary btn-sm m-5 submitButton" id="loadingSpinner" style="display:none;">Loading...</button>
+        <button type="button" class="btn btn-light  btn-sm" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary btn-sm  submitButton" id="kt_update_quarter_status_form">Update</button> 
+        <button type="submit" class="btn btn-primary btn-sm  submitButton" id="loadingSpinner" style="display:none;">Loading...</button>
     </div>      
 </form>
 
