@@ -4,6 +4,8 @@
         @endsection
         <script src="https://d3js.org/d3.v6.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://code.highcharts.com/maps/highmaps.js"></script>
+        <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
         <style>
             .bar {
                 transition: fill 0.3s;
@@ -209,6 +211,7 @@
                         <canvas id="projectChart"></canvas>
                     </div>
                 </div>
+                <div id="container"></div>
                 <div class="card-body">
                    
                     <div class="tab-content" id="myTabContent">
@@ -255,7 +258,7 @@
                             if (response.themeTargetCounts && Array.isArray(response.themeTargetCounts)) {
                                 drawGoogleChart(response.provinces, response.districts);
                                 drawSunburstChart(response.themes, response.subThemes);
-
+                                drawHighchartsMap(response.provinces, response.districts);
                                 // Ensure projectPartners are part of the response
                                 const projectPartners = response.project_partners || [];
                                 
@@ -339,9 +342,9 @@
                     buttons: [
                         {
                             extend: 'excelHtml5',
-                            filename: 'Implementing Partner Data export_',
+                            filename: 'Project Target  export_',
                             text: '<i class="flaticon2-download"></i> Excel',
-                            title: 'Thematic Area Data Export',
+                            title: 'Project Target  Export',
                             className: 'badge badge-success my-2',
                             exportOptions: {
                                 columns: [0, 1, 2, 3, 4, 5,6,7,8,9,10,11]
@@ -349,9 +352,9 @@
                         },
                         {
                             extend: 'csvHtml5',
-                            filename: 'Implementing Partner Data CSV_',
+                            filename: 'Project Target Data CSV_',
                             text: '<i class="flaticon2-download"></i> CSV',
-                            title: 'Thematic Area Data',
+                            title: 'Project Target',
                             className: 'badge badge-success my-2',
                             exportOptions: {
                                 columns: [0, 1, 2, 3, 4, 5]
@@ -384,21 +387,21 @@
                         labels: projectNames, // Using project names as labels
                         datasets: [
                             {
-                                label: 'Complete Activities',
+                                label: 'Complete Targets',
                                 data: completeActivities, // Data for complete activities
                                 backgroundColor: 'rgba(39, 174, 96, 0.6)',
                                 borderColor: 'rgba(39, 174, 96, 1)',
                                 borderWidth: 1
                             },
                             {
-                                label: 'Overdue Activities',
+                                label: 'Overdue Targets',
                                 data: overdueActivities, // Data for overdue activities
                                 backgroundColor: 'rgba(231, 76, 60, 0.6)',
                                 borderColor: 'rgba(231, 76, 60, 1)',
                                 borderWidth: 1
                             },
                             {
-                                label: 'Pending Activities',
+                                label: 'Pending Targets',
                                 data: pendingActivities, // Data for pending activities
                                 backgroundColor: 'rgba(241, 196, 15, 0.6)',
                                 borderColor: 'rgba(241, 196, 15, 1)',
@@ -414,7 +417,7 @@
                                 beginAtZero: true,
                                 title: {
                                     display: true,
-                                    text: 'Number of Activities'
+                                    text: 'Number of Targets'
                                 }
                             },
                             x: {
