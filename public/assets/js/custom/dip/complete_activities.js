@@ -3,7 +3,26 @@ var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('
 var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
 $(document).ready(function () {
-
+    function updateTabCounts() {
+        $.ajax({
+            url: '/tab-count', // Replace with your endpoint
+            method: 'GET',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            },
+            success: function (response) {
+                // Assuming response contains an object with counts for each status
+                $('#all-count').text(response.allCount);
+                $('#to-be-reviewed-count').text(response.toBeReviewedCount);
+                $('#returned-count').text(response.returnedCount);
+                $('#reviewed-count').text(response.reviewedCount);
+                $('#posted-count').text(response.postedCount);
+            },
+            error: function (error) {
+                console.error('Error fetching counts:', error);
+            }
+        });
+    }
     function initDataTable(dipId, user, subtheme, status) {
         $('#dip_complete_activity').DataTable({
             "order": [[1, 'desc']],
@@ -91,5 +110,6 @@ $(document).ready(function () {
     var initialSubtheme = $('#subtheme').val();
     var initialStatus = "";  // Initially, show all
     initDataTable(initialDipId, initialUser, initialSubtheme, initialStatus);
+    updateTabCounts();
 });
 

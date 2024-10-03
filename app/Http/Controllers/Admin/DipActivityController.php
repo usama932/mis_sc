@@ -37,7 +37,6 @@ class   DipActivityController extends Controller
     
     public function get_activity_dips(Request $request)
     {
-
         $dip_id = $request->dip_id;
         $columns = [
             1 => 'id',
@@ -214,6 +213,7 @@ class   DipActivityController extends Controller
 
             if ($request->status) {
                 $dipsQuery->where('status', $request->status)->whereHas('progress');
+            
             } else {
                 $dipsQuery->whereIn('status', ['To be Reviewed', 'Returned', 'Posted'])->whereHas('progress');
             }
@@ -753,7 +753,7 @@ class   DipActivityController extends Controller
                 $query->where('email', auth()->user()->email);
             })->orderBy('name')->get();
         }
-        elseif(auth()->user()->hasRole('focal_person')){
+        elseif(auth()->user()->hasRole('focal person')){
             $projects = Project::whereJsonContains('focal_person',auth()->user()->id)->orderBy('name')->get();
         }else{
             $projects = Project::wherehas('detail')->orderBy('name')->get();
@@ -1144,5 +1144,18 @@ class   DipActivityController extends Controller
         $progress =  $activity->progress ?? '';
         $project_sof = Project::where('id',$activity->project_id)->first();
         return view('admin.dip.activity.edit_progress',compact('progress','project_sof'));
+    }
+
+    public function getActivityCounts(Request $request)
+    {
+        $counts = [
+            'allCount' => ActivityMonths::count(),
+            'toBeReviewedCount' => ActivityMonths::where('status', 'To be Reviewed')->count(),
+            'returnedCount' => ActivityMonths::where('status', 'Returned')->count(),
+            'reviewedCount' => ActivityMonths::where('status', 'Reviewed')->count(),
+            'postedCount' => ActivityMonths::where('status', 'Posted')->count(),
+        ];
+
+        return response()->json($counts);
     }
 }

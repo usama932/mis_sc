@@ -165,6 +165,18 @@
                         @can('read feedback registry')
                             <div class="menu-item">
                                 <!--begin:Menu link-->
+                                <a class="menu-link {{ request()->routeIs('admin.getBreifFrms') ? 'active' : '' }}" href="{{ route('admin.getBreifFrms') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">List FRM</span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                        @endcan
+                        @can('read feedback registry')
+                            <div class="menu-item">
+                                <!--begin:Menu link-->
                                 <a class="menu-link {{ request()->routeIs('frm-export') ? 'active' : '' }}" href="{{ route('frm-export') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>

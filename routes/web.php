@@ -50,6 +50,7 @@ use Illuminate\Support\Facades\Route;
         //FRM Routes
         Route::resource('/frm-managements', FRMController::class);
         Route::post('get-frms', [FRMController::class,'getFrms'])->name('admin.getFrms');
+        Route::post('get-brieffrms', [FRMController::class,'getBreifFrms'])->name('admin.getBreifFrms');
         Route::post('get-frm', [FRMController::class,'FrmDetail'])->name('admin.getFrm');
         Route::get('frm/create_update/{id}', [FRMController::class,'getUpdate_response'])->name('frm-update-response');
         Route::post('frm/response_update/{id}', [FRMController::class,'postUpdate_response'])->name('frm-response.update');
@@ -155,6 +156,8 @@ use Illuminate\Support\Facades\Route;
         Route::post('add_progress', [DipActivityController::class,'add_progress'])->name('add_progress');
         Route::post('update_status', [DipActivityController::class,'update_status'])->name('update_status');
         Route::post('edit_progress', [DipActivityController::class,'edit_progress'])->name('edit_progress');
+        Route::get('/tab-count', [DipActivityController::class, 'getActivityCounts'])->name('tab.count');
+
 
         Route::post('fetchquartertarget', [DipActivityController::class,'fetchquartertarget'])->name('fetchquartertarget');
         Route::post('activity_Quarters', [DipActivityController::class,'activityQuarters'])->name('admin.activityQuarters');

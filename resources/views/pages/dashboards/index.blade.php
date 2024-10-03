@@ -241,7 +241,9 @@
             $(document).ready(function() {
                 $('#chart_div, #main').hide();
                 $('#project_id').on('change', function() {
+                   
                     var projectId = $(this).val();
+                   
                     if (!projectId) {
                         $('#chart_div, #main').hide(); // Hide charts if no project is selected
                         return;
@@ -254,6 +256,7 @@
                         method: 'GET',
                         data: { project_id: projectId },
                         success: function(response) {
+                           
                             if (response.themeTargetCounts && Array.isArray(response.themeTargetCounts)) {
                                 drawGoogleChart(response.provinces, response.districts);
                                 drawSunburstChart(response.themes, response.subThemes);

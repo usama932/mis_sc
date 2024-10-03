@@ -83,21 +83,37 @@
                     <div class="card mb-3">
                         <ul class="nav nav-tabs" id="statusTabs" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" id="all-tab" data-status="" data-toggle="tab" href="javascript:;" role="tab">All</a>
+                                <a class="nav-link active" id="all-tab" data-status="" data-toggle="tab" href="javascript:;" role="tab">
+                                    All <span id="all-count" class="badge bg-primary">0</span>
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="to-be-reviewed-tab" data-status="To be Reviewed" data-toggle="tab" href="javascript:;" role="tab">To be Reviewed</a>
+                                <a class="nav-link" id="to-be-reviewed-tab" data-status="To be Reviewed" data-toggle="tab" href="javascript:;" role="tab">
+                                    To be Reviewed <span id="to-be-reviewed-count" class="badge bg-primary">0</span>
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="returned-tab" data-status="Returned" data-toggle="tab" href="javascript:;" role="tab">Returned</a>
+                                <a class="nav-link" id="returned-tab" data-status="Returned" data-toggle="tab" href="javascript:;" role="tab">
+                                    Returned <span id="returned-count" class="badge bg-primary">0</span>
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="reviewed-tab" data-status="Reviewed" data-toggle="tab" href="javascript:;" role="tab">Reviewed</a>
+                                <a class="nav-link" id="reviewed-tab" data-status="Reviewed" data-toggle="tab" href="javascript:;" role="tab">
+                                    Reviewed <span id="reviewed-count" class="badge bg-primary">0</span>
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="posted-tab" data-status="Posted" data-toggle="tab" href="javascript:;" role="tab">Posted</a>
+                                <a class="nav-link" id="posted-tab" data-status="Posted" data-toggle="tab" href="javascript:;" role="tab">
+                                    Posted <span id="posted-count" class="badge bg-primary">0</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pending-tab" data-status="pending" data-toggle="tab" href="javascript:;" role="tab">
+                                    Pending <span id="posted-count" class="badge bg-primary">0</span>
+                                </a>
                             </li>
                         </ul>
+                        
                     </div>
                     <thead>
                         <tr>

@@ -10,15 +10,28 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $projects = Project::wherehas('detail')->select('name','id')->get();
+        
         $projects_count = Project::count();
-        $activeCounts = $projects->groupBy('active')->map->count();
-        $project_data = Project::wherehas('detail')->select('projects.id', 'projects.name')
+        $user_id = auth()->user()->id;
+        $user = $user_id.'';
+        if(auth()->user()->hasRole('partner')){
+            $projects = Project::whereHas('partners', function ($query) {
+                $query->where('email', auth()->user()->email);
+            })->orderBy('name');
+        }
+        elseif(auth()->user()->hasRole('focal person')){
+            
+            $projects = Project::whereJsonContains('focal_person', $user)->orderBy('name');
+            
+        }else{
+            $projects = Project::wherehas('detail')->orderBy('name');
+        }
+        $project_data = $projects->wherehas('detail')->select('projects.id', 'projects.name')
                         ->leftJoin('dip_activity as da', 'projects.id', '=', 'da.project_id')
                         ->leftJoin('dip_activity_months as dam', 'da.id', '=', 'dam.activity_id')
                         ->leftJoin('dip_activity_progress as dap', 'dam.id', '=', 'dap.quarter_id')
                         ->select(
-                            'projects.*',
+                            'projects.name','projects.id',
                             DB::raw('COUNT(DISTINCT da.id) AS total_activities_count'),
                             DB::raw('COUNT(DISTINCT dam.id) AS total_activities_target_count'),
                             DB::raw('COUNT(DISTINCT CASE WHEN dam.completion_date <= CURRENT_DATE AND dap.id IS NOT NULL THEN dam.id END) AS complete_activities_count'),
@@ -28,7 +41,8 @@ class DashboardController extends Controller
                         ->groupBy('projects.id', 'projects.name')
                         ->orderBy('projects.name')
                         ->get();
-
+        $projects = $projects->get();
+       
         $projectNames = $project_data->pluck('name');
         $completeActivities = $project_data->pluck('complete_activities_count');
         $overdueActivities = $project_data->pluck('overdue_count');
