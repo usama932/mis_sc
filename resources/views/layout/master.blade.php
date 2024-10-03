@@ -45,7 +45,14 @@
             float: right;
             margin-left: 20px;
         }
+        th {
+            font-size: 12px !important;
+        }
+        td {
+            font-size: 11px !important;
+        }
     </style>
+    
 </head>
 <!--end::Head-->
 

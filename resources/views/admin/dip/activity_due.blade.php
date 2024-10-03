@@ -82,13 +82,13 @@
                 <table class="table table-striped table-bordered nowrap table-sm" id="dip_due_activity" style="width:100%">
                     <thead>
                         <tr>
-                            <th  class="fs-8">Project</th>
-                            <th  class="fs-8">Activity</th>
-                            <th  class="fs-8">Activity Target</th>
-                            <th  class="fs-8"> Beneficary Target</th>
-                            <th  class="fs-8">Due Date</th>
-                            <th  class="fs-8">Month</th>
-                            <th  class="fs-8">Action</th>
+                            <th  class="fs-9">Project</th>
+                            <th  class="fs-9">Activity</th>
+                            <th  class="fs-9">Activity Target</th>
+                            <th  class="fs-9"> Beneficary Target</th>
+                            <th  class="fs-9">Due Date</th>
+                            <th  class="fs-9">Month</th>
+                            <th  class="fs-9">Action</th>
                         </tr>
                     </thead>
                 </table>

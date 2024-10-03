@@ -176,8 +176,7 @@ class   DipActivityController extends Controller
     }
 
     public function get_complete_activity(Request $request)
-    {
-           
+    {   
             $dipId = $request->dip_id;
             $user_idd = $request->user;
             $subtheme = $request->subtheme;
@@ -210,11 +209,14 @@ class   DipActivityController extends Controller
                             $partnersQuery->where('email', $user->email);
                         });
                     });
-                    break;
+                break;
             }
-        
-            $dipsQuery->whereIn('status', ['To be Reviewed', 'Returned', 'Posted'])->whereHas('progress');
-        
+
+            if ($request->status) {
+                $dipsQuery->where('status', $request->status)->whereHas('progress');
+            } else {
+                $dipsQuery->whereIn('status', ['To be Reviewed', 'Returned', 'Posted'])->whereHas('progress');
+            }
             $totalFiltered = $dipsQuery->count();
             $totalData = $dipsQuery->count();
             $dips = $dipsQuery
@@ -232,35 +234,49 @@ class   DipActivityController extends Controller
             foreach ($dips as $completemonth) {
                 $show_url = route('activity_dips.show', $completemonth->activity->id);
                 $editUrl = route('activity_dips.edit', $completemonth->activity->id);
+        
                 $progressUrl = route('postprogress', $completemonth->activity->id);
                 $text = $completemonth->activity->activity_title ?? "";
                 $words = str_word_count($text, 1);
-                $lines = array_chunk($words, 5);
+                $lines = array_chunk($words, 5  );
                 $finalText = implode("<br>", array_map(fn($line) => implode(" ", $line), $lines));
-        
+                
+                $update_status = ''; // Default status
+
+                // Define role-based conditions
+                $roleConditions = [
+                    'To be Reviewed' => ['partner', 'focal person', 'administrator'],
+                    'Reviewed' => ['Meal Manager', 'administrator'],
+                    'Posted' => ['administrator'],
+                    'Returned' => ['partner', 'focal person', 'administrator'],
+                ];
+
+                // Define status-based labels
+                $statusLabels = [
+                    'To be Reviewed' => 'Update Progress',
+                    'Reviewed' => 'Update Progress',
+                    'Posted' => 'Update Progress',
+                    'Returned' => 'Edit Progress',
+                ];
+
+                // Check if the current status exists in role conditions and user has the required role
+                if (isset($roleConditions[$completemonth->status]) && auth()->user()->hasAnyRole($roleConditions[$completemonth->status])) {
+                    $label = $statusLabels[$completemonth->status] ?? 'Update Progress'; // Default to 'Update Progress' if label is not set
+                    $update_status = '<a href="' . $progressUrl . '"><span class="badge badge-success">' . $label . '</span></a>';
+                }
                 $nestedData = [
-                   'activity_title' => $finalText,
-                    'activity' => $completemonth->activity->activity_number ?? '',
-                    'sub_theme' => 
-                        ($completemonth->activity->scisubtheme_name?->maintheme?->name ?? '') 
-                        . ' (' 
-                        . ($completemonth->activity->scisubtheme_name?->name ?? '') 
-                        . ')',
-                    'activity_type' => 
-                        $completemonth->activity->activity_type?->activity_type?->name 
-                        ? ($completemonth->activity->activity_type?->activity_type?->name . ' (' . $completemonth->activity->activity_type?->name . ')') 
-                        : '',
-                    'project' => $completemonth->project->name ?? '',
-                    'lop_target' => $completemonth->activity->lop_target ?? '',
-                    'quarter_target' => $completemonth->quarter.'-'.$completemonth->year,
-                    'created_by' => $completemonth->user->name ?? '',
-                    'created_at' => date('M d, Y', strtotime($completemonth->created_at)) . '<br>' . date('h:iA', strtotime($completemonth->created_at)),
-                    'action' => '<div>
-                        <td><a class="badge badge-primary mx-1" href="' . $show_url . '" title="Show Activity" href="javascript:void(0)">
-                          Show Activity</a></td></div>',
+                    'activity_title'            => $completemonth->activity->activity_number.'  '.$finalText,
+                    'project'                   => $completemonth->project->name ?? '',
+                    'beneficiary_target'        => $completemonth->beneficiary_target ?? '',
+                    'activity_lop_target'   => $completemonth->target ?? '',
+                    'expected_completion_date'  => date('M d, Y', strtotime($completemonth->completion_date)),
+                    'quarter_target'            => $completemonth->quarter . '-' . $completemonth->year,
+                    'status'                    => $completemonth->status ?? "Wait For Progress",
+                    'action'                    => $update_status,
+                   // 'action'                    => '<div><td><a class="badge badge-primary mx-1" href="' . $show_url . '" title="Show Activity" href="javascript:void(0)">Show Activity</a></td></div>',
                 ];
         
-                $data[] = $nestedData;
+                $data[] = $nestedData;           
             }
         
             return response()->json([

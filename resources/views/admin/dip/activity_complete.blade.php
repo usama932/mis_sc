@@ -74,23 +74,41 @@
             </div>
         </div>
     @endcan
+    
     <div class="card">
         <div class="card-body">
         
             <div class="table-responsive overflow-*">
                 <table class="table table-striped table-bordered nowrap table-sm" id="dip_complete_activity" style="width:100%">
+                    <div class="card mb-3">
+                        <ul class="nav nav-tabs" id="statusTabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="all-tab" data-status="" data-toggle="tab" href="javascript:;" role="tab">All</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="to-be-reviewed-tab" data-status="To be Reviewed" data-toggle="tab" href="javascript:;" role="tab">To be Reviewed</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="returned-tab" data-status="Returned" data-toggle="tab" href="javascript:;" role="tab">Returned</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="reviewed-tab" data-status="Reviewed" data-toggle="tab" href="javascript:;" role="tab">Reviewed</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="posted-tab" data-status="Posted" data-toggle="tab" href="javascript:;" role="tab">Posted</a>
+                            </li>
+                        </ul>
+                    </div>
                     <thead>
                         <tr>
-                            <th>Activity</th>
-                            <th>Activity Title</th>
-                            <th>Sub Theme</th>
-                            <th>Activity Type</th>
-                            <th>Project</th>
-                            <th>LOP Target</th>
-                            <th>Month</th>
-                            <th>Created By</th>
-                            <th>Created At</th>
-                            <th>Action</th>
+                            <th  class="fs-9">Project</th>
+                            <th  class="fs-9">Activity</th>
+                            <th  class="fs-9">Activity Target</th>
+                            <th  class="fs-9"> Beneficary Target</th>
+                            <th  class="fs-9">Due Date</th>
+                            <th  class="fs-9">Month</th>
+                            <th  class="fs-9">Status</th>
+                            <th  class="fs-9">Action</th>
                         </tr>
                     </thead>
                 </table>
