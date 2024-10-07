@@ -12,10 +12,10 @@ use App\Models\Province;
 use App\Models\Project;
 use App\Models\User;
 use App\Models\ProjectActivityType;
+use Illuminate\Support\Facades\Mail;
 use App\Models\ActivityProgress;
 use App\Models\SCITheme;
 use App\Models\SciSubTheme;
-use Illuminate\Support\Facades\Mail;
 use File;
 use DateTime;
 use DateInterval;
@@ -176,115 +176,115 @@ class   DipActivityController extends Controller
 
     public function get_complete_activity(Request $request)
     {   
-            $dipId = $request->dip_id;
-            $user_idd = $request->user;
-            $subtheme = $request->subtheme;
-            $user = auth()->user();
-            $userId =   $user->id.'';
-            $userRole = $user->getRoleNames()->first();
-        
-            $dipsQuery = ActivityMonths::when($dipId, function ($query) use ($dipId) {
-                $query->where('project_id', $dipId);
+        $dipId = $request->dip_id;
+        $user_idd = $request->user;
+        $subtheme = $request->subtheme;
+        $user = auth()->user();
+        $userId =   $user->id.'';
+        $userRole = $user->getRoleNames()->first();
+    
+        $dipsQuery = ActivityMonths::when($dipId, function ($query) use ($dipId) {
+            $query->where('project_id', $dipId);
+        });
+        if(!empty($user_idd) && $user_idd == null){
+            $dipsQuery = ActivityMonths::when($user_idd, function ($query) use ($user_idd) {
+                $query->where('created_by', $user_idd);
             });
-            if(!empty($user_idd) && $user_idd == null){
-                $dipsQuery = ActivityMonths::when($user_idd, function ($query) use ($user_idd) {
-                    $query->where('created_by', $user_idd);
+        }
+        if(!empty($subtheme) && $subtheme == null){
+            $dipsQuery = ActivityMonths::whereHas('activity', function ($query) use ($subtheme) {
+                $query->where('subtheme_id', $subtheme);
+            });
+        }
+        switch ($userRole) {
+            case 'focal person':
+                $dipsQuery->whereHas('project', function ($query) use ($userId) {
+                    $query->whereJsonContains('focal_person', $userId);
                 });
-            }
-            if(!empty($subtheme) && $subtheme == null){
-                $dipsQuery = ActivityMonths::whereHas('activity', function ($query) use ($subtheme) {
-                    $query->where('subtheme_id', $subtheme);
-                });
-            }
-            switch ($userRole) {
-                case 'focal person':
-                    $dipsQuery->whereHas('project', function ($query) use ($userId) {
-                        $query->whereJsonContains('focal_person', $userId);
-                    });
-                    break;
-                case 'partner':
-                    $dipsQuery->whereHas('project', function ($query) use ($user) {
-                        $query->whereHas('partners', function ($partnersQuery) use ($user) {
-                            $partnersQuery->where('email', $user->email);
-                        });
-                    });
                 break;
-            }
+            case 'partner':
+                $dipsQuery->whereHas('project', function ($query) use ($user) {
+                    $query->whereHas('partners', function ($partnersQuery) use ($user) {
+                        $partnersQuery->where('email', $user->email);
+                    });
+                });
+            break;
+        }
 
-            if ($request->status) {
-                $dipsQuery->where('status', $request->status)->whereHas('progress');
+        if ($request->status) {
+            $dipsQuery->where('status', $request->status)->whereHas('progress');
+        
+        } else {
+            $dipsQuery->whereIn('status', ['To be Reviewed', 'Returned', 'Posted'])->whereHas('progress');
+        }
+        $totalFiltered = $dipsQuery->count();
+        $totalData = $dipsQuery->count();
+        $dips = $dipsQuery
+        ->with(['activity' => function ($query) {
+            return $query->orderByRaw("REPLACE(activity_number, '.', '') + 0");
+        }])
+        ->get();
+    
+        // Sort the results by activity_number of the related activity
+        $sortedDips = $dips->sortBy(function ($dip) {
+            return $dip->activity ? $dip->activity->activity_number : '';
+        }, SORT_NATURAL);
+        
+        $data = [];
+        foreach ($dips as $completemonth) {
+            $show_url = route('activity_dips.show', $completemonth->activity->id);
+            $editUrl = route('activity_dips.edit', $completemonth->activity->id);
+    
+            $progressUrl = route('postprogress', $completemonth->activity->id);
+            $text = $completemonth->activity->activity_title ?? "";
+            $words = str_word_count($text, 1);
+            $lines = array_chunk($words, 5  );
+            $finalText = implode("<br>", array_map(fn($line) => implode(" ", $line), $lines));
             
-            } else {
-                $dipsQuery->whereIn('status', ['To be Reviewed', 'Returned', 'Posted'])->whereHas('progress');
+            $update_status = ''; // Default status
+
+            // Define role-based conditions
+            $roleConditions = [
+                'To be Reviewed' => ['partner', 'focal person', 'administrator'],
+                'Reviewed' => ['Meal Manager', 'administrator'],
+                'Posted' => ['administrator'],
+                'Returned' => ['partner', 'focal person', 'administrator'],
+            ];
+
+            // Define status-based labels
+            $statusLabels = [
+                'To be Reviewed' => 'Update Progress',
+                'Reviewed' => 'Update Progress',
+                'Posted' => 'Update Progress',
+                'Returned' => 'Edit Progress',
+            ];
+
+            // Check if the current status exists in role conditions and user has the required role
+            if (isset($roleConditions[$completemonth->status]) && auth()->user()->hasAnyRole($roleConditions[$completemonth->status])) {
+                $label = $statusLabels[$completemonth->status] ?? 'Update Progress'; // Default to 'Update Progress' if label is not set
+                $update_status = '<a href="' . $progressUrl . '"><span class="badge badge-success">' . $label . '</span></a>';
             }
-            $totalFiltered = $dipsQuery->count();
-            $totalData = $dipsQuery->count();
-            $dips = $dipsQuery
-            ->with(['activity' => function ($query) {
-                return $query->orderByRaw("REPLACE(activity_number, '.', '') + 0");
-            }])
-            ->get();
-        
-            // Sort the results by activity_number of the related activity
-            $sortedDips = $dips->sortBy(function ($dip) {
-                return $dip->activity ? $dip->activity->activity_number : '';
-            }, SORT_NATURAL);
-            
-            $data = [];
-            foreach ($dips as $completemonth) {
-                $show_url = route('activity_dips.show', $completemonth->activity->id);
-                $editUrl = route('activity_dips.edit', $completemonth->activity->id);
-        
-                $progressUrl = route('postprogress', $completemonth->activity->id);
-                $text = $completemonth->activity->activity_title ?? "";
-                $words = str_word_count($text, 1);
-                $lines = array_chunk($words, 5  );
-                $finalText = implode("<br>", array_map(fn($line) => implode(" ", $line), $lines));
-                
-                $update_status = ''; // Default status
-
-                // Define role-based conditions
-                $roleConditions = [
-                    'To be Reviewed' => ['partner', 'focal person', 'administrator'],
-                    'Reviewed' => ['Meal Manager', 'administrator'],
-                    'Posted' => ['administrator'],
-                    'Returned' => ['partner', 'focal person', 'administrator'],
-                ];
-
-                // Define status-based labels
-                $statusLabels = [
-                    'To be Reviewed' => 'Update Progress',
-                    'Reviewed' => 'Update Progress',
-                    'Posted' => 'Update Progress',
-                    'Returned' => 'Edit Progress',
-                ];
-
-                // Check if the current status exists in role conditions and user has the required role
-                if (isset($roleConditions[$completemonth->status]) && auth()->user()->hasAnyRole($roleConditions[$completemonth->status])) {
-                    $label = $statusLabels[$completemonth->status] ?? 'Update Progress'; // Default to 'Update Progress' if label is not set
-                    $update_status = '<a href="' . $progressUrl . '"><span class="badge badge-success">' . $label . '</span></a>';
-                }
-                $nestedData = [
-                    'activity_title'            => $completemonth->activity->activity_number.'  '.$finalText,
-                    'project'                   => $completemonth->project->name ?? '',
-                    'beneficiary_target'        => $completemonth->beneficiary_target ?? '',
-                    'activity_lop_target'   => $completemonth->target ?? '',
-                    'expected_completion_date'  => date('M d, Y', strtotime($completemonth->completion_date)),
-                    'quarter_target'            => $completemonth->quarter . '-' . $completemonth->year,
-                    'status'                    => $completemonth->status ?? "Wait For Progress",
-                    'action'                    => $update_status,
-                   // 'action'                    => '<div><td><a class="badge badge-primary mx-1" href="' . $show_url . '" title="Show Activity" href="javascript:void(0)">Show Activity</a></td></div>',
-                ];
-        
-                $data[] = $nestedData;           
-            }
-        
-            return response()->json([
-                "draw" => intval($request->input('draw')),
-                "recordsTotal" => intval($totalData),
-                "recordsFiltered" => intval($totalFiltered),
-                "data" => $data
-            ]);
+            $nestedData = [
+                'activity_title'            => $completemonth->activity->activity_number.'  '.$finalText,
+                'project'                   => $completemonth->project->name ?? '',
+                'beneficiary_target'        => $completemonth->beneficiary_target ?? '',
+                'activity_lop_target'       => $completemonth->target ?? '',
+                'expected_completion_date'  => date('M d, Y', strtotime($completemonth->completion_date)),
+                'quarter_target'            => $completemonth->quarter . '-' . $completemonth->year,
+                'status'                    => $completemonth->status ?? "Wait For Progress",
+                'action'                    => $update_status,
+                // 'action'                    => '<div><td><a class="badge badge-primary mx-1" href="' . $show_url . '" title="Show Activity" href="javascript:void(0)">Show Activity</a></td></div>',
+            ];
+    
+            $data[] = $nestedData;           
+        }
+    
+        return response()->json([
+            "draw" => intval($request->input('draw')),
+            "recordsTotal" => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data" => $data
+        ]);
     }
 
     public function getActivityDue(Request $request)
@@ -376,7 +376,6 @@ class   DipActivityController extends Controller
             "data" => $data
         ]);
     }
-
 
     public function get_activity_quarters(Request $request){
            
@@ -587,6 +586,7 @@ class   DipActivityController extends Controller
 
     public function show(string $id)
     {
+     
         $dip_activity          = DipActivity::where('id',$id)->with('months','project','project.themes','user','user1')->first();
         
         $dip_activity_complete = $dip_activity->with(['months' => function($query) {
@@ -703,7 +703,6 @@ class   DipActivityController extends Controller
 
     public function delete_month(string $id)
     {
-       
         $dip = ActivityMonths::find($id);
         
         if(!empty($dip)){  
@@ -1081,6 +1080,34 @@ class   DipActivityController extends Controller
         ActivityMonths::where('id',$quarters->quarter_id)->update([
             'status'   => "To be Reviewed",
         ]);
+        $quarter = ActivityProgress::find($id);
+
+        $activity = DipActivity::find($quarter->activity_id);
+        $project  = Project::find($quarter->project_id);
+
+        $partnerEmails = $project->partners()
+            ->whereHas('partnertheme', function ($query) use ($activity) {
+                $query->where('theme_id', $activity->subtheme_id);
+            })->pluck('email')->toArray();
+
+        $focalPerson = json_decode($project->focal_person, true);
+        $fpEmails = User::whereIn('id', $focalPerson)->pluck('email')->toArray();
+
+        $allEmails = array_merge($partnerEmails, $fpEmails);
+        $bccEmails  = ['walid.malik@savethechildren.org', 'usama.qayyum@savethechildren.org'];
+      
+        if (!empty($allEmails)) {
+            $bccEmails = ['walid.malik@savethechildren.org', 'usama.qayyum@savethechildren.org'];
+            $details = [
+                'remarks'         => $quarter->remarks,
+                'activity_id'     => $quarter->activity_id,
+                'activity'        => $activity->activity_title,
+                'status'          => $quarter->status,
+                'activity_number' => $activity->activity_number,
+            ];
+            $subject = "Project Activity Progress:" . $activity->activity_title;
+        }
+        Mail::to($allEmails)->bcc($bccEmails)->send(new \App\Mail\partnerMail($details, $subject));
         return response()->json(['error' => true,'quarter' => $quarter ]);
     }
 
@@ -1097,7 +1124,6 @@ class   DipActivityController extends Controller
 
     public function fetchquartertarget(Request $request)
     {
-       
         $quarterId = $request->quarter_id;
         $quarter = ActivityMonths::find($quarterId);
         $lopTarget = $quarter->target;
@@ -1109,17 +1135,13 @@ class   DipActivityController extends Controller
 
     public function download_progress_attachment($filename)
     {
-        
         $progress = ActivityProgress::where('id',$filename)->first();
         $project = Project::where('id',$progress->project_id)->first();
         $path = public_path("storage/activity_progress/attachment/{$project->sof}/".$progress->attachment);
-
         if (!file_exists($path)) {
             return response()->json(['error' => 'File not found'], 404);
         }
-        
         return response()->download($path, $filename);
-        
     }
 
     public function add_progress(Request $request){
@@ -1130,11 +1152,8 @@ class   DipActivityController extends Controller
 
     public function update_status(Request $request)
     {
-        
        $activity =  ActivityMonths::where('id',$request->id)->first();
-      
        $progress =  $activity->progress ?? '';
-      
        return view('admin.dip.activity.update_progress',compact('progress'));
     }
 
@@ -1149,11 +1168,12 @@ class   DipActivityController extends Controller
     public function getActivityCounts(Request $request)
     {
         $counts = [
-            'allCount' => ActivityMonths::count(),
-            'toBeReviewedCount' => ActivityMonths::where('status', 'To be Reviewed')->count(),
-            'returnedCount' => ActivityMonths::where('status', 'Returned')->count(),
-            'reviewedCount' => ActivityMonths::where('status', 'Reviewed')->count(),
-            'postedCount' => ActivityMonths::where('status', 'Posted')->count(),
+            'allCount'          => ActivityMonths::wherehas('progress')->count(),
+            'toBeReviewedCount' => ActivityMonths::where('status', 'To be Reviewed')->wherehas('progress')->count(),
+            'returnedCount'     => ActivityMonths::where('status', 'Returned')->wherehas('progress')->count(),
+            'reviewedCount'     => ActivityMonths::where('status', 'Reviewed')->wherehas('progress')->count(),
+            'postedCount'       => ActivityMonths::where('status', 'Posted')->wherehas('progress')->count(),
+            'pendingCount'      => ActivityMonths::whereDoesntHave('progress')->count(),
         ];
 
         return response()->json($counts);

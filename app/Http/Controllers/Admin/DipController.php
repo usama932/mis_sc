@@ -189,7 +189,7 @@ class DipController extends Controller
 
     public function edit(string $id)
     {
-        
+      
         $project = Project::find($id);
         $ProjectActivityType = ProjectActivityType::latest()->get()->sortBy('name');
        
@@ -209,11 +209,13 @@ class DipController extends Controller
 
         addVendors(['datatables']);
         $focalperson = $project->focal_person;
+        $mealperson  = $project->meal_persons;
         $budgetholder = $project->budget_holder;
-        $focal_person = $focalperson ? implode("<br>", User::whereIn('id', json_decode($focalperson, true))->pluck('name')->toArray()) : '';
-        $budgetholder = $budgetholder ? implode("<br>", User::whereIn('id', json_decode($budgetholder, true))->pluck('name')->toArray()) : '';
+        $focal_person = $focalperson ? implode(", ", User::whereIn('id', json_decode($focalperson, true))->pluck('name')->toArray()) : '';
+        $meal_person = $mealperson ? implode(", ", User::whereIn('id', json_decode($mealperson, true))->pluck('name')->toArray()) : '';
+        $budgetholder = $budgetholder ? implode(", ", User::whereIn('id', json_decode($budgetholder, true))->pluck('name')->toArray()) : '';
        
-        return view('admin.dip.edit',compact('project','focal_person','budgetholder','provinces','districts'));
+        return view('admin.dip.edit',compact('project','focal_person','meal_person','budgetholder','provinces','districts'));
     }
 
     public function update(Request $request, string $id)

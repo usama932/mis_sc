@@ -30,6 +30,7 @@ class ProjectRepository implements ProjectRepositoryInterface
             'status'                => 'Initiative',
             'active'                => 1,
             'focal_person'          => json_encode($data['focal_person']),
+            'meal_persons'          => json_encode($data['meal_person']),
             'budget_holder'         => json_encode($data['budget_holder']),
             'award_person'          => $data['award_person'],
             'donor'                 => $data['donor'],
@@ -107,7 +108,8 @@ class ProjectRepository implements ProjectRepositoryInterface
             'name'                  => $data['name'],
             'type'                  => $data['type'],
             'sof'                   => $data['sof'],
-            'focal_person'          => $data['focal_person'],
+            'focal_person'          => json_encode($data['meal_person']),
+            'meal_persons'          => json_encode($data['meal_person']),
             'budget_holder'         => $data['budget_holder'],
             'award_person'          => $data['award_person'],
             'donor'                 => $data['donor'],
@@ -141,30 +143,32 @@ class ProjectRepository implements ProjectRepositoryInterface
     }
 
     public function storeprojectpartner($data){
-      
         try {
-           
-            foreach($data['addmore'] as $row) {
-               
-                $project = Project::where('id', $data['project'])->firstOrFail();
-                $partner = Partner::where('id', $data['partner'])->firstOrFail();
-                
-                $user = User::where('email',$row['email'])->first();
-                
+            DB::beginTransaction();  // Start Transaction
+        
+            foreach ($data['addmore'] as $row) {
+                $project = Project::findOrFail($data['project']);
+                $partner = Partner::findOrFail($data['partner']);
+        
+                // Check if user exists by email
+                $user = User::where('email', $row['email'])->first();
+        
                 if (empty($user)) {
+                    // Create a new user
                     $user = User::create([
                         'email' =>  $row['email'],
                         'name'  => $partner->name,
-                        'password' => Hash::make('Save@Pk2n4'),
+                        'password' => Hash::make('Save@Pk2n4'),  // You should generate this securely
                         'permissions_level' => 'nation-wide',
                         'designation' => '48',
                         'status' => '1',
                         'user_type' => 'R1',
                     ]);
-                    
-                    $userr = User::latest()->first();
-                    $userr->assignRole("partner");
-
+        
+                    // Assign "partner" role
+                    $user->assignRole("partner");
+        
+                    // Create ProjectPartner entry
                     $projectPartner = ProjectPartner::create([
                         'partner_id'      => $data['partner'],
                         'project_id'      => $data['project'],
@@ -172,65 +176,62 @@ class ProjectRepository implements ProjectRepositoryInterface
                         'designation'     => $row['desig'],
                         'created_by'      => auth()->user()->id,
                     ]);
-                    //Insert themes
+        
+                    // Insert Themes
                     foreach ($data['theme'] as $themeId) {
-                        $user_theme = UserTheme::where('theme_id',$themeId)->where('user_id',$user->id)->where('partner_id',$projectPartner->id)->first();
-                        if(empty($user_theme)){
-                            UserTheme::firstOrCreate([
-                                'theme_id' => $themeId,
+                        UserTheme::firstOrCreate([
+                            'theme_id' => $themeId,
+                            'user_id' => $user->id,
+                            'partner_id' => $projectPartner->id
+                        ]);
+                    }
+        
+                    // Insert Districts and Provinces
+                    foreach ($data['district'] as $districtId) {
+                        $district = District::where('district_id', $districtId)->first();
+                        if ($district) {
+                            UserProvinceDistricts::firstOrCreate([
+                                'province_id' => $district->provinces_id,
+                                'district_id' => $districtId,
                                 'user_id' => $user->id,
                                 'partner_id' => $projectPartner->id
                             ]);
                         }
                     }
-                    
-                    foreach ($data['district'] as $districtId) {
-                        $district = District::where('district_id',$districtId)->first();
-                        if ($district) {
-                            $user_district = UserProvinceDistricts::where('province_id',$district->provinces_id)
-                            ->where('district_id',$districtId)->where('user_id',$user->id)->where('partner_id',$projectPartner->id)->first();
-                            if(empty($user_district)){
-                                UserProvinceDistricts::firstOrCreate([
-                                    'province_id' => $district->provinces_id,
-                                    'district_id' => $districtId,
-                                    'user_id' => $user->id,
-                                    'partner_id' => $projectPartner->id
-                                ]);
-                            }
-                        }
-                    }
-
-                    $userCreatedWithinLastHour = User::where('id',$user->id)->where('created_at', '>=', Carbon::now()->subHour())->first();
-                    if (empty($userCreatedWithinLastHour)) {
+        
+                    // Send email if user was created within the last hour
+                    $userCreatedWithinLastHour = User::where('id', $user->id)
+                        ->where('created_at', '>=', Carbon::now()->subHour())
+                        ->exists();
+        
+                    if ($userCreatedWithinLastHour) {
                         $details = [
-                            'title' => 'Save the children',
-                            "password" => "12345678",
-                            'email'   => $user->email,
-                            'project' => $project->name,
-                            'partner' => $partner->name
+                            'title'     => 'Save the children',
+                            'password'  => 'Save@Pk2n4',  // This should be securely handled
+                            'email'     => $user->email,
+                            'project'   => $project->name,
+                            'partner'   => $partner->name,
                         ];
-                        $email  = $user->email;
-                        Mail::to($email)->send(new \App\Mail\partnerMail($details));
+        
+                        $bccEmails = ['walid.malik@savethechildren.org', 'usama.qayyum@savethechildren.org'];
+                        $subject = "[DIP Access] " . " of " . $project->name;
+        
+                        Mail::to($user->email)  // Correct email variable
+                            ->bcc($bccEmails)
+                            ->send(new \App\Mail\partnerMail($details, $subject));
                     }
-                    
+        
+                    // Commit transaction if successful
                     DB::commit();
                     return 1;
                 }
-                else{
-                    return 0;
-                }
-               
             }
-            
-        } 
-        catch (\Exception $e) {
-            $x =  $e->getMessage();
-            
+        
+        } catch (\Exception $e) {
+            // Rollback on exception
             DB::rollback();
-                DB::rollback(); 
-                return $x ;
-            
-        }
+            return $e->getMessage();
+        }        
     }
 
     public function updateprojectpartner($data ,$id){
@@ -239,15 +240,22 @@ class ProjectRepository implements ProjectRepositoryInterface
         $partner = Partner::where('id' ,$data['partner_id'])->first();
         
         $details = [
-            'title' => 'Save the children',
-            "password" => "12345678",
-            'email' => $data['email'],
-            'project' => $project->name,
-            'partner' => $partner->name
+            'title'     => 'Save the children',
+            "password"  => "Save@Pk2n4",
+            'email'     => $data['email'],
+            'project'   => $project->name,
+            'partner'   => $partner->name
            
         ];
-        Mail::to($data['email'])->send(new \App\Mail\partnerMail($details));
-    
+
+        $bccEmails  = ['walid.malik@savethechildren.org', 'usama.qayyum@savethechildren.org'];
+        $subject    = "[DIP Access] " . " of " . $project->name;
+
+        Mail::to($data['email'])  
+            ->bcc($bccEmails)
+            ->send(new \App\Mail\partnerMail($details, $subject));
+
+
         $user = User::where('email' ,$data['email'])->first();
         if(empty($user)){
             $user = User::create([

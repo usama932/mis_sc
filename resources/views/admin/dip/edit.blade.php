@@ -30,8 +30,8 @@
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade @if(session('dip_edit') != 'dip_activity') show active @endif" id="kt_tab_pane_1" role="tabpanel">
-                @include('admin.dip.edit_dip')
+            <div class="tab-pane fade @if(session('dip_edit') != 'dip_activity') show active @endif px-5" id="kt_tab_pane_1" role="tabpanel">
+                @include('admin.projects.partials.project_basic_info')
             </div>
 
             <div class="tab-pane fade @if(session('dip_edit') == 'dip_activity') show active @endif" id="kt_tab_pane_2" role="tabpanel">

@@ -153,171 +153,180 @@
 </script>
 
 <script>
- document.getElementById('add_progress_form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent default form submission
+    document.getElementById('add_progress_form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
 
-    var submitButton = $('#kt_add_progress_status_form');
-    const form = this;
-    const fileInputs = {
-        attachment: document.getElementById('attachment'),
-        image: document.getElementById('image')
-    };
+        var submitButton = $('#kt_add_progress_status_form');
+        const form = this;
+        const fileInputs = {
+            attachment: document.getElementById('attachment'),
+            image: document.getElementById('image')
+        };
 
-    const fileValidationRules = {
-        attachment: {
-            types: ['pdf', 'docx', 'doc'],
-            maxSize: 10485760 // 10 MB in bytes
-        },
-        image: {
-            types: ['jpeg', 'jpg', 'png'],
-            maxSize: 10485760 // 10 MB in bytes
-        }
-    };
+        const fileValidationRules = {
+            attachment: {
+                types: ['pdf', 'docx', 'doc'],
+                maxSize: 10485760 // 10 MB in bytes
+            },
+            image: {
+                types: ['jpeg', 'jpg', 'png'],
+                maxSize: 10485760 // 10 MB in bytes
+            }
+        };
 
-    let isValid = true;
-    const errorContainers = document.querySelectorAll('.error-message');
-    errorContainers.forEach(container => container.textContent = '');
+        let isValid = true;
+        const errorContainers = document.querySelectorAll('.error-message');
+        errorContainers.forEach(container => container.textContent = '');
 
-    // Validate file inputs
-    for (const [key, fileInput] of Object.entries(fileInputs)) {
-        if (fileInput && fileInput.files.length > 0) {
-            const file = fileInput.files[0];
-            const { types, maxSize } = fileValidationRules[key];
-            const fileType = file.name.split('.').pop().toLowerCase();
+        // Validate file inputs
+        for (const [key, fileInput] of Object.entries(fileInputs)) {
+            if (fileInput && fileInput.files.length === 0 && key === 'attachment') {
+                document.getElementById(`${key}Error`).textContent = `${key.charAt(0).toUpperCase() + key.slice(1)} is required.`;
+                isValid = false;
             
-            if (!types.includes(fileType)) {
-                document.getElementById(`${key}Error`).textContent = `Invalid file type for ${key}. Allowed types: ${types.join(', ')}`;
-                isValid = false;
             }
-            if (file.size > maxSize) {
-                document.getElementById(`${key}Error`).textContent = `The selected file ${key} is not valid or exceeds 10 MB.`;
+            else if (fileInput && fileInput.files.length === 0 && key === 'image') 
+            {
+                document.getElementById(`${key}Error`).textContent = `${key.charAt(0).toUpperCase() + key.slice(1)} is required.`;
                 isValid = false;
+            
+            }
+            else if (fileInput && fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const { types, maxSize } = fileValidationRules[key];
+                const fileType = file.name.split('.').pop().toLowerCase();
+                
+                if (!types.includes(fileType)) {
+                    document.getElementById(`${key}Error`).textContent = `Invalid file type for ${key}. Allowed types: ${types.join(', ')}`;
+                    isValid = false;
+                }
+                if (file.size > maxSize) {
+                    document.getElementById(`${key}Error`).textContent = `The selected file ${key} is not valid or exceeds 10 MB.`;
+                    isValid = false;
+                }
             }
         }
-    }
 
-    // Validate required fields and positive numbers
-    const requiredFields = {
-        activity_target: 'Enter Monthly Progress',
-        women_target: 'Women',
-        men_target: 'Men',
-        boys_target: 'Boys',
-        girls_target: 'Girls'
-    };
+        // Validate required fields and positive numbers
+        const requiredFields = {
+            activity_target: 'Enter Monthly Progress',
+            women_target: 'Women',
+            men_target: 'Men',
+            boys_target: 'Boys',
+            girls_target: 'Girls'
+        };
 
-    for (const [id, label] of Object.entries(requiredFields)) {
-        const field = document.getElementById(id);
-        if (field) {
-            if (!field.value.trim()) {
-                document.getElementById(`${id}Error`).textContent = `${label} is required.`;
-                isValid = false;
-            } else if (isNaN(field.value) || parseFloat(field.value) < 0) {
-                document.getElementById(`${id}Error`).textContent = `${label} must be a positive number.`;
+        for (const [id, label] of Object.entries(requiredFields)) {
+            const field = document.getElementById(id);
+            if (field) {
+                if (!field.value.trim()) {
+                    document.getElementById(`${id}Error`).textContent = `${label} is required.`;
+                    isValid = false;
+                } else if (isNaN(field.value) || parseFloat(field.value) < 0) {
+                    document.getElementById(`${id}Error`).textContent = `${label} must be a positive number.`;
+                    isValid = false;
+                }
+            } else {
+                console.error(`Element with ID '${id}' not found.`);
+            }
+        }
+
+        // Validate optional fields for numbers
+        const optionalFields = {
+            pwd_target: 'PWD/CLWD'
+        };
+
+        for (const [id, label] of Object.entries(optionalFields)) {
+            const field = document.getElementById(id);
+            if (field) {
+                if (field.value.trim() && (isNaN(field.value) || parseFloat(field.value) < 0)) {
+                    document.getElementById(`${id}Error`).textContent = `${label} must be a non-negative number if provided.`;
+                    isValid = false;
+                }
+            } else {
+                console.error(`Element with ID '${id}' not found.`);
+            }
+        }
+
+        // Validate Completion Date
+        const completeDate = document.getElementById('complete_date');
+        if (completeDate) {
+            if (!completeDate.value.trim()) {
+                document.getElementById('complete_dateError').textContent = 'Completion Date is required.';
                 isValid = false;
             }
         } else {
-            console.error(`Element with ID '${id}' not found.`);
+            console.error('Element with ID "complete_date" not found.');
         }
-    }
 
-    // Validate optional fields for numbers
-    const optionalFields = {
-        pwd_target: 'PWD/CLWD'
-    };
+        if (isValid) {
+            var formData = new FormData($('#add_progress_form')[0]);
+            $.ajax({
+                url: $('#add_progress_form').attr('action'),
+                type: 'post',
+                data: formData,
+                processData: false,  // Prevent jQuery from automatically transforming the data into a query string
+                contentType: false,  // Prevent jQuery from setting Content-Type
+                beforeSend: function() {
+                    $('#loadingSpinner').show();
+                    $('#kt_add_progress_status_form').hide();
+                },
+                success: function(response) {
+                    if(response){
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": true,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toastr-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
 
-    for (const [id, label] of Object.entries(optionalFields)) {
-        const field = document.getElementById(id);
-        if (field) {
-            if (field.value.trim() && (isNaN(field.value) || parseFloat(field.value) < 0)) {
-                document.getElementById(`${id}Error`).textContent = `${label} must be a non-negative number if provided.`;
-                isValid = false;
-            }
-        } else {
-            console.error(`Element with ID '${id}' not found.`);
-        }
-    }
-
-    // Validate Completion Date
-    const completeDate = document.getElementById('complete_date');
-    if (completeDate) {
-        if (!completeDate.value.trim()) {
-            document.getElementById('complete_dateError').textContent = 'Completion Date is required.';
-            isValid = false;
-        }
-    } else {
-        console.error('Element with ID "complete_date" not found.');
-    }
-
-    if (isValid) {
-        var formData = new FormData($('#add_progress_form')[0]);
-        $.ajax({
-            url: $('#add_progress_form').attr('action'),
-            type: 'post',
-            data: formData,
-            processData: false,  // Prevent jQuery from automatically transforming the data into a query string
-            contentType: false,  // Prevent jQuery from setting Content-Type
-            beforeSend: function() {
-                $('#loadingSpinner').show();
-                $('#kt_add_progress_status_form').hide();
-            },
-            success: function(response) {
-                if(response){
-                    toastr.options = {
-                        "closeButton": false,
-                        "debug": true,
-                        "newestOnTop": false,
-                        "progressBar": false,
-                        "positionClass": "toastr-top-right",
-                        "preventDuplicates": false,
-                        "onclick": null,
-                        "showDuration": "300",
-                        "hideDuration": "1000",
-                        "timeOut": "5000",
-                        "extendedTimeOut": "1000",
-                        "showEasing": "swing",
-                        "hideEasing": "linear",
-                        "showMethod": "fadeIn",
-                        "hideMethod": "fadeOut"
-                    };
-
-                    activityQuarters.ajax.reload(null, false).draw(false);
+                        activityQuarters.ajax.reload(null, false).draw(false);
+                        $('#loadingSpinner').hide();
+                        $('#edit_progress').modal('hide');
+                        $('#add_progress').modal('hide');
+                        $('#kt_add_progress_status_form').show();
+                        toastr.success("Activity Quarter Status Updated", "Success");
+                    }
+                },
+                error: function(xhr) {
+                    // Handle errors
+                    if(xhr){
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": true,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toastr-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+                        toastr.error(xhr.responseText, "Error occurred");
+                    }
+                },
+                complete: function() {
                     $('#loadingSpinner').hide();
-                    $('#edit_progress').modal('hide');
-                    $('#add_progress').modal('hide');
                     $('#kt_add_progress_status_form').show();
-                    toastr.success("Activity Quarter Status Updated", "Success");
                 }
-            },
-            error: function(xhr) {
-                // Handle errors
-                if(xhr){
-                    toastr.options = {
-                        "closeButton": false,
-                        "debug": true,
-                        "newestOnTop": false,
-                        "progressBar": false,
-                        "positionClass": "toastr-top-right",
-                        "preventDuplicates": false,
-                        "onclick": null,
-                        "showDuration": "300",
-                        "hideDuration": "1000",
-                        "timeOut": "5000",
-                        "extendedTimeOut": "1000",
-                        "showEasing": "swing",
-                        "hideEasing": "linear",
-                        "showMethod": "fadeIn",
-                        "hideMethod": "fadeOut"
-                    };
-                    toastr.error(xhr.responseText, "Error occurred");
-                }
-            },
-            complete: function() {
-                $('#loadingSpinner').hide();
-                $('#kt_add_progress_status_form').show();
-            }
-        });
-    }
-});
-
-
+            });
+        }
+    });
 </script>

@@ -89,7 +89,12 @@
                     @endif
                 </td>
             </tr>
-           
+            <tr>
+                <td class="fs-8"><strong>MEAL Focal Person</strong></td>
+                <td>
+                    {{$meal_person ?? ''}}
+                </td>
+            </tr>
             
          
             @if(!empty($districts))

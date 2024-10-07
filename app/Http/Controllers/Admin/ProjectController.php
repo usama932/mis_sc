@@ -146,8 +146,8 @@ class ProjectController extends Controller
             $nestedData['type']     = $project->type ?? '';
             $provinces              = optional($project->detail)->province;
             $districts              = optional($project->detail)->district;
-            $nestedData['province'] = $provinces ? implode("<br>", Province::whereIn('province_id', json_decode($provinces, true))->pluck('province_name')->toArray()) : '';
-            $nestedData['district'] = $districts ? implode("<br>", District::whereIn('district_id', json_decode($districts, true))->pluck('district_name')->toArray()) : '';
+            $nestedData['province'] = $provinces ? implode(",", Province::whereIn('province_id', json_decode($provinces, true))->pluck('province_name')->toArray()) : '';
+            $nestedData['district'] = $districts ? implode(",", District::whereIn('district_id', json_decode($districts, true))->pluck('district_name')->toArray()) : '';
             $nestedData['project_tenure'] = ($project->start_date && $project->end_date) ? '<span style="font-size: smaller;">' . date('M d, Y', strtotime($project->start_date)) . '<br><span class="spacer">-</span><br>' . date('M d, Y', strtotime($project->end_date)) . '</span>' : '';
             $nestedData['role']           =  $role;           
             $data[] = $nestedData;
@@ -259,7 +259,7 @@ class ProjectController extends Controller
             session(['project' => $active]);
         }
         $project_partners   = ProjectPartner::where('project_id',$id)->get();  
-        $project_themes   = ProjectTheme::where('project_id',$id)->get();  
+        $project_themes     = ProjectTheme::where('project_id',$id)->get();  
         addJavascriptFile('assets/js/custom/dip/create.js');
         $focalperson = $project->focal_person;
         $budgetholder = $project->budget_holder;
@@ -300,9 +300,11 @@ class ProjectController extends Controller
         }
         $focalperson = $project->focal_person;
         $budgetholder = $project->budget_holder;
+        $mealperson = $project->meal_persons;
         $focal_person = $focalperson ? implode(", ", User::whereIn('id', json_decode($focalperson, true))->pluck('name')->toArray()) : '';
+        $meal_person = $mealperson ? implode(", ", User::whereIn('id', json_decode($mealperson, true))->pluck('name')->toArray()) : '';
         $budgetholder = $budgetholder ? implode(", ", User::whereIn('id', json_decode($budgetholder, true))->pluck('name')->toArray()) : '';
-        return view('admin.projects.projectView',compact('project','focal_person','budgetholder','provinces','districts','project_partners','project_themes','months'));
+        return view('admin.projects.projectView',compact('project','meal_person','focal_person','budgetholder','provinces','districts','project_partners','project_themes','months'));
     }
     
     public function project_progress_view($id){
@@ -340,15 +342,19 @@ class ProjectController extends Controller
     public function create()
     {
         addJavascriptFile('assets/js/custom/project/create.js');
-        $themes = Theme::orderBy('name')->get();
-        $persons = User::latest()->get();
-        $donors = Donor::orderBy('name')->get();
-        $budget_holders = User::latest()->get();
+        $themes         = Theme::orderBy('name')->get();
+        $persons        = User::where('status',1)->latest()->get();
+        $donors         = Donor::orderBy('name')->get();
+        $budget_holders = User::where('status',1)->latest()->get();
      
-        $awards = User::with('desig')->whereHas('desig', function ($query) {
+        $awards = User::where('status',1)->with('desig')->whereHas('desig', function ($query) {
             $query->whereIn('designation_name', ['Head of Awards','Sub-Grants Coordinator', 'Manager Awards']);
         })->get();
-        return view('admin.projects.create',compact('themes','persons','donors','awards','budget_holders'));
+        $meal_persons = User::where('status',1)->with('desig')->whereHas('desig', function ($query) {
+                        $query->whereIn('designation_name', ['MEAL Assistant','MEAL Officer', 'Provincial MEAL Manager','Accountability Officer','MIS Manager'
+                            ,'MIS Officer','Head of MEAL','MEAL Coordinator']);
+                        })->orderBy('name')->get();
+        return view('admin.projects.create',compact('themes','persons','donors','awards','budget_holders','meal_persons'));
     }
 
     public function store(Request $request)
@@ -415,38 +421,33 @@ class ProjectController extends Controller
         addVendors(['datatables']);
 
         $focalperson = $project->focal_person;
+        $mealperson = $project->focal_person;
         $budgetholder = $project->budget_holder;
         $focal_person = $focalperson ? implode(", ", User::whereIn('id', json_decode($focalperson, true))->pluck('name')->toArray()) : '';
+        $meal_person = $mealperson ? implode(", ", User::whereIn('id', json_decode($mealperson, true))->pluck('name')->toArray()) : '';
         $budgetholder = $budgetholder ? implode(", ", User::whereIn('id', json_decode($budgetholder, true))->pluck('name')->toArray()) : '';
-        return view('admin.projects.show',compact('project','provinces','districts','focal_person','budgetholder'));
+        return view('admin.projects.show',compact('project','provinces','districts','focal_person','budgetholder','meal_person','budgetholder'));
     }
 
     public function edit(string $id)
     {
         $project = Project::find($id);
-        $persons = User::latest()->get();
+        $persons = User::where('status',1)->latest()->get();
         $donors = Donor::orderBy('name')->get();
-        $budget_holders = User::latest()->get();
-        $awards = User::with('desig')->whereHas('desig', function ($query) {
+        $budget_holders = User::where('status',1)->latest()->get();
+        $awards = User::where('status',1)->with('desig')->whereHas('desig', function ($query) {
             $query->whereIn('designation_name', ['Head of Awards','Sub-Grants Coordinator', 'Manager Awards']);
         })->get(); 
 
-        if($project->focal_person != null) {
-            $focal_person = json_decode($project->focal_person , true);
-            $fpersons = User::whereIn('id', $focal_person)->get();
-        }else{
-            $fpersons   = '';
-        }
-        if($project->focal_person != null) {
-            $focal_person = json_decode($project->focal_person , true);
-            $fpersons = User::whereIn('id', $focal_person)->get();
-        }else{
-            $fpersons   = '';
-        }
+       
+        $meal_persons = User::where('status',1)->with('desig')->whereHas('desig', function ($query) {
+            $query->whereIn('designation_name', ['MEAL Assistant','MEAL Officer', 'Provincial MEAL Manager','Accountability Officer','MIS Manager'
+                ,'MIS Officer','Head of MEAL','MEAL Coordinator']);
+            })->orderBy('name')->get();
         addJavascriptFile('assets/js/custom/project/create.js');
   
        
-        return view('admin.projects.edit',compact('project','persons','donors','budget_holders','awards'));
+        return view('admin.projects.edit',compact('project','persons','donors','budget_holders','awards','meal_persons'));
     }
 
     public function update(Request $request, string $id)

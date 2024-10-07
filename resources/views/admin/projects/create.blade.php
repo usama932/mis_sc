@@ -52,7 +52,7 @@
                             </select>
                             <div id="focal_personError" class="error-message"></div>
                         </div>  
-                        
+
                         <div class="fv-row col-md-4">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">SOF</span>
@@ -60,6 +60,7 @@
                             <input type="text" name="sof" id="sof" placeholder="Enter SOF" class="form-control" value="">
                             <div id="sofError" class="error-message "></div>
                         </div> 
+
                         <div class="fv-row col-md-4">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Project Start Date</span>
@@ -67,6 +68,7 @@
                             <input type="text" name="start_date" id="start_date" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
                             <div id="start_dateError" class="error-message "></div>
                         </div>
+
                         <div class="fv-row col-md-4">
                             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
                                 <span class="required">Project End Date</span>
@@ -74,7 +76,19 @@
                             <input type="text" name="end_date" id="end_date" placeholder="Select date"  class="form-control" onkeydown="event.preventDefault()" data-provide="datepicker" value="">
                             <div id="end_dateError" class="error-message "></div>
                         </div>
-                        <div class="fv-row col-md-6  ">
+                        <div class="fv-row col-md-4 ">
+                            <label class="fs-6 fw-semibold form-label mb-2">
+                                <span class="required">MEAL Focal Person</span>
+                            </label>
+                            <select   name="meal_person[]" id="meal_person" aria-label="Select a Award FP" data-control="select2" data-placeholder="Select a MEAL Focal Person..." class="form-select "  data-allow-clear="true" > 
+                                <option  value=''>Select MEAL  FP</option>
+                                @foreach($meal_persons as $meal_person)
+                                    <option  value='{{$meal_person->id}}'>{{ucfirst($meal_person->name)}} - {{$meal_person->desig?->designation_name  ?? ''}}</option>
+                                @endforeach
+                            </select>
+                            <div id="meal_personError" class="error-message"></div>
+                        </div>
+                        <div class="fv-row col-md-4">
                             <label class="fs-6 fw-semibold form-label mb-2">
                                 <span class="required">Budget Holder FP</span>
                             </label>
@@ -86,7 +100,7 @@
                             </select>
                             <div id="budget_holderError" class="error-message"></div>
                         </div> 
-                        <div class="fv-row col-md-6 ">
+                        <div class="fv-row col-md-4 ">
                             <label class="fs-8 fw-semibold form-label mb-2">
                                 <span class="required">Operational Focal Person</span>
                             </label>

@@ -70,7 +70,10 @@
                              @endif
                             </li>
                             <li class="list-group-item">
-                                <strong>Focal Person:</strong> {{ $focal_person ?? 'N/A' }}
+                                <strong>Operational Focal Person:</strong> {{ $focal_person ?? '' }}
+                            </li>
+                            <li class="list-group-item">
+                                <strong>MEAL Focal Person:</strong> {{ $meal_person ?? '' }}
                             </li>
                             <li class="list-group-item">
                                 <strong>Award FP:</strong> 

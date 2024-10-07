@@ -17,6 +17,7 @@ $(document).ready(function () {
                 $('#returned-count').text(response.returnedCount);
                 $('#reviewed-count').text(response.reviewedCount);
                 $('#posted-count').text(response.postedCount);
+                $('#pending-count').text(response.pendingCount);
             },
             error: function (error) {
                 console.error('Error fetching counts:', error);

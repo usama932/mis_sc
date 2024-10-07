@@ -89,27 +89,27 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="to-be-reviewed-tab" data-status="To be Reviewed" data-toggle="tab" href="javascript:;" role="tab">
-                                    To be Reviewed <span id="to-be-reviewed-count" class="badge bg-primary">0</span>
+                                    To be Reviewed <span id="to-be-reviewed-count" class="badge bg-secondary">0</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="returned-tab" data-status="Returned" data-toggle="tab" href="javascript:;" role="tab">
-                                    Returned <span id="returned-count" class="badge bg-primary">0</span>
+                                    Returned <span id="returned-count" class="badge bg-danger">0</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="reviewed-tab" data-status="Reviewed" data-toggle="tab" href="javascript:;" role="tab">
-                                    Reviewed <span id="reviewed-count" class="badge bg-primary">0</span>
+                                    Reviewed <span id="reviewed-count" class="badge bg-info">0</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="posted-tab" data-status="Posted" data-toggle="tab" href="javascript:;" role="tab">
-                                    Posted <span id="posted-count" class="badge bg-primary">0</span>
+                                    Posted <span id="posted-count" class="badge bg-success">0</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="pending-tab" data-status="pending" data-toggle="tab" href="javascript:;" role="tab">
-                                    Pending <span id="posted-count" class="badge bg-primary">0</span>
+                                    Pending <span id="penting-count" class="badge bg-warning">0</span>
                                 </a>
                             </li>
                         </ul>

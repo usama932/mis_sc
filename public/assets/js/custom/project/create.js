@@ -67,6 +67,14 @@ var KTdipValidate = function () {
                             }
                         }
                     },
+
+                    'meal_person[]':{
+                        validators: {
+                            notEmpty: {
+                                message: 'MEAL Person is required'
+                            }
+                        }
+                    },
                      
                     'award_person':{
                         validators: {
