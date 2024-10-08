@@ -162,7 +162,7 @@ class QBActionPointController extends Controller
                 $query->where('assement_code', $request->assesment_code);
             });
         }
-        $dateParts = explode('to', '2024-04-01 to 2024-06-30');
+        $dateParts = explode('to', $request->date_visit);
         
         $startdate = trim($dateParts[0]);
         $enddate = isset($dateParts[1]) ? trim($dateParts[1]) : '';

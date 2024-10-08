@@ -162,7 +162,7 @@
                                 <!--end:Menu link-->
                             </div>
                         @endcan
-                        @can('read feedback registry')
+                        @can('read feedback brief')
                             <div class="menu-item">
                                 <!--begin:Menu link-->
                                 <a class="menu-link {{ request()->routeIs('admin.getBreifFrms') ? 'active' : '' }}" href="{{ route('admin.getBreifFrms') }}">

@@ -482,7 +482,7 @@ class   DipActivityController extends Controller
                         'updated_by'        => $quarter->user1 ? $quarter->user1->name ?? '' : '',
                         'updated_at'        => $quarter->updated_at ? date('M d, Y', strtotime($quarter->updated_at)) : '',
                         'completion_date'   => !empty($quarter->completion_date) ? '<span class="fs-9">' . date('M d, Y', strtotime($quarter->completion_date)) . '</span>' : '',
-                        'completed_date'    => $quarter->progress && !empty($quarter->progress->complete_date) ? '<span class="fs-9">' . date('M d, Y', strtotime($quarter->progress->complete_date)) . '</span>' : '',
+                        'completed_date'    => $quarter->progress && !empty($quarter->progress->complete_date) ? '<span class="fs-9">' . date('M d, Y', strtotime($quarter->progress->complete_date)) . '</span>': '',
                         'image'             => !empty($quarter->progress->image) ? '<img src="'.asset("storage/activity_progress/image/{$project->sof}/".$quarter->progress->image).'" alt="Image" style="width: 100px;" class="thumbnail" onclick="previewImage(this)">' : '',
                         'attachment'        => !empty($quarter->progress->attachment) ? '<a title="Edit" class="" href="' . route('download_progress_attachment', $quarter->progress->id) . '"><i class="fa fa-download text-dark" aria-hidden="true"></i></a>' : '',
                         'action'            => '',
