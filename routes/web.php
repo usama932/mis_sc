@@ -28,6 +28,7 @@ use App\Http\Controllers\Admin\ProjectReviewController;
 use App\Http\Controllers\Admin\ProjectProfileController;
 use App\Http\Controllers\Admin\OTController;
 use App\Http\Controllers\Admin\ProjectAjaxController;
+use App\Http\Controllers\Admin\IndicatorController;
 use Illuminate\Support\Facades\Route;
 
     Route::post('getuserDistrict', [FBAjaxController::class,'getuserDistrict'])->name('getuserDistrict');
@@ -219,6 +220,9 @@ use Illuminate\Support\Facades\Route;
 
         //Project Dashbaord 
         Route::get('/get-districts', [ProjectAjaxController::class, 'getDistricts']);
+
+        //Indicator Routes
+        Route::resource('/indicators', IndicatorController::class);
     });
 
     Route::get('/error', function () {
