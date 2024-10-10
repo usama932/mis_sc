@@ -69,15 +69,15 @@
                                 <td class="fs-9">{{ $project->name }}</td>
                                 <td class="fs-9">{{ $project->type }}</td>
                                 <td class="fs-9">{{ $project->sof }}</td>
-                                <td class="fs-9">{{ $project->focal_person }}</td>
-                                <td class="fs-9">{{ $project->budget_holder }}</td>
+                                <td class="fs-9">{{ $focal_person }}</td>
+                                <td class="fs-9">{{ $budgetholder }}</td>
                                 <td class="fs-9">{{ date('M d,Y', strtotime($project->start_date))}} - {{date('M d,Y', strtotime($project->end_date));}}</td>
-                                <td class="fs-9">@if($project->activities->count() > 0) Yes @else No @endif</td>
-                                <td class="fs-9">{{ $project->total_activities_count }}</td>
-                                <td class="fs-9">{{ $project->total_activities_target_count }}</td>
-                                <td class="fs-9">{{ $project->complete_activities_count }}</td>
-                                <td class="fs-9">{{ $project->overdue_count }}</td>
-                                <td class="fs-9">{{ $project->pending_count }}</td>
+                                <td class="fs-9">@if($project->activities->count() > 0) <span class="badge badge-success">Yes</span> @else <span class="badge badge-danger">No</span> @endif</td>
+                                <td class="fs-9 text-primary fw-bolder">{{ $project->total_activities_count }}</td>
+                                <td class="fs-9 text-info fw-bolder">{{ $project->total_activities_target_count }}</td>
+                                <td class="fs-9 text-success fw-bolder">{{ $project->complete_activities_count }}</td>
+                                <td class="fs-9 text-danger fw-bolder">{{ $project->overdue_count }}</td>
+                                <td class="fs-9 text-warning fw-bolder">{{ $project->pending_count }}</td>
                             </tr>
                         @endforeach
                     </tbody>

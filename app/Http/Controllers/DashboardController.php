@@ -10,7 +10,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        
+    
         $projects_count = Project::count();
         $user_id = auth()->user()->id;
         $user = $user_id.'';
@@ -31,7 +31,7 @@ class DashboardController extends Controller
                         ->leftJoin('dip_activity_months as dam', 'da.id', '=', 'dam.activity_id')
                         ->leftJoin('dip_activity_progress as dap', 'dam.id', '=', 'dap.quarter_id')
                         ->select(
-                            'projects.name','projects.id',
+                            'projects.name','projects.id','projects.sof','projects.type','projects.focal_person','projects.budget_holder','projects.start_date','projects.end_date',
                             DB::raw('COUNT(DISTINCT da.id) AS total_activities_count'),
                             DB::raw('COUNT(DISTINCT dam.id) AS total_activities_target_count'),
                             DB::raw('COUNT(DISTINCT CASE WHEN dam.completion_date <= CURRENT_DATE AND dap.id IS NOT NULL THEN dam.id END) AS complete_activities_count'),
@@ -42,7 +42,7 @@ class DashboardController extends Controller
                         ->orderBy('projects.name')
                         ->get();
         $projects = $projects->get();
-       
+      
         $projectNames = $project_data->pluck('name');
         $completeActivities = $project_data->pluck('complete_activities_count');
         $overdueActivities = $project_data->pluck('overdue_count');
