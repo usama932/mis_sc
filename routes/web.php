@@ -223,6 +223,7 @@ use Illuminate\Support\Facades\Route;
 
         //Indicator Routes
         Route::resource('/indicators', IndicatorController::class);
+        Route::get('/get-subthemes', [IndicatorController::class, 'getSubthemes']);
     });
 
     Route::get('/error', function () {

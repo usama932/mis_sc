@@ -377,13 +377,6 @@
             });
         }
 
-
-        function clearFilters() {
-            // Reset all filter inputs
-            document.getElementById('filterForm').reset();  
-            
-        
-        }
         $("#kt_select2_province").change(function () {
 
             var value = $(this).val();
@@ -411,9 +404,8 @@
             });
 
         }).trigger('change');
-        $('.close').click(function() {
-            $('#quality_benchmark').modal('hide');
-        });
+
+      
         function actiondel(id) {
             Swal.fire({
                 title: "Are you sure?",
@@ -437,17 +429,13 @@
                 }
             });
         }
+        
         flatpickr("#date_visit", {
             mode: "range",
             dateFormat: "Y-m-d",
             maxDate: "today",
         });
-        function clearFilters() {
-        // Reset all input fields to their default values
-            document.getElementById('filterForm').reset();
-
-           
-        }
+        
     </script>
     <script>
         $(document).ready(function () {

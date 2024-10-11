@@ -4,155 +4,221 @@
     @endsection
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div class="card">
-            <form action="{{route('indicators.store')}}" method="post" id="create_indicator" enctype="multipart/form-data">
+            <form action="{{route('indicators.store')}}" data-kt-redirect-url="{{ route('indicators.index') }}" method="post" id="create_indicator" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body py-4">
                     <div class="row">
-                        
+                        <!-- Log Frame Level -->
                         <div class="fv-row col-md-3">
-                            <label class="fs-6 fw-semibold form-label mb-2">
+                            <label class="fs-6 fw-semibold form-label">
                                 <span class="required">Log Frame Level</span>
                             </label>
-                            <input type="text" name="log_frame_level" placeholder="Log Frame Level" class="form-control" value="">
-                            <div id="logFrameLevelError" class="error-message"></div>
+                            <select name="log_frame_level" class="form-select  " data-control="select2" data-placeholder="Select Log Frame Level"  data-allow-clear="true">
+                                <option value="">Select Log Frame Level</option>
+                                <option value="Impact">Impact</option>
+                                <option value="Intermediate Result">Intermediate Result</option>
+                                <option value="OutCome">OutCome</option>
+                                <option value="Output">Output</option>
+                            </select>
+                            <div id="logFrameLevelError" class="invalid-feedback"></div>
                         </div>
                         
+                        <!-- Log Frame Result Statement -->
                         <div class="fv-row col-md-6">
-                            <label class="fs-6 fw-semibold form-label mb-2">
+                            <label class="fs-6 fw-semibold form-label">
                                 <span class="required">Log Frame Result Statement</span>
                             </label>
-                            <textarea name="log_frame_result_statement" rows="1" placeholder="Log Frame Result Statement" class="form-control"></textarea>
-                            <div id="logFrameResultStatementError" class="error-message"></div>
+                            <textarea name="log_frame_result_statement" rows="1" class="form-control  " rows="2" placeholder="Enter Result Statement"></textarea>
+                            <div id="logFrameResultStatementError" class="invalid-feedback"></div>
                         </div>
 
+                        <!-- Indicator Name -->
                         <div class="fv-row col-md-3">
-                            <label class="fs-6 fw-semibold form-label mb-2">
+                            <label class="fs-6 fw-semibold form-label">
                                 <span class="required">Indicator Name</span>
                             </label>
-                            <input type="text" name="indicator_name" placeholder="Indicator Name" class="form-control" value="">
-                            <div id="indicatorNameError" class="error-message"></div>
+                            <input type="text" name="indicator_name" class="form-control  " placeholder="Enter Indicator Name">
+                            <div id="indicatorNameError" class="invalid-feedback"></div>
                         </div>
-                        
+
+                        <!-- Indicator Context Type -->
                         <div class="fv-row col-md-3">
-                            <label class="fs-6 fw-semibold form-label mb-2">
+                            <label class="fs-6 fw-semibold form-label">
                                 <span class="required">Indicator Context Type</span>
                             </label>
-                            <select name="indicator_context_type" class="form-select select2" data-placeholder="Select Context Type">
-                                <option value="">Select Type</option>
+                            <select name="indicator_context_type" class="form-select  " data-control="select2" data-placeholder="Select Context Type"  data-allow-clear="true">
+                                <option value=""></option>
                                 <option value="Quantitative">Quantitative</option>
                                 <option value="Qualitative">Qualitative</option>
                             </select>
-                            <div id="indicatorContextTypeError" class="error-message"></div>
+                            <div id="indicatorContextTypeError" class="invalid-feedback"></div>
                         </div>
 
+                        <!-- Theme -->
                         <div class="fv-row col-md-3">
-                            <label class="fs-6 fw-semibold form-label mb-2">
-                                <span>Theme</span>
-                            </label>
-                            <input type="text" name="theme" placeholder="Theme" class="form-control" value="">
-                            <div id="themeError" class="error-message"></div>
+                            <label class="fs-6 fw-semibold form-label">Theme</label>
+                            <select name="theme[]" id="themeSelect" multiple class="form-select   select2" data-control="select2" data-placeholder="Select Theme"  data-allow-clear="true">
+                                <option value="">Select Theme</option>
+                                @foreach($themes as $theme)
+                                    <option value="{{ $theme->id}}">{{ $theme->name }}</option>
+                                @endforeach
+                            </select>
+                            <div id="themeError" class="invalid-feedback"></div>
                         </div>
 
+                        <!-- Sub-Theme -->
                         <div class="fv-row col-md-3">
-                            <label class="fs-6 fw-semibold form-label mb-2">
-                                <span>Sub-Theme</span>
-                            </label>
-                            <input type="text" name="sub_theme" placeholder="Sub-Theme" class="form-control" value="">
-                            <div id="subThemeError" class="error-message"></div>
+                            <label class="fs-6 fw-semibold form-label">Subtheme</label>
+                            <select id="subthemeSelect" name="subtheme[]" multiple class="form-select   select2" data-control="select2" data-placeholder="Select Subtheme" data-allow-clear="true">
+                                <option value="">Select Subtheme</option>
+                                <!-- Subthemes will be populated here -->
+                            </select>
+                            <div id="subthemeError" class="invalid-feedback"></div>
                         </div>
 
+                        <!-- Total Reach Indicator -->
                         <div class="fv-row col-md-3">
-                            <label class="fs-6 fw-semibold form-label mb-2">
-                                <span>Total Reach Indicator?</span>
-                            </label>
+                            <label class="fs-6 fw-semibold form-label">Total Reach Indicator?</label>
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" name="is_total_reach_indicator" value="1">
                                 <label class="form-check-label">Yes</label>
                             </div>
-                            <div id="totalReachIndicatorError" class="error-message"></div>
+                            <div id="totalReachIndicatorError" class="invalid-feedback"></div>
                         </div>
-
+                    
+                        <!-- Unit of Measure -->
                         <div class="fv-row col-md-3">
-                            <label class="fs-6 fw-semibold form-label mb-2">
+                            <label class="fs-6 fw-semibold form-label">
                                 <span class="required">Unit of Measure</span>
                             </label>
-                            <input type="text" name="unit_of_measure" placeholder="Unit of Measure" class="form-control" value="">
-                            <div id="unitOfMeasureError" class="error-message"></div>
+                            <input type="text" name="unit_of_measure" class="form-control  " placeholder="Enter Unit of Measure">
+                            <div id="unitOfMeasureError" class="invalid-feedback"></div>
                         </div>
 
+                        <!-- Actual Periodicity -->
                         <div class="fv-row col-md-3">
-                            <label class="fs-6 fw-semibold form-label mb-2">
+                            <label class="fs-6 fw-semibold form-label">
                                 <span class="required">Actual Periodicity</span>
                             </label>
-                            <select name="actual_periodicity" class="form-select select2" data-placeholder="Select Periodicity">
-                                <option value="">Select Periodicity</option>
-                                <option value="Once">Once</option>
-                                <option value="Midline/Endline">Midline/Endline</option>
+                            <select id="actualPeriodicity" name="actual_periodicity" class="form-select">
+                                <option value="">Select Actual Periodicity</option>
                                 <option value="Annually">Annually</option>
-                                <option value="Semi Annually">Semi Annually</option>
                                 <option value="Quarterly">Quarterly</option>
                                 <option value="Monthly">Monthly</option>
-                                <option value="Weekly">Weekly</option>
-                                <option value="Daily">Daily</option>
                             </select>
-                            <div id="actualPeriodicityError" class="error-message"></div>
                         </div>
 
+                        <!-- Nature -->
                         <div class="fv-row col-md-3">
-                            <label class="fs-6 fw-semibold form-label mb-2">
+                            <label class="fs-6 fw-semibold form-label">
                                 <span class="required">Nature</span>
                             </label>
-                            <select name="nature" class="form-select select2" data-placeholder="Select Nature">
-                                <option value="">Select Nature</option>
+                            <select name="nature" class="form-select  " data-control="select2" data-placeholder="Select Nature"  data-allow-clear="true">
+                                <option value=""></option>
                                 <option value="Cumulative">Cumulative</option>
                                 <option value="Incremental">Incremental</option>
                             </select>
-                            <div id="natureError" class="error-message"></div>
+                            <div id="natureError" class="invalid-feedback"></div>
                         </div>
 
+                        <!-- Data Format -->
                         <div class="fv-row col-md-3">
-                            <label class="fs-6 fw-semibold form-label mb-2">
+                            <label class="fs-6 fw-semibold form-label">
                                 <span class="required">Data Format</span>
                             </label>
-                            <select name="data_format" class="form-select select2" data-placeholder="Select Data Format">
-                                <option value="">Select Format</option>
+                            <select name="data_format" class="form-select  " data-control="select2" data-placeholder="Select Data Format"  data-allow-clear="true">
+                                <option value=""></option>
                                 <option value="Number">Number</option>
                                 <option value="Percentage">Percentage</option>
                                 <option value="Text">Text</option>
                                 <option value="Date">Date</option>
                                 <option value="Value List">Value List</option>
                             </select>
-                            <div id="dataFormatError" class="error-message"></div>
+                            <div id="dataFormatError" class="invalid-feedback"></div>
                         </div>
-
-                        <div class="fv-row col-md-6">
-                            <label class="fs-6 fw-semibold form-label mb-2">Disaggregation</label>
-                            <select name="indicator_context_type" class="form-select select2" data-placeholder="Select Context Type">
-                                <option value="">Select Disaggregation</option>
+                   
+                        <!-- Disaggregation -->
+                        <div class="fv-row col-md-3">
+                            <label class="fs-6 fw-semibold form-label">Disaggregation</label>
+                            <select name="disaggregation" class="form-select  " data-control="select2" data-placeholder="Select Disaggregation"  data-allow-clear="true">
+                                <option value=""></option>
                                 <option value="Age">Age</option>
                                 <option value="Gender">Gender</option>
                                 <option value="Location">Location</option>
                             </select>
                         </div>
 
+                        <!-- Baseline -->
                         <div class="fv-row col-md-3">
-                            <label class="fs-6 fw-semibold form-label mb-2">Baseline</label>
-                            <input type="number" step="0.01" name="baseline" placeholder="Baseline" class="form-control">
+                            <label class="fs-6 fw-semibold form-label">Baseline</label>
+                            <input type="text"  name="baseline" class="form-control  " placeholder="Enter Baseline">
                         </div>
 
-                        <div class="fv-row col-md-3">
-                            <label class="fs-6 fw-semibold form-label mb-2">Overall LOP Target</label>
-                            <input type="number" step="0.01" name="overall_lop_target" placeholder="Overall LOP Target" class="form-control">
+                            
+                        <!-- Annual Target -->
+                        <div class="fv-row col-md-3 target-field" id="annualTargetField" style="display: none;">
+                            <label class="fs-6 fw-semibold form-label">Annual Target</label>
+                            <input type="number" name="annual_target" class="form-control" placeholder="Enter Annual Target">
                         </div>
 
+                        <!-- Quarterly Target -->
+                        <div class="fv-row col-md-3 target-field" id="quarterlyTargetField" style="display: none;">
+                            <label class="fs-6 fw-semibold form-label">Quarterly Target</label>
+                            <input type="number" name="quarterly_target" class="form-control" placeholder="Enter Quarterly Target">
+                        </div>
+
+                        <!-- Monthly Target -->
+                        <div class="fv-row col-md-3 target-field" id="monthlyTargetField" style="display: none;">
+                            <label class="fs-6 fw-semibold form-label">Monthly Target</label>
+                            <input type="number" name="monthly_target" class="form-control" placeholder="Enter Monthly Target">
+                        </div>
+
+                        <!-- Overall LOP Target -->
+                        <div class="fv-row col-md-3">
+                            <label class="fs-6 fw-semibold form-label">Overall LOP Target</label>
+                            <input type="text"  name="overall_lop_target" value="0" class="form-control  " placeholder="Enter LOP Target">
+                        </div>
                     </div>
                 </div>
+                
+                <!-- Submit Button -->
                 <div class="d-flex justify-content-end">
-                    <button type="submit" id="kt_create_indicator" class="btn btn-success btn-sm m-5">
+                    <button type="submit" class="btn btn-primary m-3" id="kt_create_indicator">
                         @include('partials/general/_button-indicator', ['label' => 'Submit'])
                     </button>
                 </div>
             </form>
         </div>
     </div>
+@push('scripts')
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const actualPeriodicitySelect = document.getElementById("actualPeriodicity");
+        const annualTargetField = document.getElementById("annualTargetField");
+        const quarterlyTargetField = document.getElementById("quarterlyTargetField");
+        const monthlyTargetField = document.getElementById("monthlyTargetField");
+
+        function updateTargetFields() {
+            const selectedValue = actualPeriodicitySelect.value;
+
+            // Hide all target fields by default
+            annualTargetField.style.display = "none";
+            quarterlyTargetField.style.display = "none";
+            monthlyTargetField.style.display = "none";
+
+            // Show the appropriate target field based on selection
+            if (selectedValue === "Annually") {
+                annualTargetField.style.display = "block";
+            } else if (selectedValue === "Quarterly") {
+                quarterlyTargetField.style.display = "block";
+            } else if (selectedValue === "Monthly") {
+                monthlyTargetField.style.display = "block";
+            }
+        }
+
+        // Run on page load and when the selection changes
+        actualPeriodicitySelect.addEventListener("change", updateTargetFields);
+    });
+</script>
+@endpush
 </x-nform-layout>

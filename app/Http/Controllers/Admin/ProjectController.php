@@ -341,7 +341,7 @@ class ProjectController extends Controller
 
     public function create()
     {
-        addJavascriptFile('assets/js/custom/project/create.js');
+        
         $themes         = Theme::orderBy('name')->get();
         $persons        = User::where('status',1)->latest()->get();
         $donors         = Donor::orderBy('name')->get();
@@ -354,6 +354,8 @@ class ProjectController extends Controller
                         $query->whereIn('designation_name', ['MEAL Assistant','MEAL Officer', 'Provincial MEAL Manager','Accountability Officer','MIS Manager'
                             ,'MIS Officer','Head of MEAL','MEAL Coordinator']);
                         })->orderBy('name')->get();
+                        
+        addJavascriptFile('assets/js/custom/project/create.js');
         return view('admin.projects.create',compact('themes','persons','donors','awards','budget_holders','meal_persons'));
     }
 
