@@ -229,7 +229,7 @@ class QbController extends Controller
     public function create()
     {
         if (auth()->user()->hasRole("partner")) {
-            $projectId = ProjectPartner::where('active','1')->where('email',auth()->user()->email)->first();
+            $projectId = ProjectPartner::where('email',auth()->user()->email)->first();
             $projects = Project::where('active','1')->where('id',$projectId->project_id)->orderBy('name')->latest()->get();
         }
         else{
