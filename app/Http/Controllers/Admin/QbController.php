@@ -20,6 +20,7 @@ use App\Models\District;
 use App\Models\Province;
 use App\Repositories\Interfaces\QbRepositoryInterface;
 use Carbon\Carbon;
+use App\Models\ProjectPartner;
 
 class QbController extends Controller
 {
@@ -31,7 +32,14 @@ class QbController extends Controller
     }
     public function index()
     {
-        $projects = Project::latest()->get();
+        if (auth()->user()->hasRole("partner")) {
+            $projectId = ProjectPartner::where('email',auth()->user()->email)->first();
+            $projects = Project::where('id',$projectId->project_id)->orderBy('name')->latest()->get();
+        }
+        else{
+            $projects = Project::latest()->get();
+        }
+       
         $users = User::where('user_type','R2')->orwhere('user_type','R1')->orwhere('user_type','R3')->get();
 
         addJavascriptFile('assets/js/custom/quality_benchmark/index_script.js');
@@ -142,7 +150,10 @@ class QbController extends Controller
         if ($user->hasRole("IP's")) {
             $qualit_benchs->where('created_by', $user->id);
         }
-
+        if (auth()->user()->hasRole("partner")) {
+            $project = ProjectPartner::where('email',auth()->user()->email)->first();
+            $qualit_benchs->where('project_name', $project->project_id);
+        }
         // Pagination and sorting
         $totalData = $qualit_benchs->count();
         $limit = $request->input('length', -1);
@@ -217,7 +228,14 @@ class QbController extends Controller
 
     public function create()
     {
-        $projects = Project::where('active','1')->latest()->get();
+        if (auth()->user()->hasRole("partner")) {
+            $projectId = ProjectPartner::where('active','1')->where('email',auth()->user()->email)->first();
+            $projects = Project::where('active','1')->where('id',$projectId->project_id)->orderBy('name')->latest()->get();
+        }
+        else{
+            $projects = Project::where('active','1')->latest()->get();
+        }
+        
         $themes = Theme::latest()->get();
         $users = User::where('user_type','R2')->orwhere('user_type','R1')->orWhere('user_type','R3')->get();
         $partners = Partner::orderBy('name')->get();  

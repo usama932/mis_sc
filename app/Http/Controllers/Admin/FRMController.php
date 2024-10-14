@@ -18,6 +18,7 @@ use App\Models\Theme;
 use App\Models\User;
 use App\Models\FrmTag;
 use App\Models\ClosingRecord;
+use App\Models\ProjectPartner;
 use App\Repositories\Interfaces\FrmRepositoryInterface;
 use Carbon\Carbon;
 
@@ -59,6 +60,13 @@ class FRMController extends Controller
         $feedbackchannels   = FeedbackChannel::latest()->get();
         $feedbackcategories = FeedbackCategory::latest()->get()->sortBy('name');
         $projects           = Project::where('active','1')->get();
+        if (auth()->user()->hasRole("partner")) {
+            $projectId = ProjectPartner::where('email',auth()->user()->email)->first();
+            $projects = Project::where('id',$projectId->project_id)->orderBy('name')->latest()->get();
+        }
+        else{
+            $projects = Project::latest()->get();
+        }
         $clients            = Frm::orderBy('name_of_client')->pluck('name_of_client');
         
         $users = User::where('user_type','R2')->orWhere('user_type','R1')->orWhere('user_type','R3')->get();
@@ -147,7 +155,7 @@ class FRMController extends Controller
             $frms->where('feedback_category', $request->feedback_category);
         }
 
-        // Apply permissions filters
+
         if (auth()->user()->permissions_level == 'province-wide') {
             $frms->where('province', auth()->user()->province);
         }
@@ -176,14 +184,12 @@ class FRMController extends Controller
         if (auth()->user()->hasRole("IP's")) {
             $frms->where('created_by', auth()->user()->id);
         }
-
+        if (auth()->user()->hasRole("partner")) {
+            $project = ProjectPartner::where('email',auth()->user()->email)->first();
+            $frms->where('project_name', $project->project_id);
+        }
         // Apply eager loading to reduce queries
         $frms = $frms->with(['channel', 'category', 'theme_name', 'project', 'provinces', 'districts', 'tehsils'])
-                    ->select('id', 'response_id', 'name_of_registrar', 'date_received', 
-                            'gender', 'age', 'district', 'province', 'created_by', 
-                            'feedback_category', 'type_of_client', 'feedback_channel',
-                            'name_of_client', 'status', 'date_ofreferral', 'referral_name', 
-                            'feedback_description','referral_position', 'type_ofaction_taken', 'feedback_referredorshared')
                     ->latest();
 
         $totalData = $frms->count();
@@ -290,7 +296,15 @@ class FRMController extends Controller
        
         $feedbackchannels = FeedbackChannel::get();
         $feedbackcategories = FeedbackCategory::get();
-        $projects = Project::where('active','1')->latest()->get();
+       
+        if (auth()->user()->hasRole("partner")) {
+            $projectId = ProjectPartner::where('email',auth()->user()->email)->first();
+           
+            $projects = Project::where('id',$projectId->project_id)->where('active','1')->latest()->get();
+        }else{
+            $projects = Project::where('active','1')->latest()->get();
+        }
+        
         $themes = Theme::latest()->get();
         $users = User::where('user_type','R2')->orWhere('user_type','R1')->orWhere('user_type','R3')->get();
         $record = ClosingRecord::latest()->first(); 

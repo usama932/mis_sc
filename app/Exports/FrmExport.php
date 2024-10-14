@@ -6,6 +6,7 @@ use Maatwebsite\Excel\Concerns\FromView;
 use Illuminate\Contracts\View\View;
 use App\Models\Frm;
 use App\Models\FrmResponse;
+use App\Models\ProjectPartner;
 
 class FrmExport implements FromView
 {
@@ -83,6 +84,10 @@ class FrmExport implements FromView
         }
         if(auth()->user()->hasRole("IP's")){
             $frm->where('created_by',auth()->user()->id);
+        }
+        if (auth()->user()->hasRole("partner")) {
+            $project = ProjectPartner::where('email',auth()->user()->email)->first();
+            $frm->where('project_name', $project->project_id);
         }
         $frm->with('user','user1','districts','districts',
                     'tehsils','uc','category','theme_name','channel','project')->latest();

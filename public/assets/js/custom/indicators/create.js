@@ -11,6 +11,34 @@ var KTdipValidate = function () {
             form,
             {
                 fields: {
+                    'project': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Project is required'
+                            }
+                        }
+                    },
+                    'theme': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Theme is required'
+                            }
+                        }
+                    },
+                    'theme[]': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Theme is required'
+                            }
+                        }
+                    },
+                    'subtheme[]': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Sub-Theme is required'
+                            }
+                        }
+                    },
                     'log_frame_level': {
                         validators: {
                             notEmpty: {
@@ -67,6 +95,84 @@ var KTdipValidate = function () {
                             }
                         }
                     },
+                    'disaggregation': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Disaggregation is required'
+                            }
+                        }
+                    },
+                    'baseline': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Baseline is required'
+                            },
+                            numeric: {
+                                message: 'Baseline  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Baseline must be a positive number'
+                            }
+                        }
+                    },
+                    'annual_target': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Annual Target is required'
+                            },
+                            numeric: {
+                                message: 'Annual Target  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Annual Target must be a positive number'
+                            }
+                        }
+                    },
+                    'quarterly_target': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Annual Target is required'
+                            },
+                            numeric: {
+                                message: 'Annual Target  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Annual Target must be a positive number'
+                            }
+                        }
+                    },
+                    'monthly_target': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Annual Target is required'
+                            },
+                            numeric: {
+                                message: 'Annual Target  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Annual Target must be a positive number'
+                            }
+                        }
+                    },
+                    'overall_lop_target': {
+                        validators: {
+                            notEmpty: {
+                                message: 'OverAll Lop Target is required'
+                            },
+                            numeric: {
+                                message: 'OverAll Lop Target  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'OverAll Lop Target must be a positive number'
+                            }
+                        }
+                    },
+                  
                 },
                 plugins: {
                     trigger: new FormValidation.plugins.Trigger(),

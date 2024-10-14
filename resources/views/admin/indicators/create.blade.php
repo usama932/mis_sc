@@ -9,6 +9,20 @@
                 <div class="card-body py-4">
                     <div class="row">
                         <!-- Log Frame Level -->
+
+                        <div class="fv-row col-md-3">
+                            <label class="fs-6 fw-semibold form-label">
+                                <span class="required">Project</span>
+                            </label>
+                            <select name="project" class="form-select  " data-control="select2" data-placeholder="Select Project"  data-allow-clear="true">
+                                <option value="">Select Project</option>
+                                @foreach ($projects as $project)
+                                    <option value="{{ $project->id }}">{{ $project->name }}</option>
+                                @endforeach
+                            </select>
+                            <div id="logFrameLevelError" class="invalid-feedback"></div>
+                        </div>
+
                         <div class="fv-row col-md-3">
                             <label class="fs-6 fw-semibold form-label">
                                 <span class="required">Log Frame Level</span>
@@ -151,32 +165,32 @@
                         <!-- Baseline -->
                         <div class="fv-row col-md-3">
                             <label class="fs-6 fw-semibold form-label">Baseline</label>
-                            <input type="text"  name="baseline" class="form-control  " placeholder="Enter Baseline">
+                            <input type="number"  name="baseline" class="form-control  " placeholder="Enter Baseline">
                         </div>
 
                             
                         <!-- Annual Target -->
                         <div class="fv-row col-md-3 target-field" id="annualTargetField" style="display: none;">
                             <label class="fs-6 fw-semibold form-label">Annual Target</label>
-                            <input type="number" name="annual_target" class="form-control" placeholder="Enter Annual Target">
+                            <input type="number" value="0" name="annual_target" class="form-control" placeholder="Enter Annual Target">
                         </div>
 
                         <!-- Quarterly Target -->
                         <div class="fv-row col-md-3 target-field" id="quarterlyTargetField" style="display: none;">
                             <label class="fs-6 fw-semibold form-label">Quarterly Target</label>
-                            <input type="number" name="quarterly_target" class="form-control" placeholder="Enter Quarterly Target">
+                            <input type="number" value="0" name="quarterly_target" class="form-control" placeholder="Enter Quarterly Target">
                         </div>
 
                         <!-- Monthly Target -->
                         <div class="fv-row col-md-3 target-field" id="monthlyTargetField" style="display: none;">
                             <label class="fs-6 fw-semibold form-label">Monthly Target</label>
-                            <input type="number" name="monthly_target" class="form-control" placeholder="Enter Monthly Target">
+                            <input type="number" value="0" name="monthly_target" class="form-control" placeholder="Enter Monthly Target">
                         </div>
 
                         <!-- Overall LOP Target -->
                         <div class="fv-row col-md-3">
                             <label class="fs-6 fw-semibold form-label">Overall LOP Target</label>
-                            <input type="text"  name="overall_lop_target" value="0" class="form-control  " placeholder="Enter LOP Target">
+                            <input type="number"  name="overall_lop_target" value="0" class="form-control  " placeholder="Enter LOP Target">
                         </div>
                     </div>
                 </div>

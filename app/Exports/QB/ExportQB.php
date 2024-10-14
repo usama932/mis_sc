@@ -5,6 +5,7 @@ namespace App\Exports\QB;
 use Maatwebsite\Excel\Concerns\FromView;
 use Illuminate\Contracts\View\View;
 use App\Models\QualityBench;
+use App\Models\ProjectPartner;
 
 class ExportQB implements FromView
 {
@@ -49,6 +50,10 @@ class ExportQB implements FromView
         }
         if(auth()->user()->hasRole("IP's")){
             $qb->where('created_by',auth()->user()->id);
+        }
+        if (auth()->user()->hasRole("partner")) {
+            $project = ProjectPartner::where('email',auth()->user()->email)->first();
+            $qb->where('project_name', $project->project_id);
         }
         $qb->with('user','user1','districts','districts',
                     'tehsils','uc','project')->latest();

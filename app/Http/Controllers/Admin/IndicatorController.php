@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SCITheme;
+use App\Models\Project;
 use App\Models\SCISubTheme;
 
 
@@ -18,9 +19,10 @@ class IndicatorController extends Controller
 
     public function create()
     {
-        $themes = SCITheme::orderBy('name')->get();
+        $themes = SCITheme::orderBy('name')->select('id','name')->get();
+        $projects = Project::where('active',1)->orderBy('name')->select('id','name')->get();
         addJavascriptFile('assets/js/custom/indicators/create.js');
-        return view('admin.indicators.create',compact('themes'));
+        return view('admin.indicators.create',compact('themes','projects'));
     }
 
     public function store(Request $request)
