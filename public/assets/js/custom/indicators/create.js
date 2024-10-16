@@ -1,4 +1,37 @@
+document.addEventListener("DOMContentLoaded", function() {
+    const actualPeriodicitySelect = document.getElementById("actualPeriodicity");
+    const annualTargetField = document.getElementById("annualTargetField");
+    const quarterlyTargetField = document.getElementById("quarterlyTargetField");
+    const monthlyTargetField = document.getElementById("monthlyTargetField");
+
+    function updateTargetFields() {
+        const selectedValue = actualPeriodicitySelect.value;
+
+        // Hide all target fields by default
+        annualTargetField.style.display = "none";
+        quarterlyTargetField.style.display = "none";
+        monthlyTargetField.style.display = "none";
+
+        // Show the appropriate target field based on selection
+        if (selectedValue === "Annually") {
+            annualTargetField.style.display = "block";
+        } else if (selectedValue === "Quarterly") {
+            quarterlyTargetField.style.display = "block";
+        } else if (selectedValue === "Monthly") {
+            monthlyTargetField.style.display = "block";
+        }
+    }
+
+    // Run on page load and when the selection changes
+    actualPeriodicitySelect.addEventListener("change", updateTargetFields);
+});
+
+$('#projectId, .select2').select2({
+    allowClear: true
+});
+
 // Form Validation
+var csrfToken = $('meta[name="csrf-token"]').attr('content');
 var KTdipValidate = function () {
     // Elements
     var form;
@@ -15,13 +48,6 @@ var KTdipValidate = function () {
                         validators: {
                             notEmpty: {
                                 message: 'Project is required'
-                            }
-                        }
-                    },
-                    'theme': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Theme is required'
                             }
                         }
                     },
@@ -190,42 +216,39 @@ var KTdipValidate = function () {
             e.preventDefault();
             validator.validate().then(function (status) {
                 if (status == 'Valid') {
-                    // Show loading indication
                     submitButton.setAttribute('data-kt-indicator', 'on');
-
-                    // Disable button to avoid multiple click
                     submitButton.disabled = true;
-
-                    // Use axios to submit the form
+        
                     axios.post(submitButton.closest('form').getAttribute('action'), new FormData(form))
                         .then(function (response) {
-                            if (response) {
-                                if (response.data.error) {
-                                    form.reset();
-                                    toastr.error("Project already exists", "Error");
-                                } else {
-                                    form.reset();
-                                    toastr.success("Project Created", "Success");
-                                    window.location.assign(response.data.editUrl);
-                                }
+                            if (response.data.status === 'success') {
+                                toastr.success("Indicator Created", "Success");
+        
+                                // Redirect to the index page or any other page
+                                window.location.href = submitButton.getAttribute('data-kt-redirect-url'); //he actual URL where you want to redirect the user
                             } else {
                                 toastr.error("Something went wrong", "Error");
                             }
                         })
                         .catch(function (error) {
-                            toastr.error("Something went wrong", "Error");
+                            toastr.error("Validation failed", "Error");
+                            if (error.response.status === 422) {
+                                // Show field errors
+                                Object.keys(error.response.data.errors).forEach(function (field) {
+                                    handleValidationFailure(field, validator);
+                                });
+                            }
                         })
                         .then(() => {
-                            // Hide loading indication
                             submitButton.removeAttribute('data-kt-indicator');
-                            // Enable button
                             submitButton.disabled = false;
                         });
                 } else {
-                    toastr.error("Please fix the errors in the form", "Error");
+                    toastr.error("Please address the highlighted errors ", "Error");
                 }
             });
         });
+        
     }
 
     // Public functions
@@ -244,6 +267,48 @@ var KTdipValidate = function () {
 KTUtil.onDOMContentLoaded(function () {
     KTdipValidate.init();
 });
+
+
+//Get theme 
+$('#projectId').on('change', function () {
+    var project = $(this).val(); // Get selected project ID
+    var themeSelect = $('#themeSelect');
+    var subthemeSelect = $('#subthemeSelect');
+  
+    // Clear previous theme options
+    themeSelect.empty().append('<option value="">Select theme</option>');
+    subthemeSelect.empty().append('<option value="">Select Subtheme</option>');
+    // Add CSRF token for Laravel's protection if required
+    
+
+    $.ajax({
+        url: '/getprojecttheme', // Adjust URL to your actual route
+        method: 'POST', // Use 'POST' for sending data
+        data: {
+            project_id: project // Send selected project to the server
+        },
+        headers: {
+            'X-CSRF-TOKEN': csrfToken // Add CSRF token for Laravel security
+        },
+        success: function (response) {
+            console.log(response.themes);
+            if (response.themes && response.themes.length > 0) {
+                $.each(response.themes, function (index, theme) {
+                    themeSelect.append('<option value="' + theme.id + '">' + theme.name + '</option>');
+                });
+            } else {
+                themeSelect.append('<option value="">No theme available</option>');
+            }
+            // Re-initialize select2 to refresh the dropdown
+            themeSelect.select2();
+        },
+        error: function (xhr, status, error) {
+            console.error(error);
+            toastr.error("Error fetching themes", "Error");
+        }
+    });
+});
+
 
 //Get Sub theme 
 $('#themeSelect').on('change', function () {

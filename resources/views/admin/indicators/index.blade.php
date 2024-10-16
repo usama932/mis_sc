@@ -25,18 +25,20 @@
             </div>
             <div class="card-body pt-3">
                 <div class="table-responsive overflow-*">
-                    <table class="table table-striped table-bordered nowrap" id="projects" style="width:100%">
+                    <table class="table table-striped table-bordered nowrap" id="indicators" style="width:100%">
                         <thead>
                             <tr>
                                 <th>Project</th>
-                                <th>Type</th>
-                                <th>SOF</th>
-                                <th>Donor</th>
-                                <th class="fs-8">Operational FP</th>
-                                <th class="fs-8">Budget Holder FP</th>
-                                <th class="fs-8">Awards FP</th>
-                                <th>Start Date</th>
-                                <th>End Date</th>
+                                <th>Theme</th>
+                                <th>Log Frame</th>
+                                <th>Indicator Name</th>
+                                <th class="fs-8">Indicator Type</th>
+                                <th class="fs-8">Unit of Measure</th>
+                                <th class="fs-8">Actual Periodicity</th>
+                                <th>Nature</th>
+                                <th>Data Format</th>
+                                <th>Dis-segragation</th>
+                                <th>Baseline</th>
                                 <th>Created By</th>
                                 <th>Created At</th>
                                 <th>Actions</th>

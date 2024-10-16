@@ -128,7 +128,7 @@
             </div>
             @endcan
             @can('read feedback registry')
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->segment(1) == 'frm-managements' ||  request()->routeIs('frm-export')) ? 'here show' : ''}}">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->segment(1) == 'frm-managements' || request()->segment(1) == "get-brieffrms" ||  request()->routeIs('frm-export')) ? 'here show' : ''}}">
                     <!--begin:Menu link-->
                     <span class="menu-link">
                         <span class="menu-icon">{!! getIcon('abstract-1', 'fs-2') !!}</span>
@@ -162,14 +162,14 @@
                                 <!--end:Menu link-->
                             </div>
                         @endcan
-                        @can('read feedback brief')
+                        @can('Frm Tag')
                             <div class="menu-item">
                                 <!--begin:Menu link-->
                                 <a class="menu-link {{ request()->routeIs('admin.getBreifFrms') ? 'active' : '' }}" href="{{ route('admin.getBreifFrms') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">List FRM</span>
+                                    <span class="menu-title">List of Complaints</span>
                                 </a>
                                 <!--end:Menu link-->
                             </div>

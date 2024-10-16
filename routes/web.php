@@ -51,7 +51,7 @@ use Illuminate\Support\Facades\Route;
         //FRM Routes
         Route::resource('/frm-managements', FRMController::class);
         Route::post('get-frms', [FRMController::class,'getFrms'])->name('admin.getFrms');
-        Route::post('get-brieffrms', [FRMController::class,'getBreifFrms'])->name('admin.getBreifFrms');
+        Route::get('get-brieffrms', [FRMController::class,'getBreifFrms'])->name('admin.getBreifFrms');
         Route::post('get-frm', [FRMController::class,'FrmDetail'])->name('admin.getFrm');
         Route::get('frm/create_update/{id}', [FRMController::class,'getUpdate_response'])->name('frm-update-response');
         Route::post('frm/response_update/{id}', [FRMController::class,'postUpdate_response'])->name('frm-response.update');
@@ -223,7 +223,9 @@ use Illuminate\Support\Facades\Route;
 
         //Indicator Routes
         Route::resource('/indicators', IndicatorController::class);
+        Route::post('/get-indicators', [IndicatorController::class, 'getIndicators']);
         Route::get('/get-subthemes', [IndicatorController::class, 'getSubthemes']);
+        Route::get('/indicator/delete/{id}', [DipController::class,'destroy'])->name('indicators.delete');
     });
 
     Route::get('/error', function () {

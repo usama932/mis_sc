@@ -17,6 +17,8 @@ use App\Repositories\LearninglogRepository;
 use App\Repositories\DipRepository;
 use App\Repositories\DipActivityRepository;
 use App\Repositories\ProjectRepository;
+use App\Repositories\Interfaces\IndicatorInterface;
+use App\Repositories\IndicatorRepository;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -34,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(DipRepositoryInterface::class, DipRepository::class);
         $this->app->bind(DipActivityInterface::class, DipActivityRepository::class);
         $this->app->bind(ProjectRepositoryInterface::class, ProjectRepository::class);
+        $this->app->bind(IndicatorInterface::class, IndicatorRepository::class);
     }
 
     /**

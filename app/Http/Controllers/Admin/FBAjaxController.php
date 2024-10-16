@@ -187,13 +187,13 @@ class FBAjaxController extends Controller
         return response()->json($categories);
     }
     public function getprojecttheme(Request $request){
-      
+    
         $projectThemes = ProjectTheme::where('project_id', $request->project_id)->pluck('theme_id');
         
         $themes = SciTheme::whereIn('id', $projectThemes)->get();
         $partnerThemes = ProjectTheme::where('project_id', $request->project_id)->with('scisubtheme_name','scitheme_name')->get();
        
-        return response()->json(['themes'=>$themes,'quarters','partnerThemes'=>$partnerThemes]);
+        return response()->json(['themes'=>$themes,'partnerThemes'=>$partnerThemes]);
     }
 
     public function getEmailRecommendations(Request $request){

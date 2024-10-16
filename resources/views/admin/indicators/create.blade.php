@@ -8,13 +8,11 @@
                 @csrf
                 <div class="card-body py-4">
                     <div class="row">
-                        <!-- Log Frame Level -->
-
                         <div class="fv-row col-md-3">
                             <label class="fs-6 fw-semibold form-label">
                                 <span class="required">Project</span>
                             </label>
-                            <select name="project" class="form-select  " data-control="select2" data-placeholder="Select Project"  data-allow-clear="true">
+                            <select name="project" id="projectId" class="form-select  " data-control="select2" data-placeholder="Select Project"  data-allow-clear="true">
                                 <option value="">Select Project</option>
                                 @foreach ($projects as $project)
                                     <option value="{{ $project->id }}">{{ $project->name }}</option>
@@ -73,9 +71,9 @@
                             <label class="fs-6 fw-semibold form-label">Theme</label>
                             <select name="theme[]" id="themeSelect" multiple class="form-select   select2" data-control="select2" data-placeholder="Select Theme"  data-allow-clear="true">
                                 <option value="">Select Theme</option>
-                                @foreach($themes as $theme)
+                                {{-- @foreach($themes as $theme)
                                     <option value="{{ $theme->id}}">{{ $theme->name }}</option>
-                                @endforeach
+                                @endforeach --}}
                             </select>
                             <div id="themeError" class="invalid-feedback"></div>
                         </div>
@@ -204,35 +202,4 @@
             </form>
         </div>
     </div>
-@push('scripts')
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const actualPeriodicitySelect = document.getElementById("actualPeriodicity");
-        const annualTargetField = document.getElementById("annualTargetField");
-        const quarterlyTargetField = document.getElementById("quarterlyTargetField");
-        const monthlyTargetField = document.getElementById("monthlyTargetField");
-
-        function updateTargetFields() {
-            const selectedValue = actualPeriodicitySelect.value;
-
-            // Hide all target fields by default
-            annualTargetField.style.display = "none";
-            quarterlyTargetField.style.display = "none";
-            monthlyTargetField.style.display = "none";
-
-            // Show the appropriate target field based on selection
-            if (selectedValue === "Annually") {
-                annualTargetField.style.display = "block";
-            } else if (selectedValue === "Quarterly") {
-                quarterlyTargetField.style.display = "block";
-            } else if (selectedValue === "Monthly") {
-                monthlyTargetField.style.display = "block";
-            }
-        }
-
-        // Run on page load and when the selection changes
-        actualPeriodicitySelect.addEventListener("change", updateTargetFields);
-    });
-</script>
-@endpush
 </x-nform-layout>
