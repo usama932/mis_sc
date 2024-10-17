@@ -142,7 +142,7 @@ $("#projects").DataTable({
             title: 'Thematic Area Data Export',
             className: 'badge badge-success my-2',
             exportOptions: {
-                columns: [0, 1, 2, 3, 4, 5,6,7,8,9,10,11]
+                columns: [0, 1, 2, 3, 4, 5,6,7]
             }
         },
         {
@@ -152,7 +152,7 @@ $("#projects").DataTable({
             title: 'Thematic Area Data',
             className: 'badge badge-success my-2',
             exportOptions: {
-                columns: [0, 1, 2, 3, 4, 5]
+                columns: [0, 1, 2, 3, 4, 5,6,7]
             }
         }
     ],
