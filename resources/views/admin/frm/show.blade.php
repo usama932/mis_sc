@@ -24,12 +24,12 @@
     </div>
 
     @can('frm tag')
-    <!-- Add Tag Button -->
-    <div class="d-flex justify-content-end">
-        <button type="button" class="badge badge-primary m-2" data-toggle="modal" data-target="#addTagModal">
-            <i class="fa fa-plus"></i> Add Tag
-        </button>
-    </div>
+        <!-- Add Tag Button -->
+        <div class="d-flex justify-content-end">
+            <button type="button" class="badge badge-primary m-2" data-toggle="modal" data-target="#addTagModal">
+                <i class="fa fa-plus"></i> Add Tag
+            </button>
+        </div>
     @endcan
 
     <!-- Main Information Card -->
@@ -39,7 +39,7 @@
             <!-- Left Column: Information Receiver (Larger Column) -->
             <div class="col-md-6 mb-4">
                 <div class="p-3" style="background-color: #f1416c; color: white;">
-                    <h5 class="text-white font-weight-bold mb-3"><i class="fa fa-info-circle"></i> Information Receiver</h5>
+                    <h5 class="text-white font-weight-bold mb-3"><i class="fa fa-info-circle text-white "></i> Information Receiver</h5>
                 </div>
                 <div class="p-3 border rounded">
                     <table class="table table-borderless">
@@ -56,7 +56,7 @@
             <!-- Left Column: Feedback Referral -->
             <div class="col-md-6 mb-4">
                 <div class="p-3" style="background-color: #f1416c; color: white;">
-                    <h5 class="text-white font-weight-bold mb-3"><i class="fa fa-share"></i> Feedback Referral Details</h5>
+                    <h5 class="text-white font-weight-bold mb-3"><i class="fa fa-share text-white" ></i> Feedback Referral Details</h5>
                 </div>
                 <div class="p-3 border rounded">
                     <table class="table table-borderless">
@@ -73,7 +73,7 @@
                 <!-- Right Column: Client Details (Smaller Column) -->
                 <div class="col-md-6 mb-4">
                     <div class="p-3" style="background-color: #f1416c; color: white;">
-                        <h5 class="text-white font-weight-bold mb-3"><i class="fa fa-user"></i> Client Details</h5>
+                        <h5 class="text-white font-weight-bold mb-3"><i class="fa fa-user text-white"></i> Client Details</h5>
                     </div>
                     <div class="p-3 border rounded">
                         <table class="table table-borderless">
@@ -95,7 +95,7 @@
 
                 <div class="col-md-6 mb-4">
                     <div class="p-3" style="background-color: #f1416c; color: white;">
-                        <h5 class="text-white font-weight-bold mb-3"><i class="fa fa-user"></i> FRM Responses</h5>
+                        <h5 class="text-white font-weight-bold mb-3"><i class="fa fa-user text-white"></i> FRM Responses</h5>
                     </div>
                     @if($responses->count() > 0)
                         <div class="px-3">
@@ -130,7 +130,7 @@
             <!-- Right Column: Feedback Details -->
             <div class="col-md-6 mb-4">
                 <div class="p-3" style="background-color: #f1416c; color: white;">
-                    <h5 class="text-white font-weight-bold mb-3"><i class="fa fa-clipboard"></i> Feedback Details</h5>
+                    <h5 class="text-white font-weight-bold mb-3"><i class="fa fa-clipboard text-white"></i> Feedback Details</h5>
                 </div>
                 <div class="p-3 border rounded">
                     <table class="table table-borderless">
@@ -146,7 +146,7 @@
 
             <div class="col-md-6 mb-4">
                 <div class="p-3" style="background-color: #f1416c; color: white;">
-                    <h5 class="text-white font-weight-bold mb-3"><i class="fa fa-share"></i> Record Details</h5>
+                    <h5 class="text-white font-weight-bold mb-3"><i class="fa fa-file text-white"></i> Record Details</h5>
                 </div>
                 <div class="p-3 border rounded">
                     <table class="table table-borderless">

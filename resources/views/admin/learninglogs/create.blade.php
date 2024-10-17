@@ -15,7 +15,7 @@
    
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div class="card">
-            <form action="{{route('learning-logs.store')}}" method="post" id="learninglog" method="post" enctype="multipart/form-data">
+            <form action="{{route('learning-logs.store')}}" method="post"  data-kt-redirect-url="{{ url('learning-logs')}}" id="learninglog" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body py-4">
                     <div class="row">

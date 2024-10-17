@@ -185,15 +185,37 @@ class LearningLogController extends Controller
         $district_logs = json_decode($log->district , true);
         $province_logs = json_decode($log->province , true);
        
-        $themes = Theme::whereIn('id', $theme_logs)->latest()->get();
-        $districts = District::whereIn('district_id', $district_logs)->get();
+        $themes = Theme::whereIn('id', $theme_logs ?? [])->latest()->get();
+        $districts = District::whereIn('district_id', $district_logs ?? [])->get();
        
-        $provinces = Province::whereIn('province_id', $province_logs)->get();
+        $provinces = Province::whereIn('province_id', $province_logs ?? [])->get();
         
         $projects = Project::latest()->get(); 
         addJavascriptFile('assets/js/custom/learninglog/createvalidations.js');
         return view('admin.learninglogs.edit',compact('log','projects','themes','theme_logs','districts','provinces'));
     }
+   
+    public function update(Request $request, string $id)
+    {
+        
+        $data = $request->except('_token');
+        $Qb = $this->logRepository->updatelearninglog($data, $id);
+        $editUrl = route('learning-logs.index');
+        
+        return redirect()->route('learning-logs.index');
+    }
+
+    public function destroy(string $id)
+    {
+        
+        $logs = LearningLog::find($id);
+	    if(!empty($logs)){
+            $logs->delete();
+	    }
+      
+	    return redirect()->back();
+    }
+
     public function downloadFile($id)
     {
         $log = LearningLog::find($id);
@@ -206,28 +228,4 @@ class LearningLogController extends Controller
         return response()->download($path);
     }
 
-    public function update(Request $request, string $id)
-    {
-        
-        $data = $request->except('_token');
-        $Qb = $this->logRepository->updatelearninglog($data, $id);
-        $editUrl = route('learning-logs.index');
-     
-        return response()->json([
-            'editUrl' => $editUrl
-        ]);
-    }
-
-    public function destroy(string $id)
-    {
-        
-        $logs = LearningLog::find($id);
-	    if(!empty($logs)){
-            $logs->delete();
-		   
-		   
-	    }
-      
-	    return redirect()->back();
-    }
 }

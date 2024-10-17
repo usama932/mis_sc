@@ -124,6 +124,7 @@ use Illuminate\Support\Facades\Route;
 
         //Learning Log Routes
         Route::resource('/learning-logs', LearningLogController::class);
+        Route::get('/learninglogs/list', [LearningLogController::class, 'index'])->name('learning-logs.list');
         Route::post('get_learninglogs', [LearningLogController::class,'get_learninglogs'])->name('admin.get_learninglogs');
         Route::post('view_learninglog', [LearningLogController::class,'view_learninglog'])->name('admin.view_learninglog');
         Route::get('/learninglog/delete/{id}', [LearningLogController::class,'destroy'])->name('learninglog.delete');

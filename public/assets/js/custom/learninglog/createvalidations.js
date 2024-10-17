@@ -199,29 +199,41 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     submitButton.addEventListener('click', function (e) {
-        e.preventDefault();
-        validator.validate().then(function (status) {
-            if (status === 'Valid') {
-                submitButton.setAttribute('data-kt-indicator', 'on');
-                submitButton.disabled = true;
-
+        e.preventDefault();  // Prevent default form submission
+    
+        validator.validate().then(function (status) {  // Validate the form
+            if (status === 'Valid') {  // If form is valid
+                submitButton.setAttribute('data-kt-indicator', 'on');  // Show loading indicator
+                submitButton.disabled = true;  // Disable button to prevent multiple submissions
+    
+                // Make the form submission using Axios
                 axios.post(form.getAttribute('action'), new FormData(form))
                     .then(function (response) {
-                        toastr.success('Form submitted successfully!');
-                        form.reset();
-                        submitButton.removeAttribute('data-kt-indicator');
-                        submitButton.disabled = false;
+                        console.log(response.data.editUrl);
+                        toastr.success('Form submitted successfully!');  // Show success message
+                        form.reset();  // Reset the form
+                        const redirectUrl = response.data.editUrl;
+
+                        if (redirectUrl) {
+                            location.href = redirectUrl;
+                        }
                     })
                     .catch(function (error) {
+                        // Error handling: Log the error and show error notification
+                        console.error('Form submission error:', error);
                         toastr.error('An error occurred while submitting the form.');
+                    })
+                    .finally(function () {
+                        // Always remove the indicator and re-enable the button
                         submitButton.removeAttribute('data-kt-indicator');
                         submitButton.disabled = false;
                     });
             } else {
-                toastr.error('Please fill in the required fields.');
+                toastr.error('Please fill in the required fields.');  // Show error if form validation fails
             }
         });
     });
+    
 
     cliCheckbox.addEventListener('change', toggleFields);
 
