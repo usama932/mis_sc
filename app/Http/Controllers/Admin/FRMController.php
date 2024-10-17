@@ -13,6 +13,7 @@ use App\Exports\FrmExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\FeedbackChannel;
 use App\Models\FeedbackCategory;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Project;
 use App\Models\Theme;
 use App\Models\User;
@@ -446,22 +447,42 @@ class FRMController extends Controller
     
     public function add_frmTag(Request $request){
         
-        $frm = FrmTag::where('frm_id',$request->frm_id)->first();
-        if(empty($frm)){
-            $frm = FrmTag::create([
+        $frmTag = FrmTag::where('frm_id',$request->frm_id)->first();
+        $frm = FRM::where('id',$request->frm_id)->first();
+        if(empty($frmTag)){
+            $frmTag = FrmTag::create([
                 'tagged_by' => auth()->user()->id,
                 'tagged'    => json_encode($request->tags),
                 'frm_id'    => $request->frm_id,
             ]);
         }
         else{
-            $frm = FrmTag::where('frm_id',$request->frm_id)->update([
+            $frmTag = FrmTag::where('frm_id',$request->frm_id)->update([
                 'tagged_by' => auth()->user()->id,
                 'tagged'    => json_encode($request->tags),
                 'frm_id'    => $request->frm_id,
             ]);
         }
         
+        $email = $frm->user->email;
+        $mealManagemail = User::where('province',$frm->province)->where('designation',5)->first();
+        $bccEmails = [ 'usama.qayyum@savethechildren.org','irfan.majeed@savethechildren.org','walid.malik@savethechildren.org',$mealManagemail->email];
+        $details = [
+            'feedback_description'  => $frm->feedback_description,
+            'feedback_category'     =>  $frm->category?->name.'-'.$frm->category?->description,
+            'date_received'         => $frm->date_received,
+            'response_id'           => $frm->response_id,
+            'feedback_activity'     => $frm->feedback_activity,
+            'village'               => $frm->village,
+            'id'                    => $frm->id,
+            'tag_by'                => $frm->tagged_by?->user?->desig?->designation_name ?? '',
+            'tags'                  => $frmTag->tagged,
+        ];
+        $subject = "[FRM-Tag] ". $frm->feedback_activity ." in ". $frm->village ;
+        Mail::to($email)
+        ->cc($bccEmails)
+        ->send(new \App\Mail\frmTagEmail($details,$subject));
+
         return redirect()->back();
     }
 

@@ -202,10 +202,45 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save Tag</button>
+                        <button type="submit" id="submit-btn" class="btn btn-primary">Save Tag</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+@push('scripts')
+<script>
+$(document).ready(function() {
+    $('#add-tag').on('submit', function(e) {
+        e.preventDefault(); // Prevent the form from submitting via the traditional way
+
+        // Disable the submit button and show submitting text
+        var submitBtn = $('#submit-btn');
+        submitBtn.prop('disabled', true).text('Submitting...');
+
+        // Perform AJAX request
+        $.ajax({
+            url: $(this).attr('action'), // Form action URL
+            type: $(this).attr('method'), // Form method (POST)
+            data: $(this).serialize(), // Serialize form data
+            success: function(response) {
+                // Show success message or handle response
+               
+
+                $('#addTagModal').modal('hide');
+                location.reload();
+               
+            },
+            error: function(xhr) {
+                // Show error message
+                alert('Something went wrong, please try again.');
+
+                // Re-enable the submit button and reset the text
+                submitBtn.prop('disabled', false).text('Save Tag');
+            }
+        });
+    });
+});
+</script>
+@endpush
 </x-nform-layout>
