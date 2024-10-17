@@ -15,4 +15,9 @@ class FrmTag extends Model
     {
         return $this->belongsTo(FRM::class,'frm_id','id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,'tagged_by','id');
+    }
 }

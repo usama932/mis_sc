@@ -56,6 +56,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Frm::class,'created_by','id');
     }
+    public function frmtag()
+    {
+        return $this->hasMany(Frm::class,'created_by','id');
+    }
     public function project_theme()
     {
         return $this->hasMany(ProjectTheme::class,'created_by','id');

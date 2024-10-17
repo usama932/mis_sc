@@ -50,11 +50,11 @@
                             <th class="fs-9">Budget Holder</th>
                             <th class="fs-9">Tenure</th>
                             <th class="fs-9">DIP</th>
-                            <th class="fs-9 bg-primary">Total Activities</th>
+                            {{-- <th class="fs-9 bg-primary">Total Activities</th>
                             <th class="fs-9 bg-info">Total Targets</th>
-                            <th class="fs-9 bg-success">Complete Targets</th>
+                            <th class="fs-9 bg-success">Complete Targets</th> --}}
                             <th class="fs-9 bg-danger">Overdue Targets</th>
-                            <th class="fs-9 bg-warning">Pending Targets</th>
+                            {{-- <th class="fs-9 bg-warning">Pending Targets</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -73,11 +73,11 @@
                                 <td class="fs-9">{{ $budgetholder }}</td>
                                 <td class="fs-9">{{ date('M d,Y', strtotime($project->start_date))}} - {{date('M d,Y', strtotime($project->end_date));}}</td>
                                 <td class="fs-9">@if($project->activities->count() > 0) <span class="badge badge-success">Yes</span> @else <span class="badge badge-danger">No</span> @endif</td>
-                                <td class="fs-9 text-primary fw-bolder">{{ $project->total_activities_count }}</td>
+                                {{-- <td class="fs-9 text-primary fw-bolder">{{ $project->total_activities_count }}</td>
                                 <td class="fs-9 text-info fw-bolder">{{ $project->total_activities_target_count }}</td>
-                                <td class="fs-9 text-success fw-bolder">{{ $project->complete_activities_count }}</td>
-                                <td class="fs-9 text-danger fw-bolder">{{ $project->overdue_count }}</td>
-                                <td class="fs-9 text-warning fw-bolder">{{ $project->pending_count }}</td>
+                                <td class="fs-9 text-success fw-bolder">{{ $project->complete_activities_count }}</td> --}}
+                                <td class="fs-9 text-danger fw-bolder">{{ $project->overdue_count }} @if($project->pending_count > 0 ) In-Progress @endif</td>
+                                {{-- <td class="fs-9 text-warning fw-bolder">{{ $project->pending_count }}</td> --}}
                             </tr>
                         @endforeach
                     </tbody>

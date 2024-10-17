@@ -37,6 +37,7 @@ use Illuminate\Support\Facades\Route;
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::name('dashboards.')->group(function () {
+            Route::get('output-tracker', [DashboardController::class,'output_tracker_dashboard'])->name('output_tracker_dashboard');
             Route::get('frm_dashboard', [DashboardController::class,'frm_dashboard'])->name('frm_dashboard');
             Route::get('qb_dashboard', [DashboardController::class,'qb_dashboard'])->name('qb_dashboard');
             Route::get('medical_exit_interview', [DashboardController::class,'medical_exit_interview'])->name('medical_exit_interview');

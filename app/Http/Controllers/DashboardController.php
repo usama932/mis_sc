@@ -55,6 +55,10 @@ class DashboardController extends Controller
        
         return view('pages.dashboards.frm_dashboard');
     }
+    public function output_tracker_dashboard(){
+
+        return view('pages.dashboards.output_tracker_dashboard');
+    }
     public function qb_dashboard()
     {
        

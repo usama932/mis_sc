@@ -69,7 +69,7 @@
 				</div>
 			</div>
             @can('dashboards')
-            <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->segment(1) == 'dashboard' || request()->segment(1) == 'qb_dashboard' || request()->segment(1) == 'frm_dashboard' || request()->segment(1) == 'medical_exit_interview') ? 'here show' : '' }}">
+            <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->segment(1) == 'dashboard' || request()->segment(1) == 'qb_dashboard' || request()->segment(1) == 'frm_dashboard' || request()->segment(1) == "output-tracker" ||  request()->segment(1) == 'medical_exit_interview') ? 'here show' : '' }}">
                 <!--begin:Menu link-->
                 <span class="menu-link">
                     <span class="svg-icon svg-icon-primary svg-icon-1x mx-2"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Media/Equalizer.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -88,6 +88,26 @@
                 <!--begin:Menu sub-->
                 <div class="menu-sub menu-sub-accordion">
                     <!--begin:Menu item-->
+                    <div class="menu-item">
+                        <!--begin:Menu link-->
+                        <a class="menu-link {{ (request()->segment(1) == 'dashboard') ? 'active' : '' }}" href="{{route('dashboard')}}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">MIS Dashboard</span>
+                        </a>
+                        <!--end:Menu link-->
+                    </div>
+                    <div class="menu-item">
+                        <!--begin:Menu link-->
+                        <a class="menu-link {{ (request()->segment(1) == 'output-tracker') ? 'active' : '' }}" href="{{route('dashboards.output_tracker_dashboard')}}">
+                            <span class="menu-bullet">
+                                <span class="bullet bullet-dot"></span>
+                            </span>
+                            <span class="menu-title">Output Tracker Dashboard</span>
+                        </a>
+                        <!--end:Menu link-->
+                    </div>
                     <div class="menu-item">
                         <!--begin:Menu link-->
                         <a class="menu-link {{ (request()->segment(1) == 'frm_dashboard') ? 'active' : '' }}" href="{{route('dashboards.frm_dashboard')}}">
@@ -127,7 +147,7 @@
                 <!--end:Menu sub-->
             </div>
             @endcan
-            @can('read feedback registry')
+            @can('frm')
                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->segment(1) == 'frm-managements' || request()->segment(1) == "get-brieffrms" ||  request()->routeIs('frm-export')) ? 'here show' : ''}}">
                     <!--begin:Menu link-->
                     <span class="menu-link">
@@ -162,7 +182,7 @@
                                 <!--end:Menu link-->
                             </div>
                         @endcan
-                        @can('Frm Tag')
+                        @can('frm tag')
                             <div class="menu-item">
                                 <!--begin:Menu link-->
                                 <a class="menu-link {{ request()->routeIs('admin.getBreifFrms') ? 'active' : '' }}" href="{{ route('admin.getBreifFrms') }}">
