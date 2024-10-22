@@ -6,14 +6,20 @@ class IndicatorRepository implements IndicatorInterface
 {
     public function createIndicator(array $data)
     {
-        
+        if(!empty($data['is_total_reach_indicator']) && $data['is_total_reach_indicator'] == 'Yes'){
+            $is_total_reach_indicator = 1;
+        }
+        else{
+          
+            $is_total_reach_indicator = 0;
+        }
         $indicator = Indicator::create([
             'project_id'                    => $data['project'],
             'log_frame_level'               => $data['log_frame_level'],
             'log_frame_result_statement'    => $data['log_frame_result_statement'],
             'indicator_name'                => $data['indicator_name'],
             'indicator_context_type'        => $data['indicator_context_type'],
-            'is_total_reach_indicator'      => $data['is_total_reach_indicator'],
+            'is_total_reach_indicator'      => $is_total_reach_indicator,
             'unit_of_measure'               => $data['unit_of_measure'],
             'actual_periodicity'            => $data['actual_periodicity'],
             'nature'                        => $data['nature'],

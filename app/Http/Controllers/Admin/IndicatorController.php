@@ -26,13 +26,14 @@ class IndicatorController extends Controller
         return view('admin.indicators.index');
     }
 
-    public function getIndicators(Request $request){
-        $query = Indicator::latest();
-       
-    
-        // Apply filters
+    public function getIndicators(Request $request)
+    {
+        // Initialize the query
+        $query = Indicator::with(['project', 'user'])->latest();
+
+        // Apply filters if present
         if ($request->filled('project')) {
-            $query->where('project_id', $request->project); // Assuming project_id is in the indicators table
+            $query->where('project_id', $request->project);
         }
         if ($request->filled('type')) {
             $query->where('type', $request->type);
@@ -41,19 +42,19 @@ class IndicatorController extends Controller
             $query->where('active', $request->status);
         }
     
-        // Get the filtered count
-        $totalFiltered = $query->count();
+        // Get the filtered and total count
         $totalData = $query->count();
-        // Get the paginated data
-        $indicators = $query->get();
+        $totalFiltered = $totalData; // Since the query is already filtered
     
+      
+        $indicators = $query->get();
+      
         // Prepare data for DataTables
-        $data = [];
-        foreach ($indicators as $indicator) {
-            $nestedData = [
+        $data = $indicators->map(function ($indicator) {
+            return [
                 'id' => $indicator->id,
-                'project' => $indicator->project->name ?? '', // Assuming there is a relationship
-                'theme' => $indicator->theme ?? '',
+                'project' => $indicator->project->name ?? '', // Assuming relationship
+               // 'theme' => $indicator->theme ?? '',
                 'log_frame' => $indicator->log_frame_level ?? '',
                 'indicator_name' => $indicator->indicator_name ?? '',
                 'indicator_type' => $indicator->indicator_context_type ?? '',
@@ -64,24 +65,23 @@ class IndicatorController extends Controller
                 'dis_segragation' => $indicator->disaggregation ?? '',
                 'baseline' => $indicator->baseline ?? '',
                 'created_by' => $indicator->user->name ?? '',
-                'created_at' => ($indicator->created_at) ? date('M d, Y', strtotime($indicator->created_at)) : '',
-                'action' => '', // Add your action buttons here if needed
+                'created_at' => $indicator->created_at ? $indicator->created_at->format('M d, Y') : '',
+                'action' => '', // Add action buttons if necessary
                 'edit_url' => route('indicators.edit', $indicator->id),
                 'show_url' => route('indicators.show', $indicator->id),
                 'delete_url' => route('indicators.delete', $indicator->id),
             ];
-            $data[] = $nestedData;
-        }
+        });
     
         // Return JSON response for DataTables
         return response()->json([
             "draw" => intval($request->input('draw')),
             "recordsTotal" => intval($totalData),
             "recordsFiltered" => intval($totalFiltered),
-            "data" => $data,
+            "data" => $data->toArray(),
         ]);
-    
     }
+    
     public function create()
     {
         $themes = SCITheme::orderBy('name')->select('id','name')->get();
@@ -117,7 +117,11 @@ class IndicatorController extends Controller
 
     public function edit(string $id)
     {
-        //
+        $indicator = Indicator::find($id);
+        $themes = SCITheme::orderBy('name')->select('id','name')->get();
+        $projects = Project::where('active',1)->whereHas('detail')->orderBy('name')->select('id','name')->get();
+        addJavascriptFile('assets/js/custom/indicators/create.js');
+        return view('admin.indicators.edit',compact('themes','projects','indicator'));
     }
 
     public function update(Request $request, string $id)

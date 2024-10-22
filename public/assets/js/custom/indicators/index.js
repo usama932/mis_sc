@@ -14,7 +14,7 @@ $(document).ready(function () {
         },
         columns: [
             { data: 'project', name: 'project.name' },
-            { data: 'theme', name: 'theme' },
+           // { data: 'theme', name: 'theme' },
             { data: 'log_frame', name: 'log_frame' },
             { data: 'indicator_name', name: 'indicator_name' },
             { data: 'indicator_type', name: 'indicator_type' },

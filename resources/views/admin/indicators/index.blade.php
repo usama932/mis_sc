@@ -29,7 +29,7 @@
                         <thead>
                             <tr>
                                 <th>Project</th>
-                                <th>Theme</th>
+                                {{-- //<th>Theme</th> --}}
                                 <th>Log Frame</th>
                                 <th>Indicator Name</th>
                                 <th class="fs-8">Indicator Type</th>

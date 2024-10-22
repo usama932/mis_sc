@@ -147,8 +147,7 @@ class ProjectPartnerController extends Controller
     {
       
         //$project_partner = ProjectPartner::where('project_id' ,$request->project)->where('partner_id' ,$request->partner)->first();
-       
-    
+
         $data = $request->except('_token');
         $projectpartner = $this->projectRepository->storeprojectpartner($data);
         if($projectpartner == 1){
