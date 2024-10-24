@@ -22,7 +22,6 @@ class ProjectRepository implements ProjectRepositoryInterface
 {
     public function storeproject($data)
     {
-       
         $project =  Project::create([
             'name'                  => $data['name'],
             'type'                  => $data['type'],
@@ -153,7 +152,8 @@ class ProjectRepository implements ProjectRepositoryInterface
                 // Check if user exists by email
                 $user = User::where('email', $row['email'])->first();
         
-                if (empty($user)) {
+                if (empty($user)) 
+                {
                     // Create a new user
                     $user = User::create([
                         'email' =>  $row['email'],
@@ -219,6 +219,41 @@ class ProjectRepository implements ProjectRepositoryInterface
                         Mail::to($user->email)  // Correct email variable
                             ->bcc($bccEmails)
                             ->send(new \App\Mail\partnerMail($details, $subject));
+                    }
+        
+                    // Commit transaction if successful
+                    DB::commit();
+                    return 1;
+                }
+                else{
+                    $projectPartner = ProjectPartner::create([
+                        'partner_id'      => $data['partner'],
+                        'project_id'      => $data['project'],
+                        'email'           => $user->email,
+                        'designation'     => $row['desig'],
+                        'created_by'      => auth()->user()->id,
+                    ]);
+        
+                    // Insert Themes
+                    foreach ($data['theme'] as $themeId) {
+                        UserTheme::firstOrCreate([
+                            'theme_id'   => $themeId,
+                            'user_id'    => $user->id,
+                            'partner_id' => $projectPartner->id
+                        ]);
+                    }
+        
+                    // Insert Districts and Provinces
+                    foreach ($data['district'] as $districtId) {
+                        $district = District::where('district_id', $districtId)->first();
+                        if ($district) {
+                            UserProvinceDistricts::firstOrCreate([
+                                'province_id' => $district->provinces_id,
+                                'district_id' => $districtId,
+                                'user_id'     => $user->id,
+                                'partner_id'  => $projectPartner->id
+                            ]);
+                        }
                     }
         
                     // Commit transaction if successful
