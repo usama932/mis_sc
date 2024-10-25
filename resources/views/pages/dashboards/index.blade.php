@@ -1,238 +1,307 @@
-    <x-default-layout>
-        @section('title')
-        Dashboard
-        @endsection
-        <script src="https://d3js.org/d3.v6.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="https://code.highcharts.com/maps/highmaps.js"></script>
-        <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
-        <style>
-            .bar {
-                transition: fill 0.3s;
+<x-nform-layout>
+    @section('title')
+    Dashboard
+    @endsection
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.highcharts.com/maps/highmaps.js"></script>
+    <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+    <style>
+        .bar {
+            transition: fill 0.3s;
+        }
+        .bar:hover {
+            fill: #7a7a7a; /* Darker color on hover */
+        }
+        .x-axis text {
+            font-size: 12px;
+        }
+        .y-axis text {
+            font-size: 12px;
+        }
+        .chart-container {
+            height: 400px;
+            overflow: hidden;
+            border-radius: 15px;
+            border-color: #da291c;
+            background-color: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 10px 0;
+            transition: transform 0.3s ease;
+        }
+
+        .project-container {
+            height: 500px;
+            overflow: hidden;
+            
+            padding: 20px;
+            margin: 10px 0;
+            transition: transform 0.3s ease;
+        }
+
+        .chart-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        #chart_div, #main {
+            display: none; /* Initially hide the charts */
+        }
+
+        .card-title {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .card-text {
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+
+        .theme-card {
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #ddd;
+            padding: 20px;
+            height: 100%;
+            text-align: center;
+        }
+
+        .theme-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-card h5 {
+            font-weight: 700;
+            color: #555;
+        }
+
+        .theme-card .card-body h1 {
+            color: #da291c;
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .theme-card .card-body p {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .theme-card .col-6 {
+            margin-top: 10px;
+        }
+
+        @media (max-width: 1200px) {
+            .col-md-3 {
+                flex: 0 0 50%;
+                max-width: 50%;
             }
-            .bar:hover {
-                fill: #7a7a7a; /* Darker color on hover */
-            }
-            .x-axis text {
-                font-size: 12px;
-            }
-            .y-axis text {
-                font-size: 12px;
-            }
-            .chart-container {
-                height: 400px;
-                overflow: hidden;
-                border-radius: 15px;
-                border-color: #da291c;
-                background-color: #ffffff;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-                padding: 20px;
-                margin: 10px 0;
-                transition: transform 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .col-md-3 {
+                flex: 0 0 100%;
+                max-width: 100%;
             }
 
-            .project-container {
-                height: 500px;
-                overflow: hidden;
-              
-                padding: 20px;
-                margin: 10px 0;
-                transition: transform 0.3s ease;
+            .chart-container {
+                width: 100% !important;
             }
-    
-            .chart-container:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .card-header {
+            background-color: #da291c;
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 0px;
+        }
+
+        .project-card {
+            padding: 20px;
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: scale(1.03);
+        }
+
+        .stats-grid {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+            background-color: #f7f7f7;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 0 10px;
+            transition: background-color 0.3s;
+        }
+
+        .stat-item:hover {
+            background-color: #e9ecef;
+        }
+
+        .stat-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #666;
+        }
+
+        .stat-value {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        .text-success {
+            color: #28a745 !important;
+        }
+
+        .text-warning {
+            color: #ffc107 !important;
+        }
+
+        .text-info {
+            color: #17a2b8 !important;
+        }
+
+        .animated-tile {
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
             }
-    
-            #chart_div, #main {
-                display: none; /* Initially hide the charts */
+            to {
+                transform: translateY(0);
+                opacity: 1;
             }
+        }
+    </style>
     
-            .card-title {
-                font-weight: 600;
-                color: #333;
-            }
     
-            .card-text {
-                font-size: 1.25rem;
-                font-weight: 500;
-            }
-    
-            .theme-card {
-                background-color: #f8f9fa;
-                border-radius: 15px;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
-                border: 1px solid #ddd;
-                padding: 20px;
-                height: 100%;
-                text-align: center;
-            }
-    
-            .theme-card:hover {
-                transform: translateY(-10px);
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            }
-    
-            .theme-card h5 {
-                font-weight: 700;
-                color: #555;
-            }
-    
-            .theme-card .card-body h1 {
-                color: #da291c;
-                font-size: 3rem;
-                margin-bottom: 10px;
-            }
-    
-            .theme-card .card-body p {
-                font-size: 1.1rem;
-                font-weight: 600;
-            }
-    
-            .theme-card .col-6 {
-                margin-top: 10px;
-            }
-    
-            @media (max-width: 1200px) {
-                .col-md-3 {
-                    flex: 0 0 50%;
-                    max-width: 50%;
-                }
-            }
-    
-            @media (max-width: 768px) {
-                .col-md-3 {
-                    flex: 0 0 100%;
-                    max-width: 100%;
-                }
-    
-                .chart-container {
-                    width: 100% !important;
-                }
-            }
-    
-            .header-title {
-                font-size: 2rem;
-                font-weight: bold;
-                color: #ffffff;
-                text-align: center;
-            }
-    
-            .card-header {
-                background-color: #da291c;
-            }
-    
-            .chart-title {
-                font-size: 18px;
-                font-weight: bold;
-                text-align: center;
-                margin-bottom: 0px;
-            }
-    
-            .project-card {
-                padding: 20px;
-                border-radius: 12px;
-                background: #fff;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-                transition: transform 0.3s ease;
-            }
-    
-            .project-card:hover {
-                transform: scale(1.03);
-            }
-    
-            .stats-grid {
-                display: flex;
-                justify-content: space-between;
-                margin-top: 15px;
-            }
-    
-            .stat-item {
-                text-align: center;
-                flex: 1;
-                background-color: #f7f7f7;
-                padding: 10px;
-                border-radius: 8px;
-                margin: 0 10px;
-                transition: background-color 0.3s;
-            }
-    
-            .stat-item:hover {
-                background-color: #e9ecef;
-            }
-    
-            .stat-title {
-                font-size: 0.9rem;
-                font-weight: 500;
-                color: #666;
-            }
-    
-            .stat-value {
-                font-size: 1.4rem;
-                font-weight: bold;
-                margin-top: 8px;
-            }
-    
-            .text-success {
-                color: #28a745 !important;
-            }
-    
-            .text-warning {
-                color: #ffc107 !important;
-            }
-    
-            .text-info {
-                color: #17a2b8 !important;
-            }
-    
-            .animated-tile {
-                animation: fadeInUp 0.8s ease;
-            }
-    
-            @keyframes fadeInUp {
-                from {
-                    transform: translateY(20px);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateY(0);
-                    opacity: 1;
-                }
-            }
-        </style>
-        
-       
-        @can('dashboards')
-            <div class="card shadow-sm card-rounded">
-                <div class="project-container">
-                    <div style="position: relative; height: 70vh; width: 100%;">
-                        <canvas id="projectChart"></canvas>
-                    </div>
-                </div>
-                <div id="container"></div>
-                <div class="card-body">
-                   
-                    <div class="tab-content" id="myTabContent">
-                        @include('pages.charts_partials.tabcontent_dashbaord')
-                    </div>
-                </div>
-                <ul class="nav nav-tabs justify-content-start mt-4 mx-9" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active" id="chart-tab" data-bs-toggle="tab" href="#chart" role="tab" aria-controls="chart" aria-selected="true"><h6>Project Analytics</h6></a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="table-tab" data-bs-toggle="tab" href="#table" role="tab" aria-controls="table" aria-selected="false"><h6>Project Table</h6></a>
-                    </li>
-                </ul>
-                <div class="card-footer bg-danger text-white p-0 m-0">
-                    <h6 class="header-title  p-0 m-0">Project Response Analytics</h6>
+    @can('dashboards')
+        <div class="card shadow-sm card-rounded">
+            <div class="container">
+                {{-- <div style="position: relative; height: 70vh; width: 100%;">
+                    <canvas id="projectChart"></canvas>
+                </div> --}}
+                <div class="table-responsive overflow-*">
+                    <table class="table table-striped table-bordered nowrap" id="projects" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th class="fs-9">Project</th>
+                                <th class="fs-9">Type</th>
+                                <th class="fs-9">SOF</th>
+                                <th class="fs-9">SCI OPs FP</th>
+                                <th class="fs-9">Budget Holder</th>
+                                <th class="fs-9">Tenure</th>
+                                <th class="fs-9">DIP</th>
+                                {{-- <th class="fs-9 bg-primary">Total Activities</th>
+                                <th class="fs-9 bg-info">Total Targets</th>
+                                <th class="fs-9 bg-success">Complete Targets</th> --}}
+                                <th class="fs-9">Progress Update</th>
+                                <th class="fs-9 bg-danger">Overdue Targets</th>
+                                {{-- <th class="fs-9 bg-warning">Pending Targets</th> --}}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($project_data as $project)
+                                <tr>
+                                    @php
+                                        $focalperson = $project->focal_person;
+                                        $budgetholder = $project->budget_holder;
+                                        $focal_person = $focalperson ? implode(", ", App\Models\User::whereIn('id', json_decode($focalperson, true))->pluck('name')->toArray()) : '';
+                                        $budgetholder = $budgetholder ? implode(", ", App\Models\User::whereIn('id', json_decode($budgetholder, true))->pluck('name')->toArray()) : '';
+                                    @endphp
+                                    <td class="fs-9">{{ $project->name }}</td>
+                                    <td class="fs-9">{{ $project->type }}</td>
+                                    <td class="fs-9">{{ $project->sof }}</td>
+                                    <td class="fs-9">{{ $focal_person }}</td>
+                                    <td class="fs-9">{{ $budgetholder }}</td>
+                                    <td class="fs-9">{{ date('M d,Y', strtotime($project->start_date))}} - {{date('M d,Y', strtotime($project->end_date));}}</td>
+                                    <td class="fs-9">@if($project->activities->count() > 0) <span class="badge badge-success">Yes</span> @else <span class="badge badge-danger">No</span> @endif</td>
+                                    {{-- <td class="fs-9 text-primary fw-bolder">{{ $project->total_activities_count }}</td>
+                                    <td class="fs-9 text-info fw-bolder">{{ $project->total_activities_target_count }}</td>
+                                    <td class="fs-9 text-success fw-bolder">{{ $project->complete_activities_count }}</td> --}}
+                                    <td  class="fs-9 fw-bolder">
+                                        @if($project->pending_count > 0 ) 
+                                            In-Progress
+                                        @else
+                                            @if($project->activities->count() > 0 ) 
+                                                @if($project->overdue_count == 0 )  
+                                                    Progress uploaded.. <br>Under review by Ops.
+                                                @endif
+                                            @else
+                                            Target <i class="fa-solid fa-bullseye"></i>
+                                            @endif
+                                        @endif 
+                                    </td>
+                                    <td class="fs-9 fw-bolder"> 
+                                        @if($project->activities->count() > 0 ) 
+                                            @if($project->overdue_count > 0 ) 
+                                                <span class="text-danger"> 
+                                                 {{ $project->overdue_count }} </span> 
+                                            @else
+                                                --
+                                            @endif 
+                                        @else
+                                            <span class="badge badge-danger">No</span>
+                                        @endif
+                                    </td>
+                                    {{-- <td class="fs-9 text-warning fw-bolder">{{ $project->pending_count }}</td> --}}
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        @endcan
+            {{-- <div id="container"></div>
+            <div class="card-body">
+                
+                <div class="tab-content" id="myTabContent">
+                    @include('pages.charts_partials.tabcontent_dashbaord')
+                </div>
+            </div>
+            <ul class="nav nav-tabs justify-content-start mt-4 mx-9" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="chart-tab" data-bs-toggle="tab" href="#chart" role="tab" aria-controls="chart" aria-selected="true"><h6>Project Analytics</h6></a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="table-tab" data-bs-toggle="tab" href="#table" role="tab" aria-controls="table" aria-selected="false"><h6>Project Table</h6></a>
+                </li>
+            </ul>
+            <div class="card-footer bg-danger text-white p-0 m-0">
+                <h6 class="header-title  p-0 m-0">Project Response Analytics</h6>
+            </div> --}}
+        </div>
+    @endcan
 
-        @push('scripts')
+    @push('scripts')
         <script src="https://www.gstatic.com/charts/loader.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
     
@@ -241,9 +310,9 @@
             $(document).ready(function() {
                 $('#chart_div, #main').hide();
                 $('#project_id').on('change', function() {
-                   
+                
                     var projectId = $(this).val();
-                   
+                
                     if (!projectId) {
                         $('#chart_div, #main').hide(); // Hide charts if no project is selected
                         return;
@@ -256,11 +325,11 @@
                         method: 'GET',
                         data: { project_id: projectId },
                         success: function(response) {
-                           
+                        
                             if (response.themeTargetCounts && Array.isArray(response.themeTargetCounts)) {
                                 drawGoogleChart(response.provinces, response.districts);
                                 drawSunburstChart(response.themes, response.subThemes);
-                           
+                        
                                 const projectPartners = response.project_partners || [];
                                 
                                 // Update partner information
@@ -410,5 +479,5 @@
             });
         </script>
         <script src="{{ asset('assets/js/custom/charts/projectdashboard.js') }}"></script>
-        @endpush
-    </x-default-layout>
+    @endpush
+</x-nform-layout>

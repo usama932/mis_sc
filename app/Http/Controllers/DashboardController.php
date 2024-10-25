@@ -24,9 +24,9 @@ class DashboardController extends Controller
             $projects = Project::whereJsonContains('focal_person', $user)->orderBy('name');
             
         }else{
-            $projects = Project::wherehas('detail')->orderBy('name');
+            $projects = Project::orderBy('name');
         }
-        $project_data = $projects->wherehas('detail')->select('projects.id', 'projects.name')
+        $project_data = $projects->select('projects.id', 'projects.name')
                         ->leftJoin('dip_activity as da', 'projects.id', '=', 'da.project_id')
                         ->leftJoin('dip_activity_months as dam', 'da.id', '=', 'dam.activity_id')
                         ->leftJoin('dip_activity_progress as dap', 'dam.id', '=', 'dap.quarter_id')
@@ -38,7 +38,9 @@ class DashboardController extends Controller
                             DB::raw('COUNT(DISTINCT CASE WHEN dam.completion_date < CURRENT_DATE AND dap.id IS NULL THEN dam.id END) AS overdue_count'),
                             DB::raw('COUNT(DISTINCT CASE WHEN dam.completion_date > CURRENT_DATE AND dap.id IS NULL THEN dam.id END) AS pending_count')
                         )
+                        ->where('end_date','>=','2024-08-31')
                         ->groupBy('projects.id', 'projects.name')
+
                         ->orderBy('projects.name')
                         ->get();
         $projects = $projects->get();
