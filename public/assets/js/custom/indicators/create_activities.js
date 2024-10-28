@@ -132,10 +132,11 @@ KTUtil.onDOMContentLoaded(function () {
 
 
 $(document).ready(function() {
-    $('#indicatorId').on('change', function() {
-        let indicatorId = $(this).val();
+    $('#projectId').on('change', function() {
+        let projectId = $(this).val();
        
         // Clear the activities dropdown
+        $('#indicatorId').empty().append('<option value="">Select Indicator</option>');
         $('#activities').empty().append('<option value="">Select Activities</option>');
 
         // If no indicator is selected, return early
@@ -145,12 +146,17 @@ $(document).ready(function() {
         $.ajax({
             url: '/get-activities', // Route to the controller
             type: 'GET',
-            data: { indicatorId: indicatorId },
+            data: { projectId: projectId },
             success: function(response) {
-                // Populate activities dropdown with response data
+                console.log(response.activities);
                 $.each(response.activities, function(key, activity) {
                     $('#activities').append(
-                        `<option value="${activity.id}">${activity.activity_title}</option>`
+                        `<option value="${activity.id}">${activity.activity_title}.</option>`
+                    );
+                });
+                $.each(response.indicators, function(key, indicator) {
+                    $('#indicatorId').append(
+                        `<option value="${indicator.id}">${indicator.indicator_name}</option>`
                     );
                 });
             },

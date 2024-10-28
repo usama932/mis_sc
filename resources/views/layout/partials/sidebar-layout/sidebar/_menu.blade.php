@@ -555,6 +555,58 @@
                 
                 </div>
             @endcan
+            @can('mpca')
+                <div class="menu menu-rounded menu-column menu-title-gray-700 menu-icon-gray-500 menu-arrow-gray-500 menu-bullet-gray-500 menu-arrow-gray-500 menu-state-bg fw-semibold w-250px" data-kt-menu="true">
+                    <!--begin::Menu item-->
+                    <div class="menu-item menu-sub-indention menu-accordion {{ (request()->segment(1) == 'beneficiary-assessment-form' || request()->segment(1) == 'indicators.index' || request()->segment(1) == 'beneficiary-assessment-list' )  ? 'here show' : '' }} " data-kt-menu-trigger="click">
+                        <!--begin::Menu link-->
+                        <a href="#" class="menu-link py-3">
+                            <span class="menu-icon">
+                                <i class="ki-duotone ki-chart-simple-2 fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+                            </span>
+                            <span class="menu-title">Beneficiary Assessment Form</span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <!--end::Menu link-->
+
+                        <!--begin::Menu sub-->
+                        <div class="menu-sub menu-sub-accordion pt-3">
+                            <!--begin::Menu item-->
+                            @can('create mpca')
+                                <div class="menu-item">
+                                    <a class="menu-link {{ (request()->segment(1) == 'beneficiary-assessment-form' ) ?  'active' : '' }}" href="{{ route('beneficiary-assessment-form') }}"">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Beneficary Assessment Form</span>
+                                    </a>
+                                </div>
+                            @endcan
+                            @can('read mpca')
+                                <div class="menu-item">
+                                    <a class="menu-link {{ (request()->segment(1) == 'beneficiary-assessment-list' ) ?  'active' : '' }}" href="{{ route('indicators.create') }}"">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Add Indicator</span>
+                                    </a>
+                                </div>
+                            @endcan
+                            @can('create iptt')
+                                <div class="menu-item">
+                                    <a class="menu-link {{ (request()->segment(2) == 'activityFrom' ) ?  'active' : '' }}" href="{{ route('indicators.activityForm') }}"">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Add Indicator Activities</span>
+                                    </a>
+                                </div>
+                            @endcan
+                        </div>
+                        <!--end::Menu sub-->
+                    </div>
+                </div>
+            @endcan
             @can('administrative')
                 <div class="menu-item pt-5">
                     <!--begin:Menu content-->

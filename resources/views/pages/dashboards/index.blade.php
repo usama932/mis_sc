@@ -257,7 +257,7 @@
                                                     Progress uploaded.. <br>Under review by Ops.
                                                 @endif
                                             @else
-                                            Target <i class="fa-solid fa-bullseye"></i>
+                                          
                                             @endif
                                         @endif 
                                     </td>
@@ -270,7 +270,7 @@
                                                 --
                                             @endif 
                                         @else
-                                            <span class="badge badge-danger">No</span>
+                                            
                                         @endif
                                     </td>
                                     {{-- <td class="fs-9 text-warning fw-bolder">{{ $project->pending_count }}</td> --}}

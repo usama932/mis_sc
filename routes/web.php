@@ -30,6 +30,7 @@ use App\Http\Controllers\Admin\OTController;
 use App\Http\Controllers\Admin\ProjectAjaxController;
 use App\Http\Controllers\Admin\IndicatorController;
 use App\Http\Controllers\Admin\IndicatorActivityController;
+use App\Http\Controllers\Admin\BenficiaryAssessmentController;
 use Illuminate\Support\Facades\Route;
 
     Route::post('getuserDistrict', [FBAjaxController::class,'getuserDistrict'])->name('getuserDistrict');
@@ -229,9 +230,13 @@ use Illuminate\Support\Facades\Route;
         Route::post('/get-indicators', [IndicatorController::class, 'getIndicators']);
         Route::get('/get-subthemes', [IndicatorController::class, 'getSubthemes']);
         Route::get('/indicator/delete/{id}', [IndicatorController::class,'destroy'])->name('indicators.delete');
-        Route::get('/get-indicator/activityFrom', [IndicatorController::class,'activityForm'])->name('indicators.activityForm');
+        Route::get('/get-indicator/activityFrom', [IndicatorActivityController::class,'activityForm'])->name('indicators.activityForm');
         Route::post('/add-indicator/activityFrom', [IndicatorActivityController::class,'addActivityForm'])->name('indicators.addActivityForm');
         Route::get('/get-activities', [IndicatorActivityController::class, 'getProjectActivities'])->name('getProjectActivities');
+
+        //beneficiary assessment route
+        Route::get('/beneficiary-assessment-form', [BenficiaryAssessmentController::class, 'beneficiaryAssessmentForm'])->name('beneficiary-assessment-form');
+        Route::post('/submit-beneficiary-assessment-form', [BenficiaryAssessmentController::class, 'submitBeneficiaryAssessmentForm']);
     });
 
     Route::get('/error', function () {

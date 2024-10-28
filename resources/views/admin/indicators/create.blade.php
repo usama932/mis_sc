@@ -21,7 +21,7 @@
                             <div id="logFrameLevelError" class="invalid-feedback"></div>
                         </div>
                           <!-- Theme -->
-                          <div class="fv-row col-md-3">
+                        <div class="fv-row col-md-3">
                             <label class="fs-6 fw-semibold form-label">Theme</label>
                             <select name="theme[]" id="themeSelect" multiple class="form-select   select2" data-control="select2" data-placeholder="Select Theme"  data-allow-clear="true">
                                 <option value="">Select Theme</option>

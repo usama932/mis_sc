@@ -108,13 +108,7 @@ class IndicatorController extends Controller
             'message' => 'Indicator created successfully'
         ], 201);
     }
-
-    public function activityForm(){
-        $indicators = Indicator::latest()->get();
-        addJavascriptFile('assets/js/custom/indicators/create_activities.js');
-        return view('admin.indicators.addIndicatorActivities',compact('indicators'));
-    }
-
+    
     public function edit(string $id)
     {
         $indicator = Indicator::find($id);
