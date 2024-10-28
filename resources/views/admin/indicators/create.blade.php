@@ -4,7 +4,7 @@
     @endsection
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div class="card">
-            <form action="{{route('indicators.store')}}" method="post" id="create_indicator" enctype="multipart/form-data">
+            <form action="{{route('indicators.store')}}" method="post" id="create_indicator" enctype="multipart/form-data" data-kt-redirect-url="{{ route('indicators.index') }}">
                 @csrf
                 <div class="card-body py-4">
                     <div class="row">

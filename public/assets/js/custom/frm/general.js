@@ -298,7 +298,6 @@ var KTFRMValidate = function () {
                     // Disable button to avoid multiple click
                     submitButton.disabled = true;
 
-
                     // Check axios library docs: https://axios-http.com/docs/intro
                     axios.post(submitButton.closest('form').getAttribute('action'), new FormData(form)).then(function (response) {
                         if (response) {

@@ -502,7 +502,7 @@
             @can('iptt')
                 <div class="menu menu-rounded menu-column menu-title-gray-700 menu-icon-gray-500 menu-arrow-gray-500 menu-bullet-gray-500 menu-arrow-gray-500 menu-state-bg fw-semibold w-250px" data-kt-menu="true">
                     <!--begin::Menu item-->
-                    <div class="menu-item menu-sub-indention menu-accordion {{ (request()->segment(1) == 'indicators' || request()->segment(1) == 'indicators.index' )  ? 'here show' : '' }} " data-kt-menu-trigger="click">
+                    <div class="menu-item menu-sub-indention menu-accordion {{ (request()->segment(1) == 'indicators' || request()->segment(1) == 'indicators.index' || request()->segment(2) == 'activityFrom' )  ? 'here show' : '' }} " data-kt-menu-trigger="click">
                         <!--begin::Menu link-->
                         <a href="#" class="menu-link py-3">
                             <span class="menu-icon">
@@ -536,7 +536,16 @@
                                     </a>
                                 </div>
                             @endcan
-                         
+                            @can('create iptt')
+                                <div class="menu-item">
+                                    <a class="menu-link {{ (request()->segment(2) == 'activityFrom' ) ?  'active' : '' }}" href="{{ route('indicators.activityForm') }}"">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Add Indicator Activities</span>
+                                    </a>
+                                </div>
+                            @endcan
                         </div>
                         <!--end::Menu sub-->
                     </div>

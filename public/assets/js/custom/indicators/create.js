@@ -224,8 +224,11 @@ var KTdipValidate = function () {
                             if (response.data.status === 'success') {
                                 toastr.success("Indicator Created", "Success");
         
-                                // Redirect to the index page or any other page
-                                window.location.href = submitButton.getAttribute('data-kt-redirect-url'); //he actual URL where you want to redirect the user
+                                const redirectUrl = form.getAttribute('data-kt-redirect-url');
+
+                                if (redirectUrl) {
+                                    location.href = redirectUrl;
+                                }
                             } else {
                                 toastr.error("Something went wrong", "Error");
                             }

@@ -2,6 +2,8 @@
 namespace App\Repositories;
 use App\Repositories\Interfaces\IndicatorInterface;
 use App\Models\Indicator;
+use App\Models\IndicatorActivities;
+
 class IndicatorRepository implements IndicatorInterface
 {
     public function createIndicator(array $data)
@@ -36,5 +38,16 @@ class IndicatorRepository implements IndicatorInterface
 
         ]);
         return $indicator;
+    }
+
+    public function createIndicatorActivity(array $data){
+        foreach($data['activities'] as $activity){
+            $indicatorActivity = IndicatorActivities::create([
+                'activity_id'   => $activity,
+                'indicator_id'  => $data['indicatorId'],
+                'created_by'    => auth()->user()->id
+            ]);
+        }
+        return $indicatorActivity;
     }
 }

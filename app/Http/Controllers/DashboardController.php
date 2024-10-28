@@ -40,7 +40,6 @@ class DashboardController extends Controller
                         )
                         ->where('end_date','>=','2024-08-31')
                         ->groupBy('projects.id', 'projects.name')
-
                         ->orderBy('projects.name')
                         ->get();
         $projects = $projects->get();

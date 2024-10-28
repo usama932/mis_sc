@@ -9,7 +9,7 @@ use App\Models\SCITheme;
 use App\Models\Project;
 use App\Models\SCISubTheme;
 use App\Models\Indicator;
-
+use App\Models\DipActivity;
 
 class IndicatorController extends Controller
 {
@@ -105,14 +105,14 @@ class IndicatorController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Indicator created successfully',
-            'data' => $indicator // Send back the created indicator
+            'message' => 'Indicator created successfully'
         ], 201);
     }
 
-    public function show(string $id)
-    {
-        //
+    public function activityForm(){
+        $indicators = Indicator::latest()->get();
+        addJavascriptFile('assets/js/custom/indicators/create_activities.js');
+        return view('admin.indicators.addIndicatorActivities',compact('indicators'));
     }
 
     public function edit(string $id)
@@ -143,4 +143,6 @@ class IndicatorController extends Controller
 
         return response()->json(['subthemes' => $subthemes]);
     }
+    
+    
 }

@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\ProjectProfileController;
 use App\Http\Controllers\Admin\OTController;
 use App\Http\Controllers\Admin\ProjectAjaxController;
 use App\Http\Controllers\Admin\IndicatorController;
+use App\Http\Controllers\Admin\IndicatorActivityController;
 use Illuminate\Support\Facades\Route;
 
     Route::post('getuserDistrict', [FBAjaxController::class,'getuserDistrict'])->name('getuserDistrict');
@@ -227,7 +228,10 @@ use Illuminate\Support\Facades\Route;
         Route::resource('/indicators', IndicatorController::class);
         Route::post('/get-indicators', [IndicatorController::class, 'getIndicators']);
         Route::get('/get-subthemes', [IndicatorController::class, 'getSubthemes']);
-        Route::get('/indicator/delete/{id}', [DipController::class,'destroy'])->name('indicators.delete');
+        Route::get('/indicator/delete/{id}', [IndicatorController::class,'destroy'])->name('indicators.delete');
+        Route::get('/get-indicator/activityFrom', [IndicatorController::class,'activityForm'])->name('indicators.activityForm');
+        Route::post('/add-indicator/activityFrom', [IndicatorActivityController::class,'addActivityForm'])->name('indicators.addActivityForm');
+        Route::get('/get-activities', [IndicatorActivityController::class, 'getProjectActivities'])->name('getProjectActivities');
     });
 
     Route::get('/error', function () {
