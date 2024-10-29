@@ -133,7 +133,6 @@ class   DipActivityController extends Controller
                 $nestedData['quarter_target'] = $quarterTarget;
                 $nestedData['created_by'] = $r->user->name ?? '';
                 $nestedData['created_at'] = date('M d, Y', strtotime($r->created_at)). '<br>'. date('h:iA', strtotime($r->created_at)) ?? '';
-                $activity = DipActivity::find($r->id);
                 
                 $nestedData['update_progress'] = '<a href="' . $progress_url . '"><span class="badge badge-success">Update Progress</span></a>';
                 
@@ -484,7 +483,7 @@ class   DipActivityController extends Controller
                         'completion_date'   => !empty($quarter->completion_date) ? '<span class="fs-9">' . date('M d, Y', strtotime($quarter->completion_date)) . '</span>' : '',
                         'completed_date'    => $quarter->progress && !empty($quarter->progress->complete_date) ? '<span class="fs-9">' . date('M d, Y', strtotime($quarter->progress->complete_date)) . '</span>': '',
                         'image'             => !empty($quarter->progress->image) ? '<img src="'.asset("storage/activity_progress/image/{$project->sof}/".$quarter->progress->image).'" alt="Image" style="width: 100px;" class="thumbnail" onclick="previewImage(this)">' : '',
-                        'attachment'        => !empty($quarter->progress->attachment) ? '<a title="Edit" class="" href="' . route('download_progress_attachment', $quarter->progress->id) . '"><i class="fa fa-download text-dark" aria-hidden="true"></i></a>' : '',
+                        'attachment'        => !empty($quarter->progress->attachment) ? '<a title="Edit" class="" href="'.route('download_progress_attachment', $quarter->progress->id).'"><i class="fa fa-download text-dark" aria-hidden="true"></i></a>' : '',
                         'action'            => '',
                     ];
                     $twoMonthsFromNow = Carbon::now()->addMonths(0);
@@ -1050,7 +1049,7 @@ class   DipActivityController extends Controller
             $file = $request->attachment;
            
             $timestamp = now()->timestamp;  // Get the current timestamp
-            $attachment = $timestamp.'_'.$file->getClientOriginalName();
+            $attachment = $timestamp.$file->getClientOriginalExtension();
             $file->storeAs("public/activity_progress/attachment/{$project->sof}",$attachment);
         }
 
@@ -1135,13 +1134,17 @@ class   DipActivityController extends Controller
 
     public function download_progress_attachment($filename)
     {
-        $progress = ActivityProgress::where('id',$filename)->first();
-        $project = Project::where('id',$progress->project_id)->first();
-        $path = public_path("storage/activity_progress/attachment/{$project->sof}/".$progress->attachment);
+        $progress = ActivityProgress::where('id', $filename)->first();
+        $project = Project::where('id', $progress->project_id)->first();
+        $originalFilename = $progress->attachment; // Original filename with extension
+        $path = public_path("storage/activity_progress/attachment/{$project->sof}/" . $originalFilename);
+
         if (!file_exists($path)) {
             return response()->json(['error' => 'File not found'], 404);
         }
-        return response()->download($path, $filename);
+
+        // Use the original filename in the download response
+        return response()->download($path, $originalFilename);
     }
 
     public function add_progress(Request $request){
