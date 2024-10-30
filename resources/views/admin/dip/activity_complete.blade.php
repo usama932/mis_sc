@@ -77,7 +77,6 @@
     
     <div class="card">
         <div class="card-body">
-        
             <div class="table-responsive overflow-*">
                 <table class="table table-striped table-bordered nowrap table-sm" id="dip_complete_activity" style="width:100%">
                     <div class="card mb-3">
@@ -117,6 +116,7 @@
                     </div>
                     <thead>
                         <tr>
+                            <th  class="fs-9">Action</th>
                             <th  class="fs-9">Project</th>
                             <th  class="fs-9">Activity</th>
                             <th  class="fs-9">Activity Target</th>
@@ -124,11 +124,74 @@
                             <th  class="fs-9">Due Date</th>
                             <th  class="fs-9">Month</th>
                             <th  class="fs-9">Status</th>
-                            <th  class="fs-9">Action</th>
+                            <th  class="fs-9">Remarks</th>
+                           
                         </tr>
                     </thead>
                 </table>
             </div>
         </div>
     </div>
+
+
+    //Modals
+    <div class="modal fade " id="update_status" tabindex="-1" aria-labelledby="update_status" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Update Status</h3>
+                    <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </button>
+                </div>
+                <div class="modal-body" id="update_status_body">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="edit_progress" tabindex="-1" aria-labelledby="edit_progress" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Edit Progress</h3>
+                    <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </button>
+                </div>
+                <div class="modal-body" id="edit_progress_body">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    @push('scripts')
+        <script>
+            function edit_status(id){
+                var baseURL = window.location.origin;
+                var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                $.post(baseURL + '/edit_progress', {
+                _token: csrfToken,
+                id: id
+                }).done(function(response) {
+                $('#edit_progress_body').html(response);
+                $('#edit_progress').modal('show');
+
+                });
+            }
+
+
+            function update_status(id){
+                var baseURL = window.location.origin;
+                var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                $.post(baseURL + '/update_status', {
+                _token: csrfToken,
+                id: id
+                }).done(function(response) {
+                $('#update_status_body').html(response);
+                $('#update_status').modal('show');
+                });
+            }
+        </script>
+    @endpush
 </x-nform-layout>

@@ -72,6 +72,7 @@ $(document).ready(function () {
                 }
             },
             "columns": [
+                {"data": "action", "searchable": false, "orderable": false},
                 {"data": "project", "searchable": true, "orderable": true},
                 {"data": "activity_title", "searchable": true, "orderable": true},
                 {"data": "activity_lop_target", "searchable": true, "orderable": true},
@@ -79,7 +80,8 @@ $(document).ready(function () {
                 {"data": "expected_completion_date", "searchable": true, "orderable": true},
                 {"data": "quarter_target", "searchable": true, "orderable": true},
                 {"data": "status", "searchable": false, "orderable": false},
-                {"data": "action", "searchable": false, "orderable": false}
+                {"data": "remarks", "searchable": false, "orderable": false},
+              
             ]
         });
     }

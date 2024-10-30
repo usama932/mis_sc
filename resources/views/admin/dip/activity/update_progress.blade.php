@@ -103,7 +103,11 @@
                             "hideMethod": "fadeOut"
                         };
 
-                        activityQuarters.ajax.reload(null, false).draw(false);
+                        $('table').each(function() {
+                        if($.fn.DataTable.isDataTable(this)) {
+                                $(this).DataTable().ajax.reload(null, false);  // Reload without resetting pagination
+                            }
+                        });
                         $('#update_status').modal('hide');
                         toastr.success("Activity Quarter Status Updated", "Success");
                     }

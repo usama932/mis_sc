@@ -49,12 +49,10 @@
         <script>
       
             $("#project_id").change(function () {
-              
                 var value = $(this).val();
                 csrf_token = $('[name="_token"]').val();
                 var baseUrl = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
                 var newUrl = baseUrl + '/dip/create/' + value;
-            
                 window.location.assign(newUrl);
             });
             

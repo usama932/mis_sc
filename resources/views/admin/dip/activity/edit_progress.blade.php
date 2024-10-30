@@ -8,7 +8,7 @@
             <label class="fs-7 fw-semibold form-label mb-2 d-flex">
                 <span>Activity Target</span>
             </label>
-            <input type="text" name="benefit_target" id="benefit_target" class="form-control form-control-solid" value="{{$progress->activity?->target ?? '0'}}" readonly>
+            <input type="text" name="benefit_target" id="benefit_target" class="form-control form-control-solid" value="{{$activity->target}}" readonly>
             <div id="benefit_targetError" class="error-message  text-danger " ></div>
         </div> 
         <div class="fv-row col-md-4 ">
@@ -22,7 +22,7 @@
             <label class="fs-7 fw-semibold form-label mb-2 d-flex">
                 <span>Beneficiaries Target</span>
             </label>
-            <input type="text" name="benefit_target" id="benefit_target" class="form-control form-control-solid" value="{{$progress->activity?->beneficiary_target ?? '0'}}" readonly>
+            <input type="text" name="benefit_target" id="benefit_target" class="form-control form-control-solid" value="{{$activity->beneficiary_target ?? '0'}}" readonly>
             <div id="benefit_targetError" class="error-message  text-danger" ></div>
         </div> 
         <div class="fv-row col-md-2 ">
