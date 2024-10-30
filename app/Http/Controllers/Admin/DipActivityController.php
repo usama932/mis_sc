@@ -273,6 +273,9 @@ class   DipActivityController extends Controller
                 else if (auth()->user()->hasRole('Meal Manager') || auth()->user()->hasRole('Meal Coordinator')  && $completemonth->status == 'Reviewed' ){
                     $update_status = '<div><td><a class="" href="javascript:void(0)" title="Update status" onclick="event.preventDefault();update_status(' . $completemonth->id . ');"><span class="badge bg-info btn-sm text-white">Update Status</span></a></td></div>';
                 }
+                else if (auth()->user()->hasRole('administrator') || auth()->user()->hasRole('Meal Coordinator')  && $completemonth->status == 'Reviewed' ){
+                    $update_status = '<div><td><a class="" href="javascript:void(0)" title="Edit status" onclick="event.preventDefault();edit_status(' . $completemonth->id . ');"><span class="badge bg-success text-white">Edit</span></a></td></div><div><td><a class="" href="javascript:void(0)" title="Update status" onclick="event.preventDefault();update_status(' . $completemonth->id . ');"><span class="badge bg-info btn-sm text-white">Update Status</span></a></td></div>';
+                }
             }
             $nestedData = [
                 'activity_title'            => $completemonth->activity->activity_number.'  '.$finalText,

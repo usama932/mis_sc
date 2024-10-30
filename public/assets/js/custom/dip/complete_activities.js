@@ -1,6 +1,5 @@
 var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
 $(document).ready(function () {
     function updateTabCounts() {

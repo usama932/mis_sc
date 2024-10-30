@@ -50,6 +50,12 @@
         .error {
             border: 2px solid red; /* Red border for invalid fields */
         }
+        /* Error Message */
+        .error-message {
+            color: red;
+            font-size: 0.875rem;
+            margin-top: 5px;
+        }
         /* Button Styles */
         .btn-custom {
             background-color: #a4262c;
@@ -65,8 +71,23 @@
         }
         .button-group {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             margin-top: 20px;
+        }
+        /* Progress Bar Container */
+        .progress-bar-container {
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        /* Progress Bar */
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background-color: #a4262c;
+            transition: width 0.3s ease;
         }
     </style>
 
@@ -77,135 +98,206 @@
                 <div class="step-bar-item active" data-step="1">Demographic Information</div>
                 <div class="step-bar-item" data-step="2">General Information</div>
                 <div class="step-bar-item" data-step="3">Economic Information</div>
-                <div class="step-bar-item " data-step="4">Vulnerabilities & Losses</div>
+                <div class="step-bar-item" data-step="4">Vulnerabilities & Losses</div>
                 <div class="step-bar-item" data-step="5">Observation/Comments</div>
+                <div class="step-bar-item" data-step="6">Review & Submit</div>
             </div>
-
-            <!-- Step 1 Card -->
-            <div class="step active" data-step="1">
-                <div class="card">
-                    @include('admin.benificiaryAssessment.partials.demographic_information')
-                    <div class="d-flex justify-content-end">
-                        <button class="btn btn-custom btn-sm next-step">Next</button>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            <form id="kt_beneficary_assessment"  action="" enctype="multipart/form-data">
+                @csrf
+                <div class="step active" data-step="1">
+                    <div class="card">
+                        @include('admin.benificiaryAssessment.partials.demographic_information')
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-primary btn-sm next-step">Next</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Step 2 Card -->
-            <div class="step" data-step="2">
-                <div class="card">
-                    @include('admin.benificiaryAssessment.partials.general_information_from')
-                    <div class="button-group">
-                        <button class="btn btn-custom btn-sm previous-step">Previous</button>
-                        <button class="btn btn-custom btn-sm next-step">Next</button>
+                <!-- Step 2 Card -->
+                <div class="step" data-step="2">
+                    <div class="card">
+                        @include('admin.benificiaryAssessment.partials.general_information_form')
+                        <div class="button-group">
+                            <button class="btn btn-secondary btn-sm previous-step">Previous</button>
+                            <button class="btn btn-primary btn-sm next-step">Next</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Step 3 Card -->
-            <div class="step" data-step="3">
-                <div class="card">
-                    @include('admin.benificiaryAssessment.partials.economic_information_form')
-                    <div class="button-group">
-                        <button class="btn btn-custom btn-sm previous-step">Previous</button>
-                        <button class="btn btn-custom btn-sm next-step">Next</button>
+                <!-- Step 3 Card -->
+                <div class="step" data-step="3">
+                    <div class="card">
+                        @include('admin.benificiaryAssessment.partials.economic_information_form')
+                        <div class="button-group">
+                            <button class="btn btn-secondary btn-sm previous-step">Previous</button>
+                            <button class="btn btn-primary btn-sm next-step">Next</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Step 4 Card -->
-            <div class="step" data-step="4">
-                <div class="card">
-                    @include('admin.benificiaryAssessment.partials.vulnerability')
-                    <div class="button-group">
-                        <button class="btn btn-custom btn-sm previous-step">Previous</button>
-                        <button class="btn btn-custom btn-sm next-step">Next</button>
+                <!-- Step 4 Card -->
+                <div class="step" data-step="4">
+                    <div class="card">
+                        @include('admin.benificiaryAssessment.partials.vulnerability')
+                        <div class="button-group">
+                            <button class="btn btn-secondary btn-sm previous-step">Previous</button>
+                            <button class="btn btn-primary btn-sm next-step">Next</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Step 5 Card -->
-            <div class="step" data-step="5">
-                <div class="card">
-                    @include('admin.benificiaryAssessment.partials.observation_form')
-                    <div class="button-group">
-                        <button class="btn btn-custom btn-sm previous-step">Previous</button>
-                        <button class="btn btn-custom btn-sm submit-form">Submit</button>
+                <!-- Step 5 Card -->
+                <div class="step" data-step="5">
+                    <div class="card">
+                        @include('admin.benificiaryAssessment.partials.observation_form')
+                        <div class="button-group">
+                            <button class="btn btn-secondary btn-sm previous-step">Previous</button>
+                            <button class="btn btn-primary btn-sm next-step">Next</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
+                <!-- Step 6 Card - Review & Submit -->
+                <div class="step" data-step="6">
+                    <div class="card">
+                        <h4>Review Your Information</h4>
+                        <div id="review-data" class="row">
+                            <div class="col-md-12">
+                                <div class="row mb-3">
+                                    <div class="col-md-6 font-weight-bold">Demographic Information:</div>
+                                    <div class="col-md-6" id="demo-info"></div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6 font-weight-bold">General Information:</div>
+                                    <div class="col-md-6" id="general-info"></div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6 font-weight-bold">Economic Information:</div>
+                                    <div class="col-md-6" id="economic-info"></div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6 font-weight-bold">Vulnerabilities & Losses:</div>
+                                    <div class="col-md-6" id="vulnerabilities-info"></div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6 font-weight-bold">Observation/Comments:</div>
+                                    <div class="col-md-6" id="observation-info"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-secondary btn-sm previous-step">Previous</button>
+                            <button class="btn btn-primary btn-sm submit-form">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
-@push("scripts")
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const steps = document.querySelectorAll('.step');
-        const nextButtons = document.querySelectorAll('.next-step');
-        const previousButtons = document.querySelectorAll('.previous-step');
+    @push("scripts")
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const steps = document.querySelectorAll('.step');
+            const nextButtons = document.querySelectorAll('.next-step');
+            const previousButtons = document.querySelectorAll('.previous-step');
+            const progressBar = document.getElementById('progress-bar');
+            const reviewData = document.getElementById('review-data');
+            const totalSteps = steps.length;
+            const stepItems = document.querySelectorAll('.step-bar-item');
+    
+            showStep(1); // Show the first step
+    
+            // Step Navigation
+            nextButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const currentStep = getActiveStep();
+                    if (validateStep(currentStep)) {
+                        if (currentStep === totalSteps - 1) {
+                            populateReviewData();
+                        }
+                        showStep(currentStep + 1);
+                    } else {
+                        toastr.error("Please fill all required fields.");
+                    }
+                });
+            });
+    
+            previousButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const currentStep = getActiveStep();
+                    showStep(currentStep - 1);
+                });
+            });
+    
+            function showStep(step) {
+                steps.forEach((el, index) => {
+                    el.classList.toggle('active', index === step - 1);
+                });
+                updateProgressBar(step);
+                updateStepBar(step);
+            }
+    
+            function getActiveStep() {
+                return Array.from(steps).findIndex(step => step.classList.contains('active')) + 1;
+            }
+    
+            function validateStep(step) {
+                let valid = true;
+                const inputs = steps[step - 1].querySelectorAll('input[required], textarea[required]');
+                inputs.forEach(input => {
+                    if (!input.checkValidity()) {
+                        input.classList.add('error');
+                        valid = false;
+                    } else {
+                        input.classList.remove('error');
+                    }
+                });
+                return valid;
+            }
+    
+            function updateProgressBar(step) {
+                const percentage = ((step - 1) / (totalSteps - 1)) * 100;
+                progressBar.style.width = `${percentage}%`;
+            }
+    
+            function updateStepBar(step) {
+                stepItems.forEach((item, index) => {
+                    item.classList.toggle('active', index < step);
+                });
+            }
+    
+            function populateReviewData() {
+                // Collect data from previous steps and populate the review section
+                const demoInfo = document.querySelectorAll('input[name^="demographic_"], textarea[name^="demographic_"]');
+                const generalInfo = document.querySelectorAll('input[name^="general_"], textarea[name^="general_"]');
+                const economicInfo = document.querySelectorAll('input[name^="economic_"], textarea[name^="economic_"]');
+                const vulnerabilitiesInfo = document.querySelectorAll('input[name^="vulnerability_"], textarea[name^="vulnerability_"]');
+                const observationInfo = document.querySelectorAll('input[name^="observation_"], textarea[name^="observation_"]');
 
-        showStep(1); // Show the first step
+                // Populate Demographic Information
+                document.getElementById('demo-info').innerHTML = Array.from(demoInfo).map(input => `<div>${input.name}: ${input.value}</div>`).join('');
 
-        // Step Navigation
-        nextButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const currentStep = getActiveStep();
-                if (validateStep(currentStep)) {
-                    showStep(currentStep + 1);
-                }
+                // Populate General Information
+                document.getElementById('general-info').innerHTML = Array.from(generalInfo).map(input => `<div>${input.name}: ${input.value}</div>`).join('');
+
+                // Populate Economic Information
+                document.getElementById('economic-info').innerHTML = Array.from(economicInfo).map(input => `<div>${input.name}: ${input.value}</div>`).join('');
+
+                // Populate Vulnerabilities & Losses
+                document.getElementById('vulnerabilities-info').innerHTML = Array.from(vulnerabilitiesInfo).map(input => `<div>${input.name}: ${input.value}</div>`).join('');
+
+                // Populate Observation/Comments
+                document.getElementById('observation-info').innerHTML = Array.from(observationInfo).map(input => `<div>${input.name}: ${input.value}</div>`).join('');
+            }
+                
+            document.querySelector('.submit-form').addEventListener('click', function() {
+                toastr.success("Form submitted successfully!");
             });
         });
-
-        previousButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const currentStep = getActiveStep();
-                showStep(currentStep - 1);
-            });
-        });
-
-        function showStep(step) {
-            steps.forEach((el, index) => {
-                el.classList.toggle('active', index === step - 1);
-            });
-            updateStepBar(step);
-        }
-
-        function getActiveStep() {
-            return Array.from(steps).findIndex(step => step.classList.contains('active')) + 1;
-        }
-
-        function validateStep(step) {
-            let valid = true;
-            const inputs = steps[step - 1].querySelectorAll('input, select, textarea');
-            
-            inputs.forEach(input => {
-                if (input.required && !input.value) {
-                    input.classList.add('error');
-                    const errorMessage = document.getElementById(input.name + 'Error');
-                    if (errorMessage) {
-                        errorMessage.innerText = 'This field is required.';
-                        errorMessage.style.display = 'block';
-                    }
-                    valid = false;
-                } else {
-                    input.classList.remove('error');
-                    const errorMessage = document.getElementById(input.name + 'Error');
-                    if (errorMessage) {
-                        errorMessage.style.display = 'none';
-                    }
-                }
-            });
-
-            return valid;
-        }
-
-        function updateStepBar(activeStep) {
-            document.querySelectorAll('.step-bar-item').forEach((item, index) => {
-                item.classList.toggle('active', index === activeStep - 1);
-            });
-        }
-    });
-</script>
-@endpush
+    </script>
+    @endpush
 </x-nform-layout>
