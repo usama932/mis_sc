@@ -217,11 +217,10 @@ class   DipActivityController extends Controller
         }
         $totalFiltered = $dipsQuery->count();
         $totalData = $dipsQuery->count();
-        $dips = $dipsQuery
-        ->with(['activity' => function ($query) {
-            return $query->orderByRaw("REPLACE(activity_number, '.', '') + 0");
-        }])
-        ->get();
+        $dips = $dipsQuery->with(['activity' => function ($query) {
+                            return $query->orderByRaw("REPLACE(activity_number, '.', '') + 0");
+                        }])
+                        ->get();
     
         // Sort the results by activity_number of the related activity
         $sortedDips = $dips->sortBy(function ($dip) {
@@ -239,7 +238,7 @@ class   DipActivityController extends Controller
             $lines = array_chunk($words, 5  );
             $finalText = implode("<br>", array_map(fn($line) => implode(" ", $line), $lines));
 
-            $remarks = $completemonth->progress?->remarks ?? "";
+            $remarks = $completemonth->remarks ?? "";
             $remarkwords = str_word_count($remarks, 1);
             $remarklines = array_chunk($remarkwords, 5  );
             $finalRemarks = implode("<br>", array_map(fn($line) => implode(" ", $line),  $remarklines));

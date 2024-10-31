@@ -190,7 +190,9 @@
                         </div>
                         <div class="button-group">
                             <button class="btn btn-secondary btn-sm previous-step">Previous</button>
-                            <button class="btn btn-primary btn-sm submit-form">Submit</button>
+                            <button type="submit" class="btn btn-primary m-3" id="kt_submit_beneficary_assessment">
+                                @include('partials/general/_button-indicator', ['label' => 'Submit'])
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -199,105 +201,102 @@
     </div>
 
     @push("scripts")
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const steps = document.querySelectorAll('.step');
-            const nextButtons = document.querySelectorAll('.next-step');
-            const previousButtons = document.querySelectorAll('.previous-step');
-            const progressBar = document.getElementById('progress-bar');
-            const reviewData = document.getElementById('review-data');
-            const totalSteps = steps.length;
-            const stepItems = document.querySelectorAll('.step-bar-item');
-    
-            showStep(1); // Show the first step
-    
-            // Step Navigation
-            nextButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const currentStep = getActiveStep();
-                    if (validateStep(currentStep)) {
-                        if (currentStep === totalSteps - 1) {
-                            populateReviewData();
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const steps = document.querySelectorAll('.step');
+                const nextButtons = document.querySelectorAll('.next-step');
+                const previousButtons = document.querySelectorAll('.previous-step');
+                const progressBar = document.getElementById('progress-bar');
+                const reviewData = document.getElementById('review-data');
+                const totalSteps = steps.length;
+                const stepItems = document.querySelectorAll('.step-bar-item');
+        
+                showStep(1); // Show the first step
+        
+                // Step Navigation
+                nextButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const currentStep = getActiveStep();
+                        if (validateStep(currentStep)) {
+                            if (currentStep === totalSteps - 1) {
+                                populateReviewData();
+                            }
+                            showStep(currentStep + 1);
+                        } else {
+                            toastr.error("Please fill all required fields.");
                         }
-                        showStep(currentStep + 1);
-                    } else {
-                        toastr.error("Please fill all required fields.");
-                    }
+                    });
                 });
-            });
-    
-            previousButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const currentStep = getActiveStep();
-                    showStep(currentStep - 1);
+        
+                previousButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const currentStep = getActiveStep();
+                        showStep(currentStep - 1);
+                    });
                 });
-            });
-    
-            function showStep(step) {
-                steps.forEach((el, index) => {
-                    el.classList.toggle('active', index === step - 1);
-                });
-                updateProgressBar(step);
-                updateStepBar(step);
-            }
-    
-            function getActiveStep() {
-                return Array.from(steps).findIndex(step => step.classList.contains('active')) + 1;
-            }
-    
-            function validateStep(step) {
-                let valid = true;
-                const inputs = steps[step - 1].querySelectorAll('input[required], textarea[required]');
-                inputs.forEach(input => {
-                    if (!input.checkValidity()) {
-                        input.classList.add('error');
-                        valid = false;
-                    } else {
-                        input.classList.remove('error');
-                    }
-                });
-                return valid;
-            }
-    
-            function updateProgressBar(step) {
-                const percentage = ((step - 1) / (totalSteps - 1)) * 100;
-                progressBar.style.width = `${percentage}%`;
-            }
-    
-            function updateStepBar(step) {
-                stepItems.forEach((item, index) => {
-                    item.classList.toggle('active', index < step);
-                });
-            }
-    
-            function populateReviewData() {
-                // Collect data from previous steps and populate the review section
-                const demoInfo = document.querySelectorAll('input[name^="demographic_"], textarea[name^="demographic_"]');
-                const generalInfo = document.querySelectorAll('input[name^="general_"], textarea[name^="general_"]');
-                const economicInfo = document.querySelectorAll('input[name^="economic_"], textarea[name^="economic_"]');
-                const vulnerabilitiesInfo = document.querySelectorAll('input[name^="vulnerability_"], textarea[name^="vulnerability_"]');
-                const observationInfo = document.querySelectorAll('input[name^="observation_"], textarea[name^="observation_"]');
+        
+                function showStep(step) {
+                    steps.forEach((el, index) => {
+                        el.classList.toggle('active', index === step - 1);
+                    });
+                    updateProgressBar(step);
+                    updateStepBar(step);
+                }
+        
+                function getActiveStep() {
+                    return Array.from(steps).findIndex(step => step.classList.contains('active')) + 1;
+                }
+        
+                function validateStep(step) {
+                    let valid = true;
+                    const inputs = steps[step - 1].querySelectorAll('input[required], textarea[required]');
+                    inputs.forEach(input => {
+                        if (!input.checkValidity()) {
+                            input.classList.add('error');
+                            valid = false;
+                        } else {
+                            input.classList.remove('error');
+                        }
+                    });
+                    return valid;
+                }
+        
+                function updateProgressBar(step) {
+                    const percentage = ((step - 1) / (totalSteps - 1)) * 100;
+                    progressBar.style.width = `${percentage}%`;
+                }
+        
+                function updateStepBar(step) {
+                    stepItems.forEach((item, index) => {
+                        item.classList.toggle('active', index < step);
+                    });
+                }
+        
+                function populateReviewData() {
+                    // Collect data from previous steps and populate the review section
+                    const demoInfo = document.querySelectorAll('input[name^="demographic_"], textarea[name^="demographic_"]');
+                    const generalInfo = document.querySelectorAll('input[name^="general_"], textarea[name^="general_"]');
+                    const economicInfo = document.querySelectorAll('input[name^="economic_"], textarea[name^="economic_"]');
+                    const vulnerabilitiesInfo = document.querySelectorAll('input[name^="vulnerability_"], textarea[name^="vulnerability_"]');
+                    const observationInfo = document.querySelectorAll('input[name^="observation_"], textarea[name^="observation_"]');
 
-                // Populate Demographic Information
-                document.getElementById('demo-info').innerHTML = Array.from(demoInfo).map(input => `<div>${input.name}: ${input.value}</div>`).join('');
+                    // Populate Demographic Information
+                    document.getElementById('demo-info').innerHTML = Array.from(demoInfo).map(input => `<div>${input.name}: ${input.value}</div>`).join('');
 
-                // Populate General Information
-                document.getElementById('general-info').innerHTML = Array.from(generalInfo).map(input => `<div>${input.name}: ${input.value}</div>`).join('');
+                    // Populate General Information
+                    document.getElementById('general-info').innerHTML = Array.from(generalInfo).map(input => `<div>${input.name}: ${input.value}</div>`).join('');
 
-                // Populate Economic Information
-                document.getElementById('economic-info').innerHTML = Array.from(economicInfo).map(input => `<div>${input.name}: ${input.value}</div>`).join('');
+                    // Populate Economic Information
+                    document.getElementById('economic-info').innerHTML = Array.from(economicInfo).map(input => `<div>${input.name}: ${input.value}</div>`).join('');
 
-                // Populate Vulnerabilities & Losses
-                document.getElementById('vulnerabilities-info').innerHTML = Array.from(vulnerabilitiesInfo).map(input => `<div>${input.name}: ${input.value}</div>`).join('');
+                    // Populate Vulnerabilities & Losses
+                    document.getElementById('vulnerabilities-info').innerHTML = Array.from(vulnerabilitiesInfo).map(input => `<div>${input.name}: ${input.value}</div>`).join('');
 
-                // Populate Observation/Comments
-                document.getElementById('observation-info').innerHTML = Array.from(observationInfo).map(input => `<div>${input.name}: ${input.value}</div>`).join('');
-            }
+                    // Populate Observation/Comments
+                    document.getElementById('observation-info').innerHTML = Array.from(observationInfo).map(input => `<div>${input.name}: ${input.value}</div>`).join('');
+                }
                 
-            document.querySelector('.submit-form').addEventListener('click', function() {
-                toastr.success("Form submitted successfully!");
             });
-        });
-    </script>
+        </script>
     @endpush
 </x-nform-layout>

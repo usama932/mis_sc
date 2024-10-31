@@ -4,11 +4,22 @@ $('#mpca_Date').flatpickr({
     maxDate: "today",
     minDate: new Date().fp_incr(-30), 
 });
-
+$('#cnic_issuance').flatpickr({
+    altInput: false,
+    dateFormat: "Y-m-d",
+   // maxDate: "today",
+   // minDate: "today", 
+});
+$('#cnic_expiry').flatpickr({
+    altInput: false,
+    dateFormat: "Y-m-d",
+    //maxDate: "today",
+   // minDate: "today", 
+});
 var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-// //script for province, district,tehisl and uc
-///get district cascade province
+
+//get district cascade province
 document.getElementById('districtloader').style.display = 'none';
 $("#provinceId").change(function () {
     document.getElementById('districtloader').style.display = 'block';
@@ -39,6 +50,7 @@ $("#provinceId").change(function () {
 
 });
 
+//get tehsil 
 document.getElementById('tehsilloader').style.display = 'none';
 $("#districtId").change(function () {
     document.getElementById('tehsilloader').style.display = 'block';

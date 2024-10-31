@@ -16,6 +16,7 @@ class BenficiaryAssessmentController extends Controller
         $provinces = Province::orderBy('province_name')->get();
        
         addJavascriptFile('assets/js/custom/benficaryAssessment/create.js');
+        addJavascriptFile('assets/js/custom/benficaryAssessment/general.js');
         return view('admin.benificiaryAssessment.create',compact('projects','provinces'));
     }
 }
