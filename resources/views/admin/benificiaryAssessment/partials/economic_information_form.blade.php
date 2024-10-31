@@ -23,3 +23,17 @@
         </div>
     </div>
 </div>
+<script>
+    document.getElementById('hh_monthly_income').addEventListener('input', function () {
+        // Remove non-digit characters and restrict to 7 digits
+        this.value = this.value.replace(/\D/g, '').slice(0, 7);
+    });
+    document.getElementById('hh_person_earned').addEventListener('input', function () {
+        // Remove non-digit characters and restrict to 7 digits
+        this.value = this.value.replace(/\D/g, '').slice(0, 7);
+    });
+    document.getElementById('hh_outstanding_debt').addEventListener('input', function () {
+        // Remove non-digit characters and restrict to 7 digits
+        this.value = this.value.replace(/\D/g, '').slice(0, 7);
+    });
+</script>
