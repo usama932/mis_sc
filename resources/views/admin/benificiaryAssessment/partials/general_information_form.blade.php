@@ -52,12 +52,12 @@
       
         <div class="fv-row col-md-2 ">
             <label for="hh_girls" class="fs-6 fw-bolder form-label mb-2 required">Household Girls:</label>
-            <input type="number" value="0" id="hh_girls" class="form-control" maxlength="7" name="hh_girls" oninput="this.value = this.value.slice(0, 7);" min="1" max="99">
+            <input type="number" value="0" id="hh_girls" class="form-control" maxlength="7" name="hh_girls" oninput="this.value = this.value.slice(0, 7);">
         </div>
 
         <div class="fv-row col-md-2">
             <label for="hh_boys" class="fs-6 fw-bolder form-label mb-2 required">Household Boys:</label>
-            <input type="number" value="0" id="hh_boys" class="form-control" maxlength="7   " name="hh_boys" oninput="this.value = this.value.slice(0, 7);" min="1" max="99">
+            <input type="number" value="0" id="hh_boys" class="form-control"  name="hh_boys" maxlength="7" oninput="this.value = this.value.slice(0, 7);">
         </div>
    
         <div class="fv-row col-md-2">
@@ -91,7 +91,7 @@
 
         <div class="fv-row col-md-2 mt-2">
             <label for="cnic_expiry" class="fs-8 fw-bolder form-label mb-2 required">Amount:</label>
-            <input type="text" id="recieve_cash_amount" class="form-control" name="recieve_cash_amount" value="0">
+            <input type="text" id="recieve_cash_amount" class="form-control" name="recieve_cash_amount" value="0" maxlength="7" oninput="this.value = this.value.slice(0, 7);">
         </div>
 
         <div class="fv-row col-md-2 mt-2">

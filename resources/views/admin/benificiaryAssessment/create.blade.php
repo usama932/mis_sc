@@ -106,7 +106,16 @@
             <div class="progress-bar-container">
                 <div class="progress-bar" id="progress-bar"></div>
             </div>
-            <form id="kt_beneficiary_assessment" action="{{ route('submit-beneficiary-assessment-form') }}" enctype="multipart/form-data">
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            <form id="kt_beneficiary_assessment" action="{{ route('submit-beneficiary-assessment-form') }}" enctype="multipart/form-data" method="post">
                 @csrf
                 <div class="step active" data-step="1">
                     <div class="card">

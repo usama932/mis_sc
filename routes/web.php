@@ -236,7 +236,7 @@ use Illuminate\Support\Facades\Route;
 
         //beneficiary assessment route
         Route::get('/beneficiary-assessment-form', [BenficiaryAssessmentController::class, 'beneficiaryAssessmentForm'])->name('beneficiary-assessment-form');
-        Route::post('/submit-beneficiary-assessment-form', [BenficiaryAssessmentController::class, 'submitBeneficiaryAssessmentForm']);
+        Route::post('submit-beneficiary-assessment-form', [BenficiaryAssessmentController::class, 'submitBeneficiaryAssessmentForm'])->name('submit-beneficiary-assessment-form');
     });
 
     Route::get('/error', function () {
