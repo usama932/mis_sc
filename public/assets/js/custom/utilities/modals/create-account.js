@@ -22,11 +22,11 @@ var KTCreateAccount = function () {
 
 		// Stepper change event
 		stepperObj.on('kt.stepper.changed', function (stepper) {
-			if (stepperObj.getCurrentStepIndex() === 4) {
+			if (stepperObj.getCurrentStepIndex() === 6) {
 				formSubmitButton.classList.remove('d-none');
 				formSubmitButton.classList.add('d-inline-block');
 				formContinueButton.classList.add('d-none');
-			} else if (stepperObj.getCurrentStepIndex() === 5) {
+			} else if (stepperObj.getCurrentStepIndex() === 7) {
 				formSubmitButton.classList.add('d-none');
 				formContinueButton.classList.add('d-none');
 			} else {
@@ -151,13 +151,56 @@ var KTCreateAccount = function () {
 			form,
 			{
 				fields: {
-					account_type: {
+					project: {
 						validators: {
 							notEmpty: {
-								message: 'Account type is required'
+								message: 'Project is required'
 							}
 						}
-					}
+					},
+					date: {
+						validators: {
+							notEmpty: {
+								message: 'Date  is required'
+							}
+						}
+					},
+					province: {
+						validators: {
+							notEmpty: {
+								message: 'Province is required'
+							}
+						}
+					},
+					district: {
+						validators: {
+							notEmpty: {
+								message: 'District is required'
+							}
+						}
+					},
+					tehsil: {
+						validators: {
+							notEmpty: {
+								message: 'Tehsil is required'
+							}
+						}
+					},
+					uc: {
+						validators: {
+							notEmpty: {
+								message: 'UC is required'
+							}
+						}
+					},
+					village: {
+						validators: {
+							notEmpty: {
+								message: 'UC is required'
+							}
+						}
+					},
+					
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
