@@ -35,7 +35,7 @@ class ActionPoint implements FromView
         }
         if (auth()->user()->hasRole("partner")) {
             $project = ProjectPartner::where('email',auth()->user()->email)->first();
-            $qb->where('project_name', $project->project_id);
+            $qb->where('created_by', auth()->user()->id);
         }
         $qb->with('action_point','user','user1','districts','districts',
                     'tehsils','uc','project')->latest();

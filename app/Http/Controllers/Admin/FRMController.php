@@ -63,12 +63,12 @@ class FRMController extends Controller
         $projects           = Project::where('active','1')->get();
         if (auth()->user()->hasRole("partner")) {
             $projectId = ProjectPartner::where('email',auth()->user()->email)->first();
-            $projects = Project::where('id',$projectId->project_id)->orderBy('name')->latest()->get();
+            $projects = Project::where('created_by',auth()->user()->id)->orderBy('name')->latest()->get();
         }
         else{
             $projects = Project::latest()->get();
         }
-        $clients            = Frm::orderBy('name_of_client')->pluck('name_of_client');
+        $clients = Frm::orderBy('name_of_client')->pluck('name_of_client');
         
         $users = User::where('user_type','R2')->orWhere('user_type','R1')->orWhere('user_type','R3')->get();
 
@@ -78,7 +78,8 @@ class FRMController extends Controller
         return view('admin.frm.index' ,compact('feedbackchannels','feedbackcategories','projects','total_frm','open_frm','close_frm','users','clients'));
     }
 
-    public function getBreifFrms(){
+    public function getBreifFrms()
+    {
         if(auth()->user()->permissions_level == 'nation-wide')
         {
             $total_frm = Frm::count();
@@ -187,7 +188,7 @@ class FRMController extends Controller
         }
         if (auth()->user()->hasRole("partner")) {
             $project = ProjectPartner::where('email',auth()->user()->email)->first();
-            $frms->where('created_at', auth()->user()->id);
+            $frms->where('created_by', auth()->user()->id);
         }
         // Apply eager loading to reduce queries
         $frms = $frms->with(['channel', 'category', 'theme_name', 'project', 'provinces', 'districts', 'tehsils'])
@@ -287,7 +288,6 @@ class FRMController extends Controller
         return '<div>'.$view.$edit.$delete.'</div>';
     }
 
-
     public function create()
     {
         $last_record = Frm::latest()->first();
@@ -307,7 +307,7 @@ class FRMController extends Controller
         }
         
         $themes = Theme::latest()->get();
-        $users = User::where('user_type','R2')->orWhere('user_type','R1')->orWhere('user_type','R3')->get();
+        $users = User::orderBy('name')->get();
         $record = ClosingRecord::latest()->first(); 
 
         addJavascriptFile('assets/js/custom/frm/general.js');

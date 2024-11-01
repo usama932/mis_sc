@@ -87,7 +87,7 @@ class FrmExport implements FromView
         }
         if (auth()->user()->hasRole("partner")) {
             $project = ProjectPartner::where('email',auth()->user()->email)->first();
-            $frm->where('project_name', $project->project_id);
+            $frm->where('created_by', auth()->user()->id);
         }
         $frm->with('user','user1','districts','districts',
                     'tehsils','uc','category','theme_name','channel','project')->latest();

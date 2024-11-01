@@ -27,15 +27,16 @@
                         <select name="name_of_registrar" id="name_of_registrar" aria-label="Select a Registrar Name" data-control="select2" data-placeholder="Select a Registrar Name..." class="form-select  ">
                             <option  value="">Select Option</option>
                             @foreach($users as $user)
+                                @if(auth()->user()->hasRole('partner'))
+                                    @if(auth()->user()->id == $user->id)
+                                        <option  value="{{$user->name}}" >{{$user->name}}</option>
+                                    @endif
+                                @else
                                 <option  value="{{$user->name}}" >{{$user->name}}</option>
+                                @endif
+                                
                             @endforeach
-                            <option  value="Ruqaiya Bibi" >Ruqaiya Bibi</option>
-                            <option  value="Dr. Kashmala" >Dr. Kashmala</option>
-                            <option  value="Mehnaz" >Mehnaz</option>
-                            <option  value="Musarrat Bibi" >Musarrat Bibi</option>
-                            <option  value="Shaista Mir" >Shaista Mir</option>
-                            <option  value="Shama" >Shama</option>
-                            <option  value="Zahid Ali Khan" >Zahid Ali Khan</option>
+                     
                         </select>
                         <span id="name_of_registrarError" class="error-message"></span> 
                     </div>

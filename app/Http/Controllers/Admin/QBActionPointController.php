@@ -195,6 +195,9 @@ class QBActionPointController extends Controller
         if(auth()->user()->hasRole("IP's")){
             $qb_actionpoints->where('created_by',auth()->user()->id);
         }
+        if(auth()->user()->hasRole("partner")){
+            $qb_actionpoints->where('created_by',auth()->user()->id);
+        }
 		$action_points = $qb_actionpoints
                             ->get();
       

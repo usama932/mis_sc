@@ -1,4 +1,5 @@
 <x-nform-layout>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <style>
@@ -105,13 +106,13 @@
             <div class="progress-bar-container">
                 <div class="progress-bar" id="progress-bar"></div>
             </div>
-            <form id="kt_beneficary_assessment"  action="" enctype="multipart/form-data">
+            <form id="kt_beneficiary_assessment" action="{{ route('submit-beneficiary-assessment-form') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="step active" data-step="1">
                     <div class="card">
                         @include('admin.benificiaryAssessment.partials.demographic_information')
                         <div class="d-flex justify-content-center">
-                            <button class="btn btn-primary btn-sm next-step">Next</button>
+                            <button type="button" class="btn btn-primary btn-sm next-step">Next</button>
                         </div>
                     </div>
                 </div>
@@ -121,8 +122,8 @@
                     <div class="card">
                         @include('admin.benificiaryAssessment.partials.general_information_form')
                         <div class="button-group">
-                            <button class="btn btn-secondary btn-sm previous-step">Previous</button>
-                            <button class="btn btn-primary btn-sm next-step">Next</button>
+                            <button type="button" class="btn btn-secondary btn-sm previous-step">Previous</button>
+                            <button type="button" class="btn btn-primary btn-sm next-step">Next</button>
                         </div>
                     </div>
                 </div>
@@ -132,8 +133,8 @@
                     <div class="card">
                         @include('admin.benificiaryAssessment.partials.economic_information_form')
                         <div class="button-group">
-                            <button class="btn btn-secondary btn-sm previous-step">Previous</button>
-                            <button class="btn btn-primary btn-sm next-step">Next</button>
+                            <button type="button" class="btn btn-secondary btn-sm previous-step">Previous</button>
+                            <button type="button" class="btn btn-primary btn-sm next-step">Next</button>
                         </div>
                     </div>
                 </div>
@@ -143,8 +144,8 @@
                     <div class="card">
                         @include('admin.benificiaryAssessment.partials.vulnerability')
                         <div class="button-group">
-                            <button class="btn btn-secondary btn-sm previous-step">Previous</button>
-                            <button class="btn btn-primary btn-sm next-step">Next</button>
+                            <button type="button" class="btn btn-secondary btn-sm previous-step">Previous</button>
+                            <button type="button" class="btn btn-primary btn-sm next-step">Next</button>
                         </div>
                     </div>
                 </div>
@@ -154,8 +155,8 @@
                     <div class="card">
                         @include('admin.benificiaryAssessment.partials.observation_form')
                         <div class="button-group">
-                            <button class="btn btn-secondary btn-sm previous-step">Previous</button>
-                            <button class="btn btn-primary btn-sm next-step">Next</button>
+                            <button type="button" class="btn btn-secondary btn-sm previous-step">Previous</button>
+                            <button type="button" class="btn btn-primary btn-sm next-step" id="finishStep">Finish</button>
                         </div>
                     </div>
                 </div>
@@ -164,34 +165,11 @@
                 <div class="step" data-step="6">
                     <div class="card">
                         <h4>Review Your Information</h4>
-                        <div id="review-data" class="row">
-                            <div class="col-md-12">
-                                <div class="row mb-3">
-                                    <div class="col-md-6 font-weight-bold">Demographic Information:</div>
-                                    <div class="col-md-6" id="demo-info"></div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-6 font-weight-bold">General Information:</div>
-                                    <div class="col-md-6" id="general-info"></div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-6 font-weight-bold">Economic Information:</div>
-                                    <div class="col-md-6" id="economic-info"></div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-6 font-weight-bold">Vulnerabilities & Losses:</div>
-                                    <div class="col-md-6" id="vulnerabilities-info"></div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-6 font-weight-bold">Observation/Comments:</div>
-                                    <div class="col-md-6" id="observation-info"></div>
-                                </div>
-                            </div>
-                        </div>
+                        <div id="review-data" class="row"></div>
                         <div class="button-group">
-                            <button class="btn btn-secondary btn-sm previous-step">Previous</button>
-                            <button type="submit" class="btn btn-primary m-3" id="kt_submit_beneficary_assessment">
-                                @include('partials/general/_button-indicator', ['label' => 'Submit'])
+                            <button type="button" class="btn btn-secondary btn-sm previous-step">Previous</button>
+                            <button type="submit" class="btn btn-primary " id="kt_submit_beneficiary_assessment">
+                                Submit
                             </button>
                         </div>
                     </div>
@@ -210,9 +188,9 @@
                 const reviewData = document.getElementById('review-data');
                 const totalSteps = steps.length;
                 const stepItems = document.querySelectorAll('.step-bar-item');
-        
+
                 showStep(1); // Show the first step
-        
+
                 // Step Navigation
                 nextButtons.forEach(button => {
                     button.addEventListener('click', () => {
@@ -227,14 +205,14 @@
                         }
                     });
                 });
-        
+
                 previousButtons.forEach(button => {
                     button.addEventListener('click', () => {
                         const currentStep = getActiveStep();
                         showStep(currentStep - 1);
                     });
                 });
-        
+
                 function showStep(step) {
                     steps.forEach((el, index) => {
                         el.classList.toggle('active', index === step - 1);
@@ -242,11 +220,11 @@
                     updateProgressBar(step);
                     updateStepBar(step);
                 }
-        
+
                 function getActiveStep() {
                     return Array.from(steps).findIndex(step => step.classList.contains('active')) + 1;
                 }
-        
+
                 function validateStep(step) {
                     let valid = true;
                     const inputs = steps[step - 1].querySelectorAll('input[required], textarea[required]');
@@ -260,42 +238,57 @@
                     });
                     return valid;
                 }
-        
+
                 function updateProgressBar(step) {
                     const percentage = ((step - 1) / (totalSteps - 1)) * 100;
                     progressBar.style.width = `${percentage}%`;
                 }
-        
+
                 function updateStepBar(step) {
                     stepItems.forEach((item, index) => {
                         item.classList.toggle('active', index < step);
                     });
                 }
-        
+
                 function populateReviewData() {
-                    // Collect data from previous steps and populate the review section
-                    const demoInfo = document.querySelectorAll('input[name^="demographic_"], textarea[name^="demographic_"]');
-                    const generalInfo = document.querySelectorAll('input[name^="general_"], textarea[name^="general_"]');
-                    const economicInfo = document.querySelectorAll('input[name^="economic_"], textarea[name^="economic_"]');
-                    const vulnerabilitiesInfo = document.querySelectorAll('input[name^="vulnerability_"], textarea[name^="vulnerability_"]');
-                    const observationInfo = document.querySelectorAll('input[name^="observation_"], textarea[name^="observation_"]');
+                    reviewData.innerHTML = ''; // Clear existing review data
+                    const formData = new FormData(document.getElementById('kt_beneficiary_assessment'));
+                    
+                    // Create a table for the review data
+                    const table = document.createElement('table');
+                    table.classList.add('table', 'table-bordered', 'table-striped', 'mt-3');
 
-                    // Populate Demographic Information
-                    document.getElementById('demo-info').innerHTML = Array.from(demoInfo).map(input => `<div>${input.name}: ${input.value}</div>`).join('');
+                    // Create table header
+                    const thead = document.createElement('thead');
+                    thead.innerHTML = `
+                        <tr>
+                            <th>Field</th>
+                            <th>Value</th>
+                        </tr>
+                    `;
+                    table.appendChild(thead);
 
-                    // Populate General Information
-                    document.getElementById('general-info').innerHTML = Array.from(generalInfo).map(input => `<div>${input.name}: ${input.value}</div>`).join('');
+                    // Create table body
+                    const tbody = document.createElement('tbody');
 
-                    // Populate Economic Information
-                    document.getElementById('economic-info').innerHTML = Array.from(economicInfo).map(input => `<div>${input.name}: ${input.value}</div>`).join('');
+                    for (let [key, value] of formData.entries()) {
+                        // Create a row for each field
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${key.replace(/_/g, ' ').toUpperCase()}</td>
+                            <td>${value}</td>
+                        `;
+                        tbody.appendChild(row);
+                    }
 
-                    // Populate Vulnerabilities & Losses
-                    document.getElementById('vulnerabilities-info').innerHTML = Array.from(vulnerabilitiesInfo).map(input => `<div>${input.name}: ${input.value}</div>`).join('');
+                    // Append tbody to the table
+                    table.appendChild(tbody);
 
-                    // Populate Observation/Comments
-                    document.getElementById('observation-info').innerHTML = Array.from(observationInfo).map(input => `<div>${input.name}: ${input.value}</div>`).join('');
+                    // Append the table to the reviewData container
+                    reviewData.appendChild(table);
                 }
-                
+
+
             });
         </script>
     @endpush

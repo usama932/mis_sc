@@ -45,7 +45,7 @@ class QbController extends Controller
         addJavascriptFile('assets/js/custom/quality_benchmark/index_script.js');
         addVendors(['datatables']);
 
-        if(auth()->user()->user_type == "province-wide"){
+        if(auth()->user()->user_type == "province-wide" && !auth()->user()->hasRole('partner') && !auth()->user()->hasRole("IP's")){
             $province = Province::where('province_id',auth()->user()->province)->first();
             $qb_last_month = QualityBench::where('province',auth()->user()->province)
                                         ->whereMonth('date_visit', Carbon::now()->subMonth()->month)
@@ -56,7 +56,7 @@ class QbController extends Controller
             $old_totalqb = OldQB::where('province',$province)->count();
             $qb_last_days = QualityBench::where('province',auth()->user()->province)->where('created_at', '>=', Carbon::now()->subDays(10))->count();
         }
-        elseif(auth()->user()->user_type == "district-wide"){
+        elseif(auth()->user()->user_type == "district-wide" && !auth()->user()->hasRole('partner') && !auth()->user()->hasRole("IP's")){
             $district = District::where('district_id',auth()->user()->district)->count();
             $qb_last_month = QualityBench::where('district',auth()->user()->district)->whereMonth('date_visit', Carbon::now()->subMonth()->month)
             ->whereYear('date_visit', Carbon::now()->subMonth()->year)->count();
@@ -65,6 +65,12 @@ class QbController extends Controller
             $total_qbs =  QualityBench::where('district',auth()->user()->district)->count();
             $old_totalqb = OldQB::where('district',$district)->count();
             $qb_last_10_days = QualityBench::where('district',auth()->user()->district)->where('created_at', '>=', Carbon::now()->subDays(10))->count();
+        }
+        elseif(auth()->user()->hasRole('partner') || auth()->user()->hasRole("IP's")){
+
+            $total_qbs =  QualityBench::where('created_by',auth()->user()->id)->count();
+            $old_totalqb = OldQB::where('created_by',auth()->user()->id)->count();
+            $qb_last_10_days = QualityBench::where('created_by',auth()->user()->id)->where('created_at', '>=', Carbon::now()->subDays(10))->count();
         }
         else{
             $qb_last_month = QualityBench::whereMonth('date_visit', Carbon::now()->subMonth()->month)
@@ -152,7 +158,7 @@ class QbController extends Controller
         }
         if (auth()->user()->hasRole("partner")) {
             $project = ProjectPartner::where('email',auth()->user()->email)->first();
-            $qualit_benchs->where('project_name', auth()->user()->id);
+            $qualit_benchs->where('created_by', auth()->user()->id);
         }
         // Pagination and sorting
         $totalData = $qualit_benchs->count();

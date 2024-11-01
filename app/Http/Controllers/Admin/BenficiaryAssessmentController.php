@@ -19,4 +19,8 @@ class BenficiaryAssessmentController extends Controller
         addJavascriptFile('assets/js/custom/benficaryAssessment/general.js');
         return view('admin.benificiaryAssessment.create',compact('projects','provinces'));
     }
+
+    public function submitBeneficiaryAssessmentForm(Request $request){
+        dd($request->all());
+    }
 }
