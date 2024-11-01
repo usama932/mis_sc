@@ -187,7 +187,7 @@ class FRMController extends Controller
         }
         if (auth()->user()->hasRole("partner")) {
             $project = ProjectPartner::where('email',auth()->user()->email)->first();
-            $frms->where('project_name', $project->project_id);
+            $frms->where('created_at', auth()->user()->id);
         }
         // Apply eager loading to reduce queries
         $frms = $frms->with(['channel', 'category', 'theme_name', 'project', 'provinces', 'districts', 'tehsils'])

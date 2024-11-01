@@ -152,7 +152,7 @@ class QbController extends Controller
         }
         if (auth()->user()->hasRole("partner")) {
             $project = ProjectPartner::where('email',auth()->user()->email)->first();
-            $qualit_benchs->where('project_name', $project->project_id);
+            $qualit_benchs->where('project_name', auth()->user()->id);
         }
         // Pagination and sorting
         $totalData = $qualit_benchs->count();
