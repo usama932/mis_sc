@@ -37,9 +37,9 @@
                             </div>
                             <!--end::Step 5-->
                             <!--begin::Step 6-->
-                            <div class="stepper-item" data-kt-stepper-element="nav">
+                            {{-- <div class="stepper-item" data-kt-stepper-element="nav">
                                 <h6 class="stepper-title fs-6">Review/Submit</h6>
-                            </div>
+                            </div> --}}
                             <!--end::Step 6-->
                         </div>
                         <!--end::Nav-->
@@ -96,15 +96,15 @@
                                 <!--end::Wrapper-->
                             </div>
                             <!--end::Step 5-->
-                              <!--begin::Step 5-->
-                              <div data-kt-stepper-element="content">
+                            <!--begin::Step 6-->
+                            {{-- <div data-kt-stepper-element="content">
                                 <!--begin::Wrapper-->
                                 <div class="w-100">
                                     
                                 </div>
                                 <!--end::Wrapper-->
-                            </div>
-                            <!--end::Step 5-->
+                            </div> --}}
+                            <!--end::Step 6-->
                             <!--begin::Actions-->
                             <div class="d-flex flex-stack pt-15">
                                 <!--begin::Wrapper-->

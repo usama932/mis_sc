@@ -584,11 +584,11 @@
                             @endcan
                             @can('read mpca')
                                 <div class="menu-item">
-                                    <a class="menu-link {{ (request()->segment(1) == 'beneficiary-assessment-list' ) ?  'active' : '' }}" href="{{ route('indicators.create') }}"">
+                                    <a class="menu-link {{ (request()->segment(1) == 'beneficiary-assessment-list' ) ?  'active' : '' }}" href="{{ route('beneficiary-assessment-list') }}"">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">Add Indicator</span>
+                                        <span class="menu-title">Beneficary Assessment</span>
                                     </a>
                                 </div>
                             @endcan

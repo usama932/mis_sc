@@ -22,11 +22,11 @@ var KTCreateAccount = function () {
 
 		// Stepper change event
 		stepperObj.on('kt.stepper.changed', function (stepper) {
-			if (stepperObj.getCurrentStepIndex() === 6) {
+			if (stepperObj.getCurrentStepIndex() === 5) {
 				formSubmitButton.classList.remove('d-none');
 				formSubmitButton.classList.add('d-inline-block');
 				formContinueButton.classList.add('d-none');
-			} else if (stepperObj.getCurrentStepIndex() === 7) {
+			} else if (stepperObj.getCurrentStepIndex() === 6) {
 				formSubmitButton.classList.add('d-none');
 				formContinueButton.classList.add('d-none');
 			} else {
@@ -188,10 +188,10 @@ var KTCreateAccount = function () {
                           toastr.error("Please address the highlighted errors", "Error");   
                     }).then(() => {
                         // Hide loading indication
-                        submitButton.removeAttribute('data-kt-indicator');
+                        formSubmitButton.removeAttribute('data-kt-indicator');
 
                         // Enable button
-                        submitButton.disabled = false;
+                        formSubmitButton.disabled = false;
                     });
 					// Simulate form submission
 					setTimeout(function() {

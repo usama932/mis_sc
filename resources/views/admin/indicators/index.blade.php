@@ -1,10 +1,5 @@
 <x-default-layout>
     @section('title', 'Indicators')
-
-   
-    <div class="card mb-4">
-        
-    </div>
     <div id="kt_app_content" class="app-content flex-column-fluid">
         
         <div class="card">

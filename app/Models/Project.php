@@ -14,6 +14,10 @@ class Project extends Model
     {
         return $this->hasMany(Frm::class,'project_name','id');
     }
+    public function beneficiaryAssessments()
+    {
+        return $this->hasMany(BenficiaryAssessment::class,'user_id','id');
+    }
     public function themes()
     {
         return $this->hasMany(ProjectTheme::class,'project_id','id');
@@ -71,4 +75,5 @@ class Project extends Model
     {
         return $this->belongsTo(Donor::class,'donor','id');
     }
+
 }

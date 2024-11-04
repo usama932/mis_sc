@@ -12,6 +12,57 @@ use File;
 
 class BenficiaryAssessmentController extends Controller
 {
+
+    public function beneficiaryAssessmentlist(){
+
+        addVendors(['datatables']);
+        addJavascriptFile('assets/js/custom/benficaryAssessment/index.js');
+        return view('admin.benificiaryAssessment.index');
+    }
+
+    public function beneficiaryAssessments(Request $request){
+            // Initialize the query
+            $query = BenficiaryAssessment::with(['project', 'user'])->latest();
+
+            // Apply filters if present
+            if ($request->filled('project')) {
+                $query->where('project_id', $request->project);
+            }
+           
+            // Get the filtered and total count
+            $totalData = $query->count();
+            $totalFiltered = $totalData; // Since the query is already filtered
+            $benficiaryAssessments = $query->get();
+          
+            // Prepare data for DataTables
+            $data = $benficiaryAssessments->map(function ($benficiaryAssessment) {
+                return [
+                    'id' => $benficiaryAssessment->id,
+                    'form_no' => $benficiaryAssessment->form_no ?? '',
+                    'project' => $benficiaryAssessment->project->name ?? '', 
+                    'name_of_beneficiary' => $benficiaryAssessment->name_of_beneficiary ?? '',
+                    'gender' => $benficiaryAssessment->gender ?? '',
+                    'age' => $benficiaryAssessment->age ?? '',
+                    'contact_number' => $benficiaryAssessment->contact_number ?? '',
+                    'cash_assistance' => $benficiaryAssessment->cash_assistance ?? '',
+                    'assessment_officer' => $benficiaryAssessment->assessment_officer ?? '',
+                    'vc_representative_name' => $benficiaryAssessment->vc_representative_name ?? '',
+                    'status'        => $benficiaryAssessment->status ?? '',
+                    'created_by' => $benficiaryAssessment->user->name ?? '',
+                    'created_at' => $benficiaryAssessment->created_at ? $benficiaryAssessment->created_at->format('M d, Y') : '',
+                    'action' => '', // Add action buttons if necessary
+                    
+                ];
+            });
+        
+            // Return JSON response for DataTables
+            return response()->json([
+                "draw" => intval($request->input('draw')),
+                "recordsTotal" => intval($totalData),
+                "recordsFiltered" => intval($totalFiltered),
+                "data" => $data->toArray(),
+            ]);
+    }
     public function beneficiaryAssessmentForm(){
 
         $projects = Project::where('active',1)->orderBy('name')->get();
@@ -71,7 +122,7 @@ class BenficiaryAssessmentController extends Controller
             'widows_count' => 'nullable|integer|min:0',
             'pregnant_women' => 'nullable|integer|min:0',
             'meals_per_day' => 'nullable|integer|min:0',
-            'cash_assistance' => 'required|in:yes,no',
+            'cash_assistance' => 'required',
             'assessment_officer' => 'nullable|string|max:255',
             'beneficiary_name' => 'nullable|string|max:255',
             'vc_representative' => 'nullable|string|max:255',
@@ -94,7 +145,9 @@ class BenficiaryAssessmentController extends Controller
         // Fetch the last record of BenficiaryAssessment and increment ID for UUID
         $beneficiary_last = BenficiaryAssessment::latest()->first();
         $next_id = $beneficiary_last ? $beneficiary_last->id + 1 : 1;
-        $form_no = $next_id."-".time(); 
+
+        $form_no = $next_id."-".time();
+
         $beneficiary = BenficiaryAssessment::create([
             'form_no' => $form_no,
             'project_id' => $request->project,
@@ -150,12 +203,19 @@ class BenficiaryAssessmentController extends Controller
             'attachment' =>  $filename,
             'status'  => 'waiting',
             'created_by' => auth()->user()->id,
-         ]);
+        ]);
+
 
         return response()->json([
+            "error" => false,
             'status' => 'success',
             'message' => 'Account successfully created!',
             'data' => $beneficiary
         ]);
+    }
+    
+    public function Show($id){
+        $benficiaryAssessment = BenficiaryAssessment::Find($id);
+        return view('admin.benificiaryAssessment.show', compact('benficiaryAssessment'));
     }
 }
