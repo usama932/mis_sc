@@ -36,6 +36,7 @@ class BenficiaryAssessmentController extends Controller
           
             // Prepare data for DataTables
             $data = $benficiaryAssessments->map(function ($benficiaryAssessment) {
+
                 return [
                     'id' => $benficiaryAssessment->id,
                     'form_no' => $benficiaryAssessment->form_no ?? '',
@@ -50,8 +51,13 @@ class BenficiaryAssessmentController extends Controller
                     'status'        => $benficiaryAssessment->status ?? '',
                     'created_by' => $benficiaryAssessment->user->name ?? '',
                     'created_at' => $benficiaryAssessment->created_at ? $benficiaryAssessment->created_at->format('M d, Y') : '',
-                    'action' => '', // Add action buttons if necessary
-                    
+                    'action' => '
+                    <a href="' . route('benficiaryAssessment.show', $benficiaryAssessment->id) . '" title="Show">
+                        <i class="fa fa-eye"></i>
+                    </a>
+                    <a href="' . route('benficiaryAssessment.edit', $benficiaryAssessment->id) . '" title="Edit">
+                        <i class="fa fa-edit"></i>
+                    </a>'
                 ];
             });
         
@@ -63,6 +69,7 @@ class BenficiaryAssessmentController extends Controller
                 "data" => $data->toArray(),
             ]);
     }
+
     public function beneficiaryAssessmentForm(){
 
         $projects = Project::where('active',1)->orderBy('name')->get();
@@ -217,5 +224,13 @@ class BenficiaryAssessmentController extends Controller
     public function Show($id){
         $benficiaryAssessment = BenficiaryAssessment::Find($id);
         return view('admin.benificiaryAssessment.show', compact('benficiaryAssessment'));
+    }
+
+    public function edit($id){
+
+    }
+
+    public function destroy($id){
+        
     }
 }

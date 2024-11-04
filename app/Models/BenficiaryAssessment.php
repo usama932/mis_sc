@@ -38,7 +38,7 @@ class BenficiaryAssessment extends Model
     {
         return $this->belongsTo(Tehsil::class,'tehsil','id');
     }
-    public function uc()
+    public function ucs()
     {
         return $this->belongsTo(UnionCounsil::class,'uc','union_id');
     }

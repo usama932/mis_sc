@@ -174,6 +174,7 @@ class   DipActivityController extends Controller
 
     public function get_complete_activity(Request $request)
     {   
+        
         $dipId = $request->dip_id;
         $user_idd = $request->user;
         $subtheme = $request->subtheme;
@@ -285,8 +286,10 @@ class   DipActivityController extends Controller
                 'quarter_target'            => $completemonth->quarter . '-' . $completemonth->year,
                 'status'                    => $completemonth->status ?? "Wait For Progress",
                 'remarks'                   => $finalRemarks ?? "",
-                'action'                    => $update_status,
-                // 'action'                    => '<div><td><a class="badge badge-primary mx-1" href="' . $show_url . '" title="Show Activity" href="javascript:void(0)">Show Activity</a></td></div>',
+                'image'                     => !empty($completemonth->progress->image) ? '<img src="'.asset("storage/activity_progress/image/{$completemonth->project->sof}/".$completemonth->progress->image).'" alt="Image" style="width: 100px;" class="thumbnail" onclick="previewImage(this)">' : '',
+                'attachment'                => !empty($completemonth->progress->attachment) ? '<a title="Edit" class="" href="'.route('download_progress_attachment', $completemonth->progress->id).'"><i class="fa fa-download text-dark" aria-hidden="true"></i></a>' : '',
+                'action'                    => $update_status,  
+                // 'action'                 => '<div><td><a class="badge badge-primary mx-1" href="' . $show_url . '" title="Show Activity" href="javascript:void(0)">Show Activity</a></td></div>',
             ];
     
             $data[] = $nestedData;           

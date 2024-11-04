@@ -32,57 +32,87 @@ class QbController extends Controller
     }
     public function index()
     {
-        if (auth()->user()->hasRole("partner")) {
-            $projectId = ProjectPartner::where('email',auth()->user()->email)->first();
-            $projects = Project::where('id',$projectId->project_id)->orderBy('name')->latest()->get();
-        }
-        else{
+        $user = auth()->user();
+        $userEmail = $user->email;
+        $userType = $user->user_type;
+        $provinceId = $user->province;
+        $districtId = $user->district;
+
+        // Get projects based on user role
+        if ($user->hasRole("partner")) {
+            $projectId = ProjectPartner::where('email', $userEmail)->first();
+            $projects = Project::where('id', $projectId->project_id)->orderBy('name')->latest()->get();
+        } else {
             $projects = Project::latest()->get();
         }
-       
-        $users = User::where('user_type','R2')->orwhere('user_type','R1')->orwhere('user_type','R3')->get();
+
+        // Get users of type R1, R2, or R3
+        $users = User::whereIn('user_type', ['R1', 'R2', 'R3'])->get();
 
         addJavascriptFile('assets/js/custom/quality_benchmark/index_script.js');
         addVendors(['datatables']);
 
-        if(auth()->user()->user_type == "province-wide" && !auth()->user()->hasRole('partner') && !auth()->user()->hasRole("IP's")){
-            $province = Province::where('province_id',auth()->user()->province)->first();
-            $qb_last_month = QualityBench::where('province',auth()->user()->province)
-                                        ->whereMonth('date_visit', Carbon::now()->subMonth()->month)
-                                        ->whereYear('date_visit', Carbon::now()->subMonth()->year)->count();
-            $qb_this_month = QualityBench::where('province',auth()->user()->province)->whereMonth('date_visit', Carbon::now()->month)
-                                        ->whereYear('date_visit', Carbon::now()->year)->count();
-            $total_qbs =  QualityBench::where('province',auth()->user()->province)->count();
-            $old_totalqb = OldQB::where('province',$province)->count();
-            $qb_last_days = QualityBench::where('province',auth()->user()->province)->where('created_at', '>=', Carbon::now()->subDays(10))->count();
-        }
-        elseif(auth()->user()->user_type == "district-wide" && !auth()->user()->hasRole('partner') && !auth()->user()->hasRole("IP's")){
-            $district = District::where('district_id',auth()->user()->district)->count();
-            $qb_last_month = QualityBench::where('district',auth()->user()->district)->whereMonth('date_visit', Carbon::now()->subMonth()->month)
-            ->whereYear('date_visit', Carbon::now()->subMonth()->year)->count();
-            $qb_this_month = QualityBench::where('district',auth()->user()->district)->whereMonth('date_visit', Carbon::now()->month)
-            ->whereYear('date_visit', Carbon::now()->year)->count();
-            $total_qbs =  QualityBench::where('district',auth()->user()->district)->count();
-            $old_totalqb = OldQB::where('district',$district)->count();
-            $qb_last_10_days = QualityBench::where('district',auth()->user()->district)->where('created_at', '>=', Carbon::now()->subDays(10))->count();
-        }
-        elseif(auth()->user()->hasRole('partner') || auth()->user()->hasRole("IP's")){
+        // Initialize counts
+        $qb_last_month = $qb_this_month = $total_qbs = $old_totalqb = $qb_last_days = 0;
 
-            $total_qbs =  QualityBench::where('created_by',auth()->user()->id)->count();
-            $old_totalqb = OldQB::where('created_by',auth()->user()->id)->count();
-            $qb_last_10_days = QualityBench::where('created_by',auth()->user()->id)->where('created_at', '>=', Carbon::now()->subDays(10))->count();
-        }
-        else{
-            $qb_last_month = QualityBench::whereMonth('date_visit', Carbon::now()->subMonth()->month)
-            ->whereYear('date_visit', Carbon::now()->subMonth()->year)->count();
+        // Define the date range
+        $lastMonth = Carbon::now()->subMonth();
+        $lastTenDays = Carbon::now()->subDays(10);
+
+        // Determine counts based on user type
+        if ($userType === "province-wide" && !$user->hasRole('partner') && !$user->hasRole("IP's")) {
+            $qb_last_month = QualityBench::where('province', $provinceId)
+                ->whereMonth('date_visit', $lastMonth->month)
+                ->whereYear('date_visit', $lastMonth->year)
+                ->count();
+            
+            $qb_this_month = QualityBench::where('province', $provinceId)
+                ->whereMonth('date_visit', Carbon::now()->month)
+                ->whereYear('date_visit', Carbon::now()->year)
+                ->count();
+            
+            $total_qbs = QualityBench::where('province', $provinceId)->count();
+            $old_totalqb = OldQB::where('province', $provinceId)->count();
+            $qb_last_days = QualityBench::where('province', $provinceId)
+                ->where('created_at', '>=', $lastTenDays)
+                ->count();
+        } elseif ($userType === "district-wide" && !$user->hasRole('partner') && !$user->hasRole("IP's")) {
+            $qb_last_month = QualityBench::where('district', $districtId)
+                ->whereMonth('date_visit', $lastMonth->month)
+                ->whereYear('date_visit', $lastMonth->year)
+                ->count();
+            
+            $qb_this_month = QualityBench::where('district', $districtId)
+                ->whereMonth('date_visit', Carbon::now()->month)
+                ->whereYear('date_visit', Carbon::now()->year)
+                ->count();
+            
+            $total_qbs = QualityBench::where('district', $districtId)->count();
+            $old_totalqb = OldQB::where('district', $districtId)->count();
+            $qb_last_days = QualityBench::where('district', $districtId)
+                ->where('created_at', '>=', $lastTenDays)
+                ->count();
+        } elseif ($user->hasRole('partner') || $user->hasRole("IP's")) {
+            $total_qbs = QualityBench::where('created_by', $user->id)->count();
+            $old_totalqb = OldQB::where('created_by', $user->id)->count();
+            $qb_last_days = QualityBench::where('created_by', $user->id)
+                ->where('created_at', '>=', $lastTenDays)
+                ->count();
+        } else {
+            $qb_last_month = QualityBench::whereMonth('date_visit', $lastMonth->month)
+                ->whereYear('date_visit', $lastMonth->year)
+                ->count();
+            
             $qb_this_month = QualityBench::whereMonth('date_visit', Carbon::now()->month)
-            ->whereYear('date_visit', Carbon::now()->year)->count();
-            $total_qbs =  QualityBench::count();
+                ->whereYear('date_visit', Carbon::now()->year)
+                ->count();
+            
+            $total_qbs = QualityBench::count();
             $old_totalqb = OldQB::count();
-            $qb_last_days = QualityBench::where('created_at', '>=', Carbon::now()->subDays(10))->count();
+            $qb_last_days = QualityBench::where('created_at', '>=', $lastTenDays)->count();
         }
-      
-        return view('admin.quality_bench.index',compact('projects','users','total_qbs','old_totalqb','qb_last_days','qb_this_month','qb_last_month'));
+
+        return view('admin.quality_bench.index', compact('projects', 'users', 'total_qbs', 'old_totalqb', 'qb_last_days', 'qb_this_month', 'qb_last_month'));
     }
 
     public function get_qbs(Request $request)
@@ -134,15 +164,19 @@ class QbController extends Controller
 
         // Date filtering
         $dateParts = explode('to', $request->date_visit);
-       
-        $startdate = '';
-        $enddate = '';
-        if(!empty($request->date_visit)){
-            $startdate = $dateParts[0] ?? '';
-            $enddate = $dateParts[1] ?? '';
-        }
-        if($request->date_visit != null ){
-            $qualit_benchs->whereBetween('date_visit',[$startdate ,$enddate]);
+
+        $startdate = isset($dateParts[0]) ? trim($dateParts[0]) : null;
+        $enddate = isset($dateParts[1]) ? trim($dateParts[1]) : null;
+
+        if (!empty($startdate) && !empty($enddate)) {
+            // Validate the date format
+            $startDateValid = \Carbon\Carbon::createFromFormat('Y-m-d', $startdate);
+            $endDateValid = \Carbon\Carbon::createFromFormat('Y-m-d', $enddate);
+
+            // Check if both dates are valid
+            if ($startDateValid && $endDateValid) {
+                $qualit_benchs->whereBetween('date_visit', [$startDateValid, $endDateValid]);
+            }
         }
 
         // User permissions
@@ -184,7 +218,12 @@ class QbController extends Controller
             else{
                 $attachment_url ='#';
             }
-          
+            $text = $r->activity_description ?? "";
+            $words = str_word_count($text, 1);
+            $lines = array_chunk($words, 4);
+            $finalText = implode("<br>", array_map(function ($line) {
+                return implode(" ", $line);
+            }, $lines));
 
             return [
                 'id' => $r->id,
@@ -194,7 +233,7 @@ class QbController extends Controller
                 'province' => $r->provinces?->province_name ?? '',
                 'district' => $r->districts?->district_name ?? '',
                 'theme' => $r->theme_name?->name ?? '',
-                'activity_description' => $r->activity_description ?? '',
+                'activity_description' => $finalText ?? '',
                 'village' => $r->village ?? '',
                 'date_visit' => date('d-M-Y', strtotime($r->date_visit)) ?? '',
                 'qb_base' => $r->qb_base_monitoring ? '<span class="badge bg-success">Yes</span>' : '<span class="badge bg-light">No</span>',

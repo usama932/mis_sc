@@ -239,6 +239,9 @@ use Illuminate\Support\Facades\Route;
         Route::post('submit-beneficiary-assessment-form', [BenficiaryAssessmentController::class, 'submitBeneficiaryAssessmentForm'])->name('submit-beneficiary-assessment-form');
         Route::get('beneficiary-assessment-list', [BenficiaryAssessmentController::class, 'beneficiaryAssessmentlist'])->name('beneficiary-assessment-list');
         Route::post('beneficiaryAssessments', [BenficiaryAssessmentController::class, 'beneficiaryAssessments']);
+        Route::get('/benficiaryAssessment/edit/{id}', [BenficiaryAssessmentController::class,'edit'])->name('benficiaryAssessment.edit');
+        Route::get('/benficiaryAssessment/delete/{id}', [BenficiaryAssessmentController::class,'destroy'])->name('benficiaryAssessment.delete');
+        Route::get('/benficiaryAssessment/show/{id}', [BenficiaryAssessmentController::class,'show'])->name('benficiaryAssessment.show');
     });
 
     Route::get('/error', function () {

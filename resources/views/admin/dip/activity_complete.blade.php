@@ -124,6 +124,8 @@
                             <th  class="fs-9">Due Date</th>
                             <th  class="fs-9">Month</th>
                             <th  class="fs-9">Status</th>
+                            <th  class="fs-9">Image</th>
+                            <th  class="fs-9">Attachment</th>
                             <th  class="fs-9">Remarks</th>
                            
                         </tr>
@@ -134,7 +136,7 @@
     </div>
 
 
-    //Modals
+    {{-- //Modals --}}
     <div class="modal fade " id="update_status" tabindex="-1" aria-labelledby="update_status" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
