@@ -22,7 +22,7 @@
 
         <div class="fv-row col-md-2">
             <label for="age" class="fs-6 fw-bolder form-label mb-2 required">Age:</label>
-            <input type="number" id="age" class="form-control" name="age" required oninput="this.value = this.value.slice(0, 2);" min="1" max="99">
+            <input type="text" id="age" class="form-control" name="age" required oninput="this.value = this.value.slice(0, 2);" min="1" max="99">
         </div>
 
         <div class="fv-row col-md-2">
@@ -90,7 +90,7 @@
         </div>
 
         <div class="fv-row col-md-2 mt-2">
-            <label for="cnic_expiry" class="fs-8 fw-bolder form-label mb-2 required">Amount:</label>
+            <label for="recieve_cash_amount" class="fs-8 fw-bolder form-label mb-2 required">Amount:</label>
             <input type="text" id="recieve_cash_amount" class="form-control" name="recieve_cash_amount" value="0" maxlength="7" oninput="this.value = this.value.slice(0, 7);">
         </div>
 

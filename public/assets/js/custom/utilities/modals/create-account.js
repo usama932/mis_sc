@@ -98,7 +98,101 @@ var KTCreateAccount = function () {
 
 					// Show loading indication
 					formSubmitButton.setAttribute('data-kt-indicator', 'on');
+					 // Check axios library docs: https://axios-http.com/docs/intro
+					 axios.post(formSubmitButton.closest('form').getAttribute('action'), new FormData(form)).then(function (response) {
+                        if (response) {
+                           
+                            if(response.data.error == false){
+                                form.reset();
+                                toastr.options = {
+                                    "closeButton": true,
+                                    "debug": false,
+                                    "newestOnTop": false,
+                                    "progressBar": false,
+                                    "positionClass": "toastr-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                };
+                                toastr.success("Beneficiary Assessment stored succesfully", "Success");
+                                window.location.href = response.data.editUrl;
+                            }
+                            else{
+                                toastr.options = {
+                                    "closeButton": true,
+                                    "debug": false,
+                                    "newestOnTop": false,
+                                    "progressBar": false,
+                                    "positionClass": "toastr-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                };
+                                toastr.error(response.data.message, "Error");
+                            }
+                            
+                        } else {
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": true,
+                                "newestOnTop": false,
+                                "progressBar": false,
+                                "positionClass": "toastr-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                              };
+                              
+                              toastr.error("Please address the highlighted errors", "Error");
+                        }
+                    }).catch(function (error) {
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": true,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toastr-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                          };
+                          
+                          toastr.error("Please address the highlighted errors", "Error");   
+                    }).then(() => {
+                        // Hide loading indication
+                        submitButton.removeAttribute('data-kt-indicator');
 
+                        // Enable button
+                        submitButton.disabled = false;
+                    });
 					// Simulate form submission
 					setTimeout(function() {
 						// Hide loading indication
@@ -155,7 +249,8 @@ var KTCreateAccount = function () {
 						validators: {
 							notEmpty: {
 								message: 'Project is required'
-							}
+							},
+							
 						}
 					},
 					date: {
@@ -201,6 +296,9 @@ var KTCreateAccount = function () {
 						}
 					},
 					
+				
+				
+					
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
@@ -218,24 +316,116 @@ var KTCreateAccount = function () {
 			form,
 			{
 				fields: {
-					'account_team_size': {
+					name_of_beneficiary: {
 						validators: {
 							notEmpty: {
-								message: 'Time size is required'
+								message: 'Name is required'
 							}
 						}
 					},
-					'account_name': {
+					guardian: {
 						validators: {
 							notEmpty: {
-								message: 'Account name is required'
+								message: 'Guardian is required'
 							}
 						}
 					},
-					'account_plan': {
+					age: {
 						validators: {
 							notEmpty: {
-								message: 'Account plan is required'
+								message: 'Age is required'
+							},
+							numeric: {
+                                message: 'Age  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Age must be a positive number'
+                            }
+						}
+					},
+					beneficiary_contact: {
+						validators: {
+							notEmpty: {
+								message: 'Contact is required'
+							}
+						}
+					},
+					contact_number: {
+						validators: {
+							notEmpty: {
+								message: 'Contact Number is required'
+							}
+						}
+					},
+					hh_segregate: {
+						validators: {
+							notEmpty: {
+								message: 'HH Segregate is required'
+							},
+							
+						}
+					},
+					hh_girls: {
+						validators: {
+							notEmpty: {
+								message: 'HH Girls is required'
+							},
+							numeric: {
+                                message: 'HH Girls  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'HH Girls must be a positive number'
+                            }
+						}
+					},
+					hh_boys: {
+						validators: {
+							notEmpty: {
+								message: 'HH Boys is required'
+							},
+							numeric: {
+                                message: 'HH Boys  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'HH Boys must be a positive number'
+                            }
+						}
+					},
+					cnic_beneficiary: {
+						validators: {
+							notEmpty: {
+								message: 'CNIC Beneficary is required'
+							}
+						}
+					},
+					cnic_spouse: {
+						validators: {
+							notEmpty: {
+								message: 'Cnic Spouse is required'
+							}
+						}
+					},
+					cnic_issuance: {
+						validators: {
+							notEmpty: {
+								message: 'CNIC Issue date is required'
+							}
+						}
+					},
+					cnic_expiry: {
+						validators: {
+							notEmpty: {
+								message: 'CNIC expiry is required'
+							}
+						}
+					},
+					recieve_cash: {
+						validators: {
+							notEmpty: {
+								message: 'Reveive Cash is required'
 							}
 						}
 					}
@@ -257,35 +447,53 @@ var KTCreateAccount = function () {
 			form,
 			{
 				fields: {
-					'business_name': {
+					hh_monthly_income: {
 						validators: {
 							notEmpty: {
-								message: 'Busines name is required'
-							}
-						}
-					},
-					'business_descriptor': {
-						validators: {
-							notEmpty: {
-								message: 'Busines descriptor is required'
-							}
-						}
-					},
-					'business_type': {
-						validators: {
-							notEmpty: {
-								message: 'Busines type is required'
-							}
-						}
-					},
-					'business_email': {
-						validators: {
-							notEmpty: {
-								message: 'Busines email is required'
+								message: 'HH Monthly Income required'
 							},
-							emailAddress: {
-								message: 'The value is not a valid email address'
+							numeric: {
+                                message: 'HH Monthly Income  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'HH Monthly Income must be a positive number'
+                            }
+						}
+					},
+					hh_source_income: {
+						validators: {
+							notEmpty: {
+								message: 'HH Source Income is required'
 							}
+						}
+					},
+					hh_person_earned: {
+						validators: {
+							notEmpty: {
+								message: 'HH Person Earned is required'
+							},
+							numeric: {
+                                message: 'HH Person Earned  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'HH Person Earned must be a positive number'
+                            }
+						}
+					},
+					hh_outstanding_debt: {
+						validators: {
+							notEmpty: {
+								message: 'hh outstanding Debt is required'
+							},
+							numeric: {
+                                message: 'HH Outstanding Debt  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'HH Outstanding Debt must be a positive number'
+                            }
 						}
 					}
 				},
@@ -306,50 +514,270 @@ var KTCreateAccount = function () {
 			form,
 			{
 				fields: {
-					'card_name': {
+					'house_demage': {
 						validators: {
 							notEmpty: {
-								message: 'Name on card is required'
-							}
+								message: 'house Damege is required'
+							},
+							numeric: {
+                                message: 'House Demage is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'House Demagemust be a positive number'
+                            }
 						}
 					},
-					'card_number': {
+					'hh_minority': {
 						validators: {
 							notEmpty: {
 								message: 'Card member is required'
 							},
-                            creditCard: {
-                                message: 'Card number is not valid'
+							numeric: {
+                                message: 'HH Minority  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'HH Minority must be a positive number'
                             }
 						}
 					},
-					'card_expiry_month': {
+					'reffered_tls': {
 						validators: {
 							notEmpty: {
-								message: 'Month is required'
+								message: 'Reffered is required'
 							}
 						}
 					},
-					'card_expiry_year': {
+					'hh_died_female': {
 						validators: {
 							notEmpty: {
-								message: 'Year is required'
-							}
+								message: 'HH Died Female is required'
+							},
+							numeric: {
+                                message: 'HH Died Female  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'HH Died Female must be a positive number'
+                            }
 						}
 					},
-					'card_cvv': {
+					'hh_died_male': {
 						validators: {
 							notEmpty: {
-								message: 'CVV is required'
+								message: 'HH Died Male is required'
 							},
-							digits: {
-								message: 'CVV must contain only digits'
+							numeric: {
+                                message: 'HH Died Male  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'HH Died Male must be a positive number'
+                            }
+							
+						}
+					},
+					'hh_injured_female': {
+						validators: {
+							notEmpty: {
+								message: 'HH Injured Male is required'
 							},
-							stringLength: {
-								min: 3,
-								max: 4,
-								message: 'CVV must contain 3 to 4 digits only'
-							}
+							numeric: {
+                                message: 'HH Injured Female  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'HH Injured Female must be a positive number'
+                            }
+							
+						}
+					},
+					'hh_injured_male': {
+						validators: {
+							notEmpty: {
+								message: 'HH Injured Female is required'
+							},
+							numeric: {
+                                message: 'HH Injured Female  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'HH Injured Female must be a positive number'
+                            }
+							
+						}
+					},
+					'hh_disabled_girls': {
+						validators: {
+							notEmpty: {
+								message: 'HH Disabled Girls is required'
+							},
+							numeric: {
+                                message: 'HH Disabled Girls  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'HH Disabled Girls must be a positive number'
+                            }
+							
+						}
+					},
+					'hh_disabled_boys': {
+						validators: {
+							notEmpty: {
+								message: 'HH Disabled Boys is required'
+							},
+							numeric: {
+                                message: 'HH Disabled Boys  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'HH Disabled Boys must be a positive number'
+                            }
+							
+						}
+					},
+					'hh_disabled_men': {
+						validators: {
+							notEmpty: {
+								message: 'HH Disabled Men is required'
+							},
+							numeric: {
+                                message: 'HH Disabled Men  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'HH Disabled Men must be a positive number'
+                            }
+							
+						}
+					},
+					'hh_disabled_women': {
+						validators: {
+							notEmpty: {
+								message: 'HH Disabled Women is required'
+							},
+							numeric: {
+                                message: 'HH Disabled Women  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'HH Disabled Women must be a positive number'
+                            }
+							
+						}
+					},
+					'large_animals': {
+						validators: {
+							notEmpty: {
+								message: 'Large Animal is required'
+							},
+							numeric: {
+                                message: 'Large Animal  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Large Animal must be a positive number'
+                            }
+						}
+					},
+					'small_animals': {
+						validators: {
+							notEmpty: {
+								message: 'Small Animal is required'
+							},
+							numeric: {
+                                message: 'Small Animal  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Small Animal must be a positive number'
+                            }
+						}
+					},
+					'orphan_girls': {
+						validators: {
+							notEmpty: {
+								message: 'Orphan Girls is required'
+							},
+							numeric: {
+                                message: 'Orphan Girls  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Orphan Girls must be a positive number'
+                            }
+						}
+					},
+					'orphan_boys': {
+						validators: {
+							notEmpty: {
+								message: 'Orphan Boys is required'
+							},
+							numeric: {
+                                message: 'Orphan Boys  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Orphan Boys must be a positive number'
+                            }
+						}
+					},
+					'land_destroyed': {
+						validators: {
+							notEmpty: {
+								message: 'Land Destroyed is required'
+							},
+							numeric: {
+                                message: 'Land Destroyed  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Land Destroyed must be a positive number'
+                            }
+						}
+					},
+					'widows_count': {
+						validators: {
+							notEmpty: {
+								message: 'Widows Count is required'
+							},
+							numeric: {
+                                message: 'Widows Count  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Widows Count must be a positive number'
+                            }
+						}
+					},
+					'pregnant_women': {
+						validators: {
+							notEmpty: {
+								message: 'Pragnent Women is required'
+							},
+							numeric: {
+                                message: 'Pragnent Women  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Pragnent Women must be a positive number'
+                            }
+						}
+					},
+					'meals_per_day': {
+						validators: {
+							notEmpty: {
+								message: 'Meal Take per day is required'
+							},
+							numeric: {
+                                message: 'Must be number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Must be a positive number'
+                            }
 						}
 					}
 				},
@@ -365,6 +793,78 @@ var KTCreateAccount = function () {
 				}
 			}
 		));
+
+		// Step 5
+		validations.push(FormValidation.formValidation(
+			form,
+			{
+				fields: {
+					cash_assistance: {
+						validators: {
+							notEmpty: {
+								message: 'Cash Assistance required'
+							}
+						}
+					},
+					assessment_officer: {
+						validators: {
+							notEmpty: {
+								message: 'Assessment Officer is required'
+							}
+						}
+					},
+					beneficiary_name: {
+						validators: {
+							notEmpty: {
+								message: 'Beneficiary Name is required'
+							}
+						}
+					},
+					vc_representative: {
+						validators: {
+							notEmpty: {
+								message: 'VC epresentative is required'
+							}
+						}
+					},
+					vc_representative: {
+						validators: {
+							notEmpty: {
+								message: 'VC epresentative is required'
+							}
+						}
+					},
+					recieve_cash_amount: {
+						validators: {
+							numeric: {
+                                message: 'Boys acheivement  is must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Boys acheivement must be a positive number'
+                            }
+						}
+					},
+					attachment: {
+						validators: {
+							notEmpty: {
+								message: 'Attachment is required'
+							}
+						}
+					}
+				},
+				plugins: {
+					trigger: new FormValidation.plugins.Trigger(),
+					// Bootstrap Framework Integration
+					bootstrap: new FormValidation.plugins.Bootstrap5({
+						rowSelector: '.fv-row',
+                        eleInvalidClass: '',
+                        eleValidClass: ''
+					})
+				}
+			}
+		));
+
 	}
 
 	return {

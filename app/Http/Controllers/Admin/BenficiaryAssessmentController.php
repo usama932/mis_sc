@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Models\District;
 use App\Models\Province;
 use App\Models\BenficiaryAssessment;
+use File;
 
 class BenficiaryAssessmentController extends Controller
 {
@@ -22,6 +23,7 @@ class BenficiaryAssessmentController extends Controller
     }
 
     public function submitBeneficiaryAssessmentForm(Request $request){
+        //dd($request->all());
         $validatedData = $request->validate([
             'project' => 'required|integer',
             'date' => 'required|date',
@@ -74,11 +76,86 @@ class BenficiaryAssessmentController extends Controller
             'beneficiary_name' => 'nullable|string|max:255',
             'vc_representative' => 'nullable|string|max:255',
         ]);
+        if ($request->hasFile('attachment')) {
+            // Get the path to the old file to delete
+            $path = storage_path("app/public/benficiary_assessment/" . $request->attachment);
+            
+            // Check if the file exists before deleting
+            if (File::exists($path)) {
+                File::delete($path);
+            }
+            
+            // Handle the file upload
+            $file = $request->file('attachment'); // corrected to use 'attachment' as in the `hasFile` check
+            $filename = time() . '.' . $file->getClientOriginalExtension(); // corrected timestamps() to time()
+            $file->storeAs("public/benficiary_assessment", $filename);
+        }
+        
+        // Fetch the last record of BenficiaryAssessment and increment ID for UUID
+        $beneficiary_last = BenficiaryAssessment::latest()->first();
+        $next_id = $beneficiary_last ? $beneficiary_last->id + 1 : 1;
+        $form_no = $next_id."-".time(); 
+        $beneficiary = BenficiaryAssessment::create([
+            'form_no' => $form_no,
+            'project_id' => $request->project,
+            'form_date' => $request->date,
+            'gender' => $request->gender,
+            'province' => $request->province,
+            'district' => $request->district,
+            'tehsil' => $request->tehsil,
+            'uc' => $request->uc,
+            'village' => $request->village,
+            'name_of_beneficiary' => $request->name_of_beneficiary,
+            'guardian' => $request->guardian,
+            'age' => $request->age,
+            'beneficiary_contact' => $request->beneficiary_contact,
+            'contact_number' => $request->contact_number,
+            'hh_girls' => $request->hh_girls,
+            'cnic_beneficiary' => $request->cnic_beneficiary,
+            'cnic_spouse' => $request->cnic_spouse,
+            'cnic_issuance' => $request->cnic_issuance,
+            'cnic_expiry' => $request->cnic_expiry,
+            'recieve_cash' => $request->recieve_cash,
+            'recieve_cash_amount' => $request->recieve_cash_amount,
+            'recieve_cash_source' => $request->recieve_cash_source,
+            'hh_boys' => $request->hh_boys,
+            'hh_segregate' => $request->hh_segregate,
+            'hh_monthly_income' => $request->hh_monthly_income,
+            'hh_source_income' => $request->hh_source_income,
+            'hh_person_earned' => $request->hh_person_earned,
+            'hh_outstanding_debt' => $request->hh_outstanding_debt,
+            'house_demage' => $request->house_demage,
+            'hh_minority' => $request->hh_minority,
+            'reffered_tls' => $request->reffered_tls,
+            'hh_died_female' => $request->hh_died_female,
+            'hh_died_male' => $request->hh_died_male,
+            'hh_injured_female' => $request->hh_injured_female,
+            'hh_injured_male' => $request->hh_injured_male,
+            'hh_disabled_girls' => $request->hh_disabled_girls,
+            'hh_disabled_boys' => $request->hh_disabled_boys,
+            'hh_disabled_men' => $request->hh_disabled_men,
+            'hh_disabled_women' => $request->hh_disabled_women,
+            'large_animal_perished' => $request->large_animals,
+            'small_animal_perished' => $request->small_animals,
+            'hh_orphan_girls' => $request->orphan_girls,
+            'hh_orphan_boys' => $request->orphan_boys,
+            'land_destroyed' => $request->land_destroyed,
+            'hh_widow' => $request->widows_count,
+            'hh_pragnant' => $request->pregnant_women,
+            'hh_meal_inday' => $request->meals_per_day,
+            'cash_assistance' => $request->cash_assistance,
+            'assessment_officer' => $request->assessment_officer,
+            'beneficiary_name' => $request->beneficiary_name,
+            'vc_representative_name' => $request->vc_representative,
+            'attachment' =>  $filename,
+            'status'  => 'waiting',
+            'created_by' => auth()->user()->id,
+         ]);
 
-        // Save the validated data to the database
-        BenficiaryAssessment::create($validatedData);
-
-        // Redirect or return a success response
-        return redirect()->back()->with('success', 'Assessment saved successfully!');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Account successfully created!',
+            'data' => $beneficiary
+        ]);
     }
 }
