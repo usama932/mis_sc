@@ -137,13 +137,11 @@
                 <td class="fs-7"><strong>Village:</strong></td>
                 <td class="fs-7">{{$qb->village}}</td>
 
-                <td class="fs-7"><strong>Activity Description:</strong></td>
+                <td class="fs-7"><strong>Activity Visited:</strong></td>
                 <td class="fs-7">{{$qb->activity_description ?? ''}}</td>
 
-                <td class="fs-7"><strong>Date Visit:</strong></td>
-                <td class="fs-7">{{ date('M d, Y', strtotime($qb->date_visit)) ?? ''}}</td>
-                
-                
+                <td class="fs-7"><strong>DIP Activity:</strong></td>
+                <td class="fs-7">{{$qb->dipactivity?->activity_number ?? ''}}- {{$qb->dipactivity?->activity_title ?? ''}}</td>  
             </tr>
             <tr>
                 <td class="fs-7"><strong>QB Base Monitoring</strong></td>
@@ -160,8 +158,6 @@
 
                 <td class="fs-7"><strong>QBs Fully Met:</strong></td>
                 <td class="fs-7">{{$qb->qbs_fully_met ?? ''}}</td>
-
-              
             </tr>
             <tr>
                 <td class="fs-7"><strong>QBs Not Applicable:</strong></td>
@@ -173,19 +169,15 @@
                 <td class="fs-7"><strong>Score Out:</strong></td>
                 <td class="fs-7">{{$qb->score_out ?? ''}}</td>
 
-                
                 <td></td>
-
-                
             </tr>
             <tr>
                 <td class="fs-7"><strong>Staff Organization:</strong></td>
                 <td class="fs-7">{{$qb->staff_organization ?? ""}}</td>
                 <td class="fs-7"><strong>QB Filled By:</strong></td>
                 <td class="fs-7">{{$qb->qb_filledby ?? ""}}</td>
-                <td></td>
-                <td></td>
-
+                <td class="fs-7"><strong>Date Visit:</strong></td>
+                <td class="fs-7">{{ date('M d, Y', strtotime($qb->date_visit)) ?? ''}}</td>
             </tr>
             
         </table>
@@ -310,7 +302,7 @@
             <table  class="table  table-striped mx-3"   >
                 <tr class="m-2 ">
                     <td class="fs-7"><strong>Attachement:</strong></td>
-                    <td class="fs-7"><a class="btn btn-primary btn-sm mx-15" href="{{ route('showPDF.qb_attachments', $qb->qbattachement?->id)}}">View Attachment</a></td>
+                    <td class="fs-7"><a class="btn btn-primary btn-sm mx-15" href="{{ route('showPDF.qb_attachments', $qb->qbattachement?->id)}}" target="_blank">View Attachment</a></td>
                 </tr>
                 <tr class="mt-4">
                     <td class="fs-7"><strong>Comments:</strong></td>

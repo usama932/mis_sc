@@ -20,6 +20,7 @@ use App\Models\User;
 use App\Models\FrmTag;
 use App\Models\ClosingRecord;
 use App\Models\ProjectPartner;
+use App\Models\FrmSuggestEmail;
 use App\Repositories\Interfaces\FrmRepositoryInterface;
 use Carbon\Carbon;
 
@@ -270,7 +271,7 @@ class FRMController extends Controller
 
     private function generateActionButtons($r, $view_url, $edit_url, $delete_url)
     {
-        $view = '<a class="btn btn-clean btn-icon" title="View" href="'.$view_url.'"><i class="fa fa-eye"></i></a>';
+        $view = '<a class="" title="View" href="'.$view_url.'"><i class="fa fa-eye"></i></a>';
         $edit = '';
         $delete = '';
 
@@ -364,7 +365,6 @@ class FRMController extends Controller
         }
     }
 
-
     public function edit(string $id)
     {
         $frm =Frm::find($id);
@@ -404,8 +404,8 @@ class FRMController extends Controller
         return redirect()->route('frm-managements.index');
     }
 
-    public function postUpdate_response(Request $request){
-
+    public function postUpdate_response(Request $request)
+    {
         $validatedData = $request->validate([
             'status' => ['required'],
             'date_feedback_referred' => ['required'],
@@ -482,6 +482,77 @@ class FRMController extends Controller
         Mail::to($email)
         ->cc($bccEmails)
         ->send(new \App\Mail\frmTagEmail($details,$subject));
+
+        return redirect()->back();
+    }
+
+    public function addSuggestRCEmail(Request $request)
+    {
+  
+        $frm = FRM::where('id',$request->frm_id)->first();
+        $email= 'usama.qayyum@savethechildren.org';
+       
+        $frmsuggestemail = FrmSuggestEmail::create([
+            'created_by' => auth()->user()->id,
+            'message'    => $request->message,
+            'frm_id'     => $request->frm_id,
+            'to_email'   => $email,
+        ]);
+       
+        
+        $frmemail = $frm->user->email;
+       
+        // $mealManagemail = User::where('province',$frm->province)->where('designation',5)->first();
+        // $bccEmails = [ 'usama.qayyum@savethechildren.org','irfan.majeed@savethechildren.org','walid.malik@savethechildren.org',$mealManagemail->email,$frmemail];
+        $details = [
+            'feedback_description'  => $frm->feedback_description,
+            'feedback_category'     => $frm->category?->name.'-'.$frm->category?->description,
+            'date_received'         => $frm->date_received,
+            'response_id'           => $frm->response_id,
+            'feedback_activity'     => $frm->feedback_activity,
+            'village'               => $frm->village,
+            'id'                    => $frm->id,
+            'message'               => $request->message,
+        ];
+        $subject = "[FRM-Request-Assistance] ". $frm->feedback_activity;
+        Mail::to($email)
+       // ->cc($bccEmails)
+        ->send(new \App\Mail\SuggestRCMail($details,$subject));
+
+        return redirect()->back();
+    }
+
+    public function addSuggestSGEmail(Request $request)
+    {
+        $frm = FRM::where('id',$request->frm_id)->first();
+        $email= 'usama.qayyum@savethechildren.org';
+       
+        $frmsuggestemail = FrmSuggestEmail::create([
+            'created_by' => auth()->user()->id,
+            'message'    => $request->message,
+            'frm_id'     => $request->frm_id,
+            'to_email'   => $email,
+        ]);
+       
+        
+        $frmemail = $frm->user->email;
+       
+        // $mealManagemail = User::where('province',$frm->province)->where('designation',5)->first();
+        // $bccEmails = [ 'usama.qayyum@savethechildren.org','irfan.majeed@savethechildren.org','walid.malik@savethechildren.org',$mealManagemail->email,$frmemail];
+        $details = [
+            'feedback_description'  => $frm->feedback_description,
+            'feedback_category'     => $frm->category?->name.'-'.$frm->category?->description,
+            'date_received'         => $frm->date_received,
+            'response_id'           => $frm->response_id,
+            'feedback_activity'     => $frm->feedback_activity,
+            'village'               => $frm->village,
+            'id'                    => $frm->id,
+            'message'               => $request->message,
+        ];
+        $subject = "[FRM-Request-Assistance] ". $frm->feedback_activity;
+        Mail::to($email)
+       // ->cc($bccEmails)
+        ->send(new \App\Mail\SuggestRCMail($details,$subject));
 
         return redirect()->back();
     }

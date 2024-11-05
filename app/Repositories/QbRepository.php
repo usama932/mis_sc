@@ -9,6 +9,7 @@ class QbRepository implements QbRepositoryInterface
 {
     public function storeQb($data)
     {
+        $dip_activity_id = $data['dip_activity_id'] ?? '';
         $qb_base_monitoring = 0;
         if(!empty($data['qb_base']) && $data['qb_base'] == 'on'){
             $qb_not_met =  $data['total_qbs'] - ($data['qbs_fully_met'] + $data['qb_not_applicable']) ;   
@@ -57,12 +58,14 @@ class QbRepository implements QbRepositoryInterface
             'created_by'            => auth()->user()->id,
             'qb_base_monitoring'    => $qb_base_monitoring,
             'activity_description'  => $data['activity_description'],   
+            'dip_activity_id'      => $dip_activity_id
         ]);
     }
     
     public function updateQb($data,$id)
     {
         $qb = QualityBench::where('id',$id)->first();
+        $dip_activity_id = $data['dip_activity_id'] ?? '';
         if($qb->qb_base == 'on'){
             $qb_not_met =  $data['total_qbs'] - ($data['qbs_fully_met'] + $data['qb_not_applicable']) ;   
             $score = $data['qbs_fully_met'] /($data['total_qbs']- $data['qb_not_applicable']);
@@ -104,7 +107,8 @@ class QbRepository implements QbRepositoryInterface
             'qbs_not_fully_met'     => $qb_not_met ?? $qb->qbs_not_fully_met,
             'score_out'             => $score_out ?? $qb->score_out,
             'qb_status'             => $qb_status ?? $qb->qb_status,
-            'activity_description'  => $data['activity_description'],   
+            'activity_description'  => $data['activity_description'],  
+            'dip_activity_id'       => $dip_activity_id,
             'updated_by'            => auth()->user()->id
         ]);
     }

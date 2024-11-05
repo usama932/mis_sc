@@ -61,7 +61,8 @@ use Illuminate\Support\Facades\Route;
         Route::get('frm-managements/frm/export', [FRMController::class,'getexportform'])->name('frm-export');
         Route::post('getfrm/export', [FRMController::class,'getexportfrm'])->name('getfrm-export');
         Route::post('add-frmTag', [FRMController::class,'add_frmTag'])->name('add-frmTag');
-
+        Route::post('add-suggestRCEmail', [FRMController::class,'addSuggestRCEmail'])->name('add-suggestRCEmail');
+        Route::post('add-suggestSGEmail', [FRMController::class,'addSuggestSGEmail'])->name('add-suggestSGEmail');
         //Ajax Destrict Routes
         Route::post('getDistrict', [FBAjaxController::class,'getDistrict'])->name('getDistrict');
         Route::post('getlearningDistrict', [FBAjaxController::class,'getlearningDistrict'])->name('getlearningDistrict');
@@ -86,6 +87,8 @@ use Illuminate\Support\Facades\Route;
         Route::get('qbaction_points/export', [QbController::class,'getqbactionpointexportform'])->name('qbactionpoint-export');
         Route::post('getqb/export', [QbController::class,'getexportqb'])->name('getqb-export');
         Route::post('/getactionpoint/export', [QbController::class,'getexportqbactionpoint'])->name('getactionpoint.export');
+        
+        Route::post('/getProjectActivities', [QbController::class,'getProjectActivities']);
         //Old Qbs
         Route::get('get_old_qbs', [OldQbController::class,'index'])->name('get_oldqbs');
         Route::post('get_old_qbs', [OldQbController::class,'get_old_qbs'])->name('admin.get_old_qbs');

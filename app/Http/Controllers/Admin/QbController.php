@@ -21,6 +21,7 @@ use App\Models\Province;
 use App\Repositories\Interfaces\QbRepositoryInterface;
 use Carbon\Carbon;
 use App\Models\ProjectPartner;
+use App\Models\DipActivity;
 
 class QbController extends Controller
 {
@@ -390,6 +391,7 @@ class QbController extends Controller
             return redirect()->route('quality-benchs.index');
         }
     }
+    
     public function getqbexportform(){
         $projects = Project::latest()->get();
         $themes = Theme::latest()->get();
@@ -398,10 +400,12 @@ class QbController extends Controller
         addJavascriptFile('assets/js/custom/quality_benchmark/export.js');
         return view('admin.quality_bench.qb_export.qb_export',compact('projects','themes','users'));
     }
+
     public function getqbactionpointexportform(){
         addJavascriptFile('assets/js/custom/quality_benchmark/export.js');
         return view('admin.quality_bench.qb_export.qb_action_point');
     }
+
     public function getexportqb(Request $request){
       
         $date_visit = $request->date_visit;
@@ -425,6 +429,7 @@ class QbController extends Controller
         return Excel::download(new ExportQB($data),  $fileName);
         
     }
+
     public function getexportqbactionpoint(Request $request){
         $date_visit = $request->date_visit;
         $data = [
@@ -436,4 +441,14 @@ class QbController extends Controller
         return Excel::download(new ActionPoint($data),  $fileName);
     }
   
+    public function getProjectActivities(Request $request)
+    {
+        $projectId = $request->projectId;
+
+        // Fetch activities associated with the project
+        $activities = DipActivity::where('project_id', $projectId)->get(['id', 'activity_title','activity_number']);
+     
+        // Return the activities as JSON
+        return response()->json(['activities' => $activities]);
+    }
 }

@@ -61,4 +61,9 @@ class QualityBench extends Model
     {
         return $this->belongsTo(Partner::class,'partner','id');
     }
+
+    public function dipactivity()
+    {
+        return $this->belongsTo(DipActivity::class,'dip_activity_id','id');
+    }
 }

@@ -149,8 +149,6 @@
                                 <div id="partnerError" class="error-message"></div>
                             </div>
 
-                          
-
                             <div class="fv-row mb-3 col-md-3">
                                 <label for="kt_select2_province" class="form-label"><span class="required">Province</span></label>
                                 <select class="form-select"  data-control="select2" name="province" data-placeholder="Select Theme..." id="kt_select2_province" aria-label="Select a Province">
@@ -189,10 +187,27 @@
                                 <div id="kt_select2_union_counsilError" class="error-message"></div>
                             </div>
 
-                            <div class="fv-row mb-3 col-md-6">
+                            <div class="fv-row mb-3 col-md-4">
                                 <label for="village" class="form-label"><span class="required">Village</span></label>
                                 <input type="text" class="form-control" name="village" id="village" placeholder="Enter Village">
                                 <div id="villageError" class="error-message"></div>
+                            </div>
+
+                            <div class="fv-row mb-3 col-md-4">
+                                <label for="activity_description" class="form-label"><span class="required">Activity visited</span></label>
+                                <textarea class="form-control" rows="1" name="activity_description" id="activity_description"></textarea>
+                                <div id="activity_descriptionError" class="error-message"></div>
+                            </div>
+
+                            <div class="fv-row mb-3 col-md-4">
+                                <label for="kt_select2_union_counsil" class="form-label d-flex">
+                                    <span class="required">DIP Activity</span> <!-- This span is what we want to hide/show -->
+                                    <span class="spinner-border spinner-border-sm align-middle ms-2" id="ploader"></span>
+                                </label>
+                                <select id="dip_activity_id" class="form-control form-select" name="dip_activity_id" data-placeholder="Select Activity..." data-control="select2" aria-label="Select an Activity">
+                                    <option value=""></option>
+                                </select>
+                                <div id="dip_activity_idError" class="error-message"></div>
                             </div>
 
                             <div class="fv-row mb-3 col-md-3">
@@ -231,12 +246,6 @@
                                     <option value="Joint outcome monitoring">Joint outcome monitoring</option>
                                 </select>
                                 <div id="monitoring_typeError" class="error-message"></div>
-                            </div>
-
-                            <div class="fv-row mb-3 col-md-6">
-                                <label for="activity_description" class="form-label"><span class="required">Activity visited</span></label>
-                                <textarea class="form-control" rows="1" name="activity_description" id="activity_description"></textarea>
-                                <div id="activity_descriptionError" class="error-message"></div>
                             </div>
 
                             <div class="fv-row mb-3 col-md-2 qb_base_div ">

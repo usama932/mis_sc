@@ -114,12 +114,31 @@
             </div>
         </div>
         <div class="row mt-3">
-            <div class="fv-row col-md-3">
+            <div class="fv-row col-md-4">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Village</span>
                 </label>
                 <input class="form-control" id="vilage" placeholder="Enter Village" name="village" value="{{$qb->village ?? ''}}">
                 <div id="villageError" class="error-message "></div>
+            </div>
+            <div class="fv-row col-md-4">
+                <label class="fs-6 fw-semibold form-label mb-2">
+                    <span class="required">Activity visited</span>
+                </label>
+                <textarea  rows="1" class="form-control" id="activity_description"  name="activity_description">{{$qb->activity_description ?? ''}}</textarea>
+                <div id="activity_descriptionError" class="error-message"></div>
+            </div>
+            <div class="fv-row mb-3 col-md-4">
+                <label for="kt_select2_union_counsil" class="form-label d-flex">
+                    <span>DIP Activity</span> <!-- This span is what we want to hide/show -->
+                    <span class="spinner-border spinner-border-sm align-middle ms-2" id="ploader"></span>
+                </label>
+                <select id="dip_activity_id" class="form-control form-select" name="dip_activity_id" data-placeholder="Select Activity..." data-control="select2" aria-label="Select an Activity">
+                    @if($qb->dip_activity_id)
+                        <option value="{{ $qb->dipactivity->id  }}">{{ $qb->dipactivity->activity_number }} - {{ $qb->dipactivity->activity_title }}</option>
+                    @endif
+                </select>
+                <div id="dip_activity_idError" class="error-message"></div>
             </div>
             <div class="fv-row col-sm-3 col-md-3 col-lg-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
@@ -158,8 +177,7 @@
                 <div id="accompanied_byError" class="error-message"></div>
             </div>
            
-        </div>
-        <div class="row mt-3">
+       
             <div class="fv-row col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Monitoring Type</span>
@@ -173,40 +191,31 @@
                 <div id="monitoring_typeError" class="error-message"></div>
             </div>
          
-            <div class="fv-row col-md-6">
-                <label class="fs-6 fw-semibold form-label mb-2">
-                    <span class="required">Activity visited</span>
-                </label>
-                <textarea  rows="1" class="form-control" id="activity_description"  name="activity_description">{{$qb->activity_description ?? ''}}</textarea>
-                <div id="activity_descriptionError" class="error-message"></div>
-            </div>
+          
             @if($qb->qb_base_monitoring == 1)
-                <div class="fv-row col-sm-1 col-md-1 col-lg-1">
+                <div class="fv-row col-sm-2 col-md-2 col-lg-2">
                     <label class="fs-9 fw-semibold form-label mb-2">
                         <span class="required">Total QBs</span>
                     </label>
                     <input type="text" class="form-control fs-9" id="total_qbs"  name="total_qbs" value="{{$qb->total_qbs ?? ''}}">
                     <div id="total_qbsError" class="error-message"></div>
                 </div>
-                <div class="fv-row col-md-1">
+                <div class="fv-row col-md-2">
                     <label class="fs-9 fw-semibold form-label mb-2">
                         <span class="required">Fully Met</span>
                     </label>
                     <input type="text" class="form-control fs-9" id="qbs_fully_met" name="qbs_fully_met" value="{{$qb->qbs_fully_met ?? ''}}">
                     <div id="qbs_fully_metError" class="error-message"></div>
                 </div>
-                <div class="fv-row col-md-1">
+                <div class="fv-row col-md-2">
                     <label class="fs-9 fw-semibold form-label mb-2">
                         <span class="required">Not Applicable</span>
                     </label>
                     <input type="text" class="form-control fs-9" name="qb_not_applicable" id="qb_not_applicable" value="{{$qb->qb_not_applicable ?? ''}}">
                     <div id="qb_not_applicableError" class="error-message"></div>
                 </div>
-           
-        
             @endif
-        </div>
-        <div class="row mt-3">
+       
             <div class="fv-row col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Date of monitoring visit</span>

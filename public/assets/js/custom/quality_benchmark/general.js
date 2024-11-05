@@ -104,6 +104,13 @@ var KTQBValidate = function () {
                             }
                         }
                     },
+                    'dip_activity_id': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Dip Activity required'
+                            }
+                        }
+                    },
                     'accompanied_by': {
                         validators: {
                             notEmpty: {

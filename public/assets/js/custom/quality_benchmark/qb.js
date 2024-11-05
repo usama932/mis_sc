@@ -137,7 +137,6 @@ $("#project_name").change(function () {
         dataType: 'json',
         success: function (data) {
             document.getElementById('projectloader').style.display = 'none';
-
             $("#project_type").val(data.type.replace(/_/g, ' '));
            
         }
@@ -145,6 +144,52 @@ $("#project_name").change(function () {
     });
 
 });
+
+document.getElementById('ploader').style.display = 'none';
+$('#project_name').on('change', function() {
+    let projectId = $(this).val();
+    
+    let csrf_token = $('[name="_token"]').val();
+    document.getElementById('ploader').style.display = 'block';
+
+    $.ajax({
+        url: '/getProjectActivities', // Route to the controller
+        type: 'POST',
+        data: { projectId: projectId, _token: csrf_token },
+        success: function(response) {
+            document.getElementById('ploader').style.display = 'none';
+            
+            // Clear previous options
+            $('#dip_activity_id').empty();
+            
+            // Check if activities exist
+            if (response.activities && response.activities.length > 0) {
+                // Populate options
+                $.each(response.activities, function(key, activity) {
+                    $('#dip_activity_id').append(
+                        `<option value="">Select Activity</option><option value="${activity.id}">${activity.activity_number} - ${activity.activity_title}</option>`
+                    );
+                });
+                // Enable the dropdown and make the label required
+                $('#dip_activity_id').prop('disabled', false);
+                $('label[for="kt_select2_union_counsil"] .required').show(); // Show required label
+            } else {
+                // Display "No activities" and disable the field
+                $('#dip_activity_id').append('<option>No activities</option>');
+                $('#dip_activity_id').prop('disabled', true);
+                $('span .required').hide(); // Hide required label
+            }
+        },
+        error: function(xhr) {
+            console.error(xhr.responseText);
+        }
+    });
+});
+
+
+
+
+
 $("#type_of_visit").change(function(){
     
     $(this).find("option:selected").each(function(){

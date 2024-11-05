@@ -61,5 +61,9 @@ class Frm extends Model
         return $this->hasOne(FrmTag::class,'frm_id','id');
     }
 
+    public function suggestEmail()
+    {
+        return $this->hasOne(FrmSuggestEmail::class,'frm_id','id');
+    }
 }
 

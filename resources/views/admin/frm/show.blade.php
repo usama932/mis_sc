@@ -22,15 +22,31 @@
             @endif
         </div>
     </div>
-
-    @can('frm tag')
-        <!-- Add Tag Button -->
-        <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-end">
+        @can('frm tag')
             <button type="button" class="badge badge-primary m-2" data-toggle="modal" data-target="#addTagModal">
                 <i class="fa fa-plus"></i> Add Tag
             </button>
-        </div>
-    @endcan
+        @endcan
+        @can('suggest email')
+            @if(empty($frm->suggestEmail))
+                @if($frm->feedback_category != 7 || $frm->feedback_category != 6)
+                    <button type="button" class="badge badge-secondary m-2" data-toggle="modal" data-target="#addSuggestEmail">
+                        <i class="fa fa-plus"></i>Request for Suggestion from R & C
+                    </button>
+                @endif
+            @endif
+
+            @if(empty($frm->suggestEmail))
+                @if($frm->feedback_category != 7 || $frm->feedback_category != 6)
+                    <button type="button" class="badge badge-info m-2" data-toggle="modal" data-target="#addSGSuggestEmail">
+                        <i class="fa fa-plus"></i>Request for Suggestion from Safeguarding
+                    </button>
+                @endif
+            @endif
+        @endcan
+    </div>
+    
 
     <!-- Main Information Card -->
     <div class="card shadow-lg p-4 mb-5">
@@ -203,6 +219,62 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" id="submit-btn" class="btn btn-primary">Save Tag</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+     <!-- Modal for Adding Suggest Email -->
+    <div class="modal fade" id="addSuggestEmail" tabindex="-1" aria-labelledby="addSuggestEmailLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addTagModalLabel">Suggest Email</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form  id="add-tag" method="post" action="{{ route('add-suggestRCEmail') }}">
+                    @csrf
+                    <input type="hidden" value="{{ $frm->id  }}" name="frm_id">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="tag">Message</label>
+                            <textarea class="form-control" name="message" rows="4" placeholder="Your Message"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" id="submit-btn" class="btn btn-primary">Share</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Adding S-G Suggest Email -->
+    <div class="modal fade" id="addSGSuggestEmail" tabindex="-1" aria-labelledby="addSuggestSGEmailLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addTagModalLabel">Suggest Email</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form  id="add-tag" method="post" action="{{ route('add-suggestSGEmail') }}">
+                    @csrf
+                    <input type="hidden" value="{{ $frm->id  }}" name="frm_id">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="tag">Message</label>
+                            <textarea class="form-control" name="message" rows="4" placeholder="Your Message"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" id="submit-btn" class="btn btn-primary">Share</button>
                     </div>
                 </form>
             </div>
