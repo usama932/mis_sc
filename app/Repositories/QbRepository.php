@@ -9,7 +9,7 @@ class QbRepository implements QbRepositoryInterface
 {
     public function storeQb($data)
     {
-        $dip_activity_id = $data['dip_activity_id'] ?? '';
+        $dip_activity_id = $data['dip_activity_id'] ?? Null;
         $qb_base_monitoring = 0;
         if(!empty($data['qb_base']) && $data['qb_base'] == 'on'){
             $qb_not_met =  $data['total_qbs'] - ($data['qbs_fully_met'] + $data['qb_not_applicable']) ;   
@@ -65,7 +65,7 @@ class QbRepository implements QbRepositoryInterface
     public function updateQb($data,$id)
     {
         $qb = QualityBench::where('id',$id)->first();
-        $dip_activity_id = $data['dip_activity_id'] ?? '';
+        $dip_activity_id = $data['dip_activity_id'] ?? Null;
         if($qb->qb_base == 'on'){
             $qb_not_met =  $data['total_qbs'] - ($data['qbs_fully_met'] + $data['qb_not_applicable']) ;   
             $score = $data['qbs_fully_met'] /($data['total_qbs']- $data['qb_not_applicable']);

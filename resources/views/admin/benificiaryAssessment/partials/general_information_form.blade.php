@@ -51,13 +51,23 @@
         </div>
       
         <div class="fv-row col-md-2 ">
-            <label for="hh_girls" class="fs-6 fw-bolder form-label mb-2 required">Household Girls:</label>
-            <input type="text" value="0" id="hh_girls" class="form-control" maxlength="7" name="hh_girls" oninput="this.value = this.value.slice(0, 7);">
+            <label for="hh_girls" class="fs-7 fw-bolder form-label mb-2 required">HH Under 5yrs Girls:</label>
+            <input type="text" value="0" id="hh_under5_girls" class="form-control" maxlength="7" name="hh_girls" oninput="this.value = this.value.slice(0, 7);">
         </div>
 
         <div class="fv-row col-md-2">
-            <label for="hh_boys" class="fs-6 fw-bolder form-label mb-2 required">Household Boys:</label>
-            <input type="text" value="0" id="hh_boys" class="form-control"  name="hh_boys" maxlength="7" oninput="this.value = this.value.slice(0, 7);">
+            <label for="hh_boys" class="fs-7 fw-bolder form-label mb-2 required">HH Under 5yrs Boys:</label>
+            <input type="text" value="0" id="hh_under5_boys" class="form-control"  name="hh_under5_boys" maxlength="7" oninput="this.value = this.value.slice(0, 7);">
+        </div>
+
+        <div class="fv-row col-md-2 ">
+            <label for="hh_girls" class="fs-7 fw-bolder form-label mb-2 required">HH Under 5-17yrs Girls:</label>
+            <input type="text" value="0" id="hh_under5_girls" class="form-control" maxlength="7" name="hh_under5_girls" oninput="this.value = this.value.slice(0, 7);">
+        </div>
+
+        <div class="fv-row col-md-2">
+            <label for="hh_boys" class="fs-6 fw-bolder form-label mb-2 required">HH Under 5-17yrs Boys:</label>
+            <input type="text" value="0" id="hh_under5_7_boys" class="form-control"  name="hh_under5_7_boys" maxlength="7" oninput="this.value = this.value.slice(0, 7);">
         </div>
    
         <div class="fv-row col-md-2">

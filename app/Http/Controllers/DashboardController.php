@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Models\Project;
 use ConsoleTVs\Charts\Classes\Chartjs\Chart;
 use DB;
+use App\Models\ProjectActivitySummary;
 
 class DashboardController extends Controller
 {
@@ -26,22 +27,7 @@ class DashboardController extends Controller
         }else{
             $projects = Project::orderBy('name');
         }
-        $project_data = $projects->select('projects.id', 'projects.name')
-                        ->leftJoin('dip_activity as da', 'projects.id', '=', 'da.project_id')
-                        ->leftJoin('dip_activity_months as dam', 'da.id', '=', 'dam.activity_id')
-                        ->leftJoin('dip_activity_progress as dap', 'dam.id', '=', 'dap.quarter_id')
-                        ->select(
-                            'projects.name','projects.id','projects.sof','projects.type','projects.focal_person','projects.budget_holder','projects.start_date','projects.end_date',
-                            DB::raw('COUNT(DISTINCT da.id) AS total_activities_count'),
-                            DB::raw('COUNT(DISTINCT dam.id) AS total_activities_target_count'),
-                            DB::raw('COUNT(DISTINCT CASE WHEN dam.completion_date <= CURRENT_DATE AND dap.id IS NOT NULL THEN dam.id END) AS complete_activities_count'),
-                            DB::raw('COUNT(DISTINCT CASE WHEN dam.completion_date < CURRENT_DATE AND dap.id IS NULL THEN dam.id END) AS overdue_count'),
-                            DB::raw('COUNT(DISTINCT CASE WHEN dam.completion_date > CURRENT_DATE AND dap.id IS NULL THEN dam.id END) AS pending_count')
-                        )
-                        ->where('end_date','>=','2024-08-31')
-                        ->groupBy('projects.id', 'projects.name')
-                        ->orderBy('projects.name')
-                        ->get();
+        $project_data = ProjectActivitySummary::orderBy('project_name')->get();
         $projects = $projects->get();
       
         $projectNames = $project_data->pluck('name');
