@@ -1,7 +1,7 @@
 <div class="row">
     <div class="fv-row col-md-6">
         <label class="fs-6 fw-bolder required">Project</label>
-        <select name="project" id="projectId" class="form-control form-select" required>
+        <select name="project" id="projectId" class="form-control form-select" required aria-label="Select a Project" data-control="select2" data-placeholder="Select a Project..." class="form-select"  data-allow-clear="true" >
             <option value="">Select Project</option>
             @foreach ($projects as $project)
                 <option value="{{ $project->id }}">{{ $project->name }}</option>

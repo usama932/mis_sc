@@ -4,18 +4,55 @@ $('#mpca_Date').flatpickr({
     maxDate: "today",
     minDate: new Date().fp_incr(-30), 
 });
+// Initialize the issuance date picker
+// Initialize issuance date picker
 $('#cnic_issuance').flatpickr({
     altInput: false,
     dateFormat: "Y-m-d",
-   // maxDate: "today",
-   // minDate: "today", 
+    onChange: function(selectedDates, dateStr, instance) {
+        if (selectedDates.length > 0) {
+            // Get the selected issuance date
+            let issuanceDate = selectedDates[0];
+            
+            // Calculate the minimum expiry date (1 year after issuance)
+            let minExpiryDate = new Date(issuanceDate);
+            minExpiryDate.setFullYear(minExpiryDate.getFullYear() + 1);
+
+            // Set minDate for expiry date picker
+            $('#cnic_expiry').flatpickr({
+                altInput: false,
+                dateFormat: "Y-m-d",
+                minDate: minExpiryDate,
+                onChange: function(expiryDates, expiryDateStr, expiryInstance) {
+                    // Check if the expiry date is valid
+                    if (expiryDates.length > 0) {
+                        let expiryDate = expiryDates[0];
+                        
+                        if (expiryDate < minExpiryDate) {
+                            // Show Swal error if the expiry date is less than minExpiryDate
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Invalid Expiry Date',
+                                text: 'The expiry date must be at least one year after the issuance date.',
+                                confirmButtonText: 'OK'
+                            });
+                            // Clear the invalid date selection
+                            expiryInstance.clear();
+                        }
+                    }
+                }
+            }).setDate(null); // Clear any previously selected expiry date
+        }
+    }
 });
+
+
+// Initialize the expiry date picker separately to set other options
 $('#cnic_expiry').flatpickr({
     altInput: false,
     dateFormat: "Y-m-d",
-    //maxDate: "today",
-   // minDate: "today", 
 });
+
 var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
 

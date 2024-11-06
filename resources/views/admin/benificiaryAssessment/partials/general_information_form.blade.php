@@ -35,41 +35,36 @@
         </div>
 
         <div class="fv-row col-md-2 ">
-            <label for="contact_number" class="fs-6 fw-bolder form-label mb-2 required">Contact Number:</label>
-            <input type="text" id="contact_number" class="form-control" maxlength="12" minlength="12" name="contact_number" placeholder="0000 0000000" required>
-        </div>
-
-        <div class="fv-row col-md-4 mt-2">
-            <label class="fs-6 fw-bolder form-label mb-2 required">HH Segregate:</label>
-            <br>
-            <input type="radio" id="Under 5yrs" name="hh_segregate" value="Under 5yrs" checked>
-            <label for="Under 5yrs" class="fs-6">Under 5yrs</label>
-            <input type="radio" id="5 - 17yrs" name="hh_segregate" value="5 - 17yrs">
-            <label for="5 - 17yrs" class="fs-6">5 - 17 yrs</label>
-            <input type="radio" id="Above 18yrs" name="hh_segregate" value="Above 18yrs">
-            <label for="Above 18yrs" class="fs-6">Above 18yrs</label>
-        </div>
-      
-        <div class="fv-row col-md-2 ">
-            <label for="hh_girls" class="fs-7 fw-bolder form-label mb-2 required">HH Under 5yrs Girls:</label>
+            <label for="hh_under5_girls" class="fs-7 fw-bolder form-label mb-2 required">HH Under 5yrs Girls:</label>
             <input type="text" value="0" id="hh_under5_girls" class="form-control" maxlength="7" name="hh_girls" oninput="this.value = this.value.slice(0, 7);">
         </div>
 
         <div class="fv-row col-md-2">
-            <label for="hh_boys" class="fs-7 fw-bolder form-label mb-2 required">HH Under 5yrs Boys:</label>
+            <label for="hh_under5_boys" class="fs-7 fw-bolder form-label mb-2 required">HH Under 5yrs Boys:</label>
             <input type="text" value="0" id="hh_under5_boys" class="form-control"  name="hh_under5_boys" maxlength="7" oninput="this.value = this.value.slice(0, 7);">
         </div>
 
         <div class="fv-row col-md-2 ">
-            <label for="hh_girls" class="fs-7 fw-bolder form-label mb-2 required">HH Under 5-17yrs Girls:</label>
+            <label for="hh_under5_girls" class="fs-7 fw-bolder form-label mb-2 required">HH Under 5-17yrs Girls:</label>
             <input type="text" value="0" id="hh_under5_girls" class="form-control" maxlength="7" name="hh_under5_girls" oninput="this.value = this.value.slice(0, 7);">
         </div>
-
         <div class="fv-row col-md-2">
-            <label for="hh_boys" class="fs-6 fw-bolder form-label mb-2 required">HH Under 5-17yrs Boys:</label>
+            <label for="hh_under5_7_boys" class="fs-7 fw-bolder form-label mb-2 required">HH Under 5-17yrs Boys:</label>
             <input type="text" value="0" id="hh_under5_7_boys" class="form-control"  name="hh_under5_7_boys" maxlength="7" oninput="this.value = this.value.slice(0, 7);">
         </div>
-   
+
+        <div class="fv-row col-md-2 ">
+            <label for="hh_above18_girls" class="fs-7 fw-bolder form-label mb-2 required">HH Above 18yrs Girls:</label>
+            <input type="text" value="0" id="hh_above18_girls" class="form-control" maxlength="7" name="hh_above18_girls" oninput="this.value = this.value.slice(0, 7);">
+        </div>
+        <div class="fv-row col-md-2">
+            <label for="hh_above18_girls" class="fs-7 fw-bolder form-label mb-2 required">HH Above 18yrs Boys:</label>
+            <input type="text" value="0" id="hh_above18_girls" class="form-control"  name="hh_above18_girls" maxlength="7" oninput="this.value = this.value.slice(0, 7);">
+        </div>
+        <div class="fv-row col-md-2 ">
+            <label for="contact_number" class="fs-6 fw-bolder form-label mb-2 required">Contact Number:</label>
+            <input type="text" id="contact_number" class="form-control" maxlength="12" minlength="12" name="contact_number" placeholder="0000 0000000" required>
+        </div>
         <div class="fv-row col-md-2">
             <label for="cnic_beneficiary" class="fs-7 fw-bolder form-label mb-2 required">CNIC Beneficiary:</label>
             <input type="text" id="cnic_beneficiary" class="form-control" name="cnic_beneficiary" maxlength="15" placeholder="37423-2323232-5" required pattern="^\d{5}-\d{7}-\d{1}$">
