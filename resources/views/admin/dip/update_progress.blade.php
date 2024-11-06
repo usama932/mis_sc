@@ -2,6 +2,9 @@
     @section('title')
        Update Activity Progress
     @endsection
+    {{-- @php
+        phpinfo()
+    @endphp --}}
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div class="card">
             <form action="{{route('updateprogress')}}"  id="update_progress" method="post" enctype="multipart/form-data">

@@ -168,10 +168,13 @@ class QBAttachmentsController extends Controller
                 $details = [
                     'id'            => $qb->id,
                     'village'       => $qb->village,
-                    'activity'      => $qb->activity_description,
+                    'activity'      => $qb->dipactivity?->activity_title ?? $qb->activity_description,
                     'response_id'   => $qb->assement_code,
                     'action_point'  => $qb->action_point,
                     'date_visit'    => $qb->date_visit,
+                    'project'       => $qb->project?->name,
+                    'user'          => $qb->user?->name,
+                    'desig'         => $qb->user?->desig?->designation_name ?? '',
                 ];
                 $subject = "[Quality Benchmark] ". $qb->activity_description ." in ". $qb->village ;
                 Mail::to($email)
@@ -219,8 +222,6 @@ class QBAttachmentsController extends Controller
 	    return redirect()->back();
     }
    
-   
-    
     public function destroy(string $id)
     {
         $qb_attachment = QBAttachement::find($id);
@@ -239,6 +240,7 @@ class QBAttachmentsController extends Controller
 	    }
 	    return redirect()->back();
     }
+
     public function showPDF($id)
     {
     
