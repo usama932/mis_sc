@@ -36,7 +36,7 @@
 
         <div class="fv-row col-md-2 ">
             <label for="hh_under5_girls" class="fs-7 fw-bolder form-label mb-2 required">HH Under 5yrs Girls:</label>
-            <input type="text" value="0" id="hh_under5_girls" class="form-control" maxlength="7" name="hh_girls" oninput="this.value = this.value.slice(0, 7);">
+            <input type="text" value="0" id="hh_under5_girls" class="form-control" maxlength="7" name="hh_under5_girls" oninput="this.value = this.value.slice(0, 7);">
         </div>
 
         <div class="fv-row col-md-2">
@@ -45,8 +45,8 @@
         </div>
 
         <div class="fv-row col-md-2 ">
-            <label for="hh_under5_girls" class="fs-7 fw-bolder form-label mb-2 required">HH Under 5-17yrs Girls:</label>
-            <input type="text" value="0" id="hh_under5_girls" class="form-control" maxlength="7" name="hh_under5_girls" oninput="this.value = this.value.slice(0, 7);">
+            <label for="hh_under5_7_girls" class="fs-7 fw-bolder form-label mb-2 required">HH Under 5-17yrs Girls:</label>
+            <input type="text" value="0" id="hh_under5_7_girls" class="form-control" maxlength="7" name="hh_under5_7_girls" oninput="this.value = this.value.slice(0, 7);">
         </div>
         <div class="fv-row col-md-2">
             <label for="hh_under5_7_boys" class="fs-7 fw-bolder form-label mb-2 required">HH Under 5-17yrs Boys:</label>
@@ -58,8 +58,8 @@
             <input type="text" value="0" id="hh_above18_girls" class="form-control" maxlength="7" name="hh_above18_girls" oninput="this.value = this.value.slice(0, 7);">
         </div>
         <div class="fv-row col-md-2">
-            <label for="hh_above18_girls" class="fs-7 fw-bolder form-label mb-2 required">HH Above 18yrs Boys:</label>
-            <input type="text" value="0" id="hh_above18_girls" class="form-control"  name="hh_above18_girls" maxlength="7" oninput="this.value = this.value.slice(0, 7);">
+            <label for="hh_above18_boys" class="fs-7 fw-bolder form-label mb-2 required">HH Above 18yrs Boys:</label>
+            <input type="text" value="0" id="hh_above18_boys" class="form-control"  name="hh_above18_boys" maxlength="7" oninput="this.value = this.value.slice(0, 7);">
         </div>
         <div class="fv-row col-md-2 ">
             <label for="contact_number" class="fs-6 fw-bolder form-label mb-2 required">Contact Number:</label>

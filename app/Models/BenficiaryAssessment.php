@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class BenficiaryAssessment extends Model
 {
     use HasFactory;
-    protected $table = 'beneficary_assessment_forms';
+    protected $table = 'benficiaryassessment';
     protected $guarded = [];
     
     public function project()
     {
-        return $this->belongsTo(Project::class,'project_id','id');
+        return $this->belongsTo(Project::class,'project','id');
     }
 
     public function user()

@@ -99,101 +99,25 @@ var KTCreateBeneficaryForm = function () {
 					// Show loading indication
 					formSubmitButton.setAttribute('data-kt-indicator', 'on');
 					 // Check axios library docs: https://axios-http.com/docs/intro
-					 axios.post(formSubmitButton.closest('form').getAttribute('action'), new FormData(form)).then(function (response) {
-                        if (response) {
-                           
-                            if(response.data.error == false){
-                                form.reset();
-                                toastr.options = {
-                                    "closeButton": true,
-                                    "debug": false,
-                                    "newestOnTop": false,
-                                    "progressBar": false,
-                                    "positionClass": "toastr-top-right",
-                                    "preventDuplicates": false,
-                                    "onclick": null,
-                                    "showDuration": "300",
-                                    "hideDuration": "1000",
-                                    "timeOut": "5000",
-                                    "extendedTimeOut": "1000",
-                                    "showEasing": "swing",
-                                    "hideEasing": "linear",
-                                    "showMethod": "fadeIn",
-                                    "hideMethod": "fadeOut"
-                                };
-                                toastr.success("Beneficiary Assessment stored succesfully", "Success");
-                                window.location.href = response.data.editUrl;
-                            }
-                            else{
-                                toastr.options = {
-                                    "closeButton": true,
-                                    "debug": false,
-                                    "newestOnTop": false,
-                                    "progressBar": false,
-                                    "positionClass": "toastr-top-right",
-                                    "preventDuplicates": false,
-                                    "onclick": null,
-                                    "showDuration": "300",
-                                    "hideDuration": "1000",
-                                    "timeOut": "5000",
-                                    "extendedTimeOut": "1000",
-                                    "showEasing": "swing",
-                                    "hideEasing": "linear",
-                                    "showMethod": "fadeIn",
-                                    "hideMethod": "fadeOut"
-                                };
-                                toastr.error(response.data.message, "Error");
-                            }
-                            
-                        } else {
-                            toastr.options = {
-                                "closeButton": false,
-                                "debug": true,
-                                "newestOnTop": false,
-                                "progressBar": false,
-                                "positionClass": "toastr-top-right",
-                                "preventDuplicates": false,
-                                "onclick": null,
-                                "showDuration": "300",
-                                "hideDuration": "1000",
-                                "timeOut": "5000",
-                                "extendedTimeOut": "1000",
-                                "showEasing": "swing",
-                                "hideEasing": "linear",
-                                "showMethod": "fadeIn",
-                                "hideMethod": "fadeOut"
-                              };
-                              
-                              toastr.error("Please address the highlighted errors", "Error");
-                        }
-                    }).catch(function (error) {
-                        toastr.options = {
-                            "closeButton": false,
-                            "debug": true,
-                            "newestOnTop": false,
-                            "progressBar": false,
-                            "positionClass": "toastr-top-right",
-                            "preventDuplicates": false,
-                            "onclick": null,
-                            "showDuration": "300",
-                            "hideDuration": "1000",
-                            "timeOut": "5000",
-                            "extendedTimeOut": "1000",
-                            "showEasing": "swing",
-                            "hideEasing": "linear",
-                            "showMethod": "fadeIn",
-                            "hideMethod": "fadeOut"
-                          };
-                          
-                          toastr.error("Please address the highlighted errors", "Error");   
-                    }).then(() => {
-                        // Hide loading indication
-                        formSubmitButton.removeAttribute('data-kt-indicator');
-
-                        // Enable button
-                        formSubmitButton.disabled = false;
-                    });
-					// Simulate form submission
+					 axios.post(formSubmitButton.closest('form').getAttribute('action'), new FormData(form))
+					 .then(function (response) {
+						const redirectUrl = form.getAttribute('data-kt-redirect-url');
+						 if (response.data.error === false) {
+							 form.reset();
+							 toastr.success("Beneficiary Assessment stored successfully", "Success");
+							 window.location.href = redirectUrl;
+						 }
+					 })
+					 .catch(function (error) {
+						 if (error.response && error.response.status === 422) {
+							 const errors = error.response.data.errors;
+							 Object.keys(errors).forEach((field) => {
+								 toastr.error(errors[field][0], "Validation Error");
+							 });
+						 } else {
+							 toastr.error("An unexpected error occurred", "Error");
+						 }
+					 });
 					setTimeout(function() {
 						// Hide loading indication
 						formSubmitButton.removeAttribute('data-kt-indicator');
@@ -218,24 +142,6 @@ var KTCreateBeneficaryForm = function () {
 				}
 			});
 		});
-
-		// Expiry month. For more info, plase visit the official plugin site: https://select2.org/
-        $(form.querySelector('[name="card_expiry_month"]')).on('change', function() {
-            // Revalidate the field when an option is chosen
-            validations[3].revalidateField('card_expiry_month');
-        });
-
-		// Expiry year. For more info, plase visit the official plugin site: https://select2.org/
-        $(form.querySelector('[name="card_expiry_year"]')).on('change', function() {
-            // Revalidate the field when an option is chosen
-            validations[3].revalidateField('card_expiry_year');
-        });
-
-		// Expiry year. For more info, plase visit the official plugin site: https://select2.org/
-        $(form.querySelector('[name="business_type"]')).on('change', function() {
-            // Revalidate the field when an option is chosen
-            validations[2].revalidateField('business_type');
-        });
 	}
 
 	var initValidation = function () {
@@ -358,42 +264,96 @@ var KTCreateBeneficaryForm = function () {
 							}
 						}
 					},
-					hh_segregate: {
+
+					hh_under5_girls: {
 						validators: {
 							notEmpty: {
-								message: 'HH Segregate is required'
-							},
-							
-						}
-					},
-					hh_girls: {
-						validators: {
-							notEmpty: {
-								message: 'HH Girls is required'
+								message: 'Under 5yrs Girls required'
 							},
 							numeric: {
-                                message: 'HH Girls  is must number'
+                                message: 'Must br number'
                             },
                             regexp: {
                                 regexp: /^\d+$/,
-                                message: 'HH Girls must be a positive number'
+                                message: 'Must be positive number'
                             }
 						}
 					},
-					hh_boys: {
+
+					hh_under5_boys: {
 						validators: {
 							notEmpty: {
-								message: 'HH Boys is required'
+								message: 'Under 5yrs Boys required'
 							},
 							numeric: {
-                                message: 'HH Boys  is must number'
+                                message: 'Must be number'
                             },
                             regexp: {
                                 regexp: /^\d+$/,
-                                message: 'HH Boys must be a positive number'
+                                message: 'Must be positive number'
                             }
 						}
 					},
+
+					hh_under5_7_girls: {
+						validators: {
+							notEmpty: {
+								message: 'Girls is required'
+							},
+							numeric: {
+                                message: 'Must Be number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Must positive number'
+                            }
+						}
+					},
+
+					hh_under5_7_boys: {
+						validators: {
+							notEmpty: {
+								message: 'Boys is required'
+							},
+							numeric: {
+                                message: 'Must be a number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Must be positive number'
+                            }
+						}
+					},
+					
+					hh_above18_girls: {
+						validators: {
+							notEmpty: {
+								message: 'Girls is required'
+							},
+							numeric: {
+                                message: 'Must be number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Must be  positive number'
+                            }
+						}
+					},
+					hh_above18_boys: {
+						validators: {
+							notEmpty: {
+								message: 'Boys is required'
+							},
+							numeric: {
+                                message: 'Must number'
+                            },
+                            regexp: {
+                                regexp: /^\d+$/,
+                                message: 'Must be positive number'
+                            }
+						}
+					},
+
 					cnic_beneficiary: {
 						validators: {
 							notEmpty: {
@@ -401,6 +361,7 @@ var KTCreateBeneficaryForm = function () {
 							}
 						}
 					},
+					
 					cnic_spouse: {
 						validators: {
 							notEmpty: {

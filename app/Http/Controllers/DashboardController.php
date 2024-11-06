@@ -3,39 +3,64 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Project;
-use ConsoleTVs\Charts\Classes\Chartjs\Chart;
-use DB;
+use App\Models\ProjectPartner;
+
 use App\Models\ProjectActivitySummary;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-    
-        $projects_count = Project::count();
-        $user_id = auth()->user()->id;
-        $user = $user_id.'';
-        if(auth()->user()->hasRole('partner')){
-            $projects = Project::whereHas('partners', function ($query) {
-                $query->where('email', auth()->user()->email);
+        $user = auth()->user();
+        $user_id = $user->id;
+        $user_email = $user->email;
+        $user_name = $user->name;
+        
+        // Initialize common variables for project data and project summaries
+        $project_data = ProjectActivitySummary::orderBy('project_name');
+
+        // Determine the role and fetch data accordingly
+        if ($user->hasRole('partner')) {
+            // Fetch projects for the partner based on email
+            $project_ids = ProjectPartner::where('email', $user_email)
+                ->pluck('project_id')
+                ->toArray();
+
+            // Fetch project data summaries for these project IDs
+            $project_data = $project_data->whereIn('project_id', $project_ids);
+            $projects = Project::whereHas('partners', function ($query) use ($user_email) {
+                $query->where('email', $user_email);
             })->orderBy('name');
-        }
-        elseif(auth()->user()->hasRole('focal person')){
-            
-            $projects = Project::whereJsonContains('focal_person', $user)->orderBy('name');
-            
-        }else{
+        } elseif ($user->hasRole('focal person') || $user->hasRole('budget holder')) {
+            // Fetch project summaries for the focal person/budget holder
+            $project_data = $project_data->where('focal_person', 'LIKE', '%' . $user_name . '%');
+            $projects = Project::whereJsonContains('focal_person', $user_id)->orderBy('name');
+        } else {
+            // For other roles, just get all projects and project summaries
             $projects = Project::orderBy('name');
         }
-        $project_data = ProjectActivitySummary::orderBy('project_name')->get();
+
+        // Get the final data
         $projects = $projects->get();
-      
+        $project_data = $project_data->get();
+
+        // Prepare data to pass to the view
         $projectNames = $project_data->pluck('name');
         $completeActivities = $project_data->pluck('complete_activities_count');
         $overdueActivities = $project_data->pluck('overdue_count');
         $pendingActivities = $project_data->pluck('pending_count');
+
         addVendors(['datatables']);
-        return view('pages.dashboards.index', compact('projects','project_data','projectNames', 'completeActivities', 'overdueActivities', 'pendingActivities'));
+        
+        // Return the view with the relevant data
+        return view('pages.dashboards.index', compact(
+            'projects', 
+            'project_data', 
+            'projectNames', 
+            'completeActivities', 
+            'overdueActivities', 
+            'pendingActivities'
+        ));
     }
     public function frm_dashboard()
     {

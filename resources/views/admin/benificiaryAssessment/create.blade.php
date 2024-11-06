@@ -44,7 +44,7 @@
                         </div>
                         <!--end::Nav-->
                         <!--begin::Form-->
-                        <form class="mx-auto w-100 pt-4" novalidate="novalidate" id="kt_create_account_form" action="{{ route('submit-beneficiary-assessment-form') }}" method="post">
+                        <form class="mx-auto w-100 pt-4" novalidate="novalidate" id="kt_create_account_form" action="{{ route('submit-beneficiary-assessment-form') }}" method="post" data-kt-redirect-url="{{ route('beneficiary-assessment-list') }}">
                           <!--begin::Step 1-->
                             <div class="current" data-kt-stepper-element="content">
                                 <!--begin::Wrapper-->
