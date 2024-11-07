@@ -54,12 +54,12 @@
         </div>
 
         <div class="fv-row col-md-2 ">
-            <label for="hh_above18_girls" class="fs-6 fw-bolder form-label mb-2 required">Above 18yrs Girls:</label>
+            <label for="hh_above18_girls" class="fs-8 fw-bolder form-label mb-2 required">Above 18yrs Girls:</label>
             <input type="text" value="0" id="hh_above18_girls" class="form-control" maxlength="7" name="hh_above18_girls" oninput="this.value = this.value.slice(0, 7);">
         </div>
 
         <div class="fv-row col-md-2">
-            <label for="hh_above18_boys" class="fs-6 fw-bolder form-label mb-2 required">Above 18yrs Boys:</label>
+            <label for="hh_above18_boys" class="fs-8 fw-bolder form-label mb-2 required">Above 18yrs Boys:</label>
             <input type="text" value="0" id="hh_above18_boys" class="form-control"  name="hh_above18_boys" maxlength="7" oninput="this.value = this.value.slice(0, 7);">
         </div>
 
