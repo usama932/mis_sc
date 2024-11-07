@@ -35,62 +35,65 @@
         </div>
 
         <div class="fv-row col-md-2 ">
-            <label for="hh_under5_girls" class="fs-7 fw-bolder form-label mb-2 required">HH Under 5yrs Girls:</label>
+            <label for="hh_under5_girls" class="fs-6 fw-bolder form-label mb-2 required">Under 5yrs Girls:</label>
             <input type="text" value="0" id="hh_under5_girls" class="form-control" maxlength="7" name="hh_under5_girls" oninput="this.value = this.value.slice(0, 7);">
         </div>
 
         <div class="fv-row col-md-2">
-            <label for="hh_under5_boys" class="fs-7 fw-bolder form-label mb-2 required">HH Under 5yrs Boys:</label>
+            <label for="hh_under5_boys" class="fs-6 fw-bolder form-label mb-2 required">Under 5yrs Boys:</label>
             <input type="text" value="0" id="hh_under5_boys" class="form-control"  name="hh_under5_boys" maxlength="7" oninput="this.value = this.value.slice(0, 7);">
         </div>
 
         <div class="fv-row col-md-2 ">
-            <label for="hh_under5_7_girls" class="fs-7 fw-bolder form-label mb-2 required">HH Under 5-17yrs Girls:</label>
+            <label for="hh_under5_7_girls" class="fs-6 fw-bolder form-label mb-2 required">5-17yrs Girls:</label>
             <input type="text" value="0" id="hh_under5_7_girls" class="form-control" maxlength="7" name="hh_under5_7_girls" oninput="this.value = this.value.slice(0, 7);">
         </div>
         <div class="fv-row col-md-2">
-            <label for="hh_under5_7_boys" class="fs-7 fw-bolder form-label mb-2 required">HH Under 5-17yrs Boys:</label>
+            <label for="hh_under5_7_boys" class="fs-6 fw-bolder form-label mb-2 required">5-17yrs Boys:</label>
             <input type="text" value="0" id="hh_under5_7_boys" class="form-control"  name="hh_under5_7_boys" maxlength="7" oninput="this.value = this.value.slice(0, 7);">
         </div>
 
         <div class="fv-row col-md-2 ">
-            <label for="hh_above18_girls" class="fs-7 fw-bolder form-label mb-2 required">HH Above 18yrs Girls:</label>
+            <label for="hh_above18_girls" class="fs-6 fw-bolder form-label mb-2 required">Above 18yrs Girls:</label>
             <input type="text" value="0" id="hh_above18_girls" class="form-control" maxlength="7" name="hh_above18_girls" oninput="this.value = this.value.slice(0, 7);">
         </div>
+
         <div class="fv-row col-md-2">
-            <label for="hh_above18_boys" class="fs-7 fw-bolder form-label mb-2 required">HH Above 18yrs Boys:</label>
+            <label for="hh_above18_boys" class="fs-6 fw-bolder form-label mb-2 required">Above 18yrs Boys:</label>
             <input type="text" value="0" id="hh_above18_boys" class="form-control"  name="hh_above18_boys" maxlength="7" oninput="this.value = this.value.slice(0, 7);">
         </div>
+
         <div class="fv-row col-md-2 ">
             <label for="contact_number" class="fs-6 fw-bolder form-label mb-2 required">Contact Number:</label>
             <input type="text" id="contact_number" class="form-control" maxlength="12" minlength="12" name="contact_number" placeholder="0000 0000000" required>
         </div>
+        
         <div class="fv-row col-md-2">
-            <label for="cnic_beneficiary" class="fs-7 fw-bolder form-label mb-2 required">CNIC Beneficiary:</label>
+            <label for="cnic_beneficiary" class="fs-6 fw-bolder form-label mb-2 required">CNIC Beneficiary:</label>
             <input type="text" id="cnic_beneficiary" class="form-control" name="cnic_beneficiary" maxlength="15" placeholder="37423-2323232-5" required pattern="^\d{5}-\d{7}-\d{1}$">
         </div>
         
         <div class="fv-row col-md-2">
-            <label for="cnic_spouse" class="fs-8 fw-bolder form-label mb-2 required">CNIC Beneficiary Spouse:</label>
+            <label for="cnic_spouse" class="fs-6 fw-bolder form-label mb-2 required">CNIC Spouse:</label>
             <input type="text" id="cnic_spouse" class="form-control" name="cnic_spouse" maxlength="15" placeholder="37423-2323232-5" required pattern="^\d{5}-\d{7}-\d{1}$">
         </div>
 
         <div class="fv-row col-md-2">
-            <label for="cnic_issuance" class="fs-8 fw-bolder form-label mb-2 required">Date of Benficary Issuance:</label>
+            <label for="cnic_issuance" class="fs-8 fw-bolder form-label mb-2 required">CNIC Benficary Issue:</label>
             <input type="text" id="cnic_issuance" class="form-control" name="cnic_issuance" required>
         </div>
 
         <div class="fv-row col-md-2">
-            <label for="cnic_expiry" class="fs-8 fw-bolder form-label mb-2 required">Date of Expiry:</label>
+            <label for="cnic_expiry" class="fs-8 fw-bolder form-label mb-2 required">CNIC Benficary Expiry:</label>
             <input type="text" id="cnic_expiry" class="form-control" name="cnic_issuance" required>
         </div>
 
         <div class="fv-row col-md-2 mt-2">
-            <label class="fs-7 fw-bolder form-label mb-2 required">Do You Receive Any Cash:</label>
+            <label class="fs-8 fw-bolder form-label  required">Do You Receive Any Cash:</label>
             <br>
-            <input type="radio" id="recieve_cash" name="recieve_cash" value="Yes" checked>
+            <input type="radio" id="recieve_cash" name="recieve_cash" value="Yes" class="mb-2" checked>
             <label for="Yes" class="fs-9">Yes</label>
-            <input type="radio" id="recieve_cash" name="recieve_cash" value="No">
+            <input type="radio" id="recieve_cash" name="recieve_cash" class="mb-2" value="No">
             <label for="No" class="fs-9">No</label>
         </div>
 

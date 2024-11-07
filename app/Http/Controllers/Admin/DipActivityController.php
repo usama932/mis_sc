@@ -854,16 +854,6 @@ class   DipActivityController extends Controller
 
     public function updateprogress(Request $request)
     {
-        dd('asd');
-        $requestSize = $request->getContentLength();
-    
-        // Get the size of the uploaded files (in bytes)
-        $uploadSize = 0;
-        foreach ($request->files as $file) {
-            $uploadSize += $file->getSize();
-        }
-        dd($requestSize);
-        dd($uploadSize);
         $quarter = ActivityMonths::where('id',$request->quarter)->first();
         $editUrl = route('activity_dips.show',$quarter->activity_id);
         $validatedData = $request->validate([

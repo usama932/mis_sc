@@ -9,6 +9,7 @@
         "consoletvs/charts": "*",
         "diglactic/laravel-breadcrumbs": "^8.1",
         "guzzlehttp/guzzle": "^7.2",
+        "intervention/image": "^3.9",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.0",
         "laravel/socialite": "^5.6",
