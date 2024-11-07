@@ -14,9 +14,9 @@ $('#cnic_issuance').flatpickr({
             // Get the selected issuance date
             let issuanceDate = selectedDates[0];
             
-            // Calculate the minimum expiry date (1 year after issuance)
+            // Calculate the minimum expiry date (1 month after issuance)
             let minExpiryDate = new Date(issuanceDate);
-            minExpiryDate.setFullYear(minExpiryDate.getFullYear() + 1);
+            minExpiryDate.setMonth(minExpiryDate.getMonth() + 1);
 
             // Set minDate for expiry date picker
             $('#cnic_expiry').flatpickr({
@@ -33,7 +33,7 @@ $('#cnic_issuance').flatpickr({
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Invalid Expiry Date',
-                                text: 'The expiry date must be at least one year after the issuance date.',
+                                text: 'The expiry date must be at least one month after the issuance date.',
                                 confirmButtonText: 'OK'
                             });
                             // Clear the invalid date selection
@@ -45,7 +45,6 @@ $('#cnic_issuance').flatpickr({
         }
     }
 });
-
 
 // Initialize the expiry date picker separately to set other options
 $('#cnic_expiry').flatpickr({
