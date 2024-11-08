@@ -13,38 +13,38 @@
                         <div class="stepper-nav mb-5">
                             <!--begin::Step 1-->
                             <div class="stepper-item current" data-kt-stepper-element="nav">
-                                <h6 class="stepper-title fs-6">Demographic Information</h6>
+                                <h6 class="stepper-title fs-7">Demographic Information</h6>
                             </div>
                             <!--end::Step 1-->
                             <!--begin::Step 2-->
                             <div class="stepper-item" data-kt-stepper-element="nav">
-                                <h6 class="stepper-title fs-6">General Information</h6>
+                                <h6 class="stepper-title fs-7">General Information</h6>
                             </div>
                             <!--end::Step 2-->
                             <!--begin::Step 3-->
                             <div class="stepper-item" data-kt-stepper-element="nav">
-                                <h6 class="stepper-title fs-6 ">Economic Information</h6>
+                                <h6 class="stepper-title fs-7 ">Economic Information</h6>
                             </div>
                             <!--end::Step 3-->
                             <!--begin::Step 4-->
                             <div class="stepper-item" data-kt-stepper-element="nav">
-                                <h6 class="stepper-title fs-6">Vulnerabilities & Losses</h6>
+                                <h6 class="stepper-title fs-7">Vulnerabilities & Losses</h6>
                             </div>
                             <!--end::Step 4-->
                             <!--begin::Step 5-->
                             <div class="stepper-item" data-kt-stepper-element="nav">
-                                <h6 class="stepper-title fs-6">Observation/Comments</h6>
+                                <h6 class="stepper-title fs-7">Observation/Comments</h6>
                             </div>
                             <!--end::Step 5-->
                             <!--begin::Step 6-->
                             {{-- <div class="stepper-item" data-kt-stepper-element="nav">
-                                <h6 class="stepper-title fs-6">Review/Submit</h6>
+                                <h6 class="stepper-title fs-7">Review/Submit</h6>
                             </div> --}}
                             <!--end::Step 6-->
                         </div>
                         <!--end::Nav-->
                         <!--begin::Form-->
-                        <form class="mx-auto w-100 pt-4" novalidate="novalidate" id="kt_create_account_form" action="{{ route('submit-beneficiary-assessment-form') }}" method="post" data-kt-redirect-url="{{ route('beneficiary-assessment-list') }}">
+                        <form class="mx-auto w-100 pt-2" novalidate="novalidate" id="kt_create_account_form" action="{{ route('submit-beneficiary-assessment-form') }}" method="post" data-kt-redirect-url="{{ route('beneficiary-assessment-list') }}">
                           <!--begin::Step 1-->
                             <div class="current" data-kt-stepper-element="content">
                                 <!--begin::Wrapper-->
@@ -149,6 +149,5 @@
     </div>
     @push('scripts')
         <script src="{{ asset('assets/js/custom/utilities/modals/create-account.js') }}"></script>
-
     @endpush
 </x-nform-layout>

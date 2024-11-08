@@ -251,4 +251,32 @@ class BenficiaryAssessmentController extends Controller
     public function destroy($id){
         
     }
+
+
+    public function checkCnicBeneficary(Request $request)
+    {
+        $cnic = $request->input('cnic');
+        // Check if CNIC already exists in the database
+        $exists = BenficiaryAssessment::orWhere('cnic_beneficiary', $cnic)->orWhere('cnic_spouse', $cnic)->exists();
+        // Return response indicating uniqueness
+        return response()->json(['unique' => !$exists]);
+    }
+
+    public function checkCnicSpouse(Request $request)
+    {
+      
+        $cnic = $request->input('cnic');
+        // Check if CNIC already exists in the database
+        $exists = BenficiaryAssessment::orWhere('cnic_beneficiary', $cnic)->orWhere('cnic_spouse', $cnic)->exists();
+        // Return response indicating uniqueness
+        return response()->json(['unique' => !$exists]);
+    }
+    public function checkContactNumber(Request $request)
+    {
+        $contact_number = $request->input('contact_number');
+        // Check if CNIC already exists in the database
+        $exists = BenficiaryAssessment::where('contact_number', $contact_number)->exists();
+        // Return response indicating uniqueness
+        return response()->json(['unique' => !$exists]);
+    }
 }

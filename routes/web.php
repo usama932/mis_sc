@@ -245,6 +245,9 @@ use Illuminate\Support\Facades\Route;
         Route::get('/benficiaryAssessment/edit/{id}', [BenficiaryAssessmentController::class,'edit'])->name('benficiaryAssessment.edit');
         Route::get('/benficiaryAssessment/delete/{id}', [BenficiaryAssessmentController::class,'destroy'])->name('benficiaryAssessment.delete');
         Route::get('/benficiaryAssessment/show/{id}', [BenficiaryAssessmentController::class,'show'])->name('benficiaryAssessment.show');
+        Route::post('/check-cnic-beneficary', [BenficiaryAssessmentController::class, 'checkCnicBeneficary']);
+        Route::post('/check-spouse-beneficary', [BenficiaryAssessmentController::class, 'checkCnicSpouse']);
+        Route::post('/check-contact-number', [BenficiaryAssessmentController::class, 'checkContactNumber']);
     });
 
     Route::get('/error', function () {

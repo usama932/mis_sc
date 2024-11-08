@@ -14,7 +14,7 @@
                 <!-- Demographic Information Section -->
                 <div class="col-md-6 mb-4">
                     <div class="section-header bg-primary text-white p-3 rounded-top">
-                        <h5 class="mb-0"><i class="fa fa-info-circle"></i> Demographic Information</h5>
+                        <h5 class="mb-0"><i class="fa fa-info-circle"></i>Demographic Information</h5>
                     </div>
                     <div class="p-3 border rounded-bottom">
                         <table class="table table-borderless">

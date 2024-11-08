@@ -357,18 +357,19 @@ var KTCreateBeneficaryForm = function () {
 					cnic_beneficiary: {
 						validators: {
 							notEmpty: {
-								message: 'CNIC Beneficary is required'
-							}
+								message: 'CNIC Beneficiary is required'
+							},
 						}
 					},
-					
+
 					cnic_spouse: {
 						validators: {
 							notEmpty: {
-								message: 'Cnic Spouse is required'
-							}
+								message: 'CNIC Spouse is required'
+							},
 						}
 					},
+
 					cnic_issuance: {
 						validators: {
 							notEmpty: {
