@@ -56,9 +56,15 @@
                             <tr><td><strong>Age</strong></td><td>{{ $benficiaryAssessment->age }}</td></tr>
                             <tr><td><strong>Beneficiary Contact</strong></td><td>{{ $benficiaryAssessment->beneficiary_contact ?? '' }}</td></tr>
                             <tr><td><strong>Contact Number</strong></td><td>{{ $benficiaryAssessment->contact_number ?? '' }}</td></tr>
-                            <tr><td><strong>Household Segregation</strong></td><td>{{ $benficiaryAssessment->hh_segregate }}</td></tr>
-                            <tr><td><strong>Household Girls</strong></td><td>{{ $benficiaryAssessment->hh_girls ?? '' }}</td></tr>
-                            <tr><td><strong>Household Boys</strong></td><td>{{ $benficiaryAssessment->hh_boys ?? '' }}</td></tr>
+                            <tr><td><strong>HH Under 5 Girls</strong></td><td>{{ $benficiaryAssessment->hh_under5_girls }}</td></tr>
+                            <tr><td><strong>HH Under 5 Boys</strong></td><td>{{ $benficiaryAssessment->hh_under5_boys }}</td></tr>
+
+                            <tr><td><strong>HH Under 5-17yrs Girls</strong></td><td>{{ $benficiaryAssessment->hh_under5_7_girls }}</td></tr>
+                            <tr><td><strong>HH Under 5-17yrs Boys</strong></td><td>{{ $benficiaryAssessment->hh_under5_7_boys }}</td></tr>
+
+                            <tr><td><strong>HH Above 18yrs Girls</strong></td><td>{{ $benficiaryAssessment->hh_above18_girls }}</td></tr>
+                            <tr><td><strong>HH Above 18yrs Boys</strong></td><td>{{ $benficiaryAssessment->hh_above18_boys }}</td></tr>
+
                             <tr><td><strong>Beneficiary CNIC</strong></td><td>{{ $benficiaryAssessment->cnic_beneficiary ?? '' }}</td></tr>
                             <tr><td><strong>CNIC Spouse</strong></td><td>{{ $benficiaryAssessment->cnic_spouse ?? '' }}</td></tr>
                             <tr><td><strong>CNIC Issue Date</strong></td><td>{{ date('M d, Y', strtotime($benficiaryAssessment->cnic_issuance ?? '')) }}</td></tr>
@@ -88,7 +94,7 @@
                 <!-- Vulnerabilities & Losses Section -->
                 <div class="col-md-6 mb-4">
                     <div class="section-header bg-primary text-white p-3 rounded-top">
-                        <h5 class="mb-0"><i class="fa fa-house-damage"></i> Dwelling Status, Vulnerabilities & Losses</h5>
+                        <h5 class="mb-0"><i class="fa fa-house-damage"></i>Dwelling Status, Vulnerabilities & Losses</h5>
                     </div>
                     <div class="p-3 border rounded-bottom">
                         <table class="table table-borderless">

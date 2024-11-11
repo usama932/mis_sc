@@ -121,11 +121,6 @@
             <input type="text" id="recieve_cash_source" class="form-control" name="recieve_cash_source">
         </div>
 
-        <!-- Remarks -->
-        <div class="fv-row col-md-12 mt-2">
-            <label for="remarks" class="fs-8 fw-bolder form-label mb-2">Remarks:</label>
-            <textarea id="remarks" name="remarks" class="form-control" rows="3"></textarea>
-        </div>
     </div>
 </div>
 
