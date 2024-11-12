@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Models\District;
 use App\Models\Province;
 use App\Models\BenficiaryAssessment;
+use App\Models\BatchNumber;
 use File;
 
 class BenficiaryAssessmentController extends Controller
@@ -15,69 +16,100 @@ class BenficiaryAssessmentController extends Controller
 
     public function beneficiaryAssessmentlist(){
 
+        $projects   = Project::where('active',1)->orderBy('name')->get();
+        $provinces  = Province::orderBy('province_name')->get();
+      
+        $form_nums  = BenficiaryAssessment::latest()->pluck('form_no','id');
+        $contacts   = BenficiaryAssessment::latest()->pluck('contact_number','id');
+        $cnics      = BenficiaryAssessment::latest()->pluck('cnic_beneficiary','id');
+       // dd($form_nums);
         addVendors(['datatables']);
         addJavascriptFile('assets/js/custom/benficaryAssessment/index.js');
-        return view('admin.benificiaryAssessment.index');
+        return view('admin.benificiaryAssessment.index',compact('projects','provinces','form_nums','contacts','cnics'));
     }
 
-    public function beneficiaryAssessments(Request $request){
-            // Initialize the query
-            $query = BenficiaryAssessment::with(['project', 'user'])->latest();
-
-            // Apply filters if present
-            if ($request->filled('project')) {
-                $query->where('project_id', $request->project);
-            }
-           
-            // Get the filtered and total count
-            $totalData = $query->count();
-            $totalFiltered = $totalData; // Since the query is already filtered
-            $benficiaryAssessments = $query->get();
-          
-            // Prepare data for DataTables
-            $data = $benficiaryAssessments->map(function ($benficiaryAssessment) {
-
-                return [
-                    'id' => $benficiaryAssessment->id,
-                    'form_no' => $benficiaryAssessment->form_no ?? '',
-                    'project' => $benficiaryAssessment->project->name ?? '', 
-                    'name_of_beneficiary' => $benficiaryAssessment->name_of_beneficiary ?? '',
-                    'gender' => $benficiaryAssessment->gender ?? '',
-                    'age' => $benficiaryAssessment->age ?? '',
-                    'contact_number' => $benficiaryAssessment->contact_number ?? '',
-                    'cash_assistance' => $benficiaryAssessment->cash_assistance ?? '',
-                    'assessment_officer' => $benficiaryAssessment->assessment_officer ?? '',
-                    'vc_representative_name' => $benficiaryAssessment->vc_representative_name ?? '',
-                    'status'        => $benficiaryAssessment->status ?? '',
-                    'created_by' => $benficiaryAssessment->user->name ?? '',
-                    'created_at' => $benficiaryAssessment->created_at ? $benficiaryAssessment->created_at->format('M d, Y') : '',
-                    'action' => '
-                    <a href="' . route('benficiaryAssessment.show', $benficiaryAssessment->id) . '" title="Show">
-                        <i class="fa fa-eye"></i>
-                    </a>
-                    <a href="' . route('benficiaryAssessment.edit', $benficiaryAssessment->id) . '" title="Edit">
-                        <i class="fa fa-edit"></i>
-                    </a>'
-                ];
-            });
-        
-            // Return JSON response for DataTables
-            return response()->json([
-                "draw" => intval($request->input('draw')),
-                "recordsTotal" => intval($totalData),
-                "recordsFiltered" => intval($totalFiltered),
-                "data" => $data->toArray(),
-            ]);
+    public function beneficiaryAssessments(Request $request)
+    {
+        // Initialize the query with pagination and necessary fields
+        $query = BenficiaryAssessment::with([
+                'project:id,name', 
+                'user:id,name', 
+                'batchs:id,batch_number'
+            ])
+            ->select(
+                'id', 'form_no', 'assessment', 'project_id', 
+                'hh_under5_girls', 'hh_under5_boys', 'hh_under5_7_girls', 
+                'hh_under5_7_boys', 'hh_above18_girls', 'hh_above18_boys',
+                'name_of_beneficiary', 'gender', 'age', 'hh_monthly_income', 
+                'house_demage', 'contact_number', 'cash_assistance', 
+                'assessment_officer', 'vc_representative_name', 
+                'status', 'created_by', 'created_at'
+            )
+            ->latest();
+    
+        // Apply filters if present
+        if ($request->filled('project')) {
+            $query->where('project_id', $request->project);
+        }
+    
+        // Count total and filtered records
+        $totalData = $query->count();
+        $benficiaryAssessments = $query->paginate($request->length);
+    
+        // Prepare data for DataTables
+        $data = $benficiaryAssessments->map(function ($benficiaryAssessment) {
+            return [
+                'id' => $benficiaryAssessment->id,
+                'form_no' => $benficiaryAssessment->form_no ?? '',
+                'assessment' => $benficiaryAssessment->assessment ?? '',
+                'project' => $benficiaryAssessment->project?->name ?? '', 
+                'hh_under5_girls' => $benficiaryAssessment->hh_under5_girls ?? '',
+                'hh_under5_boys' => $benficiaryAssessment->hh_under5_boys ?? '',
+                'hh_under5_7_girls' => $benficiaryAssessment->hh_under5_7_girls ?? '',
+                'hh_under5_7_boys' => $benficiaryAssessment->hh_under5_7_boys ?? '',
+                'hh_above18_girls' => $benficiaryAssessment->hh_above18_girls ?? '',
+                'hh_above18_boys' => $benficiaryAssessment->hh_above18_boys ?? '',
+                'name_of_beneficiary' => $benficiaryAssessment->name_of_beneficiary ?? '',
+                'gender' => $benficiaryAssessment->gender ?? '',
+                'age' => $benficiaryAssessment->age ?? '',
+                'hh_monthly_income' => $benficiaryAssessment->hh_monthly_income ?? '',
+                'house_demage' => $benficiaryAssessment->house_demage ?? '',
+                'contact_number' => $benficiaryAssessment->contact_number ?? '',
+                'cash_assistance' => $benficiaryAssessment->cash_assistance ?? '',
+                'assessment_officer' => $benficiaryAssessment->assessment_officer ?? '',
+                'vc_representative_name' => $benficiaryAssessment->vc_representative_name ?? '',
+                'status' => $benficiaryAssessment->status ?? '',
+                'created_by' => $benficiaryAssessment->user->name ?? '',
+                'created_at' => $benficiaryAssessment->created_at ? $benficiaryAssessment->created_at->format('M d, Y') : '',
+                'action' => '<a href="' . route('benficiaryAssessment.show', $benficiaryAssessment->id) . '" title="Show">
+                                <i class="fa fa-eye"></i>
+                             </a>
+                             <a href="' . route('benficiaryAssessment.edit', $benficiaryAssessment->id) . '" title="Edit">
+                                <i class="fa fa-edit"></i>
+                             </a>'
+            ];
+        });
+    
+        // Return JSON response
+        return response()->json([
+            "draw" => intval($request->input('draw')),
+            "recordsTotal" => $totalData,
+            "recordsFiltered" => $totalData,
+            "data" => $data,
+        ]);
     }
+    
 
     public function beneficiaryAssessmentForm(){
 
-        $projects = Project::where('active',1)->orderBy('name')->get();
-        $provinces = Province::orderBy('province_name')->get();
-       
+        $projects   = Project::where('active',1)->orderBy('name')->get();
+        $provinces  = Province::orderBy('province_name')->get();
+        $provinces  = Province::orderBy('province_name')->get();
+        $batches    = BatchNumber::latest()->get();
+
         addJavascriptFile('assets/js/custom/benficaryAssessment/create.js');
         addJavascriptFile('assets/js/custom/benficaryAssessment/general.js');
-        return view('admin.benificiaryAssessment.create',compact('projects','provinces'));
+        return view('admin.benificiaryAssessment.create',compact('projects','provinces','batches'));
     }
 
     public function submitBeneficiaryAssessmentForm(Request $request)
@@ -92,63 +124,65 @@ class BenficiaryAssessmentController extends Controller
 
         // Create beneficiary record
         $beneficiary = BenficiaryAssessment::create([
-            'project' => $request->project,
-            'date' => $request->date,
-            'province' => $request->province,
-            'district' => $request->district,
-            'tehsil' => $request->tehsil,
-            'uc' => $request->uc,
-            'village' => $request->village,
-            'subvillage' => $request->subvillage,
+            'project_id'       => $request->project,
+            'assessment'    => $request->assessment,
+            'date'          => $request->date,
+            'province'      => $request->province,
+            'district'      => $request->district,
+            'tehsil'        => $request->tehsil,
+            'uc'            => $request->uc,
+            'village'       => $request->village,
+            'subvillage'    => $request->subvillage,
+            'guardian'      => $request->guardian,
+            'gender'        => $request->gender,
+            'age'           => $request->age,
+
             'name_of_beneficiary' => $request->name_of_beneficiary,
-            'guardian' => $request->guardian,
-            'gender' => $request->gender,
-            'age' => $request->age,
-            'beneficiary_contact' => $request->beneficiary_contact,
-            'contact_number' => $request->contact_number,
-            'hh_under5_girls' => $request->hh_under5_girls,
-            'hh_under5_boys' => $request->hh_under5_boys,
-            'hh_under5_7_girls' => $request->hh_under5_7_girls,
-            'hh_under5_7_boys' => $request->hh_under5_7_boys,
-            'hh_above18_girls' => $request->hh_above18_girls,
-            'hh_above18_boys' => $request->hh_above18_boys,
-            'cnic_beneficiary' => $request->cnic_beneficiary,
-            'cnic_spouse' => $request->cnic_spouse,
-            'cnic_issuance' => $request->cnic_issuance,
-            'recieve_cash' => $request->recieve_cash,
-            'recieve_cash_amount' => $request->recieve_cash_amount,
-            'recieve_cash_source' => $request->recieve_cash_source,
-            'hh_monthly_income' => $request->hh_monthly_income,
-            'hh_source_income' => $request->hh_source_income,
-            'hh_person_earned' => $request->hh_person_earned,
-            'hh_outstanding_debt' => $request->hh_outstanding_debt,
-            'house_demage' => $request->house_demage,
-            'hh_minority' => $request->hh_minority,
-            'reffered_tls' => $request->reffered_tls,
-            'hh_died_female' => $request->hh_died_female,
-            'hh_died_male' => $request->hh_died_male,
-            'hh_injured_female' => $request->hh_injured_female,
-            'hh_injured_male' => $request->hh_injured_male,
-            'hh_disabled_girls' => $request->hh_disabled_girls,
-            'hh_disabled_boys' => $request->hh_disabled_boys,
-            'hh_disabled_women' => $request->hh_disabled_women,
-            'hh_disabled_men' => $request->hh_disabled_men,
+            'beneficiary_contact'   => $request->beneficiary_contact,
+            'contact_number'        => $request->contact_number,
+            'hh_under5_girls'       => $request->hh_under5_girls,
+            'hh_under5_boys'        => $request->hh_under5_boys,
+            'hh_under5_7_girls'     => $request->hh_under5_7_girls,
+            'hh_under5_7_boys'      => $request->hh_under5_7_boys,
+            'hh_above18_girls'      => $request->hh_above18_girls,
+            'hh_above18_boys'       => $request->hh_above18_boys,
+            'cnic_beneficiary'      => $request->cnic_beneficiary,
+            'cnic_spouse'           => $request->cnic_spouse,
+            'cnic_issuance'         => $request->cnic_issuance,
+            'recieve_cash'          => $request->recieve_cash,
+            'recieve_cash_amount'   => $request->recieve_cash_amount,
+            'recieve_cash_source'   => $request->recieve_cash_source,
+            'hh_monthly_income'     => $request->hh_monthly_income,
+            'hh_source_income'      => $request->hh_source_income,
+            'hh_person_earned'      => $request->hh_person_earned,
+            'hh_outstanding_debt'   => $request->hh_outstanding_debt,
+            'house_demage'          => $request->house_demage,
+            'hh_minority'           => $request->hh_minority,
+            'reffered_tls'          => $request->reffered_tls,
+            'hh_died_female'        => $request->hh_died_female,
+            'hh_died_male'          => $request->hh_died_male,
+            'hh_injured_female'     => $request->hh_injured_female,
+            'hh_injured_male'       => $request->hh_injured_male,
+            'hh_disabled_girls'     => $request->hh_disabled_girls,
+            'hh_disabled_boys'      => $request->hh_disabled_boys,
+            'hh_disabled_women'     => $request->hh_disabled_women,
+            'hh_disabled_men'       => $request->hh_disabled_men,
             'large_animal_perished' => $request->large_animals,
             'small_animal_perished' => $request->small_animals,
-            'hh_orphan_girls' => $request->orphan_girls,
-            'hh_orphan_boys' => $request->orphan_boys,
-            'land_destroyed' => $request->land_destroyed,
-            'hh_widow' => $request->widows_count,
-            'hh_pragnant' => $request->pregnant_women,
-            'hh_meal_inday' => $request->meals_per_day,
-            'cash_assistance' => $request->cash_assistance,
-            'assessment_officer' => $request->assessment_officer,
-            'beneficiary_name' => $request->beneficiary_name,
+            'hh_orphan_girls'       => $request->orphan_girls,
+            'hh_orphan_boys'        => $request->orphan_boys,
+            'land_destroyed'        => $request->land_destroyed,
+            'hh_widow'              => $request->widows_count,
+            'hh_pragnant'           => $request->pregnant_women,
+            'hh_meal_inday'         => $request->meals_per_day,
+            'cash_assistance'       => $request->cash_assistance,
+            'assessment_officer'    => $request->assessment_officer,
+            'beneficiary_name'      => $request->beneficiary_name,
+            'form_no'               => $form_no,
+            'attachment'            => $filename,
+            'status'                => 'Waiting',
+            'created_by'            => auth()->user()->id,
             'vc_representative_name' => $request->vc_representative,
-            'form_no' => $form_no,
-            'attachment' => $filename,
-            'status' => 'Waiting',
-            'created_by' => auth()->user()->id,
         ]);
 
         return response()->json([

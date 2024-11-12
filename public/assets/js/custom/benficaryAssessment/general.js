@@ -1,5 +1,4 @@
 "use strict";
-
 // Class definition
 var KTCreateBeneficaryForm = function () {
 	// Elements
@@ -155,6 +154,14 @@ var KTCreateBeneficaryForm = function () {
 						validators: {
 							notEmpty: {
 								message: 'Project is required'
+							},
+							
+						}
+					},
+					assessment: {
+						validators: {
+							notEmpty: {
+								message: 'Assessment is required'
 							},
 							
 						}

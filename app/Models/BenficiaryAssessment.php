@@ -13,7 +13,7 @@ class BenficiaryAssessment extends Model
     
     public function project()
     {
-        return $this->belongsTo(Project::class,'project','id');
+        return $this->belongsTo(Project::class,'project_id','id');
     }
 
     public function user()
@@ -41,5 +41,9 @@ class BenficiaryAssessment extends Model
     public function ucs()
     {
         return $this->belongsTo(UnionCounsil::class,'uc','union_id');
+    }
+    public function batchs()
+    {
+        return $this->belongsTo(BatchNumber::class,'batch_id','id');
     }
 }

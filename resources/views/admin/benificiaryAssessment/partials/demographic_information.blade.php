@@ -10,12 +10,20 @@
         <div id="projectError" class="invalid-feedback" style="display: none;"></div>
     </div>
 
-    <div class="fv-row col-md-6">
+  
+    <div class="fv-row col-md-3">
         <label class="fs-6 fw-bolder required">Date</label>
         <input type="text" name="date" id="mpca_Date" class="form-control" required />
         <div id="dateError" class="invalid-feedback" style="display: none;"></div>
     </div>
-    
+    <div class="fv-row col-md-3">
+        <label class="fs-6 fw-bolder required">Assessment Form</label>
+        <br>
+        <input type="radio" id="MPCA" name="assessment" value="MPCA" > <label for="MPCA" class="fs-9">MPCA</label>
+        <input type="radio" id="Livestock" name="assessment" value="Livestock"> <label for="Livestock" class="fs-9">Livestock</label>
+        <input type="radio" id="Kitchen Gardening" name="assessment" value="Kitchen Gardening"> <label for="Kitchen Gardening" class="fs-9">Kitchen Gardening</label>
+        <div id="batch_noError" class="invalid-feedback" style="display: none;"></div>
+    </div>
     <div class="fv-row col-md-3 mt-5">
         <div class="d-flex"> 
             <label class="fs-6 fw-bolder required">Province</label>

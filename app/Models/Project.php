@@ -16,7 +16,7 @@ class Project extends Model
     }
     public function beneficiaryAssessments()
     {
-        return $this->hasMany(BenficiaryAssessment::class,'user_id','id');
+        return $this->hasMany(BenficiaryAssessment::class,'project_id','id');
     }
     public function themes()
     {
