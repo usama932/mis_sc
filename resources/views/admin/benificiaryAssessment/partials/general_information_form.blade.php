@@ -16,6 +16,7 @@
         <!-- Gender -->
         <div class="fv-row col-md-2">
             <label class="fs-6 fw-bolder form-label mb-2 required">Gender:</label>
+            <br>
             <input type="radio" id="male" name="gender" value="Male" checked> <label for="male" class="fs-9">Male</label>
             <input type="radio" id="female" name="gender" value="Female"> <label for="female" class="fs-9">Female</label>
         </div>
