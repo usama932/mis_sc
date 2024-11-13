@@ -24,4 +24,9 @@ class Indicator extends Model
     {
         return $this->belongsTo(User::class,'updated_by','id');
     }
+
+    public function activities()
+    {
+        return $this->hasMany(IndicatorActivities::class,'indicator_id','id');
+    }
 }

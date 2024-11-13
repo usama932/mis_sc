@@ -1,3 +1,5 @@
+
+
 <x-nform-layout>
     @section('title')
        Complete Activites
@@ -74,7 +76,13 @@
             </div>
         </div>
     @endcan
+    <div class="overlay" onclick="closeImage()" style="display: none;"></div>
+
+    <!-- Enlarged Image -->
+    <img src="" alt="Enlarged Image" class="thumbnail enlarged" style="display: none;">
     
+    <!-- Close Icon -->
+    <span class="close-icon" onclick="closeImage()" style="display: none;">&times;</span>
     <div class="card">
         <div class="card-body">
             <div class="table-responsive overflow-*">
@@ -168,6 +176,14 @@
         </div>
     </div>
     @push('scripts')
+        <script>
+          function openImageInNewTab(imageUrl) {
+    // Open the image URL in a new tab
+    window.open(imageUrl, '_blank');
+}
+        </script>
+        
+        
         <script>
             function edit_status(id){
                 var baseURL = window.location.origin;

@@ -175,12 +175,14 @@ use Illuminate\Support\Facades\Route;
         Route::get('/download_progress_attachment/{filename}', [DipActivityController::class,'download_progress_attachment'])->name('download_progress_attachment');
         Route::post('quarterstatus.update/{id}', [DipActivityController::class,'quarterstatus_update'])->name('quarterstatus.update');
         Route::post('quarterstatus.edit/{id}', [DipActivityController::class,'quarterstatus_edit'])->name('quarterstatus.edit');
+      
         //Master Projects  routes
         Route::resource('/projects', ProjectController::class);
         Route::post('get_projects', [ProjectController::class,'get_projects'])->name('admin.get_projects');
         Route::post('project/update', [ProjectController::class,'project_update'])->name('project.update');
         Route::get('/project/delete/{id}', [ProjectController::class,'destroy'])->name('project.delete');
         Route::get('project_activities/export/{id}', [ProjectController::class,'getexport'])->name('project-export');
+      
         //Project detail Routes
         Route::get('/project/detailupdate/{id}', [ProjectController::class,'createProject_details'])->name('project.detail');
         Route::get('/project/detailview/{id}', [ProjectController::class,'project_view'])->name('project.view');
@@ -208,6 +210,7 @@ use Illuminate\Support\Facades\Route;
         Route::post('view_review', [ProjectReviewController::class,'view_review'])->name('view_review');
         Route::get('/project_review/delete/{id}', [ProjectReviewController::class,'destroy'])->name('project_review.delete');
         Route::post('/project_review/details', [ProjectReviewController::class,'details'])->name('project_review.details');
+       
         //close Records routes
         Route::resource('/close_records', CloseRecordController::class);
 
@@ -235,8 +238,11 @@ use Illuminate\Support\Facades\Route;
         Route::get('/indicator/delete/{id}', [IndicatorController::class,'destroy'])->name('indicators.delete');
         Route::get('/get-indicator/activityFrom', [IndicatorActivityController::class,'activityForm'])->name('indicators.activityForm');
         Route::post('/add-indicator/activityFrom', [IndicatorActivityController::class,'addActivityForm'])->name('indicators.addActivityForm');
-        Route::get('/get-activities', [IndicatorActivityController::class, 'getProjectActivities'])->name('getProjectActivities');
-
+        Route::get('/get-activities', [IndicatorActivityController::class, 'index'])->name('getProjectActivities');
+        Route::get('/get-project-activities', [IndicatorActivityController::class, 'getProjectActivities']);
+        Route::post('/get-indicatorActvities', [IndicatorActivityController::class, 'getIndicatorActivities']);
+        Route::get('/get-indicatoractivity/{id}', [IndicatorActivityController::class, 'indicatorActivityShow'])->name('indicatorActivityShow');
+        Route::get('/delete-indicatorActivity/{id}', [IndicatorActivityController::class, 'indicatorActivityDelete'])->name('indicatorActivityDelete');
         //beneficiary assessment route
         Route::get('/beneficiary-assessment-form', [BenficiaryAssessmentController::class, 'beneficiaryAssessmentForm'])->name('beneficiary-assessment-form');
         Route::post('submit-beneficiary-assessment-form', [BenficiaryAssessmentController::class, 'submitBeneficiaryAssessmentForm'])->name('submit-beneficiary-assessment-form');

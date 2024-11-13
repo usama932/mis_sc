@@ -51,6 +51,9 @@ class IndicatorController extends Controller
       
         // Prepare data for DataTables
         $data = $indicators->map(function ($indicator) {
+            $edit_url= route('indicators.edit', $indicator->id);
+            $show_url = route('indicators.show', $indicator->id);
+            $delete_url = route('indicators.delete', $indicator->id);
             return [
                 'id' => $indicator->id,
                 'project' => $indicator->project->name ?? '', // Assuming relationship
@@ -66,10 +69,13 @@ class IndicatorController extends Controller
                 'baseline' => $indicator->baseline ?? '',
                 'created_by' => $indicator->user->name ?? '',
                 'created_at' => $indicator->created_at ? $indicator->created_at->format('M d, Y') : '',
-                'action' => '', // Add action buttons if necessary
-                'edit_url' => route('indicators.edit', $indicator->id),
-                'show_url' => route('indicators.show', $indicator->id),
-                'delete_url' => route('indicators.delete', $indicator->id),
+                'action' => '<td><td><a class="" href="' . $show_url . '" target="_blank" title="Show Activity" href="javascript:void(0)"><i class="fa fa-eye text-success mx-3" aria-hidden="true"></i></a>
+                <a class="" href="' . $edit_url . '" target="_blank" title="Edit Activity" href="javascript:void(0)"><i class="fa fa-pencil text-success mx-3" aria-hidden="true"></i></a>
+                                        <a class="" onclick="event.preventDefault();del('.$indicator->id.');" title="Delete Client" href="javascript:void(0)">
+                                        <i class="icon-1x text-danger  fa fa-trash"></i>
+                                    </a>
+                                    </td><div><td>',
+                
             ];
         });
     
@@ -118,6 +124,11 @@ class IndicatorController extends Controller
         return view('admin.indicators.edit',compact('themes','projects','indicator'));
     }
 
+    public function show(Request $request, string $id)
+    {
+        $indicatorActivity =Indicator::where('id',$id)->with('activities','project')->first();
+        return view('admin.indicators.showindicator',compact('indicatorActivity'));
+    }
     public function update(Request $request, string $id)
     {
         //

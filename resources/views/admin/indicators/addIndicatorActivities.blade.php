@@ -23,7 +23,7 @@
                             <label class="fs-6 fw-semibold form-label">
                                 <span class="required">Indicators</span>
                             </label>
-                            <select name="indicatorId" id="indicatorId" class="form-select" size="10" data-placeholder="Select Indicators"   data-control="select"  data-allow-clear="true"
+                            <select name="indicatorId" id="indicatorId" class="form-select" size="10" data-placeholder="Select Indicators"   data-control="select2"  data-allow-clear="true"
                                 style="height: 60px !important; padding: 10px !important; font-size: 16px !important; border-radius: 8px !important; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1) !important; cursor: pointer !important;">
                             
                           
@@ -36,7 +36,7 @@
                             <label class="fs-6 fw-semibold form-label">
                                 <span class="required">Activities</span>
                             </label>
-                            <select name="activities[]" multiple id="activities" size="10"  class="form-select  " data-control="select" data-placeholder="Select Activities"  data-allow-clear="true">
+                            <select name="activities[]" multiple id="activities" size="10"  class="form-select  " data-control="select2" data-placeholder="Select Activities"  data-allow-clear="true">
                                 <option value="">Select Activities</option>
                               
                             </select>

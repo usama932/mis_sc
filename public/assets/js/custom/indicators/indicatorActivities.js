@@ -2,11 +2,11 @@ $(document).ready(function () {
     // Get CSRF token from the meta tag
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-    var table = $('#indicators').DataTable({
+    var table = $('#indicatorActivities').DataTable({
         processing: true,
         serverSide: false, // Set this to false for client-side processing
         ajax: {
-            url: "/get-indicators", // Adjust this route as necessary
+            url: "/get-indicatorActvities", // Adjust this route as necessary
             type: 'POST', // Use POST method for AJAX
             headers: {
                 'X-CSRF-TOKEN': csrfToken // Add CSRF token for Laravel security
@@ -14,16 +14,10 @@ $(document).ready(function () {
         },
         columns: [
             { data: 'project', name: 'project.name' },
-           // { data: 'theme', name: 'theme' },
-            { data: 'log_frame', name: 'log_frame' },
             { data: 'indicator_name', name: 'indicator_name' },
             { data: 'indicator_type', name: 'indicator_type' },
-            { data: 'unit_of_measure', name: 'unit_of_measure' },
-            { data: 'actual_periodicity', name: 'actual_periodicity' },
-            { data: 'nature', name: 'nature' },
-            { data: 'data_format', name: 'data_format' },
-            { data: 'dis_segragation', name: 'dis_segragation' },
-            { data: 'baseline', name: 'baseline' },
+            { data: 'activity', name: 'activity' },
+            { data: 'activity_target', name: 'activity_target' },
             { data: 'created_by', name: 'user.name' },
             { data: 'created_at', name: 'created_at' },
             { data: 'action', name: 'action', orderable: false, searchable: false },
@@ -47,6 +41,7 @@ $(document).ready(function () {
     });
 });
 
+
 function del(id) {
     Swal.fire({
         title: "Are you sure?",
@@ -65,3 +60,4 @@ function del(id) {
         }
     });
 }
+

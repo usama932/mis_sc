@@ -69,84 +69,85 @@
 				</div>
 			</div>
             @can('dashboards')
-            <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->segment(1) == 'dashboard' || request()->segment(1) == 'qb_dashboard' || request()->segment(1) == 'frm_dashboard' || request()->segment(1) == "output-tracker" ||  request()->segment(1) == 'medical_exit_interview') ? 'here show' : '' }}">
-                <!--begin:Menu link-->
-                <span class="menu-link">
-                    <span class="svg-icon svg-icon-primary svg-icon-1x mx-2"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Media/Equalizer.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                            <rect x="0" y="0" width="24" height="24"/>
-                            <rect fill="#000000" opacity="0.3" x="13" y="4" width="3" height="16" rx="1.5"/>
-                            <rect fill="#000000" x="8" y="9" width="3" height="11" rx="1.5"/>
-                            <rect fill="#000000" x="18" y="11" width="3" height="9" rx="1.5"/>
-                            <rect fill="#000000" x="3" y="13" width="3" height="7" rx="1.5"/>
-                        </g>
-                    </svg><!--end::Svg Icon--></span>
-                    <span class="menu-title">Dashboards</span>
-                    <span class="menu-arrow"></span>
-                </span>
-                <!--end:Menu link-->
-                <!--begin:Menu sub-->
-                <div class="menu-sub menu-sub-accordion">
-                    <!--begin:Menu item-->
-                    <div class="menu-item">
-                        <!--begin:Menu link-->
-                        <a class="menu-link {{ (request()->segment(1) == 'dashboard') ? 'active' : '' }}" href="{{route('dashboard')}}">
-                            <span class="menu-bullet">
-                                <span class="bullet bullet-dot"></span>
-                            </span>
-                            <span class="menu-title">MIS Dashboard</span>
-                        </a>
-                        <!--end:Menu link-->
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->segment(1) == 'dashboard' || request()->segment(1) == 'qb_dashboard' || request()->segment(1) == 'frm_dashboard' || request()->segment(1) == "output-tracker" ||  request()->segment(1) == 'medical_exit_interview') ? 'here show' : '' }}">
+                    <!--begin:Menu link-->
+                    <span class="menu-link">
+                        <span class="svg-icon svg-icon-primary svg-icon-1x mx-2"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Media/Equalizer.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <rect x="0" y="0" width="24" height="24"/>
+                                <rect fill="#000000" opacity="0.3" x="13" y="4" width="3" height="16" rx="1.5"/>
+                                <rect fill="#000000" x="8" y="9" width="3" height="11" rx="1.5"/>
+                                <rect fill="#000000" x="18" y="11" width="3" height="9" rx="1.5"/>
+                                <rect fill="#000000" x="3" y="13" width="3" height="7" rx="1.5"/>
+                            </g>
+                        </svg><!--end::Svg Icon--></span>
+                        <span class="menu-title">Dashboards</span>
+                        <span class="menu-arrow"></span>
+                    </span>
+                    <!--end:Menu link-->
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{ (request()->segment(1) == 'dashboard') ? 'active' : '' }}" href="{{route('dashboard')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">MIS Dashboard</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{ (request()->segment(1) == 'output-tracker') ? 'active' : '' }}" href="{{route('dashboards.output_tracker_dashboard')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Output Tracker Dashboard</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{ (request()->segment(1) == 'frm_dashboard') ? 'active' : '' }}" href="{{route('dashboards.frm_dashboard')}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">FRM Dashboard</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{ (request()->segment(1) == 'qb_dashboard') ? 'active' : '' }}" href="{{ route('dashboards.qb_dashboard') }}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">QB Dashboard</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                        <!--begin:Menu item-->
+                        <div class="menu-item">
+                            <!--begin:Menu link-->
+                            <a class="menu-link {{ (request()->segment(1) == 'medical_exit_interview') ? 'active' : '' }}" href="{{ route('dashboards.medical_exit_interview') }}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Medical Exit Dashboard</span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
                     </div>
-                    <div class="menu-item">
-                        <!--begin:Menu link-->
-                        <a class="menu-link {{ (request()->segment(1) == 'output-tracker') ? 'active' : '' }}" href="{{route('dashboards.output_tracker_dashboard')}}">
-                            <span class="menu-bullet">
-                                <span class="bullet bullet-dot"></span>
-                            </span>
-                            <span class="menu-title">Output Tracker Dashboard</span>
-                        </a>
-                        <!--end:Menu link-->
-                    </div>
-                    <div class="menu-item">
-                        <!--begin:Menu link-->
-                        <a class="menu-link {{ (request()->segment(1) == 'frm_dashboard') ? 'active' : '' }}" href="{{route('dashboards.frm_dashboard')}}">
-                            <span class="menu-bullet">
-                                <span class="bullet bullet-dot"></span>
-                            </span>
-                            <span class="menu-title">FRM Dashboard</span>
-                        </a>
-                        <!--end:Menu link-->
-                    </div>
-                    <!--end:Menu item-->
-                    <!--begin:Menu item-->
-                    <div class="menu-item">
-                        <!--begin:Menu link-->
-                        <a class="menu-link {{ (request()->segment(1) == 'qb_dashboard') ? 'active' : '' }}" href="{{ route('dashboards.qb_dashboard') }}">
-                            <span class="menu-bullet">
-                                <span class="bullet bullet-dot"></span>
-                            </span>
-                            <span class="menu-title">QB Dashboard</span>
-                        </a>
-                        <!--end:Menu link-->
-                    </div>
-                    <!--end:Menu item-->
-                    <!--begin:Menu item-->
-                    <div class="menu-item">
-                        <!--begin:Menu link-->
-                        <a class="menu-link {{ (request()->segment(1) == 'medical_exit_interview') ? 'active' : '' }}" href="{{ route('dashboards.medical_exit_interview') }}">
-                            <span class="menu-bullet">
-                                <span class="bullet bullet-dot"></span>
-                            </span>
-                            <span class="menu-title">Medical Exit Dashboard</span>
-                        </a>
-                        <!--end:Menu link-->
-                    </div>
-                    <!--end:Menu item-->
+                    <!--end:Menu sub-->
                 </div>
-                <!--end:Menu sub-->
-            </div>
             @endcan
+            
             @can('frm')
                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->segment(1) == 'frm-managements' || request()->segment(1) == "get-brieffrms" ||  request()->routeIs('frm-export')) ? 'here show' : ''}}">
                     <!--begin:Menu link-->
@@ -210,6 +211,7 @@
                     <!--end:Menu sub-->
                 </div>
             @endcan
+
             @can('read quality benchmarks')
                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->segment(1) == 'quality-benchs' || request()->segment(1) == 'get_old_action_points' || request()->segment(1) == 'get_old_qbs' || request()->segment(1) == 'get_oldqbs' ||  request()->segment(1) == 'getupdate_actionpoint' || request()->segment(1) == 'action_points'  ||  request()->routeIs('qb-export') || request()->routeIs('qbactionpoint-export')) ? 'here show' : ''}} ">
                     <!--begin:Menu link-->
@@ -304,6 +306,7 @@
                     <!--end:Menu sub-->
                 </div>
             @endcan
+
             @can('learning_log')
                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->segment(1) == 'learning-logs'   || request()->segment(1) == 'learning-logs.create'  || request()->segment(1) == 'learning-logs.edit' ) ? 'here show' : '' }} ">
                     <!--begin:Menu link-->
@@ -364,6 +367,7 @@
                     <!--end:Menu sub-->
                 </div>
             @endcan
+
             @can('read dip')
                 <div class="menu menu-rounded menu-column menu-title-gray-700 menu-icon-gray-500 menu-arrow-gray-500 menu-bullet-gray-500 menu-arrow-gray-500 menu-state-bg fw-semibold w-250px" data-kt-menu="true">
                     <!--begin::Menu item-->
@@ -499,10 +503,11 @@
                 
                 </div>
             @endcan
+
             @can('iptt')
                 <div class="menu menu-rounded menu-column menu-title-gray-700 menu-icon-gray-500 menu-arrow-gray-500 menu-bullet-gray-500 menu-arrow-gray-500 menu-state-bg fw-semibold w-250px" data-kt-menu="true">
                     <!--begin::Menu item-->
-                    <div class="menu-item menu-sub-indention menu-accordion {{ (request()->segment(1) == 'indicators' || request()->segment(1) == 'indicators.index' || request()->segment(2) == 'activityFrom' )  ? 'here show' : '' }} " data-kt-menu-trigger="click">
+                    <div class="menu-item menu-sub-indention menu-accordion {{ (request()->segment(1) == 'indicators' || request()->segment(1) == 'indicators.index' || request()->segment(2) == 'activityFrom' || request()->segment(1) == 'get-activities')  ? 'here show' : '' }} " data-kt-menu-trigger="click">
                         <!--begin::Menu link-->
                         <a href="#" class="menu-link py-3">
                             <span class="menu-icon">
@@ -526,6 +531,7 @@
                                     </a>
                                 </div>
                             @endcan
+
                             @can('create iptt')
                                 <div class="menu-item">
                                     <a class="menu-link {{ (request()->segment(1) == 'indicators.create' ) ?  'active' : '' }}" href="{{ route('indicators.create') }}"">
@@ -533,6 +539,16 @@
                                             <span class="bullet bullet-dot"></span>
                                         </span>
                                         <span class="menu-title">Add Indicator</span>
+                                    </a>
+                                </div>
+                            @endcan
+                            @can('read iptt activities')
+                                <div class="menu-item">
+                                    <a class="menu-link {{ (request()->segment(1) == 'get-activities' ) ?  'active' : '' }}" href="{{ route('getProjectActivities') }}"">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Indicator Activities List</span>
                                     </a>
                                 </div>
                             @endcan

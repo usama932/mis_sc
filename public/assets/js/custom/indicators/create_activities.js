@@ -1,30 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const actualPeriodicitySelect = document.getElementById("actualPeriodicity");
-    const annualTargetField = document.getElementById("annualTargetField");
-    const quarterlyTargetField = document.getElementById("quarterlyTargetField");
-    const monthlyTargetField = document.getElementById("monthlyTargetField");
 
-    function updateTargetFields() {
-        const selectedValue = actualPeriodicitySelect.value;
-
-        // Hide all target fields by default
-        annualTargetField.style.display = "none";
-        quarterlyTargetField.style.display = "none";
-        monthlyTargetField.style.display = "none";
-
-        // Show the appropriate target field based on selection
-        if (selectedValue === "Annually") {
-            annualTargetField.style.display = "block";
-        } else if (selectedValue === "Quarterly") {
-            quarterlyTargetField.style.display = "block";
-        } else if (selectedValue === "Monthly") {
-            monthlyTargetField.style.display = "block";
-        }
-    }
-
-    // Run on page load and when the selection changes
-    actualPeriodicitySelect.addEventListener("change", updateTargetFields);
-});
 
 $('#projectId, .select2').select2({
     allowClear: true
@@ -144,7 +118,7 @@ $(document).ready(function() {
 
         // Make AJAX request to fetch activities based on the selected indicator
         $.ajax({
-            url: '/get-activities', // Route to the controller
+            url: '/get-project-activities', // Route to the controller
             type: 'GET',
             data: { projectId: projectId },
             success: function(response) {

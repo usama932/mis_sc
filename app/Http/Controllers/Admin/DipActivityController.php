@@ -231,7 +231,7 @@ class   DipActivityController extends Controller
         $data = [];
         foreach ($dips as $completemonth) {
             $show_url = route('activity_dips.show', $completemonth->activity->id);
-            $editUrl = route('activity_dips.edit', $completemonth->activity->id);
+            $deleteUrl = route('indicatorActivityDelete', $completemonth->activity->id);
     
             $progressUrl = route('postprogress', $completemonth->activity->id);
             $text = $completemonth->activity->activity_title ?? "";
@@ -266,15 +266,15 @@ class   DipActivityController extends Controller
                 $label = $statusLabels[$completemonth->status] ?? 'Update Progress'; // Default to 'Update Progress' if label is not set
                 
                 if (auth()->user()->hasRole('partner') && $completemonth->status == 'Returned' ) {
-                    $update_status = '<div><td><a class="" href="javascript:void(0)" title="Edit status" onclick="event.preventDefault();edit_status(' . $completemonth->id . ');"><span class="badge bg-success text-white">Edit</span></a></td></div>';  
+                    $update_status = '<td><a class="" href="javascript:void(0)" title="Edit status" onclick="event.preventDefault();edit_status(' . $completemonth->id . ');"><i class="fa fa-pencil text-info" aria-hidden="true"></i></a></td>';  
                 } elseif (auth()->user()->hasRole('focal person') && $completemonth->status == 'To be Reviewed' && $completemonth->progress()->exists()) {
-                    $update_status = '<div><td><a class="" href="javascript:void(0)" title="Update status" onclick="event.preventDefault();update_status(' . $completemonth->id . ');"><span class="badge bg-info btn-sm text-white">Update Status</span></a></td></div>';
+                    $update_status = '<td><a class="mx-3" href="javascript:void(0)" title="Update status" onclick="event.preventDefault();update_status(' . $completemonth->id . ');"><i class="far fa-compass text-primary"></i></a></td>';
                 } 
                 else if (auth()->user()->hasRole('Meal Manager') || auth()->user()->hasRole('Meal Coordinator')  && $completemonth->status == 'Reviewed' ){
-                    $update_status = '<div><td><a class="" href="javascript:void(0)" title="Update status" onclick="event.preventDefault();update_status(' . $completemonth->id . ');"><span class="badge bg-info btn-sm text-white">Update Status</span></a></td></div>';
+                    $update_status = '<td><a class="mx-3" href="javascript:void(0)" title="Update status" onclick="event.preventDefault();update_status(' . $completemonth->id . ');"><i class="far fa-compass text-primary"></i></a></td>';
                 }
                 else if (auth()->user()->hasRole('administrator') || auth()->user()->hasRole('Meal Coordinator')  && $completemonth->status == 'Reviewed' ){
-                    $update_status = '<div><td><a class="" href="javascript:void(0)" title="Edit status" onclick="event.preventDefault();edit_status(' . $completemonth->id . ');"><span class="badge bg-success text-white">Edit</span></a></td></div><div><td><a class="" href="javascript:void(0)" title="Update status" onclick="event.preventDefault();update_status(' . $completemonth->id . ');"><span class="badge bg-info btn-sm text-white">Update Status</span></a></td></div>';
+                    $update_status = '<td><a class="mx-3" href="javascript:void(0)" title="Edit status" onclick="event.preventDefault();edit_status(' . $completemonth->id . ');"><i class="fa fa-pencil text-info" aria-hidden="true"></i></a></td><td><a class="" href="javascript:void(0)" title="Update status" onclick="event.preventDefault();update_status(' . $completemonth->id . ');"><i class="far fa-compass text-primary"></i></a></td>';
                 }
             }
             $nestedData = [
@@ -286,10 +286,13 @@ class   DipActivityController extends Controller
                 'quarter_target'            => $completemonth->quarter . '-' . $completemonth->year,
                 'status'                    => $completemonth->status ?? "Wait For Progress",
                 'remarks'                   => $finalRemarks ?? "",
-                'image'                     => !empty($completemonth->progress->image) ? '<img src="'.asset("storage/activity_progress/image/{$completemonth->project->sof}/".$completemonth->progress->image).'" alt="Image" style="width: 100px;" class="thumbnail" onclick="previewImage(this)">' : '',
+                'image'                     => !empty($completemonth->progress->image)
+                                                ? '<img src="' . asset("storage/activity_progress/image/{$completemonth->project->sof}/" . $completemonth->progress->image) . '" 
+                                                    alt="Image" style="width: 100px; cursor: pointer;" class="thumbnail" onclick="openImageInNewTab(\'' . asset("storage/activity_progress/image/{$completemonth->project->sof}/" . $completemonth->progress->image) . '\')">'
+                                                : '',
                 'attachment'                => !empty($completemonth->progress->attachment) ? '<a title="Edit" class="" href="'.route('download_progress_attachment', $completemonth->progress->id).'"><i class="fa fa-download text-dark" aria-hidden="true"></i></a>' : '',
-                'action'                    => $update_status,  
-                // 'action'                 => '<div><td><a class="badge badge-primary mx-1" href="' . $show_url . '" title="Show Activity" href="javascript:void(0)">Show Activity</a></td></div>',
+                'action'                    => '<div class="d-flex justify-content-between"><td>'.$update_status.'<div><td><a class="" href="' . $show_url . '" target="_blank" title="Show Activity" href="javascript:void(0)"><i class="fa fa-eye text-success mx-3" aria-hidden="true"></i></a></td></div><div><td>',  
+                // 'action'                 => '<div><td><a class="badge badge-primary" href="' . $show_url . '" title="Show Activity" href="javascript:void(0)">Show Activity</a></td></div>',
             ];
     
             $data[] = $nestedData;           

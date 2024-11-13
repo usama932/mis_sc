@@ -16,7 +16,7 @@ class IndicatorActivities extends Model
     {
         return $this->belongsTo(Indicator::class,'indicator_id','id');
     }
-    public function activty()
+    public function activity()
     {
         return $this->belongsTo(DipActivity::class,'activity_id','id');
     }
