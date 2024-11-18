@@ -552,6 +552,16 @@
                                     </a>
                                 </div>
                             @endcan
+                            @can('read iptt progress')
+                                <div class="menu-item">
+                                    <a class="menu-link {{ (request()->segment(1) == 'get-activities-progress' ) ?  'active' : '' }}" href="{{ route('getActivitiesProgress') }}"">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Indicator Progress</span>
+                                    </a>
+                                </div>
+                            @endcan
                             @can('create iptt')
                                 <div class="menu-item">
                                     <a class="menu-link {{ (request()->segment(2) == 'activityFrom' ) ?  'active' : '' }}" href="{{ route('indicators.activityForm') }}"">

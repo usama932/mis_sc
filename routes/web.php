@@ -243,7 +243,12 @@ use Illuminate\Support\Facades\Route;
         Route::post('/get-indicatorActvities', [IndicatorActivityController::class, 'getIndicatorActivities']);
         Route::get('/get-indicatoractivity/{id}', [IndicatorActivityController::class, 'indicatorActivityShow'])->name('indicatorActivityShow');
         Route::get('/delete-indicatorActivity/{id}', [IndicatorActivityController::class, 'indicatorActivityDelete'])->name('indicatorActivityDelete');
+
+        Route::get('/get-activities-progress', [IndicatorActivityController::class, 'getActivitiesProgress'])->name('getActivitiesProgress');
+        Route::post('/indicator-progress', [IndicatorActivityController::class, 'getIndicatorProgress'])->name('getIndicatorProgress');
         //beneficiary assessment route
+        //beneficiary assessment route
+
         Route::get('/beneficiary-assessment-form', [BenficiaryAssessmentController::class, 'beneficiaryAssessmentForm'])->name('beneficiary-assessment-form');
         Route::post('submit-beneficiary-assessment-form', [BenficiaryAssessmentController::class, 'submitBeneficiaryAssessmentForm'])->name('submit-beneficiary-assessment-form');
         Route::get('beneficiary-assessment-list', [BenficiaryAssessmentController::class, 'beneficiaryAssessmentlist'])->name('beneficiary-assessment-list');

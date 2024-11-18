@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\IndicatorActivities;
+use App\Models\IndicatorSummary;
 use App\Repositories\Interfaces\IndicatorInterface;
 use App\Models\Indicator;
 use App\Models\DipActivity;
@@ -19,7 +20,8 @@ class IndicatorActivityController extends Controller
         $this->indicatorRepo = $indicatorRepo;
     }
     
-    public function activityForm(){
+    public function activityForm()
+    {
         $projects   = Project::where('active',1)->latest()->get();
         $indicators = Indicator::latest()->get();
         addJavascriptFile('assets/js/custom/indicators/create_activities.js');
@@ -27,8 +29,9 @@ class IndicatorActivityController extends Controller
         return view('admin.indicators.addIndicatorActivities',compact('indicators','projects'));
     }
 
-    public function index(){
-      
+    public function index()
+    {
+
         $projects   = Project::where('active',1)->latest()->get();
         $indicators = Indicator::latest()->get();
 
@@ -101,6 +104,72 @@ class IndicatorActivityController extends Controller
 
         ], 201);
     }
+    public function getActivitiesProgress()
+    {
+        $projects   = Project::where('active',1)->latest()->get();
+
+        addVendors(['datatables']);
+        addJavascriptFile('assets/js/custom/indicators/indicatorprogress.js');
+        return view('admin.indicators.indicatorProgress',compact('projects'));
+    }
+    
+    public function getIndicatorProgress(Request $request)
+    {
+        $query = IndicatorSummary::query();
+    
+        if ($request->filled('project')) {
+            $query->where('project_id', $request->project);
+        }
+    
+        // Pagination and sorting parameters
+        $start = $request->input('start', 0);
+        $length = $request->input('length', 10);
+        $orderColumn = $request->input('order.0.column', 0);
+        $orderDir = $request->input('order.0.dir', 'asc');
+        $searchValue = $request->input('search.value', '');
+    
+        // Column mapping for ordering (adjust if needed)
+        $columns = ['project_name', 'indicator_name', 'overall_lop_target', 'total_activity_target', 'total_women_target', 'total_men_target', 'total_girls_target', 'total_boys_target', 'total_pwd_target'];
+        $query->orderBy($columns[$orderColumn], $orderDir);
+    
+        // Apply search filter
+        if (!empty($searchValue)) {
+            $query->where(function($q) use ($searchValue) {
+                $q->where('indicator_name', 'like', "%{$searchValue}%")
+                  ->orWhere('project_name', 'like', "%{$searchValue}%");
+            });
+        }
+    
+        $totalData = $query->count();
+        $indicators = $query->offset($start)->limit($length)->get();
+    
+        $data = [];
+        foreach ($indicators as $indicator) {
+            $text = $indicator->indicator_name ?? "";
+            $words = str_word_count($text, 1);
+            $lines = array_chunk($words, 5  );
+            $finalText = implode("<br>", array_map(fn($line) => implode(" ", $line), $lines));
+            $data[] = [
+                'project'               => $indicator->project_name,
+                'indicator'             =>  $finalText,
+                'indicator_lop_target'  => $indicator->overall_lop_target ?? '0',
+                'activity_lop_target'   => $indicator->total_activity_target ?? '0',
+                'total_women_target'    => $indicator->total_women_target ?? '0',
+                'total_men_target'      => $indicator->total_men_target ?? '0',
+                'total_girls_target'    => $indicator->total_girls_target ?? '0',
+                'total_boys_target'     => $indicator->total_boys_target ?? '0',
+                'total_pwd_target'      => $indicator->total_pwd_target ?? '0'
+            ];
+        }
+    
+        // Return JSON response for DataTables
+        return response()->json([
+            "draw" => intval($request->input('draw')),
+            "recordsTotal" => $totalData,
+            "recordsFiltered" => $totalData,
+            "data" => $data,
+        ]);
+    }
 
     public function getProjectActivities(Request $request)
     {
@@ -117,13 +186,14 @@ class IndicatorActivityController extends Controller
         return response()->json(['activities' => $activities,'indicators' => $indicators]);
     }
 
-    public function indicatorActivityShow(Request $request, $id){
+    public function indicatorActivityShow(Request $request, $id)
+    {
         $indicatorActivity =IndicatorActivities::where('id',$id)->with('indicator','activity')->first();
         return view('admin.indicators.showindicatorActivity',compact('indicatorActivity'));
     }
 
-    public function indicatorActivityDelete(Request $request, $id){
-      
+    public function indicatorActivityDelete(Request $request, $id)
+    {  
         $indicatorActivity =IndicatorActivities::where('id',$id)->first();
         $indicatorActivity->delete();
         return redirect()->back();
