@@ -31,7 +31,7 @@ class UserManagementController extends Controller
 
     public function store(Request $request)
     {
-      
+        
         if(!empty($request->theme_id) && $request->role == "TA's"){
             $user = User::where('theme_id',$request->theme_id)->first();   
             if(empty($user)){
@@ -45,7 +45,10 @@ class UserManagementController extends Controller
                     'theme_id'          => $request->theme_id,
                     'user_type'         => $request->user_type,
                     'password'          => Hash::make($request->password),
-                    'status'            =>  $request->status,
+                    'status'            => $request->status,
+                    'is_enable_frm'     => $request->is_enable_frm,
+                    'is_enable_qb'      => $request->is_enable_qb,
+                    
                 ]);
                 $user->assignRole($request->role);
                 return redirect()->back()->with("success", "User Created successfully!");
@@ -68,6 +71,8 @@ class UserManagementController extends Controller
                     'user_type'         => $request->user_type,
                     'password'          => Hash::make($request->password),
                     'status'            => $request->status,
+                    'is_enable_frm'     => $request->is_enable_frm,
+                    'is_enable_qb'      => $request->is_enable_qb,
                 ]);
                 $user->assignRole($request->role);
                 return redirect()->back()->with("success", "User Created successfully!");
@@ -112,6 +117,7 @@ class UserManagementController extends Controller
                     'designation'       => $request->designation,
                     'user_type'         => $request->user_type,
                     'theme_id'          => $request->theme_id,
+                 
                 ]);
                 $userr = User::where('id', $id)->first();
                 $d = $userr->syncRoles($request->role); 
@@ -144,6 +150,9 @@ class UserManagementController extends Controller
                     'designation'       => $request->designation,
                     'user_type'         => $request->user_type,
                     'theme_id'          => $request->theme_id,
+                    'is_enable_frm'     => $request->is_enable_frm,
+                    'is_enable_qb'      => $request->is_enable_qb,
+                    'is_enable_dip'     => $request->is_enable_dip,
                 ]);
                 $userr = User::where('id', $id)->first();
                 $userr->syncRoles($request->role); 

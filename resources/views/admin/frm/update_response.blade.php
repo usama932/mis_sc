@@ -48,10 +48,10 @@
                         <label class="fs-6 fw-semibold form-label mb-2">
                             <span class="required">Status</span>
                         </label>
-                        <select   name="status" aria-label="Select a Status"  @error('status') is-invalid @enderror data-control="select2" data-placeholder="Select a Statut..." class="form-select  statusid">
-                            <option  selected >Select Option</option>
+                        <select name="status" aria-label="Select a Status" data-control="select2" data-placeholder="Select a Status..." class="form-select statusid">
+                            <option selected>Select Option</option>
                             <option value="Open">Open</option>
-                            <option  value="Close">Close</option>
+                            <option value="Close">Close</option>
                         </select>
                         @error('status')
                             <span class="invalid-feedback" role="alert">
@@ -59,11 +59,12 @@
                             </span>
                         @enderror
                     </div>
-                    <div class="col-md-12 mt-3 no_divs actionid " id="actionid">
+                    <div class="col-md-12 mt-3 no_divs actionid d-none" id="actionid">
                         <label class="fs-6 fw-semibold form-label mb-2">
-                            <span class="required">Satisfiction</span>
+                            <span class="required">Satisfaction</span>
                         </label>
-                        <select name="actiontaken" id="action_id" aria-label="Select a Action"  @error('actiontaken') is-invalid @enderror data-control="select2" data-placeholder="Select a Action..." class="form-select form-select-solid " >
+                        <select name="actiontaken" id="action_id" aria-label="Select an Action" data-control="select2" data-placeholder="Select an Action..." class="form-select form-select-solid">
+                            <option value="">Select Option</option>
                         </select>
                         @error('actiontaken')
                             <span class="invalid-feedback" role="alert">
@@ -95,11 +96,5 @@
         </form>
           
     </div>
-
-    @push('scripts')
-    {{-- <script src="{{asset('assets/js/custom/frm/frm.js')}}"></script>
-    <script src="{{asset('assets/js/custom/frm/update_response.js')}}"></script> --}}
-       
-    @endpush
 
 </x-default-layout>

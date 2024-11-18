@@ -1,34 +1,22 @@
 //Script for Reffered Action
-$(document).ready(function(){
-    $(".statusid").change(function(){
-
-        $(this).find("option:selected").each(function(){
-            var optionValue = $(this).val();
-
-            var test  = "Open";
-            var test1 = "Close";
-
-            if(optionValue == test1 ){
-
-                $(".actionid").show();
-                $('#action_id').html('<label class="font-weight-bold">Action Taken</label>\
-                \<select class="form-control " name="actiontaken_closingloop_id">\
-                    \<option value="">Select Option</option>\
-                    \<option>Satisfied</option>\
-                    \<option>Partially Satisfied</option>\
-                    \<option>Not Satisfied</option>\
-                \</select>');
-            }
-            else if(optionValue == test){
-                $(".actionid").hide();
-
-            }
-            else{
-                $(".actionid").hide();
-            }
-        });
-    }).change();
+$(document).ready(function () {
+    $(".statusid").change(function () {
+        var selectedValue = $(this).val(); // Get selected value
+        
+        if (selectedValue === "Close") {
+            $("#actionid").removeClass("d-none").show(); // Show the action div
+            $('#action_id').html(`
+                <option value="">Select Option</option>
+                <option value="Satisfied">Satisfied</option>
+                <option value="Partially Satisfied">Partially Satisfied</option>
+                <option value="Not Satisfied">Not Satisfied</option>
+            `);
+        } else if (selectedValue === "Open" || selectedValue === "Select Option") {
+            $("#actionid").addClass("d-none").hide(); // Hide the action div
+        }
+    });
 });
+
 //flatpicker for date
 $('#date_feedback_referred').flatpickr({
     altInput: false,

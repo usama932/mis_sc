@@ -167,7 +167,30 @@
 
                     </select>
                 </div>
-               
+
+                <div class="fv-row col-md-6 mt-5">
+                    <label class="fs-6 fw-bolder required">FRM Enable (Only for Partner)</label>
+                    <br>
+                    <input type="radio" id="Yes" name="is_enable_frm" value="Yes" @if($user) @endif> <label for="Yes" class="fs-9">Yes</label>
+                    <input type="radio" id="No" name="is_enable_frm" value="No" checked> <label for="No" class="fs-9">No</label>
+                    <div id="is_enable_frmError" class="invalid-feedback" style="display: none;"></div>
+                </div>
+
+                <div class="fv-row col-md-6 mt-5">
+                    <label class="fs-6 fw-bolder required">QB Enable (Only for Partner)</label>
+                    <br>
+                    <input type="radio" id="Yes" name="is_enable_qb" value="Yes" > <label for="Yes" class="fs-9">Yes</label>
+                    <input type="radio" id="No" name="is_enable_qb" value="No" checked> <label for="No" class="fs-9">No</label>
+                    <div id="is_enable_qbError" class="invalid-feedback" style="display: none;"></div>
+                </div>
+
+                <div class="fv-row col-md-6 mt-5">
+                    <label class="fs-6 fw-bolder required">DIP Enable (Only for Partner)</label>
+                    <br>
+                    <input type="radio" id="Yes" name="is_enable_dip" value="Yes" > <label for="Yes" class="fs-9">Yes</label>
+                    <input type="radio" id="No" name="is_enable_dip" value="No" checked> <label for="No" class="fs-9">No</label>
+                    <div id="is_enable_dipError" class="invalid-feedback" style="display: none;"></div>
+                </div>
             </div>
             <div class="text-center pt-15">
                 <a href=""  class="btn btn-light btn-sm me-4">Discard</button>

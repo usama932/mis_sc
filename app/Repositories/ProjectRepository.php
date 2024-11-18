@@ -156,13 +156,14 @@ class ProjectRepository implements ProjectRepositoryInterface
                 {
                     // Create a new user
                     $user = User::create([
-                        'email' =>  $row['email'],
-                        'name'  => $partner->name,
-                        'password' => Hash::make('Save@Pk2n4'),  // You should generate this securely
+                        'email'             => $row['email'],
+                        'name'              => $partner->name,
+                        'password'          => Hash::make('Save@Pk2n4'),  // You should generate this securely
                         'permissions_level' => 'nation-wide',
-                        'designation' => '48',
-                        'status' => '1',
-                        'user_type' => 'R1',
+                        'designation'       => '48',
+                        'status'            => '1',
+                        'user_type'         => 'R1',
+                        'is_enable_dip'     => 'Yes',
                     ]);
         
                     // Assign "partner" role
@@ -226,6 +227,10 @@ class ProjectRepository implements ProjectRepositoryInterface
                     return 1;
                 }
                 else{
+                       
+                    $user->is_enable_dip = 'Yes';
+                    $user->save();
+                    
                     $projectPartner = ProjectPartner::create([
                         'partner_id'      => $data['partner'],
                         'project_id'      => $data['project'],

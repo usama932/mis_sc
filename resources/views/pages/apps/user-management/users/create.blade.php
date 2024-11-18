@@ -169,16 +169,27 @@
                     <label class=" fw-semibold fs-6 mb-2">
                         <span class="required">Role</span>
                     </label>
-                    <select   name="role"  data-control="select2" data-placeholder="Select a Permissions level..."  class="form-control form-control-solid mb-3 mb-lg-0"  @error('permissions_level') is-invalid @enderror required>
+                    <select name="role" data-control="select2" data-placeholder="Select a Permissions level..."  class="form-control form-control-solid mb-3 mb-lg-0"  @error('permissions_level') is-invalid @enderror required>
                         <option value="">Select Role</option>
                         @foreach ($roles as $role)
                             <option value="{{$role->id}}">{{$role->name}}</option>
                         @endforeach
-
-
                     </select>
                 </div>
-               
+                <div class="fv-row col-md-6 mt-5">
+                    <label class="fs-6 fw-bolder required">FRM Enable (Only for Partner)</label>
+                    <br>
+                    <input type="radio" id="Yes" name="is_enable_frm" value="Yes" > <label for="Yes" class="fs-9">Yes</label>
+                    <input type="radio" id="No" name="is_enable_frm" value="No" checked> <label for="No" class="fs-9">No</label>
+                    <div id="is_enable_frmError" class="invalid-feedback" style="display: none;"></div>
+                </div>
+                <div class="fv-row col-md-6 mt-5">
+                    <label class="fs-6 fw-bolder required">QB Enable (Only for Partner)</label>
+                    <br>
+                    <input type="radio" id="Yes" name="is_enable_qb" value="Yes" > <label for="Yes" class="fs-9">Yes</label>
+                    <input type="radio" id="No" name="is_enable_qb" value="No" checked> <label for="No" class="fs-9">No</label>
+                    <div id="is_enable_frmError" class="invalid-feedback" style="display: none;"></div>
+                </div>
             </div>
             <div class="text-center pt-15">
                 <a href=""  class="btn btn-light btn-sm me-4">Discard</button>
