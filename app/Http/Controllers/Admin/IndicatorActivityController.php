@@ -43,45 +43,54 @@ class IndicatorActivityController extends Controller
 
     public function getIndicatorActivities(Request $request)
     {
-        $query = Indicator::with(['project', 'user','activities'])->latest();
+        $query = Indicator::with(['project', 'user', 'activities'])->latest();
+
+        // Apply filters
         if ($request->filled('project')) {
             $query->where('project_id', $request->project);
         }
-        
+    
         // Get the filtered and total count
         $totalData = $query->count();
-        $totalFiltered = $totalData; // Since the query is already filtered
+        $totalFiltered = $totalData; // The query is already filtered
     
+        // Fetch indicators
         $indicators = $query->get();
-        
+        $data = []; // Initialize data array
+    
         foreach ($indicators as $indicator) {
-           
             foreach ($indicator->activities as $activity) {
+                // Process activity title for word wrapping
                 $text = $activity->activity?->activity_title ?? "";
                 $words = str_word_count($text, 1);
-                $lines = array_chunk($words, 5  );
+                $lines = array_chunk($words, 5);
                 $finalText = implode("<br>", array_map(fn($line) => implode(" ", $line), $lines));
+    
+                // Generate the action URL
+                $show_url = route('indicatorActivityShow', $activity->id);
+    
+                // Prepare nested data
                 $nestedData = [
-                    $show_url = route('indicatorActivityShow', $activity->id),
-                 
                     'id' => $indicator->id,
-                    'project' => 'sfdf' , 
+                    'project' => $indicator->project?->name ?? 'N/A',
                     'indicator_name' => $indicator->indicator_name ?? '',
                     'indicator_type' => $indicator->indicator_context_type ?? '',
-                    'activity' => $activity->activity?->activity_number .'-'.$finalText ?? '',
+                    'activity' => ($activity->activity?->activity_number ?? '') . '-' . $finalText,
                     'activity_target' => $activity->activity?->lop_target ?? '',
-                    'created_by' => $activity->user->name ?? '',
+                    'created_by' => $activity->user?->name ?? '',
                     'created_at' => $activity->created_at ? $activity->created_at->format('M d, Y') : '',
-                    'action' => '<td><td><a class="" href="' . $show_url . '" target="_blank" title="Show Activity" href="javascript:void(0)"><i class="fa fa-eye text-success mx-3" aria-hidden="true"></i></a>
-                                        <a class="" onclick="event.preventDefault();del('.$activity->id.');" title="Delete Client" href="javascript:void(0)">
-                                        <i class="icon-1x text-danger  fa fa-trash"></i>
-                                    </a>
-                                    </td><div><td>',
+                    'action' => '
+                        <a class="" href="' . $show_url . '" target="_blank" title="Show Activity">
+                            <i class="fa fa-eye text-success mx-3" aria-hidden="true"></i>
+                        </a>
+                        <a class="" onclick="event.preventDefault();del(' . $activity->id . ');" title="Delete Activity" href="javascript:void(0)">
+                            <i class="icon-1x text-danger fa fa-trash"></i>
+                        </a>',
                 ];
-                $data[] = $nestedData;
+                $data[] = $nestedData; // Add nested data to the main data array
             }
         }
-        
+    
         // Return JSON response for DataTables
         return response()->json([
             "draw" => intval($request->input('draw')),

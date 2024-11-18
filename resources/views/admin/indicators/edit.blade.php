@@ -113,12 +113,13 @@
                             <label class="fs-6 fw-semibold form-label">
                                 <span class="required">Actual Periodicity</span>
                             </label>
-                            <select id="actualPeriodicity" name="actual_periodicity" class="form-select">
+                            <input class="form-control" name="actual_periodicity" type="text" readonly value="{{ $indicator->actual_periodicity }}">
+                            {{-- <select id="actualPeriodicity" name="actual_periodicity" class="form-select">
                                 <option value="">Select Actual Periodicity</option>
                                 <option value="Annually" @if($indicator->actual_periodicity == "Annually") selected @endif>Annually</option>
                                 <option value="Quarterly" @if($indicator->actual_periodicity == "Quarterly") selected @endif>Quarterly</option>
                                 <option value="Monthly" @if($indicator->actual_periodicity == "Monthly") selected @endif>Monthly</option>
-                            </select>
+                            </select> --}}
                         </div>
 
                         <!-- Nature -->
@@ -167,24 +168,28 @@
                             <input type="number"  name="baseline" class="form-control" value="{{ $indicator->baseline }}" placeholder="Enter Baseline">
                         </div>
 
-                            
-                        <!-- Annual Target -->
-                        <div class="fv-row col-md-2">
-                            <label class="fs-9 fw-semibold form-label">Annual Target</label>
-                            <input type="number" value="0" name="annual_target" class="form-control" value="{{ $indicator->annual_target }}" placeholder="Enter Annual Target">
-                        </div>
+                        @if( $indicator->actual_periodicity == 'Annually') 
+                            <!-- Annual Target -->
+                            <div class="fv-row col-md-2">
+                                <label class="fs-9 fw-semibold form-label">Annual Target</label>
+                                <input type="number" value="0" name="annual_target" class="form-control" value="{{ $indicator->annual_target }}" placeholder="Enter Annual Target">
+                            </div>
+                        @endif
+                        @if( $indicator->actual_periodicity == 'Quarterly') 
+                            <!-- Quarterly Target -->
+                            <div class="fv-row col-md-2">
+                                <label class="fs-9 fw-semibold form-label">Quarterly Target</label>
+                                <input type="number" value="0" name="quarterly_target" class="form-control" value="{{ $indicator->quarterly_target }}" placeholder="Enter Quarterly Target">
+                            </div>
+                        @endif
 
-                        <!-- Quarterly Target -->
-                        <div class="fv-row col-md-2">
-                            <label class="fs-9 fw-semibold form-label">Quarterly Target</label>
-                            <input type="number" value="0" name="quarterly_target" class="form-control" value="{{ $indicator->quarterly_target }}" placeholder="Enter Quarterly Target">
-                        </div>
-
-                        <!-- Monthly Target -->
-                        <div class="fv-row col-md-2">
-                            <label class="fs-9 fw-semibold form-label">Monthly Target</label>
-                            <input type="number" value="0" name="monthly_target" class="form-control" value="{{ $indicator->monthly_target }}" placeholder="Enter Monthly Target">
-                        </div>
+                        @if( $indicator->actual_periodicity == 'Monthly') 
+                            <!-- Monthly Target -->
+                            <div class="fv-row col-md-2">
+                                <label class="fs-9 fw-semibold form-label">Monthly Target</label>
+                                <input type="number" value="0" name="monthly_target" class="form-control" value="{{ $indicator->monthly_target }}" placeholder="Enter Monthly Target">
+                            </div>
+                        @endif
 
                         <!-- Overall LOP Target -->
                         <div class="fv-row col-md-2">
