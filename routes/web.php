@@ -244,6 +244,8 @@ use Illuminate\Support\Facades\Route;
         Route::get('/get-indicatoractivity/{id}', [IndicatorActivityController::class, 'indicatorActivityShow'])->name('indicatorActivityShow');
         Route::get('/delete-indicatorActivity/{id}', [IndicatorActivityController::class, 'indicatorActivityDelete'])->name('indicatorActivityDelete');
 
+        Route::post('/get-project-quarters', [IndicatorController::class, 'getProjectQuarters']);
+
         Route::get('/get-activities-progress', [IndicatorActivityController::class, 'getActivitiesProgress'])->name('getActivitiesProgress');
         Route::post('/indicator-progress', [IndicatorActivityController::class, 'getIndicatorProgress'])->name('getIndicatorProgress');
         //beneficiary assessment route

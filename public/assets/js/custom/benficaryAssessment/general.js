@@ -21,11 +21,11 @@ var KTCreateBeneficaryForm = function () {
 
 		// Stepper change event
 		stepperObj.on('kt.stepper.changed', function (stepper) {
-			if (stepperObj.getCurrentStepIndex() === 5) {
+			if (stepperObj.getCurrentStepIndex() === 6) {
 				formSubmitButton.classList.remove('d-none');
 				formSubmitButton.classList.add('d-inline-block');
 				formContinueButton.classList.add('d-none');
-			} else if (stepperObj.getCurrentStepIndex() === 6) {
+			} else if (stepperObj.getCurrentStepIndex() === 7) {
 				formSubmitButton.classList.add('d-none');
 				formContinueButton.classList.add('d-none');
 			} else {
@@ -146,6 +146,30 @@ var KTCreateBeneficaryForm = function () {
 	var initValidation = function () {
 		// Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
 		// Step 1
+		validations.push(FormValidation.formValidation(
+			form,
+			{
+				fields: {
+					assessment_cat: {
+						validators: {
+							notEmpty: {
+								message: 'Assessment Cat is required'
+							},
+							
+						}
+					}
+				},
+				plugins: {
+					trigger: new FormValidation.plugins.Trigger(),
+					bootstrap: new FormValidation.plugins.Bootstrap5({
+						rowSelector: '.fv-row',
+                        eleInvalidClass: '',
+                        eleValidClass: ''
+					})
+				}
+			}
+		));
+
 		validations.push(FormValidation.formValidation(
 			form,
 			{

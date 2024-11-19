@@ -312,7 +312,41 @@ $('#projectId').on('change', function () {
     });
 });
 
+//Get theme 
+$('#projectId').on('change', function () {
+   
+    const projectId = $(this).val();
+ 
+    if (projectId) {
+        $.ajax({
+            url: '/get-project-quarters',
+            type: 'POST',
+            data: {
+                project_id: projectId,
+                _token: csrfToken // Include CSRF token
+            },
+            success: function (response) {
+                if (response.success) {
+                    let quarters = response.data;
+                    $('#quarters_container').html(''); // Clear previous data
 
+                    quarters.forEach(function (quarter) {
+                        $('#quarters_container').append(`
+                            <div>
+                                <strong>${quarter.name}</strong>: ${quarter.dates.join(', ')}
+                            </div>
+                        `);
+                    });
+                } else {
+                    alert(response.message);
+                }
+            },
+            error: function () {
+                alert('Failed to fetch project quarters.');
+            }
+        });
+    }
+});
 //Get Sub theme 
 $('#themeSelect').on('change', function () {
   

@@ -1,5 +1,59 @@
 <x-nform-layout>
+    <style>
+        .radio-card-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
 
+        .radio-card {
+            width: 150px;
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .radio-card:hover {
+            border-color: #007BFF;
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .radio-card input[type="radio"] {
+            display: none;
+        }
+
+        .radio-card i {
+            font-size: 30px;
+            color: #555;
+            margin-bottom: 10px;
+            display: inline-block;
+            transition: color 0.3s ease;
+        }
+
+        .radio-card label {
+            display: block;
+            font-size: 16px;
+            font-weight: 500;
+            color: #555;
+            margin-top: 10px;
+            transition: color 0.3s ease, font-weight 0.3s ease;
+        }
+
+        .radio-card input[type="radio"]:checked + label {
+            color: #007BFF;
+            font-weight: bold;
+        }
+
+        .radio-card input[type="radio"]:checked + label i {
+            color: #007BFF;
+        }
+
+    </style>
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <!--begin::Content container-->
         <div id="kt_app_content_container" class="app-container container-xxl">
@@ -13,6 +67,10 @@
                         <div class="stepper-nav mb-5">
                             <!--begin::Step 1-->
                             <div class="stepper-item current" data-kt-stepper-element="nav">
+                                <h6 class="stepper-title fs-7">Assessment Form</h6>
+                            </div>
+                            <!--begin::Step 1-->
+                            <div class="stepper-item " data-kt-stepper-element="nav">
                                 <h6 class="stepper-title fs-7">Demographic Information</h6>
                             </div>
                             <!--end::Step 1-->
@@ -45,8 +103,15 @@
                         <!--end::Nav-->
                         <!--begin::Form-->
                         <form class="mx-auto w-100 pt-2" novalidate="novalidate" id="kt_create_account_form" action="{{ route('submit-beneficiary-assessment-form') }}" method="post" data-kt-redirect-url="{{ route('beneficiary-assessment-list') }}">
-                          <!--begin::Step 1-->
                             <div class="current" data-kt-stepper-element="content">
+                                <!--begin::Wrapper-->
+                                <div class="w-100">
+                                    @include("admin.benificiaryAssessment.partials.assessment_form")
+                                </div>
+                                <!--end::Wrapper-->
+                            </div>
+                            <!--begin::Step 1-->
+                            <div  data-kt-stepper-element="content">
                                 <!--begin::Wrapper-->
                                 <div class="w-100">
                                     @include("admin.benificiaryAssessment.partials.demographic_information")

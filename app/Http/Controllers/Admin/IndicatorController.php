@@ -10,6 +10,7 @@ use App\Models\Project;
 use App\Models\SCISubTheme;
 use App\Models\Indicator;
 use App\Models\DipActivity;
+use Carbon\Carbon;
 
 class IndicatorController extends Controller
 {
@@ -149,5 +150,60 @@ class IndicatorController extends Controller
         return response()->json(['subthemes' => $subthemes]);
     }
     
+    public function getProjectQuarters(Request $request)
+    {
+        $projectId = $request->input('project_id');
+ 
+        // Fetch project data
+        $project = Project::find($projectId);
+       
+        if (!$project) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Project not found.'
+            ]);
+        }
+        $startDate = Carbon::parse($project->start_date);
+        $endDate = Carbon::parse($project->end_date);
+        $quarters = [];
+        $currentDate = $startDate->copy();
+
+        // Loop through each month from start_date to end_date
+        while ($currentDate->lte($endDate)) {
+            $month = $currentDate->month;
+
+            // Determine quarter
+            $quarter = ceil($month / 3);
+            $year = $currentDate->year;
+            $quarterName = 'Q' . $quarter . ' ' . $year;
+           
+            // Initialize quarter array if not already done
+            if (!isset($quarters[$quarterName])) {
+                $quarters[$quarterName] = [
+                    'name' => $quarterName,
+                    'dates' => []
+                ];
+            }
+
+            // Add the current date to the quarter
+            $quarters[$quarterName]['dates'][] = $currentDate->format('Y-m-d');
+
+            $currentDate->addMonth(); // Move to the next month
+        }
+        dd($quarters);
+        // Reformat quarters for response
+        $quartersResponse = [];
+        foreach ($quarters as $quarter) {
+            $quartersResponse[] = [
+                'name' => $quarter['name'],
+                'dates' => $quarter['dates']
+            ];
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $quartersResponse
+        ]);
+    }
     
 }

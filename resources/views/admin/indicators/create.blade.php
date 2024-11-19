@@ -12,7 +12,7 @@
                             <label class="fs-6 fw-semibold form-label">
                                 <span class="required">Project</span>
                             </label>
-                            <select name="project" id="projectId" class="form-select  " data-control="select2" data-placeholder="Select Project"  data-allow-clear="true">
+                            <select name="project" id="projectId" class="form-select" data-control="select2" data-placeholder="Select Project"  data-allow-clear="true">
                                 <option value="">Select Project</option>
                                 @foreach ($projects as $project)
                                     <option value="{{ $project->id }}">{{ $project->name }}</option>
@@ -204,6 +204,41 @@
     </div>
     @push('script')
     <script>
+        $('#projectId').change(function () {
+            alert(projectId);
+            const projectId = $(this).val();
+            
+            if (projectId) {
+                $.ajax({
+                    url: '/get-project-quarters',
+                    type: 'POST',
+                    data: {
+                        project_id: projectId,
+                        _token: '{{ csrf_token() }}' // Include CSRF token
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            let quarters = response.data;
+                            $('#quarters_container').html(''); // Clear previous data
+
+                            quarters.forEach(function (quarter) {
+                                $('#quarters_container').append(`
+                                    <div>
+                                        <strong>${quarter.name}</strong>: ${quarter.dates.join(', ')}
+                                    </div>
+                                `);
+                            });
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function () {
+                        alert('Failed to fetch project quarters.');
+                    }
+                });
+            }
+        });
+
         document.addEventListener("DOMContentLoaded", function() {
             const actualPeriodicitySelect = document.getElementById("actualPeriodicity");
             const annualTargetField = document.getElementById("annualTargetField");
