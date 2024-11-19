@@ -1,132 +1,219 @@
 
 <div class="card-body">
-    <div class="row">
+    <div class="row ">
         <!-- Name of Beneficiary -->
-        <div class="fv-row col-md-3">
-            <label for="name_of_beneficiary" class="fs-6 fw-bolder form-label mb-2 required">Name of Beneficiary:</label>
+        <div class="col-sm-6 col-md-4 col-lg-3 fv-row">
+            <label for="name_of_beneficiary" class="form-label fw-bold required fs-8">Name of Beneficiary:</label>
             <input type="text" id="name_of_beneficiary" class="form-control" name="name_of_beneficiary" required>
         </div>
 
         <!-- Guardian -->
-        <div class="fv-row col-md-3">
-            <label for="guardian" class="fs-6 fw-bolder form-label mb-2 required">Father/Husband:</label>
+        <div class="col-sm-6 col-md-4 col-lg-3 fv-row">
+            <label for="guardian" class="form-label fw-bold required  fs-8">Father/Husband:</label>
             <input type="text" id="guardian" class="form-control" name="guardian" required>
         </div>
 
         <!-- Gender -->
-        <div class="fv-row col-md-2">
-            <label class="fs-6 fw-bolder form-label mb-2 required">Gender:</label>
-            <br>
-            <input type="radio" id="male" name="gender" value="Male" checked> <label for="male" class="fs-9">Male</label>
-            <input type="radio" id="female" name="gender" value="Female"> <label for="female" class="fs-9">Female</label>
+        <div class="col-sm-4 col-md-3 col-lg-3 fv-row">
+            <label class="form-label fw-bold required  fs-8">Gender:</label>
+            <div class="d-flex align-items-center gap-3">
+                <div>
+                    <input type="radio" id="male" name="gender" value="Male" checked>
+                    <label for="male" class="form-label  fs-8">Male</label>
+                </div>
+                <div>
+                    <input type="radio" id="female" name="gender" value="Female">
+                    <label for="female" class="form-label  fs-8">Female</label>
+                </div>
+            </div>
         </div>
 
         <!-- Age -->
-        <div class="fv-row col-md-2">
-            <label for="age" class="fs-6 fw-bolder form-label mb-2 required">Age:</label>
-            <input type="text" id="age" class="form-control" name="age" required oninput="this.value = this.value.slice(0, 2);" min="1" max="99">
+        <div class="col-sm-4 col-md-3 col-lg-3 fv-row">
+            <label for="age" class="form-label fw-bold required  fs-8">Age:</label>
+            <input type="number" id="age" class="form-control" maxlength="2" name="age" required min="1" max="99">
         </div>
 
         <!-- Beneficiary Contact -->
-        <div class="fv-row col-md-2">
-            <label class="fs-6 fw-bolder form-label mb-2 required">Beneficiary Contact:</label>
-            <input type="radio" id="own" name="beneficiary_contact" value="Own" checked> <label for="own" class="fs-6">Own</label>
-            <input type="radio" id="relative" name="beneficiary_contact" value="Relative"> <label for="relative" class="fs-6">Relative</label>
-        </div>
-
-        <!-- Under 5yrs Girls -->
-        <div class="fv-row col-md-2">
-            <label for="hh_under5_girls" class="fs-6 fw-bolder form-label mb-2 required">Under 5yrs Girls:</label>
-            <input type="text" value="0" id="hh_under5_girls" class="form-control" maxlength="7" name="hh_under5_girls" oninput="this.value = this.value.slice(0, 7);">
-        </div>
-
-        <!-- Under 5yrs Boys -->
-        <div class="fv-row col-md-2">
-            <label for="hh_under5_boys" class="fs-6 fw-bolder form-label mb-2 required">Under 5yrs Boys:</label>
-            <input type="text" value="0" id="hh_under5_boys" class="form-control" name="hh_under5_boys" maxlength="7" oninput="this.value = this.value.slice(0, 7);">
-        </div>
-
-        <!-- 5-17yrs Girls -->
-        <div class="fv-row col-md-2">
-            <label for="hh_under5_7_girls" class="fs-6 fw-bolder form-label mb-2 required">5-17yrs Girls:</label>
-            <input type="text" value="0" id="hh_under5_7_girls" class="form-control" maxlength="7" name="hh_under5_7_girls" oninput="this.value = this.value.slice(0, 7);">
-        </div>
-
-        <!-- 5-17yrs Boys -->
-        <div class="fv-row col-md-2">
-            <label for="hh_under5_7_boys" class="fs-6 fw-bolder form-label mb-2 required">5-17yrs Boys:</label>
-            <input type="text" value="0" id="hh_under5_7_boys" class="form-control" maxlength="7" name="hh_under5_7_boys" oninput="this.value = this.value.slice(0, 7);">
-        </div>
-
-        <!-- Above 18yrs Girls -->
-        <div class="fv-row col-md-2">
-            <label for="hh_above18_girls" class="fs-8 fw-bolder form-label mb-2 required">Above 18yrs Girls:</label>
-            <input type="text" value="0" id="hh_above18_girls" class="form-control" maxlength="7" name="hh_above18_girls" oninput="this.value = this.value.slice(0, 7);">
-        </div>
-
-        <!-- Above 18yrs Boys -->
-        <div class="fv-row col-md-2">
-            <label for="hh_above18_boys" class="fs-8 fw-bolder form-label mb-2 required">Above 18yrs Boys:</label>
-            <input type="text" value="0" id="hh_above18_boys" class="form-control" maxlength="7" name="hh_above18_boys" oninput="this.value = this.value.slice(0, 7);">
+        <div class="col-sm-4s col-md-3 col-lg-3 fv-row">
+            <label class="form-label fw-bold required  fs-8">Beneficiary Contact:</label>
+            <div class="d-flex align-items-center gap-3">
+                <div>
+                    <input type="radio" id="own" name="beneficiary_contact" value="Own" checked>
+                    <label for="own" class="form-label  fs-8">Own</label>
+                </div>
+                <div>
+                    <input type="radio" id="relative" name="beneficiary_contact" value="Relative">
+                    <label for="relative" class="form-label  fs-8">Relative</label>
+                </div>
+            </div>
         </div>
 
         <!-- Contact Number -->
-        <div class="fv-row col-md-2">
-            <label for="contact_number" class="fs-6 fw-bolder form-label mb-2 required">Contact Number:</label>
-            <input type="text" id="contact_number" class="form-control" maxlength="12" minlength="12" name="contact_number" placeholder="0000 0000000" required>
+        <div class="col-sm-6 col-md-6 col-lg-4 fv-row">
+            <label for="contact_number" class="form-label fw-bold required  fs-8">Contact Number:</label>
+            <input type="text" id="contact_number" class="form-control"  name="contact_number" placeholder="0000 0000000" minlength="12" maxlength="12" required>
+        </div>
+        
+    </div>
+
+    <div class="row">
+        <!-- Under 5yrs Girls -->
+        <div class="col-sm-6 col-md-4 col-lg-2 fv-row">
+            <label for="hh_under5_girls" class="form-label fw-bold required  fs-8">Under 5yrs Girls:</label>
+            <input type="number" value="0" id="hh_under5_girls" maxlength="7" class="form-control" name="hh_under5_girls" min="0">
         </div>
 
+        <!-- Under 5yrs Boys -->
+        <div class="col-sm-6 col-md-4 col-lg-2 fv-row">
+            <label for="hh_under5_boys" class="form-label fw-bold required  fs-8">Under 5yrs Boys:</label>
+            <input type="number" value="0" id="hh_under5_boys" maxlength="7" class="form-control" name="hh_under5_boys" min="0">
+        </div>
+
+        <!-- 5-17yrs Girls -->
+        <div class="col-sm-6 col-md-4 col-lg-2 fv-row">
+            <label for="hh_under5_7_girls" class="form-label fw-bold required  fs-8">5-17yrs Girls:</label>
+            <input type="number" value="0" id="hh_under5_7_girls" maxlength="7" class="form-control" name="hh_under5_7_girls" min="0">
+        </div>
+
+        <!-- 5-17yrs Boys -->
+        <div class="col-sm-6 col-md-4 col-lg-2 fv-row">
+            <label for="hh_under5_7_boys" class="form-label fw-bold required  fs-8">5-17yrs Boys:</label>
+            <input type="number" value="0" id="hh_under5_7_boys" maxlength="7" class="form-control" name="hh_under5_7_boys" min="0">
+        </div>
+
+        <!-- Above 18yrs Girls -->
+        <div class="col-sm-6 col-md-4 col-lg-2 fv-row">
+            <label for="hh_above18_girls" class="form-label fw-bold required  fs-8">Above 18yrs Girls:</label>
+            <input type="number" value="0" id="hh_above18_girls" maxlength="7" class="form-control" name="hh_above18_girls" min="0">
+        </div>
+
+        <!-- Above 18yrs Boys -->
+        <div class="col-sm-6 col-md-4 col-lg-2 fv-row">
+            <label for="hh_above18_boys" class="form-label fw-bold required  fs-8">Above 18yrs Boys:</label>
+            <input type="number" value="0" id="hh_above18_boys" maxlength="7" class="form-control" name="hh_above18_boys" min="0">
+        </div>
+
+       
+
         <!-- CNIC Beneficiary -->
-        <div class="fv-row col-md-2">
-            <label for="cnic_beneficiary" class="fs-6 fw-bolder form-label mb-2 required">CNIC Beneficiary:</label>
+        <div class="col-sm-6 col-md-4 col-lg-3 fv-row">
+            <label for="cnic_beneficiary" class="fs-6 fw-bolder form-label mb-2 required  fs-8">CNIC.# of Beneficiary:</label>
             <input type="text" id="cnic_beneficiary" class="form-control" name="cnic_beneficiary" maxlength="15" placeholder="37423-2323232-5" required pattern="^\d{5}-\d{7}-\d{1}$">
             <div id="cnic_beneficiaryError" class="invalid-feedback" style="display: none;"></div>
         </div>
 
         <!-- CNIC Spouse -->
-        <div class="fv-row col-md-2">
-            <label for="cnic_spouse" class="fs-6 fw-bolder form-label mb-2 required">CNIC Spouse:</label>
+        <div class="col-sm-6 col-md-4 col-lg-3 fv-row">
+            <label for="cnic_spouse" class="fs-6 fw-bolder form-label mb-2 required  fs-9">CNIC.# of Spouse:</label>
             <input type="text" id="cnic_spouse" class="form-control" name="cnic_spouse" maxlength="15" placeholder="37423-2323232-5" required pattern="^\d{5}-\d{7}-\d{1}$">
             <div id="cnic_spouseError" class="invalid-feedback" style="display: none;"></div>
         </div>
 
-        <!-- CNIC Issuance -->
-        <div class="fv-row col-md-2">
-            <label for="cnic_issuance" class="fs-8 fw-bolder form-label mb-2 required">CNIC Beneficiary Issue:</label>
+        <div class="col-sm-6 col-md-4 col-lg-3 fv-row">
+            <label for="cnic_issuance" class="fs-8 fw-bolder form-label  required  fs-9"> Beneficiary CNIC  Issuance:</label>
             <input type="text" id="cnic_issuance" class="form-control" name="cnic_issuance" required>
             
         </div>
 
         <!-- CNIC Expiry -->
-        <div class="fv-row col-md-2">
-            <label for="cnic_expiry" class="fs-8 fw-bolder form-label mb-2 required">CNIC Beneficiary Expiry:</label>
+        <div class="col-sm-6 col-lg-3 fv-row col-md-3 fv-row">
+            <label for="cnic_expiry" class="fs-8 fw-bolder form-label mb-2 required  fs-9">Beneficiary CNIC Expiry:</label>
             <input type="text" id="cnic_expiry" class="form-control" name="cnic_expiry" required>
         </div>
-
-        <!-- Cash Receipt -->
-        <div class="fv-row col-md-2 mt-2">
-            <label class="fs-8 fw-bolder form-label required">Do You Receive Any Cash:</label>
-            <input type="radio" id="recieve_cash" name="recieve_cash" value="Yes" checked> <label for="Yes" class="fs-6">Yes</label>
-            <input type="radio" id="recieve_cash" name="recieve_cash" value="No"> <label for="No" class="fs-6">No</label>
+    </div>
+    <div class="row gy-3 gx-4">
+        <!-- Do You Receive Any Cash -->
+        <div class="col-sm-6 col-md-4 col-lg-3 fv-row">
+            <label class="form-label fw-bold required  fs-8">Do You Receive Any Cash:</label>
+            <div class="d-flex align-items-center gap-3">
+                <div>
+                    <input type="radio" id="recieve_cash_yes" name="recieve_cash" value="Yes" checked onchange="toggleCashFields()">
+                    <label for="recieve_cash_yes" class="form-label  fs-8">Yes</label>
+                </div>
+                <div>
+                    <input type="radio" id="recieve_cash_no" name="recieve_cash" value="No" onchange="toggleCashFields()">
+                    <label for="recieve_cash_no" class="form-label  fs-8">No</label>
+                </div>
+            </div>
         </div>
 
         <!-- Cash Amount -->
-        <div class="fv-row col-md-2 mt-2">
-            <label for="recieve_cash_amount" class="fs-8 fw-bolder form-label mb-2 required">Amount:</label>
-            <input type="text" id="recieve_cash_amount" class="form-control" name="recieve_cash_amount" value="0" maxlength="7" oninput="this.value = this.value.slice(0, 7);">
+        <div class="col-12 col-md-6 col-lg-4" id="cashAmountField">
+            <label for="recieve_cash_amount" class="form-label fw-bold required  fs-8">If Yes How much:</label>
+            <input type="number" id="recieve_cash_amount" class="form-control" name="recieve_cash_amount" value="0" min="0">
         </div>
 
-        <!-- Cash Source -->
-        <div class="fv-row col-md-2 mt-2">
-            <label for="recieve_cash_source" class="fs-8 fw-bolder form-label mb-2 required">Cash Source:</label>
-            <input type="text" id="recieve_cash_source" class="form-control" name="recieve_cash_source">
+        <div class="col-sm-6 col-md-4 col-lg-3" id="cashSourceField">
+            <label for="recieve_cash_source" class="form-label fw-bold required fs-8">If Yes From whom:</label>
+            <select id="recieve_cash_source" class="form-select" data-control="select2" name="recieve_cash_source" onchange="toggleOtherSourceField()">
+                <option value="BISP" class=" fs-8">BISP</option>
+                <option value="UN Agency" class=" fs-8">UN Agency</option>
+                <option value="NGO" class=" fs-8">NGO</option>
+                <option value="Any Other" class=" fs-8">Any Other</option>
+            </select>
         </div>
 
+        <!-- Other Source (Text Field) -->
+        <div class="col-sm-6 col-md-4 col-lg-3" id="otherSourceField" style="display: none;">
+            <label for="recieve_other_source" class="form-label fw-bold required fs-8">Please Specify:</label>
+            <input type="text" id="recieve_other_source" class="form-control" name="recieve_other_source">
+        </div>
     </div>
 </div>
 
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    function toggleCashFields() 
+    {
+        const cashYes = document.getElementById('recieve_cash_yes').checked;
+        const cashAmountField = document.getElementById('cashAmountField');
+        const cashSourceField = document.getElementById('cashSourceField');
+        const otherSourceField = document.getElementById('otherSourceField');
+        const cashAmountInput = document.getElementById('recieve_cash_amount');
+        const cashSourceInput = document.getElementById('recieve_cash_source');
+    const otherSourceInput = document.getElementById('recieve_other_source');
+
+        if (cashYes) {
+            // Show the amount and cash source fields
+            cashAmountField.style.display = 'block';
+            cashSourceField.style.display = 'block';
+        } else {
+            // Hide all fields and reset their values
+            cashAmountField.style.display = 'none';
+            cashSourceField.style.display = 'none';
+            otherSourceField.style.display = 'none';
+            cashAmountInput.value = 0;
+            cashSourceInput.value = '';
+            otherSourceInput.value = '';
+        }
+    }
+
+    function toggleOtherSourceField() {
+        const cashSource = document.getElementById('recieve_cash_source').value;
+        const otherSourceField = document.getElementById('otherSourceField');
+        const otherSourceInput = document.getElementById('recieve_other_source');
+
+        if (cashSource === 'Any Other') {
+            // Show the text input for "Any Other"
+            otherSourceField.style.display = 'block';
+        } else {
+            // Hide the text input and clear its value
+            otherSourceField.style.display = 'none';
+            otherSourceInput.value = '';
+        }
+    }
+
+    // Initial state setup (in case "No" or "Any Other" is preselected)
+    document.addEventListener('DOMContentLoaded', () => {
+        toggleCashFields();
+        toggleOtherSourceField();
+    });
+
+    // Initial state setup (in case "No" is preselected)
+    document.addEventListener('DOMContentLoaded', toggleCashFields);
+
     document.querySelectorAll('input[type="text"][maxlength="15"]').forEach((input) => {
         input.addEventListener('input', function () {
             let cnic = this.value.replace(/\D/g, ''); // Remove any non-digit characters
@@ -155,114 +242,114 @@
     });
     
     $(document).ready(function() {
-        $('#cnic_spouse').on('keyup', function() {
-            let cnicValue = $(this).val();
+            $('#cnic_spouse').on('keyup', function() {
+                let cnicValue = $(this).val();
 
-            // Validate CNIC format using regex before sending the AJAX request
-            if (/^\d{5}-\d{7}-\d{1}$/.test(cnicValue)) {
-                // Make AJAX request to check CNIC uniqueness
-                $.ajax({
-                    url: '/check-spouse-beneficary', // Route in Laravel
-                    method: 'POST',
-                    data: {
-                        _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token for security
-                        cnic: cnicValue
-                    },
-                    success: function(response) {
-                        if (response.unique) {
-                            $('#cnic_spouse').removeClass('is-invalid').addClass('is-valid');
-                            $('#cnic_spouse').next('.invalid-feedback').remove();
-                        } else {
-                            $('#cnic_spouse').removeClass('is-valid').addClass('is-invalid');
-                            if (!$('#cnic_spouse').next('.invalid-feedback').length) {
-                                $('#cnic_spouse').after('<div class="invalid-feedback">CNIC is already taken.</div>');
+                // Validate CNIC format using regex before sending the AJAX request
+                if (/^\d{5}-\d{7}-\d{1}$/.test(cnicValue)) {
+                    // Make AJAX request to check CNIC uniqueness
+                    $.ajax({
+                        url: '/check-spouse-beneficary', // Route in Laravel
+                        method: 'POST',
+                        data: {
+                            _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token for security
+                            cnic: cnicValue
+                        },
+                        success: function(response) {
+                            if (response.unique) {
+                                $('#cnic_spouse').removeClass('is-invalid').addClass('is-valid');
+                                $('#cnic_spouse').next('.invalid-feedback').remove();
+                            } else {
+                                $('#cnic_spouse').removeClass('is-valid').addClass('is-invalid');
+                                if (!$('#cnic_spouse').next('.invalid-feedback').length) {
+                                    $('#cnic_spouse').after('<div class="invalid-feedback">CNIC is already taken.</div>');
+                                }
                             }
+                        },
+                        error: function() {
+                            alert('Error occurred while checking CNIC.');
                         }
-                    },
-                    error: function() {
-                        alert('Error occurred while checking CNIC.');
+                    });
+                } else {
+                    $('#cnic_spouse').removeClass('is-valid').addClass('is-invalid');
+                    if (!$('#cnic_spouse').next('.invalid-feedback').length) {
+                        $('#cnic_spouse').after('<div class="invalid-feedback">Invalid CNIC format.</div>');
                     }
-                });
-            } else {
-                $('#cnic_spouse').removeClass('is-valid').addClass('is-invalid');
-                if (!$('#cnic_spouse').next('.invalid-feedback').length) {
-                    $('#cnic_spouse').after('<div class="invalid-feedback">Invalid CNIC format.</div>');
                 }
-            }
-        });
-        $('#cnic_beneficiary').on('keyup', function() {
-            let cnicValue = $(this).val();
+            });
+            $('#cnic_beneficiary').on('keyup', function() {
+                let cnicValue = $(this).val();
 
-            // Validate CNIC format using regex before sending the AJAX request
-            if (/^\d{5}-\d{7}-\d{1}$/.test(cnicValue)) {
-                // Make AJAX request to check CNIC uniqueness
-                $.ajax({
-                    url: '/check-cnic-beneficary', // Route in Laravel
-                    method: 'POST',
-                    data: {
-                        _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token for security
-                        cnic: cnicValue
-                    },
-                    success: function(response) {
-                        if (response.unique) {
-                            $('#cnic_beneficiary').removeClass('is-invalid').addClass('is-valid');
-                            $('#cnic_beneficiary').next('.invalid-feedback').remove();
-                        } else {
-                            $('#cnic_beneficiary').removeClass('is-valid').addClass('is-invalid');
-                            if (!$('#cnic_beneficiary').next('.invalid-feedback').length) {
-                                $('#cnic_beneficiary').after('<div class="invalid-feedback">CNIC is already taken.</div>');
+                // Validate CNIC format using regex before sending the AJAX request
+                if (/^\d{5}-\d{7}-\d{1}$/.test(cnicValue)) {
+                    // Make AJAX request to check CNIC uniqueness
+                    $.ajax({
+                        url: '/check-cnic-beneficary', // Route in Laravel
+                        method: 'POST',
+                        data: {
+                            _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token for security
+                            cnic: cnicValue
+                        },
+                        success: function(response) {
+                            if (response.unique) {
+                                $('#cnic_beneficiary').removeClass('is-invalid').addClass('is-valid');
+                                $('#cnic_beneficiary').next('.invalid-feedback').remove();
+                            } else {
+                                $('#cnic_beneficiary').removeClass('is-valid').addClass('is-invalid');
+                                if (!$('#cnic_beneficiary').next('.invalid-feedback').length) {
+                                    $('#cnic_beneficiary').after('<div class="invalid-feedback">CNIC is already taken.</div>');
+                                }
                             }
+                        },
+                        error: function() {
+                            alert('Error occurred while checking CNIC.');
                         }
-                    },
-                    error: function() {
-                        alert('Error occurred while checking CNIC.');
+                    });
+                } else {
+                    $('#cnic_beneficiary').removeClass('is-valid').addClass('is-invalid');
+                    if (!$('#cnic_beneficiary').next('.invalid-feedback').length) {
+                        $('#cnic_beneficiary').after('<div class="invalid-feedback">Invalid CNIC format.</div>');
                     }
-                });
-            } else {
-                $('#cnic_beneficiary').removeClass('is-valid').addClass('is-invalid');
-                if (!$('#cnic_beneficiary').next('.invalid-feedback').length) {
-                    $('#cnic_beneficiary').after('<div class="invalid-feedback">Invalid CNIC format.</div>');
                 }
-            }
-        });
-      
-       
-        $('#contact_number').on('keyup', function() { 
-            let contactNumber = $(this).val();
+            });
+        
+        
+            $('#contact_number').on('keyup', function() { 
+                let contactNumber = $(this).val();
 
-            // Validate Contact Number format using regex before sending the AJAX request
-            if (/^\d{4} \d{7}$/.test(contactNumber)) {
-                // Make AJAX request to check contact number uniqueness
-                $.ajax({
-                    url: '/check-contact-number', // Route in Laravel
-                    method: 'POST',
-                    data: {
-                        _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token for security
-                        contact_number: contactNumber
-                    },
-                    success: function(response) {
-                        if (response.unique) {
-                            
-                            $('#contact_number').removeClass('is-invalid').addClass('is-valid');
-                            $('#contact_number').next('.invalid-feedback').remove();
-                        } else {
-                            $('#contact_number').removeClass('is-valid').addClass('is-invalid');
-                            if (!$('#contact_number').next('.invalid-feedback').length) {
-                                $('#contact_number').after('<div class="invalid-feedback">Contact number is already taken.</div>');
+                // Validate Contact Number format using regex before sending the AJAX request
+                if (/^\d{4} \d{7}$/.test(contactNumber)) {
+                    // Make AJAX request to check contact number uniqueness
+                    $.ajax({
+                        url: '/check-contact-number', // Route in Laravel
+                        method: 'POST',
+                        data: {
+                            _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token for security
+                            contact_number: contactNumber
+                        },
+                        success: function(response) {
+                            if (response.unique) {
+                                
+                                $('#contact_number').removeClass('is-invalid').addClass('is-valid');
+                                $('#contact_number').next('.invalid-feedback').remove();
+                            } else {
+                                $('#contact_number').removeClass('is-valid').addClass('is-invalid');
+                                if (!$('#contact_number').next('.invalid-feedback').length) {
+                                    $('#contact_number').after('<div class="invalid-feedback">Contact number is already taken.</div>');
+                                }
                             }
+                        },
+                        error: function() {
+                            alert('Error occurred while checking the contact number.');
                         }
-                    },
-                    error: function() {
-                        alert('Error occurred while checking the contact number.');
+                    });
+                } else {
+                    $('#contact_number').removeClass('is-valid').addClass('is-invalid');
+                    if (!$('#contact_number').next('.invalid-feedback').length) {
+                        $('#contact_number').after('<div class="invalid-feedback">Invalid contact number format.</div>');
                     }
-                });
-            } else {
-                $('#contact_number').removeClass('is-valid').addClass('is-invalid');
-                if (!$('#contact_number').next('.invalid-feedback').length) {
-                    $('#contact_number').after('<div class="invalid-feedback">Invalid contact number format.</div>');
                 }
-            }
-        });
+            });
 
-    });
+        });
 </script>

@@ -98,7 +98,7 @@ var KTCreateBeneficaryForm = function () {
 					// Show loading indication
 					formSubmitButton.setAttribute('data-kt-indicator', 'on');
 					 // Check axios library docs: https://axios-http.com/docs/intro
-					 axios.post(formSubmitButton.closest('form').getAttribute('action'), new FormData(form))
+					axios.post(formSubmitButton.closest('form').getAttribute('action'), new FormData(form))
 					 .then(function (response) {
 						const redirectUrl = form.getAttribute('data-kt-redirect-url');
 						 if (response.data.error === false) {
@@ -150,14 +150,7 @@ var KTCreateBeneficaryForm = function () {
 			form,
 			{
 				fields: {
-					assessment_cat: {
-						validators: {
-							notEmpty: {
-								message: 'Assessment Cat is required'
-							},
-							
-						}
-					}
+					
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
