@@ -1,5 +1,5 @@
 
-<div class="card-body">
+{{-- <div class="card-body">
     <div class="row ">
         <!-- Name of Beneficiary -->
         <div class="col-sm-6 col-md-4 col-lg-3 fv-row">
@@ -160,8 +160,158 @@
             <input type="text" id="recieve_other_source" class="form-control" name="recieve_other_source">
         </div>
     </div>
-</div>
+</div> --}}
 
+<div class="card-body">
+    <!-- First Row -->
+    <div class="row">
+        <!-- Name of Beneficiary -->
+        <div class="col-sm-6 col-md-4 col-lg-3 fv-row">
+            <label for="name_of_beneficiary" class="form-label fw-bold required fs-8">Name of Beneficiary:</label>
+            <input type="text" id="name_of_beneficiary" class="form-control" name="name_of_beneficiary" required>
+        </div>
+        <!-- Guardian -->
+        <div class="col-sm-6 col-md-4 col-lg-3 fv-row">
+            <label for="guardian" class="form-label fw-bold required fs-8">Father/Husband:</label>
+            <input type="text" id="guardian" class="form-control" name="guardian" required>
+        </div>
+        <!-- Gender -->
+        <div class="col-sm-4 col-md-3 col-lg-3 fv-row">
+            <label class="form-label fw-bold required fs-8">Gender:</label>
+            <div class="d-flex align-items-center gap-3">
+                <div>
+                    <input type="radio" id="male" name="gender" value="Male" checked>
+                    <label for="male" class="form-label fs-8">Male</label>
+                </div>
+                <div>
+                    <input type="radio" id="female" name="gender" value="Female">
+                    <label for="female" class="form-label fs-8">Female</label>
+                </div>
+            </div>
+        </div>
+        <!-- Age -->
+        <div class="col-sm-4 col-md-3 col-lg-3 fv-row">
+            <label for="age" class="form-label fw-bold required fs-8">Age:</label>
+            <input type="number" id="age" class="form-control" name="age" required min="1" max="99">
+        </div>
+    </div>
+    
+    <!-- Contact Row -->
+    <div class="row">
+        <!-- Beneficiary Contact -->
+        <div class="col-sm-4 col-md-3 col-lg-3 fv-row">
+            <label class="form-label fw-bold required fs-8">Beneficiary Contact:</label>
+            <div class="d-flex align-items-center gap-3">
+                <div>
+                    <input type="radio" id="own" name="beneficiary_contact" value="Own" checked>
+                    <label for="own" class="form-label fs-8">Own</label>
+                </div>
+                <div>
+                    <input type="radio" id="relative" name="beneficiary_contact" value="Relative">
+                    <label for="relative" class="form-label fs-8">Relative</label>
+                </div>
+            </div>
+        </div>
+        <!-- Contact Number -->
+        <div class="col-sm-6 col-md-6 col-lg-4 fv-row">
+            <label for="contact_number" class="form-label fw-bold required fs-8">Contact Number:</label>
+            <input type="text" id="contact_number" class="form-control" name="contact_number" placeholder="0000 0000000" minlength="12" maxlength="12" required>
+        </div>
+    </div>
+    
+    <!-- CNIC Fields -->
+    <div class="row">
+        <!-- CNIC Beneficiary -->
+        <div class="col-sm-6 col-md-4 col-lg-3 fv-row">
+            <label for="cnic_beneficiary" class="form-label fw-bold required fs-8">CNIC.# of Beneficiary:</label>
+            <input type="text" id="cnic_beneficiary" class="form-control" name="cnic_beneficiary" maxlength="15" placeholder="37423-2323232-5" required pattern="^\d{5}-\d{7}-\d{1}$">
+        </div>
+        <!-- CNIC Spouse -->
+        <div class="col-sm-6 col-md-4 col-lg-3 fv-row">
+            <label for="cnic_spouse" class="form-label fw-bold required fs-8">CNIC.# of Spouse:</label>
+            <input type="text" id="cnic_spouse" class="form-control" name="cnic_spouse" maxlength="15" placeholder="37423-2323232-5" required pattern="^\d{5}-\d{7}-\d{1}$">
+        </div>
+        <!-- CNIC Issuance -->
+        <div class="col-sm-6 col-md-4 col-lg-3 fv-row">
+            <label for="cnic_issuance" class="form-label fw-bold required fs-8">Beneficiary CNIC Issuance:</label>
+            <input type="text" id="cnic_issuance" class="form-control" name="cnic_issuance" required>
+        </div>
+        <!-- CNIC Expiry -->
+        <div class="col-sm-6 col-md-4 col-lg-3 fv-row">
+            <label for="cnic_expiry" class="form-label fw-bold required fs-8">Beneficiary CNIC Expiry:</label>
+            <input type="text" id="cnic_expiry" class="form-control" name="cnic_expiry" required>
+        </div>
+    </div>
+
+    <!-- Table for Numerical Fields -->
+    <div class="row mt-3">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Girls</th>
+                        <th>Boys</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Under 5yrs</td>
+                        <td><input type="number" id="hh_under5_girls" class="form-control" name="hh_under5_girls" value="0" min="0"></td>
+                        <td><input type="number" id="hh_under5_boys" class="form-control" name="hh_under5_boys" value="0" min="0"></td>
+                    </tr>
+                    <tr>
+                        <td>5-17yrs</td>
+                        <td><input type="number" id="hh_5_17_girls" class="form-control" name="hh_5_17_girls" value="0" min="0"></td>
+                        <td><input type="number" id="hh_5_17_boys" class="form-control" name="hh_5_17_boys" value="0" min="0"></td>
+                    </tr>
+                    <tr>
+                        <td>Above 18yrs</td>
+                        <td><input type="number" id="hh_above18_girls" class="form-control" name="hh_above18_girls" value="0" min="0"></td>
+                        <td><input type="number" id="hh_above18_boys" class="form-control" name="hh_above18_boys" value="0" min="0"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Cash Received -->
+    <div class="row gy-3 gx-4">
+        <div class="col-sm-6 col-md-4 col-lg-3 fv-row">
+            <label class="form-label fw-bold required fs-8">Do You Receive Any Cash:</label>
+            <div class="d-flex align-items-center gap-3">
+                <div>
+                    <input type="radio" id="recieve_cash_yes" name="recieve_cash" value="Yes" checked onchange="toggleCashFields()">
+                    <label for="recieve_cash_yes" class="form-label fs-8">Yes</label>
+                </div>
+                <div>
+                    <input type="radio" id="recieve_cash_no" name="recieve_cash" value="No" onchange="toggleCashFields()">
+                    <label for="recieve_cash_no" class="form-label fs-8">No</label>
+                </div>
+            </div>
+        </div>
+        <!-- Cash Amount -->
+        <div class="col-12 col-md-6 col-lg-4" id="cashAmountField">
+            <label for="recieve_cash_amount" class="form-label fw-bold required fs-8">If Yes How much:</label>
+            <input type="number" id="recieve_cash_amount" class="form-control" name="recieve_cash_amount" value="0" min="0">
+        </div>
+        <!-- Source -->
+        <div class="col-sm-6 col-md-4 col-lg-3" id="cashSourceField">
+            <label for="recieve_cash_source" class="form-label fw-bold required fs-8">If Yes From whom:</label>
+            <select id="recieve_cash_source" class="form-select" name="recieve_cash_source" onchange="toggleOtherSourceField()">
+                <option value="BISP">BISP</option>
+                <option value="UN Agency">UN Agency</option>
+                <option value="NGO">NGO</option>
+                <option value="Any Other">Any Other</option>
+            </select>
+        </div>
+        <!-- Other Source -->
+        <div class="col-sm-6 col-md-4 col-lg-3" id="otherCashSourceField" style="display:none;">
+            <label for="other_cash_source" class="form-label fw-bold fs-8">Other Source:</label>
+            <input type="text" id="other_cash_source" class="form-control" name="other_cash_source">
+        </div>
+    </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
