@@ -108,7 +108,7 @@
         </div> 
         <div class="fv-row col-md-6 mt-3">
             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                <span class="required">Attachemnt</span>
+                <span class="required">Attachment (PDF)</span>
             </label>
             <input type="file" name="attachment" id="attachment" accept=".pdf, .docx, .doc" class="form-control" value="">
             <div id="attachmentError" class="error-message text-danger"></div>
@@ -126,7 +126,7 @@
         <button type="submit" class="btn btn-primary btn-sm m-5 " id="kt_add_progress_status_form">
             @include('partials/general/_button-indicator', ['label' => 'Submit'])
         </button>
-        <div id="loadingSpinner" class="loadingSpinner" style="display: none;">Loading...</div>
+        <div id="loadingSpinner" class="loadingSpinner" style="display: none;">Uploading..</div>
     </div>      
    
 </form>

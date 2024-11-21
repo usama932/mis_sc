@@ -80,7 +80,7 @@
         <p>
             Following are the action point details of the QB based monitoring visit to observe {{$details['project']}}'s DIP activity {{$details['activity']}} along with their deadlines for your consideration.
              Please login into <a href="https://mis-sc.pk/">MIS</a> and click this <a href="{{ route('quality-benchs.show', $details['id']) }}" class="custom-btn">QB link</a> to see complete visit details.
-            For further conversation, please reach out to the monitoring visitor Name and designation.
+            For further conversation, please reach out to the monitoring visitor {{$details['user']}} ({{$details['project']}}).
         </p>
         <table>
             <thead>

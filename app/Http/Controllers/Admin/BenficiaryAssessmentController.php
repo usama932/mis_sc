@@ -20,7 +20,7 @@ class BenficiaryAssessmentController extends Controller
         $provinces  = Province::orderBy('province_name')->get();
       
         $form_nums  = BenficiaryAssessment::latest()->pluck('form_no','id');
-        $contacts   = BenficiaryAssessment::latest()->pluck('contact_number','id');
+        $contacts   = BenficiaryAssessment::latest()->pluck('beneficiary_contact','id');
         $cnics      = BenficiaryAssessment::latest()->pluck('cnic_beneficiary','id');
        // dd($form_nums);
         addVendors(['datatables']);
@@ -37,11 +37,11 @@ class BenficiaryAssessmentController extends Controller
                 'batchs:id,batch_number'
             ])
             ->select(
-                'id', 'form_no', 'assessment', 'project_id', 
+                'id', 'form_no', 'gender','assessment_cat', 'project_id', 
                 'hh_under5_girls', 'hh_under5_boys', 'hh_under5_7_girls', 
                 'hh_under5_7_boys', 'hh_above18_girls', 'hh_above18_boys',
                 'name_of_beneficiary', 'gender', 'age', 'hh_monthly_income', 
-                'house_demage', 'contact_number', 'cash_assistance', 
+                'house_demage', 'beneficiary_contact', 'cash_assistance', 
                 'assessment_officer', 'vc_representative_name', 
                 'status', 'created_by', 'created_at'
             )
@@ -61,8 +61,9 @@ class BenficiaryAssessmentController extends Controller
             return [
                 'id' => $benficiaryAssessment->id,
                 'form_no' => $benficiaryAssessment->form_no ?? '',
-                'assessment' => $benficiaryAssessment->assessment ?? '',
+                'assessment' => $benficiaryAssessment->assessment_cat ?? '',
                 'project' => $benficiaryAssessment->project?->name ?? '', 
+                'gender' => $benficiaryAssessment->gender ?? '', 
                 'hh_under5_girls' => $benficiaryAssessment->hh_under5_girls ?? '',
                 'hh_under5_boys' => $benficiaryAssessment->hh_under5_boys ?? '',
                 'hh_under5_7_girls' => $benficiaryAssessment->hh_under5_7_girls ?? '',
@@ -70,11 +71,10 @@ class BenficiaryAssessmentController extends Controller
                 'hh_above18_girls' => $benficiaryAssessment->hh_above18_girls ?? '',
                 'hh_above18_boys' => $benficiaryAssessment->hh_above18_boys ?? '',
                 'name_of_beneficiary' => $benficiaryAssessment->name_of_beneficiary ?? '',
-                'gender' => $benficiaryAssessment->gender ?? '',
                 'age' => $benficiaryAssessment->age ?? '',
                 'hh_monthly_income' => $benficiaryAssessment->hh_monthly_income ?? '',
                 'house_demage' => $benficiaryAssessment->house_demage ?? '',
-                'contact_number' => $benficiaryAssessment->contact_number ?? '',
+                'contact_number' => $benficiaryAssessment->beneficiary_contact ?? '',
                 'cash_assistance' => $benficiaryAssessment->cash_assistance ?? '',
                 'assessment_officer' => $benficiaryAssessment->assessment_officer ?? '',
                 'vc_representative_name' => $benficiaryAssessment->vc_representative_name ?? '',
@@ -114,6 +114,7 @@ class BenficiaryAssessmentController extends Controller
 
     public function submitBeneficiaryAssessmentForm(Request $request)
     {
+       
         $validatedData = $this->validateRequest($request);
 
         // Handle file attachment if provided
@@ -124,8 +125,8 @@ class BenficiaryAssessmentController extends Controller
 
         // Create beneficiary record
         $beneficiary = BenficiaryAssessment::create([
-            'project_id'       => $request->project,
-            'assessment'    => $request->assessment,
+            'assessment_cat' => $request->assessment_cat,
+            'project_id'    => $request->project,
             'date'          => $request->date,
             'province'      => $request->province,
             'district'      => $request->district,
@@ -137,9 +138,9 @@ class BenficiaryAssessmentController extends Controller
             'gender'        => $request->gender,
             'age'           => $request->age,
 
-            'name_of_beneficiary' => $request->name_of_beneficiary,
+            'name_of_beneficiary'   => $request->name_of_beneficiary,
             'beneficiary_contact'   => $request->beneficiary_contact,
-            'contact_number'        => $request->contact_number,
+            'relative_contact_number'=> $request->relative_contact_number,
             'hh_under5_girls'       => $request->hh_under5_girls,
             'hh_under5_boys'        => $request->hh_under5_boys,
             'hh_under5_7_girls'     => $request->hh_under5_7_girls,
@@ -149,6 +150,7 @@ class BenficiaryAssessmentController extends Controller
             'cnic_beneficiary'      => $request->cnic_beneficiary,
             'cnic_spouse'           => $request->cnic_spouse,
             'cnic_issuance'         => $request->cnic_issuance,
+            'cnic_expiry'           => $request->cnic_expiry,
             'recieve_cash'          => $request->recieve_cash,
             'recieve_cash_amount'   => $request->recieve_cash_amount,
             'recieve_cash_source'   => $request->recieve_cash_source,
@@ -177,7 +179,8 @@ class BenficiaryAssessmentController extends Controller
             'hh_meal_inday'         => $request->meals_per_day,
             'cash_assistance'       => $request->cash_assistance,
             'assessment_officer'    => $request->assessment_officer,
-            'beneficiary_name'      => $request->beneficiary_name,
+            'program_representative'=> $request->program_representative,
+            'observation_comments'  => $request->observation_comments,
             'form_no'               => $form_no,
             'attachment'            => $filename,
             'status'                => 'Waiting',
@@ -196,8 +199,8 @@ class BenficiaryAssessmentController extends Controller
     private function validateRequest($request)
     {
         return $request->validate([
-            'project' => 'required|integer',
-            'date' => 'required|date',
+            'project'   => 'required|integer',
+            'date'      => 'required|date',
             'province' => 'required|integer',
             'district' => 'required|integer',
             'tehsil' => 'required|integer',
@@ -208,8 +211,8 @@ class BenficiaryAssessmentController extends Controller
             'guardian' => 'nullable|string|max:255',
             'gender' => 'required|string|in:Male,Female',
             'age' => 'required|integer|min:0',
-            'beneficiary_contact' => 'required|string',
-            'contact_number' => 'required|string|max:15',
+            'beneficiary_contact' => 'required|string|max:15',
+            'relative_contact_number' => 'required|string|max:15',
             'hh_under5_girls' => 'required|integer|min:0',
             'hh_under5_boys' => 'required|integer|min:0',
             'hh_under5_7_girls' => 'required|integer|min:0',
@@ -219,9 +222,10 @@ class BenficiaryAssessmentController extends Controller
             'cnic_beneficiary' => 'required|string|max:15',
             'cnic_spouse' => 'required|string|max:15',
             'cnic_issuance' => 'required|date',
+            'cnic_expiry'   =>'required|date',
             'recieve_cash' => 'required|in:Yes,No',
             'recieve_cash_amount' => 'required|integer|min:0',
-            'recieve_cash_source' => 'required|string|max:255',
+            'recieve_cash_source' => 'nullable|string|max:255',
             'hh_monthly_income' => 'required|integer|min:0',
             'hh_source_income' => 'required|string|max:255',
             'hh_person_earned' => 'required|integer|min:0',
@@ -247,8 +251,9 @@ class BenficiaryAssessmentController extends Controller
             'meals_per_day' => 'required|integer|min:0',
             'cash_assistance' => 'required',
             'assessment_officer' => 'required|string|max:255',
-            'beneficiary_name' => 'required|string|max:255',
+            'program_representative' => 'required|string|max:255',
             'vc_representative' => 'required|string|max:255',
+            'attachment' => 'required|file|max:10240'
         ]);
     }
 
@@ -292,7 +297,7 @@ class BenficiaryAssessmentController extends Controller
         $cnic = $request->input('cnic');
         // Check if CNIC already exists in the database
         $exists = BenficiaryAssessment::orWhere('cnic_beneficiary', $cnic)->orWhere('cnic_spouse', $cnic)->exists();
-        // Return response indicating uniqueness
+     
         return response()->json(['unique' => !$exists]);
     }
 
@@ -308,9 +313,9 @@ class BenficiaryAssessmentController extends Controller
     public function checkContactNumber(Request $request)
     {
         $contact_number = $request->input('contact_number');
-        // Check if CNIC already exists in the database
-        $exists = BenficiaryAssessment::where('contact_number', $contact_number)->exists();
-        // Return response indicating uniqueness
+       
+        $exists = BenficiaryAssessment::where('beneficiary_contact', 'LIKE', '%'.$contact_number.'%')->exists();
+     
         return response()->json(['unique' => !$exists]);
     }
 }

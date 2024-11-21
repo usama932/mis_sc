@@ -250,6 +250,10 @@ var KTCreateBeneficaryForm = function () {
 						validators: {
 							notEmpty: {
 								message: 'Name is required'
+							},
+							regexp: {
+								regexp: /^[a-zA-Z\s'-]+$/,
+								message: 'Name must contain only letters, spaces, hyphens, or apostrophes'
 							}
 						}
 					},
@@ -257,6 +261,10 @@ var KTCreateBeneficaryForm = function () {
 						validators: {
 							notEmpty: {
 								message: 'Guardian is required'
+							},
+							regexp: {
+								regexp: /^[a-zA-Z\s'-]+$/,
+								message: 'Name must contain only letters, spaces, hyphens, or apostrophes'
 							}
 						}
 					},
@@ -268,10 +276,10 @@ var KTCreateBeneficaryForm = function () {
 							numeric: {
                                 message: 'Age  is must number'
                             },
-                            regexp: {
-                                regexp: /^\d+$/,
-                                message: 'Age must be a positive number'
-                            }
+                           	regexp: {
+								regexp: /^\d{1,2}$/,
+								message: 'Age must be a positive number with a maximum of 2 digits'
+							}
 						}
 					},
 					beneficiary_contact: {
@@ -281,7 +289,7 @@ var KTCreateBeneficaryForm = function () {
 							}
 						}
 					},
-					contact_number: {
+					relative_contact_number: {
 						validators: {
 							notEmpty: {
 								message: 'Contact Number is required'
@@ -297,10 +305,10 @@ var KTCreateBeneficaryForm = function () {
 							numeric: {
                                 message: 'Must br number'
                             },
-                            regexp: {
-                                regexp: /^\d+$/,
-                                message: 'Must be positive number'
-                            }
+							regexp: {
+								regexp: /^\d{1,5}$/,
+								message: 'hh under5 girls must be a positive number with a maximum of 5 digits'
+							}
 						}
 					},
 
@@ -312,10 +320,10 @@ var KTCreateBeneficaryForm = function () {
 							numeric: {
                                 message: 'Must be number'
                             },
-                            regexp: {
-                                regexp: /^\d+$/,
-                                message: 'Must be positive number'
-                            }
+							regexp: {
+								regexp: /^\d{1,5}$/,
+								message: 'hh under5 boys must be a positive number with a maximum of 5 digits'
+							}
 						}
 					},
 
@@ -327,10 +335,10 @@ var KTCreateBeneficaryForm = function () {
 							numeric: {
                                 message: 'Must Be number'
                             },
-                            regexp: {
-                                regexp: /^\d+$/,
-                                message: 'Must positive number'
-                            }
+							regexp: {
+								regexp: /^\d{1,5}$/,
+								message: 'hh under 5_7 girls must be a positive number with a maximum of 5 digits'
+							}
 						}
 					},
 
@@ -342,10 +350,10 @@ var KTCreateBeneficaryForm = function () {
 							numeric: {
                                 message: 'Must be a number'
                             },
-                            regexp: {
-                                regexp: /^\d+$/,
-                                message: 'Must be positive number'
-                            }
+							regexp: {
+								regexp: /^\d{1,5}$/,
+								message: 'hh under 5_7 boys must be a positive number with a maximum of 5 digits'
+							}
 						}
 					},
 					
@@ -357,10 +365,10 @@ var KTCreateBeneficaryForm = function () {
 							numeric: {
                                 message: 'Must be number'
                             },
-                            regexp: {
-                                regexp: /^\d+$/,
-                                message: 'Must be  positive number'
-                            }
+							regexp: {
+								regexp: /^\d{1,5}$/,
+								message: 'hh above 18 girls must be a positive number with a maximum of 5 digits'
+							}
 						}
 					},
 					hh_above18_boys: {
@@ -371,10 +379,10 @@ var KTCreateBeneficaryForm = function () {
 							numeric: {
                                 message: 'Must number'
                             },
-                            regexp: {
-                                regexp: /^\d+$/,
-                                message: 'Must be positive number'
-                            }
+							regexp: {
+								regexp: /^\d{1,5}$/,
+								message: 'hh above18 boys must be a positive number with a maximum of 5 digits'
+							}
 						}
 					},
 
@@ -414,7 +422,26 @@ var KTCreateBeneficaryForm = function () {
 								message: 'Reveive Cash is required'
 							}
 						}
-					}
+					},
+					recieve_cash_amount:{
+						validators: {
+							numeric: {
+                                message: 'Must be number'
+                            },
+							regexp: {
+								regexp: /^\d{1,5}$/,
+								message: 'Receive Cash Amount  must be a positive number with a maximum of 5 digits'
+							}
+						}
+					},
+					recieve_other_source:{
+						validators: {
+							regexp: {
+								regexp: /^[a-zA-Z\s'-]+$/,
+								message: 'Name must contain only letters, spaces, hyphens, or apostrophes'
+							}
+						}
+					},
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
@@ -441,16 +468,20 @@ var KTCreateBeneficaryForm = function () {
 							numeric: {
                                 message: 'HH Monthly Income  is must number'
                             },
-                            regexp: {
-                                regexp: /^\d+$/,
-                                message: 'HH Monthly Income must be a positive number'
-                            }
+							regexp: {
+								regexp: /^\d{1,9}$/,
+								message: 'hh monthly income must be a positive number with a maximum of 5 digits'
+							}
 						}
 					},
 					hh_source_income: {
 						validators: {
 							notEmpty: {
 								message: 'HH Source Income is required'
+							},
+							regexp: {
+								regexp: /^[a-zA-Z\s'-]+$/,
+								message: 'Source income must contain only letters, spaces, hyphens, or apostrophes'
 							}
 						}
 					},
@@ -462,10 +493,10 @@ var KTCreateBeneficaryForm = function () {
 							numeric: {
                                 message: 'HH Person Earned  is must number'
                             },
-                            regexp: {
-                                regexp: /^\d+$/,
-                                message: 'HH Person Earned must be a positive number'
-                            }
+							regexp: {
+								regexp: /^\d{1,9}$/,
+								message: 'hh person earned must be a positive number with a maximum of 5 digits'
+							}
 						}
 					},
 					hh_outstanding_debt: {
@@ -476,10 +507,10 @@ var KTCreateBeneficaryForm = function () {
 							numeric: {
                                 message: 'HH Outstanding Debt  is must number'
                             },
-                            regexp: {
-                                regexp: /^\d+$/,
-                                message: 'HH Outstanding Debt must be a positive number'
-                            }
+							regexp: {
+								regexp: /^\d{1,9}$/,
+								message: 'hh outstanding debt must be a positive number with a maximum of 5 digits'
+							}
 						}
 					}
 				},
@@ -751,7 +782,7 @@ var KTCreateBeneficaryForm = function () {
                                 message: 'Pragnent Women must be a positive number'
                             }
 						}
-					},
+					},	
 					'meals_per_day': {
 						validators: {
 							notEmpty: {
@@ -764,6 +795,17 @@ var KTCreateBeneficaryForm = function () {
                                 regexp: /^\d+$/,
                                 message: 'Must be a positive number'
                             }
+						},
+						observation_comments:{
+							validators: {
+								notEmpty: {
+									message: 'Observation Comment is required'
+								},
+								regexp: {
+									regexp: /^[a-zA-Z\s'-]+$/,
+									message: 'Observation Comment must contain only letters, spaces, hyphens, or apostrophes'
+								}
+							}
 						}
 					}
 				},
@@ -796,13 +838,21 @@ var KTCreateBeneficaryForm = function () {
 						validators: {
 							notEmpty: {
 								message: 'Assessment Officer is required'
+							},
+							regexp: {
+								regexp: /^[a-zA-Z\s'-]+$/,
+								message: 'Name must contain only letters, spaces, hyphens, or apostrophes'
 							}
 						}
 					},
-					beneficiary_name: {
+					program_representative: {
 						validators: {
 							notEmpty: {
 								message: 'Beneficiary Name is required'
+							},
+							regexp: {
+								regexp: /^[a-zA-Z\s'-]+$/,
+								message: 'Name must contain only letters, spaces, hyphens, or apostrophes'
 							}
 						}
 					},
@@ -810,25 +860,11 @@ var KTCreateBeneficaryForm = function () {
 						validators: {
 							notEmpty: {
 								message: 'VC epresentative is required'
+							},
+							regexp: {
+								regexp: /^[a-zA-Z\s'-]+$/,
+								message: 'Name must contain only letters, spaces, hyphens, or apostrophes'
 							}
-						}
-					},
-					vc_representative: {
-						validators: {
-							notEmpty: {
-								message: 'VC epresentative is required'
-							}
-						}
-					},
-					recieve_cash_amount: {
-						validators: {
-							numeric: {
-                                message: 'Boys acheivement  is must number'
-                            },
-                            regexp: {
-                                regexp: /^\d+$/,
-                                message: 'Boys acheivement must be a positive number'
-                            }
 						}
 					},
 					attachment: {

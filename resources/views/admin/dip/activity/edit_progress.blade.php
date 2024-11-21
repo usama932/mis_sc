@@ -76,7 +76,7 @@
         @if($progress->attachment)
             <div class="fv-row col-md-6">
                 <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                    <span>Current Attachment</span>
+                    <span>Current Attachment  (PDF)</span>
                 </label>
                 <div>
                     <a href="{{ route('download_progress_attachment',$progress?->attachment ) }}" target="_blank">View Current Attachment</a>
@@ -85,7 +85,7 @@
         @endif
         <div class="fv-row col-md-6">
             <label class="fs-6 fw-semibold form-label mb-2 d-flex">
-                <span class="required">Attachemnt</span>
+                <span class="required">Attachment  (PDF)</span>
             </label>
             <input type="file" name="attachment" id="attachment" accept=".pdf, .docx, .doc" class="form-control" value="">
             <div id="attachmentError" class="error-message "></div>

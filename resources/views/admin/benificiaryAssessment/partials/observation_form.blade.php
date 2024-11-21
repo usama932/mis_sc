@@ -1,6 +1,6 @@
 <div class="card-body">
     <div class="row">
-        <div class="fv-row col-md-6">
+        <div class="fv-row col-md-6 fv-row">
             <label class="fs-6 fw-bolder form-label mb-2 required">Recommendation for Cash Assistance:</label>
             <br>
             <input type="radio" id="cash_assistance" name="cash_assistance" value="Yes" checked>
@@ -17,9 +17,9 @@
 
         <!-- Beneficiary Name -->
         <div class=" col-md-4 mb-4 fv-row">
-            <label class="form-label required">Beneficiary Name</label>
-            <input type="text" name="beneficiary_name" class="form-control" required>
-            <div id="beneficiaryNameError" class="invalid-feedback"></div>
+            <label class="form-label required">Program Representative Name</label>
+            <input type="text" name="program_representative" class="form-control" required>
+            <div id="program_representativeError" class="invalid-feedback"></div>
         </div>
 
         <!-- Endorsement from VC Representative -->
@@ -31,7 +31,7 @@
 
         <div class="col-md-4 mb-4 fv-row">
             <label class="form-label required">Attachment MOV</label>
-            <input type="file" name="attachment" class="form-control" required>
+            <input type="file" name="attachment" id="attachment" class="form-control" required>
             <div id="attachmentError" class="invalid-feedback"></div>
         </div>
     </div>  
