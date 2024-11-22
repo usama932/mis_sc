@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-12 col-md-4 d-flex justify-content-center mb-3">
+    <div class="col-12 col-md-4 d-flex justify-content-end mb-3">
         <div class="radio-card fv-row text-center">
             <input type="radio" id="card1" name="assessment_cat" value="MPCA Assessment" checked>
             <label for="card1">
@@ -28,7 +28,7 @@
         </div>
     </div>
 
-    <div class="col-12 col-md-4 d-flex justify-content-center mb-3">
+    <div class="col-12 col-md-4 d-flex justify-content-start mb-3">
         <div class="radio-card fv-row text-center">
             <input type="radio" id="card3" name="assessment_cat" value="Kitchen Gardening">
             <label for="card3">
