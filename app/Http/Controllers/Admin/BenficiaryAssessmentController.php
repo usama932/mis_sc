@@ -25,7 +25,8 @@ class BenficiaryAssessmentController extends Controller
        // dd($form_nums);
         addVendors(['datatables']);
         addJavascriptFile('assets/js/custom/benficaryAssessment/index.js');
-        return view('admin.benificiaryAssessment.index',compact('projects','provinces','form_nums','contacts','cnics'));
+          return view('admin.benificiaryAssessment.criteria',compact('projects','provinces','form_nums','contacts','cnics'));
+        // return view('admin.benificiaryAssessment.index',compact('projects','provinces','form_nums','contacts','cnics'));
     }
 
     public function beneficiaryAssessments(Request $request)
@@ -116,7 +117,7 @@ class BenficiaryAssessmentController extends Controller
     {
        
         $validatedData = $this->validateRequest($request);
-
+        dd($request->all());
         // Handle file attachment if provided
         $filename = $this->handleFileUpload($request);
 

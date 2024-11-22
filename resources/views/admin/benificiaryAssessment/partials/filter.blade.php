@@ -31,17 +31,7 @@
                         </select>
                     </div>
                     
-                    <!-- Batch No Field -->
-                    <div class="col-md-4 mt-3">
-                        <label class="fs-6 fw-semibold form-label mb-2">Batch No</label>
-                        <select name="batch_no" id="batch_no" aria-label="Select a Batch No" data-control="select2" data-placeholder="Select a Batch No" class="form-select form-select-solid" data-allow-clear="true">
-                            <option value="">Select Batch No</option>
-                            @foreach($batches as $batch)
-                                <option value="{{ $batch->id }}">{{ $batch->batch_number }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    
+                 
                     <!-- Form No Field -->
                     <div class="col-md-4 mt-3">
                         <label class="fs-6 fw-semibold form-label mb-2">Form No.#</label>
