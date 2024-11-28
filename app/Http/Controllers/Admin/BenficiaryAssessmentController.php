@@ -25,8 +25,8 @@ class BenficiaryAssessmentController extends Controller
        // dd($form_nums);
         addVendors(['datatables']);
         addJavascriptFile('assets/js/custom/benficaryAssessment/index.js');
-          return view('admin.benificiaryAssessment.criteria',compact('projects','provinces','form_nums','contacts','cnics'));
-        // return view('admin.benificiaryAssessment.index',compact('projects','provinces','form_nums','contacts','cnics'));
+        //  return view('admin.benificiaryAssessment.criteria',compact('projects','provinces','form_nums','contacts','cnics'));
+        return view('admin.benificiaryAssessment.index',compact('projects','provinces','form_nums','contacts','cnics'));
     }
 
     public function beneficiaryAssessments(Request $request)
@@ -117,8 +117,7 @@ class BenficiaryAssessmentController extends Controller
     {
        
         $validatedData = $this->validateRequest($request);
-        dd($request->all());
-        // Handle file attachment if provided
+
         $filename = $this->handleFileUpload($request);
 
         // Generate a unique form number
@@ -210,7 +209,7 @@ class BenficiaryAssessmentController extends Controller
             'subvillage' => 'nullable|string|max:255',
             'name_of_beneficiary' => 'required|string|max:255',
             'guardian' => 'nullable|string|max:255',
-            'gender' => 'required|string|in:Male,Female',
+            'gender' => 'required|string|in:Male,Female,Transgender',
             'age' => 'required|integer|min:0',
             'beneficiary_contact' => 'required|string|max:15',
             'relative_contact_number' => 'required|string|max:15',

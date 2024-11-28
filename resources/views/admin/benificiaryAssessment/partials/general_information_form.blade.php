@@ -17,10 +17,12 @@
             <label for="name_of_beneficiary" class="form-label fw-bold required fs-8">Name of Beneficiary:</label>
             <input type="text" id="name_of_beneficiary" class="form-control" name="name_of_beneficiary" required>
         </div>
+        
         <div class="col-12 col-md-6 col-lg-4 fv-row">
             <label for="guardian" class="form-label fw-bold required fs-8">Father/Husband:</label>
             <input type="text" id="guardian" class="form-control" name="guardian" required>
         </div>
+
         <div class="col-12 col-md-6 col-lg-4 fv-row">
             <label class="form-label fw-bold required fs-8">Gender:</label>
             <div class="d-flex align-items-center">
@@ -32,10 +34,15 @@
                     <input type="radio" id="female" name="gender" value="Female" class="form-check-input">
                     <label for="female" class="form-check-label">Female</label>
                 </div>
+                <div class="form-check me-3">
+                    <input type="radio" id="transgender" name="gender" value="Transgender" class="form-check-input">
+                    <label for="transgender" class="form-check-label">Transgender</label>
+                </div>
                 <div class="form-check">
                 </div>
             </div>
         </div>
+
         <div class="col-12 col-md-6 col-lg-3 fv-row">
             <label for="age" class="form-label fw-bold required fs-8">Age:</label>
             <input type="number" id="age" class="form-control" name="age" required min="1" max="99">
@@ -55,14 +62,17 @@
             <label for="cnic_beneficiary" class="form-label fw-bold required fs-8">CNIC.# of Beneficiary:</label>
             <input type="text" id="cnic_beneficiary" class="form-control" name="cnic_beneficiary" maxlength="15" placeholder="37423-2323232-5" required pattern="^\d{5}-\d{7}-\d{1}$">
         </div>
+
         <div class="col-12 col-md-3 fv-row">
             <label for="cnic_spouse" class="form-label fw-bold required fs-8">CNIC.# of Spouse:</label>
             <input type="text" id="cnic_spouse" class="form-control" name="cnic_spouse" maxlength="15" placeholder="37423-2323232-5" required pattern="^\d{5}-\d{7}-\d{1}$">
         </div>
+
         <div class="col-12 col-md-3 fv-row">
             <label for="cnic_issuance" class="form-label fw-bold required fs-8">Beneficiary CNIC Issuance:</label>
             <input type="date" id="cnic_issuance" class="form-control" name="cnic_issuance" required placeholder="0000-00-0">
         </div>
+        
         <div class="col-12 col-md-3 fv-row">
             <label for="cnic_expiry" class="form-label fw-bold required fs-8">Beneficiary CNIC Expiry:</label>
             <input type="date" id="cnic_expiry" class="form-control" name="cnic_expiry" required placeholder="0000-00-00">

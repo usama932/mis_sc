@@ -1,6 +1,9 @@
 <x-nform-layout>
     @section('title', 'Beneficiaries Assessment List')
     <div class="card mb-4">
+        @include('admin.benificiaryAssessment.partials.filter')
+    </div>
+    <div class="card mb-4">
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <div class="card-body pt-3">
                 <div class="table-responsive overflow-*">
