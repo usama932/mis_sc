@@ -31,8 +31,64 @@ class BenficiaryAssessmentController extends Controller
 
     public function beneficiaryAssessments(Request $request)
     {
-        // Initialize the query with pagination and necessary fields
-        $query = BenficiaryAssessment::with([
+        $query = BenficiaryAssessment::query();
+        
+        if ($request->project) {
+            $query->where('project_id', $request->project);
+        }
+        if ($request->province) {
+            $query->where('province', $request->province);
+        }
+        if ($request->district) {
+            $query->where('district', $request->district);
+        }
+        if ($request->tehsil) {
+            $query->where('tehsil', $request->tehsil);
+        }
+        if ($request->uc) {
+            $query->where('uc', $request->uc);
+        }
+        if ($request->gender) {
+            $query->where('gender', $request->gender);
+        }
+        if ($request->age_min) {
+           
+            $query->where('age', '>=', $request->age_min);
+        }
+        if ($request->age_max) {
+            $query->where('age', '<=', $request->age_max);
+        }
+        if ($request->recieve_cash) {
+            $query->where('recieve_cash', $request->recieve_cash);
+        }
+        if ($request->average_monthly_income_min) {
+            $query->where('hh_monthly_income', '>=', $request->average_monthly_income_min);
+        }
+        if ($request->average_monthly_income_max) {
+            $query->where('hh_monthly_income', '<=', $request->average_monthly_income_max);
+        }
+    
+        $filters = [
+            'hh_under5_girls' => ['min' => $request->hh_under5_girls_min, 'max' => $request->hh_under5_girls_max],
+            'hh_under5_boys' => ['min' => $request->hh_under5_boys_min, 'max' => $request->hh_under5_boys_max],
+            'hh_under5_7_girls' => ['min' => $request->hh_under5_7_girls_min, 'max' => $request->hh_under5_7_girls_max],
+            'hh_under5_7_boys' => ['min' => $request->hh_under5_7_boys_min, 'max' => $request->hh_under5_7_boys_max],
+            'hh_above18_girls' => ['min' => $request->hh_above18_girls_min, 'max' => $request->hh_above18_girls_max],
+            'hh_above18_boys' => ['min' => $request->hh_above18_boys_min, 'max' => $request->hh_above18_boys_max],
+        ];
+        
+        foreach ($filters as $column => $range) {
+            if (!empty($range['min']) && !empty($range['max'])) {
+                $query->whereBetween($column, [$range['min'], $range['max']]);
+            } elseif (!empty($range['min'])) {
+                $query->where($column, '>=', $range['min']);
+            } elseif (!empty($range['max'])) {
+                $query->where($column, '<=', $range['max']);
+            }
+        }
+        
+    
+        $query = $query->with([
                 'project:id,name', 
                 'user:id,name', 
                 'batchs:id,batch_number'
@@ -60,7 +116,8 @@ class BenficiaryAssessmentController extends Controller
         // Prepare data for DataTables
         $data = $benficiaryAssessments->map(function ($benficiaryAssessment) {
             return [
-                'id' => $benficiaryAssessment->id,
+                'id' => '<td><label class="checkbox checkbox-outline checkbox-success"><input type="checkbox" name="clients[]" value="'.$benficiaryAssessment->id.'"><span></span></label></td>',
+                
                 'form_no' => $benficiaryAssessment->form_no ?? '',
                 'assessment' => $benficiaryAssessment->assessment_cat ?? '',
                 'project' => $benficiaryAssessment->project?->name ?? '', 
@@ -100,7 +157,6 @@ class BenficiaryAssessmentController extends Controller
         ]);
     }
     
-
     public function beneficiaryAssessmentForm(){
 
         $projects   = Project::where('active',1)->orderBy('name')->get();

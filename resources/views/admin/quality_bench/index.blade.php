@@ -53,12 +53,13 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <!-- Table rows will be dynamically populated -->
-                        </tbody>
+                      
                     </table>
                 </div>
             </div>
         </div>
     </div>
 </x-default-layout>
+<script>
+    var APP_URL = @json(url('/'));
+</script>

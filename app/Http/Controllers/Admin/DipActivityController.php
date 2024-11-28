@@ -211,10 +211,11 @@ class   DipActivityController extends Controller
         }
 
         if ($request->status) {
+                
             $dipsQuery->where('status', $request->status)->whereHas('progress');
         
         } else {
-            $dipsQuery->whereIn('status', ['To be Reviewed', 'Returned', 'Posted'])->whereHas('progress');
+            $dipsQuery->whereIn('status', ['To be Reviewed', 'Returned', 'Posted','Reviewed'])->whereHas('progress');
         }
         $totalFiltered = $dipsQuery->count();
         $totalData = $dipsQuery->count();

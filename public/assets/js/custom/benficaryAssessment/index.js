@@ -1,7 +1,16 @@
 var csrfToken = $('meta[name="csrf-token"]').attr('content');
 $(document).ready(function () {
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
+    $(document).on('click', 'th input:checkbox', function() {
 
+        var that = this;
+        $(this).closest('table').find('tr > td:first-child input:checkbox')
+            .each(function() {
+                this.checked = that.checked;
+                $(this).closest('tr').toggleClass('selected');
+            });
+    });
+    // Initialize DataTable
     var table = $('#beneficary_list').DataTable({
         processing: true,
         serverSide: true,
@@ -11,8 +20,39 @@ $(document).ready(function () {
             headers: {
                 'X-CSRF-TOKEN': csrfToken
             },
+            data: function (d) {
+                // Get filter values from the form
+                d.project = $('#project_name').val();
+                d.province = $('#provinceId').val();
+                d.district = $('#districtId').val();
+                d.tehsil = $('#tehsilId').val();
+                d.uc = $('#ucId').val();
+                d.gender = $('#gender').val();
+                d.age_min = $('#age_min').val();
+                d.age_max = $('#age_max').val();
+                d.hh_under5_girls_min = $('#hh_under5_girls_min').val();
+                d.hh_under5_girls_max = $('#hh_under5_girls_max').val();
+                d.hh_under5_boys_min = $('#hh_under5_boys_min').val();
+                d.hh_under5_boys_max = $('#hh_under5_boys_max').val();
+                d.hh_under5_7_girls_min = $('#hh_under5_7_girls_min').val();
+                d.hh_under5_7_girls_max = $('#hh_under5_7_girls_max').val();
+                d.hh_under5_7_boys_min = $('#hh_under5_7_boys_min').val();
+                d.hh_under5_7_boys_max = $('#hh_under5_7_boys_max').val();
+                d.hh_above18_girls_min = $('#hh_above18_girls_min').val();
+                d.hh_above18_girls_max = $('#hh_above18_girls_max').val();
+                d.hh_above18_boys_min = $('#hh_above18_boys_min').val();
+                d.hh_above18_boys_max = $('#hh_above18_boys_max').val();
+                d.recieve_cash = $('input[name="recieve_cash"]:checked').val();
+                d.average_monthly_income_min = $('#average_monthly_income_min').val();
+                d.average_monthly_income_max = $('#average_monthly_income_max').val();
+            }
         },
         columns: [
+            {
+                "data": "id",
+                "searchable": false,
+                "orderable": false
+            },
             { data: 'form_no', name: 'form_no' },
             { data: 'assessment', name: 'assessment' },
             { data: 'project', name: 'project' },
@@ -25,12 +65,9 @@ $(document).ready(function () {
             { data: 'hh_under5_7_boys', name: 'hh_under5_7_boys' },
             { data: 'hh_above18_girls', name: 'hh_above18_girls' },
             { data: 'hh_above18_boys', name: 'hh_above18_boys' },
-        
             { data: 'hh_monthly_income', name: 'hh_monthly_income' },
             { data: 'house_demage', name: 'house_demage' },
-            
             { data: 'contact_number', name: 'contact_number' },
-          
             { data: 'assessment_officer', name: 'assessment_officer' },
             { data: 'vc_representative_name', name: 'vc_representative_name' },
             { data: 'status', name: 'status' },
@@ -45,10 +82,13 @@ $(document).ready(function () {
             searchPlaceholder: "Search indicators..."
         },
     });
+
+    // Apply Filters on Form Submit
+    $('#filterForm').on('submit', function (e) {
+        e.preventDefault();
+        table.draw(); // Refresh the table
+    });
 });
-
-
-
 document.getElementById('districtloader').style.display = 'none';
 $("#provinceId").change(function () {
     document.getElementById('districtloader').style.display = 'block';

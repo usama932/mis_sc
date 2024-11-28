@@ -79,7 +79,6 @@ function del(id) {
                 "Your Quality BenchMark` has been deleted.",
                 "success"
             );
-            var APP_URL =  json_encode(url('/')) 
             window.location.href = APP_URL + "/qb/delete/" + id;
         }
     });

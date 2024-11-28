@@ -177,10 +177,10 @@
     </div>
     @push('scripts')
         <script>
-          function openImageInNewTab(imageUrl) {
-    // Open the image URL in a new tab
-    window.open(imageUrl, '_blank');
-}
+            function openImageInNewTab(imageUrl) {
+                // Open the image URL in a new tab
+                window.open(imageUrl, '_blank');
+             }
         </script>
         
         

@@ -4,13 +4,20 @@
         @include('admin.benificiaryAssessment.partials.filter')
     </div>
     <div class="card mb-4">
-        <div id="kt_app_content" class="app-content flex-column-fluid">
+        <div id="kt_app_content" class="app-con-sm ntent flex-column-fluid">
+            <div class="d-flex align-items-center ">
+                <a class="btn btn-primary bt font-weight-bolder" onclick="del_selected()" href="javascript:void(0)"> <i
+                        class="la la-trash-o"></i>Delete All</a>
+            </div>
             <div class="card-body pt-3">
                 <div class="table-responsive overflow-*">
                     <table class="table table-striped table-bordered nowrap" id="beneficary_list" style="width:100%">
                         <thead>
                            
                             <tr>
+                                <th><label class="checkbox checkbox-outline checkbox-success"><input
+                                    type="checkbox"><span></span></label>
+                                </th>
                                 <th class="fs-9">Unique No.#</th> 
                                 <th class="fs-9">Assessment</th> 
                                 <th class="fs-9">Project</th>

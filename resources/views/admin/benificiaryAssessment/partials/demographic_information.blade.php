@@ -10,13 +10,25 @@
         <div id="projectError" class="invalid-feedback" style="display: none;"></div>
     </div>
 
-  
     <div class="fv-row col-md-3 fv-row">
         <label class="fs-6 fw-bolder required">Date</label>
         <input type="text" name="date" id="mpca_Date" class="form-control" required />
         <div id="dateError" class="invalid-feedback" style="display: none;"></div>
     </div>
-  
+    
+    <div class="fv-row col-md-3 fv-row">
+        <div class="d-flex"> 
+            <label class="fs-6 fw-bolder required">Batches</label>
+        </div>
+        <select name="batch_number" id="batch_number" class="form-select" data-control="select2" data-placeholder="Select batch" data-allow-clear="true" required>
+            <option value="">Select Batches</option>
+            @foreach ($batches as $batche)
+                <option value="{{ $batche->id }}">{{ $batche->batch_number }}</option>
+            @endforeach
+        </select>
+        <div id="batch_numberError" class="invalid-feedback" style="display: none;"></div>
+    </div>
+
     <div class="fv-row col-md-3 fv-row">
         <div class="d-flex"> 
             <label class="fs-6 fw-bolder required">Province</label>
@@ -74,4 +86,5 @@
         <textarea class="form-control" rows="1" name="subvillage" id="subvillage"></textarea>
         <div id="subvillageError" class="invalid-feedback"></div>
     </div>
+    
 </div>

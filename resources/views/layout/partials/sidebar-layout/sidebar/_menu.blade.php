@@ -53,7 +53,7 @@
                 break;
         }
 
-    $dipscomplete->whereIn('status', ['To be Reviewed', 'Returned', 'Posted'])->whereHas('progress');
+    $dipscomplete->whereIn('status', ['To be Reviewed', 'Returned', 'Posted','Reviewed'])->whereHas('progress');
     $complete = $dipscomplete->count();
 @endphp
 <div class="app-sidebar-menu overflow-hidden flex-column-fluid">
