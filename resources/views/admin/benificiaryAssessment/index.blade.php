@@ -66,40 +66,84 @@
   
 
     @push('scripts')
-        <script>
-            function handleAction(action) {
-                const checkboxes = document.querySelectorAll('#beneficary_list input[type="checkbox"]:checked');
-                if (checkboxes.length === 0) {
-                    Swal.fire({
-                        title: "No Records Selected",
-                        text: "Please select at least one record before proceeding.",
-                        icon: "warning",
-                        confirmButtonText: "OK"
-                    });
-                    return;
+    <script>
+        function handleAction(action) {
+            // Get all selected checkboxes
+            const checkboxes = document.querySelectorAll('#beneficary_list input[type="checkbox"]:checked');
+            if (checkboxes.length === 0) {
+                Swal.fire({
+                    title: "No Records Selected",
+                    text: "Please select at least one record before proceeding.",
+                    icon: "warning",
+                    confirmButtonText: "OK"
+                });
+                return;
+            }
+    
+            const actionMessages = {
+                'accepted': {
+                    title: "Are you sure to accept these records?",
+                    success: "The records have been accepted.",
+                },
+                'verified': {
+                    title: "Are you sure to verify these records?",
+                    success: "The records have been verified.",
+                },
+                'approved': {
+                    title: "Are you sure to approve these records?",
+                    success: "The records have been approved.",
+                },
+                'rejected': {
+                    title: "Are you sure to reject these records?",
+                    success: "The records have been rejected.",
                 }
-        
-                const actionMessages = {
-                    'accepted': {
-                        title: "Are you sure to accept these records?",
-                        success: "The records have been accepted.",
+            };
+    
+            const { title, success } = actionMessages[action];
+    
+            if (action === 'rejected') {
+                // Handle rejection with remarks
+                Swal.fire({
+                    title: title,
+                    input: 'textarea',
+                    inputLabel: 'Rejection Remarks',
+                    inputPlaceholder: 'Enter your remarks here...',
+                    inputAttributes: {
+                        'aria-label': 'Rejection Remarks'
                     },
-                    'verified': {
-                        title: "Are you sure to verify these records?",
-                        success: "The records have been verified.",
-                    },
-                    'approved': {
-                        title: "Are you sure to approve these records?",
-                        success: "The records have been approved.",
-                    },
-                    'rejected': {
-                        title: "Are you sure to reject these records?",
-                        success: "The records have been rejected.",
+                    showCancelButton: true,
+                    confirmButtonText: 'Submit',
+                    preConfirm: (remarks) => {
+                        if (!remarks) {
+                            Swal.showValidationMessage('Remarks are required for rejection.');
+                        }
+                        return remarks;
                     }
-                };
-        
-                const { title, success } = actionMessages[action];
-        
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        const selectedIds = Array.from(checkboxes).map(cb => cb.value);
+                        const remarks = result.value;
+    
+                        // Send AJAX request for rejection with remarks
+                        axios.post('{{ route("action-selected-benficary") }}', {
+                            _token: '{{ csrf_token() }}',
+                            action_type: action,
+                            beneficiaries: selectedIds,
+                            remarks: remarks
+                        })
+                        .then(response => {
+                            Swal.fire("Success!", success, "success");
+                            // Reload the DataTable
+                            $('#beneficary_list').DataTable().ajax.reload();
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            Swal.fire("Error!", "An error occurred while processing the request.", "error");
+                        });
+                    }
+                });
+            } else {
+                // Handle other actions without remarks
                 Swal.fire({
                     title: title,
                     text: "You won't be able to revert this!",
@@ -108,10 +152,9 @@
                     confirmButtonText: `Yes, ${action} them!`
                 }).then(result => {
                     if (result.isConfirmed) {
-                        // Collect selected beneficiary IDs
                         const selectedIds = Array.from(checkboxes).map(cb => cb.value);
-        
-                        // Send AJAX request
+    
+                        // Send AJAX request for other actions
                         axios.post('{{ route("action-selected-benficary") }}', {
                             _token: '{{ csrf_token() }}',
                             action_type: action,
@@ -119,7 +162,7 @@
                         })
                         .then(response => {
                             Swal.fire("Success!", success, "success");
-                            // Reload the table or update the UI as needed
+                            // Reload the DataTable
                             $('#beneficary_list').DataTable().ajax.reload();
                         })
                         .catch(error => {
@@ -129,7 +172,9 @@
                     }
                 });
             }
-        </script>
+        }
+    </script>
+    
     @endpush
     
 </x-nform-layout>

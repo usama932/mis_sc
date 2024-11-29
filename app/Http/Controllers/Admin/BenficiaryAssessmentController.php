@@ -377,24 +377,74 @@ class BenficiaryAssessmentController extends Controller
         return response()->json(['unique' => !$exists]);
     }
 
-    public function actionSelectedBeneficiary(Request $request)
-    {
-        $request->validate([
-            'action_type' => 'required|in:accepted,verified,approved,rejected',
-            'beneficiaries' => 'required|array|min:1',
-            'beneficiaries.*' => 'integer|exists:beneficiaries,id',
-        ]);
+    // public function actionSelectedBeneficiary(Request $request)
+    // {
+    //     $request->validate([
+    //         'action_type' => 'required|in:accepted,verified,approved,rejected',
+    //         'beneficiaries' => 'required|array|min:1',
+    //         'beneficiaries.*' => 'integer|exists:beneficiaries,id',
+    //     ]);
 
-        $actionType = $request->input('action_type');
-        $beneficiaryIds = $request->input('beneficiaries');
+    //     $actionType = $request->input('action_type');
+    //     $beneficiaryIds = $request->input('beneficiaries');
 
-        try {
-            // Dispatch a job to process the action
-            ProcessBeneficiaryAction::dispatch($actionType, $beneficiaryIds, auth()->user());
+    //     try {
+    //         // Dispatch a job to process the action
+    //         ProcessBeneficiaryAction::dispatch($actionType, $beneficiaryIds, auth()->user());
 
-            return response()->json(['message' => 'Action is being processed in the background.']);
-        } catch (Exception $e) {
-            return response()->json(['error' => 'Failed to process the action.'], 500);
+    //         return response()->json(['message' => 'Action is being processed in the background.']);
+    //     } catch (Exception $e) {
+    //         return response()->json(['error' => 'Failed to process the action.'], 500);
+    //     }
+    // }
+
+    public function actionSelectedBenficary(Request $request){
+       
+        $errorRecords = [];
+        $successRecords = [];
+        $nextApproverEmail = 'next_approver@example.com';
+        $authUserEmail = auth()->user()->email;
+       
+        foreach ($request->beneficiaries as $id) {
+            try {
+                // Retrieve the beneficiary record or throw an exception if not found
+                $beneficiary = BenficiaryAssessment::findOrFail($id);
+
+                // Update status
+                $beneficiary->status = $request->action_type;
+                $beneficiary->return_remarks = $request->remarks ?? '';
+                if($request->action_type == 'rejected')
+                $beneficiary->save();
+
+                // Send email to the next approver
+            //  Mail::to($nextApproverEmail)->queue(new BeneficiaryStatusChanged($beneficiary));
+
+                // Record successful updates
+                $successRecords[] = $id;
+
+            } catch (Exception $e) {
+                // Log error for debugging purposes
+                //  \Log::error("Error processing beneficiary ID $id: " . $e->getMessage());
+                
+                // Record failed updates
+                $errorRecords[] = $id;
+            }
         }
+
+        // // Notify the current user if there were any failed records
+        // if (!empty($errorRecords)) {
+        //     try {
+        //         Mail::to($authUserEmail)->queue(new \App\Mail\FailedBeneficiaryProcessing($errorRecords));
+        //     } catch (Exception $e) {
+        //         \Log::error("Error sending failure notification: " . $e->getMessage());
+        //     }
+        // }
+
+        // Return a response to the user
+        return response()->json([
+            'message' => 'Processing complete',
+            'successRecords' => $successRecords,
+            'errorRecords' => $errorRecords,
+        ]);
     }
 }

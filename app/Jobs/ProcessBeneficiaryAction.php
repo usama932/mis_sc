@@ -6,9 +6,11 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Beneficiary;
+use App\Models\BenficiaryAssessment;
 use App\Models\User;
-use Mail;
+use App\Mail\BeneficiaryStatusChanged;
+use Illuminate\Support\Facades\Mail;
+use Exception;
 
 class ProcessBeneficiaryAction implements ShouldQueue
 {
@@ -32,12 +34,12 @@ class ProcessBeneficiaryAction implements ShouldQueue
 
         foreach ($this->beneficiaryIds as $id) {
             try {
-                $beneficiary = Beneficiary::findOrFail($id);
+                $beneficiary = BenficiaryAssessment::findOrFail($id);
                 $beneficiary->status = $this->actionType;
                 $beneficiary->save();
 
                 // Send an email to the next approver
-                Mail::to('next_approver@example.com')->send(new BeneficiaryStatusChanged($beneficiary));
+                Mail::to('next_approver@example.com')->queue(new BeneficiaryStatusChanged($beneficiary));
             } catch (Exception $e) {
                 $errorRecords[] = $id;
             }
@@ -45,7 +47,7 @@ class ProcessBeneficiaryAction implements ShouldQueue
 
         // Send an error report to the authorized user
         if (!empty($errorRecords)) {
-            Mail::to($this->authUser->email)->send(new ErrorProcessingRecords($errorRecords));
+            Mail::to($this->authUser->email)->queue(new ErrorProcessingRecords($errorRecords));
         }
     }
 }
