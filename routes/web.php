@@ -261,6 +261,7 @@ use Illuminate\Support\Facades\Route;
         Route::post('/check-cnic-beneficary', [BenficiaryAssessmentController::class, 'checkCnicBeneficary']);
         Route::post('/check-spouse-beneficary', [BenficiaryAssessmentController::class, 'checkCnicSpouse']);
         Route::post('/check-contact-number', [BenficiaryAssessmentController::class, 'checkContactNumber']);
+        Route::post('action-selected-benficary', [BenficiaryAssessmentController::class, 'actionSelectedBenficary'])->name('action-selected-benficary');
     });
 
     Route::get('/error', function () {

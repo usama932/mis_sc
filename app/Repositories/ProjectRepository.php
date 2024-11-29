@@ -107,7 +107,7 @@ class ProjectRepository implements ProjectRepositoryInterface
             'name'                  => $data['name'],
             'type'                  => $data['type'],
             'sof'                   => $data['sof'],
-            'focal_person'          => json_encode($data['meal_person']),
+            'focal_person'          => json_encode($data['focal_person']),
             'meal_persons'          => json_encode($data['meal_person']),
             'budget_holder'         => $data['budget_holder'],
             'award_person'          => $data['award_person'],

@@ -197,6 +197,13 @@ var KTCreateBeneficaryForm = function () {
 							}
 						}
 					},
+					batch_number: {
+						validators: {
+							notEmpty: {
+								message: 'Batch Number is required'
+							}
+						}
+					},
 					district: {
 						validators: {
 							notEmpty: {

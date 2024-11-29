@@ -116,7 +116,7 @@ class BenficiaryAssessmentController extends Controller
         // Prepare data for DataTables
         $data = $benficiaryAssessments->map(function ($benficiaryAssessment) {
             return [
-                'id' => '<td><label class="checkbox checkbox-outline checkbox-success"><input type="checkbox" name="clients[]" value="'.$benficiaryAssessment->id.'"><span></span></label></td>',
+                'id' => '<td><label class="checkbox checkbox-outline checkbox-success"><input type="checkbox" name="beneficiries[]" value="'.$benficiaryAssessment->id.'"><span></span></label></td>',
                 
                 'form_no' => $benficiaryAssessment->form_no ?? '',
                 'assessment' => $benficiaryAssessment->assessment_cat ?? '',
@@ -171,9 +171,7 @@ class BenficiaryAssessmentController extends Controller
 
     public function submitBeneficiaryAssessmentForm(Request $request)
     {
-       
         $validatedData = $this->validateRequest($request);
-
         $filename = $this->handleFileUpload($request);
 
         // Generate a unique form number
@@ -193,7 +191,7 @@ class BenficiaryAssessmentController extends Controller
             'guardian'      => $request->guardian,
             'gender'        => $request->gender,
             'age'           => $request->age,
-
+            'batch_id'          => $request->batch_number,
             'name_of_beneficiary'   => $request->name_of_beneficiary,
             'beneficiary_contact'   => $request->beneficiary_contact,
             'relative_contact_number'=> $request->relative_contact_number,
@@ -263,6 +261,7 @@ class BenficiaryAssessmentController extends Controller
             'uc' => 'required|integer',
             'village' => 'required|string|max:255',
             'subvillage' => 'nullable|string|max:255',
+            'batch_number' => 'required',
             'name_of_beneficiary' => 'required|string|max:255',
             'guardian' => 'nullable|string|max:255',
             'gender' => 'required|string|in:Male,Female,Transgender',
@@ -359,13 +358,13 @@ class BenficiaryAssessmentController extends Controller
 
     public function checkCnicSpouse(Request $request)
     {
-      
         $cnic = $request->input('cnic');
         // Check if CNIC already exists in the database
         $exists = BenficiaryAssessment::orWhere('cnic_beneficiary', $cnic)->orWhere('cnic_spouse', $cnic)->exists();
         // Return response indicating uniqueness
         return response()->json(['unique' => !$exists]);
     }
+
     public function checkContactNumber(Request $request)
     {
         $contact_number = $request->input('contact_number');
@@ -373,5 +372,9 @@ class BenficiaryAssessmentController extends Controller
         $exists = BenficiaryAssessment::where('beneficiary_contact', 'LIKE', '%'.$contact_number.'%')->exists();
      
         return response()->json(['unique' => !$exists]);
+    }
+
+    public function actionSelectedBenficary(Request $request){
+        dd($request->all());
     }
 }
