@@ -63,44 +63,73 @@
             </div>
         </div>
     </div>
-    <script>
-        function handleAction(action) {
-            const actionMessages = {
-                'accepted': {
-                    title: "Are you sure to accept these records?",
-                    success: "The records have been accepted.",
-                },
-                'verified': {
-                    title: "Are you sure to verify these records?",
-                    success: "The records have been verified.",
-                },
-                'approved': {
-                    title: "Are you sure to approve these records?",
-                    success: "The records have been approved.",
-                },
-                'rejected': {
-                    title: "Are you sure to reject these records?",
-                    success: "The records have been rejected.",
+  
+
+    @push('scripts')
+        <script>
+            function handleAction(action) {
+                const checkboxes = document.querySelectorAll('#beneficary_list input[type="checkbox"]:checked');
+                if (checkboxes.length === 0) {
+                    Swal.fire({
+                        title: "No Records Selected",
+                        text: "Please select at least one record before proceeding.",
+                        icon: "warning",
+                        confirmButtonText: "OK"
+                    });
+                    return;
                 }
-            };
-
-            const { title, success } = actionMessages[action];
-
-            Swal.fire({
-                title: title,
-                text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: `Yes, ${action} them!`
-            }).then(result => {
-                if (result.value) {
-                    Swal.fire(action.charAt(0).toUpperCase() + action.slice(1) + "!", success, "success");
-                    document.getElementById("action_type").value = action;
-                    document.getElementById("beneficiary_form").submit();
-                }
-            });
-        }
-    </script>
-
+        
+                const actionMessages = {
+                    'accepted': {
+                        title: "Are you sure to accept these records?",
+                        success: "The records have been accepted.",
+                    },
+                    'verified': {
+                        title: "Are you sure to verify these records?",
+                        success: "The records have been verified.",
+                    },
+                    'approved': {
+                        title: "Are you sure to approve these records?",
+                        success: "The records have been approved.",
+                    },
+                    'rejected': {
+                        title: "Are you sure to reject these records?",
+                        success: "The records have been rejected.",
+                    }
+                };
+        
+                const { title, success } = actionMessages[action];
+        
+                Swal.fire({
+                    title: title,
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: `Yes, ${action} them!`
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        // Collect selected beneficiary IDs
+                        const selectedIds = Array.from(checkboxes).map(cb => cb.value);
+        
+                        // Send AJAX request
+                        axios.post('{{ route("action-selected-benficary") }}', {
+                            _token: '{{ csrf_token() }}',
+                            action_type: action,
+                            beneficiaries: selectedIds
+                        })
+                        .then(response => {
+                            Swal.fire("Success!", success, "success");
+                            // Reload the table or update the UI as needed
+                            $('#beneficary_list').DataTable().ajax.reload();
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            Swal.fire("Error!", "An error occurred while processing the request.", "error");
+                        });
+                    }
+                });
+            }
+        </script>
+    @endpush
     
 </x-nform-layout>

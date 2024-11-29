@@ -9,6 +9,9 @@ use App\Models\District;
 use App\Models\Province;
 use App\Models\BenficiaryAssessment;
 use App\Models\BatchNumber;
+use Illuminate\Support\Facades\DB;
+use Exception;
+use App\Jobs\ProcessBeneficiaryAction;
 use File;
 
 class BenficiaryAssessmentController extends Controller
@@ -374,7 +377,24 @@ class BenficiaryAssessmentController extends Controller
         return response()->json(['unique' => !$exists]);
     }
 
-    public function actionSelectedBenficary(Request $request){
-        dd($request->all());
+    public function actionSelectedBeneficiary(Request $request)
+    {
+        $request->validate([
+            'action_type' => 'required|in:accepted,verified,approved,rejected',
+            'beneficiaries' => 'required|array|min:1',
+            'beneficiaries.*' => 'integer|exists:beneficiaries,id',
+        ]);
+
+        $actionType = $request->input('action_type');
+        $beneficiaryIds = $request->input('beneficiaries');
+
+        try {
+            // Dispatch a job to process the action
+            ProcessBeneficiaryAction::dispatch($actionType, $beneficiaryIds, auth()->user());
+
+            return response()->json(['message' => 'Action is being processed in the background.']);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to process the action.'], 500);
+        }
     }
 }

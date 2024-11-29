@@ -12,8 +12,38 @@ $(document).ready(function () {
     });
     // Initialize DataTable
     var table = $('#beneficary_list').DataTable({
-        processing: true,
-        serverSide: true,
+        "dom": 'lfBrtip',
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                filename: 'Overdue Progress Activities',
+                text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
+                title: 'Overdue Progress Activities',
+                className: 'badge badge-success mb-4',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5]
+                }
+            },
+            {
+                extend: 'csvHtml5',
+                filename: 'Overdue Progress Activities',
+                text: '<i class="fa fa-download text-warning"></i> CSV',
+                title: 'Overdue Progress Activities',
+                className: 'badge badge-success',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5]
+                }
+            }
+        ],
+        "processing": true,
+        "serverSide": false, // Disable server-side processing
+        "searching": true, // Enable client-side searching
+        "ordering": true, // Enable client-side sorting
+        "paging": true, // Enable pagination
+        "info": true, // Show table information
+        "bLengthChange": true,
+        "aLengthMenu": [[10, 50, 100, 250, 500, 750, 1000, 1500, 2000, 2500], [10, 50, 100, 250, 500, 750, 1000, 1500, 2000, 2500]],
+       
         ajax: {
             url: "/beneficiaryAssessments", 
             type: 'POST', 
@@ -79,7 +109,7 @@ $(document).ready(function () {
         pageLength: 10,
         language: {
             search: "_INPUT_", 
-            searchPlaceholder: "Search indicators..."
+            searchPlaceholder: "Search  Beneficiary..."
         },
     });
 
