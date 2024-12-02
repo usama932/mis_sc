@@ -12,6 +12,8 @@ use App\Models\BatchNumber;
 use Illuminate\Support\Facades\DB;
 use Exception;
 use App\Jobs\ProcessBeneficiaryAction;
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 use File;
 
 class BenficiaryAssessmentController extends Controller
@@ -413,7 +415,18 @@ class BenficiaryAssessmentController extends Controller
                 // Update status
                 $beneficiary->status = $request->action_type;
                 $beneficiary->return_remarks = $request->remarks ?? '';
-                if($request->action_type == 'rejected')
+                if($request->action_type == 'rejected'){
+                    $beneficiary->accepted_by = auth()->user()->id;
+                }
+                elseif($request->action_type == 'rejected'){
+                    $beneficiary->rejected_by = auth()->user()->id;
+                }
+                elseif($request->verified_by == 'verified'){
+                    $beneficiary->verified_by = auth()->user()->id;
+                }
+                elseif($request->verified_by == 'approved'){
+                    $beneficiary->approved_by = auth()->user()->id;
+                }
                 $beneficiary->save();
 
                 // Send email to the next approver
@@ -446,5 +459,82 @@ class BenficiaryAssessmentController extends Controller
             'successRecords' => $successRecords,
             'errorRecords' => $errorRecords,
         ]);
+    }
+
+    public function uploadExcelSheet(Request $request)
+    {
+      
+
+        try {
+            // Check if file exists in the request
+            if ($request->hasFile('excel_sheet')) {
+                $file = $request->file('excel_sheet');
+                dd($file    );
+                $filePath = $file->store('uploads/excel', 'public'); // Save file temporarily
+               
+                // Load the Excel file
+                $data = Excel::toCollection(null, storage_path('app/public/' . $filePath));
+                dd($data);
+                // Ensure the sheet has data
+                if ($data->isEmpty() || $data[0]->isEmpty()) {
+                    throw new \Exception('The uploaded Excel sheet is empty or invalid.');
+                }
+
+                $sheetData = $data[0]; // Get the first sheet
+                $updatedCount = 0;
+
+                // Iterate through rows and match/update data
+                foreach ($sheetData as $row) {
+                    try {
+                        // Match data to BeneficiaryAssessment model
+                        $cnic = $row['customer_cnic'] ?? null;
+                        $status = $row['status'] ?? null;
+                        $mobileNumber = $row['mobile_number'] ?? null;
+
+                        if (!$cnic || !$status || !$mobileNumber) {
+                            continue; // Skip rows with missing data
+                        }
+
+                        // Find matching record by CNIC and Mobile Number
+                        $beneficiary = BenficiaryAssessment::where('cnic', $cnic)
+                            ->where('mobile_number', $mobileNumber)
+                            ->first();
+
+                        if ($beneficiary) {
+                            $beneficiary->update(['status' => $status]);
+                            $updatedCount++;
+                        }
+                    } catch (\Exception $e) {
+                        // Log individual row errors
+                        Log::error('Error processing row: ' . json_encode($row) . ' - ' . $e->getMessage());
+                    }
+                }
+
+                // Optionally delete the uploaded file
+                Storage::disk('public')->delete($filePath);
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => "$updatedCount records updated successfully.",
+                ]);
+            }
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No file uploaded.',
+            ], 400);
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Excel validation error.',
+                'errors' => $e->failures(),
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'An error occurred while processing the file.',
+                'error_details' => $e->getMessage(),
+            ], 500);
+        }
     }
 }

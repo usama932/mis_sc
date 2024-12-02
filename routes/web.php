@@ -262,6 +262,7 @@ use Illuminate\Support\Facades\Route;
         Route::post('/check-spouse-beneficary', [BenficiaryAssessmentController::class, 'checkCnicSpouse']);
         Route::post('/check-contact-number', [BenficiaryAssessmentController::class, 'checkContactNumber']);
         Route::post('action-selected-benficary', [BenficiaryAssessmentController::class, 'actionSelectedBenficary'])->name('action-selected-benficary');
+        Route::post('/upload-excel-sheet', [BenficiaryAssessmentController::class, 'uploadExcelSheet'])->name('upload-excel-sheet');
     });
 
     Route::get('/error', function () {

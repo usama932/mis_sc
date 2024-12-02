@@ -18,6 +18,9 @@
                 <button class="btn btn-danger btn-sm mx-2" onclick="handleAction('rejected')">
                     <i class="la la-file-o"></i> Select Rejected
                 </button>
+                <button class="btn btn-success btn-sm mx-2" data-bs-toggle="modal" data-bs-target="#uploadSheetModal">
+                    <i class="la la-upload"></i> Upload Sheet
+                </button>
             </div>
             <div class="card-body pt-3">
                 <div class="table-responsive overflow-*">
@@ -64,7 +67,29 @@
         </div>
     </div>
   
-
+    //modal
+    <div class="modal fade" id="uploadSheetModal" tabindex="-1" aria-labelledby="uploadSheetModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadSheetModalLabel">Upload Excel Sheet</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="uploadSheetForm" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="excelSheet" class="form-label">Choose Excel File</label>
+                            <input type="file" class="form-control" id="excelSheet" name="excel_sheet" accept=".xls,.xlsx" required>
+                        </div>
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-primary">Upload</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     @push('scripts')
     <script>
         function handleAction(action) {
@@ -173,6 +198,40 @@
                 });
             }
         }
+
+        document.getElementById('uploadSheetForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // Prevent form submission
+
+            const formData = new FormData(this);
+
+            Swal.fire({
+                title: "Uploading File...",
+                text: "Please wait while the file is being uploaded.",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            axios.post('{{ route("upload-excel-sheet") }}', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(response => {
+                Swal.fire("Success!", "The Excel sheet has been uploaded successfully.", "success");
+                // Reload the DataTable if needed
+                $('#beneficary_list').DataTable().ajax.reload();
+                // Close the modal
+                const modal = document.getElementById('uploadSheetModal');
+                const bootstrapModal = bootstrap.Modal.getInstance(modal);
+                bootstrapModal.hide();
+            })
+            .catch(error => {
+                console.error(error);
+                Swal.fire("Error!", "An error occurred while uploading the file. Please try again.", "error");
+            });
+        });
     </script>
     
     @endpush
