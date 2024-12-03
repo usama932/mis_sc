@@ -6,16 +6,16 @@
     <div class="card mb-4">
         <div id="kt_app_content" class="app-con-sm ntent flex-column-fluid">
             <div class="d-flex justify-content-end m-3">
-                <button class="btn btn-primary btn-sm mx-2" onclick="handleAction('accepted')">
+                <button class="btn btn-primary btn-sm mx-2" onclick="handleAction('Accepted')">
                     <i class="la la-file-o"></i> Select Accepted
                 </button>
-                <button class="btn btn-info btn-sm mx-2" onclick="handleAction('verified')">
+                <button class="btn btn-info btn-sm mx-2" onclick="handleAction('Verified')">
                     <i class="la la-file-o"></i> Select Verified
                 </button>
-                <button class="btn btn-secondary btn-sm mx-2" onclick="handleAction('approved')">
+                <button class="btn btn-secondary btn-sm mx-2" onclick="handleAction('Approved')">
                     <i class="la la-file-o"></i> Select Approved
                 </button>
-                <button class="btn btn-danger btn-sm mx-2" onclick="handleAction('rejected')">
+                <button class="btn btn-danger btn-sm mx-2" onclick="handleAction('Rejected')">
                     <i class="la la-file-o"></i> Select Rejected
                 </button>
                 <button class="btn btn-success btn-sm mx-2" data-bs-toggle="modal" data-bs-target="#uploadSheetModal">
@@ -37,11 +37,19 @@
                                         </label>
                                     </th>
                                     <th class="fs-9">Unique No.#</th> 
-                                    <th class="fs-9">Assessment</th> 
+                                    <th class="fs-9">Grant/Batch</th> 
+                                    <th class="fs-9">Assessment Type</th> 
                                     <th class="fs-9">Project</th>
                                     <th class="fs-9">Beneficiary Name</th>
+                                    <th class="fs-9">Province</th>
+                                    <th class="fs-9">District</th>
+                                    <th class="fs-9">Tehsil</th>
+                                    <th class="fs-9">UC</th>
+                                    <th class="fs-9">Village</th>
                                     <th class="fs-9">Gender</th>
                                     <th class="fs-9">Age</th>
+                                    <th class="fs-9">Beneficary CNIC</th>
+                                    <th class="fs-9">Spouse  CNIC</th>
                                     <th class="fs-9">Under 5yrs Girls</th>
                                     <th class="fs-9">Under 5yrs Boys</th>
                                     <th class="fs-9">5-7yrs Girls</th>
@@ -57,7 +65,6 @@
                                     <th class="fs-9">Created By</th>
                                     <th class="fs-9">Created At</th>
                                     <th class="fs-9">Created By</th>
-                                    
                                 </tr>
                             </thead>
                         </table>
@@ -106,19 +113,19 @@
             }
     
             const actionMessages = {
-                'accepted': {
+                'Accepted': {
                     title: "Are you sure to accept these records?",
                     success: "The records have been accepted.",
                 },
-                'verified': {
+                'Verified': {
                     title: "Are you sure to verify these records?",
                     success: "The records have been verified.",
                 },
-                'approved': {
+                'Approved': {
                     title: "Are you sure to approve these records?",
                     success: "The records have been approved.",
                 },
-                'rejected': {
+                'Rejected': {
                     title: "Are you sure to reject these records?",
                     success: "The records have been rejected.",
                 }
@@ -126,7 +133,7 @@
     
             const { title, success } = actionMessages[action];
     
-            if (action === 'rejected') {
+            if (action === 'Rejected') {
                 // Handle rejection with remarks
                 Swal.fire({
                     title: title,

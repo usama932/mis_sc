@@ -27,15 +27,17 @@ class BenficiaryAssessmentController extends Controller
         $form_nums  = BenficiaryAssessment::latest()->pluck('form_no','id');
         $contacts   = BenficiaryAssessment::latest()->pluck('beneficiary_contact','id');
         $cnics      = BenficiaryAssessment::latest()->pluck('cnic_beneficiary','id');
+        $batches    = BatchNumber::latest()->get();
        // dd($form_nums);
         addVendors(['datatables']);
         addJavascriptFile('assets/js/custom/benficaryAssessment/index.js');
         //  return view('admin.benificiaryAssessment.criteria',compact('projects','provinces','form_nums','contacts','cnics'));
-        return view('admin.benificiaryAssessment.index',compact('projects','provinces','form_nums','contacts','cnics'));
+        return view('admin.benificiaryAssessment.index',compact('projects','provinces','form_nums','contacts','cnics','batches'));
     }
 
     public function beneficiaryAssessments(Request $request)
     {
+      
         $query = BenficiaryAssessment::query();
         
         if ($request->project) {
@@ -49,6 +51,9 @@ class BenficiaryAssessmentController extends Controller
         }
         if ($request->tehsil) {
             $query->where('tehsil', $request->tehsil);
+        }
+        if ($request->batches) {
+            $query->where('batch_id', $request->batches);
         }
         if ($request->uc) {
             $query->where('uc', $request->uc);
@@ -98,15 +103,15 @@ class BenficiaryAssessmentController extends Controller
                 'user:id,name', 
                 'batchs:id,batch_number'
             ])
-            ->select(
-                'id', 'form_no', 'gender','assessment_cat', 'project_id', 
-                'hh_under5_girls', 'hh_under5_boys', 'hh_under5_7_girls', 
-                'hh_under5_7_boys', 'hh_above18_girls', 'hh_above18_boys',
-                'name_of_beneficiary', 'gender', 'age', 'hh_monthly_income', 
-                'house_demage', 'beneficiary_contact', 'cash_assistance', 
-                'assessment_officer', 'vc_representative_name', 
-                'status', 'created_by', 'created_at'
-            )
+            // ->select(
+            //     'id', 'form_no', 'gender','assessment_cat', 'project_id', 
+            //     'hh_under5_girls', 'hh_under5_boys', 'hh_under5_7_girls', 
+            //     'hh_under5_7_boys', 'hh_above18_girls', 'hh_above18_boys',
+            //     'name_of_beneficiary', 'gender', 'age', 'hh_monthly_income', 
+            //     'house_demage', 'beneficiary_contact', 'cash_assistance', 
+            //     'assessment_officer', 'vc_representative_name', 
+            //     'status', 'created_by', 'created_at'
+            // )
             ->latest();
     
         // Apply filters if present
@@ -123,33 +128,41 @@ class BenficiaryAssessmentController extends Controller
             return [
                 'id' => '<td><label class="checkbox checkbox-outline checkbox-success"><input type="checkbox" name="beneficiries[]" value="'.$benficiaryAssessment->id.'"><span></span></label></td>',
                 
-                'form_no' => $benficiaryAssessment->form_no ?? '',
-                'assessment' => $benficiaryAssessment->assessment_cat ?? '',
-                'project' => $benficiaryAssessment->project?->name ?? '', 
-                'gender' => $benficiaryAssessment->gender ?? '', 
-                'hh_under5_girls' => $benficiaryAssessment->hh_under5_girls ?? '',
-                'hh_under5_boys' => $benficiaryAssessment->hh_under5_boys ?? '',
-                'hh_under5_7_girls' => $benficiaryAssessment->hh_under5_7_girls ?? '',
-                'hh_under5_7_boys' => $benficiaryAssessment->hh_under5_7_boys ?? '',
-                'hh_above18_girls' => $benficiaryAssessment->hh_above18_girls ?? '',
-                'hh_above18_boys' => $benficiaryAssessment->hh_above18_boys ?? '',
-                'name_of_beneficiary' => $benficiaryAssessment->name_of_beneficiary ?? '',
-                'age' => $benficiaryAssessment->age ?? '',
-                'hh_monthly_income' => $benficiaryAssessment->hh_monthly_income ?? '',
-                'house_demage' => $benficiaryAssessment->house_demage ?? '',
-                'contact_number' => $benficiaryAssessment->beneficiary_contact ?? '',
-                'cash_assistance' => $benficiaryAssessment->cash_assistance ?? '',
-                'assessment_officer' => $benficiaryAssessment->assessment_officer ?? '',
+                'form_no'       => $benficiaryAssessment->form_no ?? '',
+                'assessment'    => $benficiaryAssessment->assessment_cat ?? '',
+                'batch'         => $benficiaryAssessment->batchs?->batch_number ?? '',
+                'project'       => $benficiaryAssessment->project?->name ?? '', 
+                'province'      => $benficiaryAssessment->provinces?->province_name ?? '', 
+                'distict'       => $benficiaryAssessment->districts?->district_name ?? '', 
+                'tehsil'        => $benficiaryAssessment->tehsils?->tehsil_name ?? '', 
+                'uc'            => $benficiaryAssessment->ucs?->uc_name ?? '',
+                'village'       => $benficiaryAssessment->gender ?? '', 
+                'gender'        => $benficiaryAssessment->gender ?? '', 
+                'hh_under5_girls'       => $benficiaryAssessment->hh_under5_girls ?? '',
+                'hh_under5_boys'        => $benficiaryAssessment->hh_under5_boys ?? '',
+                'hh_under5_7_girls'     => $benficiaryAssessment->hh_under5_7_girls ?? '',
+                'hh_under5_7_boys'      => $benficiaryAssessment->hh_under5_7_boys ?? '',
+                'hh_above18_girls'      => $benficiaryAssessment->hh_above18_girls ?? '',
+                'hh_above18_boys'       => $benficiaryAssessment->hh_above18_boys ?? '',
+                'name_of_beneficiary'   => $benficiaryAssessment->name_of_beneficiary ?? '',
+                'age'                   => $benficiaryAssessment->age ?? '',
+                'cnic_spouse'            => $benficiaryAssessment->cnic_spouse ?? '',
+                'cnic_beneficiary'   => $benficiaryAssessment->	cnic_beneficiary ?? '',
+                'hh_monthly_income'     => $benficiaryAssessment->hh_monthly_income ?? '',
+                'house_demage'          => $benficiaryAssessment->house_demage ?? '',
+                'contact_number'        => $benficiaryAssessment->beneficiary_contact ?? '',
+                'cash_assistance'       => $benficiaryAssessment->cash_assistance ?? '',
+                'assessment_officer'    => $benficiaryAssessment->assessment_officer ?? '',
                 'vc_representative_name' => $benficiaryAssessment->vc_representative_name ?? '',
-                'status' => $benficiaryAssessment->status ?? '',
-                'created_by' => $benficiaryAssessment->user->name ?? '',
-                'created_at' => $benficiaryAssessment->created_at ? $benficiaryAssessment->created_at->format('M d, Y') : '',
-                'action' => '<a href="' . route('benficiaryAssessment.show', $benficiaryAssessment->id) . '" title="Show">
-                                <i class="fa fa-eye"></i>
-                             </a>
-                             <a href="' . route('benficiaryAssessment.edit', $benficiaryAssessment->id) . '" title="Edit">
-                                <i class="fa fa-edit"></i>
-                             </a>'
+                'status'                => $benficiaryAssessment->status ?? '',
+                'created_by'            => $benficiaryAssessment->user->name ?? '',
+                'created_at'            => $benficiaryAssessment->created_at ? $benficiaryAssessment->created_at->format('M d, Y') : '',
+                'action'                => '<a href="' . route('benficiaryAssessment.show', $benficiaryAssessment->id) . '" title="Show">
+                                            <i class="fa fa-eye"></i>
+                                            </a>
+                                            <a href="' . route('benficiaryAssessment.edit', $benficiaryAssessment->id) . '" title="Edit">
+                                            <i class="fa fa-edit"></i>
+                                            </a>'
             ];
         });
     
@@ -415,16 +428,16 @@ class BenficiaryAssessmentController extends Controller
                 // Update status
                 $beneficiary->status = $request->action_type;
                 $beneficiary->return_remarks = $request->remarks ?? '';
-                if($request->action_type == 'rejected'){
+                if($request->action_type == 'Accepted'){
                     $beneficiary->accepted_by = auth()->user()->id;
                 }
-                elseif($request->action_type == 'rejected'){
+                elseif($request->action_type == 'Rejected'){
                     $beneficiary->rejected_by = auth()->user()->id;
                 }
-                elseif($request->verified_by == 'verified'){
+                elseif($request->verified_by == 'Verified'){
                     $beneficiary->verified_by = auth()->user()->id;
                 }
-                elseif($request->verified_by == 'approved'){
+                elseif($request->verified_by == 'Approved'){
                     $beneficiary->approved_by = auth()->user()->id;
                 }
                 $beneficiary->save();

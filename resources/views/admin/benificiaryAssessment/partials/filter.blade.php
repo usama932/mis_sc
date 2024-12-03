@@ -32,6 +32,16 @@
                                 @endforeach
                             </select>
                         </div>
+                         <!-- Project Field -->
+                        <div class="col-md-3">
+                            <label class="fs-6 fw-semibold form-label mb-2">Batch/Grant</label>
+                            <select name="batches" id="batches" aria-label="Select a Batch/Grant" data-control="select2" data-placeholder="Select a Batch/Grant" class="form-select" data-allow-clear="true">
+                                <option value="">Select Batch/Grant</option>
+                                @foreach($batches as $batch)
+                                    <option value="{{ $batch->id }}">{{ $batch->batch_number }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="fv-row col-md-3 fv-row">
                             <div class="d-flex"> 
                                 <label class="fs-6 fw-bolder  ">Province</label>
