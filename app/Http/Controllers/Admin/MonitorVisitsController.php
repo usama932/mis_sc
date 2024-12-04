@@ -65,7 +65,7 @@ class MonitorVisitsController extends Controller
 		
 		if($monitor_visits){
 			foreach($monitor_visits as $r){
-                if( is_float($r->activity_number + 0 )){
+                if( is_float($r->activity_number )){
                     $activity_number = $r->activity_number;
                 }
                 else{
