@@ -14,7 +14,9 @@ use Exception;
 use App\Jobs\ProcessBeneficiaryAction;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
-use File;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class BenficiaryAssessmentController extends Controller
 {
@@ -413,60 +415,53 @@ class BenficiaryAssessmentController extends Controller
     //     }
     // }
 
-    public function actionSelectedBenficary(Request $request){
-       
+    public function processBeneficiaries(Request $request)
+    {
         $errorRecords = [];
         $successRecords = [];
         $nextApproverEmail = 'next_approver@example.com';
         $authUserEmail = auth()->user()->email;
-       
+        $userId = auth()->user()->id;
+    
         foreach ($request->beneficiaries as $id) {
             try {
-                // Retrieve the beneficiary record or throw an exception if not found
                 $beneficiary = BenficiaryAssessment::findOrFail($id);
-
-                // Update status
+    
                 $beneficiary->status = $request->action_type;
                 $beneficiary->return_remarks = $request->remarks ?? '';
-                if($request->action_type == 'Accepted'){
-                    $beneficiary->accepted_by = auth()->user()->id;
+    
+                $statusMapping = [
+                    'Accepted' => 'accepted_by',
+                    'Rejected' => 'rejected_by',
+                    'Verified' => 'verified_by',
+                    'Approved' => 'approved_by',
+                ];
+    
+                if (array_key_exists($request->action_type, $statusMapping)) {
+                    $beneficiary->{$statusMapping[$request->action_type]} = $userId;
                 }
-                elseif($request->action_type == 'Rejected'){
-                    $beneficiary->rejected_by = auth()->user()->id;
-                }
-                elseif($request->verified_by == 'Verified'){
-                    $beneficiary->verified_by = auth()->user()->id;
-                }
-                elseif($request->verified_by == 'Approved'){
-                    $beneficiary->approved_by = auth()->user()->id;
-                }
+    
                 $beneficiary->save();
-
-                // Send email to the next approver
-            //  Mail::to($nextApproverEmail)->queue(new BeneficiaryStatusChanged($beneficiary));
-
-                // Record successful updates
+    
+                // Optionally send an email notification
+                // Mail::to($nextApproverEmail)->queue(new BeneficiaryStatusChanged($beneficiary));
+    
                 $successRecords[] = $id;
-
-            } catch (Exception $e) {
-                // Log error for debugging purposes
-                //  \Log::error("Error processing beneficiary ID $id: " . $e->getMessage());
-                
-                // Record failed updates
+            } catch (\Exception $e) {
+                Log::error("Error processing beneficiary ID $id: " . $e->getMessage());
                 $errorRecords[] = $id;
             }
         }
-
-        // // Notify the current user if there were any failed records
-        // if (!empty($errorRecords)) {
-        //     try {
-        //         Mail::to($authUserEmail)->queue(new \App\Mail\FailedBeneficiaryProcessing($errorRecords));
-        //     } catch (Exception $e) {
-        //         \Log::error("Error sending failure notification: " . $e->getMessage());
-        //     }
-        // }
-
-        // Return a response to the user
+    
+        // Optionally notify the current user of errors
+        if (!empty($errorRecords)) {
+            try {
+                // Mail::to($authUserEmail)->queue(new \App\Mail\FailedBeneficiaryProcessing($errorRecords));
+            } catch (\Exception $e) {
+                Log::error("Error sending failure notification: " . $e->getMessage());
+            }
+        }
+    
         return response()->json([
             'message' => 'Processing complete',
             'successRecords' => $successRecords,
