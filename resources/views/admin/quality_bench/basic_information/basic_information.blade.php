@@ -133,7 +133,7 @@
                     <span>DIP Activity</span> <!-- This span is what we want to hide/show -->
                     <span class="spinner-border spinner-border-sm align-middle ms-2" id="ploader"></span>
                 </label>
-                <select id="dip_activity_id" class="form-control form-select" name="dip_activity_id" data-placeholder="Select Activity..." data-control="select2" aria-label="Select an Activity">
+                <select id="dip_activity_id" class="form-control form-select" multiple name="dip_activity_id[]" data-placeholder="Select Activity..." data-control="select2" aria-label="Select an Activity">
                     @if($qb->dip_activity_id)
                         <option value="{{ $qb->dipactivity->id  }}">{{ $qb->dipactivity->activity_number }} - {{ $qb->dipactivity->activity_title }}</option>
                     @endif

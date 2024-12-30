@@ -58,8 +58,11 @@ class QbRepository implements QbRepositoryInterface
             'created_by'            => auth()->user()->id,
             'qb_base_monitoring'    => $qb_base_monitoring,
             'activity_description'  => $data['activity_description'],   
-            'dip_activity_id'      => $dip_activity_id
+            
         ]);
+        foreach($dip_activity_id as $key => $activity){
+            
+        }
     }
     
     public function updateQb($data,$id)

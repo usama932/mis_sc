@@ -275,8 +275,8 @@
                                     </td>
                                     <td class="fs-9 text-success fw-bolder">{{ $project->complete_activities_count }}</td>
                                     <td class="fs-9 text-primary fw-bolder">{{ $project->to_be_reviewed_count }}</td>
-                                    <td class="fs-9 text-info fw-bolder">{{ $project->returned_count }}</td>
-                                    <td class="fs-9 text-success fw-bolder">{{ $project->reviewed_count }}</td>
+                                    <td class="fs-9 text-info fw-bolder">{{ $project->reviewed_count }}</td>
+                                    <td class="fs-9 text-success fw-bolder">{{ $project->returned_count }}</td>
                                     <td class="fs-9 text-success fw-bolder">{{ $project->posted_count }}</td>
                                     {{-- <td class="fs-9 text-warning fw-bolder">{{ $project->pending_count }}</td> --}}
                                 </tr>
