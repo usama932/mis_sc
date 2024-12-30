@@ -32,10 +32,15 @@ class DipActivity extends Model
     {
         return $this->hasMany(ActivityProgress::class,'activity_id','id');
     }
+    public function qbs()
+    {
+        return $this->hasMany(QbDipActivity::class,'dip_activity_id','id');
+    }
     public function project()
     {
         return $this->belongsTo(Project::class,'project_id','id');
     }
+
     public function scisubtheme_name()
     {
         return $this->belongsTo(SciSubTheme::class,'subtheme_id','id');

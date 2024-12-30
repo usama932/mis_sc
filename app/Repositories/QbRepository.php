@@ -4,6 +4,7 @@ namespace App\Repositories;
 use App\Repositories\Interfaces\QbRepositoryInterface;
 use App\Models\QualityBench;
 use Illuminate\Support\Str;
+use App\Models\QbDipActivity;
 
 class QbRepository implements QbRepositoryInterface
 {
@@ -32,7 +33,9 @@ class QbRepository implements QbRepositoryInterface
         }
     
         $assement_code = $data['district'].'-'.time();
-        return QualityBench::create([
+       
+   
+        $qb =  QualityBench::create([
             'date_visit'            => $data['date_visit'],
             'assement_code'         => $assement_code,
             'qb_filledby'           => $data['qb_filledby'],
@@ -60,10 +63,20 @@ class QbRepository implements QbRepositoryInterface
             'activity_description'  => $data['activity_description'],   
             
         ]);
-        foreach($dip_activity_id as $key => $activity){
-            
+        foreach ($dip_activity_id as $key => $activity) {
+            $existingActivity = QbDipActivity::where('dip_activity_id', $activity)
+                                             ->where('qb_id', $qb->id)
+                                             ->first();
+        
+            if (!$existingActivity) {
+                QbDipActivity::create([
+                    'dip_activity_id' => $activity,
+                    'qb_id' => $qb->id
+                ]);
+            }
         }
-    }
+        return $qb;
+    }   
     
     public function updateQb($data,$id)
     {
@@ -111,9 +124,20 @@ class QbRepository implements QbRepositoryInterface
             'score_out'             => $score_out ?? $qb->score_out,
             'qb_status'             => $qb_status ?? $qb->qb_status,
             'activity_description'  => $data['activity_description'],  
-            'dip_activity_id'       => $dip_activity_id,
             'updated_by'            => auth()->user()->id
         ]);
+        foreach ($dip_activity_id as $key => $activity) {
+            $existingActivity = QbDipActivity::where('dip_activity_id', $activity)
+                                             ->where('qb_id', $qb->id)
+                                             ->first();
+        
+            if (!$existingActivity) {
+                QbDipActivity::create([
+                    'dip_activity_id' => $activity,
+                    'qb_id' => $qb->id
+                ]);
+            }
+        }
     }
     public function findQb($id)
     {

@@ -121,14 +121,14 @@
                 <input class="form-control" id="vilage" placeholder="Enter Village" name="village" value="{{$qb->village ?? ''}}">
                 <div id="villageError" class="error-message "></div>
             </div>
-            <div class="fv-row col-md-4">
+            <div class="fv-row col-md-8">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Activity visited</span>
                 </label>
                 <textarea  rows="1" class="form-control" id="activity_description"  name="activity_description">{{$qb->activity_description ?? ''}}</textarea>
                 <div id="activity_descriptionError" class="error-message"></div>
             </div>
-            <div class="fv-row mb-3 col-md-4">
+            <div class="fv-row mb-3 col-md-12">
                 <label for="kt_select2_union_counsil" class="form-label d-flex">
                     <span>DIP Activity</span> <!-- This span is what we want to hide/show -->
                     <span class="spinner-border spinner-border-sm align-middle ms-2" id="ploader"></span>
