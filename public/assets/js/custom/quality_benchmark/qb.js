@@ -126,7 +126,6 @@ $(document).ready(function(){
 
 document.getElementById('projectloader').style.display = 'none';
 $("#project_name").change(function () {
-   
     var value = $(this).val();
     csrf_token = $('[name="_token"]').val();
     document.getElementById('projectloader').style.display = 'block';
@@ -138,7 +137,6 @@ $("#project_name").change(function () {
         success: function (data) {
             document.getElementById('projectloader').style.display = 'none';
             $("#project_type").val(data.type.replace(/_/g, ' '));
-           
         }
 
     });
@@ -185,10 +183,6 @@ $('#project_name').on('change', function() {
         }
     });
 });
-
-
-
-
 
 $("#type_of_visit").change(function(){
     

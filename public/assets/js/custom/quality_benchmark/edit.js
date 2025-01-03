@@ -1,9 +1,5 @@
 $('#submitbtn').on('click', function() {
-  
-   
         $('#submit').val("0"); // Change the value to 0
-      
-    
 });
 // ----------------Start update Qbs date------------------
 var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -1270,8 +1266,6 @@ $('.close').click(function() {
     $('#view_monitor_visit').modal('hide');
 });
 
-
-
 var clients = $('#action_points').DataTable({
     "order": [
         [1, 'asc']
@@ -1348,6 +1342,7 @@ var clients = $('#action_points').DataTable({
         }
     ]
 });
+
 function actionviewInfo(id) {
     
     $.post(baseURL + '/view_action_point', {
@@ -1359,6 +1354,7 @@ function actionviewInfo(id) {
 
     });
 }
+
 function actiondel(id) {
     Swal.fire({
         title: "Are you sure?",
@@ -1382,6 +1378,7 @@ function actiondel(id) {
         }
     });
 }
+
 $('.close').click(function() {
     $('#view_monitor_visit,#view_action_point').modal('hide');
 });
@@ -1465,13 +1462,13 @@ $('.close').click(function() {
     $('#view_monitor_visit,#view_action_point,#view_qbattachment,#edit_monitor_visit').modal('hide');
 });
 
-
 $('#deadline').flatpickr({
     altInput: true,
     dateFormat: "Y-m-d",
     maxDate: new Date().fp_incr(+120), 
     minDate: new Date("2023-10-01"),
 });
+
 $("#status").change(function(){
    
     $(this).find("option:selected").each(function(){
@@ -1486,6 +1483,7 @@ $("#status").change(function(){
         }
     });
 });
+
 $(document).ready(function(){
     $("#addqbBtn").click(function(){
         $("#qbtableDiv, #qbformDiv").slideToggle(); 

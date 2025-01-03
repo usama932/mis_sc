@@ -293,10 +293,8 @@ class QbController extends Controller
         return view('admin.quality_bench.basic_information.create',compact('record','projects','themes','users','partners'));
     }
 
-   
     public function store(Request $request)
     {
-        
         $data = $request->except('_token');
         $Qb = $this->QbRepository->storeQb($data);
     
@@ -305,12 +303,9 @@ class QbController extends Controller
         
         $editUrl = route('quality-benchs.edit',$Qb->id);
        
-     
         return response()->json([
             'editUrl' => $editUrl
         ]);
-   
-        
     }
 
 

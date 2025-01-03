@@ -134,8 +134,10 @@
                     <span class="spinner-border spinner-border-sm align-middle ms-2" id="ploader"></span>
                 </label>
                 <select id="dip_activity_id" class="form-control form-select" multiple name="dip_activity_id[]" data-placeholder="Select Activity..." data-control="select2" aria-label="Select an Activity">
-                    @if($qb->dip_activity_id)
-                        <option value="{{ $qb->dipactivity->id  }}">{{ $qb->dipactivity->activity_number }} - {{ $qb->dipactivity->activity_title }}</option>
+                    @if($qb->dipactivity)
+                        @foreach ($qb->dipactivity as $dipactivity)
+                        <option value="{{ $dipactivity?->activity?->id }}" selected> {{ $dipactivity?->activity?->activity_number}} - {{ $dipactivity?->activity?->activity_title }}</option>
+                        @endforeach
                     @endif
                 </select>
                 <div id="dip_activity_idError" class="error-message"></div>
@@ -176,8 +178,7 @@
                 </select>
                 <div id="accompanied_byError" class="error-message"></div>
             </div>
-           
-       
+                 
             <div class="fv-row col-md-3">
                 <label class="fs-6 fw-semibold form-label mb-2">
                     <span class="required">Monitoring Type</span>
@@ -191,7 +192,6 @@
                 <div id="monitoring_typeError" class="error-message"></div>
             </div>
          
-          
             @if($qb->qb_base_monitoring == 1)
                 <div class="fv-row col-sm-2 col-md-2 col-lg-2">
                     <label class="fs-9 fw-semibold form-label mb-2">
@@ -251,7 +251,6 @@
             <button type="submit" id="kt_qb_update_submit" class="btn btn-primary">
                 @include('partials/general/_button-indicator', ['label' => 'Update'])
             </button>
-            
         </div>
     </div>
     </form>

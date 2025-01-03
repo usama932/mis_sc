@@ -141,7 +141,13 @@
                 <td class="fs-7">{{$qb->activity_description ?? ''}}</td>
 
                 <td class="fs-7"><strong>DIP Activity:</strong></td>
-                <td class="fs-7">{{$qb->dipactivity?->activity_number ?? ''}}- {{$qb->dipactivity?->activity_title ?? ''}}</td>  
+                <td class="fs-7">
+                    @if($qb->dipactivity)
+                        @foreach ($qb->dipactivity as $dipactivity)
+                        <option value="{{ $dipactivity?->activity?->id }}" selected> {{ $dipactivity?->activity?->activity_number}} - {{ $dipactivity?->activity?->activity_title }}</option>
+                        @endforeach
+                    @endif
+                </td>  
             </tr>
             <tr>
                 <td class="fs-7"><strong>QB Base Monitoring</strong></td>
