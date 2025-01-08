@@ -29,6 +29,7 @@
         <th>Tehsil</th>
         <th>Theme</th>
         <th>Activity</th>
+        <th>DIP Activity</th>
         <th>Village</th>
         <th>Date Visit</th>
         <th>QB #/Observations</th>
@@ -56,6 +57,13 @@
                 <td>{{$qb->tehsils?->tehsil_name ?? ''}}</td>
                 <td>{{$qb->theme_name?->name ?? ''}}</td>
                 <td>{{$qb->activity_description}}</td>
+                <td>
+                    @if($qb->dipactivity)
+                        @foreach ($qb->dipactivity as $dipactivity)
+                            <option value="{{ $dipactivity?->activity?->id }}" selected> {{ $dipactivity?->activity?->activity_number}} - {{ $dipactivity?->activity?->activity_title }}</option>
+                        @endforeach
+                    @endif
+                </td>
                 <td>{{$qb->village}}</td>
                 <td>{{$qb->date_visit ?? ''}}</td>
                 <td>

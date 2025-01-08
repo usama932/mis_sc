@@ -255,3 +255,19 @@
     </div>
     </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const dipActivitySelect = document.getElementById('dip_activity_id');
+        
+        dipActivitySelect.addEventListener('change', function () {
+            const selectedOptions = Array.from(dipActivitySelect.selectedOptions);
+            if (selectedOptions.length > 2) {
+                alert('You can only select up to 2 activities.');
+                
+                // Deselect the last selected option
+                selectedOptions[selectedOptions.length - 1].selected = false;
+            }
+        });
+    });
+</script>

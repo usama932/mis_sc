@@ -201,14 +201,16 @@
 
                             <div class="fv-row mb-3 col-md-12">
                                 <label for="kt_select2_union_counsil" class="form-label d-flex">
-                                    <span class="required">DIP Activity</span> <!-- This span is what we want to hide/show -->
+                                    <span class="required">DIP Activity</span>
                                     <span class="spinner-border spinner-border-sm align-middle ms-2" id="ploader"></span>
                                 </label>
-                                <select id="dip_activity_id" class="form-control form-select" multiple name="dip_activity_id[]" data-placeholder="Select Activity..." data-control="select2" aria-label="Select an Activity" >
+                                <select id="dip_activity_id" class="form-control form-select dip_activity_class" multiple name="dip_activity_id[]" data-placeholder="Select Activity..." data-control="select2" aria-label="Select an Activity">
                                     <option value=""></option>
+                                    <!-- Add options here -->
                                 </select>
                                 <div id="dip_activity_idError" class="error-message"></div>
                             </div>
+                            
 
                             <div class="fv-row mb-3 col-md-3">
                                 <label for="theme" class="form-label"><span class="required">Theme</span></label>
@@ -332,5 +334,40 @@
     
         });
     </script>
+
+<script>
+    $(document).ready(function () {
+        // Limit selection to 2 options
+        $('#dip_activity_id').on('change', function () {
+            const maxSelection = 2;
+            const selectedOptions = $(this).val();
+            if (selectedOptions.length > maxSelection) {
+               
+                // Remove the last selected option
+                toastr.options = {
+                                "closeButton": true,
+                                "debug": false,
+                                "newestOnTop": false,
+                                "progressBar": false,
+                                "positionClass": "toastr-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            };
+                            toastr.error("You can only select up to 2 activities.", "Alert");
+                $(this).val(selectedOptions.slice(0, maxSelection)).trigger('change');
+            }
+        });
+    });
+</script>
+
+
     @endpush
 </x-nform-layout>
