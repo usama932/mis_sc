@@ -17,22 +17,22 @@ function reinitializeDataTable() {
         buttons: [
             {
                 extend: 'excelHtml5',
-                filename: 'Overdue Progress Activities',
+                filename: 'Beneficary Reach',
                 text: '<i class="fa fa-download text-warning mx-1"></i> Excel',
-                title: 'Overdue Progress Activities',
+                title: 'Beneficary OutReach',
                 className: 'badge badge-success mb-4',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7,8]
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7,8,9,10,11,12,13,14,15,16]
                 }
             },
             {
                 extend: 'csvHtml5',
-                filename: 'Overdue Progress Activities',
+                filename: 'Beneficary Reach',
                 text: '<i class="fa fa-download text-warning"></i> CSV',
-                title: 'Overdue Progress Activities',
+                title: 'Beneficary OutReach',
                 className: 'badge badge-success',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7,8]
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7,8,9,10,11,12,13,14,15,16]
                 }
             }
         ],
@@ -57,12 +57,15 @@ function reinitializeDataTable() {
             }
         },
         "columns": [
+           
             {"data":"date", "searchable":false, "orderable":true},
             {"data":"project", "searchable":true, "orderable":true, "className": "wrap-project"},
             {"data":"sof", "searchable":true, "orderable":true},
             {"data":"activity", "searchable":true, "orderable":true, "className": "wrap-activity"},
             {"data":"theme", "searchable":true, "orderable":true},
             {"data":"lop", "searchable":false, "orderable":true},
+            
+            {"data":"benefiary_target", "searchable":false, "orderable":true},
             {"data":"monthly_achieve", "searchable":false, "orderable":true},
             {"data":"women", "searchable":false, "orderable":true},
             {"data":"men", "searchable":false, "orderable":true},

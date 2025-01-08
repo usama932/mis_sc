@@ -18,14 +18,15 @@ class OTController extends Controller
   
     public function index()
     {
-        addJavascriptFile('assets/js/custom/otTracker/index.js');
-        addVendors(['datatables']);
+      
         $projects   = Project::latest()->get();
         $subthemes  = SciSubTheme::orderBy('name')->get();
         $themes     = SciTheme::orderBy('name')->get();
         $activity_user = ActivityProgress::get('created_by')->toArray(); 
         $users = User::whereIn('id',$activity_user)->get();
 
+        addJavascriptFile('assets/js/custom/otTracker/index.js');
+        addVendors(['datatables']);
         return view('admin.otTracker.index',compact('projects','subthemes','themes','users'));
     }
     // {
@@ -85,6 +86,7 @@ class OTController extends Controller
             'activity'          => '',
             'theme'             => '',
             'lop'               => '',
+            'benefiary_target'  => '',
             'monthly_achieve'   => '',
             'women'             => $totalWomen,
             'men'               => $totalMen,
@@ -105,13 +107,18 @@ class OTController extends Controller
         $activity_progress = $query->get();
         
         foreach ($activity_progress as $progress) {
+           
+            $activity_progress      = ActivityProgress::where('id',$progress->progress_id)->with('activity','activitymonth')->first();
+     
             $nestedData = [
+                'activity_title'    => $activity_progress->activity?->activity_number ?? '' .'-'. $activity_progress->activity?->activity_title ?? '',
                 'date'              => date('M d,Y', strtotime($progress->created_at ?? '')),
                 'reported_date'     => date('M d,Y', strtotime($progress->reported_date ?? '')),
                 'project'           => $progress->project_name ?? '',
                 'sof'               => $progress->sof ?? '',
-                'activity'          => $progress->activity_title ?? '',
+                'activity'          => $activity_progress->activity?->activity_number.'-'.$progress->activity_title ?? '',
                 'theme'             => $progress->main_theme_name .'->'.$progress->subtheme_name,
+                'benefiary_target'  => $activity_progress->activitymonth?->beneficiary_target ?? 0,
                 'lop'               => $progress->lop_target ?? '',
                 'monthly_achieve'   => $progress->activity_target ?? '',
                 'women'             => $progress->women_target ?? '',
@@ -165,6 +172,7 @@ class OTController extends Controller
 
         return response()->json($data);
     }
+
     public function getProjectReachData(Request $request)
     {
         // Example query to get project reach data

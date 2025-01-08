@@ -34,13 +34,15 @@
                 <table class="table table-striped table-bordered nowrap" id="ottracker" style="width:100%">
                     <thead>
                         <tr>
+                             {{-- <th>Reported Date</th> --}}
                             <th>Date</th>
-                            {{-- <th>Reported Date</th> --}}
+                           
                             <th>Project</th>
                             <th>SOF</th>
                             <th class="fs-8">Activity</th>
                             <th>Thematic Area</th>
                             <th>LOP Target</th>
+                            <th>Beneficary Target</th>
                             <th>Monthly  Achievement</th>
                             <th>Men</th>
                             <th>Women</th>
