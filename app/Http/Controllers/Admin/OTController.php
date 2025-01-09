@@ -83,17 +83,15 @@ class OTController extends Controller
             'reported_date'     => '',
             'project'           => '',
             'sof'               => '',
+            'activity_number'   => '',
             'activity'          => '',
-            'theme'             => '',
             'lop'               => '',
             'benefiary_target'  => '',
-            'monthly_achieve'   => '',
             'women'             => $totalWomen,
             'men'               => $totalMen,
             'total_adult'       => $totalAdults,
             'girls'             => $totalGirls,
             'boys'              => $totalBoys,
-            'pwd'               => $totalPWD,
             'total_child'       => $totalChildren,
             'total_reach'       => $totalReach,
             'remarks'           => '',
@@ -111,7 +109,8 @@ class OTController extends Controller
             $activity_progress      = ActivityProgress::where('id',$progress->progress_id)->with('activity','activitymonth')->first();
      
             $nestedData = [
-                'activity_title'    => $activity_progress->activity?->activity_number ?? '' .'-'. $activity_progress->activity?->activity_title ?? '',
+                'activity_number'    => $activity_progress->activity?->activity_number ?? '',
+                'activity_title'    => $activity_progress->activity?->activity_title ?? '',
                 'date'              => date('M d,Y', strtotime($progress->created_at ?? '')),
                 'reported_date'     => date('M d,Y', strtotime($progress->reported_date ?? '')),
                 'project'           => $progress->project_name ?? '',

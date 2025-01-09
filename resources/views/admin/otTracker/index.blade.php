@@ -39,17 +39,15 @@
                            
                             <th>Project</th>
                             <th>SOF</th>
-                            <th class="fs-8">Activity</th>
-                            <th>Thematic Area</th>
+                            <th class="fs-8">Activity Number</th>
+                            <th class="fs-8">Activity Title</th>
                             <th>LOP Target</th>
                             <th>Beneficary Target</th>
-                            <th>Monthly  Achievement</th>
                             <th>Men</th>
                             <th>Women</th>
                             <th>Total Adults</th>
                             <th>Girls</th>
                             <th>Boys</th>
-                            <th>PWD</th>
                             <th>Total Children </th>
                             <th>Total Reach</th>
                             <th>Remarks</th>
